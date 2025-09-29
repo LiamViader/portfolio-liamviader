@@ -11,10 +11,12 @@ const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
 const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"] });
 
 export async function generateMetadata({ 
-    params: { locale } 
+    params,
 }: { 
-    params: { locale: string } 
+    params: { locale: string } | Promise<{ locale: string }> 
 }): Promise<Metadata> {
+  const resolvedParams = await params;
+  const { locale } = resolvedParams;
   
   const t = await getTranslations({ 
       locale, 
@@ -24,8 +26,11 @@ export async function generateMetadata({
   return {
     title: t('title'),
     description: t('description'),
+
   };
 }
+
+
 
 export default async function RootLayout({
   children,
