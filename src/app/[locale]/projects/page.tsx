@@ -39,7 +39,6 @@ export default function Projects() {
             </button>
           </div>
 
-          {/* Aquí podrías renderizar las tarjetas de proyectos según la categoría */}
         </section>
       </div>
     </div>

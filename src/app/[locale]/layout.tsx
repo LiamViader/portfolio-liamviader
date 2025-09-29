@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { getTranslations } from "next-intl/server";
 import { Geist, Geist_Mono } from "next/font/google";
 import "../globals.css";
 import { NextIntlClientProvider } from "next-intl";
@@ -9,12 +10,22 @@ import getRequestConfig from '@/i18n/request';
 const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
 const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"] });
 
-// NOTA: La Metadata debe ser dinámica si quieres que el título se traduzca.
-// (Ver sección debajo)
-export const metadata: Metadata = {
-  title: "Portfolio - Liam Viader", 
-  description: "Software, IA & Videojuegos",
-};
+export async function generateMetadata({ 
+    params: { locale } 
+}: { 
+    params: { locale: string } 
+}): Promise<Metadata> {
+  
+  const t = await getTranslations({ 
+      locale, 
+      namespace: 'Metadata' 
+  });
+
+  return {
+    title: t('title'),
+    description: t('description'),
+  };
+}
 
 export default async function RootLayout({
   children,

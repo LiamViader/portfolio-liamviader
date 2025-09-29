@@ -5,6 +5,10 @@
     "ai": "IA & Software",
     "games": "Videojuegos"
   },
+  "Metadata": {
+    "title": "Portafolio - Liam Viader",
+    "description": "Desarrollo de Software, IA y Videojuegos"
+  },
   "Navbar": {
     "home": "Inicio",
     "about": "Sobre mí",

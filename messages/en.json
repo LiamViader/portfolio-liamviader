@@ -5,6 +5,10 @@
     "ai": "AI Projects",
     "games": "Game Projects"
   },
+  "Metadata": {
+    "title": "Portfolio - Liam Viader",
+    "description": "Software, AI, and Video Game Development"
+  },
   "Navbar": {
     "home": "Home",
     "about": "About Me",
