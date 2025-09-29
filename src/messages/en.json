@@ -1,0 +1,19 @@
+{
+  "HomePage": {
+    "title": "Welcome to my portfolio",
+    "subtitle": "Software, AI & Games",
+    "ai": "AI Projects",
+    "games": "Game Projects"
+  },
+  "Navbar": {
+    "home": "Home",
+    "about": "About Me",
+    "projects": "Projects",
+    "contact": "Contact"
+  },
+  "ProjectsPage": {
+    "projects": "Projects",
+    "ai": "AI & Software",
+    "games": "Video Games"
+  }
+}

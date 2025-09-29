@@ -1,0 +1,19 @@
+{
+  "HomePage": {
+    "title": "Bienvenido a mi portafolio",
+    "subtitle": "Software, IA y Videojuegos",
+    "ai": "IA & Software",
+    "games": "Videojuegos"
+  },
+  "Navbar": {
+    "home": "Inicio",
+    "about": "Sobre mí",
+    "projects": "Proyectos",
+    "contact": "Contacto"
+  },
+  "ProjectsPage": {
+    "projects": "Proyectos",
+    "ai": "IA & Software",
+    "games": "Videojuegos"
+  }
+}
