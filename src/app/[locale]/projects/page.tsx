@@ -8,7 +8,7 @@ type Category = "ai" | "games";
 export default function Projects() {
   const [category, setCategory] = useState<Category>("ai");
 
-  const t = useTranslations("projects"); // Namespace "projects"
+  const t = useTranslations("ProjectsPage");
 
   return (
     <div>
