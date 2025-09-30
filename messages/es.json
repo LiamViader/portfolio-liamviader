@@ -2,7 +2,7 @@
   "HomePage": {
     "title": "Bienvenido a mi portafolio",
     "subtitle": "Software, IA y Videojuegos",
-    "ai": "IA & Software",
+    "ai": "IA y Software",
     "games": "Videojuegos"
   },
   "Metadata": {
@@ -17,7 +17,7 @@
   },
   "ProjectsPage": {
     "projects": "Proyectos",
-    "ai": "IA & Software",
+    "ai": "IA y Software",
     "games": "Videojuegos"
   }
 }

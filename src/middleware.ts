@@ -1,10 +1,10 @@
 import createMiddleware from 'next-intl/middleware';
-import { routing } from './i18n/routing'; // Asegúrate de que la ruta a tu routing.ts sea correcta
+import { routing, locales, defaultLocale } from './i18n/routing';
 
 export default createMiddleware({
-  locales: routing.locales, 
+  locales: locales, 
 
-  defaultLocale: routing.defaultLocale, 
+  defaultLocale: defaultLocale, 
 
   localePrefix: 'as-needed', 
 });
