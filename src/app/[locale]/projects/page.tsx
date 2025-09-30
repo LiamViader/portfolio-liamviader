@@ -1,46 +1,23 @@
-"use client";
+import { getTranslations } from "next-intl/server"; // <-- Server Hook
+import { getProjectsByLocale, TranslatedProject } from '@/data/projects';
+import ClientProjectsPage from './ClientProjectsPage'; // <-- Nuevo componente de Cliente
 
-import { useState } from "react";
-import { useTranslations } from "next-intl";
+interface ProjectsPageProps {
+  params: { locale: string } | Promise<{ locale: string }>;
+}
 
-type Category = "ai" | "games";
+export default async function ProjectsPage({ params }: ProjectsPageProps) {
+  // Resuelve la promesa de params y extrae el locale
+  const { locale } = await params; 
 
-export default function Projects() {
-  const [category, setCategory] = useState<Category>("ai");
+  // Carga los datos traducidos
+  const projectsData = getProjectsByLocale(locale);
 
-  const t = useTranslations("ProjectsPage");
+  // Carga el diccionario de traducciones completo
+  const messages = (await getTranslations("ProjectsPage"));
 
   return (
-    <div>
-      <h1 className="text-4xl font-bold text-center my-8 text-white">{t("projects")}</h1>
-
-      <div
-        className={`${
-          category === "ai" ? "bg-blue-900" : "bg-green-900"
-        } transition-colors duration-500 min-h-screen`}
-      >
-        <section className="p-8">
-          <div className="flex gap-4 mb-6 justify-center">
-            <button
-              className={`px-4 py-2 rounded ${
-                category === "ai" ? "bg-blue-600" : "bg-gray-700"
-              }`}
-              onClick={() => setCategory("ai")}
-            >
-              {t("ai")}
-            </button>
-            <button
-              className={`px-4 py-2 rounded ${
-                category === "games" ? "bg-green-600" : "bg-gray-700"
-              }`}
-              onClick={() => setCategory("games")}
-            >
-              {t("games")}
-            </button>
-          </div>
-
-        </section>
-      </div>
-    </div>
+    // Pasa los datos y mensajes como props al componente de cliente
+    <ClientProjectsPage projectsData={projectsData}/>
   );
 }
