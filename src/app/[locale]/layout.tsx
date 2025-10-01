@@ -4,7 +4,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "../globals.css";
 import { NextIntlClientProvider } from "next-intl";
 import Header from "../../components/Header";
-
+import LayoutContent from "@/components/LayoutContent";
 import getRequestConfig from '@/i18n/request'; 
 
 const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
@@ -53,13 +53,9 @@ export default async function RootLayout({
     <html lang={locale}>
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased bg-gray-900 text-white min-h-screen flex flex-col`}>
         <NextIntlClientProvider locale={locale} messages={messages}>
-          <Header />
-
-          <main className="flex-1">{children}</main>
-
-          <footer className="p-4 text-center text-sm text-gray-500 border-t border-gray-800">
-            © {new Date().getFullYear()} Liam Viader
-          </footer>
+          <LayoutContent>
+              {children} 
+          </LayoutContent>
         </NextIntlClientProvider>
       </body>
     </html>
