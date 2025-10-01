@@ -32,7 +32,7 @@ export default function ClientProjectsPage({ projectsData}: ClientProjectsPagePr
 
   return (
     <div>
-      <h1 className="text-4xl font-bold text-center my-8 text-white">{t("projects")}</h1>
+      <h1 className="text-4xl font-bold text-center my-8 text-black">{t("projects")}</h1>
 
       <div
         className={`${

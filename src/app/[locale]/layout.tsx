@@ -3,7 +3,7 @@ import { getTranslations } from "next-intl/server";
 import { Geist, Geist_Mono } from "next/font/google";
 import "../globals.css";
 import { NextIntlClientProvider } from "next-intl";
-import Navbar from "../../components/Navbar";
+import Header from "../../components/Header";
 
 import getRequestConfig from '@/i18n/request'; 
 
@@ -53,10 +53,7 @@ export default async function RootLayout({
     <html lang={locale}>
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased bg-gray-900 text-white min-h-screen flex flex-col`}>
         <NextIntlClientProvider locale={locale} messages={messages}>
-          <header className="p-4 flex justify-between items-center border-b border-gray-800">
-            <h1 className="font-bold text-lg">Liam Viader</h1>
-            <Navbar />
-          </header>
+          <Header />
 
           <main className="flex-1">{children}</main>
 
