@@ -1,14 +1,14 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useLayoutEffect } from "react";
 import Navbar from "./Navbar";
 
-
+const INITIAL_HEADER_HEIGHT = 73; 
 
 export default function Header() {
 
   const headerRef = useRef<HTMLElement | null>(null);
-  const [headerHeight, setHeaderHeight] = useState(64);
+  const [headerHeight, setHeaderHeight] = useState(INITIAL_HEADER_HEIGHT);
 
   const [transitionDurationMs, setTransitionDurationMs] = useState(100);
   const [yOffset, setYOffset] = useState(0);
@@ -18,23 +18,20 @@ export default function Header() {
   const [lastScrollY, setLastScrollY] = useState(0);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  useEffect(() => {
-    const currentHeader = headerRef.current;
-    
-    if (currentHeader) {
-      const initialHeight = currentHeader.offsetHeight;
-
-      const observer = new ResizeObserver((entries: ResizeObserverEntry[]) => {
-        const height = currentHeader.offsetHeight; 
-        setHeaderHeight(height);
-      });
-
-      observer.observe(currentHeader);
-
-      return () => observer.unobserve(currentHeader);
+  const calculateAndSetHeight = () => {
+    if (typeof window !== 'undefined') {
+      const isDesktop = window.innerWidth >= 768; 
+      const newHeight = isDesktop ? 73 : 65;
+      const actualMeasuredHeight = headerRef.current?.offsetHeight ?? newHeight;
+      setHeaderHeight(actualMeasuredHeight);
     }
-    return () => {}; 
-  }, [headerHeight]);
+  };
+
+  useLayoutEffect(() => {
+    calculateAndSetHeight();
+    window.addEventListener('resize', calculateAndSetHeight);
+    return () => window.removeEventListener('resize', calculateAndSetHeight);
+  }, []);
 
   useEffect(() => {
 
@@ -48,25 +45,40 @@ export default function Header() {
       const maxOffset = headerHeight;
 
       const deltaY = currentScrollY - lastScrollY;
+      const PIXEL_PER_MS = 20; // Ajusta este valor para cambiar la sensibilidad del desplazamiento
+
+
       if (headerHeight !==0){
         if (deltaY > 0) { // Scrolling down
           if (currentScrollY > headerHeight) {
             setYOffset(-maxOffset);
-            setTransitionDurationMs(400);
+            setTransitionDurationMs(200);
           }
           else{
+            const wasAligned = Math.abs(yOffset + lastScrollY) < 5;
             setYOffset(-currentScrollY);
-            setTransitionDurationMs(0);
+            if (wasAligned){
+              setTransitionDurationMs(0);
+            }
+            else{
+              setTransitionDurationMs(50);
+            }
           }
         }
         else { // Scrolling up
           if (currentScrollY > headerHeight) {
             setYOffset(0);
-            setTransitionDurationMs(400);
+            setTransitionDurationMs(200);
           }
           else{
-            setYOffset(0);
-            setTransitionDurationMs(0);
+            if (yOffset <= 10){
+              setYOffset(0);
+              setTransitionDurationMs(200);
+            }
+            else{
+              setYOffset(0);
+              setTransitionDurationMs(0);
+            }
           }
         }
       }
