@@ -10,6 +10,7 @@ import ProjectsGrid from '@/components/ProjectsGrid';
 import { TranslatedProject } from '@/data/projects';
 import CategorySwitcher from '@/components/CategorySwitcher';
 import { ProjectSceneCanvas } from '@/components/ProjectSceneCanvas';
+import ProjectGallery from '@/components/ProjectGallery';
 import CallToAction from '@/components/CallToAction';
 
 import {ClientCategorySlug, CATEGORY_CONFIG } from '@/config/projectCategories';
@@ -55,11 +56,11 @@ export default function ClientProjectsPage({ projectsData}: ClientProjectsPagePr
       {/* 1. Fondo 3D: Posición absoluta, z-index bajo */}
       <ProjectSceneCanvas category={category} /> 
       
-      <div className="relative z-10 pt-20 pb-16">
+      <div className="relative z-10 py-20">
         
         {/* 2. Sección Hero/Introducción */}
-        <header className="text-center mb-16 px-4 max-w-xl md:max-w-4xl mx-auto">
-            <h1 className={`text-5xl md:text-6xl font-extrabold mb-10 tracking-tighter drop-shadow-lg transition-colors duration-500 ${titleColorClass}`}>
+        <header className="text-center mb-16 px-4 max-w-xl md:max-w-4xl mx-auto py-24">
+            <h1 className={`text-5xl md:text-7xl font-extrabold mb-10 tracking-tighter drop-shadow-lg transition-colors duration-500 ${titleColorClass}`}>
                 {t("title")} {/* Ej: "Proyectos y Creaciones" */}
             </h1>
             <p className="text-1xl md:text-2xl text-gray-300">
@@ -70,18 +71,14 @@ export default function ClientProjectsPage({ projectsData}: ClientProjectsPagePr
         {/* 3. Sección de Proyectos Destacados */}
         <FeaturedProjects projects={projectsData} />
 
-        {/*4. Selector de Categorías */}
-        <CategorySwitcher 
-            currentCategory={category}
+        {/*4. Project Browser */}
+        <ProjectGallery
+            category={category}
+            filteredProjects={filteredProjects}
             onCategoryChange={setCategory}
         />
 
-        {/* 5. Grid de Proyectos */}
-        <section className="mt-10 px-4 md:px-8 max-w-7xl mx-auto ">
-            <ProjectsGrid projects={filteredProjects} />
-        </section>
-
-        {/* 6. Call to action */}
+        {/* 5. Call to action */}
         <CallToAction />
 
       </div>
