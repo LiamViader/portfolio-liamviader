@@ -16,8 +16,11 @@
     "contact": "Contact"
   },
   "ProjectsPage": {
+    "title": "Projects",
     "projects": "Projects",
     "ai": "AI & Software",
-    "games": "Video Games"
+    "all": "All",
+    "games": "Video Games",
+    "intro_paragraph": "Welcome to my projects page! Here you'll find a selection of my work in software development, artificial intelligence, and video game creation. Feel free to explore and reach out if you'd like to collaborate or learn more about my projects."
   }
 }

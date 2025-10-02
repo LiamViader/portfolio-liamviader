@@ -7,17 +7,10 @@ interface ProjectsPageProps {
 }
 
 export default async function ProjectsPage({ params }: ProjectsPageProps) {
-  // Resuelve la promesa de params y extrae el locale
   const { locale } = await params; 
-
-  // Carga los datos traducidos
   const projectsData = getProjectsByLocale(locale);
 
-  // Carga el diccionario de traducciones completo
-  const messages = (await getTranslations("ProjectsPage"));
-
   return (
-    // Pasa los datos y mensajes como props al componente de cliente
     <ClientProjectsPage projectsData={projectsData}/>
   );
 }
