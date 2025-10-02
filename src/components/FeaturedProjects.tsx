@@ -16,8 +16,8 @@ export default function FeaturedProjects({ projects }: FeaturedProjectsProps) {
     if (featured.length === 0) return null;
 
     return (
-        <section className="mt-10 px-4 md:px-8 max-w-7xl mx-auto mb-16">
-            <h2 className="text-4xl font-bold mb-8 text-center">{t('featured_title')}</h2>
+        <section className="py-24 px-4 md:px-8 max-w-7xl mx-auto mb-16 border-t border-white/20">
+            <h2 className="text-2xl md:text-4xl font-extrabold mb-10 tracking-tight text-center">{t('featured_title')}</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 {featured.slice(0, 2).map(project => (
                     // Reemplaza esto con tu componente de tarjeta destacada

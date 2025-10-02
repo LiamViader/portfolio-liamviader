@@ -7,7 +7,7 @@ export default function CallToAction() {
 
     return (
         <section className="text-center py-24 px-4 mt-20 max-w-4xl mx-auto border-t border-white/20">
-            <h2 className="text-4xl md:text-5xl font-extrabold mb-4 tracking-tight">
+            <h2 className="text-2xl md:text-4xl font-extrabold mb-4 tracking-tight">
                 {t("cta_title")}
             </h2>
             <p className="text-lg text-gray-400 mb-8">

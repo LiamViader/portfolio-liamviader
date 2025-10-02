@@ -51,18 +51,18 @@ export default function ClientProjectsPage({ projectsData}: ClientProjectsPagePr
 
 
   return (
-    <div className="relative min-h-[200vh] text-white"> 
+    <div className="relative min-h-[200vh] text-white bg-red-500"> 
       {/* 1. Fondo 3D: Posición absoluta, z-index bajo */}
       <ProjectSceneCanvas category={category} /> 
       
       <div className="relative z-10 pt-20 pb-16">
         
         {/* 2. Sección Hero/Introducción */}
-        <header className="text-center mb-16 px-4 max-w-3xl mx-auto">
-            <h1 className={`text-6xl font-extrabold mb-4 tracking-tighter drop-shadow-lg transition-colors duration-500 ${titleColorClass}`}>
+        <header className="text-center mb-16 px-4 max-w-xl md:max-w-4xl mx-auto">
+            <h1 className={`text-5xl md:text-6xl font-extrabold mb-10 tracking-tighter drop-shadow-lg transition-colors duration-500 ${titleColorClass}`}>
                 {t("title")} {/* Ej: "Proyectos y Creaciones" */}
             </h1>
-            <p className="text-xl text-gray-300">
+            <p className="text-1xl md:text-2xl text-gray-300">
                 {t("intro_paragraph")} 
             </p>
         </header>
@@ -77,7 +77,7 @@ export default function ClientProjectsPage({ projectsData}: ClientProjectsPagePr
         />
 
         {/* 5. Grid de Proyectos */}
-        <section className="mt-10 px-4 md:px-8 max-w-7xl mx-auto">
+        <section className="mt-10 px-4 md:px-8 max-w-7xl mx-auto ">
             <ProjectsGrid projects={filteredProjects} />
         </section>
 

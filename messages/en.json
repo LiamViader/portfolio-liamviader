@@ -17,6 +17,7 @@
   },
   "ProjectsPage": {
     "title": "Projects",
+    "featured_title": "Featured",
     "projects": "Projects",
     "ai": "AI & Software",
     "all": "All",
