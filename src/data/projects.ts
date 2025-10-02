@@ -27,6 +27,7 @@ interface ProjectData {
   live_url?: string; // Live demo URL
   detailed_media: string[]; // URLs of images/videos for the detailed view
   categorys: ProjectCategory[]; // Categories for filtering
+  is_featured?: boolean; // Optional flag for featured projects
 
   // Object containing translations for each supported language
   translations: Record<Locale, ProjectTranslations>; 
@@ -66,6 +67,7 @@ export const allProjects: ProjectData[] = [
     live_url: "https://project1-live.com",
     detailed_media: ["/images/testImage2.jpg", "/images/testImage2.jpg"],
     categorys: ["Game"],
+    is_featured: true,
     
     translations: {
       en: {
