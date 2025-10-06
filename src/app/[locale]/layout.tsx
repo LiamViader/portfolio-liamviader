@@ -11,53 +11,53 @@ const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
 const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"] });
 
 export async function generateMetadata({ 
-    params,
+		params,
 }: { 
-    params: { locale: string } | Promise<{ locale: string }> 
+		params: { locale: string } | Promise<{ locale: string }> 
 }): Promise<Metadata> {
-  const resolvedParams = await params;
-  const { locale } = resolvedParams;
-  
-  const t = await getTranslations({ 
-      locale, 
-      namespace: 'Metadata' 
-  });
+	const resolvedParams = await params;
+	const { locale } = resolvedParams;
+	
+	const t = await getTranslations({ 
+			locale, 
+			namespace: 'Metadata' 
+	});
 
-  return {
-    title: t('title'),
-    description: t('description'),
+	return {
+		title: t('title'),
+		description: t('description'),
 
-  };
+	};
 }
 
 
 
 export default async function RootLayout({
-  children,
-  params, 
+	children,
+	params, 
 }: {
-  children: React.ReactNode;
-  params: { locale: string } | Promise<{ locale: string }>; 
+	children: React.ReactNode;
+	params: { locale: string } | Promise<{ locale: string }>; 
 }) {
-  
-  const resolvedParams = await params;
-  const { locale } = resolvedParams;
+	
+	const resolvedParams = await params;
+	const { locale } = resolvedParams;
 
-  const localePromise = Promise.resolve(locale);
+	const localePromise = Promise.resolve(locale);
 
-  let messages = (await getRequestConfig({ requestLocale: localePromise })).messages;
+	let messages = (await getRequestConfig({ requestLocale: localePromise })).messages;
 
 
 
-  return (
-    <html lang={locale}>
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased bg-gray-900 text-white min-h-screen flex flex-col`}>
-        <NextIntlClientProvider locale={locale} messages={messages}>
-          <LayoutContent>
-              {children} 
-          </LayoutContent>
-        </NextIntlClientProvider>
-      </body>
-    </html>
-  );
+	return (
+		<html lang={locale}>
+			<body className={`${geistSans.variable} ${geistMono.variable} antialiased bg-gray-900 text-white min-h-screen flex flex-col`}>
+				<NextIntlClientProvider locale={locale} messages={messages}>
+					<LayoutContent>
+							{children} 
+					</LayoutContent>
+				</NextIntlClientProvider>
+			</body>
+		</html>
+	);
 }

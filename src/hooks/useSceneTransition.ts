@@ -1,19 +1,22 @@
 import { useState, useEffect } from 'react';
-import { useSpring } from '@react-spring/web'; 
-
-import { ClientCategorySlug, CATEGORY_INDICES } from '@/config/projectCategories'; 
+import { useSpring } from '@react-spring/web';
+import { ClientCategorySlug, CATEGORY_INDICES } from '@/config/projectCategories';
 
 export const useSceneTransition = (currentCategory: ClientCategorySlug) => {
-    const [activeCategoryIndex, setActiveCategoryIndex] = useState(CATEGORY_INDICES[currentCategory]);
+	const [previousIndex, setPreviousIndex] = useState(CATEGORY_INDICES[currentCategory]);
+	const [currentIndex, setCurrentIndex] = useState(CATEGORY_INDICES[currentCategory]);
 
-    useEffect(() => {
-        setActiveCategoryIndex(CATEGORY_INDICES[currentCategory]);
-    }, [currentCategory]);
+	useEffect(() => {
+		setPreviousIndex(currentIndex);
+		setCurrentIndex(CATEGORY_INDICES[currentCategory]);
+	}, [currentCategory]);
 
-    const { mixFactor } = useSpring({
-        mixFactor: activeCategoryIndex,
-        config: { duration: 800, tension: 120, friction: 14 }
-    });
+	const { progress } = useSpring({
+		from: { progress: 0 },
+		to: { progress: 1 },
+		reset: true,
+		config: { duration: 800, tension: 120, friction: 14 },
+	});
 
-    return mixFactor;
+	return { progress, previousIndex, currentIndex };
 };

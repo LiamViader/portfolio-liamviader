@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import Header from './Header';
-
+import { ProjectSceneCanvas } from './ProjectSceneCanvas';
 
 interface LayoutContentProps {
   children: React.ReactNode;

@@ -1,37 +1,25 @@
+// src/components/ProjectSceneCanvas.tsx
 "use client";
 
 import { Canvas } from '@react-three/fiber';
-import { useSceneTransition } from '@/hooks/useSceneTransition'; 
+import ProjectSceneContent from './scene/ProjectSceneContent'; // 🚨 Nueva importación
 import { ClientCategorySlug } from '@/config/projectCategories'; 
 
+// Definición de las Props
 interface ProjectSceneCanvasProps {
-    category: ClientCategorySlug;
+	category: ClientCategorySlug;
 }
 
-function SceneContent({ category }: ProjectSceneCanvasProps) {
-    
-    const globalMixFactor = useSceneTransition(category); 
-
-    return (
-        <>
-            <ambientLight intensity={0.5} />
-            {/* Placeholder */}
-            <mesh position={[0, 0, 0]}>
-                <boxGeometry args={[1, 1, 1]} />
-                <meshStandardMaterial color="red" />
-            </mesh>
-        </>
-    );
-}
-
-
+// 🚨 Ya no necesitamos SceneContent aquí
 export function ProjectSceneCanvas({ category }: ProjectSceneCanvasProps) {
-    return (
-        <Canvas 
-            className="absolute inset-0 z-0 bg-gray-900" 
-            camera={{ position: [0, 0, 5], fov: 75 }}
-        >
-            <SceneContent category={category} />
-        </Canvas>
-    );
+	return (
+		<div className="fixed inset-0 z-0" >
+			<Canvas 
+				camera={{ position: [0, 0, 5], fov: 75 }}
+			>
+				{/* 🚨 Usamos el componente de contenido separado */}
+				<ProjectSceneContent category={category} />
+			</Canvas>
+		</div>
+	);
 }
