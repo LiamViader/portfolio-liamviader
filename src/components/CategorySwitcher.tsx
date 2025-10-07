@@ -15,10 +15,9 @@ export default function CategorySwitcher({ currentCategory, onCategoryChange }: 
   const categories = Object.values(CATEGORY_CONFIG);
 
   const containerRef = useRef<HTMLDivElement>(null);
-  const [highlightStyle, setHighlightStyle] = useState({ width: 0, left: 0 });
+  const [highlightStyle, setHighlightStyle] = useState({ width: 0, left: 0, bgColor: "#ffffff" });
 
   useEffect(() => {
-    // Encuentra el botón activo y ajusta la posición y ancho del highlight
     const container = containerRef.current;
     if (!container) return;
 
@@ -29,6 +28,7 @@ export default function CategorySwitcher({ currentCategory, onCategoryChange }: 
       setHighlightStyle({
         width: rect.width,
         left: rect.left - parentRect.left,
+        bgColor: CATEGORY_CONFIG[currentCategory].colorButton.getStyle(),
       });
     }
   }, [currentCategory]);
@@ -38,27 +38,40 @@ export default function CategorySwitcher({ currentCategory, onCategoryChange }: 
       ref={containerRef}
       className="relative flex justify-center mb-10 p-1 bg-white/10 backdrop-blur-sm rounded-full shadow-lg max-w-[360px] min-h-[64px] mx-auto"
     >
-      {/* Fondo que se mueve */}
+      {/* Fondo que se mueve y cambia de color */}
       <motion.div
         layout
         transition={{ type: "spring", stiffness: 300, damping: 30 }}
-        className="absolute top-1 bottom-1 bg-white rounded-full shadow-md z-0"
-        style={{ width: highlightStyle.width, left: highlightStyle.left }}
+        className="absolute top-1 bottom-1 rounded-full shadow-md z-0"
+        style={{ 
+          width: highlightStyle.width, 
+          left: highlightStyle.left,
+          backgroundColor: highlightStyle.bgColor
+        }}
       />
 
       {categories.map((cat) => {
         const isActive = currentCategory === cat.slug;
 
         return (
-          <button
+          <motion.button
             key={cat.slug}
             data-active={isActive ? "true" : "false"}
+            whileHover={{
+              scale: 1.05,
+              boxShadow: "0 8px 20px rgba(0,0,0,0.55)",
+            }}
+            whileTap={{
+              scale: 0.95,
+              filter: "brightness(0.1)",
+            }}
+            transition={{ type: "spring", stiffness: 300, damping: 20 }}
             className={`relative z-10 px-6 py-2 text-sm font-semibold rounded-full transition-colors duration-300 ease-out
               ${isActive ? "text-black" : "text-gray-200 hover:text-white"}`}
             onClick={() => onCategoryChange(cat.slug)}
           >
             {t(cat.tKey)}
-          </button>
+          </motion.button>
         );
       })}
     </div>

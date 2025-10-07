@@ -14,6 +14,7 @@ export const CATEGORY_CONFIG = {
 		filterKey: null, 
 		tKey: "all", 
 		color: new THREE.Color('#0B0C10'),
+		colorButton: new THREE.Color('#cbcbcb'),
 		cssColor: 'text-gray-400'
 	},
 	ai: { 
@@ -21,6 +22,7 @@ export const CATEGORY_CONFIG = {
 		filterKey: 'AI', 
 		tKey: "ai", 
 		color: new THREE.Color('#003892'),
+		colorButton: new THREE.Color('#45caff'),
 		cssColor: 'text-cyan-400',
 	},
 	games: { 
@@ -28,6 +30,7 @@ export const CATEGORY_CONFIG = {
 		filterKey: 'Game', 
 		tKey: "games", 
 		color: new THREE.Color('#4a0060'),
+		colorButton: new THREE.Color('#d343ff'),
 		cssColor: 'text-fuchsia-700',
 	},
 } as const;
