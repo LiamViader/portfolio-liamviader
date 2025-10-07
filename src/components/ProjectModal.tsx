@@ -10,24 +10,21 @@ interface ProjectModalProps {
 
 export default function ProjectModal({ project, onClose }: ProjectModalProps) {
 
-  useEffect(() => {
-    if (project) {
-      // Modal abierto → bloquear scroll
-      document.body.style.overflow = 'hidden';
-    } else {
-      // Modal cerrado → restaurar scroll
-      document.body.style.overflow = '';
-    }
-
-    return () => {
-      document.body.style.overflow = '';
-    };
-  }, [project]);
-
-
-  if (!project) return null;
+if (!project) return null;
 
   const cardId = `card-${project.id}`;
+
+  useEffect(() => {
+    // Bloquea scroll al abrir el modal
+    document.body.style.overflow = "hidden";
+
+  }, []);
+
+  const handleClose = () => {
+    // Restaurar scroll inmediatamente
+    document.body.style.overflow = "";
+    onClose();
+  };
 
   return (
     <AnimatePresence mode="popLayout">
@@ -46,7 +43,7 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
               <h1 className="text-4xl font-extrabold text-indigo-400">{project.title}</h1>
               <p className="text-lg text-gray-400 mt-1">{project.role}</p>
             </div>
-            <button onClick={onClose} className="p-2 text-gray-400 hover:text-white transition-colors">
+            <button onClick={handleClose} className="p-2 text-gray-400 hover:text-white transition-colors">
               <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
               </svg>
