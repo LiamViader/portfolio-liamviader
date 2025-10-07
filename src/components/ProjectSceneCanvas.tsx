@@ -15,7 +15,7 @@ export function ProjectSceneCanvas({ category }: ProjectSceneCanvasProps) {
 	return (
 		<div className="fixed inset-0 z-0" >
 			<Canvas 
-				camera={{ position: [0, 0, 5], fov: 75 }}
+				camera={{ position: [0, 0, 0], fov: 75 }}
 			>
 				{/* 🚨 Usamos el componente de contenido separado */}
 				<ProjectSceneContent category={category} />

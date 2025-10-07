@@ -11,105 +11,106 @@ import SceneAll from './SceneAll';
 import SceneAI from './SceneAI';
 import SceneGames from './SceneGames';
 
-const AnimatedMaterial = animated('meshStandardMaterial'); 
-
 
 interface ProjectSceneContentProps {
-		category: ClientCategorySlug;
+	category: ClientCategorySlug;
 }
 
 export default function ProjectSceneContent({ category }: ProjectSceneContentProps) {
-		
-	const { progress, previousIndex, currentIndex } = useSceneTransition(category);
+	const { progress, previousCategory, currentCategory } = useSceneTransition(category);
 	const { scene, camera } = useThree();
 	const scrollY = useRef(0);
 
 	useEffect(() => {
-    const handleScroll = () => {
-      const scrollTop = window.scrollY;
-      const maxScroll = document.body.scrollHeight - window.innerHeight;
-      scrollY.current = scrollTop / maxScroll;
-    };
+		const handleScroll = () => {
+			const scrollTop = window.scrollY;
+			const maxScroll = document.body.scrollHeight - window.innerHeight;
+			scrollY.current = scrollTop / maxScroll;
+		};
 
-    handleScroll();
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+		handleScroll();
+		window.addEventListener("scroll", handleScroll);
+		return () => window.removeEventListener("scroll", handleScroll);
+	}, []);
 
-	const getOpacity = (targetIndex: number) =>
+	const getOpacity = (targetCategorySlug: ClientCategorySlug) =>
 	progress.to((p) => {
 
-		if (previousIndex === currentIndex) {
-			return targetIndex === currentIndex ? 1 : 0;
+
+		if (previousCategory === currentCategory) {
+			return targetCategorySlug === currentCategory ? 1 : 0;
 		}
 
-		if (targetIndex === previousIndex) return 1 - p;
-		if (targetIndex === currentIndex) return p;
-		return 0;
+
+		if (targetCategorySlug === previousCategory) return 1 - p; // Fade OUT (desde 1 hasta 0)
+		if (targetCategorySlug === currentCategory) return p;      // Fade IN (desde 0 hasta 1)
+		return 0; // Cualquier otra escena no está involucrada
 	});
 
-	const isSceneActive = (targetIndex: number) => {
-		return targetIndex === previousIndex || targetIndex === currentIndex;
+
+	const isSceneActive = (targetCategorySlug: ClientCategorySlug) => {
+		return targetCategorySlug === previousCategory || targetCategorySlug === currentCategory;
 	};
 
 	useFrame(() => {
 		const t = progress.get();
 
-		const fromColor = CATEGORY_COLORS[previousIndex];
-		const toColor = CATEGORY_COLORS[currentIndex];
+		const fromIndex = CATEGORY_INDICES[previousCategory];
+		const toIndex = CATEGORY_INDICES[currentCategory];
+
+		const fromColor = CATEGORY_COLORS[fromIndex];
+		const toColor = CATEGORY_COLORS[toIndex];
 
 		const scrollFactor = scrollY.current;
-    // Efecto de profundidad: mover en eje Z y Y
-    const targetZ = 5; // de 5 → 10
-    const targetY = scrollFactor * -5; // de 0 → -5
-    camera.position.lerp(new THREE.Vector3(0, targetY, targetZ), 0.9);
+
+		const targetZ = 5; // de 5 → 10
+		const targetY = scrollFactor * -5; // de 0 → -5
+		camera.position.lerp(new THREE.Vector3(0, targetY, targetZ), 0.9);
 
 		if (!scene.background || !(scene.background instanceof THREE.Color)) {
 			scene.background = new THREE.Color();
 		}
 
-		
 		(scene.background as THREE.Color).copy(fromColor).lerp(toColor, t);
 
-		
 		if (!scene.fog) {
 			scene.fog = new THREE.Fog(scene.background, 1, 100);
 		} else {
-			(scene.fog as THREE.Fog).color.copy(scene.background);
+		(scene.fog as THREE.Fog).color.copy(scene.background);
 		}
 	});
-	
+
 	return (
 		<>
 			{/* Luces generales */}
 			<ambientLight intensity={0.5} />
 			{/* Añadimos una luz direccional para darle dimensión a los objetos */}
 			<directionalLight position={[5, 10, 7]} intensity={1} />
-			
-			{/* 💡 EFECTO 'ALL' (Índice 0) */}
-			{isSceneActive(CATEGORY_INDICES.all) && (
+ 
+			{/* 💡 EFECTO 'ALL' (Usamos el slug 'all') */}
+			{isSceneActive('all') && (
 				<SceneAll 
-					opacity={getOpacity(CATEGORY_INDICES.all)} 
+					opacity={getOpacity('all')} 
 					transitionProgress={progress}
-					isVisible={currentIndex === CATEGORY_INDICES.all}
+					isVisible={currentCategory === 'all'}
 				/>
 			)}
 
-			{/* 💡 EFECTO 'IA' (Índice 1) */}
-			{isSceneActive(CATEGORY_INDICES.ai) && (
+			{/* 💡 EFECTO 'IA' (Usamos el slug 'ai') */}
+			{isSceneActive('ai') && (
 				<SceneAI 
-					opacity={getOpacity(CATEGORY_INDICES.ai)} 
+					opacity={getOpacity('ai')} 
 					transitionProgress={progress}
-					isVisible={currentIndex === CATEGORY_INDICES.ai}
+					isVisible={currentCategory === 'ai'}
 				/>
 			)}
 
-			{/* 💡 EFECTO 'GAMES' (Índice 2) */}
-			{isSceneActive(CATEGORY_INDICES.games) && (
+			{/* 💡 EFECTO 'GAMES' (Usamos el slug 'games') */}
+			{isSceneActive('games') && (
 				<SceneGames 
-					opacity={getOpacity(CATEGORY_INDICES.games)} 
+					opacity={getOpacity('games')} 
 					transitionProgress={progress}
-					isVisible={currentIndex === CATEGORY_INDICES.games}
+					isVisible={currentCategory === 'games'}
 				/>
 			)}
 		</>
