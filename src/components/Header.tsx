@@ -1,11 +1,16 @@
 "use client";
 
+import { motion, AnimatePresence } from "framer-motion";
 import { useState, useEffect, useRef, useLayoutEffect } from "react";
+import { useTranslations } from "next-intl";
+import { Link } from "@/i18n/navigation";
 import Navbar from "./Navbar";
-
+import LanguageSwitcher from "./LanguageSwitcher";
 const INITIAL_HEADER_HEIGHT = 73; 
 
 export default function Header() {
+
+  const t = useTranslations("Navbar");
 
   const headerRef = useRef<HTMLElement | null>(null);
   const [headerHeight, setHeaderHeight] = useState(INITIAL_HEADER_HEIGHT);
@@ -106,6 +111,40 @@ export default function Header() {
           <h1 className="font-bold text-lg md:text-xl">Liam Viader</h1>
           <Navbar isOpen={isMenuOpen} setIsOpen={setIsMenuOpen} />
       </header>
+      
+      {/* Mobile Menu and Overlay */}
+      <AnimatePresence>
+          {isMenuOpen && (
+            <nav>
+              {/* Overlay */}
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 0.7 }}
+                exit={{ opacity: 0 }}
+                transition={{ duration: 0.2 }}
+                className="fixed top-0 left-0 right-0 min-h-screen mt-16 bg-black/50 z-40 "
+                onClick={() => setIsMenuOpen(false)}
+              />
+
+              {/* Menu */}
+              <motion.div
+                initial={{ scaleY: 0 }}
+                animate={{ scaleY: 1 }}
+                exit={{ scaleY: 0 }}
+                transition={{ duration: 0.2, ease: "easeInOut" }}
+                style={{ top: headerHeight }}
+                className="fixed left-0 w-full shadow-sm bg-gray/5 backdrop-blur-xl flex flex-col items-center gap-4 py-6 origin-top z-50"
+              >
+                <Link href="/" onClick={() => setIsMenuOpen(false)} className="hover:underline">{t("home")}</Link>
+                <Link href="/about" onClick={() => setIsMenuOpen(false)} className="hover:underline">{t("about")}</Link>
+                <Link href="/projects" onClick={() => setIsMenuOpen(false)} className="hover:underline">{t("projects")}</Link>
+                <Link href="/contact" onClick={() => setIsMenuOpen(false)} className="hover:underline">{t("contact")}</Link>
+                <LanguageSwitcher />
+              </motion.div>
+            </nav>
+          )}
+        </AnimatePresence>
+
     </div>
   );
 }

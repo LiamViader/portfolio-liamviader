@@ -28,7 +28,7 @@ export const CATEGORY_CONFIG = {
 		filterKey: 'Game', 
 		tKey: "games", 
 		color: new THREE.Color('#4a0060'),
-		cssColor: 'text-fuchsia-400',
+		cssColor: 'text-fuchsia-700',
 	},
 } as const;
 

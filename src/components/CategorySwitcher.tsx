@@ -13,7 +13,7 @@ export default function CategorySwitcher({ currentCategory, onCategoryChange }: 
 	const categories = Object.values(CATEGORY_CONFIG);
 
 	return (
-		<div className="flex justify-center mb-10 p-1 bg-white/10 backdrop-blur-sm rounded-full shadow-lg max-w-[360px] mx-auto">
+		<div className="flex justify-center mb-10 p-1 bg-white/10 backdrop-blur-sm rounded-full shadow-lg max-w-[360px] min-h-[64px] mx-auto">
 			{categories.map((cat) => {
 				const isActive = currentCategory === cat.slug;
 				
