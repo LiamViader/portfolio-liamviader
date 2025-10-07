@@ -61,8 +61,8 @@ export default function ProjectSceneContent({ category }: ProjectSceneContentPro
 		const scrollFactor = scrollY.current;
     // Efecto de profundidad: mover en eje Z y Y
     const targetZ = 5; // de 5 → 10
-    const targetY = scrollFactor * -5; // de 0 → 2
-    camera.position.lerp(new THREE.Vector3(0, targetY, targetZ), 0.1);
+    const targetY = scrollFactor * -5; // de 0 → -5
+    camera.position.lerp(new THREE.Vector3(0, targetY, targetZ), 0.9);
 
 		if (!scene.background || !(scene.background instanceof THREE.Color)) {
 			scene.background = new THREE.Color();

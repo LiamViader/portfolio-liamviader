@@ -19,7 +19,7 @@ export default function SceneAll({ opacity, transitionProgress, isVisible }: Sce
       new THREE.Vector3(
         (Math.random() - 0.5) * 20,
         (Math.random() - 0.5) * 20,
-        -Math.random() * PARTICLE_RANGE - 5 // Posición detrás de la cámara
+        -Math.random() * PARTICLE_RANGE + 5 // Posición detrás de la cámara
       )
     );
     const rotations = Array(PARTICLE_COUNT).fill(0).map(() => Math.random() * Math.PI * 2);
@@ -65,11 +65,11 @@ export default function SceneAll({ opacity, transitionProgress, isVisible }: Sce
       {/* Geometría: Pequeñas esferas para las partículas */}
       <sphereGeometry args={[0.05, 8, 8]} /> 
       <AnimatedStandardMaterial 
-        color="#AAAAAA" 
+        color="#ffffff" 
         transparent={true} 
         opacity={opacity} 
-        metalness={0.5} 
-        roughness={0.5} 
+        metalness={0} 
+        roughness={0} 
       />
     </animated.instancedMesh>
   );

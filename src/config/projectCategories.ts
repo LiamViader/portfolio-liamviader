@@ -13,21 +13,21 @@ export const CATEGORY_CONFIG = {
 		slug: 'all' as const, 
 		filterKey: null, 
 		tKey: "all", 
-		color: new THREE.Color('#3A3D4C'),
+		color: new THREE.Color('#0B0C10'),
 		cssColor: 'text-gray-400'
 	},
 	ai: { 
 		slug: 'ai' as const, 
 		filterKey: 'AI', 
 		tKey: "ai", 
-		color: new THREE.Color('#00D4FF'),
+		color: new THREE.Color('#003892'),
 		cssColor: 'text-cyan-400',
 	},
 	games: { 
 		slug: 'games' as const, 
 		filterKey: 'Game', 
 		tKey: "games", 
-		color: new THREE.Color('#C939FF'),
+		color: new THREE.Color('#8c00be'),
 		cssColor: 'text-fuchsia-400',
 	},
 } as const;
