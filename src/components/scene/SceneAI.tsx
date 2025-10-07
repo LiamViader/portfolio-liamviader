@@ -34,16 +34,17 @@ export default function SceneAI({ opacity, transitionProgress, isVisible }: Scen
     let scale;
     if (isVisible) {
       // Entrada (Scale In): escala de 0.5 a 1.0
-      scale = 0.5 + transitionFactor * 0.5;
+      scale = 1 + transitionFactor * 1;
     } else {
       // Salida (Scale Out): escala de 1.0 a 0.5
-      scale = 1.0 - (1 - transitionFactor) * 0.5;
+      scale = 2;
     }
 
     if (lineRef.current) {
       // Rotación del grupo de líneas
       lineRef.current.rotation.y = t * 0.05;
       lineRef.current.rotation.x = t * 0.03;
+      lineRef.current.position.y = -2;
 
       // Escala de entrada/salida
       lineRef.current.scale.setScalar(scale);
@@ -53,17 +54,6 @@ export default function SceneAI({ opacity, transitionProgress, isVisible }: Scen
 
   return (
     <group>
-      {/* Esfera central (Núcleo de la IA) */}
-      <animated.mesh ref={meshRef} position={[0, 0, -10]}>
-        <sphereGeometry args={[1.5, 32, 32]} />
-        <AnimatedStandardMaterial 
-          color="cyan" 
-          transparent={true} 
-          opacity={opacity} 
-          metalness={1.0} 
-          roughness={0.1} 
-        />
-      </animated.mesh>
 
       {/* Red alámbrica (Efecto de Conexiones Neuronales) */}
       <animated.lineSegments ref={lineRef}>
