@@ -5,6 +5,7 @@ import { useFrame } from '@react-three/fiber';
 import { animated } from '@react-spring/three';
 import * as THREE from 'three';
 import { SceneProps } from './SceneTypes'; // Importación corregida
+import { EffectComposer, Bloom, DepthOfField, Noise } from "@react-three/postprocessing";
 
 const AnimatedStandardMaterial = animated('meshStandardMaterial');
 
@@ -53,7 +54,7 @@ export default function SceneAI({ opacity, transitionProgress, isVisible }: Scen
   
 
   return (
-    <group>
+    <>
 
       {/* Red alámbrica (Efecto de Conexiones Neuronales) */}
       <animated.lineSegments ref={lineRef}>
@@ -65,6 +66,14 @@ export default function SceneAI({ opacity, transitionProgress, isVisible }: Scen
           opacity={opacity.to(o => o * 0.7)} // Menos opaco que el núcleo
         />
       </animated.lineSegments>
-    </group>
+
+      {isVisible && (
+        <EffectComposer>
+          <Bloom intensity={1.7} luminanceThreshold={0.2} luminanceSmoothing={0.9} />
+          <DepthOfField focusDistance={0.02} focalLength={0.02} bokehScale={3.0} />
+          <Noise opacity={0.03} />
+        </EffectComposer>
+      )}
+    </>
   );
 }

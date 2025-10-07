@@ -5,10 +5,11 @@ import { useFrame } from '@react-three/fiber';
 import { animated } from '@react-spring/three';
 import * as THREE from 'three';
 import { SceneProps } from './SceneTypes'; // Importación corregida
+import { EffectComposer, Bloom, DepthOfField, Noise } from "@react-three/postprocessing";
 
 const AnimatedStandardMaterial = animated('meshStandardMaterial');
-const ASTEROID_COUNT = 15;
-const ASTEROID_FIELD_SIZE = 40;
+const ASTEROID_COUNT = 60;
+const ASTEROID_FIELD_SIZE = 100;
 
 const Asteroid = ({ position, rotation, scale, opacity }: { position: THREE.Vector3, rotation: THREE.Euler, scale: number, opacity: SceneProps['opacity'] }) => {
   const meshRef = useRef<THREE.Mesh>(null);
@@ -55,7 +56,7 @@ export default function SceneGames({ opacity, transitionProgress, isVisible }: S
       position: new THREE.Vector3(
         (Math.random() - 0.5) * ASTEROID_FIELD_SIZE,
         (Math.random() - 0.5) * ASTEROID_FIELD_SIZE,
-        -Math.random() * ASTEROID_FIELD_SIZE - 5
+        -Math.random() * (ASTEROID_FIELD_SIZE/2)
       ),
       rotation: new THREE.Euler(
         Math.random() * Math.PI,
@@ -86,10 +87,20 @@ export default function SceneGames({ opacity, transitionProgress, isVisible }: S
 
 
   return (
-    <animated.group ref={groupRef}>
-      {asteroidProps.map((props, index) => (
-        <Asteroid key={index} {...props} opacity={opacity} />
-      ))}
-    </animated.group>
+    <>
+      <animated.group ref={groupRef}>
+        {asteroidProps.map((props, index) => (
+          <Asteroid key={index} {...props} opacity={opacity} />
+        ))}
+      </animated.group>
+
+      {isVisible && (
+        <EffectComposer>
+          <Bloom intensity={1.7} luminanceThreshold={0.2} luminanceSmoothing={0.9} />
+          <DepthOfField focusDistance={0.02} focalLength={0.02} bokehScale={3.0} />
+          <Noise opacity={0.03} />
+        </EffectComposer>
+      )}
+    </>
   );
 }
