@@ -71,7 +71,7 @@ export default function ProjectSceneContent({ category }: ProjectSceneContentPro
 			scene.background = new THREE.Color();
 		}
 
-		(scene.background as THREE.Color).copy(fromColor).lerp(toColor, t);
+		(scene.background as THREE.Color).copy(fromColor).lerp(toColor, Math.min(t*2,1));
 
 		if (!scene.fog) {
 			scene.fog = new THREE.Fog(scene.background, 1, 100);
