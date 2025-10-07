@@ -2,7 +2,7 @@
 
 import { useState } from 'react';
 import Header from './Header';
-import { ProjectSceneCanvas } from './ProjectSceneCanvas';
+import { ModalProvider } from '@/providers/ModalContext';
 
 interface LayoutContentProps {
   children: React.ReactNode;
@@ -15,17 +15,19 @@ export default function LayoutContent({ children }: LayoutContentProps) {
 
   return (
     <>
-      <Header/> 
+      <ModalProvider>
+        <Header/> 
 
-      <main 
-        className="flex-1" 
-      >
-        {children}
-      </main>
+        <main 
+          className="flex-1" 
+        >
+          {children}
+        </main>
 
-      <footer className="p-4 text-center text-sm text-gray-500 border-t border-gray-800">
-        © {new Date().getFullYear()} Liam Viader
-      </footer>
+        <footer className="p-4 text-center text-sm text-gray-500 border-t border-gray-800">
+          © {new Date().getFullYear()} Liam Viader
+        </footer>
+      </ModalProvider>
     </>
   );
 }

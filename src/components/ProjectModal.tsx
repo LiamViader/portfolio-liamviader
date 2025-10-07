@@ -2,6 +2,7 @@
 import { TranslatedProject } from '@/data/projects';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useEffect } from 'react';
+import { useModal } from '@/providers/ModalContext';
 
 interface ProjectModalProps {
   project: TranslatedProject | null;
@@ -10,18 +11,20 @@ interface ProjectModalProps {
 
 export default function ProjectModal({ project, onClose }: ProjectModalProps) {
 
-if (!project) return null;
+  if (!project) return null;
+
+  const { setIsModalOpen } = useModal();
 
   const cardId = `card-${project.id}`;
 
   useEffect(() => {
-    // Bloquea scroll al abrir el modal
+    setIsModalOpen(true);
     document.body.style.overflow = "hidden";
 
   }, []);
 
   const handleClose = () => {
-    // Restaurar scroll inmediatamente
+    setIsModalOpen(false);
     document.body.style.overflow = "";
     onClose();
   };

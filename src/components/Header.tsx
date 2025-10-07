@@ -6,6 +6,9 @@ import { useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import Navbar from "./Navbar";
 import LanguageSwitcher from "./LanguageSwitcher";
+import { useModal } from "@/providers/ModalContext";
+
+
 const INITIAL_HEADER_HEIGHT = 73; 
 
 export default function Header() {
@@ -22,6 +25,8 @@ export default function Header() {
 
   const [lastScrollY, setLastScrollY] = useState(0);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const { isModalOpen } = useModal();
 
   const calculateAndSetHeight = () => {
     if (typeof window !== 'undefined') {
@@ -40,6 +45,13 @@ export default function Header() {
 
   useEffect(() => {
 
+    const maxOffset = headerHeight;
+
+    if (isModalOpen) {
+      setYOffset(-maxOffset);
+      return;
+    }
+
     if (isMenuOpen) {
       setYOffset(0); 
       return; 
@@ -47,7 +59,7 @@ export default function Header() {
 
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
-      const maxOffset = headerHeight;
+
 
       const deltaY = currentScrollY - lastScrollY;
       const PIXEL_PER_MS = 20; // Ajusta este valor para cambiar la sensibilidad del desplazamiento
@@ -93,7 +105,7 @@ export default function Header() {
 
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-  }, [lastScrollY, isMenuOpen, headerHeight]);
+  }, [lastScrollY, isMenuOpen, headerHeight, isModalOpen]);
 
 
 
