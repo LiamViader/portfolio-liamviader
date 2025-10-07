@@ -1,6 +1,7 @@
 // src/components/ProjectModal.tsx
 import { TranslatedProject } from '@/data/projects';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useEffect } from 'react';
 
 interface ProjectModalProps {
   project: TranslatedProject | null;
@@ -8,6 +9,22 @@ interface ProjectModalProps {
 }
 
 export default function ProjectModal({ project, onClose }: ProjectModalProps) {
+
+  useEffect(() => {
+    if (project) {
+      // Modal abierto → bloquear scroll
+      document.body.style.overflow = 'hidden';
+    } else {
+      // Modal cerrado → restaurar scroll
+      document.body.style.overflow = '';
+    }
+
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [project]);
+
+
   if (!project) return null;
 
   const cardId = `card-${project.id}`;
