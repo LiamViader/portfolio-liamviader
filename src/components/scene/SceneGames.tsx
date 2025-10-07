@@ -71,16 +71,7 @@ export default function SceneGames({ opacity, transitionProgress, isVisible }: S
     const transitionFactor = transitionProgress.get();
     
     if (groupRef.current) {
-      // Efecto de explosión/implosión al entrar/salir
-      let scaleEffect;
-      if (isVisible) {
-        // Entrada: Desplazarse ligeramente hacia el exterior
-        scaleEffect = 1 + (1 - transitionFactor) * 0.2; 
-      } else {
-        // Salida: Implosionar ligeramente hacia el centro
-        scaleEffect = 1 + transitionFactor * 0.5; 
-      }
-      groupRef.current.scale.setScalar(scaleEffect);
+      groupRef.current.scale.setScalar(1);
       groupRef.current.rotation.z += 0.001;
     }
   });
