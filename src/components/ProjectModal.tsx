@@ -8,23 +8,20 @@ interface ProjectModalProps {
 }
 
 export default function ProjectModal({ project, onClose }: ProjectModalProps) {
-  
-  if (!project) return null; // No renderizar si no hay proyecto
+  if (!project) return null;
 
-  const cardId = `card-${project.id}`; // Debe coincidir con el de ProjectCard
+  const cardId = `card-${project.id}`;
 
   return (
-    // AnimatePresence para controlar la entrada/salida
-    <AnimatePresence mode="wait">
+    <AnimatePresence mode="popLayout">
       <motion.div
         key={project.id}
-        layoutId={cardId} // 🎯 La clave de la animación de expansión
+        layoutId={cardId}
         className="fixed inset-0 z-50 overflow-y-auto bg-gray-950/95 backdrop-blur-md"
-        // Animaciones de entrada/salida para el modal (opacidad)
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         exit={{ opacity: 0 }}
-        transition={{ duration: 0.3 }}
+        transition={{ duration: 0.2 }}
       >
         <div className="max-w-4xl mx-auto p-6 md:p-10 text-white">
           <header className="flex justify-between items-start mb-8">
@@ -33,22 +30,20 @@ export default function ProjectModal({ project, onClose }: ProjectModalProps) {
               <p className="text-lg text-gray-400 mt-1">{project.role}</p>
             </div>
             <button onClick={onClose} className="p-2 text-gray-400 hover:text-white transition-colors">
-              <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+              <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+              </svg>
             </button>
           </header>
-          
-          {/* Contenido Detallado */}
+
           <div className="space-y-8">
             <p className="text-gray-300 whitespace-pre-line">{project.full_description}</p>
-            
-            {/* 4. Galería de Medios Detallados */}
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               {project.detailed_media.map((mediaUrl, idx) => (
                 <img key={idx} src={mediaUrl} alt={`Detalle ${idx + 1}`} className="w-full rounded-lg shadow-xl" />
               ))}
             </div>
 
-            {/* 5. Enlaces y Tecnologías */}
             <h2 className="text-2xl font-bold mt-10">Tecnologías y Enlaces</h2>
             <div className="flex flex-wrap gap-3">
               {project.tags.map(tag => (

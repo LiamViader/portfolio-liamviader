@@ -19,13 +19,13 @@ export default function ProjectsGrid({ projects }: ProjectsGridProps) {
       opacity: 1, 
       y: 0, 
       scale: 1, 
-      transition: { duration: 0.6, ease: "easeInOut" as const } 
+      transition: { duration: 0.3, ease: "easeInOut" as const } 
     },
     exit: { 
       opacity: 0, 
       y: -20, 
       scale: 0.95, 
-      transition: { duration: 0.6, ease: "easeInOut" as const } 
+      transition: { duration: 0.3, ease: "easeInOut" as const } 
     },
   };
 
@@ -42,7 +42,7 @@ export default function ProjectsGrid({ projects }: ProjectsGridProps) {
               animate="visible"
               exit="exit"
               layout
-              transition={{ duration: 0.6, ease: "easeInOut" }}
+              transition={{ duration: 0.3, ease: "easeInOut" }}
             >
               <ProjectCard
                 project={project}
