@@ -63,9 +63,9 @@ export default function CategorySwitcher({ currentCategory, onCategoryChange }: 
             }}
             whileTap={{
               scale: 0.95,
-              filter: "brightness(0.1)",
+							backgroundColor: "rgba(0,0,0,0.9)",
             }}
-            transition={{ type: "spring", stiffness: 300, damping: 20 }}
+            transition={{ type: "spring", stiffness: 200, damping: 20 }}
             className={`relative z-10 px-6 py-2 text-sm font-semibold rounded-full transition-colors duration-300 ease-out
               ${isActive ? "text-black" : "text-gray-200 hover:text-white"}`}
             onClick={() => onCategoryChange(cat.slug)}
