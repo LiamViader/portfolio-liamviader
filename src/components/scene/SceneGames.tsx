@@ -5,7 +5,7 @@ import { useFrame } from '@react-three/fiber';
 import { animated } from '@react-spring/three';
 import * as THREE from 'three';
 import { SceneProps } from './SceneTypes'; // Importación corregida
-import { EffectComposer, Bloom, DepthOfField, Noise } from "@react-three/postprocessing";
+import { EffectComposer, Bloom, DepthOfField, Noise, Outline } from "@react-three/postprocessing";
 
 const AnimatedStandardMaterial = animated('meshStandardMaterial');
 const ASTEROID_COUNT = 60;
@@ -37,7 +37,7 @@ const Asteroid = ({ position, rotation, scale, opacity }: { position: THREE.Vect
       {/* Geometría de tetraedro low-poly */}
       <dodecahedronGeometry args={[1, 0]} /> 
       <AnimatedStandardMaterial 
-        color="#8A2BE2" // Azul violeta
+        color="#3e3241" // Azul violeta
         transparent={true} 
         opacity={opacity} 
         flatShading={true} // Estilo Low-Poly

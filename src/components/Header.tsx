@@ -94,10 +94,10 @@ export default function Header() {
 
 
   return (
-    <div style={{ height: `${headerHeight}px` }}>
+    <div style={{ height: `${headerHeight}px` }} className={"text-gray-50"}>
       <header
           ref={headerRef}
-          className={`fixed top-0 left-0 w-full px-4 md:px-8 py-3 md:py-5 flex justify-between items-center border-b border-gray-800 bg-gray-50 z-50 transition-transform `}
+          className={`fixed top-0 left-0 w-full px-4 md:px-8 py-3 md:py-5 flex justify-between items-center shadow-sm bg-gray/5 backdrop-blur-xl z-50 transition-transform `}
           style={{ 
             transform: `translateY(${yOffset}px)`,
             transitionDuration: `${transitionDurationMs}ms` 
