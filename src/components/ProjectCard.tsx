@@ -15,8 +15,8 @@ export default function ProjectCard({ project, onClick }: ProjectCardProps) {
       layoutId={`card-${project.id}`}
       onClick={onClick}
       className="relative overflow-hidden rounded-xl bg-gray-800 shadow-2xl cursor-pointer"
-      transition={{ type: 'spring', stiffness: 500, damping: 35 }}
-      whileHover={isHoverEnabled ? { scale: 1.03 } : undefined} // ✅ Solo aplicar hover si está habilitado
+      transition={{ type: 'spring', stiffness: 300, damping: 50 }}
+      whileHover={isHoverEnabled ? { scale: 1.07 } : undefined} // ✅ Solo aplicar hover si está habilitado
     >
       <img
         src={project.media_preview}
