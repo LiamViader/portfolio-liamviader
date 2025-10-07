@@ -117,13 +117,7 @@ export default function SceneAll({ opacity, transitionProgress, isVisible }: Sce
         />
       </animated.instancedMesh>
 
-      {isVisible && (
-        <EffectComposer>
-          <Bloom intensity={2} luminanceThreshold={0.1} luminanceSmoothing={0.5}/>
-          <DepthOfField focusDistance={0.02} focalLength={0.02} bokehScale={3.0} />
-          <Noise opacity={0.03} />
-        </EffectComposer>
-      )}
+
     </>
   );
 }

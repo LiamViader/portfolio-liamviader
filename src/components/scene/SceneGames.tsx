@@ -5,7 +5,7 @@ import { useFrame } from '@react-three/fiber';
 import { animated } from '@react-spring/three';
 import * as THREE from 'three';
 import { SceneProps } from './SceneTypes'; // Importación corregida
-import { EffectComposer, Bloom, DepthOfField, Noise, Outline } from "@react-three/postprocessing";
+
 
 const AnimatedStandardMaterial = animated('meshStandardMaterial');
 const ASTEROID_COUNT = 60;
@@ -93,14 +93,6 @@ export default function SceneGames({ opacity, transitionProgress, isVisible }: S
           <Asteroid key={index} {...props} opacity={opacity} />
         ))}
       </animated.group>
-
-      {isVisible && (
-        <EffectComposer>
-          <Bloom intensity={1.7} luminanceThreshold={0.2} luminanceSmoothing={0.9} />
-          <DepthOfField focusDistance={0.02} focalLength={0.02} bokehScale={3.0} />
-          <Noise opacity={0.03} />
-        </EffectComposer>
-      )}
     </>
   );
 }

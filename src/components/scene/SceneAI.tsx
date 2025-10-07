@@ -67,13 +67,7 @@ export default function SceneAI({ opacity, transitionProgress, isVisible }: Scen
         />
       </animated.lineSegments>
 
-      {isVisible && (
-        <EffectComposer>
-          <Bloom intensity={1.7} luminanceThreshold={0.2} luminanceSmoothing={0.9} />
-          <DepthOfField focusDistance={0.02} focalLength={0.02} bokehScale={3.0} />
-          <Noise opacity={0.03} />
-        </EffectComposer>
-      )}
+
     </>
   );
 }

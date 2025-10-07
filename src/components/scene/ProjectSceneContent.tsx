@@ -11,6 +11,7 @@ import SceneAll from './SceneAll';
 import SceneAI from './SceneAI';
 import SceneGames from './SceneGames';
 
+import { EffectComposer, Bloom, DepthOfField, Noise, Outline } from "@react-three/postprocessing";
 
 interface ProjectSceneContentProps {
 	category: ClientCategorySlug;
@@ -113,6 +114,12 @@ export default function ProjectSceneContent({ category }: ProjectSceneContentPro
 					isVisible={currentCategory === 'games'}
 				/>
 			)}
+
+			<EffectComposer>
+				<Bloom intensity={2} luminanceThreshold={0.1} luminanceSmoothing={0.1} />
+				<DepthOfField focusDistance={0.01} focalLength={0.02} bokehScale={1}/>
+				<Noise opacity={0.03} />
+			</EffectComposer>
 		</>
 	);
 }

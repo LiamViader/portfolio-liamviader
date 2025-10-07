@@ -16,6 +16,7 @@ export function ProjectSceneCanvas({ category }: ProjectSceneCanvasProps) {
 		<div className="fixed inset-0 z-0" >
 			<Canvas 
 				camera={{ position: [0, 0, 0], fov: 75 }}
+				dpr={Math.min(window.devicePixelRatio, 1.5)}
 			>
 				{/* 🚨 Usamos el componente de contenido separado */}
 				<ProjectSceneContent category={category} />
