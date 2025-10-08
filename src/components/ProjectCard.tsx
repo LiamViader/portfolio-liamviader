@@ -14,7 +14,7 @@ export default function ProjectCard({ project, onClick }: ProjectCardProps) {
     <motion.div
       layoutId={`card-${project.id}`}
       onClick={onClick}
-      className="relative overflow-hidden rounded-xl bg-gray-800 shadow-2xl cursor-pointer"
+      className="relative overflow-hidden rounded-xl bg-white/10 backdrop-blur-lg shadow-2xl cursor-pointer"
       transition={{ type: 'spring', stiffness: 200, damping: 70 }}
       whileHover={isHoverEnabled ? { scale: 1.1 } : undefined} // ✅ Solo aplicar hover si está habilitado
     >
