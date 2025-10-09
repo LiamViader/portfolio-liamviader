@@ -1,39 +1,44 @@
 "use client";
 
-import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import React, { useState } from "react";
+import { motion, AnimatePresence, Variants } from "framer-motion";
 import ProjectCard from "./ProjectCard";
-import ProjectModal from "./ProjectModal";
 import { TranslatedProject } from "@/data/projects";
+import { ProjectModalPortal } from "./ProjectModalPortal";
 
 interface ProjectsGridProps {
   projects: TranslatedProject[];
 }
 
 export default function ProjectsGrid({ projects }: ProjectsGridProps) {
-  const [selectedProject, setSelectedProject] = useState<TranslatedProject | null>(null);
+  const [selected, setSelected] = useState<{ project: TranslatedProject; rect: DOMRect } | null>(null);
 
-  const itemVariants = {
-    hidden: { opacity: 0, y: 20, scale: 0.95 },
+  const itemVariants: Variants = {
+    hidden: { opacity: 0, y: 20, scale: 0.98 },
     visible: { 
       opacity: 1, 
       y: 0, 
       scale: 1, 
-      transition: { duration: 0.3, ease: "easeInOut" as const } 
+      transition: { duration: 0.6, ease: "easeIn" as any } 
     },
     exit: { 
       opacity: 0, 
       y: -20, 
-      scale: 0.95, 
-      transition: { duration: 0.3, ease: "easeInOut" as const } 
+      scale: 0.98, 
+      transition: { duration: 0.28, ease: "easeInOut" as any } 
     },
   };
 
+  const handleSelect = (project: TranslatedProject, rect: DOMRect) => {
+    setSelected({ project, rect });
+  };
+
+  const handleClose = () => setSelected(null);
 
   return (
     <>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 p-4">
-        <AnimatePresence>
+        <AnimatePresence initial={false}>
           {projects.map((project) => (
             <motion.div
               key={project.id}
@@ -41,22 +46,20 @@ export default function ProjectsGrid({ projects }: ProjectsGridProps) {
               initial="hidden"
               animate="visible"
               exit="exit"
-              layout
-              transition={{ duration: 0.3, ease: "easeInOut" }}
             >
               <ProjectCard
                 project={project}
-                onClick={() => setSelectedProject(project)}
+                onSelect={handleSelect}
+                isHidden={selected?.project.id === project.id}
               />
             </motion.div>
           ))}
         </AnimatePresence>
       </div>
 
-      <ProjectModal
-        project={selectedProject}
-        onClose={() => setSelectedProject(null)}
-      />
+      {selected && (
+        <ProjectModalPortal project={selected.project} originRect={selected.rect} onClose={handleClose} />
+      )}
     </>
   );
 }
