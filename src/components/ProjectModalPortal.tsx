@@ -1,14 +1,18 @@
+// ProjectModalPortal.tsx
 "use client";
 
 import React, { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import { motion, AnimatePresence, useAnimation, Variants } from "framer-motion";
 import { TranslatedProject } from "@/data/projects";
+import CustomScrollArea from "./CustomScrollArea";
+import { measureStableRect } from "@/utils/measureStableRect";
 
 interface ModalPortalProps {
   project: TranslatedProject;
   originRect: DOMRect;
-  onRevealOrigin?: () => void; // ← nuevo
+  originEl?: HTMLElement;
+  onRevealOrigin?: () => void;
   onClose: () => void;
 }
 
@@ -28,9 +32,16 @@ const itemVariants: Variants = {
   exit: { opacity: 0, y: -10, transition: { duration: 0.3, ease: "easeIn" } },
 };
 
-export function ProjectModalPortal({ project, originRect, onRevealOrigin, onClose }: ModalPortalProps) {
+export function ProjectModalPortal({
+  project,
+  originRect,
+  originEl,
+  onRevealOrigin,
+  onClose,
+}: ModalPortalProps) {
   const controls = useAnimation();
   const [closing, setClosing] = useState(false);
+  const r = (n: number) => Math.round(n);
 
   useEffect(() => {
     const modalWidth = Math.min(window.innerWidth - 48, 960);
@@ -39,51 +50,47 @@ export function ProjectModalPortal({ project, originRect, onRevealOrigin, onClos
     const targetTop = Math.max(48, (window.innerHeight - modalHeight) / 6);
 
     controls.set({
-      left: originRect.left,
-      top: originRect.top,
-      width: originRect.width,
-      height: originRect.height,
+      left: r(originRect.left),
+      top: r(originRect.top),
+      width: r(originRect.width),
+      height: r(originRect.height),
       opacity: 1,
       borderRadius: 16,
     });
 
     controls.start({
-      left: targetLeft,
-      top: targetTop,
-      width: modalWidth,
-      height: modalHeight,
+      left: r(targetLeft),
+      top: r(targetTop),
+      width: r(modalWidth),
+      height: r(modalHeight),
       opacity: 1,
       borderRadius: 16,
       transition: { duration: 0.45, ease: [0.4, 0, 0.2, 1] },
     });
 
-    const prev = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-    return () => { document.body.style.overflow = prev; };
+
   }, [controls, originRect]);
 
   const handleClose = async () => {
     if (closing) return;
     setClosing(true);
+    const target = originEl ? measureStableRect(originEl) : originRect;
 
-    // 1) Encoge sin perder opacidad
     await controls.start({
-      left: originRect.left,
-      top: originRect.top,
-      width: originRect.width,
-      height: originRect.height,
+      left: r(target.left),
+      top: r(target.top),
+      width: r(target.width),
+      height: r(target.height),
       opacity: 1,
       borderRadius: 16,
       transition: { duration: 0.45, ease: [0.4, 0, 0.2, 1] },
     });
 
-    // 2) Justo aquí — la card debe reaparecer sin animación
     onRevealOrigin?.();
 
-    // 3) Fade final del panel ya encogido
     await controls.start({
       opacity: 0,
-      transition: { duration: 0.1, ease: "easeOut" },
+      transition: { duration: 0.2, ease: "easeOut" },
     });
 
     onClose();
@@ -114,7 +121,6 @@ export function ProjectModalPortal({ project, originRect, onRevealOrigin, onClos
         </div>
       </motion.div>
 
-      {/* Panel/Contenedor: NO se desvanece hasta el final (lo controla controls) */}
       <motion.div
         animate={controls}
         initial={false}
@@ -123,39 +129,39 @@ export function ProjectModalPortal({ project, originRect, onRevealOrigin, onClos
           zIndex: 99999,
           boxShadow: "0 25px 70px rgba(0,0,0,0.6)",
           borderRadius: 16,
+          boxSizing: "border-box",
           overflow: "hidden",
         }}
+        className="bg-gray-900 rounded-2xl border border-white/10"
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Panel siempre opaco durante el shrink */}
-        <div className="w-full h-full bg-gray-900 rounded-2xl border border-white/10 text-white flex flex-col">
-          {/* Contenido: se desvanece desde el comienzo del cierre */}
-          <motion.div
-            variants={contentContainerVariants}
-            initial="hidden"
-            animate={closing ? "exit" : "visible"}
-            className="flex-1 flex flex-col"
+        <motion.div
+          variants={contentContainerVariants}
+          initial="hidden"
+          animate={closing ? "exit" : "visible"}
+          className="flex flex-col h-full text-white"
+        >
+          <motion.header
+            className="flex justify-between items-start p-6 md:p-8 border-b border-white/10 sticky top-0 z-20 bg-gray-900/90 backdrop-blur-md"
+            variants={itemVariants}
           >
-            <motion.header
-              className="flex justify-between items-start p-6 md:p-8 border-b border-white/10 sticky top-0 z-20 bg-gray-900/90 backdrop-blur-md"
-              variants={itemVariants}
+            <div>
+              <h1 className="text-3xl font-extrabold text-indigo-400">{project.title}</h1>
+              {project.role && <p className="text-sm text-gray-400 mt-1">{project.role}</p>}
+            </div>
+            <button
+              onClick={handleClose}
+              aria-label="Cerrar"
+              className="p-2 text-gray-300 hover:text-white transition-colors"
             >
-              <div>
-                <h1 className="text-3xl font-extrabold text-indigo-400">{project.title}</h1>
-                {project.role && <p className="text-sm text-gray-400 mt-1">{project.role}</p>}
-              </div>
-              <button
-                onClick={handleClose}
-                aria-label="Cerrar"
-                className="p-2 text-gray-300 hover:text-white transition-colors"
-              >
-                <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
-                </svg>
-              </button>
-            </motion.header>
+              <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+          </motion.header>
 
-            <motion.div className="flex-1 overflow-y-auto px-6 md:px-8 pb-8 space-y-6" variants={itemVariants}>
+          <CustomScrollArea className="flex-1" topOffset={16} bottomOffset={16}>
+            <motion.div className="px-6 md:px-8 pb-8 space-y-6" variants={itemVariants}>
               <p className="text-gray-300 whitespace-pre-line mt-2">{project.full_description}</p>
 
               {project.detailed_media?.length > 0 && (
@@ -178,7 +184,11 @@ export function ProjectModalPortal({ project, originRect, onRevealOrigin, onClos
 
               <div className="flex flex-wrap gap-3">
                 {project.tags?.map((tag) => (
-                  <motion.span key={tag} className="text-sm px-3 py-1 bg-indigo-700 rounded-full text-white font-medium" variants={itemVariants}>
+                  <motion.span
+                    key={tag}
+                    className="text-sm px-3 py-1 bg-indigo-700 rounded-full text-white font-medium"
+                    variants={itemVariants}
+                  >
                     {tag}
                   </motion.span>
                 ))}
@@ -209,8 +219,8 @@ export function ProjectModalPortal({ project, originRect, onRevealOrigin, onClos
                 )}
               </div>
             </motion.div>
-          </motion.div>
-        </div>
+          </CustomScrollArea>
+        </motion.div>
       </motion.div>
     </AnimatePresence>
   );

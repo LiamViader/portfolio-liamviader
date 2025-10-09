@@ -11,8 +11,12 @@ interface ProjectsGridProps {
 }
 
 export default function ProjectsGrid({ projects }: ProjectsGridProps) {
-  const [selected, setSelected] = useState<{ project: TranslatedProject; rect: DOMRect } | null>(null);
-  const [revealOrigin, setRevealOrigin] = useState(false); // ← nuevo
+  const [selected, setSelected] = useState<{
+    project: TranslatedProject;
+    rect: DOMRect;
+    el: HTMLElement;
+  } | null>(null);
+  const [revealOrigin, setRevealOrigin] = useState(false);
 
   const itemVariants: Variants = {
     hidden: { opacity: 0, y: 20, scale: 0.98 },
@@ -20,19 +24,19 @@ export default function ProjectsGrid({ projects }: ProjectsGridProps) {
       opacity: 1,
       y: 0,
       scale: 1,
-      transition: { duration: 1, ease: "easeInOut" },
+      transition: { duration: 0.5, ease: "easeIn" },
     },
     exit: {
       opacity: 0,
-      y: -20,
+      y: 20,
       scale: 0.98,
-      transition: { duration: 0.5, ease: "easeInOut" },
+      transition: { duration: 0.25, ease: "easeIn" },
     },
   };
 
-  const handleSelect = (project: TranslatedProject, rect: DOMRect) => {
+  const handleSelect = (project: TranslatedProject, rect: DOMRect, el: HTMLElement) => {
     setRevealOrigin(false);
-    setSelected({ project, rect });
+    setSelected({ project, rect, el });
   };
 
   const handleClose = () => {
@@ -53,12 +57,11 @@ export default function ProjectsGrid({ projects }: ProjectsGridProps) {
                 initial="hidden"
                 animate="visible"
                 exit="exit"
-                transition={{ layout: { duration: 0.5, ease: "easeInOut" } }}
+                transition={{ layout: { duration: 0.25, ease: "easeInOut" } }}
               >
                 <ProjectCard
                   project={project}
                   onSelect={handleSelect}
-                  // Oculta solo mientras hay modal Y aún no se ha revelado la card
                   isHidden={!!(selected && selected.project.id === project.id && !revealOrigin)}
                 />
               </motion.div>
@@ -71,7 +74,8 @@ export default function ProjectsGrid({ projects }: ProjectsGridProps) {
         <ProjectModalPortal
           project={selected.project}
           originRect={selected.rect}
-          onRevealOrigin={() => setRevealOrigin(true)} // ← se llama justo tras el shrink, antes del fade
+          originEl={selected.el}
+          onRevealOrigin={() => setRevealOrigin(true)}
           onClose={handleClose}
         />
       )}

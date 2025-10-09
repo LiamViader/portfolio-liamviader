@@ -15,6 +15,10 @@ type ScrollAreaProps = {
   fillViewport?: boolean;
   ariaLabel?: string;
   onScroll?: (info: { scrollTop: number; scrollHeight: number; clientHeight: number }) => void;
+
+  // 🔹 NUEVO: solo se aplican cuando NO es fillViewport
+  topOffset?: number;
+  bottomOffset?: number;
 };
 
 export default function CustomScrollArea({
@@ -26,10 +30,12 @@ export default function CustomScrollArea({
   gap = 8,
   minThumbSize = 28,
   autoHide = true,
-  autoHideDelay = 500,
+  autoHideDelay = 100,
   fillViewport = false,
   ariaLabel = "Scrollable region",
   onScroll,
+  topOffset,
+  bottomOffset,
 }: ScrollAreaProps) {
   const wrapperRef = React.useRef<HTMLDivElement | null>(null);
   const viewportRef = React.useRef<HTMLDivElement | null>(null);
@@ -80,7 +86,11 @@ export default function CustomScrollArea({
       setThumbOffset(offset);
     }
 
-    window.dispatchEvent(new CustomEvent("app-scroll", { detail: { scrollTop, scrollHeight, clientHeight } }));
+    if (fillViewport) {
+      window.dispatchEvent(
+        new CustomEvent("app-scroll", { detail: { scrollTop, scrollHeight, clientHeight } })
+      );
+    }
     onScroll?.({ scrollTop, scrollHeight, clientHeight });
   }, [minThumbSize, onScroll]);
 
@@ -108,10 +118,13 @@ export default function CustomScrollArea({
     if (trackEl) roTrack.observe(trackEl);
 
     window.addEventListener("resize", updateMetrics);
+    
+    if (fillViewport) {
+      window.dispatchEvent(new CustomEvent("app-scroll", {
+        detail: { scrollTop: el.scrollTop, scrollHeight: el.scrollHeight, clientHeight: el.clientHeight },
+      }));
+    }
 
-    window.dispatchEvent(new CustomEvent("app-scroll", {
-      detail: { scrollTop: el.scrollTop, scrollHeight: el.scrollHeight, clientHeight: el.clientHeight },
-    }));
     updateMetrics();
 
     return () => {
@@ -194,13 +207,17 @@ export default function CustomScrollArea({
 
   const trackVisible = isNeeded && (isVisible || isDragging || isHovering);
 
+  // 👉 Mantengo exactamente lo de antes para fullViewport
   const extraTop = 16;
   const extraBottom = 24;
 
   const wrapperStyle: React.CSSProperties = fillViewport ? { height: "100dvh" } : {};
+
+  // 👉 Si es fullViewport: usamos var(--header-h) + márgenes (como antes)
+  // 👉 Si NO es fullViewport: usamos topOffset/bottomOffset (nuevas props)
   const baseTrackStyle: React.CSSProperties = fillViewport
     ? { top: `calc(var(--header-h, 0px) + ${extraTop}px)`, bottom: `${extraBottom}px` }
-    : {};
+    : { top: topOffset ?? 0, bottom: bottomOffset ?? 0 };
 
   return (
     <div
@@ -217,7 +234,6 @@ export default function CustomScrollArea({
         role="region"
         aria-label={ariaLabel}
       >
-        {/* 👇 Envoltorio de contenido para que main + footer estén en el mismo flujo */}
         <div ref={contentRef} className="min-h-full flex flex-col">
           {children}
         </div>
