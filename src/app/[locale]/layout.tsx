@@ -3,7 +3,6 @@ import { getTranslations } from "next-intl/server";
 import { Geist, Geist_Mono } from "next/font/google";
 import "../globals.css";
 import { NextIntlClientProvider } from "next-intl";
-import Header from "../../components/Header";
 import LayoutContent from "@/components/LayoutContent";
 import getRequestConfig from '@/i18n/request'; 
 

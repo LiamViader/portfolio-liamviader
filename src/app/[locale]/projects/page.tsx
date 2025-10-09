@@ -1,6 +1,7 @@
 import { getTranslations } from "next-intl/server"; // <-- Server Hook
 import { getProjectsByLocale, TranslatedProject } from '@/data/projects';
 import ClientProjectsPage from './ClientProjectsPage'; // <-- Nuevo componente de Cliente
+import CustomScrollArea from "@/components/CustomScrollArea";
 
 interface ProjectsPageProps {
 	params: { locale: string } | Promise<{ locale: string }>;

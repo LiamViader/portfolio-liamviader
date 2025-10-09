@@ -57,10 +57,13 @@ export default function Header() {
       return; 
     }
 
-    const handleScroll = () => {
-      const currentScrollY = window.scrollY;
+        const onAppScroll = (e: Event) => {
 
-
+      const detail = (e as CustomEvent).detail as
+        | { scrollTop: number; scrollHeight?: number; clientHeight?: number }
+        | undefined;
+      const currentScrollY = detail?.scrollTop ?? 0;
+      console.log(detail?.scrollTop);
       const deltaY = currentScrollY - lastScrollY;
       const PIXEL_PER_MS = 20; // Ajusta este valor para cambiar la sensibilidad del desplazamiento
 
@@ -103,15 +106,15 @@ export default function Header() {
       setLastScrollY(currentScrollY);
     };
 
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+    window.addEventListener("app-scroll", onAppScroll);
+    return () => window.removeEventListener("app-scroll", onAppScroll);
   }, [lastScrollY, isMenuOpen, headerHeight, isModalOpen]);
 
 
 
 
   return (
-    <div style={{ height: `${headerHeight}px` }} className={"text-gray-50"}>
+    <div style={{ height: `${headerHeight}px` }} className={"text-gray-50 absolute"}>
       <header
           ref={headerRef}
           className={`fixed top-0 left-0 w-full px-4 md:px-8 py-3 md:py-5 flex justify-between items-center shadow-sm bg-gray/5 backdrop-blur-xl z-50 transition-transform `}
