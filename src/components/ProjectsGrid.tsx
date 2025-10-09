@@ -19,13 +19,13 @@ export default function ProjectsGrid({ projects }: ProjectsGridProps) {
       opacity: 1, 
       y: 0, 
       scale: 1, 
-      transition: { duration: 0.6, ease: "easeIn" as any } 
+      transition: { duration: 0.5, ease: "easeIn" as any } 
     },
     exit: { 
       opacity: 0, 
       y: -20, 
       scale: 0.98, 
-      transition: { duration: 0.28, ease: "easeInOut" as any } 
+      transition: { duration: 0.5, ease: "easeInOut" as any } 
     },
   };
 
@@ -43,6 +43,7 @@ export default function ProjectsGrid({ projects }: ProjectsGridProps) {
             <motion.div
               key={project.id}
               variants={itemVariants}
+              layout
               initial="hidden"
               animate="visible"
               exit="exit"
