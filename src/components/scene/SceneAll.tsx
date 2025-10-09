@@ -9,7 +9,7 @@ import { SceneProps } from "./SceneTypes";
 
 const AnimatedStandardMaterial = animated("meshStandardMaterial");
 
-const PARTICLE_COUNT = 2000;
+const PARTICLE_COUNT = 5000;
 const PARTICLE_RANGE = 50;
 const PARTICLE_SPEED_BASE = 0.5;
 const Z_RESET_OFFSET = 15;
@@ -51,7 +51,7 @@ export default function SceneAll({ opacity, transitionProgress, isVisible }: Sce
     // --- Pulso periódico central ---
     // oscila entre 0 (expandidas) y 1 (compactas)
     const pulse = (Math.sin((time / CYCLE_DURATION) * Math.PI * 2) + 1) / 2;
-    const attractStrength = THREE.MathUtils.lerp(0.0, 0.1, pulse); // fuerza de atracción
+    const attractStrength = THREE.MathUtils.lerp(0.0, 0.2, pulse); // fuerza de atracción
     const speed = THREE.MathUtils.lerp(0.2, PARTICLE_SPEED_BASE * 1.5, t);
     const hueBase = (time * 10) % 360;
     const baseBrightness = THREE.MathUtils.lerp(0.5, 1.0, t);
