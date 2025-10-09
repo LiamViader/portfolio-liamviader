@@ -22,17 +22,35 @@ export default function ProjectSceneContent({ category }: ProjectSceneContentPro
 	const { scene, camera } = useThree();
 	const scrollY = useRef(0);
 
-	useEffect(() => {
-		const handleScroll = () => {
-			const scrollTop = window.scrollY;
-			const maxScroll = document.body.scrollHeight - window.innerHeight;
-			scrollY.current = scrollTop / maxScroll;
-		};
+useEffect(() => {
+  const handleAppScroll = (e: Event) => {
+    const detail = (e as CustomEvent).detail as
+      | { scrollTop: number; scrollHeight: number; clientHeight: number }
+      | undefined;
 
-		handleScroll();
-		window.addEventListener("scroll", handleScroll);
-		return () => window.removeEventListener("scroll", handleScroll);
-	}, []);
+    if (!detail) return;
+
+    const { scrollTop, scrollHeight, clientHeight } = detail;
+    const maxScroll = Math.max(1, scrollHeight - clientHeight);
+    scrollY.current = scrollTop / maxScroll;
+  };
+
+  window.addEventListener("app-scroll", handleAppScroll as EventListener);
+
+  window.dispatchEvent(
+    new CustomEvent("app-scroll", {
+      detail: {
+        scrollTop: 0,
+        scrollHeight: document.documentElement.scrollHeight,
+        clientHeight: window.innerHeight,
+      },
+    })
+  );
+
+  return () => {
+    window.removeEventListener("app-scroll", handleAppScroll as EventListener);
+  };
+}, []);
 
 	const getOpacity = (targetCategorySlug: ClientCategorySlug) =>
 	progress.to((p) => {

@@ -37,6 +37,10 @@ export default function Header() {
     }
   };
 
+  useEffect(() => {
+    document.documentElement.style.setProperty("--header-h", `${headerHeight}px`);
+  }, [headerHeight]);
+
   useLayoutEffect(() => {
     calculateAndSetHeight();
     window.addEventListener('resize', calculateAndSetHeight);
@@ -57,15 +61,13 @@ export default function Header() {
       return; 
     }
 
-        const onAppScroll = (e: Event) => {
+    const onAppScroll = (e: Event) => {
 
       const detail = (e as CustomEvent).detail as
         | { scrollTop: number; scrollHeight?: number; clientHeight?: number }
         | undefined;
       const currentScrollY = detail?.scrollTop ?? 0;
-      console.log(detail?.scrollTop);
       const deltaY = currentScrollY - lastScrollY;
-      const PIXEL_PER_MS = 20; // Ajusta este valor para cambiar la sensibilidad del desplazamiento
 
 
       if (headerHeight !==0){

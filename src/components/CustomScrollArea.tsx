@@ -62,6 +62,7 @@ export default function CustomScrollArea({
     if (!el) return;
 
     const { scrollTop, scrollHeight, clientHeight } = el;
+
     const needs = scrollHeight > clientHeight + 1;
     setIsNeeded(needs);
 
@@ -69,23 +70,27 @@ export default function CustomScrollArea({
       setThumbSize(0);
       setThumbOffset(0);
     } else {
-      const ratio = clientHeight / scrollHeight;
-      const size = Math.max(minThumbSize, Math.round(clientHeight * ratio));
-      const maxThumbOffset = Math.max(0, clientHeight - size);
+      const trackH =
+        trackRef.current?.getBoundingClientRect().height ??
+        clientHeight;
+
+      const sizeRaw = trackH * (clientHeight / Math.max(1, scrollHeight));
+      const size = Math.max(minThumbSize, Math.round(sizeRaw));
+
+      const maxThumbOffset = Math.max(0, trackH - size);
       const maxScrollTop = Math.max(1, scrollHeight - clientHeight);
       const offset = Math.round((scrollTop / maxScrollTop) * maxThumbOffset);
+
       setThumbSize(size);
       setThumbOffset(offset);
     }
 
-    // ➜ EMITIR evento para que el Header reaccione al scroll del contenedor
     window.dispatchEvent(
       new CustomEvent("app-scroll", {
         detail: { scrollTop, scrollHeight, clientHeight },
       })
     );
 
-    // Callback opcional del consumidor
     onScroll?.({ scrollTop, scrollHeight, clientHeight });
   }, [minThumbSize, onScroll]);
 
@@ -100,13 +105,16 @@ export default function CustomScrollArea({
 
     el.addEventListener("scroll", onScrollHandler, { passive: true });
 
-    const ro = new ResizeObserver(() => updateMetrics());
-    ro.observe(el);
-    if (el.firstElementChild) ro.observe(el.firstElementChild);
+    const roViewport = new ResizeObserver(() => updateMetrics());
+    roViewport.observe(el);
+    if (el.firstElementChild) roViewport.observe(el.firstElementChild);
+
+    const trackEl = trackRef.current;
+    const roTrack = new ResizeObserver(() => updateMetrics());
+    if (trackEl) roTrack.observe(trackEl);
 
     window.addEventListener("resize", updateMetrics);
 
-    // ➜ DISPARO INICIAL (sin esperar al primer scroll)
     window.dispatchEvent(
       new CustomEvent("app-scroll", {
         detail: { scrollTop: el.scrollTop, scrollHeight: el.scrollHeight, clientHeight: el.clientHeight },
@@ -116,7 +124,8 @@ export default function CustomScrollArea({
 
     return () => {
       el.removeEventListener("scroll", onScrollHandler);
-      ro.disconnect();
+      roViewport.disconnect();
+      roTrack.disconnect();
       window.removeEventListener("resize", updateMetrics);
     };
   }, [updateMetrics, showTemporarily]);
@@ -132,24 +141,28 @@ export default function CustomScrollArea({
     return () => clearHideTimer();
   }, [isDragging, isHovering, isNeeded, autoHide, showTemporarily]);
 
-  // Drag con mouse/touch
   const startDrag = (startClientY: number, startScrollTop: number) => {
     setIsDragging(true);
+
     const onMove = (clientY: number) => {
       if (!viewportRef.current || !trackRef.current) return;
       const deltaY = clientY - startClientY;
+
       const { clientHeight, scrollHeight } = viewportRef.current;
       const trackRect = trackRef.current.getBoundingClientRect();
       const moveArea = Math.max(1, trackRect.height - thumbSize);
       const maxScrollTop = Math.max(1, scrollHeight - clientHeight);
+
       const scrollDelta = (deltaY / moveArea) * maxScrollTop;
       viewportRef.current.scrollTop = Math.min(
         maxScrollTop,
         Math.max(0, startScrollTop + scrollDelta)
       );
     };
+
     const onMouseMove = (ev: MouseEvent) => onMove(ev.clientY);
     const onTouchMove = (ev: TouchEvent) => onMove(ev.touches[0].clientY);
+
     const end = () => {
       setIsDragging(false);
       document.removeEventListener("mousemove", onMouseMove);
@@ -158,6 +171,7 @@ export default function CustomScrollArea({
       document.removeEventListener("touchend", end);
       document.removeEventListener("touchcancel", end);
     };
+
     document.addEventListener("mousemove", onMouseMove);
     document.addEventListener("mouseup", end);
     document.addEventListener("touchmove", onTouchMove, { passive: false });
@@ -178,29 +192,40 @@ export default function CustomScrollArea({
   const onTrackMouseDown = (e: React.MouseEvent) => {
     if ((e.target as HTMLElement).dataset.role === "thumb") return;
     if (!viewportRef.current || !trackRef.current) return;
+
     const trackRect = trackRef.current.getBoundingClientRect();
     const clickY = e.clientY - trackRect.top;
     const targetThumbTop = Math.max(
       0,
       Math.min(clickY - thumbSize / 2, trackRect.height - thumbSize)
     );
+
     const el = viewportRef.current;
     const { clientHeight, scrollHeight } = el;
     const maxScrollTop = Math.max(1, scrollHeight - clientHeight);
     const moveArea = Math.max(1, trackRect.height - thumbSize);
+
     el.scrollTop = (targetThumbTop / moveArea) * maxScrollTop;
   };
 
-  // Base classes
   const baseWrapper = "relative block";
   const baseViewport = "absolute inset-0 overflow-auto no-scrollbar outline-none";
-  const baseTrack = "absolute top-0 bottom-0 rounded-full transition-opacity duration-200 z-40"; // z-40 < header z-50
+  const baseTrack = "absolute top-0 bottom-0 rounded-full transition-opacity duration-200 z-40";
   const baseThumb = "absolute left-0 right-0 rounded-full cursor-grab active:cursor-grabbing";
 
   const trackVisible = isNeeded && (isVisible || isDragging || isHovering);
 
-  // Altura del wrapper
+  const extraTop = 16;
+  const extraBottom = 24;
+
   const wrapperStyle: React.CSSProperties = fillViewport ? { height: "100dvh" } : {};
+
+  const baseTrackStyle: React.CSSProperties = fillViewport
+    ? {
+        top: `calc(var(--header-h, 0px) + ${extraTop}px)`,
+        bottom: `${extraBottom}px`,
+      }
+    : {};
 
   return (
     <div
@@ -230,7 +255,7 @@ export default function CustomScrollArea({
           "bg-white/10 hover:bg-white/15 backdrop-blur-sm",
           trackClassName ?? "",
         ].join(" ")}
-        style={{ right: `${gap}px`, width: `${thickness}px` }}
+        style={{ ...baseTrackStyle, right: `${gap}px`, width: `${thickness}px` }}
       >
         <div
           role="scrollbar"
