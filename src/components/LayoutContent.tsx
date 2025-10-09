@@ -24,9 +24,8 @@ export default function LayoutContent({ children }: LayoutContentProps) {
           >
             {children}
           </main>
-
-          <footer className="p-4 text-center text-sm text-gray-500 border-t border-gray-800">
-            © {new Date().getFullYear()} Liam Viader
+          <footer className="z-20 p-4 text-center text-sm text-gray-400 border-t border-white/20 bg-gray/100 backdrop-blur-xl">
+            {new Date().getFullYear()} Liam Viader
           </footer>
         </CustomScrollArea>
       </ModalProvider>

@@ -71,6 +71,7 @@ export default function Header() {
 
 
       if (headerHeight !==0){
+        if (deltaY == 0) return;
         if (deltaY > 0) { // Scrolling down
           if (currentScrollY > headerHeight) {
             setYOffset(-maxOffset);

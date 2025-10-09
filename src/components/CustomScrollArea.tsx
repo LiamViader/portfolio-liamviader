@@ -33,6 +33,7 @@ export default function CustomScrollArea({
 }: ScrollAreaProps) {
   const wrapperRef = React.useRef<HTMLDivElement | null>(null);
   const viewportRef = React.useRef<HTMLDivElement | null>(null);
+  const contentRef = React.useRef<HTMLDivElement | null>(null);
   const trackRef = React.useRef<HTMLDivElement | null>(null);
 
   const [isNeeded, setIsNeeded] = React.useState(false);
@@ -62,7 +63,6 @@ export default function CustomScrollArea({
     if (!el) return;
 
     const { scrollTop, scrollHeight, clientHeight } = el;
-
     const needs = scrollHeight > clientHeight + 1;
     setIsNeeded(needs);
 
@@ -70,27 +70,17 @@ export default function CustomScrollArea({
       setThumbSize(0);
       setThumbOffset(0);
     } else {
-      const trackH =
-        trackRef.current?.getBoundingClientRect().height ??
-        clientHeight;
-
+      const trackH = trackRef.current?.getBoundingClientRect().height ?? clientHeight;
       const sizeRaw = trackH * (clientHeight / Math.max(1, scrollHeight));
       const size = Math.max(minThumbSize, Math.round(sizeRaw));
-
       const maxThumbOffset = Math.max(0, trackH - size);
       const maxScrollTop = Math.max(1, scrollHeight - clientHeight);
       const offset = Math.round((scrollTop / maxScrollTop) * maxThumbOffset);
-
       setThumbSize(size);
       setThumbOffset(offset);
     }
 
-    window.dispatchEvent(
-      new CustomEvent("app-scroll", {
-        detail: { scrollTop, scrollHeight, clientHeight },
-      })
-    );
-
+    window.dispatchEvent(new CustomEvent("app-scroll", { detail: { scrollTop, scrollHeight, clientHeight } }));
     onScroll?.({ scrollTop, scrollHeight, clientHeight });
   }, [minThumbSize, onScroll]);
 
@@ -102,12 +92,16 @@ export default function CustomScrollArea({
       updateMetrics();
       showTemporarily();
     };
-
     el.addEventListener("scroll", onScrollHandler, { passive: true });
 
     const roViewport = new ResizeObserver(() => updateMetrics());
     roViewport.observe(el);
-    if (el.firstElementChild) roViewport.observe(el.firstElementChild);
+
+    const roContent = new ResizeObserver(() => updateMetrics());
+    if (contentRef.current) roContent.observe(contentRef.current);
+
+    const mo = new MutationObserver(() => updateMetrics());
+    mo.observe(el, { childList: true, subtree: true });
 
     const trackEl = trackRef.current;
     const roTrack = new ResizeObserver(() => updateMetrics());
@@ -115,16 +109,16 @@ export default function CustomScrollArea({
 
     window.addEventListener("resize", updateMetrics);
 
-    window.dispatchEvent(
-      new CustomEvent("app-scroll", {
-        detail: { scrollTop: el.scrollTop, scrollHeight: el.scrollHeight, clientHeight: el.clientHeight },
-      })
-    );
+    window.dispatchEvent(new CustomEvent("app-scroll", {
+      detail: { scrollTop: el.scrollTop, scrollHeight: el.scrollHeight, clientHeight: el.clientHeight },
+    }));
     updateMetrics();
 
     return () => {
       el.removeEventListener("scroll", onScrollHandler);
       roViewport.disconnect();
+      roContent.disconnect();
+      mo.disconnect();
       roTrack.disconnect();
       window.removeEventListener("resize", updateMetrics);
     };
@@ -143,26 +137,18 @@ export default function CustomScrollArea({
 
   const startDrag = (startClientY: number, startScrollTop: number) => {
     setIsDragging(true);
-
     const onMove = (clientY: number) => {
       if (!viewportRef.current || !trackRef.current) return;
       const deltaY = clientY - startClientY;
-
       const { clientHeight, scrollHeight } = viewportRef.current;
       const trackRect = trackRef.current.getBoundingClientRect();
       const moveArea = Math.max(1, trackRect.height - thumbSize);
       const maxScrollTop = Math.max(1, scrollHeight - clientHeight);
-
       const scrollDelta = (deltaY / moveArea) * maxScrollTop;
-      viewportRef.current.scrollTop = Math.min(
-        maxScrollTop,
-        Math.max(0, startScrollTop + scrollDelta)
-      );
+      viewportRef.current.scrollTop = Math.min(maxScrollTop, Math.max(0, startScrollTop + scrollDelta));
     };
-
     const onMouseMove = (ev: MouseEvent) => onMove(ev.clientY);
     const onTouchMove = (ev: TouchEvent) => onMove(ev.touches[0].clientY);
-
     const end = () => {
       setIsDragging(false);
       document.removeEventListener("mousemove", onMouseMove);
@@ -171,7 +157,6 @@ export default function CustomScrollArea({
       document.removeEventListener("touchend", end);
       document.removeEventListener("touchcancel", end);
     };
-
     document.addEventListener("mousemove", onMouseMove);
     document.addEventListener("mouseup", end);
     document.addEventListener("touchmove", onTouchMove, { passive: false });
@@ -192,19 +177,13 @@ export default function CustomScrollArea({
   const onTrackMouseDown = (e: React.MouseEvent) => {
     if ((e.target as HTMLElement).dataset.role === "thumb") return;
     if (!viewportRef.current || !trackRef.current) return;
-
     const trackRect = trackRef.current.getBoundingClientRect();
     const clickY = e.clientY - trackRect.top;
-    const targetThumbTop = Math.max(
-      0,
-      Math.min(clickY - thumbSize / 2, trackRect.height - thumbSize)
-    );
-
+    const targetThumbTop = Math.max(0, Math.min(clickY - thumbSize / 2, trackRect.height - thumbSize));
     const el = viewportRef.current;
     const { clientHeight, scrollHeight } = el;
     const maxScrollTop = Math.max(1, scrollHeight - clientHeight);
     const moveArea = Math.max(1, trackRect.height - thumbSize);
-
     el.scrollTop = (targetThumbTop / moveArea) * maxScrollTop;
   };
 
@@ -219,12 +198,8 @@ export default function CustomScrollArea({
   const extraBottom = 24;
 
   const wrapperStyle: React.CSSProperties = fillViewport ? { height: "100dvh" } : {};
-
   const baseTrackStyle: React.CSSProperties = fillViewport
-    ? {
-        top: `calc(var(--header-h, 0px) + ${extraTop}px)`,
-        bottom: `${extraBottom}px`,
-      }
+    ? { top: `calc(var(--header-h, 0px) + ${extraTop}px)`, bottom: `${extraBottom}px` }
     : {};
 
   return (
@@ -242,7 +217,10 @@ export default function CustomScrollArea({
         role="region"
         aria-label={ariaLabel}
       >
-        <div>{children}</div>
+        {/* 👇 Envoltorio de contenido para que main + footer estén en el mismo flujo */}
+        <div ref={contentRef} className="min-h-full flex flex-col">
+          {children}
+        </div>
       </div>
 
       <div

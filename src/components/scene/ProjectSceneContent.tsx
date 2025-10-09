@@ -20,37 +20,22 @@ interface ProjectSceneContentProps {
 export default function ProjectSceneContent({ category }: ProjectSceneContentProps) {
 	const { progress, previousCategory, currentCategory } = useSceneTransition(category);
 	const { scene, camera } = useThree();
-	const scrollY = useRef(0);
+	const scrollTopRef = useRef(0);
+  const smoothScrollRef = useRef(0);
 
-useEffect(() => {
-  const handleAppScroll = (e: Event) => {
-    const detail = (e as CustomEvent).detail as
-      | { scrollTop: number; scrollHeight: number; clientHeight: number }
-      | undefined;
+  const PX_TO_WORLD_Y = -0.0025; // sensibilidad vertical por píxel de scroll
+  const TARGET_Z = 5;
+  const DAMPING = 0.12; // suavizado
 
-    if (!detail) return;
-
-    const { scrollTop, scrollHeight, clientHeight } = detail;
-    const maxScroll = Math.max(1, scrollHeight - clientHeight);
-    scrollY.current = scrollTop / maxScroll;
-  };
-
-  window.addEventListener("app-scroll", handleAppScroll as EventListener);
-
-  window.dispatchEvent(
-    new CustomEvent("app-scroll", {
-      detail: {
-        scrollTop: 0,
-        scrollHeight: document.documentElement.scrollHeight,
-        clientHeight: window.innerHeight,
-      },
-    })
-  );
-
-  return () => {
-    window.removeEventListener("app-scroll", handleAppScroll as EventListener);
-  };
-}, []);
+  useEffect(() => {
+    const handleAppScroll = (e: Event) => {
+      const detail = (e as CustomEvent).detail as { scrollTop: number } | undefined;
+      if (!detail) return;
+      scrollTopRef.current = detail.scrollTop;
+    };
+    window.addEventListener("app-scroll", handleAppScroll as EventListener);
+    return () => window.removeEventListener("app-scroll", handleAppScroll as EventListener);
+  }, []);
 
 	const getOpacity = (targetCategorySlug: ClientCategorySlug) =>
 	progress.to((p) => {
@@ -80,11 +65,10 @@ useEffect(() => {
 		const fromColor = CATEGORY_COLORS[fromIndex];
 		const toColor = CATEGORY_COLORS[toIndex];
 
-		const scrollFactor = scrollY.current;
+		smoothScrollRef.current += (scrollTopRef.current - smoothScrollRef.current) * DAMPING;
 
-		const targetZ = 5; // de 5 → 10
-		const targetY = scrollFactor * -5; // de 0 → -5
-		camera.position.lerp(new THREE.Vector3(0, targetY, targetZ), 0.9);
+    const targetY = smoothScrollRef.current * PX_TO_WORLD_Y;
+    camera.position.lerp(new THREE.Vector3(0, targetY, TARGET_Z), 0.9);
 
 		if (!scene.background || !(scene.background instanceof THREE.Color)) {
 			scene.background = new THREE.Color();
