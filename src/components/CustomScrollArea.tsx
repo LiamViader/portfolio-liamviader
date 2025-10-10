@@ -88,7 +88,7 @@ export default function CustomScrollArea({
 
     if (fillViewport) {
       window.dispatchEvent(
-        new CustomEvent("app-scroll", { detail: { scrollTop, scrollHeight, clientHeight } })
+        new CustomEvent("app-scroll", { detail: { source: "full", scrollTop, scrollHeight, clientHeight } })
       );
     }
     onScroll?.({ scrollTop, scrollHeight, clientHeight });
@@ -121,7 +121,7 @@ export default function CustomScrollArea({
     
     if (fillViewport) {
       window.dispatchEvent(new CustomEvent("app-scroll", {
-        detail: { scrollTop: el.scrollTop, scrollHeight: el.scrollHeight, clientHeight: el.clientHeight },
+        detail: {source: "full", scrollTop: el.scrollTop, scrollHeight: el.scrollHeight, clientHeight: el.clientHeight },
       }));
     }
 

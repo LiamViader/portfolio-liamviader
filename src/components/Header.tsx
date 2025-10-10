@@ -63,9 +63,8 @@ export default function Header() {
 
     const onAppScroll = (e: Event) => {
 
-      const detail = (e as CustomEvent).detail as
-        | { scrollTop: number; scrollHeight?: number; clientHeight?: number }
-        | undefined;
+      const detail = (e as CustomEvent).detail as { source?: "full" | "local"; scrollTop: number; clientHeight?: number; scrollHeight?: number };
+      if (detail?.source !== "full") return;
       const currentScrollY = detail?.scrollTop ?? 0;
       const deltaY = currentScrollY - lastScrollY;
 
