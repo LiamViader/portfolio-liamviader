@@ -1,4 +1,4 @@
-// ProjectModalPortal.tsx
+// ProjectModalPortal.tsx 
 "use client";
 
 import React, { useEffect, useState, useRef } from "react";
@@ -45,10 +45,11 @@ export function ProjectModalPortal({
   const [closing, setClosing] = useState(false);
   const [passThrough, setPassThrough] = useState(false);
 
-  const r = (n: number) => Math.round(n);
+  // helpers
   const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
   const ease = (t: number) => 1 - Math.pow(1 - t, 3); // easeOutCubic
 
+  // Apertura (igual que tenías)
   useEffect(() => {
     const modalWidth = Math.min(window.innerWidth - 48, 960);
     const modalHeight = Math.min(window.innerHeight - 160, 800);
@@ -56,62 +57,88 @@ export function ProjectModalPortal({
     const targetTop = Math.max(48, (window.innerHeight - modalHeight) / 6);
 
     controls.set({
-      left: r(originRect.left),
-      top: r(originRect.top),
-      width: r(originRect.width),
-      height: r(originRect.height),
+      left: Math.round(originRect.left),
+      top: Math.round(originRect.top),
+      width: Math.round(originRect.width),
+      height: Math.round(originRect.height),
       opacity: 1,
       borderRadius: 16,
+      x: 0,
+      y: 0,
+      scaleX: 1,
+      scaleY: 1,
     });
 
     controls.start({
-      left: r(targetLeft),
-      top: r(targetTop),
-      width: r(modalWidth),
-      height: r(modalHeight),
+      left: Math.round(targetLeft),
+      top: Math.round(targetTop),
+      width: Math.round(modalWidth),
+      height: Math.round(modalHeight),
       opacity: 1,
       borderRadius: 16,
+      x: 0,
+      y: 0,
+      scaleX: 1,
+      scaleY: 1,
       transition: { duration: 0.45, ease: [0.4, 0, 0.2, 1] },
     });
   }, [controls, originRect]);
 
+  // Cierre FLIP por transform (x/y/scale) + seguimiento en fade
   const handleClose = async () => {
     if (closing) return;
     setClosing(true);
-    setPassThrough(true); // deja pasar el scroll al fondo durante el cierre
+    setPassThrough(true); // deja pasar scroll al fondo durante el cierre
 
-    // 1) Encogido con seguimiento continuo (FLIP con rAF)
-    const duration = 450; // ms
-    const startTime = performance.now();
-
-    const current = (controls as any).get?.() ?? {};
-    const startRect =
+    // Rect base: el del contenedor expandido en este instante
+    const baseRect =
       containerRef.current?.getBoundingClientRect() ??
       new DOMRect(
-        current.left ?? originRect.left,
-        current.top ?? originRect.top,
-        current.width ?? originRect.width,
-        current.height ?? originRect.height
+        (controls as any).get()?.left ?? originRect.left,
+        (controls as any).get()?.top ?? originRect.top,
+        (controls as any).get()?.width ?? originRect.width,
+        (controls as any).get()?.height ?? originRect.height
       );
 
-    const r = (n: number) => Math.round(n);
-    const lerp = (a: number, b: number, t: number) => a + (b - a) * t;
-    const ease = (t: number) => 1 - Math.pow(1 - t, 3); // easeOutCubic
+    // Asegura que el contenedor queda "fijo" por layout y todo lo demás via transform
+    await controls.stop(); // paramos cualquier animación residual
+    await controls.set({
+      left: Math.round(baseRect.left),
+      top: Math.round(baseRect.top),
+      width: Math.round(baseRect.width),
+      height: Math.round(baseRect.height),
+      opacity: 1,
+      borderRadius: 16,
+      x: 0,
+      y: 0,
+      scaleX: 1,
+      scaleY: 1,
+    });
+
+    // Animación de encogido con seguimiento continuo (solo transform)
+    const duration = 300;
+    const startTime = performance.now();
 
     await new Promise<void>((resolve) => {
       const tick = (now: number) => {
         const t = Math.min(1, (now - startTime) / duration);
         const k = ease(t);
 
-        const liveTarget = originEl ? measureStableRect(originEl) : originRect;
+        const live = originEl ? measureStableRect(originEl) : originRect;
 
+        // Delta entre base y target
+        const tx = live.left - baseRect.left;
+        const ty = live.top - baseRect.top;
+        const sx = live.width / baseRect.width;
+        const sy = live.height / baseRect.height;
+
+        // Interpolamos de identidad → delta
         controls.set({
-          left: r(lerp(startRect.left,   liveTarget.left,   k)),
-          top:  r(lerp(startRect.top,    liveTarget.top,    k)),
-          width:  r(lerp(startRect.width,  liveTarget.width,  k)),
-          height: r(lerp(startRect.height, liveTarget.height, k)),
-          opacity: 1, // mantener opaco durante el shrink
-          borderRadius: 16,
+          x: tx * k,
+          y: ty * k,
+          scaleX: 1 + (sx - 1) * k,
+          scaleY: 1 + (sy - 1) * k,
+          opacity: 1, // no desvanecer aún
         });
 
         if (t < 1) requestAnimationFrame(tick);
@@ -120,42 +147,38 @@ export function ProjectModalPortal({
       requestAnimationFrame(tick);
     });
 
-    // 2) La card reaparece ya encajados
+    // Ya encajó visualmente: reaparece la card y hacemos el fade final
     onRevealOrigin?.();
 
-    // 3) Fade final PERO siguiendo la card mientras dura el fade
+    // Seguimiento durante el fade (por si hay scroll mientras desaparece)
     let follow = true;
-    const followTick = () => {
+    const followLoop = () => {
       if (!follow) return;
-      const liveTarget = originEl ? measureStableRect(originEl) : originRect;
-      controls.set({
-        left: r(liveTarget.left),
-        top: r(liveTarget.top),
-        width: r(liveTarget.width),
-        height: r(liveTarget.height),
-        borderRadius: 16,
-        // no tocamos opacity aquí: la anima framer
-      });
-      requestAnimationFrame(followTick);
+      const live = originEl ? measureStableRect(originEl) : originRect;
+      const tx = live.left - baseRect.left;
+      const ty = live.top - baseRect.top;
+      const sx = live.width / baseRect.width;
+      const sy = live.height / baseRect.height;
+      controls.set({ x: tx, y: ty, scaleX: sx, scaleY: sy });
+      requestAnimationFrame(followLoop);
     };
-    requestAnimationFrame(followTick);
+    requestAnimationFrame(followLoop);
 
     await controls.start({
       opacity: 0,
-      transition: { duration: 0.12, ease: "easeOut" },
+      transition: { duration: 0.12, ease: "easeIn" },
     });
 
-    follow = false; // cortar el seguimiento
+    follow = false;
     onClose();
   };
 
   const portal = (
     <AnimatePresence>
-      {/* Backdrop (passThrough permite scroll del fondo) */}
+      {/* Backdrop */}
       <motion.div
-        className={`fixed inset-0 z-[990] bg-black/60 backdrop-blur-md ${
-          passThrough ? "pointer-events-none" : ""
-        }`}
+        key="backdrop"
+        className={`fixed inset-0 z-[990] bg-black/60 backdrop-blur-md ${passThrough ? "pointer-events-none" : ""}`}
         initial={{ opacity: 0 }}
         animate={{ opacity: closing ? 0 : 1 }}
         transition={{ duration: closing ? 0.3 : 0.25, ease: "easeOut", delay: closing ? 0.1 : 0 }}
@@ -177,8 +200,9 @@ export function ProjectModalPortal({
         </div>
       </motion.div>
 
-      {/* Contenedor del modal (pos: fixed, sin transforms; movemos con left/top/width/height) */}
+      {/* Contenedor del modal (layout por left/top/size, animación de cierre por transform) */}
       <motion.div
+        key={`modal-${project.id}`}
         ref={containerRef}
         animate={controls}
         initial={false}
@@ -189,10 +213,12 @@ export function ProjectModalPortal({
           borderRadius: 16,
           boxSizing: "border-box",
           overflow: "hidden",
+          transformOrigin: "top left",
+          willChange: "transform, opacity",
+          // fuerza capa de composición para suavizar (evita “huevo” por subpíxeles)
+          transform: "translateZ(0)",
         }}
-        className={`bg-gray-900 rounded-2xl border border-white/10 ${
-          passThrough ? "pointer-events-none" : ""
-        }`}
+        className={`bg-gray-900 rounded-2xl border border-white/10 ${passThrough ? "pointer-events-none" : ""}`}
         onClick={(e) => e.stopPropagation()}
       >
         <motion.div
@@ -228,7 +254,7 @@ export function ProjectModalPortal({
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   {project.detailed_media.map((url, idx) => (
                     <motion.img
-                      key={idx}
+                      key={url ?? idx}
                       src={url}
                       alt={`Detalle ${idx + 1}`}
                       className="w-full rounded-lg shadow-xl"
