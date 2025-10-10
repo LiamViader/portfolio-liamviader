@@ -5,16 +5,16 @@ import React from "react";
 import { motion, useAnimationFrame, useMotionValue, MotionStyle } from "framer-motion";
 
 type BlobProps = {
-  color: string;         // color RGBA del núcleo del radial
-  sizeVW: number;        // tamaño del blob en vw
-  phase: number;         // desfase de fase (radianes) para que sigan la misma ruta desfasados
-  speed: number;         // vueltas por segundo aproximadas (velocidad angular)
-  centerX: number;       // % horizontal del centro de la elipse (0–100)
-  centerY: number;       // % vertical del centro de la elipse (0–100)
-  ampX: number;          // amplitud horizontal en %
-  ampY: number;          // amplitud vertical en %
-  opacity?: number;      // opacidad del blob (0–1)
-  blurPx?: number;       // blur en px
+  color: string;         // color rgb
+  sizeVW: number;        // size in vw
+  phase: number;         // phase in randians
+  speed: number;         // laps/s
+  centerX: number;       // %
+  centerY: number;       // %
+  ampX: number;          // amplitude x in %
+  ampY: number;          // amplitude y in %
+  opacity?: number;
+  blurPx?: number;       // blur in px
 };
 
 function Blob({
@@ -42,7 +42,7 @@ function Blob({
   });
 
   const style: MotionStyle = {
-    // ✅ CSS vars como MotionValue (OK en MotionStyle)
+
     ["--px" as any]: px,
     ["--py" as any]: py,
 
@@ -50,7 +50,7 @@ function Blob({
     width: `${sizeVW}vw`,
     height: `${sizeVW}vw`,
 
-    // ✅ centrado sin usar transform; evitamos chocar con `scale`
+
     left: `calc(var(--px) * 1% - ${sizeVW / 2}vw)`,
     top:  `calc(var(--py) * 1% - ${sizeVW / 2}vw)`,
 
@@ -61,7 +61,7 @@ function Blob({
     willChange: "transform",
     pointerEvents: "none",
 
-    // ✅ MotionValue permitido en MotionStyle
+
     scale,
   };
 
@@ -69,18 +69,16 @@ function Blob({
 }
 
 export default function BlobsBackground() {
-  // ⚙️ Ajustes “globales” de la ruta (todos siguen la misma, con desfase)
-  const speed = 0.04;        // vueltas/seg (0.02 ≈ una vuelta cada ~50s)
-  const centerX = 50;        // centro de la elipse en %
+  const speed = 0.04;        // laps/s
+  const centerX = 50;        // in %
   const centerY = 50;
-  const ampX = 40;           // amplitud en % (más grande = ocupa más pantalla)
+  const ampX = 40;           // in %
   const ampY = 33;
 
   return (
     <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
-      {/* Tres blobs con el mismo camino, desfasados 120° */}
       <Blob
-        color="rgba(99, 118, 241, 0.9)" // indigo-500
+        color="rgba(99, 118, 241, 0.9)"
         sizeVW={55}
         phase={0}
         speed={speed}
@@ -92,7 +90,7 @@ export default function BlobsBackground() {
         blurPx={60}
       />
       <Blob
-        color="rgba(184, 92, 246, 0.9)" // violet-500
+        color="rgba(184, 92, 246, 0.9)"
         sizeVW={48}
         phase={(1.5 * Math.PI) / 3}
         speed={speed}
@@ -104,7 +102,7 @@ export default function BlobsBackground() {
         blurPx={60}
       />
       <Blob
-        color="rgba(81, 70, 229, 0.9)" // indigo-600
+        color="rgba(81, 70, 229, 0.9)"
         sizeVW={62}
         phase={(2 * Math.PI) / 3}
         speed={speed}
