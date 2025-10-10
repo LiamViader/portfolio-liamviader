@@ -7,6 +7,7 @@ import { motion, AnimatePresence, useAnimation, Variants } from "framer-motion";
 import { TranslatedProject } from "@/data/projects";
 import CustomScrollArea from "./CustomScrollArea";
 import { measureStableRect } from "@/utils/measureStableRect";
+import BlobsBackground from "./BlobsBackground";
 
 interface ModalPortalProps {
   project: TranslatedProject;
@@ -184,19 +185,8 @@ export function ProjectModalPortal({
         transition={{ duration: closing ? 0.3 : 0.25, ease: "easeOut", delay: closing ? 0.1 : 0 }}
         onClick={handleClose}
       >
-        <div className="absolute inset-0 z-0 overflow-hidden">
-          <motion.div
-            className="absolute inset-0 blur-3xl opacity-60"
-            animate={{
-              background: [
-                "radial-gradient(circle at 20% 30%, #6366F1 0%, transparent 60%)",
-                "radial-gradient(circle at 80% 70%, #8B5CF6 0%, transparent 60%)",
-                "radial-gradient(circle at 50% 50%, #6366F1 0%, transparent 60%)",
-              ],
-              rotate: [0, 360],
-            }}
-            transition={{ duration: 20, repeat: Infinity, ease: "linear" }}
-          />
+        <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
+         <BlobsBackground/>
         </div>
       </motion.div>
 
