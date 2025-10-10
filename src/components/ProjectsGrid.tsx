@@ -35,6 +35,7 @@ export default function ProjectsGrid({ projects }: ProjectsGridProps) {
   };
 
   const handleSelect = (project: TranslatedProject, rect: DOMRect, el: HTMLElement) => {
+    if (selected) return;
     setRevealOrigin(false);
     setSelected({ project, rect, el });
   };
