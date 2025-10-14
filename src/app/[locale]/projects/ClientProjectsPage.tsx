@@ -8,6 +8,7 @@ import { ProjectSceneCanvas } from "@/components/ProjectSceneCanvas";
 import { CATEGORY_CONFIG, ClientCategorySlug } from "@/config/projectCategories";
 import type { TranslatedProject } from "@/data/projects";
 import { FeaturedProjects, ProjectGallery } from "@/components/projects";
+import { ScrollReveal } from "@/components/ScrollReveal";
 
 interface ClientProjectsPageProps {
   projectsData: TranslatedProject[];
@@ -48,20 +49,28 @@ export default function ClientProjectsPage({ projectsData }: ClientProjectsPageP
       <ProjectSceneCanvas category={category} />
 
       <div className="relative z-10 mt-[10vh] md:mt-[20vh]">
-        <header className="text-center mb-[2vh] md:mb-[5vh] px-4 max-w-xl md:max-w-6xl mx-auto py-24">
-          <h1
-            className={`text-5xl md:text-7xl font-extrabold mb-10 tracking-tighter drop-shadow-lg transition-colors duration-500 ${titleColorClass}`}
-          >
-            {t("title")}
-          </h1>
-          <p className="text-1xl md:text-2xl text-gray-300">{t("intro_paragraph")}</p>
-        </header>
+        <ScrollReveal>
+          <header className="text-center mb-[2vh] md:mb-[5vh] px-4 max-w-xl md:max-w-6xl mx-auto py-24">
+            <h1
+              className={`text-5xl md:text-7xl font-extrabold mb-10 tracking-tighter drop-shadow-lg transition-colors duration-500 ${titleColorClass}`}
+            >
+              {t("title")}
+            </h1>
+            <p className="text-1xl md:text-2xl text-gray-300">{t("intro_paragraph")}</p>
+          </header>
+        </ScrollReveal>
 
-        <FeaturedProjects projects={projectsData} />
+        <ScrollReveal delay={0.1} className="w-full">
+          <FeaturedProjects projects={projectsData} />
+        </ScrollReveal>
 
-        <ProjectGallery category={category} filteredProjects={filteredProjects} onCategoryChange={setCategory} />
+        <ScrollReveal delay={0.2} className="w-full">
+          <ProjectGallery category={category} filteredProjects={filteredProjects} onCategoryChange={setCategory} />
+        </ScrollReveal>
 
-        <CallToAction />
+        <ScrollReveal delay={0.3} className="w-full">
+          <CallToAction />
+        </ScrollReveal>
       </div>
     </div>
   );
