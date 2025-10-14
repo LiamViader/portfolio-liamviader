@@ -15,9 +15,9 @@ interface FeaturedProjectsProps {
   projects: TranslatedProject[];
 }
 
-type CardRegistry = Map<string, HTMLElement>;
+type CardRegistry = Map<number, HTMLElement>;
 
-type CardRefRegistrar = (projectId: string) => (node: HTMLElement | null) => void;
+type CardRefRegister = (projectId: number) => (node: HTMLElement | null) => void;
 
 export default function FeaturedProjects({ projects }: FeaturedProjectsProps) {
   const t = useTranslations("ProjectsPage");
@@ -30,8 +30,8 @@ export default function FeaturedProjects({ projects }: FeaturedProjectsProps) {
 
   const cardRefs = useRef<CardRegistry>(new Map());
 
-  const registerCardRef = useCallback<CardRefRegistrar>(
-    (projectId: string) =>
+  const registerCardRef = useCallback<CardRefRegister>(
+    (projectId: number) =>
       (node: HTMLElement | null) => {
         if (!node) {
           cardRefs.current.delete(projectId);

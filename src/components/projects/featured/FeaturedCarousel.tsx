@@ -17,8 +17,8 @@ interface FeaturedCarouselProps {
   projects: TranslatedProject[];
   badgeLabel: string;
   onSelectProject: (project: TranslatedProject) => void;
-  registerCardRef: (projectId: string) => (node: HTMLElement | null) => void;
-  selectedProjectId?: string;
+  registerCardRef: (projectId: number) => (node: HTMLElement | null) => void;
+  selectedProjectId?: number;
   revealOrigin: boolean;
 }
 
