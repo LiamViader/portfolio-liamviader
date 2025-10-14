@@ -49,7 +49,7 @@ export default function ClientProjectsPage({ projectsData }: ClientProjectsPageP
       <ProjectSceneCanvas category={category} />
 
       <div className="relative z-10 mt-[10vh] md:mt-[20vh]">
-        <ScrollReveal>
+        <ScrollReveal delay={0.7}>
           <header className="text-center mb-[2vh] md:mb-[5vh] px-4 max-w-xl md:max-w-6xl mx-auto py-24">
             <h1
               className={`text-5xl md:text-7xl font-extrabold mb-10 tracking-tighter drop-shadow-lg transition-colors duration-500 ${titleColorClass}`}
@@ -60,7 +60,7 @@ export default function ClientProjectsPage({ projectsData }: ClientProjectsPageP
           </header>
         </ScrollReveal>
 
-        <ScrollReveal delay={0.1} className="w-full">
+        <ScrollReveal delay={0.9} className="w-full">
           <FeaturedProjects projects={projectsData} />
         </ScrollReveal>
 
@@ -68,7 +68,7 @@ export default function ClientProjectsPage({ projectsData }: ClientProjectsPageP
           <ProjectGallery category={category} filteredProjects={filteredProjects} onCategoryChange={setCategory} />
         </ScrollReveal>
 
-        <ScrollReveal delay={0.3} className="w-full">
+        <ScrollReveal delay={0.1} className="w-full">
           <CallToAction />
         </ScrollReveal>
       </div>

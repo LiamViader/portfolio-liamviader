@@ -1,11 +1,14 @@
+import type { Target, Transition } from "framer-motion";
+
+
 export type CarouselVariant = "center" | "left" | "right" | "hiddenLeft" | "hiddenRight";
 
-export interface VariantStyle {
-  x: string;
-  scale: number;
-  opacity: number;
+export type VariantStyle = Partial<Record<keyof Target, any>> & {
+  x: string | string[];
+  scale: number | number[];
+  opacity: number | number[];
   zIndex: number;
-}
+};
 
 export type KeyframeAnimation = {
   x: string[];
@@ -23,9 +26,11 @@ export type AnimationTransition = {
   damping?: number;
 };
 
+
+
 export interface VariantAnimation {
-  animate: VariantStyle | KeyframeAnimation;
-  transition: AnimationTransition;
+  animate: Target;
+  transition: Transition;
 }
 
 const variantStyles: Record<CarouselVariant, VariantStyle> = {

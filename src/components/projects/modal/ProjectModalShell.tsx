@@ -1,10 +1,12 @@
 import { ReactNode, RefObject } from "react";
-import { AnimationControls, motion } from "framer-motion";
+import { motion, useAnimation } from "framer-motion";
+
+type Controls = ReturnType<typeof useAnimation>;
 
 interface ProjectModalShellProps {
-  projectId: string;
+  projectId: number;
   containerRef: RefObject<HTMLDivElement>;
-  controls: AnimationControls;
+  controls: Controls;
   passThrough: boolean;
   children: ReactNode;
 }

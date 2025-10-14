@@ -1,7 +1,10 @@
-import { MutableRefObject, useCallback, useEffect, useRef, useState } from "react";
-import { AnimationControls, useAnimation } from "framer-motion";
+import { RefObject, useCallback, useEffect, useRef, useState } from "react";
+
+import { useAnimation } from "framer-motion";
 
 import { measureStableRect } from "@/utils/measureStableRect";
+
+type Controls = ReturnType<typeof useAnimation>;
 
 interface UseProjectModalTransitionProps {
   originRect: DOMRect;
@@ -11,8 +14,8 @@ interface UseProjectModalTransitionProps {
 }
 
 interface UseProjectModalTransitionResult {
-  controls: AnimationControls;
-  containerRef: MutableRefObject<HTMLDivElement | null>;
+  controls: Controls;
+  containerRef: RefObject<HTMLDivElement>;
   closing: boolean;
   passThrough: boolean;
   handleClose: () => Promise<void>;
@@ -27,7 +30,7 @@ export function useProjectModalTransition({
   onClose,
 }: UseProjectModalTransitionProps): UseProjectModalTransitionResult {
   const controls = useAnimation();
-  const containerRef = useRef<HTMLDivElement | null>(null);
+  const containerRef = useRef<HTMLDivElement>(null!);
 
   const [closing, setClosing] = useState(false);
   const [passThrough, setPassThrough] = useState(false);
