@@ -221,6 +221,7 @@ export function FeaturedCarousel({
             project={project}
             badgeLabel={badgeLabel}
             isCenter={isCenter}
+            dimmed={!isCenter}
             shouldHide={shouldHideForModal}
           />
         </motion.article>
