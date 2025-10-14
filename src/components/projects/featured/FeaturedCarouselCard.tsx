@@ -17,19 +17,28 @@ export function FeaturedCarouselCard({
 }: FeaturedCarouselCardProps) {
   return (
     <div
-      className={`flex h-full flex-col cursor-pointer overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-slate-900/80 via-slate-900/70 to-indigo-900/40 shadow-2xl backdrop-blur-xl transition-opacity ${
-        shouldHide ? "opacity-0" : isCenter ? "opacity-100 hover:scale-103" : "opacity-75"
-      }
-      transition-transform ${
-        isCenter ? "hover:scale-103" : "hover:scale-102"
-      }`}
+      className={`relative flex h-full flex-col cursor-pointer overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-slate-900/80 via-slate-900/70 to-indigo-900/40 shadow-2xl backdrop-blur-xl transition-transform transition-opacity ${
+        shouldHide ? "opacity-0" : "opacity-100"
+      } ${isCenter ? "hover:scale-103" : "hover:scale-102"}`}
     >
-      <div className="relative h-2/3 overflow-hidden">
-        <Image
-          src={project.media_preview}
-          alt={project.title}
-          fill
-          className="object-cover"
+      <div
+        className={`pointer-events-none absolute inset-0 bg-slate-950/50 transition-opacity duration-300 ${
+          shouldHide || isCenter ? "opacity-0" : "opacity-60"
+        }`}
+        aria-hidden
+      />
+
+      <div
+        className={`relative z-10 flex h-full flex-col transition-opacity duration-300 ${
+          shouldHide ? "opacity-0" : isCenter ? "opacity-100" : "opacity-90"
+        }`}
+      >
+        <div className="relative h-2/3 overflow-hidden">
+          <Image
+            src={project.media_preview}
+            alt={project.title}
+            fill
+            className="object-cover"
           sizes="(min-width: 1280px) 60vw, (min-width: 1024px) 68vw, (min-width: 768px) 78vw, 90vw"
           priority={isCenter}
         />
@@ -38,20 +47,21 @@ export function FeaturedCarouselCard({
           <p className="text-xs uppercase tracking-widest text-white/70">{badgeLabel}</p>
           <h3 className="mt-2 text-2xl font-semibold md:text-3xl">{project.title}</h3>
         </div>
-      </div>
+        </div>
 
-      <div className="flex flex-1 flex-col justify-between gap-4 p-6">
-        <p className="text-sm text-slate-200/90 md:text-base">{project.short_description}</p>
+        <div className="flex flex-1 flex-col justify-between gap-4 p-6">
+          <p className="text-sm text-slate-200/90 md:text-base">{project.short_description}</p>
 
-        <div className="flex flex-wrap gap-2">
-          {(project.tags ?? []).slice(0, 4).map((tag) => (
-            <span
-              key={tag}
-              className="rounded-full bg-indigo-500/20 px-3 py-1 text-xs font-medium uppercase tracking-wide text-indigo-200"
-            >
-              {tag}
-            </span>
-          ))}
+          <div className="flex flex-wrap gap-2">
+            {(project.tags ?? []).slice(0, 4).map((tag) => (
+              <span
+                key={tag}
+                className="rounded-full bg-indigo-500/20 px-3 py-1 text-xs font-medium uppercase tracking-wide text-indigo-200"
+              >
+                {tag}
+              </span>
+            ))}
+          </div>
         </div>
       </div>
     </div>
