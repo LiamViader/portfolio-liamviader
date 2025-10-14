@@ -31,6 +31,8 @@ export function FeaturedCarousel({
   revealOrigin,
 }: FeaturedCarouselProps) {
   const [activeIndex, setActiveIndex] = useState(0);
+  const containerRef = useRef<HTMLDivElement | null>(null);
+  const autoplayRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   const totalProjects = projects.length;
   const previousVariantsRef = useRef<Record<string, CarouselVariant | undefined>>({});
@@ -43,15 +45,84 @@ export function FeaturedCarousel({
     setActiveIndex((current) => current % totalProjects);
   }, [totalProjects]);
 
-  const goToNext = useCallback(() => {
-    if (totalProjects <= 1) return;
-    setActiveIndex((idx) => (idx + 1) % totalProjects);
-  }, [totalProjects]);
+  const clearAutoplay = useCallback(() => {
+    if (autoplayRef.current) {
+      clearInterval(autoplayRef.current);
+      autoplayRef.current = null;
+    }
+  }, []);
 
-  const goToPrevious = useCallback(() => {
-    if (totalProjects <= 1) return;
-    setActiveIndex((idx) => (idx - 1 + totalProjects) % totalProjects);
-  }, [totalProjects]);
+  const scheduleAutoplay = useCallback(() => {
+    if (totalProjects <= 1) {
+      clearAutoplay();
+      return;
+    }
+
+    clearAutoplay();
+    autoplayRef.current = setInterval(() => {
+      setActiveIndex((idx) => (idx + 1) % totalProjects);
+    }, 6000);
+  }, [clearAutoplay, totalProjects]);
+
+  useEffect(() => {
+    scheduleAutoplay();
+
+    return () => {
+      clearAutoplay();
+    };
+  }, [clearAutoplay, scheduleAutoplay]);
+
+  const handleManualNavigation = useCallback(
+    (direction: 1 | -1) => {
+      if (totalProjects <= 1) {
+        return;
+      }
+
+      clearAutoplay();
+      setActiveIndex((idx) => (idx + direction + totalProjects) % totalProjects);
+      scheduleAutoplay();
+    },
+    [clearAutoplay, scheduleAutoplay, totalProjects],
+  );
+
+  const handleInteractionStart = useCallback(() => {
+    clearAutoplay();
+  }, [clearAutoplay]);
+
+  const handleBlurCapture = useCallback(() => {
+    requestAnimationFrame(() => {
+      if (!containerRef.current) {
+        scheduleAutoplay();
+        return;
+      }
+
+      const active = document.activeElement;
+      if (active && containerRef.current.contains(active)) {
+        return;
+      }
+
+      scheduleAutoplay();
+    });
+  }, [scheduleAutoplay]);
+
+  const handleInteractionEnd = useCallback(() => {
+    scheduleAutoplay();
+  }, [scheduleAutoplay]);
+
+  const handleContainerKeyDown = useCallback(
+    (event: KeyboardEvent<HTMLDivElement>) => {
+      if (event.key === "ArrowRight") {
+        event.preventDefault();
+        handleManualNavigation(1);
+      }
+
+      if (event.key === "ArrowLeft") {
+        event.preventDefault();
+        handleManualNavigation(-1);
+      }
+    },
+    [handleManualNavigation],
+  );
 
   const getVariantForIndex = useCallback(
     (index: number): CarouselVariant => {
@@ -86,20 +157,21 @@ export function FeaturedCarousel({
   const handleCardInteraction = useCallback(
     (variant: CarouselVariant, project: TranslatedProject) => {
       if (variant === "left") {
-        goToPrevious();
+        handleManualNavigation(-1);
         return;
       }
 
       if (variant === "right") {
-        goToNext();
+        handleManualNavigation(1);
         return;
       }
 
       if (variant === "center") {
+        clearAutoplay();
         onSelectProject(project);
       }
     },
-    [goToNext, goToPrevious, onSelectProject],
+    [clearAutoplay, handleManualNavigation, onSelectProject],
   );
 
   const cardItems = useMemo(() => {
@@ -163,15 +235,71 @@ export function FeaturedCarousel({
     selectedProjectId,
   ]);
 
+  const hasMultipleProjects = totalProjects > 1;
+
   if (totalProjects === 0) {
     return null;
   }
 
   return (
-    <div className="relative flex w-full justify-center overflow-visible">
+    <div
+      ref={containerRef}
+      className="relative flex w-full justify-center overflow-visible"
+      onMouseEnter={handleInteractionStart}
+      onMouseLeave={handleInteractionEnd}
+      onFocusCapture={handleInteractionStart}
+      onBlurCapture={handleBlurCapture}
+      onKeyDown={handleContainerKeyDown}
+      role="region"
+      aria-roledescription="carousel"
+      aria-live="polite"
+      tabIndex={-1}
+    >
       <div className="relative w-full md:w-[85%]  h-[300px] md:h-[380px] lg:h-[450px] xl:h-[500px]">
         {cardItems}
       </div>
+
+      {hasMultipleProjects && (
+        <div className="pointer-events-none absolute inset-y-0 flex w-full items-center justify-between px-2 md:px-6">
+          <button
+            type="button"
+            onClick={() => handleManualNavigation(-1)}
+            className="pointer-events-auto inline-flex h-12 w-12 items-center justify-center rounded-full border border-white/20 bg-slate-900/70 text-white shadow-lg backdrop-blur transition hover:border-white/40 hover:bg-slate-900/90 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/70"
+            aria-label="View previous project"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.5"
+              className="h-5 w-5"
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
+            </svg>
+            <span className="sr-only">View previous project</span>
+          </button>
+
+          <button
+            type="button"
+            onClick={() => handleManualNavigation(1)}
+            className="pointer-events-auto inline-flex h-12 w-12 items-center justify-center rounded-full border border-white/20 bg-slate-900/70 text-white shadow-lg backdrop-blur transition hover:border-white/40 hover:bg-slate-900/90 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/70"
+            aria-label="View next project"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.5"
+              className="h-5 w-5"
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
+            </svg>
+            <span className="sr-only">View next project</span>
+          </button>
+        </div>
+      )}
     </div>
   );
 }

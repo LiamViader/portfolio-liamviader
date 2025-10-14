@@ -36,26 +36,26 @@ const variantStyles: Record<CarouselVariant, VariantStyle> = {
     zIndex: 30,
   },
   left: {
-    x: "-98%",
-    scale: 0.88,
-    opacity: 0.45,
+    x: "-108%",
+    scale: 0.9,
+    opacity: 0.5,
     zIndex: 20,
   },
   right: {
-    x: "-2%",
-    scale: 0.88,
-    opacity: 0.45,
+    x: "8%",
+    scale: 0.9,
+    opacity: 0.5,
     zIndex: 20,
   },
   hiddenLeft: {
-    x: "-145%",
-    scale: 0.8,
+    x: "-185%",
+    scale: 0.82,
     opacity: 0,
     zIndex: 10,
   },
   hiddenRight: {
-    x: "45%",
-    scale: 0.8,
+    x: "85%",
+    scale: 0.82,
     opacity: 0,
     zIndex: 10,
   },
@@ -86,8 +86,8 @@ export const getVariantAnimation = (
       },
       transition: {
         duration: 0.6,
-        ease: [0.33, 1, 0.68, 1],
-        times: [0, 0.8, 1],
+        ease: [0.22, 1, 0.36, 1],
+        times: [0, 0.65, 1],
       },
     };
   }
@@ -104,15 +104,15 @@ export const getVariantAnimation = (
       },
       transition: {
         duration: 0.6,
-        ease: [0.33, 1, 0.68, 1],
-        times: [0, 0.2, 1],
+        ease: [0.22, 1, 0.36, 1],
+        times: [0, 0.25, 1],
       },
     };
   }
 
   return {
     animate: baseAnimation,
-    transition: { type: "spring", stiffness: 260, damping: 34 },
+    transition: { duration: 0.55, ease: [0.22, 1, 0.36, 1] },
   };
 };
 
