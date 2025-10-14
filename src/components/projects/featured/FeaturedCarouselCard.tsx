@@ -20,10 +20,10 @@ export function FeaturedCarouselCard({
     <div
       className={`
         relative flex h-full flex-col cursor-pointer overflow-hidden rounded-3xl
-        border border-white/10
+        border border-white/20
         bg-gradient-to-br from-white-900/80 via-white-900/20 to-white-900/10
-        shadow-[0_0_10px_rgba(0,0,0,0.50)]
-        backdrop-blur-xl
+        shadow-[0_0_10px_rgba(0,0,0,0.40)]
+        backdrop-blur-sm
         transition-transform
         will-change-transform
         hover:scale-102

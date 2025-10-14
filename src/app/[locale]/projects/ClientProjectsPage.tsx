@@ -56,7 +56,7 @@ export default function ClientProjectsPage({ projectsData }: ClientProjectsPageP
             >
               {t("title")}
             </h1>
-            <p className="text-1xl md:text-2xl text-gray-300">{t("intro_paragraph")}</p>
+            <p className="text-1xl md:text-2xl text-gray-300 font-bold">{t("intro_paragraph")}</p>
           </header>
         </ScrollReveal>
 

@@ -43,13 +43,13 @@ const variantStyles: Record<CarouselVariant, VariantStyle> = {
   left: {
     x: "-108%",
     scale: 0.9,
-    opacity: 0.4,
+    opacity: 0.5,
     zIndex: 20,
   },
   right: {
     x: "8%",
     scale: 0.9,
-    opacity: 0.4,
+    opacity: 0.5,
     zIndex: 20,
   },
   hiddenLeft: {
