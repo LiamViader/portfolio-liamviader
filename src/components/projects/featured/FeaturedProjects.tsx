@@ -117,7 +117,7 @@ export default function FeaturedProjects({ projects }: FeaturedProjectsProps) {
 
       <div className="relative flex items-center justify-center">
         <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-          <div className="hidden md:block h-64 w-3/4 max-w-4xl rounded-full bg-gradient-to-r from-indigo-500/30 via-blue-500/30 to-cyan-500/30 blur-3xl" />
+          <div className="hidden md:block h-64 w-3/4 max-w-4xl rounded-full bg-gradient-to-r from-indigo-500/30 via-fuchsia-500/30 to-cyan-500/30 blur-3xl" />
         </div>
 
         <div className="relative flex w-full justify-center overflow-visible">
