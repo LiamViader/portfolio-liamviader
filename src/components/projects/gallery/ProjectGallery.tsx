@@ -16,13 +16,13 @@ export default function ProjectGallery({ category, filteredProjects, onCategoryC
   const t = useTranslations("ProjectsPage");
 
   return (
-    <div className="mt-10 py-24">
+    <div className="mt-10 py-24 px-4 md:px-8">
       <h2 className="text-3xl md:text-5xl font-extrabold mb-20 tracking-tight text-center">
         {t("project_gallery_title")}
       </h2>
       <CategorySwitcher currentCategory={category} onCategoryChange={onCategoryChange} />
 
-      <section className="mb-10 px-4 md:px-8 max-w-[90%] mx-auto mt-10">
+      <section className="mb-10 md:px-8 2xl:max-w-[70%] max-w-[90%] mx-auto mt-10">
         <ProjectsGrid projects={filteredProjects} />
       </section>
     </div>

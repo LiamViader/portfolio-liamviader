@@ -64,7 +64,7 @@ export default function FeaturedProjects({ projects }: FeaturedProjectsProps) {
   }
 
   return (
-    <section className="py-24 px-4 md:px-8 w-full mx-auto mb-16">
+    <section className="py-10 px-4 md:px-8 w-full mx-auto mb-16">
       <h2 className="text-3xl md:text-5xl font-extrabold mb-20 tracking-tight text-center">
         {t("featured_title")}
       </h2>

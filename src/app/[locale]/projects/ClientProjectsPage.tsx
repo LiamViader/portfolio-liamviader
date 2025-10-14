@@ -47,8 +47,8 @@ export default function ClientProjectsPage({ projectsData }: ClientProjectsPageP
     <div className="text-white relative min-h-[200vh]">
       <ProjectSceneCanvas category={category} />
 
-      <div className="relative z-10 py-20">
-        <header className="text-center mb-16 px-4 max-w-xl md:max-w-4xl mx-auto py-24">
+      <div className="relative z-10 mt-[10vh] md:mt-[20vh]">
+        <header className="text-center mb-[2vh] md:mb-[5vh] px-4 max-w-xl md:max-w-6xl mx-auto py-24">
           <h1
             className={`text-5xl md:text-7xl font-extrabold mb-10 tracking-tighter drop-shadow-lg transition-colors duration-500 ${titleColorClass}`}
           >
