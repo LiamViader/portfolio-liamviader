@@ -36,6 +36,7 @@ export function FeaturedCarousel({
 
   const totalProjects = projects.length;
   const previousVariantsRef = useRef<Record<string, CarouselVariant | undefined>>({});
+  const hasSelectedProject = selectedProjectId !== undefined;
 
   useEffect(() => {
     if (totalProjects === 0) {
@@ -53,7 +54,7 @@ export function FeaturedCarousel({
   }, []);
 
   const scheduleAutoplay = useCallback(() => {
-    if (totalProjects <= 1) {
+    if (totalProjects <= 1 || hasSelectedProject) {
       clearAutoplay();
       return;
     }
@@ -62,7 +63,7 @@ export function FeaturedCarousel({
     autoplayRef.current = setInterval(() => {
       setActiveIndex((idx) => (idx + 1) % totalProjects);
     }, 3000);
-  }, [clearAutoplay, totalProjects]);
+  }, [clearAutoplay, hasSelectedProject, totalProjects]);
 
   useEffect(() => {
     scheduleAutoplay();
