@@ -110,8 +110,8 @@ export default function FeaturedProjects({ projects }: FeaturedProjectsProps) {
   }
 
   return (
-    <section className="py-24 px-4 md:px-8 md:max-w-7xl mx-auto mb-16">
-      <h2 className="text-2xl md:text-4xl font-extrabold mb-20 tracking-tight text-center">
+    <section className="py-24 px-4 md:px-8 w-full mx-auto mb-16">
+      <h2 className="text-3xl md:text-5xl font-extrabold mb-20 tracking-tight text-center">
         {t("featured_title")}
       </h2>
 
@@ -121,7 +121,7 @@ export default function FeaturedProjects({ projects }: FeaturedProjectsProps) {
         </div>
 
         <div className="relative flex w-full justify-center overflow-visible">
-          <div className="relative h-[440px] w-full max-w-6xl">
+          <div className="relative w-full md:w-[85%]  h-[300px] md:h-[380px] lg:h-[450px] xl:h-[500px]">
             {featuredProjects.map((project, index) => {
               const variant = getVariantForIndex(index);
               const isSideCard = variant === "left" || variant === "right";
@@ -156,7 +156,7 @@ export default function FeaturedProjects({ projects }: FeaturedProjectsProps) {
               return (
                 <motion.article
                   key={project.id}
-                  className="absolute top-0 h-full w-[90%] md:w-[78%] lg:w-[68%] xl:w-[60%]"
+                  className="absolute top-0 h-full w-[60%] md:w-[55%] lg:w-[52%] xl:w-[48%]"
                   style={{ left: "50%", pointerEvents: isHidden ? "none" : "auto" }}
                   animate={variantStyles[variant]}
                   initial={variantStyles[variant]}
