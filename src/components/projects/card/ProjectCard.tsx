@@ -30,7 +30,7 @@ export default function ProjectCard({ project, onSelect, isHidden = false }: Pro
       role="button"
       tabIndex={0}
       onClick={handleClick}
-      className={`relative flex h-full flex-col overflow-hidden rounded-xl backdrop-blur-lg shadow-2xl cursor-pointer transition-transform transform-gpu origin-center border border-white/10 bg-gradient-to-br from-slate-900/80 via-slate-900/70 to-indigo-900/40 ${isHidden ? "opacity-0 pointer-events-none select-none" : "hover:scale-104"}`}
+      className={`relative flex h-full flex-col overflow-hidden rounded-xl shadow-2xl cursor-pointer transition-transform transform-gpu origin-center border border-white/10 bg-white/[0.02] backdrop-blur-sm ${isHidden ? "opacity-0 pointer-events-none select-none" : "hover:scale-104"}`}
       whileTap={{ scale: 0.98 }}
       transition={{ type: "spring", stiffness: 200, damping: 30 }}
     >

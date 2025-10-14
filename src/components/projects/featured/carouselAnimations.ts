@@ -43,13 +43,13 @@ const variantStyles: Record<CarouselVariant, VariantStyle> = {
   left: {
     x: "-108%",
     scale: 0.9,
-    opacity: 1,
+    opacity: 0.4,
     zIndex: 20,
   },
   right: {
     x: "8%",
     scale: 0.9,
-    opacity: 1,
+    opacity: 0.4,
     zIndex: 20,
   },
   hiddenLeft: {
@@ -103,12 +103,15 @@ export const getVariantAnimation = (
       animate: {
         x: [from.x, "-50%"],
         scale: [from.scale, baseAnimation.scale],
-        opacity: [from.opacity, baseAnimation.opacity],
+        // 👇 Opacidad salta directa al valor objetivo (sin animación)
+        opacity: baseAnimation.opacity,
         zIndex: baseAnimation.zIndex,
       },
       transition: {
         duration: 0.6,
         ease: [0.16, 1, 0.3, 1],
+        // 👇 Transición por-propiedad: opacidad con duración 0
+        opacity: { duration: 0 },
       },
     };
   }

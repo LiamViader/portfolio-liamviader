@@ -20,7 +20,7 @@ export default function CategorySwitcher({ currentCategory, onCategoryChange }: 
   return (
     <div
       ref={containerRef}
-      className="relative flex justify-center mb-10 p-1 border border-white/10 bg-gradient-to-br from-slate-900/80 via-slate-900/70 to-indigo-900/40 backdrop-blur-sm rounded-full shadow-lg max-w-[360px] min-h-[64px] mx-auto"
+      className="relative flex justify-center mb-10 p-1 border border-white/10 bg-white/[0.02] backdrop-blur-sm rounded-full shadow-lg max-w-[360px] min-h-[64px] mx-auto"
     >
       <motion.div
         layout
@@ -40,8 +40,8 @@ export default function CategorySwitcher({ currentCategory, onCategoryChange }: 
           <motion.button
             key={category.slug}
             data-active={isActive ? "true" : "false"}
-            whileHover={{ scale: 1.05, boxShadow: "0 8px 20px rgba(0,0,0,0.55)" }}
-            whileTap={{ scale: 0.95, backgroundColor: "rgba(0,0,0,0.9)" }}
+            whileHover={{ scale: 1.05, boxShadow: "0 8px 10px rgba(0,0,0,0.55)", backgroundColor: "rgba(255,255,255,0.1)" }}
+            whileTap={{ scale: 0.95, backgroundColor: "rgba(0,0,0,0.1)" }}
             transition={{ type: "spring", stiffness: 200, damping: 20 }}
             className={`relative z-10 px-6 py-2 cursor-pointer text-sm font-semibold rounded-full transition-colors duration-300 ease-out ${
               isActive ? "text-black" : "text-gray-200 hover:text-white"

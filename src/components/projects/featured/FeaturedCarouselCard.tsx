@@ -18,27 +18,18 @@ export function FeaturedCarouselCard({
 }: FeaturedCarouselCardProps) {
   return (
     <div
-      className="
+      className={`
         relative flex h-full flex-col cursor-pointer overflow-hidden rounded-3xl
         border border-white/10
-        bg-gradient-to-br from-slate-900/80 via-slate-900/70 to-indigo-900/40
-        shadow-2xl backdrop-blur-xl
+        bg-gradient-to-br from-white-900/80 via-white-900/20 to-white-900/10
+        ${isCenter ? "shadow-[0_0_10px_rgba(0,0,0,0.50)]" : ""}
+        backdrop-blur-xl
         transition-transform
         will-change-transform
         hover:scale-102
         md:hover:scale-103
-      "
+      `}
     >
-      {/* Overlay para dimming lateral (simula menor opacidad sin afectar el blur) */}
-      <div
-        className={`
-          pointer-events-none absolute z-40 inset-0 transition-opacity duration-200
-          ${dimmed ? "opacity-100 bg-slate-950/60" : "opacity-0 bg-transparent"}
-        `}
-        aria-hidden
-      />
-
-      {/* Contenido (aquí sí puedes animar opacidad de texto e imagen si lo deseas) */}
       <div
         className={`
           relative z-10 flex h-full flex-col transition-opacity duration-300
@@ -54,7 +45,7 @@ export function FeaturedCarouselCard({
             sizes="(min-width: 1280px) 60vw, (min-width: 1024px) 68vw, (min-width: 768px) 78vw, 90vw"
             priority={isCenter}
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-slate-900/80 via-slate-900/30 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-gray-900/90 via-gray-900/40 to-transparent" />
           <div className="absolute bottom-6 left-6 right-6 text-white">
             <p className="text-xs uppercase tracking-widest text-white/70">
               {badgeLabel}

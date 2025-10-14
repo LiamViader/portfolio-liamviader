@@ -266,7 +266,7 @@ export function FeaturedCarousel({
           <button
             type="button"
             onClick={() => handleManualNavigation(1)}
-            className="pointer-events-auto cursor-pointer inline-flex h-12 w-12 items-center justify-center rounded-full border border-white/20 bg-slate-900/70 text-white shadow-lg backdrop-blur transition duration-200 hover:scale-110 hover:border-white/40 hover:bg-slate-900/90 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/70 active:scale-90"
+            className="pointer-events-auto cursor-pointer inline-flex h-12 w-12 items-center justify-center rounded-full border border-white/10 bg-white/[0.02] backdrop-blur-sm text-white shadow-lg  transition duration-200 hover:scale-110 hover:border-white/40 hover:bg-white-900/40 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/70 active:scale-90"
             aria-label="View previous project"
           >
             <ChevronLeft className="h-5 w-5" />
@@ -276,7 +276,7 @@ export function FeaturedCarousel({
           <button
             type="button"
             onClick={() => handleManualNavigation(-1)}
-            className="pointer-events-auto cursor-pointer inline-flex h-12 w-12 items-center justify-center rounded-full border border-white/20 bg-slate-900/70 text-white shadow-lg backdrop-blur transition duration-200 hover:scale-110 hover:border-white/40 hover:bg-slate-900/90 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/70 active:scale-90"
+            className="pointer-events-auto cursor-pointer inline-flex h-12 w-12 items-center justify-center rounded-full border border-white/10 bg-white/[0.02] backdrop-blur-sm text-white shadow-lg transition duration-200 hover:scale-110 hover:border-white/40 hover:bg-white-900/40 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/70 active:scale-90"
             aria-label="View next project"
           >
             <ChevronRight className="h-5 w-5" />

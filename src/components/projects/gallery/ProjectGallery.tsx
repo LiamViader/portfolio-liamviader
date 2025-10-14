@@ -22,7 +22,7 @@ export default function ProjectGallery({ category, filteredProjects, onCategoryC
       </h2>
       <CategorySwitcher currentCategory={category} onCategoryChange={onCategoryChange} />
 
-      <section className="mb-10 md:px-8 2xl:max-w-[70%] max-w-[90%] mx-auto mt-10">
+      <section className="md:px-8 2xl:max-w-[70%] max-w-[90%] mx-auto mt-10">
         <ProjectsGrid projects={filteredProjects} />
       </section>
     </div>

@@ -7,10 +7,7 @@ export default function CallToAction() {
   const t = useTranslations("ProjectsPage");
 
   return (
-    <section className="relative py-24 px-4 mt-20">
-      <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
-        <div className="h-64 w-full max-w-3xl rounded-full bg-gradient-to-r from-indigo-500/20 via-fuchsia-500/15 to-cyan-500/20 blur-3xl" />
-      </div>
+    <section className="relative pt-24 pb-40 px-4">
       <div className="relative max-w-4xl mx-auto text-center border border-white/10 bg-white/[0.02] backdrop-blur-sm rounded-3xl p-12 shadow-lg shadow-black/20">
         <h2 className="text-2xl md:text-4xl font-extrabold mb-6 tracking-tight text-white">
           {t("cta_title")}
