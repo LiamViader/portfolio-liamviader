@@ -264,7 +264,7 @@ export function FeaturedCarousel({
           <button
             type="button"
             onClick={() => handleManualNavigation(-1)}
-            className="pointer-events-auto inline-flex h-12 w-12 items-center justify-center rounded-full border border-white/20 bg-slate-900/70 text-white shadow-lg backdrop-blur transition hover:border-white/40 hover:bg-slate-900/90 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/70"
+            className="pointer-events-auto inline-flex h-12 w-12 items-center justify-center rounded-full border border-white/20 bg-slate-900/70 text-white shadow-lg backdrop-blur transition duration-200 hover:scale-110 hover:border-white/40 hover:bg-slate-900/90 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/70 active:scale-90"
             aria-label="View previous project"
           >
             <svg
@@ -283,7 +283,7 @@ export function FeaturedCarousel({
           <button
             type="button"
             onClick={() => handleManualNavigation(1)}
-            className="pointer-events-auto inline-flex h-12 w-12 items-center justify-center rounded-full border border-white/20 bg-slate-900/70 text-white shadow-lg backdrop-blur transition hover:border-white/40 hover:bg-slate-900/90 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/70"
+            className="pointer-events-auto inline-flex h-12 w-12 items-center justify-center rounded-full border border-white/20 bg-slate-900/70 text-white shadow-lg backdrop-blur transition duration-200 hover:scale-110 hover:border-white/40 hover:bg-slate-900/90 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/70 active:scale-90"
             aria-label="View next project"
           >
             <svg
