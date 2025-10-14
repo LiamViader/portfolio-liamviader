@@ -64,12 +64,12 @@ export default function FeaturedProjects({ projects }: FeaturedProjectsProps) {
   }
 
   return (
-    <section className="py-24 px-4 md:px-8 w-full mx-auto mb-16">
-      <h2 className="text-3xl md:text-5xl font-extrabold mb-20 tracking-tight text-center">
+    <section className="mx-auto mb-16 w-full px-4 py-24 md:px-8">
+      <h2 className="mb-20 text-center text-3xl font-extrabold tracking-tight md:text-5xl">
         {t("featured_title")}
       </h2>
 
-      <div className="relative flex items-center justify-center">
+      <div className="relative mt-12 flex items-center justify-center md:mt-16">
         <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
           <div className="hidden md:block h-64 w-3/4 max-w-4xl rounded-full bg-gradient-to-r from-indigo-500/30 via-fuchsia-500/30 to-cyan-500/30 blur-3xl" />
         </div>

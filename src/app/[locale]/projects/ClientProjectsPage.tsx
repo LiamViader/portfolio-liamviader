@@ -4,10 +4,11 @@ import { useTranslations } from "next-intl";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 import CallToAction from "@/components/CallToAction";
+import RevealOnScroll from "@/components/RevealOnScroll";
 import { ProjectSceneCanvas } from "@/components/ProjectSceneCanvas";
+import { FeaturedProjects, ProjectGallery } from "@/components/projects";
 import { CATEGORY_CONFIG, ClientCategorySlug } from "@/config/projectCategories";
 import type { TranslatedProject } from "@/data/projects";
-import { FeaturedProjects, ProjectGallery } from "@/components/projects";
 
 interface ClientProjectsPageProps {
   projectsData: TranslatedProject[];
@@ -44,24 +45,35 @@ export default function ClientProjectsPage({ projectsData }: ClientProjectsPageP
   const titleColorClass = CATEGORY_CONFIG[category].cssColor;
 
   return (
-    <div className="text-white relative min-h-[200vh]">
+    <div className="relative min-h-[200vh] overflow-hidden text-white">
       <ProjectSceneCanvas category={category} />
 
-      <div className="relative z-10 py-20">
-        <header className="text-center mb-16 px-4 max-w-xl md:max-w-4xl mx-auto py-24">
+      <div className="relative z-10 flex flex-col gap-24 pt-32 pb-24">
+        <RevealOnScroll
+          as="header"
+          className="mx-auto flex max-w-5xl flex-col items-center gap-8 px-6 text-center"
+        >
           <h1
-            className={`text-5xl md:text-7xl font-extrabold mb-10 tracking-tighter drop-shadow-lg transition-colors duration-500 ${titleColorClass}`}
+            className={`text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-tight drop-shadow-lg transition-colors duration-500 ${titleColorClass}`}
           >
             {t("title")}
           </h1>
-          <p className="text-1xl md:text-2xl text-gray-300">{t("intro_paragraph")}</p>
-        </header>
+          <p className="text-lg md:text-2xl text-gray-300/90 md:max-w-3xl">
+            {t("intro_paragraph")}
+          </p>
+        </RevealOnScroll>
 
-        <FeaturedProjects projects={projectsData} />
+        <RevealOnScroll className="mx-auto w-full max-w-6xl">
+          <FeaturedProjects projects={projectsData} />
+        </RevealOnScroll>
 
-        <ProjectGallery category={category} filteredProjects={filteredProjects} onCategoryChange={setCategory} />
+        <RevealOnScroll className="mx-auto w-full max-w-6xl px-6">
+          <ProjectGallery category={category} filteredProjects={filteredProjects} onCategoryChange={setCategory} />
+        </RevealOnScroll>
 
-        <CallToAction />
+        <RevealOnScroll className="mx-auto w-full max-w-4xl px-6" delay={0.1}>
+          <CallToAction />
+        </RevealOnScroll>
       </div>
     </div>
   );

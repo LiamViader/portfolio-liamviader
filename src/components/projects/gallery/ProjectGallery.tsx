@@ -16,15 +16,17 @@ export default function ProjectGallery({ category, filteredProjects, onCategoryC
   const t = useTranslations("ProjectsPage");
 
   return (
-    <div className="mt-10 py-24">
-      <h2 className="text-3xl md:text-5xl font-extrabold mb-20 tracking-tight text-center">
+    <section className="w-full rounded-3xl border border-white/5 bg-white/5 px-6 py-16 shadow-xl backdrop-blur md:px-10 md:py-20">
+      <h2 className="text-center text-3xl font-extrabold tracking-tight md:text-5xl">
         {t("project_gallery_title")}
       </h2>
-      <CategorySwitcher currentCategory={category} onCategoryChange={onCategoryChange} />
+      <div className="mt-12 space-y-10 md:mt-16">
+        <CategorySwitcher currentCategory={category} onCategoryChange={onCategoryChange} />
 
-      <section className="mb-10 px-4 md:px-8 max-w-[90%] mx-auto mt-10">
-        <ProjectsGrid projects={filteredProjects} />
-      </section>
-    </div>
+        <div className="mx-auto max-w-full overflow-hidden rounded-2xl border border-white/10 bg-black/40 px-4 py-6 shadow-lg md:px-8 md:py-10">
+          <ProjectsGrid projects={filteredProjects} />
+        </div>
+      </div>
+    </section>
   );
 }
