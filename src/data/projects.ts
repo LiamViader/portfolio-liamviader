@@ -38,7 +38,7 @@ export const allProjects: ProjectData[] = [
 	{
 		id: 1,
 		tags: ["React", "TypeScript", "Tailwind", "Framer Motion"],
-		media_preview: "/images/testImage.jpg",
+		media_preview: "",
 		github_url: "https://github.com/liam/project1",
 		live_url: "https://project1-live.com",
 		detailed_media: ["/images/testImage.jpg", "/images/testImage.jpg"],

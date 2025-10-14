@@ -61,7 +61,7 @@ export function FeaturedCarousel({
     clearAutoplay();
     autoplayRef.current = setInterval(() => {
       setActiveIndex((idx) => (idx + 1) % totalProjects);
-    }, 6000);
+    }, 3000);
   }, [clearAutoplay, totalProjects]);
 
   useEffect(() => {
@@ -273,7 +273,7 @@ export function FeaturedCarousel({
               fill="none"
               stroke="currentColor"
               strokeWidth="1.5"
-              className="h-5 w-5"
+              className="h-5 w-5 cursor-pointer"
             >
               <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 19.5 8.25 12l7.5-7.5" />
             </svg>
@@ -292,7 +292,7 @@ export function FeaturedCarousel({
               fill="none"
               stroke="currentColor"
               strokeWidth="1.5"
-              className="h-5 w-5"
+              className="h-5 w-5 cursor-pointer"
             >
               <path strokeLinecap="round" strokeLinejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
             </svg>

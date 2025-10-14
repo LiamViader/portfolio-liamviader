@@ -17,8 +17,11 @@ export function FeaturedCarouselCard({
 }: FeaturedCarouselCardProps) {
   return (
     <div
-      className={`flex h-full flex-col overflow-hidden rounded-3xl border border-white/10 bg-white/5 shadow-2xl backdrop-blur-xl transition-opacity ${
-        shouldHide ? "opacity-0" : isCenter ? "opacity-100" : "opacity-75"
+      className={`flex h-full flex-col cursor-pointer overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-br from-slate-900/80 via-slate-900/70 to-indigo-900/40 shadow-2xl backdrop-blur-xl transition-opacity ${
+        shouldHide ? "opacity-0" : isCenter ? "opacity-100 hover:scale-103" : "opacity-75"
+      }
+      transition-transform ${
+        isCenter ? "hover:scale-103" : "hover:scale-102"
       }`}
     >
       <div className="relative h-2/3 overflow-hidden">

@@ -30,9 +30,7 @@ export default function ProjectCard({ project, onSelect, isHidden = false }: Pro
       role="button"
       tabIndex={0}
       onClick={handleClick}
-      className={`relative flex h-full flex-col overflow-hidden rounded-xl backdrop-blur-lg shadow-2xl cursor-pointer transition-transform transform-gpu origin-center ${
-        hasPreviewImage ? "bg-white/5" : "bg-gradient-to-br from-slate-900/80 via-slate-900/70 to-indigo-900/40"
-      } ${isHidden ? "opacity-0 pointer-events-none select-none" : "hover:scale-110"}`}
+      className={`relative flex h-full flex-col overflow-hidden rounded-xl backdrop-blur-lg shadow-2xl cursor-pointer transition-transform transform-gpu origin-center border border-white/10 bg-gradient-to-br from-slate-900/80 via-slate-900/70 to-indigo-900/40 ${isHidden ? "opacity-0 pointer-events-none select-none" : "hover:scale-104"}`}
       whileTap={{ scale: 0.98 }}
       transition={{ type: "spring", stiffness: 200, damping: 30 }}
     >
@@ -45,11 +43,6 @@ export default function ProjectCard({ project, onSelect, isHidden = false }: Pro
           hasPreviewImage ? "p-4" : "p-6"
         }`}
       >
-        {!hasPreviewImage && (
-          <span className="mb-4 inline-flex w-fit items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs font-medium uppercase tracking-[0.2em] text-white/70">
-            Preview coming soon
-          </span>
-        )}
 
         <h3 className="text-xl font-bold mb-2 text-white">{project.title}</h3>
         <p className={`text-sm text-gray-300 mb-4 ${hasPreviewImage ? "line-clamp-2" : "line-clamp-4"}`}>

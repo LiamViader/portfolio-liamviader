@@ -48,14 +48,14 @@ const variantStyles: Record<CarouselVariant, VariantStyle> = {
     zIndex: 20,
   },
   hiddenLeft: {
-    x: "-185%",
-    scale: 0.82,
+    x: "-145%",
+    scale: 0.5,
     opacity: 0,
     zIndex: 10,
   },
   hiddenRight: {
-    x: "85%",
-    scale: 0.82,
+    x: "45%",
+    scale: 0.5,
     opacity: 0,
     zIndex: 10,
   },
