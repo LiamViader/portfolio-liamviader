@@ -79,15 +79,14 @@ export const getVariantAnimation = (
   if (isLeavingCenter) {
     return {
       animate: {
-        x: ["-50%", "-50%", baseAnimation.x],
-        scale: [1, baseAnimation.scale, baseAnimation.scale],
-        opacity: [1, baseAnimation.opacity, baseAnimation.opacity],
+        x: ["-50%", baseAnimation.x],
+        scale: [1, baseAnimation.scale],
+        opacity: [1, baseAnimation.opacity],
         zIndex: baseAnimation.zIndex,
       },
       transition: {
-        duration: 0.6,
+        duration: 0.55,
         ease: [0.22, 1, 0.36, 1],
-        times: [0, 0.65, 1],
       },
     };
   }
@@ -97,15 +96,14 @@ export const getVariantAnimation = (
 
     return {
       animate: {
-        x: [from.x, "-50%", "-50%"],
-        scale: [from.scale, baseAnimation.scale, baseAnimation.scale],
-        opacity: [from.opacity, baseAnimation.opacity, baseAnimation.opacity],
+        x: [from.x, "-50%"],
+        scale: [from.scale, baseAnimation.scale],
+        opacity: [from.opacity, baseAnimation.opacity],
         zIndex: baseAnimation.zIndex,
       },
       transition: {
         duration: 0.6,
-        ease: [0.22, 1, 0.36, 1],
-        times: [0, 0.25, 1],
+        ease: [0.16, 1, 0.3, 1],
       },
     };
   }
