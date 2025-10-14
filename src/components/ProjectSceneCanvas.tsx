@@ -12,15 +12,17 @@ interface ProjectSceneCanvasProps {
 
 // 🚨 Ya no necesitamos SceneContent aquí
 export function ProjectSceneCanvas({ category }: ProjectSceneCanvasProps) {
-	return (
-		<div className="fixed inset-0 z-0" >
-			<Canvas 
-				camera={{ position: [0, 0, 0], fov: 75 }}
-				dpr={Math.min(window.devicePixelRatio, 1.5)}
-			>
-				{/* 🚨 Usamos el componente de contenido separado */}
-				<ProjectSceneContent category={category} />
-			</Canvas>
+        const devicePixelRatio = typeof window === "undefined" ? 1 : Math.min(window.devicePixelRatio, 1.5);
+
+        return (
+                <div className="fixed inset-0 z-0" >
+                        <Canvas
+                                camera={{ position: [0, 0, 0], fov: 75 }}
+                                dpr={devicePixelRatio}
+                        >
+                                {/* 🚨 Usamos el componente de contenido separado */}
+                                <ProjectSceneContent category={category} />
+                        </Canvas>
 		</div>
 	);
 }

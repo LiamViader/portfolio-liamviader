@@ -18,6 +18,7 @@
   "ProjectsPage": {
     "title": "Projects",
     "featured_title": "Featured",
+    "featured_badge": "Featured project",
     "project_gallery_title": "Complete gallery",
     "projects": "Projects",
     "ai": "AI & Software",
