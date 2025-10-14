@@ -24,6 +24,10 @@
     "ai": "AI & Software",
     "all": "All",
     "games": "Video Games",
-    "intro_paragraph": "Welcome to my projects page! Here you'll find a selection of my work in software development, artificial intelligence, and video game creation. Feel free to explore and reach out if you'd like to collaborate or learn more about my projects."
+    "intro_paragraph": "Welcome to my projects page! Here you'll find a selection of my work in software development, artificial intelligence, and video game creation. Feel free to explore and reach out if you'd like to collaborate or learn more about my projects.",
+    "cta_title": "Interested in collaborating or learning more?",
+    "cta_text": "If any of my projects caught your attention, I'd love to talk. Get in touch if you want to collaborate, need more details, or simply wish to connect.",
+    "cta_button_contact": "Get in touch",
+    "cta_button_cv": "Download CV"
   }
 }

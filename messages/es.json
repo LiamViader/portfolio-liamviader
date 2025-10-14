@@ -24,6 +24,10 @@
     "ai": "IA y Software",
     "all": "Todos",
     "games": "Videojuegos",
-    "intro_paragraph": "¡Bienvenido a mi página de proyectos! Aquí encontrarás una selección de mi trabajo en desarrollo de software, inteligencia artificial y creación de videojuegos. Siéntete libre de explorar y contactarme si deseas colaborar o saber más sobre mis proyectos."
+    "intro_paragraph": "¡Bienvenido a mi página de proyectos! Aquí encontrarás una selección de mi trabajo en desarrollo de software, inteligencia artificial y creación de videojuegos. Siéntete libre de explorar y contactarme si deseas colaborar o saber más sobre mis proyectos.",
+    "cta_title": "¿Te interesa colaborar o saber más?",
+    "cta_text": "Si alguno de mis proyectos te ha despertado interés, estaré encantado de conversar. Escríbeme si quieres colaborar, necesitas más información o simplemente deseas saludar.",
+    "cta_button_contact": "Contactar",
+    "cta_button_cv": "Descargar CV"
   }
 }
