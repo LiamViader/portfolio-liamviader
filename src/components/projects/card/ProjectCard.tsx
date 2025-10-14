@@ -35,7 +35,7 @@ export default function ProjectCard({ project, onSelect, isHidden = false }: Pro
       transition={{ type: "spring", stiffness: 200, damping: 30 }}
     >
       {hasPreviewImage && (
-        <img src={project.media_preview} alt={project.title} className="w-full h-48 object-cover" />
+        <img src={project.media_preview} alt={project.title} className="w-full h-48 object-cover " />
       )}
 
       <div

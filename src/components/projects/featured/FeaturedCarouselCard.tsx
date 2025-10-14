@@ -22,7 +22,7 @@ export function FeaturedCarouselCard({
         relative flex h-full flex-col cursor-pointer overflow-hidden rounded-3xl
         border border-white/10
         bg-gradient-to-br from-white-900/80 via-white-900/20 to-white-900/10
-        ${isCenter ? "shadow-[0_0_10px_rgba(0,0,0,0.50)]" : ""}
+        shadow-[0_0_10px_rgba(0,0,0,0.50)]
         backdrop-blur-xl
         transition-transform
         will-change-transform
@@ -45,7 +45,7 @@ export function FeaturedCarouselCard({
             sizes="(min-width: 1280px) 60vw, (min-width: 1024px) 68vw, (min-width: 768px) 78vw, 90vw"
             priority={isCenter}
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-gray-900/90 via-gray-900/40 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-gray-950/96 via-gray-900/40 to-transparent" />
           <div className="absolute bottom-6 left-6 right-6 text-white">
             <p className="text-xs uppercase tracking-widest text-white/70">
               {badgeLabel}
