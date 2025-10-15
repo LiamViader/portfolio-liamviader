@@ -45,19 +45,29 @@ export default function ClientProjectsPage({ projectsData }: ClientProjectsPageP
   const titleColorClass = CATEGORY_CONFIG[category].cssColor;
 
   return (
-    <div className="text-white relative min-h-[200vh]">
+    <div className="relative flex min-h-screen flex-col bg-gray-900 text-white">
       <ProjectSceneCanvas category={category} />
 
-      <div className="relative z-10 mt-[10vh] md:mt-[20vh]">
+      <div className="relative z-10 flex flex-col gap-24">
         <ScrollReveal delay={0.7}>
-          <header className="text-center mb-[2vh] md:mb-[5vh] px-4 max-w-xl md:max-w-6xl mx-auto py-24">
-            <h1
-              className={`text-5xl md:text-7xl font-extrabold mb-10 tracking-tighter drop-shadow-lg transition-colors duration-500 ${titleColorClass}`}
-            >
-              {t("title")}
-            </h1>
-            <p className="text-1xl md:text-2xl text-gray-300 font-bold">{t("intro_paragraph")}</p>
-          </header>
+          <section className="relative overflow-hidden border border-white/10 bg-gray-950/70 px-4 py-32 shadow-[0_40px_50px_-40px_rgba(56,189,248,0.45)]">
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(125,211,252,0.35),_transparent_65%)]" />
+            <div className="absolute inset-0 bg-gradient-to-b from-gray-950/10 via-gray-950/70 to-gray-950" />
+
+            <div className="relative mx-auto flex max-w-4xl flex-col items-center gap-6 text-center">
+              <span
+                className={`inline-flex items-center gap-3 rounded-full border border-white/20 bg-white/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.35em] text-white/70 backdrop-blur transition ${titleColorClass}`}
+              >
+                {t("tagline")}
+              </span>
+              <h1 className="text-balance text-4xl font-semibold tracking-tight text-white/95 sm:text-5xl md:text-6xl">
+                {t("title")}
+              </h1>
+              <p className="max-w-2xl text-pretty text-lg text-white/70 sm:text-xl">
+                {t("intro_paragraph")}
+              </p>
+            </div>
+          </section>
         </ScrollReveal>
 
         <ScrollReveal delay={0.9} className="w-full">

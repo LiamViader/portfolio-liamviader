@@ -64,9 +64,12 @@
   },
   "ProjectsPage": {
     "title": "Proyectos",
+    "tagline": "Selección de trabajos y exploraciones",
     "featured_title": "Destacados",
+    "featured_description": "Una selección de las iniciativas que más me representan, desde juegos inmersivos hasta interfaces expresivas y sistemas inteligentes.",
     "featured_badge": "Proyecto destacado",
     "project_gallery_title": "Galería completa",
+    "project_gallery_description": "Explora el archivo completo y filtra por área para descubrir cómo cada proyecto combina tecnología, diseño y narrativa.",
     "projects": "Proyectos",
     "ai": "IA y Software",
     "all": "Todos",

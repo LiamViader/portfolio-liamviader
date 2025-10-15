@@ -64,21 +64,28 @@ export default function FeaturedProjects({ projects }: FeaturedProjectsProps) {
   }
 
   return (
-    <section className="py-10 px-4 md:px-8 w-full mx-auto mb-16">
-      <h2 className="text-3xl md:text-5xl font-extrabold mb-20 tracking-tight text-center">
-        {t("featured_title")}
-      </h2>
+    <section className="relative px-4 py-24">
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(56,189,248,0.18),_transparent_60%)]" />
+      <div className="absolute inset-0 bg-gradient-to-b from-gray-950/70 via-gray-950/40 to-transparent" />
 
-      <div className="relative flex items-center justify-center">
+      <div className="relative mx-auto flex max-w-6xl flex-col items-center gap-12 text-center">
+        <div className="space-y-4">
+          <h2 className="text-3xl font-semibold text-white md:text-4xl">{t("featured_title")}</h2>
+          <p className="mx-auto max-w-2xl text-balance text-base text-white/65">
+            {t("featured_description")}
+          </p>
+        </div>
 
-        <FeaturedCarousel
-          projects={featuredProjects}
-          badgeLabel={t("featured_badge")}
-          onSelectProject={openProjectDetails}
-          registerCardRef={registerCardRef}
-          selectedProjectId={selectedProjectId}
-          revealOrigin={revealOrigin}
-        />
+        <div className="relative flex w-full items-center justify-center">
+          <FeaturedCarousel
+            projects={featuredProjects}
+            badgeLabel={t("featured_badge")}
+            onSelectProject={openProjectDetails}
+            registerCardRef={registerCardRef}
+            selectedProjectId={selectedProjectId}
+            revealOrigin={revealOrigin}
+          />
+        </div>
       </div>
 
       {selected && (
