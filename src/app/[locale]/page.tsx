@@ -40,7 +40,7 @@ export default function Home() {
 
   return (
     <div className="flex flex-col bg-gray-900">
-      <section className="relative overflow-hidden border border-white/10 bg-gray-950/70 px-4 py-34 shadow-[0_40px_50px_-40px_rgba(56,189,248,0.45)] mb-0">
+      <section className="relative overflow-hidden bg-gray-950/70 px-4 py-34 shadow-[0_40px_50px_-40px_rgba(56,189,248,0.45)] mb-0">
         <CanvasScene />
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(125,211,252,0.3),_transparent_65%)]" />
         <div className="absolute inset-0 bg-gradient-to-b from-gray-950/10 via-gray-950/60 to-gray-950" />
@@ -121,7 +121,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="relative px-4 py-24 bg-black/10">
+      <section className="relative px-4 py-24 bg-black/10 border-y border-white/10">
       
         <div className="absolute inset-0 bg-gradient-to-b from-gray-90/10 via-gray-950/60 to-sky-900/20" />
         <div className="relative mx-auto flex max-w-5xl flex-col gap-8 text-center md:text-left">
@@ -156,7 +156,7 @@ export default function Home() {
 
       <section className="relative px-4 py-24">
         <CanvasScene />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(125,211,252,0.3),_transparent_65%)]" />
+        <div className="z-0 absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(125,211,252,0.3),_transparent_65%)]" />
         <div className="absolute inset-0 bg-gradient-to-b from-gray-950/90 via-gray-950/60 to-gray-950" />
         <div className="relative mx-auto flex max-w-6xl flex-col gap-10">
                 <div className="flex flex-col gap-6 text-center md:flex-row md:items-end md:justify-between md:text-left">
