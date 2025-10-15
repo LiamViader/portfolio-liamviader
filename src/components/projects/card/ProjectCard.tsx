@@ -31,7 +31,7 @@ export default function ProjectCard({ project, onSelect, isHidden = false }: Pro
       role="button"
       tabIndex={0}
       onClick={handleClick}
-      className={`group relative flex h-full flex-col overflow-hidden rounded-3xl border border-white/10 bg-white/5 shadow-[0_20px_45px_-30px_rgba(56,189,248,0.65)] backdrop-blur transition ${
+      className={`cursor-pointer group relative flex h-full flex-col overflow-hidden rounded-3xl border border-white/10 bg-white/5 shadow-[0_20px_45px_-30px_rgba(56,189,248,0.65)] backdrop-blur transition ${
         isHidden
           ? "pointer-events-none select-none opacity-0"
           : "hover:-translate-y-1 hover:border-sky-400/60 hover:bg-sky-500/10"

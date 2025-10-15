@@ -10,6 +10,7 @@ import { measureStableRect } from "@/utils/measureStableRect";
 import { ProjectModalPortal } from "../modal/ProjectModalPortal";
 import { useProjectSelection } from "../grid/hooks/useProjectSelection";
 import { FeaturedCarousel } from "./FeaturedCarousel";
+import { ScrollReveal } from "../../ScrollReveal";
 
 interface FeaturedProjectsProps {
   projects: TranslatedProject[];
@@ -65,28 +66,28 @@ export default function FeaturedProjects({ projects }: FeaturedProjectsProps) {
 
   return (
     <section className="relative px-4 py-24">
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(56,189,248,0.18),_transparent_60%)]" />
-      <div className="absolute inset-0 bg-gradient-to-b from-gray-950/70 via-gray-950/40 to-transparent" />
+      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-gray-300/15 to-transparent" />
+      <ScrollReveal delay={0.9} className="w-full">
+        <div className="relative mx-auto flex max-w-6xl flex-col items-center gap-12 text-center">
+          <div className="space-y-4">
+            <h2 className="text-3xl font-semibold text-white md:text-4xl">{t("featured_title")}</h2>
+            <p className="mx-auto max-w-2xl text-balance text-base text-white/65">
+              {t("featured_description")}
+            </p>
+          </div>
 
-      <div className="relative mx-auto flex max-w-6xl flex-col items-center gap-12 text-center">
-        <div className="space-y-4">
-          <h2 className="text-3xl font-semibold text-white md:text-4xl">{t("featured_title")}</h2>
-          <p className="mx-auto max-w-2xl text-balance text-base text-white/65">
-            {t("featured_description")}
-          </p>
+          <div className="relative flex w-full items-center justify-center">
+            <FeaturedCarousel
+              projects={featuredProjects}
+              badgeLabel={t("featured_badge")}
+              onSelectProject={openProjectDetails}
+              registerCardRef={registerCardRef}
+              selectedProjectId={selectedProjectId}
+              revealOrigin={revealOrigin}
+            />
+          </div>
         </div>
-
-        <div className="relative flex w-full items-center justify-center">
-          <FeaturedCarousel
-            projects={featuredProjects}
-            badgeLabel={t("featured_badge")}
-            onSelectProject={openProjectDetails}
-            registerCardRef={registerCardRef}
-            selectedProjectId={selectedProjectId}
-            revealOrigin={revealOrigin}
-          />
-        </div>
-      </div>
+      </ScrollReveal>
 
       {selected && (
         <ProjectModalPortal

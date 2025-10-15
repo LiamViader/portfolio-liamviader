@@ -219,17 +219,17 @@ export default function Home() {
                 </div>
               </div>
               <section className="px-4 pt-34 pb-10">
-                      <div className="relative mx-auto max-w-5xl overflow-hidden rounded-3xl border border-white/10 p-10 text-center shadow-[0_20px_10px_-30px_rgba(56,189,248,0.6)] backdrop-blur">
-                        <div className="absolute -left-16 top-10 h-40 w-40 rounded-full bg-sky-500/20 blur-3xl" />
-                        <div className="absolute -right-16 bottom-10 h-40 w-40 rounded-full bg-sky-500/20 blur-3xl" />
-                        <div className="relative z-10 space-y-6">
-                          <h2 className="text-3xl font-semibold text-white md:text-4xl">{t("cta.title")}</h2>
-                          <p className="text-balance text-base text-white/70 md:text-lg">{t("cta.subtitle")}</p>
-                          <Link href="/contact" className={heroButtons.primary}>
-                            {t("cta.button")}
-                          </Link>
-                        </div>
-                      </div>
+                <div className="relative mx-auto max-w-5xl overflow-hidden rounded-3xl border border-white/10 p-10 text-center shadow-[0_20px_10px_-30px_rgba(56,189,248,0.6)] backdrop-blur">
+                  <div className="absolute -left-16 top-10 h-40 w-40 rounded-full bg-sky-500/20 blur-3xl" />
+                  <div className="absolute -right-16 bottom-10 h-40 w-40 rounded-full bg-sky-500/20 blur-3xl" />
+                  <div className="relative z-10 space-y-6">
+                    <h2 className="text-3xl font-semibold text-white md:text-4xl">{t("cta.title")}</h2>
+                    <p className="text-balance text-base text-white/70 md:text-lg">{t("cta.subtitle")}</p>
+                    <Link href="/contact" className={heroButtons.primary}>
+                      {t("cta.button")}
+                    </Link>
+                  </div>
+                </div>
               </section>
       </section>
 

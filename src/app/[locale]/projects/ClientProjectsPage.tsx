@@ -48,13 +48,13 @@ export default function ClientProjectsPage({ projectsData }: ClientProjectsPageP
     <div className="relative flex min-h-screen flex-col bg-gray-900 text-white">
       <ProjectSceneCanvas category={category} />
 
-      <div className="relative z-10 flex flex-col gap-24">
-        <ScrollReveal delay={0.7}>
-          <section className="relative overflow-hidden border border-white/10 bg-gray-950/70 px-4 py-32 shadow-[0_40px_50px_-40px_rgba(56,189,248,0.45)]">
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(125,211,252,0.35),_transparent_65%)]" />
-            <div className="absolute inset-0 bg-gradient-to-b from-gray-950/10 via-gray-950/70 to-gray-950" />
-
-            <div className="relative mx-auto flex max-w-4xl flex-col items-center gap-6 text-center">
+      <div className="relative z-10 flex flex-col">
+        
+        <section className="relative overflow-hidden bg-transparent px-4 pt-44 pb-30">
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_15%,rgba(125,211,252,0.35),transparent_40%)]" />
+          <div className="absolute inset-0 bg-gradient-to-b from-gray-950 via-gray-950/50 to-transparent" />
+          <ScrollReveal delay={0.7} className="w-full">
+            <div className="relative mx-auto flex max-w-4xl flex-col items-center gap-8 text-center">
               <span
                 className={`inline-flex items-center gap-3 rounded-full border border-white/20 bg-white/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.35em] text-white/70 backdrop-blur transition ${titleColorClass}`}
               >
@@ -67,20 +67,14 @@ export default function ClientProjectsPage({ projectsData }: ClientProjectsPageP
                 {t("intro_paragraph")}
               </p>
             </div>
-          </section>
-        </ScrollReveal>
+          </ScrollReveal>
+        </section>
 
-        <ScrollReveal delay={0.9} className="w-full">
-          <FeaturedProjects projects={projectsData} />
-        </ScrollReveal>
+        <FeaturedProjects projects={projectsData} />
+        
+        <ProjectGallery category={category} filteredProjects={filteredProjects} onCategoryChange={setCategory} />
 
-        <ScrollReveal delay={0.2} className="w-full">
-          <ProjectGallery category={category} filteredProjects={filteredProjects} onCategoryChange={setCategory} />
-        </ScrollReveal>
-
-        <ScrollReveal delay={0.1} className="w-full">
-          <CallToAction />
-        </ScrollReveal>
+        <CallToAction />
       </div>
     </div>
   );

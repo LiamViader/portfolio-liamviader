@@ -83,7 +83,7 @@ export function useProjectModalTransition({
       width: Math.round(baseRect.width),
       height: Math.round(baseRect.height),
       opacity: 1,
-      borderRadius: 16,
+      borderRadius: 50,
       x: 0,
       y: 0,
       scaleX: 1,
