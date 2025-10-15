@@ -33,7 +33,7 @@ const generateHexGrid = (width: number, height: number): HexData[] => {
         }
 
         const minDimension = Math.min(width, height);
-        const radius = Math.max(28, Math.min(minDimension / 18, 48));
+        const radius = Math.max(14, Math.min(minDimension / 36, 24));
         const hexWidth = Math.sqrt(3) * radius;
         const verticalSpacing = (3 / 2) * radius;
         const horizontalSpacing = hexWidth;
@@ -172,18 +172,19 @@ function HexGrid() {
 
 export default function CanvasScene() {
         return (
-                <Canvas
-                        className="pointer-events-none absolute inset-0 h-full w-full"
-                        orthographic
-                        dpr={[1, 2]}
-                        camera={{ position: [0, 0, 20], near: -1000, far: 1000 }}
-                        gl={{ antialias: true, alpha: true }}
-                        frameloop="always"
-                >
-                        <fog attach="fog" args={["#04060c", 0.0018]} />
-                        <Suspense fallback={null}>
-                                <HexGrid />
-                        </Suspense>
-                </Canvas>
+                <div className="pointer-events-none absolute inset-0 h-full w-full">
+                        <Canvas
+                                orthographic
+                                dpr={[1, 2]}
+                                camera={{ position: [0, 0, 20], near: -1000, far: 1000 }}
+                                gl={{ antialias: true, alpha: true }}
+                                frameloop="always"
+                        >
+                                <fog attach="fog" args={["#04060c", 0.0018]} />
+                                <Suspense fallback={null}>
+                                        <HexGrid />
+                                </Suspense>
+                        </Canvas>
+                </div>
         );
 }
