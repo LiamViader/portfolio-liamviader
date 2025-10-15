@@ -1,5 +1,56 @@
 {
   "HomePage": {
+    "hero": {
+      "tagline": "AI · Games · Software",
+      "title": "Building experiences that merge <highlight>AI craftsmanship</highlight> with <highlight>playable worlds</highlight>",
+      "subtitle": "I'm Liam Viader, a full-stack developer, AI tinkerer, and game designer who loves transforming ambitious ideas into polished, interactive realities.",
+      "ctaProjects": "Explore projects",
+      "ctaContact": "Let's collaborate",
+      "availability": "Available for collaborations worldwide"
+    },
+    "metrics": {
+      "ai": {
+        "value": "Intelligent journeys",
+        "label": "Designing AI-first features that feel natural to the player and the user."
+      },
+      "systems": {
+        "value": "End-to-end systems",
+        "label": "Architecting the front end, backend, and tools that keep products running."
+      },
+      "collaboration": {
+        "value": "Creative partnerships",
+        "label": "Co-creating with artists, founders, and studios to ship memorable work."
+      }
+    },
+    "highlights": {
+      "title": "How I help ideas take shape",
+      "description": "Blending technical depth with playful experimentation to build products that stand out.",
+      "items": {
+        "ai": {
+          "title": "AI & intelligent systems",
+          "description": "Training, fine-tuning, and integrating machine learning models that feel purposeful and intuitive."
+        },
+        "experience": {
+          "title": "Product & experience design",
+          "description": "Designing cohesive UX foundations, design systems, and storytelling that guide every interaction."
+        },
+        "games": {
+          "title": "Immersive game worlds",
+          "description": "Creating gameplay prototypes, moment-to-moment feel, and the technical glue that makes worlds come alive."
+        }
+      }
+    },
+    "projects": {
+      "title": "Featured projects",
+      "description": "A snapshot of recent experiments across AI, tools, and interactive entertainment.",
+      "viewAll": "View the complete projects gallery",
+      "featuredBadge": "Featured"
+    },
+    "cta": {
+      "title": "Ready to build something unforgettable?",
+      "subtitle": "I'm always excited to collaborate on forward-thinking products, prototypes, or games.",
+      "button": "Start a conversation"
+    }
   },
   "Metadata": {
     "title": "Portfolio - Liam Viader",

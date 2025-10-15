@@ -1,5 +1,56 @@
 {
   "HomePage": {
+    "hero": {
+      "tagline": "IA · Videojuegos · Software",
+      "title": "Construyo experiencias que unen la <highlight>artesanía en IA</highlight> con <highlight>mundos interactivos</highlight>",
+      "subtitle": "Soy Liam Viader, desarrollador full-stack, creador de IA y diseñador de videojuegos. Me apasiona transformar ideas ambiciosas en realidades interactivas pulidas.",
+      "ctaProjects": "Ver proyectos",
+      "ctaContact": "Hablemos",
+      "availability": "Disponible para colaboraciones en todo el mundo"
+    },
+    "metrics": {
+      "ai": {
+        "value": "Viajes inteligentes",
+        "label": "Diseño funciones con IA que se sienten naturales tanto para el jugador como para la persona usuaria."
+      },
+      "systems": {
+        "value": "Sistemas de punta a punta",
+        "label": "Arquitecto el frontend, backend y las herramientas que mantienen vivo cada proyecto."
+      },
+      "collaboration": {
+        "value": "Alianzas creativas",
+        "label": "Co-creo con artistas, fundadores y estudios para lanzar trabajos memorables."
+      }
+    },
+    "highlights": {
+      "title": "Cómo llevo tus ideas a la realidad",
+      "description": "Combino profundidad técnica con experimentación lúdica para crear productos que destacan.",
+      "items": {
+        "ai": {
+          "title": "IA y sistemas inteligentes",
+          "description": "Entreno, ajusto e integro modelos de machine learning que aportan valor real y se sienten intuitivos."
+        },
+        "experience": {
+          "title": "Diseño de producto y experiencia",
+          "description": "Creo fundamentos de UX, design systems y narrativas que guían cada interacción."
+        },
+        "games": {
+          "title": "Mundos de juego inmersivos",
+          "description": "Desarrollo prototipos, sensaciones momento a momento y la capa técnica que hace que los mundos cobren vida."
+        }
+      }
+    },
+    "projects": {
+      "title": "Proyectos destacados",
+      "description": "Un vistazo a mis experimentos recientes en IA, herramientas y entretenimiento interactivo.",
+      "viewAll": "Ver la galería completa",
+      "featuredBadge": "Destacado"
+    },
+    "cta": {
+      "title": "¿Listo para crear algo inolvidable?",
+      "subtitle": "Siempre me entusiasma colaborar en productos, prototipos o juegos con visión de futuro.",
+      "button": "Iniciemos la conversación"
+    }
   },
   "Metadata": {
     "title": "Portafolio - Liam Viader",
