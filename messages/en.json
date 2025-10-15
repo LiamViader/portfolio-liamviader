@@ -64,9 +64,12 @@
   },
   "ProjectsPage": {
     "title": "Projects",
+    "tagline": "Curated work & explorations",
     "featured_title": "Featured",
+    "featured_description": "A showcase of the initiatives I am most proud of, spanning immersive games, expressive interfaces, and intelligent systems.",
     "featured_badge": "Featured project",
     "project_gallery_title": "Complete gallery",
+    "project_gallery_description": "Browse the full archive and filter by focus area to discover how each project blends technology, design, and storytelling.",
     "projects": "Projects",
     "ai": "AI & Software",
     "all": "All",
