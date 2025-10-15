@@ -122,6 +122,7 @@ export default function Home() {
       </section>
 
       <section className="relative px-4 py-24 bg-black/10">
+      
         <div className="absolute inset-0 bg-gradient-to-b from-gray-90/10 via-gray-950/60 to-sky-900/20" />
         <div className="relative mx-auto flex max-w-5xl flex-col gap-8 text-center md:text-left">
           <div>
@@ -217,7 +218,7 @@ export default function Home() {
                   ))}
                 </div>
               </div>
-              <section className="px-4 py-24">
+              <section className="px-4 pt-34 pb-10">
                       <div className="relative mx-auto max-w-5xl overflow-hidden rounded-3xl border border-white/10 p-10 text-center shadow-[0_20px_10px_-30px_rgba(56,189,248,0.6)] backdrop-blur">
                         <div className="absolute -left-16 top-10 h-40 w-40 rounded-full bg-sky-500/20 blur-3xl" />
                         <div className="absolute -right-16 bottom-10 h-40 w-40 rounded-full bg-sky-500/20 blur-3xl" />
