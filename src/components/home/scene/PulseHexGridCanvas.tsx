@@ -5,8 +5,8 @@ import { Canvas } from "@react-three/fiber";
 import clsx from "clsx";
 import PulseHexGridOverlapLine, { type HexGridParams } from "./PulseHexGridOverlapLine";
 import PulseHexGridFill from "./PulseHexGridFill";
-
-export const grid_types = ['OverlapLine', 'Fill'] as const; 
+import HexGridTrails from "./HexGridTrails";
+export const grid_types = ['OverlapLine', 'Fill', 'Trails'] as const; 
 
 export type GridType = typeof grid_types[number]; 
 
@@ -21,6 +21,27 @@ export type CanvasSceneProps = {
   l?: number;
   gridType?: GridType;
 };
+
+function renderGrid(finalGridType: GridType, mergedParams: HexGridParams) {
+  switch (finalGridType) {
+    case "Fill":
+      return <PulseHexGridFill params={mergedParams} />;
+
+    case "OverlapLine":
+      return <PulseHexGridOverlapLine params={mergedParams} />;
+
+    case "Trails":
+      return (
+        <HexGridTrails
+          params={mergedParams}
+          options={{ trailCount: 28, stepsPerSecond: 22, fadeSeconds: 5 }}
+        />
+      );
+
+    default:
+      return null;
+  }
+}
 
 export default function PulseHexGridCanvas({
   className,
@@ -61,11 +82,9 @@ export default function PulseHexGridCanvas({
       >
         <fog attach="fog" args={["#04060c", 0.0018]} />
         <Suspense fallback={null}>
-          {
-          finalGridType === 'Fill' 
-          ? <PulseHexGridFill params={mergedParams} /> 
-          : <PulseHexGridOverlapLine params={mergedParams} />
-          }
+          <group>
+            {renderGrid(finalGridType, mergedParams)}
+          </group>
         </Suspense>
       </Canvas>
     </div>

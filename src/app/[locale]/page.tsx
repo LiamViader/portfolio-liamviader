@@ -125,7 +125,7 @@ export default function Home() {
       </section>
 
       <section className="relative px-4 py-24 bg-black/10 border-y border-white/10">
-        <PulseHexGridCanvas pixelsPerHex={20} gridType="Fill" hue={240} hueJitter={10} l={1}/>
+        <PulseHexGridCanvas pixelsPerHex={20} gridType="Trails" hue={240} hueJitter={30} l={50}/>
         <div className="absolute inset-0 bg-gradient-to-b from-gray-90/10 via-gray-950/60 to-sky-900/20" />
         <ScrollReveal>
           <div className="relative mx-auto flex max-w-5xl flex-col gap-8 text-center md:text-left">
@@ -160,12 +160,11 @@ export default function Home() {
       </section>
 
       <section className="relative px-4 py-24">
-        <PulseHexGridCanvas pixelsPerHex={40} hue={240} hueJitter={10} s={80}/>
-        <div className="z-0 absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(125,211,252,0.3),_transparent_65%)]" />
-        <div className="absolute inset-0 bg-gradient-to-b from-gray-950 via-gray-950/60 to-gray-950" />
-        <ScrollReveal>
-          <div className="relative mx-auto flex max-w-6xl flex-col gap-10">
-            <div className="flex flex-col gap-6 text-center md:flex-row md:items-end md:justify-between md:text-left">
+        <PulseHexGridCanvas pixelsPerHex={25} hue={240} hueJitter={10} s={80} l={1} gridType="Fill"/>
+        <div className="absolute inset-0 bg-gradient-to-b from-gray-950 via-gray-950/30 to-gray-950" />
+        <div className="relative mx-auto flex max-w-6xl flex-col gap-10">
+          <ScrollReveal>
+            <div className="flex flex-col gap-6 text-center md:flex-row md:items-end md:justify-between md:text-left mt-20">
               <div>
                 <h2 className="text-3xl font-semibold text-white md:text-4xl">{t("projects.title")}</h2>
                 <p className="mt-3 text-balance text-base text-white/65 md:max-w-2xl">
@@ -180,7 +179,8 @@ export default function Home() {
                 <Workflow className="h-4 w-4" />
               </Link>
             </div>
-
+          </ScrollReveal>
+          <ScrollReveal>
             <div className="grid gap-6 md:grid-cols-3">
               {projects.map((project) => (
                 <article
@@ -197,7 +197,7 @@ export default function Home() {
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-gray-950 via-gray-950/20 to-transparent" />
                     {project.is_featured && (
-                      <span className="absolute left-4 top-4 rounded-full bg-sky-500/90 px-3 py-1 text-xs font-semibold uppercase tracking-widest text-white">
+                      <span className="absolute left-4 top-4 rounded-full bg-sky-500/95 px-3 py-1 text-xs font-semibold uppercase tracking-widest text-white ">
                         {t("projects.featuredBadge")}
                       </span>
                     )}
@@ -223,8 +223,8 @@ export default function Home() {
                 </article>
               ))}
             </div>
-          </div>
-        </ScrollReveal>
+          </ScrollReveal>
+        </div>
         <section className="px-4 pt-34 pb-10">
           <ScrollReveal>
             <div className="relative mx-auto max-w-5xl overflow-hidden rounded-3xl border border-white/10 p-10 text-center shadow-[0_20px_10px_-30px_rgba(56,189,248,0.6)] backdrop-blur">
