@@ -2,6 +2,7 @@ import { useEffect, useMemo, useRef } from "react";
 import { useFrame, useThree } from "@react-three/fiber";
 import * as THREE from "three";
 import { HexGridParams } from "./PulseHexGridOverlapLine";
+import { hex } from "framer-motion";
 
 /** Optional fine-tuning (all fields optional). Pass as <PulseHexGridFill tuning={{ ... }} /> */
 export type FillTuning = {
@@ -299,9 +300,11 @@ function buildSharedGrid(
   const hexWidth = Math.sqrt(3) * radius;
   const vSpacing = (3 / 2) * radius;
   const hSpacing = hexWidth;
+  
+  const margin = Math.ceil((width / hSpacing) * 0.05);
 
-  const columns = Math.ceil(width / hSpacing) + 2;
-  const rows = Math.ceil(height / vSpacing) + 2;
+  const columns = Math.ceil(width / hSpacing) + margin;
+  const rows = Math.ceil(height / vSpacing) + margin;
 
   const cells: Cell[] = [];
   const indexOf = (r: number, c: number) => r * columns + c;
@@ -314,7 +317,7 @@ function buildSharedGrid(
     for (let c = 0; c < columns; c++) {
       const offsetX = r % 2 !== 0 ? hSpacing / 2 : 0;
       const cx = -width / 2 + c * hSpacing + offsetX;
-      const cy = -height / 2 + r * vSpacing;
+      const cy = -height / 2 + r * vSpacing - (margin * hexWidth * 0.5);
 
       // random phase in [0, 2π) — not tied to row/column at all
       const phase = Math.random() * Math.PI * 2 + (Math.random() - 0.5) * tuning.phaseJitter;
