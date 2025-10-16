@@ -124,7 +124,7 @@ export default function Home() {
         </ScrollReveal>
       </section>
 
-      <section className="relative px-4 py-24 bg-black/10 border-y border-white/10">
+      <section className="relative px-4 py-24 bg-black/10 border-y border-white/10 ">
         <PulseHexGridCanvas pixelsPerHex={20} gridType="Trails" hue={240} hueJitter={30} l={50}/>
         <div className="absolute inset-0 bg-gradient-to-b from-gray-90/10 via-gray-950/60 to-sky-900/20" />
         <ScrollReveal>
@@ -159,12 +159,13 @@ export default function Home() {
         </ScrollReveal>
       </section>
 
-      <section className="relative px-4 py-24">
-        <PulseHexGridCanvas pixelsPerHex={25} hue={240} hueJitter={10} s={80} l={1} gridType="Fill"/>
+      <section className="relative px-4 py-34">
+        <PulseHexGridCanvas pixelsPerHex={25} hue={240} hueJitter={10} s={60} l={1} gridType="Fill"/>
         <div className="absolute inset-0 bg-gradient-to-b from-gray-950 via-gray-950/30 to-gray-950" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_rgba(125,211,252,0.2),_transparent_70%)]" />
         <div className="relative mx-auto flex max-w-6xl flex-col gap-10">
           <ScrollReveal>
-            <div className="flex flex-col gap-6 text-center md:flex-row md:items-end md:justify-between md:text-left mt-20">
+            <div className="flex flex-col gap-6 text-center md:flex-row md:items-end md:justify-between md:text-left">
               <div>
                 <h2 className="text-3xl font-semibold text-white md:text-4xl">{t("projects.title")}</h2>
                 <p className="mt-3 text-balance text-base text-white/65 md:max-w-2xl">
