@@ -20,9 +20,18 @@ export type CanvasSceneProps = {
   s?: number;
   l?: number;
   gridType?: GridType;
+  trailCount?: number;
+  stepsPerSecond?: number;
+  fadeSeconds?: number;
 };
 
-function renderGrid(finalGridType: GridType, mergedParams: HexGridParams) {
+type HexGridTrailParams = {
+  trailCount: number;
+  stepsPerSecond: number;
+  fadeSeconds: number;
+}
+
+function renderGrid(finalGridType: GridType, mergedParams: HexGridParams, trailParams?: HexGridTrailParams) {
   switch (finalGridType) {
     case "Fill":
       return <PulseHexGridFill params={mergedParams} />;
@@ -34,7 +43,7 @@ function renderGrid(finalGridType: GridType, mergedParams: HexGridParams) {
       return (
         <HexGridTrails
           params={mergedParams}
-          options={{ trailCount: 28, stepsPerSecond: 22, fadeSeconds: 5 }}
+          options={{ trailCount: trailParams?.trailCount, stepsPerSecond: trailParams?.stepsPerSecond, fadeSeconds: trailParams?.fadeSeconds }}
         />
       );
 
@@ -51,6 +60,9 @@ export default function PulseHexGridCanvas({
   s,
   l,
   gridType,
+  trailCount,
+  stepsPerSecond,
+  fadeSeconds,
 }: CanvasSceneProps) {
   const hostRef = useRef<HTMLDivElement>(null);
 
@@ -69,6 +81,12 @@ export default function PulseHexGridCanvas({
     l: l ?? 58,                       // lightness %
   };
 
+  const trailParams = gridType === 'Trails' ? {
+    trailCount: trailCount ?? 40,
+    stepsPerSecond: stepsPerSecond ?? 22,
+    fadeSeconds: fadeSeconds ?? 7,
+  }: undefined;
+
   const finalGridType = gridType ?? 'OverlapLine';
 
   return (
@@ -83,7 +101,7 @@ export default function PulseHexGridCanvas({
         <fog attach="fog" args={["#04060c", 0.0018]} />
         <Suspense fallback={null}>
           <group>
-            {renderGrid(finalGridType, mergedParams)}
+            {renderGrid(finalGridType, mergedParams, trailParams)}
           </group>
         </Suspense>
       </Canvas>
