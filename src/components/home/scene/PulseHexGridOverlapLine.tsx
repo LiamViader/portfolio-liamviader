@@ -131,7 +131,7 @@ export default function PulseHexGridOverlapLine({ params }: { params: HexGridPar
 
     const g = groupRef.current;
     if (g) {
-      g.rotation.z = Math.sin(t * 0.18) * 0.08;
+      g.rotation.z = Math.sin(t * 0.18) * 0.04;
       g.position.z = Math.sin(t * 0.25) * 6;
     }
   });
@@ -182,8 +182,9 @@ function generateHexGrid(width: number, height: number, p: HexGridParams): HexDa
   const hexWidth = Math.sqrt(3) * radius; // == p.pixelsPerHex
   const vSpacing = (3 / 2) * radius;
   const hSpacing = hexWidth;
-  const columns = Math.ceil(width / hSpacing) + 2;
-  const rows = Math.ceil(height / vSpacing) + 2;
+  const margin = Math.ceil((width / hSpacing) * 0.05);
+  const columns = Math.ceil(width / hSpacing) + margin;
+  const rows = Math.ceil(height / vSpacing) + margin;
 
   const baseHue01 = (((p.hue % 360) + 360) % 360) / 360;
   const jitter01 = Math.abs(p.hueJitter) / 360;
@@ -193,7 +194,7 @@ function generateHexGrid(width: number, height: number, p: HexGridParams): HexDa
     for (let c = -1; c < columns; c++) {
       const offsetX = r % 2 !== 0 ? hSpacing / 2 : 0;
       const x = -width / 2 + c * hSpacing + offsetX;
-      const y = -height / 2 + r * vSpacing;
+      const y = -height / 2 + r * vSpacing - (margin * hexWidth * 0.5);
       const z = (Math.random() - 0.5) * 80;
 
       const hue = wrap01(baseHue01 + (Math.random() * 2 - 1) * jitter01);

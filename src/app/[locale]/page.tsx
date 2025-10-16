@@ -45,7 +45,7 @@ export default function Home() {
       <section className="relative overflow-hidden bg-gray-950/70 px-4 py-34 shadow-[0_40px_50px_-40px_rgba(56,189,248,0.2)] mb-0">
         <PulseHexGridCanvas pixelsPerHex={40} gridType="Fill" s={75} hue={240} hueJitter={5} l={0}/>
         <PulseHexGridCanvas pixelsPerHex={40} hue={240} hueJitter={30} s={80}/>
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(125,211,252,0.3),_transparent_65%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(125,211,252,0.2),_transparent_65%)]" />
         <div className="absolute inset-0 bg-gradient-to-b from-gray-950/10 via-gray-950/60 to-gray-950" />
         <ScrollReveal delay={1}>
           <div className="relative z-10 mx-auto flex max-w-4xl flex-col items-center gap-8 text-center">
@@ -126,8 +126,8 @@ export default function Home() {
       </section>
 
       <section className="relative px-4 py-14 bg-black/10 border-y border-white/10 ">
-        <PulseHexGridCanvas pixelsPerHex={20} gridType="Fill" s={75} hue={240} hueJitter={5} l={0}/>
-        <PulseHexGridCanvas pixelsPerHex={20} hue={260} hueJitter={30} s={100} l={50} gridType="Trails" trailCount={30}/>
+        <PulseHexGridCanvas pixelsPerHex={25} gridType="Fill" s={80} hue={240} hueJitter={10} l={25}/>
+        <PulseHexGridCanvas pixelsPerHex={25} hue={260} hueJitter={30} s={90} l={50} gridType="Trails" trailCount={30} fadeSeconds={10}/>
         <div className="absolute inset-0 bg-gradient-to-b from-gray-90/10 via-gray-950/60 to-sky-900/10" />
         <ScrollReveal>
           <div className="relative mx-auto flex max-w-5xl flex-col gap-8 text-center md:text-left">
@@ -162,9 +162,9 @@ export default function Home() {
       </section>
 
       <section className="relative px-4 py-34">
-        <PulseHexGridCanvas pixelsPerHex={30} gridType="Fill" s={70} hue={240} hueJitter={5} l={10}/>
-        <PulseHexGridCanvas pixelsPerHex={30} hue={240} hueJitter={10} s={40} l={60} gridType="Trails" trailCount={30}/>
-        <div className="absolute inset-0 bg-gradient-to-b from-gray-950 via-gray-950/30 to-gray-950" />
+        <PulseHexGridCanvas pixelsPerHex={40} gridType="Fill" s={75} hue={240} hueJitter={5} l={0}/>
+        <PulseHexGridCanvas pixelsPerHex={40} hue={240} hueJitter={30} s={40} l={25} gridType="Strata"/>
+        <div className="absolute inset-0 bg-gradient-to-b from-gray-950 via-[rgba(56,189,248,0.02)] to-gray-950" />
         <ScrollReveal>
           <div className="relative mx-auto flex max-w-6xl flex-col gap-10">
             <div className="flex flex-col gap-6 text-center md:flex-row md:items-end md:justify-between md:text-left">

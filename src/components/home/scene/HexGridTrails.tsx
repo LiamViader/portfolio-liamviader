@@ -145,7 +145,7 @@ export default function HexGridTrails({
     const g = groupRef.current;
     const t = state.clock.getElapsedTime();
     if (g) {
-      g.rotation.z = Math.sin(t * 0.12) * 0.05;
+      g.rotation.z = Math.sin(t * 0.18) * 0.04;
       g.position.z = Math.sin(t * 0.18) * 3.0;
     }
 
@@ -218,9 +218,9 @@ function buildHexGraph(
   const hexWidth = Math.sqrt(3) * radius;
   const vSpacing = (3 / 2) * radius;
   const hSpacing = hexWidth;
-
-  const cols = Math.ceil(width / hSpacing) + 2;
-  const rows = Math.ceil(height / vSpacing) + 2;
+  const margin = Math.ceil((width / hSpacing) * 0.05);
+  const cols = Math.ceil(width / hSpacing) + margin;
+  const rows = Math.ceil(height / vSpacing) + margin;
 
   const VERT_KEY_PREC = 4; // evita duplicados numéricos
   const key = (x: number, y: number) => `${x.toFixed(VERT_KEY_PREC)}|${y.toFixed(VERT_KEY_PREC)}`;
@@ -257,7 +257,7 @@ function buildHexGraph(
     for (let c = -1; c < cols; c++) {
       const offsetX = r % 2 !== 0 ? hSpacing / 2 : 0;
       const cx = -width / 2 + c * hSpacing + offsetX;
-      const cy = -height / 2 + r * vSpacing;
+      const cy = -height / 2 + r * vSpacing - (margin * hexWidth * 0.5);
 
       const vx = ang.map(a => cx + radius * Math.cos(a));
       const vy = ang.map(a => cy + radius * Math.sin(a));

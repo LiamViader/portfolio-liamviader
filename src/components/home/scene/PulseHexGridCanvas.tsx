@@ -6,7 +6,9 @@ import clsx from "clsx";
 import PulseHexGridOverlapLine, { type HexGridParams } from "./PulseHexGridOverlapLine";
 import PulseHexGridFill from "./PulseHexGridFill";
 import HexGridTrails from "./HexGridTrails";
-export const grid_types = ['OverlapLine', 'Fill', 'Trails'] as const; 
+import HexGridStrata from "./HexGridStrata";
+
+export const grid_types = ['OverlapLine', 'Fill', 'Trails', 'Strata'] as const; 
 
 export type GridType = typeof grid_types[number]; 
 
@@ -44,6 +46,18 @@ function renderGrid(finalGridType: GridType, mergedParams: HexGridParams, trailP
         <HexGridTrails
           params={mergedParams}
           options={{ trailCount: trailParams?.trailCount, stepsPerSecond: trailParams?.stepsPerSecond, fadeSeconds: trailParams?.fadeSeconds }}
+        />
+      );
+    case "Strata":
+      return (
+        <HexGridStrata
+          params={mergedParams}
+          options={{
+            mode: "rows",      // "rows" | "cols" | "diagA" | "diagB"
+            amplitude: 5,     // desplazamiento máximo en px
+            speed: 0.1,       // ciclos/seg
+            phaseStep: 0.2,    // desfase por estrato
+          }}
         />
       );
 
