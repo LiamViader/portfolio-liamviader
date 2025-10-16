@@ -42,7 +42,7 @@ export default function Home() {
 
   return (
     <div className="flex flex-col bg-gray-900">
-      <section className="relative overflow-hidden bg-gray-950/70 px-4 py-34 shadow-[0_40px_50px_-40px_rgba(56,189,248,0.45)] mb-0">
+      <section className="relative overflow-hidden bg-gray-950/70 px-4 py-34 shadow-[0_40px_50px_-40px_rgba(56,189,248,0.2)] mb-0">
         <PulseHexGridCanvas pixelsPerHex={40} hue={240} hueJitter={30} s={80}/>
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(125,211,252,0.3),_transparent_65%)]" />
         <div className="absolute inset-0 bg-gradient-to-b from-gray-950/10 via-gray-950/60 to-gray-950" />
@@ -126,7 +126,7 @@ export default function Home() {
 
       <section className="relative px-4 py-24 bg-black/10 border-y border-white/10 ">
         <PulseHexGridCanvas pixelsPerHex={20} gridType="Trails" hue={240} hueJitter={30} l={50}/>
-        <div className="absolute inset-0 bg-gradient-to-b from-gray-90/10 via-gray-950/60 to-sky-900/20" />
+        <div className="absolute inset-0 bg-gradient-to-b from-gray-90/10 via-gray-950/60 to-sky-900/10" />
         <ScrollReveal>
           <div className="relative mx-auto flex max-w-5xl flex-col gap-8 text-center md:text-left">
             <div>
@@ -162,7 +162,6 @@ export default function Home() {
       <section className="relative px-4 py-34">
         <PulseHexGridCanvas pixelsPerHex={25} hue={240} hueJitter={10} s={60} l={1} gridType="Fill"/>
         <div className="absolute inset-0 bg-gradient-to-b from-gray-950 via-gray-950/30 to-gray-950" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_rgba(125,211,252,0.2),_transparent_70%)]" />
         <div className="relative mx-auto flex max-w-6xl flex-col gap-10">
           <ScrollReveal>
             <div className="flex flex-col gap-6 text-center md:flex-row md:items-end md:justify-between md:text-left">
