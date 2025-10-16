@@ -11,9 +11,7 @@ export default function CallToAction() {
     <section className="relative px-4 py-24 ">
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-gray-900/40 to-gray-950" />
       <ScrollReveal delay={0.2} className="w-full">
-        <div className="relative mx-auto max-w-5xl overflow-hidden rounded-3xl border border-white/10 bg-white/5 p-12 text-center shadow-[0_20px_10px_-30px_rgba(56,189,248,0.6)] backdrop-blur">
-          <div className="absolute -left-16 top-10 h-40 w-40 rounded-full bg-sky-500/20 blur-3xl" />
-          <div className="absolute -right-16 bottom-10 h-40 w-40 rounded-full bg-sky-500/20 blur-3xl" />
+        <div className="relative mx-auto max-w-5xl overflow-hidden rounded-3xl border border-white/10 bg-white/5 p-12 text-center shadow-[0_20px_10px_-30px_rgba(56,189,248,0.6)] backdrop-blur-sm">
 
           <div className="relative z-10 space-y-6">
             <h2 className="text-3xl font-semibold text-white md:text-4xl">{t("cta_title")}</h2>

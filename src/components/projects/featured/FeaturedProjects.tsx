@@ -66,7 +66,7 @@ export default function FeaturedProjects({ projects }: FeaturedProjectsProps) {
 
   return (
     <section className="relative px-4 py-24">
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-gray-300/10 to-transparent" />
+      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-gray-300/8 to-transparent" />
       <ScrollReveal delay={0.9} className="w-full">
         <div className="relative mx-auto flex max-w-6xl flex-col items-center gap-12 text-center">
           <div className="space-y-4">
