@@ -54,7 +54,7 @@ export default function ClientProjectsPage({ projectsData }: ClientProjectsPageP
         <section className="relative overflow-hidden bg-transparent px-4 pt-44 pb-30">
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_45%,rgba(125,211,252,0.20),transparent_30%)]" />
           <div className="absolute inset-0 bg-gradient-to-b from-gray-950 via-gray-950/50 to-transparent" />
-          <ScrollReveal delay={0.7} className="w-full">
+          <ScrollReveal delay={0.5} className="w-full">
             <div className="relative mx-auto flex max-w-4xl flex-col items-center gap-8 text-center">
               <span
                 className={`inline-flex items-center gap-3 rounded-full border border-white/20 bg-white/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.35em] text-white/70 backdrop-blur transition ${titleColorClass}`}

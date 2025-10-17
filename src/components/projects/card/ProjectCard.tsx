@@ -46,7 +46,7 @@ export default function ProjectCard({ project, onSelect, isHidden = false }: Pro
             alt={project.title}
             fill
             sizes="(max-width: 768px) 100vw, 33vw"
-            className="object-cover transition duration-700 group-hover:scale-110 group-hover:translate-y-[-10%]"
+            className="object-cover transition duration-500 group-hover:scale-110 group-hover:translate-y-[-7%]"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-gray-950 via-gray-950/30 to-transparent" />
         </div>

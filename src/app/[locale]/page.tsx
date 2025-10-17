@@ -47,7 +47,7 @@ export default function Home() {
         <PulseHexGridCanvas pixelsPerHex={40} hue={240} hueJitter={30} s={80}/>
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(125,211,252,0.2),_transparent_65%)]" />
         <div className="absolute inset-0 bg-gradient-to-b from-gray-950/10 via-gray-950/60 to-gray-950" />
-        <ScrollReveal delay={1}>
+        <ScrollReveal delay={0.5}>
           <div className="relative z-10 mx-auto flex max-w-4xl flex-col items-center gap-8 text-center">
             <motion.span
               initial={{ opacity: 0, y: -10 }}
@@ -180,10 +180,10 @@ export default function Home() {
                 <div className="flex flex-wrap items-center justify-center gap-4 lg:justify-start">
                   <Link
                     href="/projects"
-                    className="inline-flex items-center justify-center gap-2 rounded-full border border-transparent bg-sky-500/80 px-5 py-2 text-sm font-semibold text-white shadow-[0_10px_30px_-20px_rgba(56,189,248,0.8)] transition hover:bg-sky-400"
+                    className="inline-flex items-center justify-center rounded-full bg-sky-500/90 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-sky-500/30 transition hover:bg-sky-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-400"
                   >
                     {t("projects.viewAll")}
-                    <Workflow className="h-4 w-4" />
+                    <Workflow className="ml-1 h-4 w-4" />
                   </Link>
                   <Link
                     href="/contact"
@@ -197,7 +197,7 @@ export default function Home() {
                 <FeaturedProjects
                   projects={projects}
                   className="max-w-full"
-                  contentClassName="justify-center lg:justify-end"
+                  contentClassName="justify-center"
                   carouselLayout={{
                     containerClassName: "!w-full",
                     viewportClassName:

@@ -20,7 +20,7 @@ export default function ProjectGallery({ category, filteredProjects, onCategoryC
   return (
     <section className="relative px-4 py-24">
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-transparent" />
-      <ScrollReveal delay={0.2} className="w-full">
+      <ScrollReveal className="w-full">
         <div className="relative mx-auto flex max-w-6xl flex-col items-center gap-12 text-center">
           <div className="space-y-4">
             <h2 className="text-3xl font-semibold text-white md:text-4xl">{t("project_gallery_title")}</h2>

@@ -1,2 +1,0 @@
-// <PulseHexGridCanvas pixelsPerHex={20} gridType="Fill" hue={240} hueJitter={10} l={1} className="bg-gray-900/10"/>
-// <PulseHexGridCanvas pixelsPerHex={20} hue={240} hueJitter={40} s={80} gridType="Trails"/>
