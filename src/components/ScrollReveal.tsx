@@ -1,6 +1,6 @@
 "use client";
 
-import { PropsWithChildren, useEffect, useMemo, useRef, useState } from "react";
+import { PropsWithChildren, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { motion, type MotionProps } from "framer-motion";
 import clsx from "clsx";
 import { useInView } from "react-intersection-observer";
@@ -32,19 +32,19 @@ export function ScrollReveal({
   const motionWrapperRef = useRef<HTMLDivElement | null>(null);
   const { ref, inView } = useInView({ triggerOnce: once, threshold: amount, rootMargin });
 
-  const [{ backgroundColor, backgroundImage, backgroundPosition, backgroundSize, backgroundRepeat }, setOverlayBackground] =
-    useState<{
-      backgroundColor: string;
-      backgroundImage?: string;
-      backgroundPosition?: string;
-      backgroundSize?: string;
-      backgroundRepeat?: string;
-    }>({ backgroundColor: FALLBACK_OVERLAY_COLOR });
-  const [overlayBorderRadius, setOverlayBorderRadius] = useState<string | undefined>(undefined);
-  const [overlayOffsets, setOverlayOffsets] =
-    useState<{ top: number; right: number; bottom: number; left: number } | undefined>(undefined);
+  const [overlayConfig, setOverlayConfig] = useState<{
+    hasBackdropSurface: boolean;
+    backgroundColor: string;
+    backgroundImage?: string;
+    backgroundPosition?: string;
+    backgroundSize?: string;
+    backgroundRepeat?: string;
+    backdropFilter?: string;
+    borderRadius?: string;
+    offsets?: { top: number; right: number; bottom: number; left: number };
+  }>({ hasBackdropSurface: false, backgroundColor: FALLBACK_OVERLAY_COLOR });
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (typeof window === "undefined") {
       return;
     }
@@ -119,18 +119,23 @@ export function ScrollReveal({
       const container = motionWrapperRef.current;
 
       if (!container) {
-        setOverlayBackground(fallback);
-        setOverlayBorderRadius(undefined);
-        setOverlayOffsets(undefined);
+        setOverlayConfig({ hasBackdropSurface: false, backgroundColor: fallback.backgroundColor });
         return;
       }
 
       const backdropSurface = findBackdropSurface(container);
 
       if (!backdropSurface) {
-        setOverlayBackground(resolveBackground(wrapperRef.current));
-        setOverlayBorderRadius(undefined);
-        setOverlayOffsets(undefined);
+        const { backgroundColor, backgroundImage, backgroundPosition, backgroundRepeat, backgroundSize } =
+          resolveBackground(wrapperRef.current);
+        setOverlayConfig({
+          hasBackdropSurface: false,
+          backgroundColor,
+          backgroundImage,
+          backgroundPosition,
+          backgroundRepeat,
+          backgroundSize,
+        });
         return;
       }
 
@@ -152,13 +157,18 @@ export function ScrollReveal({
       const containerRect = container.getBoundingClientRect();
       const surfaceRect = backdropSurface.getBoundingClientRect();
 
-      setOverlayBackground(background);
-      setOverlayBorderRadius(computed.borderRadius);
-      setOverlayOffsets({
-        top: surfaceRect.top - containerRect.top,
-        right: containerRect.right - surfaceRect.right,
-        bottom: containerRect.bottom - surfaceRect.bottom,
-        left: surfaceRect.left - containerRect.left,
+      setOverlayConfig({
+        hasBackdropSurface: true,
+        backdropFilter:
+          computed.backdropFilter || (computed as unknown as { webkitBackdropFilter?: string }).webkitBackdropFilter,
+        borderRadius: computed.borderRadius,
+        offsets: {
+          top: surfaceRect.top - containerRect.top,
+          right: containerRect.right - surfaceRect.right,
+          bottom: containerRect.bottom - surfaceRect.bottom,
+          left: surfaceRect.left - containerRect.left,
+        },
+        ...background,
       });
     };
 
@@ -180,34 +190,29 @@ export function ScrollReveal({
 
   const overlayStyle = useMemo(
     () => ({
-      backgroundColor,
-      ...(backgroundImage
+      backgroundColor: overlayConfig.backgroundColor,
+      ...(overlayConfig.backgroundImage
         ? {
-            backgroundImage,
-            backgroundPosition,
-            backgroundSize,
-            backgroundRepeat,
+            backgroundImage: overlayConfig.backgroundImage,
+            backgroundPosition: overlayConfig.backgroundPosition,
+            backgroundSize: overlayConfig.backgroundSize,
+            backgroundRepeat: overlayConfig.backgroundRepeat,
           }
         : {}),
-      borderRadius: overlayBorderRadius ?? "inherit",
-      ...(overlayOffsets
+      ...(overlayConfig.backdropFilter
+        ? { backdropFilter: overlayConfig.backdropFilter, WebkitBackdropFilter: overlayConfig.backdropFilter }
+        : {}),
+      borderRadius: overlayConfig.borderRadius ?? "inherit",
+      ...(overlayConfig.offsets
         ? {
-            top: overlayOffsets.top,
-            right: overlayOffsets.right,
-            bottom: overlayOffsets.bottom,
-            left: overlayOffsets.left,
+            top: overlayConfig.offsets.top,
+            right: overlayConfig.offsets.right,
+            bottom: overlayConfig.offsets.bottom,
+            left: overlayConfig.offsets.left,
           }
         : { top: 0, right: 0, bottom: 0, left: 0 }),
     }),
-    [
-      backgroundColor,
-      backgroundImage,
-      backgroundPosition,
-      backgroundRepeat,
-      backgroundSize,
-      overlayBorderRadius,
-      overlayOffsets,
-    ],
+    [overlayConfig],
   );
 
   const {
@@ -220,12 +225,19 @@ export function ScrollReveal({
 
   const variants =
     motionVariants ??
-    (noTransform
-      ? { hidden: { opacity: 0 }, show: { opacity: 1 } }
-      : {
-          hidden: { opacity: 0, y: distance },
-          show: { opacity: 1, y: 0, transitionEnd: { transform: "none" } },
-        });
+    (overlayConfig.hasBackdropSurface
+      ? noTransform
+        ? { hidden: { opacity: 1 }, show: { opacity: 1 } }
+        : {
+            hidden: { opacity: 1, y: distance },
+            show: { opacity: 1, y: 0, transitionEnd: { transform: "none" } },
+          }
+      : noTransform
+        ? { hidden: { opacity: 0 }, show: { opacity: 1 } }
+        : {
+            hidden: { opacity: 0, y: distance },
+            show: { opacity: 1, y: 0, transitionEnd: { transform: "none" } },
+          });
 
   const transition = motionTransition ?? { duration: 0.7, ease: "easeOut", delay };
 
@@ -241,22 +253,24 @@ export function ScrollReveal({
         transition={transition}
         style={{
           ...(!noTransform && inView ? { transform: "none" } : undefined),
-          ...(overlayBorderRadius ? { borderRadius: overlayBorderRadius } : undefined),
+          ...(overlayConfig.borderRadius ? { borderRadius: overlayConfig.borderRadius } : undefined),
           ...motionStyle,
         }}
         className={clsx("relative", motionClassName)}
         {...restMotionProps}
       >
         <div className="relative z-[1]">{children}</div>
-        <motion.div
-          aria-hidden
-          initial="hidden"
-          animate={animationState}
-          variants={{ hidden: { opacity: 1 }, show: { opacity: 0 } }}
-          transition={transition}
-          className="pointer-events-none absolute z-[2]"
-          style={overlayStyle}
-        />
+        {overlayConfig.hasBackdropSurface ? (
+          <motion.div
+            aria-hidden
+            initial="hidden"
+            animate={animationState}
+            variants={{ hidden: { opacity: 1 }, show: { opacity: 0 } }}
+            transition={transition}
+            className="pointer-events-none absolute z-[2]"
+            style={overlayStyle}
+          />
+        ) : null}
       </motion.div>
     </div>
   );
