@@ -2,6 +2,7 @@
 
 import { useCallback, useMemo, useRef } from "react";
 
+import clsx from "clsx";
 import { useTranslations } from "next-intl";
 
 import { TranslatedProject } from "@/data/projects";
@@ -9,18 +10,28 @@ import { measureStableRect } from "@/utils/measureStableRect";
 
 import { ProjectModalPortal } from "../modal/ProjectModalPortal";
 import { useProjectSelection } from "../grid/hooks/useProjectSelection";
-import { FeaturedCarousel } from "./FeaturedCarousel";
-import { ScrollReveal } from "../../ScrollReveal";
+import {
+  FeaturedCarousel,
+  type FeaturedCarouselLayoutOptions,
+} from "./FeaturedCarousel";
 
 interface FeaturedProjectsProps {
   projects: TranslatedProject[];
+  className?: string;
+  contentClassName?: string;
+  carouselLayout?: FeaturedCarouselLayoutOptions;
 }
 
 type CardRegistry = Map<number, HTMLElement>;
 
 type CardRefRegister = (projectId: number) => (node: HTMLElement | null) => void;
 
-export default function FeaturedProjects({ projects }: FeaturedProjectsProps) {
+export default function FeaturedProjects({
+  projects,
+  className,
+  contentClassName,
+  carouselLayout,
+}: FeaturedProjectsProps) {
   const t = useTranslations("ProjectsPage");
   const featuredProjects = useMemo(
     () => projects.filter((project) => project.is_featured),
@@ -65,8 +76,13 @@ export default function FeaturedProjects({ projects }: FeaturedProjectsProps) {
   }
 
   return (
-    <section className="relative w-full">
-      <div className="relative flex w-full items-center justify-center">
+    <section className={clsx("relative w-full", className)}>
+      <div
+        className={clsx(
+          "relative flex w-full items-center justify-center",
+          contentClassName,
+        )}
+      >
         <FeaturedCarousel
           projects={featuredProjects}
           badgeLabel={t("featured_badge")}
@@ -74,6 +90,7 @@ export default function FeaturedProjects({ projects }: FeaturedProjectsProps) {
           registerCardRef={registerCardRef}
           selectedProjectId={selectedProjectId}
           revealOrigin={revealOrigin}
+          layout={carouselLayout}
         />
       </div>
 
