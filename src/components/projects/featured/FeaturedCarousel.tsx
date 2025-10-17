@@ -187,7 +187,7 @@ export function FeaturedCarousel({
   );
 
   const cardClassName = clsx(
-    "absolute top-0 h-full w-[60%] md:w-[55%] lg:w-[52%] xl:w-[48%]",
+    "absolute top-0 h-full w-[47%] md:w-[42%] lg:w-[45%] xl:w-[48%]",
     layout?.cardClassName,
   );
 

@@ -20,10 +20,10 @@ export function FeaturedCarouselCard({
     <div
       className={`
         relative flex h-full flex-col cursor-pointer overflow-hidden rounded-3xl
-        border border-white/20
-        bg-gradient-to-br from-white-900/80 via-white-900/20 to-white-900/10
+        border border-white/10
+        bg-white/5
         shadow-[0_0_10px_rgba(0,0,0,0.40)]
-        backdrop-blur-sm
+        backdrop-blur
         transition-transform
         will-change-transform
         hover:scale-102
@@ -47,9 +47,9 @@ export function FeaturedCarouselCard({
           />
           <div className="absolute inset-0 bg-gradient-to-t from-gray-950/96 via-gray-900/40 to-transparent" />
           <div className="absolute bottom-6 left-6 right-6 text-white">
-            <p className="text-xs uppercase tracking-widest text-white/70">
+            <span className="mx-auto inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-1 text-xs font-semibold uppercase tracking-[0.25em] text-sky-200/80 lg:mx-0">
               {badgeLabel}
-            </p>
+            </span>
             <h3 className="mt-2 text-2xl font-semibold md:text-3xl">
               {project.title}
             </h3>

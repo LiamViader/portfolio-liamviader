@@ -166,17 +166,14 @@ export default function Home() {
         <PulseHexGridCanvas pixelsPerHex={40} hue={240} hueJitter={30} s={40} l={25} gridType="Strata"/>
         <div className="absolute inset-0 bg-gradient-to-b from-gray-950 via-[rgba(56,189,248,0.02)] to-gray-950" />
         <ScrollReveal>
-          <div className="relative mx-auto max-w-6xl">
-            <div className="flex flex-col gap-12 lg:grid lg:grid-cols-[minmax(0,1.1fr)_minmax(320px,0.9fr)] lg:items-start lg:gap-16">
-              <div className="flex flex-col gap-6 text-center lg:text-left">
-                <div className="space-y-4">
-                  <span className="mx-auto inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-1 text-xs font-semibold uppercase tracking-[0.25em] text-sky-200/80 lg:mx-0">
-                    {t("projects.featuredBadge")}
-                  </span>
+          <div className="relative mx-auto max-w-7xl">
+            <div className="flex flex-col gap-6 lg:grid lg:grid-cols-[minmax(100px,1.1fr)_minmax(60%,0.9fr)] lg:items-start lg:gap-10">
+              <div className="flex flex-col gap-6 text-center lg:text-left pl-3">
+                <div className="space-y-4 mt-10">
                   <h2 className="text-3xl font-semibold text-white md:text-4xl">
                     {t("projects.title")}
                   </h2>
-                  <p className="text-balance text-base text-white/65 lg:max-w-xl">
+                  <p className=" text-base text-white/65 lg:max-w-xl">
                     {t("projects.description")}
                   </p>
                 </div>
@@ -199,32 +196,20 @@ export default function Home() {
               <div className="lg:col-start-2 lg:flex lg:justify-end">
                 <FeaturedProjects
                   projects={projects}
-                  className="lg:max-w-[420px] xl:max-w-[460px]"
+                  className="max-w-full"
                   contentClassName="justify-center lg:justify-end"
                   carouselLayout={{
-                    containerClassName: "lg:w-full",
-                    viewportClassName: "md:w-full h-[300px] md:h-[360px] lg:h-[380px] xl:h-[420px]",
-                    cardClassName: "lg:w-[72%] xl:w-[68%]",
-                    controlsContainerClassName: "px-2 md:px-4",
+                    containerClassName: "!w-full",
+                    viewportClassName:
+                      "!h-[310px] md:!h-[390px] lg:!h-[390px] xl:!h-[410px] !w-full",
+                    cardClassName: "!w-[47%] md:!w-[39%] lg:!w-[40%] xl:!w-[40%]",
+                    controlsContainerClassName: "",
                   }}
                 />
               </div>
             </div>
           </div>
         </ScrollReveal>
-        <section className="px-4 pt-34 pb-10">
-          <ScrollReveal>
-            <div className="relative mx-auto max-w-5xl overflow-hidden rounded-3xl border border-white/10 p-10 text-center shadow-[0_20px_10px_-30px_rgba(56,189,248,0.6)] backdrop-blur-sm">
-              <div className="relative z-10 space-y-6">
-                <h2 className="text-3xl font-semibold text-white md:text-4xl">{t("cta.title")}</h2>
-                <p className="text-balance text-base text-white/70 md:text-lg">{t("cta.subtitle")}</p>
-                <Link href="/contact" className={heroButtons.primary}>
-                  {t("cta.button")}
-                </Link>
-              </div>
-            </div>
-          </ScrollReveal>
-        </section>
       </section>
 
 

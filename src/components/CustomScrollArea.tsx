@@ -246,7 +246,7 @@ export default function CustomScrollArea({
         className={[
           baseTrack,
           trackVisible ? "opacity-100 pointer-events-auto" : "opacity-0 pointer-events-none",
-          "bg-white/10 hover:bg-white/15 backdrop-blur-sm",
+          "bg-white/5 hover:bg-white/15 backdrop-blur-sm",
           trackClassName ?? "",
         ].join(" ")}
         style={{ ...baseTrackStyle, right: `${gap}px`, width: `${thickness}px` }}
@@ -259,7 +259,7 @@ export default function CustomScrollArea({
           data-role="thumb"
           className={[
             baseThumb,
-            "bg-white/60 hover:bg-white/80 shadow-sm",
+            "bg-white/20 hover:bg-white/40 shadow-sm",
             thumbClassName ?? "",
           ].join(" ")}
           style={{ top: `${thumbOffset}px`, height: `${thumbSize}px` }}
