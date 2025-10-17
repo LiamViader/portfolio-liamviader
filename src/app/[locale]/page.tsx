@@ -166,24 +166,49 @@ export default function Home() {
         <PulseHexGridCanvas pixelsPerHex={40} hue={240} hueJitter={30} s={40} l={25} gridType="Strata"/>
         <div className="absolute inset-0 bg-gradient-to-b from-gray-950 via-[rgba(56,189,248,0.02)] to-gray-950" />
         <ScrollReveal>
-          <div className="relative mx-auto flex max-w-6xl flex-col gap-10">
-            <div className="flex flex-col gap-6 text-center md:flex-row md:items-end md:justify-between md:text-left">
-              <div>
-                <h2 className="text-3xl font-semibold text-white md:text-4xl">{t("projects.title")}</h2>
-                <p className="mt-3 text-balance text-base text-white/65 md:max-w-2xl">
-                        {t("projects.description")}
-                </p>
+          <div className="relative mx-auto max-w-6xl">
+            <div className="flex flex-col gap-12 lg:grid lg:grid-cols-[minmax(0,1.1fr)_minmax(320px,0.9fr)] lg:items-start lg:gap-16">
+              <div className="flex flex-col gap-6 text-center lg:text-left">
+                <div className="space-y-4">
+                  <span className="mx-auto inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-1 text-xs font-semibold uppercase tracking-[0.25em] text-sky-200/80 lg:mx-0">
+                    {t("projects.featuredBadge")}
+                  </span>
+                  <h2 className="text-3xl font-semibold text-white md:text-4xl">
+                    {t("projects.title")}
+                  </h2>
+                  <p className="text-balance text-base text-white/65 lg:max-w-xl">
+                    {t("projects.description")}
+                  </p>
+                </div>
+                <div className="flex flex-wrap items-center justify-center gap-4 lg:justify-start">
+                  <Link
+                    href="/projects"
+                    className="inline-flex items-center justify-center gap-2 rounded-full border border-white/20 bg-white/10 px-5 py-2 text-sm font-semibold text-white/80 transition hover:border-sky-400/60 hover:bg-sky-500/10"
+                  >
+                    {t("projects.viewAll")}
+                    <Workflow className="h-4 w-4" />
+                  </Link>
+                  <Link
+                    href="/contact"
+                    className="inline-flex items-center justify-center gap-2 rounded-full border border-transparent bg-sky-500/80 px-5 py-2 text-sm font-semibold text-white shadow-[0_10px_30px_-20px_rgba(56,189,248,0.8)] transition hover:bg-sky-400"
+                  >
+                    {t("hero.ctaContact")}
+                  </Link>
+                </div>
               </div>
-              <Link
-                href="/projects"
-                className="inline-flex items-center justify-center gap-2 rounded-full border border-white/20 bg-white/10 px-5 py-2 text-sm font-semibold text-white/80 transition hover:border-sky-400/60 hover:bg-sky-500/10"
-              >
-                {t("projects.viewAll")}
-                <Workflow className="h-4 w-4" />
-              </Link>
-            </div>
-            <div className="py-10">
-              <FeaturedProjects projects={projects}/>
+              <div className="lg:col-start-2 lg:flex lg:justify-end">
+                <FeaturedProjects
+                  projects={projects}
+                  className="lg:max-w-[420px] xl:max-w-[460px]"
+                  contentClassName="justify-center lg:justify-end"
+                  carouselLayout={{
+                    containerClassName: "lg:w-full",
+                    viewportClassName: "md:w-full h-[300px] md:h-[360px] lg:h-[380px] xl:h-[420px]",
+                    cardClassName: "lg:w-[72%] xl:w-[68%]",
+                    controlsContainerClassName: "px-2 md:px-4",
+                  }}
+                />
+              </div>
             </div>
           </div>
         </ScrollReveal>
