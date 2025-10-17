@@ -202,7 +202,7 @@ export default function Home() {
                     containerClassName: "!w-full",
                     viewportClassName:
                       "!h-[310px] md:!h-[390px] lg:!h-[390px] xl:!h-[410px] !w-full",
-                    cardClassName: "!w-[47%] md:!w-[39%] lg:!w-[40%] xl:!w-[40%]",
+                    cardClassName: "!w-[47%] md:!w-[39%] lg:!w-[37%] xl:!w-[38%]",
                     controlsContainerClassName: "",
                   }}
                 />

@@ -24,7 +24,6 @@ export interface FeaturedCarouselLayoutOptions {
 
 interface FeaturedCarouselProps {
   projects: TranslatedProject[];
-  badgeLabel: string;
   onSelectProject: (project: TranslatedProject) => void;
   registerCardRef: (projectId: number) => (node: HTMLElement | null) => void;
   selectedProjectId?: number;
@@ -34,7 +33,6 @@ interface FeaturedCarouselProps {
 
 export function FeaturedCarousel({
   projects,
-  badgeLabel,
   onSelectProject,
   registerCardRef,
   selectedProjectId,
@@ -207,7 +205,7 @@ export function FeaturedCarousel({
   );
 
   const controlButtonClassName = clsx(
-    "pointer-events-auto cursor-pointer inline-flex h-12 w-12 items-center justify-center rounded-full border border-white/10 bg-white/[0.02] backdrop-blur-sm text-white shadow-lg transition duration-200 hover:scale-110 hover:border-white/40 hover:bg-white-900/40 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/70 active:scale-90",
+    "pointer-events-auto cursor-pointer inline-flex h-12 w-12 items-center justify-center rounded-full border border-white/40 bg-white/[0.07] text-white shadow-lg transition duration-200 hover:scale-110 hover:border-sky-400/60 hover:bg-sky-500/10 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/70 active:scale-90",
     layout?.controlButtonClassName,
   );
 
@@ -255,7 +253,6 @@ export function FeaturedCarousel({
         >
           <FeaturedCarouselCard
             project={project}
-            badgeLabel={badgeLabel}
             isCenter={isCenter}
             dimmed={!isCenter}
             shouldHide={shouldHideForModal}
@@ -264,7 +261,6 @@ export function FeaturedCarousel({
       );
     });
   }, [
-    badgeLabel,
     getVariantForIndex,
     handleCardInteraction,
     projects,

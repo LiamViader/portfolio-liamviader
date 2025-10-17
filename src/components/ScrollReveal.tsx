@@ -10,7 +10,7 @@ interface ScrollRevealProps extends PropsWithChildren {
   distance?: number;
   once?: boolean;
   amount?: number;
-  rootMargin?: string; // acepta 'px'
+  rootMargin?: string;
   motionProps?: MotionProps;
 }
 
@@ -23,28 +23,32 @@ export function ScrollReveal({
   amount = 0.12,
   rootMargin = "200px 0px 200px 0px",
   motionProps,
-}: ScrollRevealProps) {
-  const { ref, inView } = useInView({
-    triggerOnce: once,
-    threshold: amount,
-    rootMargin, // ← aquí sí acepta string tipo "200px 0px 200px 0px"
-  });
+  noTransform = false,
+}: ScrollRevealProps & { noTransform?: boolean }) {
+  const { ref, inView } = useInView({ triggerOnce: once, threshold: amount, rootMargin });
 
   return (
-    <motion.div
-      ref={ref}
-      className={className}
-      initial="hidden"
-      animate={inView ? "show" : "hidden"}
-      variants={{
-        hidden: { opacity: 0, y: distance },
-        show: { opacity: 1, y: 0 },
-      }}
-      transition={{ duration: 0.7, ease: "easeOut", delay }}
-      style={{ willChange: "opacity, transform" }}
-      {...motionProps}
-    >
-      {children}
-    </motion.div>
+    <div ref={ref} className={className}>
+      <motion.div
+        initial="hidden"
+        animate={inView ? "show" : "hidden"}
+        variants={
+          noTransform
+            ? {
+                hidden: { opacity: 0 },
+                show:   { opacity: 1 },
+              }
+            : {
+                hidden: { opacity: 0, y: distance },
+                show:   { opacity: 1, y: 0, transitionEnd: { transform: "none" } },
+              }
+        }
+        transition={{ duration: 0.7, ease: "easeOut", delay }}
+        style={noTransform ? undefined : (inView ? { transform: "none" } : undefined)}
+        {...motionProps}
+      >
+        {children}
+      </motion.div>
+    </div>
   );
 }

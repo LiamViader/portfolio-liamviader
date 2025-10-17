@@ -85,7 +85,6 @@ export default function FeaturedProjects({
       >
         <FeaturedCarousel
           projects={featuredProjects}
-          badgeLabel={t("featured_badge")}
           onSelectProject={openProjectDetails}
           registerCardRef={registerCardRef}
           selectedProjectId={selectedProjectId}
