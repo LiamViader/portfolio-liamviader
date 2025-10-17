@@ -9,7 +9,7 @@ import { BrainCircuit, Gamepad2, Sparkles, Workflow } from "lucide-react";
 import PulseHexGridCanvas from "@/components/home/scene/PulseHexGridCanvas";
 import { getProjectsByLocale, TranslatedProject } from "@/data/projects";
 import { ScrollReveal } from "@/components/ScrollReveal";
-
+import FeaturedProjects from "@/components/projects/featured/FeaturedProjects";
 
 const buttonBaseClasses =
   "inline-flex items-center justify-center rounded-full px-6 py-3 text-sm font-semibold transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-400";
@@ -182,47 +182,8 @@ export default function Home() {
                 <Workflow className="h-4 w-4" />
               </Link>
             </div>
-            <div className="grid gap-6 md:grid-cols-3">
-              {projects.map((project) => (
-                <article
-                  key={project.id}
-                  className="group relative overflow-hidden rounded-3xl border border-white/10 bg-white/5 backdrop-blur transition hover:-translate-y-1 hover:border-sky-400/60 hover:bg-sky-500/10"
-                >
-                  <div className="relative h-48 w-full overflow-hidden">
-                    <Image
-                      src={project.media_preview}
-                      alt={project.title}
-                      fill
-                      sizes="(max-width: 768px) 100vw, 33vw"
-                      className="object-cover transition duration-700 group-hover:scale-110"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-gray-950 via-gray-950/20 to-transparent" />
-                    {project.is_featured && (
-                      <span className="absolute left-4 top-4 rounded-full bg-sky-500/95 px-3 py-1 text-xs font-semibold uppercase tracking-widest text-white ">
-                        {t("projects.featuredBadge")}
-                      </span>
-                    )}
-                  </div>
-                  <div className="relative space-y-4 p-6">
-                    <div>
-                      <h3 className="text-xl font-semibold text-white">
-                        {project.title}
-                      </h3>
-                      <p className="mt-2 text-sm text-white/65">{project.short_description}</p>
-                    </div>
-                    <div className="flex flex-wrap gap-2 text-xs text-white/60">
-                      {project.tags.slice(0, 4).map((tag) => (
-                        <span
-                          key={tag}
-                          className="rounded-full border border-white/15 bg-white/5 px-3 py-1"
-                        >
-                          {tag}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-                </article>
-              ))}
+            <div className="py-10">
+              <FeaturedProjects projects={projects}/>
             </div>
           </div>
         </ScrollReveal>

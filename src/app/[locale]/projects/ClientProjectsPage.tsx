@@ -7,7 +7,8 @@ import CallToAction from "@/components/CallToAction";
 import { ProjectSceneCanvas } from "@/components/projects/ProjectSceneCanvas";
 import { CATEGORY_CONFIG, ClientCategorySlug } from "@/config/projectCategories";
 import type { TranslatedProject } from "@/data/projects";
-import { FeaturedProjects, ProjectGallery } from "@/components/projects";
+import FeaturedProjectsSection from "@/components/projects/featured/FeaturedProjectsSection";
+import ProjectGallery from "@/components/projects/gallery/ProjectGallery";
 import { ScrollReveal } from "@/components/ScrollReveal";
 
 interface ClientProjectsPageProps {
@@ -70,7 +71,7 @@ export default function ClientProjectsPage({ projectsData }: ClientProjectsPageP
           </ScrollReveal>
         </section>
 
-        <FeaturedProjects projects={projectsData} />
+        <FeaturedProjectsSection projects={projectsData} />
         
         <ProjectGallery category={category} filteredProjects={filteredProjects} onCategoryChange={setCategory} />
 

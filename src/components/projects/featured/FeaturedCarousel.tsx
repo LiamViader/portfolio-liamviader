@@ -62,7 +62,7 @@ export function FeaturedCarousel({
     clearAutoplay();
     autoplayRef.current = setInterval(() => {
       setActiveIndex((idx) => (idx + 1) % totalProjects);
-    }, 3000);
+    }, 5000);
   }, [clearAutoplay, hasSelectedProject, totalProjects]);
 
   useEffect(() => {
