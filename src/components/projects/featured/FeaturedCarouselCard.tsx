@@ -28,6 +28,7 @@ export function FeaturedCarouselCard({
         will-change-transform
         hover:scale-102
         md:hover:scale-103
+        hover:border-sky-400/90 hover:bg-sky-500/10
       `}
     >
       <div

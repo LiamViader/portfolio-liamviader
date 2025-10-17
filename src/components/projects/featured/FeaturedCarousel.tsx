@@ -202,7 +202,7 @@ export function FeaturedCarousel({
   );
 
   const controlsContainerClassName = clsx(
-    "pointer-events-none absolute inset-y-0 flex w-full items-center justify-between px-2 md:px-6",
+    "pointer-events-none absolute inset-y-0 flex w-full items-center justify-between px-2 md:px-6 z-30",
     layout?.controlsContainerClassName,
   );
 
