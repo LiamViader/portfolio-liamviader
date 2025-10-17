@@ -221,8 +221,11 @@ export function ScrollReveal({
   const variants =
     motionVariants ??
     (noTransform
-      ? { hidden: {}, show: {} }
-      : { hidden: { y: distance }, show: { y: 0, transitionEnd: { transform: "none" } } });
+      ? { hidden: { opacity: 0 }, show: { opacity: 1 } }
+      : {
+          hidden: { opacity: 0, y: distance },
+          show: { opacity: 1, y: 0, transitionEnd: { transform: "none" } },
+        });
 
   const transition = motionTransition ?? { duration: 0.7, ease: "easeOut", delay };
 
