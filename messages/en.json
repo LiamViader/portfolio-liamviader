@@ -43,7 +43,7 @@
     "projects": {
       "title": "Featured projects",
       "description": "A snapshot of recent experiments across AI, tools, and interactive entertainment.",
-      "viewAll": "View the complete projects gallery",
+      "viewAll": "View the complete gallery",
       "featuredBadge": "Featured"
     },
     "cta": {
@@ -52,6 +52,8 @@
       "button": "Start a conversation"
     }
   },
+
+
   "Metadata": {
     "title": "Portfolio - Liam Viader",
     "description": "Software, AI, and Video Game Development"

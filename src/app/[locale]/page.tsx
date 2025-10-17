@@ -16,7 +16,7 @@ const buttonBaseClasses =
 
 const heroButtons = {
   primary: `${buttonBaseClasses} bg-sky-500/90 text-white shadow-lg shadow-sky-500/30 hover:bg-sky-400`,
-  secondary: `${buttonBaseClasses} border border-white/30 bg-white/10 text-white/90 hover:bg-white/20`,
+  secondary: `${buttonBaseClasses} inline-flex items-center justify-center gap-2 rounded-full border border-white/20 bg-white/10 px-5 py-2 text-sm font-semibold text-white/80 transition hover:border-sky-400/60 hover:bg-sky-500/10`,
 };
 
 const highlightIcons = {
@@ -180,14 +180,14 @@ export default function Home() {
                 <div className="flex flex-wrap items-center justify-center gap-4 lg:justify-start">
                   <Link
                     href="/projects"
-                    className="inline-flex items-center justify-center gap-2 rounded-full border border-white/20 bg-white/10 px-5 py-2 text-sm font-semibold text-white/80 transition hover:border-sky-400/60 hover:bg-sky-500/10"
+                    className="inline-flex items-center justify-center gap-2 rounded-full border border-transparent bg-sky-500/80 px-5 py-2 text-sm font-semibold text-white shadow-[0_10px_30px_-20px_rgba(56,189,248,0.8)] transition hover:bg-sky-400"
                   >
                     {t("projects.viewAll")}
                     <Workflow className="h-4 w-4" />
                   </Link>
                   <Link
                     href="/contact"
-                    className="inline-flex items-center justify-center gap-2 rounded-full border border-transparent bg-sky-500/80 px-5 py-2 text-sm font-semibold text-white shadow-[0_10px_30px_-20px_rgba(56,189,248,0.8)] transition hover:bg-sky-400"
+                    className="inline-flex items-center justify-center gap-2 rounded-full border border-white/20 bg-white/10 px-5 py-2 text-sm font-semibold text-white/80 transition hover:border-sky-400/60 hover:bg-sky-500/10"
                   >
                     {t("hero.ctaContact")}
                   </Link>
