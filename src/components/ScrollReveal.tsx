@@ -1,6 +1,6 @@
 "use client";
 
-import { PropsWithChildren, useLayoutEffect, useMemo, useRef, useState } from "react";
+import { CSSProperties, PropsWithChildren, useLayoutEffect, useRef, useState } from "react";
 import { motion, type MotionProps } from "framer-motion";
 import clsx from "clsx";
 import { useInView } from "react-intersection-observer";
@@ -17,6 +17,11 @@ interface ScrollRevealProps extends PropsWithChildren {
 
 const FALLBACK_OVERLAY_COLOR = "rgba(2, 6, 23, 1)";
 
+type OverlaySurface = {
+  key: string;
+  style: CSSProperties;
+};
+
 export function ScrollReveal({
   children,
   className,
@@ -30,19 +35,13 @@ export function ScrollReveal({
 }: ScrollRevealProps & { noTransform?: boolean }) {
   const wrapperRef = useRef<HTMLDivElement | null>(null);
   const motionWrapperRef = useRef<HTMLDivElement | null>(null);
+  const overlayIdRef = useRef(0);
   const { ref, inView } = useInView({ triggerOnce: once, threshold: amount, rootMargin });
 
   const [overlayConfig, setOverlayConfig] = useState<{
     hasBackdropSurface: boolean;
-    backgroundColor: string;
-    backgroundImage?: string;
-    backgroundPosition?: string;
-    backgroundSize?: string;
-    backgroundRepeat?: string;
-    backdropFilter?: string;
-    borderRadius?: string;
-    offsets?: { top: number; right: number; bottom: number; left: number };
-  }>({ hasBackdropSurface: false, backgroundColor: FALLBACK_OVERLAY_COLOR });
+    surfaces: OverlaySurface[];
+  }>({ hasBackdropSurface: false, surfaces: [] });
 
   useLayoutEffect(() => {
     if (typeof window === "undefined") {
@@ -89,8 +88,10 @@ export function ScrollReveal({
       return fallback;
     };
 
-    const findBackdropSurface = (element: HTMLElement | null): HTMLElement | null => {
+    const findBackdropSurfaces = (element: HTMLElement | null): HTMLElement[] => {
       const queue: HTMLElement[] = [];
+      const surfaces: HTMLElement[] = [];
+
       if (element) {
         queue.push(element);
       }
@@ -102,118 +103,122 @@ export function ScrollReveal({
         }
 
         const computed = window.getComputedStyle(current);
-        const backdrop = computed.backdropFilter || (computed as unknown as { webkitBackdropFilter?: string }).webkitBackdropFilter;
+        const backdrop =
+          computed.backdropFilter || (computed as unknown as { webkitBackdropFilter?: string }).webkitBackdropFilter;
         const hasBackdrop = !!backdrop && backdrop !== "none";
 
         if (hasBackdrop) {
-          return current;
+          surfaces.push(current);
         }
 
         queue.push(...Array.from(current.children) as HTMLElement[]);
       }
 
-      return null;
+      return surfaces;
+    };
+
+    const observedSurfaces = new Set<HTMLElement>();
+    let frame = 0;
+
+    const scheduleOverlayUpdate = () => {
+      if (frame !== 0) {
+        return;
+      }
+
+      frame = window.requestAnimationFrame(() => {
+        frame = 0;
+        updateOverlay();
+      });
     };
 
     const updateOverlay = () => {
       const container = motionWrapperRef.current;
 
       if (!container) {
-        setOverlayConfig({ hasBackdropSurface: false, backgroundColor: fallback.backgroundColor });
+        setOverlayConfig({ hasBackdropSurface: false, surfaces: [] });
         return;
       }
 
-      const backdropSurface = findBackdropSurface(container);
+      const backdropSurfaces = findBackdropSurfaces(container);
 
-      if (!backdropSurface) {
-        const { backgroundColor, backgroundImage, backgroundPosition, backgroundRepeat, backgroundSize } =
-          resolveBackground(wrapperRef.current);
-        setOverlayConfig({
-          hasBackdropSurface: false,
-          backgroundColor,
-          backgroundImage,
-          backgroundPosition,
-          backgroundRepeat,
-          backgroundSize,
-        });
+      observedSurfaces.forEach((surface) => {
+        if (!backdropSurfaces.includes(surface)) {
+          resizeObserver.unobserve(surface);
+          observedSurfaces.delete(surface);
+        }
+      });
+
+      if (backdropSurfaces.length === 0) {
+        setOverlayConfig({ hasBackdropSurface: false, surfaces: [] });
         return;
       }
-
-      const computed = window.getComputedStyle(backdropSurface);
-      const bgImage = computed.backgroundImage;
-      const hasImage = !!bgImage && bgImage !== "none";
-      const background = {
-        backgroundColor: hasColor(computed.backgroundColor) ? computed.backgroundColor : fallback.backgroundColor,
-        ...(hasImage
-          ? {
-              backgroundImage: bgImage,
-              backgroundPosition: computed.backgroundPosition,
-              backgroundSize: computed.backgroundSize,
-              backgroundRepeat: computed.backgroundRepeat,
-            }
-          : {}),
-      };
 
       const containerRect = container.getBoundingClientRect();
-      const surfaceRect = backdropSurface.getBoundingClientRect();
+      const overlays: OverlaySurface[] = backdropSurfaces.map((surface) => {
+        if (!observedSurfaces.has(surface)) {
+          resizeObserver.observe(surface);
+          observedSurfaces.add(surface);
+        }
 
-      setOverlayConfig({
-        hasBackdropSurface: true,
-        backdropFilter:
-          computed.backdropFilter || (computed as unknown as { webkitBackdropFilter?: string }).webkitBackdropFilter,
-        borderRadius: computed.borderRadius,
-        offsets: {
+        const computed = window.getComputedStyle(surface);
+        const background = resolveBackground(surface);
+
+        const surfaceRect = surface.getBoundingClientRect();
+        const backdrop = computed.backdropFilter || (computed as unknown as { webkitBackdropFilter?: string }).webkitBackdropFilter;
+
+        const key = (() => {
+          if (!surface.dataset.scrollRevealOverlayId) {
+            overlayIdRef.current += 1;
+            surface.dataset.scrollRevealOverlayId = `scroll-reveal-overlay-${overlayIdRef.current}`;
+          }
+          return surface.dataset.scrollRevealOverlayId;
+        })();
+
+        const style: CSSProperties = {
+          ...background,
+          borderRadius: computed.borderRadius || undefined,
           top: surfaceRect.top - containerRect.top,
           right: containerRect.right - surfaceRect.right,
           bottom: containerRect.bottom - surfaceRect.bottom,
           left: surfaceRect.left - containerRect.left,
-        },
-        ...background,
+        };
+
+        if (backdrop && backdrop !== "none") {
+          style.backdropFilter = backdrop;
+          style.WebkitBackdropFilter = backdrop;
+        }
+
+        return { key, style };
       });
+
+      setOverlayConfig({ hasBackdropSurface: true, surfaces: overlays });
     };
 
-    updateOverlay();
-
-    const resizeObserver = new ResizeObserver(() => updateOverlay());
+    const resizeObserver = new ResizeObserver(() => scheduleOverlayUpdate());
     const container = motionWrapperRef.current;
     if (container) {
       resizeObserver.observe(container);
     }
 
-    window.addEventListener("resize", updateOverlay);
+    updateOverlay();
+
+    const mutationObserver = new MutationObserver(() => scheduleOverlayUpdate());
+    if (container) {
+      mutationObserver.observe(container, { childList: true, subtree: true });
+    }
+
+    window.addEventListener("resize", scheduleOverlayUpdate);
 
     return () => {
       resizeObserver.disconnect();
-      window.removeEventListener("resize", updateOverlay);
+      observedSurfaces.clear();
+      if (frame !== 0) {
+        window.cancelAnimationFrame(frame);
+      }
+      mutationObserver.disconnect();
+      window.removeEventListener("resize", scheduleOverlayUpdate);
     };
   }, []);
-
-  const overlayStyle = useMemo(
-    () => ({
-      backgroundColor: overlayConfig.backgroundColor,
-      ...(overlayConfig.backgroundImage
-        ? {
-            backgroundImage: overlayConfig.backgroundImage,
-            backgroundPosition: overlayConfig.backgroundPosition,
-            backgroundSize: overlayConfig.backgroundSize,
-            backgroundRepeat: overlayConfig.backgroundRepeat,
-          }
-        : {}),
-      ...(overlayConfig.backdropFilter
-        ? { backdropFilter: overlayConfig.backdropFilter, WebkitBackdropFilter: overlayConfig.backdropFilter }
-        : {}),
-      borderRadius: overlayConfig.borderRadius ?? "inherit",
-      ...(overlayConfig.offsets
-        ? {
-            top: overlayConfig.offsets.top,
-            right: overlayConfig.offsets.right,
-            bottom: overlayConfig.offsets.bottom,
-            left: overlayConfig.offsets.left,
-          }
-        : { top: 0, right: 0, bottom: 0, left: 0 }),
-    }),
-    [overlayConfig],
-  );
 
   const {
     className: motionClassName,
@@ -253,7 +258,6 @@ export function ScrollReveal({
         transition={transition}
         style={{
           ...(!noTransform && inView ? { transform: "none" } : undefined),
-          ...(overlayConfig.borderRadius ? { borderRadius: overlayConfig.borderRadius } : undefined),
           ...motionStyle,
         }}
         className={clsx("relative", motionClassName)}
@@ -261,15 +265,21 @@ export function ScrollReveal({
       >
         <div className="relative z-[1]">{children}</div>
         {overlayConfig.hasBackdropSurface ? (
-          <motion.div
-            aria-hidden
-            initial="hidden"
-            animate={animationState}
-            variants={{ hidden: { opacity: 1 }, show: { opacity: 0 } }}
-            transition={transition}
-            className="pointer-events-none absolute z-[2]"
-            style={overlayStyle}
-          />
+          overlayConfig.surfaces.map((surface) => (
+            <motion.div
+              key={surface.key}
+              aria-hidden
+              initial="hidden"
+              animate={animationState}
+              variants={{ hidden: { opacity: 1 }, show: { opacity: 0 } }}
+              transition={transition}
+              className="pointer-events-none absolute z-[2]"
+              style={{
+                ...surface.style,
+                borderRadius: surface.style.borderRadius ?? "inherit",
+              }}
+            />
+          ))
         ) : null}
       </motion.div>
     </div>
