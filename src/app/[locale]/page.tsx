@@ -47,89 +47,87 @@ export default function Home() {
         <PulseHexGridCanvas pixelsPerHex={40} hue={240} hueJitter={30} s={80}/>
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(125,211,252,0.2),_transparent_65%)]" />
         <div className="absolute inset-0 bg-gradient-to-b from-gray-950/10 via-gray-950/60 to-gray-950" />
-        <ScrollReveal delay={0.5}>
-          <div className="relative z-10 mx-auto flex max-w-4xl flex-col items-center gap-8 text-center">
-            <motion.span
-              initial={{ opacity: 0, y: -10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.1, duration: 0.6 }}
-              className="inline-flex items-center gap-3 rounded-full border border-white/20 bg-white/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.35em] text-white/70 backdrop-blur"
-            >
-              {t("hero.tagline")}
-            </motion.span>
+        <div className="relative z-10 mx-auto flex max-w-4xl flex-col items-center gap-8 text-center">
+          <motion.span
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.5, duration: 0.7 }}
+            className="inline-flex items-center gap-3 rounded-full border border-white/20 bg-white/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.35em] text-white/70 backdrop-blur"
+          >
+            {t("hero.tagline")}
+          </motion.span>
 
-            <motion.h1
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.2, duration: 0.7 }}
-              className="text-balance text-4xl font-semibold tracking-tight sm:text-5xl md:text-6xl text-white/95"
-            >
-              {t.rich("hero.title", {
-                      highlight: (chunks) => <span className="text-sky-300">{chunks}</span>,
-              })}
-            </motion.h1>
+          <motion.h1
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.6, duration: 0.7 }}
+            className="text-balance text-4xl font-semibold tracking-tight sm:text-5xl md:text-6xl text-white/95"
+          >
+            {t.rich("hero.title", {
+                    highlight: (chunks) => <span className="text-sky-300">{chunks}</span>,
+            })}
+          </motion.h1>
 
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.3, duration: 0.7 }}
-              className="max-w-2xl text-pretty text-lg text-white/70 sm:text-xl"
-            >
-              {t("hero.subtitle")}
-            </motion.p>
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.7, duration: 0.7 }}
+            className="max-w-2xl text-pretty text-lg text-white/70 sm:text-xl"
+          >
+            {t("hero.subtitle")}
+          </motion.p>
 
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.4, duration: 0.7 }}
-              className="flex flex-wrap justify-center gap-4"
-            >
-              <Link href="/projects" className={heroButtons.primary}>
-                {t("hero.ctaProjects")}
-              </Link>
-              <Link href="/contact" className={heroButtons.secondary}>
-                {t("hero.ctaContact")}
-              </Link>
-            </motion.div>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.8, duration: 0.7 }}
+            className="flex flex-wrap justify-center gap-4"
+          >
+            <Link href="/projects" className={heroButtons.primary}>
+              {t("hero.ctaProjects")}
+            </Link>
+            <Link href="/contact" className={heroButtons.secondary}>
+              {t("hero.ctaContact")}
+            </Link>
+          </motion.div>
 
-            <motion.p
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.5, duration: 0.7 }}
-              className="text-sm font-medium uppercase tracking-[0.3em] text-white/50"
-            >
-              {t("hero.availability")}
-            </motion.p>
+          <motion.p
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.9, duration: 0.7 }}
+            className="text-sm font-medium uppercase tracking-[0.3em] text-white/50"
+          >
+            {t("hero.availability")}
+          </motion.p>
 
-            <motion.ul
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.6, duration: 0.8 }}
-              className="grid w-full gap-4 pt-6 text-left sm:grid-cols-3"
-            >
-              {metricKeys.map((metricKey) => (
-                <li
-                  key={metricKey}
-                  className="rounded-2xl border border-white/10 bg-white/5 p-5 backdrop-blur-lg transition hover:border-sky-400/60 hover:bg-sky-500/10"
-                >
-                  <p className="text-2xl font-semibold text-white">
-                    {t(`metrics.${metricKey}.value`)}
-                  </p>
-                  <p className="mt-2 text-sm text-white/60">
-                    {t(`metrics.${metricKey}.label`)}
-                  </p>
-                </li>
-              ))}
-            </motion.ul>
-          </div>
-        </ScrollReveal>
+          <motion.ul
+            className="grid w-full gap-4 pt-6 text-left sm:grid-cols-3"
+          >
+            {metricKeys.map((metricKey) => (
+              <motion.li
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 1, duration: 0.8 }}
+                key={metricKey}
+                className="rounded-2xl border border-white/10 bg-white/5 p-5 backdrop-blur-lg transition hover:border-sky-400/60 hover:bg-sky-500/10"
+              >
+                <p className="text-2xl font-semibold text-white">
+                  {t(`metrics.${metricKey}.value`)}
+                </p>
+                <p className="mt-2 text-sm text-white/60">
+                  {t(`metrics.${metricKey}.label`)}
+                </p>
+              </motion.li>
+            ))}
+          </motion.ul>
+        </div>
       </section>
 
       <section className="relative px-4 py-14 bg-black/10 border-y border-white/10 ">
         <PulseHexGridCanvas pixelsPerHex={25} gridType="Fill" s={80} hue={240} hueJitter={10} l={25}/>
         <PulseHexGridCanvas pixelsPerHex={25} hue={260} hueJitter={30} s={90} l={50} gridType="Trails" trailCount={30} fadeSeconds={10}/>
         <div className="absolute inset-0 bg-gradient-to-b from-gray-90/10 via-gray-950/60 to-sky-900/10" />
-        <ScrollReveal>
+        <ScrollReveal noOpacity>
           <div className="relative mx-auto flex max-w-5xl flex-col gap-8 text-center md:text-left">
             <div>
               <h2 className="text-3xl font-semibold text-white md:text-4xl">{t("highlights.title")}</h2>
@@ -165,7 +163,7 @@ export default function Home() {
         <PulseHexGridCanvas pixelsPerHex={40} gridType="Fill" s={75} hue={240} hueJitter={5} l={0}/>
         <PulseHexGridCanvas pixelsPerHex={40} hue={240} hueJitter={30} s={40} l={25} gridType="Strata"/>
         <div className="absolute inset-0 bg-gradient-to-b from-gray-950 via-[rgba(56,189,248,0.02)] to-gray-950" />
-        <ScrollReveal>
+        <ScrollReveal noOpacity>
           <div className="relative mx-auto max-w-7xl">
             <div className="flex flex-col gap-6 lg:grid lg:grid-cols-[minmax(100px,1.1fr)_minmax(60%,0.9fr)] lg:items-start lg:gap-10">
               <div className="flex flex-col gap-6 text-center lg:text-left pl-3">

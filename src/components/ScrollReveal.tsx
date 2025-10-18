@@ -12,6 +12,8 @@ interface ScrollRevealProps extends PropsWithChildren {
   amount?: number;
   rootMargin?: string;
   motionProps?: MotionProps;
+  noTransform?: boolean;
+  noOpacity?: boolean; // 👈 nueva prop
 }
 
 export function ScrollReveal({
@@ -24,27 +26,44 @@ export function ScrollReveal({
   rootMargin = "200px 0px 200px 0px",
   motionProps,
   noTransform = false,
-}: ScrollRevealProps & { noTransform?: boolean }) {
+  noOpacity = false, // 👈 valor por defecto
+}: ScrollRevealProps) {
   const { ref, inView } = useInView({ triggerOnce: once, threshold: amount, rootMargin });
+
+  // 🔧 Construimos los variants dinámicamente
+  const variants = (() => {
+    if (noTransform && noOpacity) {
+      return {
+        hidden: {},
+        show: {},
+      };
+    }
+    if (noTransform) {
+      return {
+        hidden: { opacity: noOpacity ? 1 : 0 },
+        show: { opacity: 1 },
+      };
+    }
+    if (noOpacity) {
+      return {
+        hidden: { y: distance },
+        show: { y: 0, transitionEnd: { transform: "none" } },
+      };
+    }
+    return {
+      hidden: { opacity: 0, y: distance },
+      show: { opacity: 1, y: 0, transitionEnd: { transform: "none" } },
+    };
+  })();
 
   return (
     <div ref={ref} className={className}>
       <motion.div
         initial="hidden"
         animate={inView ? "show" : "hidden"}
-        variants={
-          noTransform
-            ? {
-                hidden: { opacity: 0 },
-                show:   { opacity: 1 },
-              }
-            : {
-                hidden: { opacity: 0, y: distance },
-                show:   { opacity: 1, y: 0, transitionEnd: { transform: "none" } },
-              }
-        }
+        variants={variants}
         transition={{ duration: 0.7, ease: "easeOut", delay }}
-        style={noTransform ? undefined : (inView ? { transform: "none" } : undefined)}
+        style={noTransform ? undefined : inView ? { transform: "none" } : undefined}
         {...motionProps}
       >
         {children}
