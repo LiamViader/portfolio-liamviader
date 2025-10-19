@@ -1,3 +1,5 @@
+import { useEffect, useRef, useState } from "react";
+import clsx from "clsx";
 import Image from "next/image";
 import { Sparkles } from "lucide-react";
 import { TranslatedProject } from "@/data/projects";
@@ -14,19 +16,34 @@ export function FeaturedCarouselCard({
   isCenter,
   shouldHide,
 }: FeaturedCarouselCardProps) {
+  const [isHovered, setIsHovered] = useState(false);
+  const wasCenterRef = useRef(isCenter);
+
+  useEffect(() => {
+    if (!wasCenterRef.current && isCenter) {
+      setIsHovered(false);
+    }
+
+    wasCenterRef.current = isCenter;
+  }, [isCenter]);
+
   return (
     <div
-      className={`
-        relative flex h-full flex-col cursor-pointer overflow-hidden rounded-3xl
-        border border-white/10
-        bg-white/5
-        shadow-[0_0_10px_rgba(0,0,0,0.40)]
-        backdrop-blur-sm
-        transition-transform
-        will-change-transform
-        hover:-translate-y-1
-        hover:border-sky-400/90 hover:bg-sky-500/10
-      `}
+      data-hovered={isHovered}
+      className={clsx(
+        "relative flex h-full flex-col cursor-pointer overflow-hidden rounded-3xl",
+        "border border-white/10",
+        "bg-white/5",
+        "shadow-[0_0_10px_rgba(0,0,0,0.40)]",
+        "backdrop-blur-sm",
+        "transition-transform",
+        "will-change-transform",
+        isHovered && "-translate-y-1 border-sky-400/90 bg-sky-500/10",
+      )}
+      onPointerEnter={() => setIsHovered(true)}
+      onPointerLeave={() => setIsHovered(false)}
+      onFocus={() => setIsHovered(true)}
+      onBlur={() => setIsHovered(false)}
     >
       <div
         className={`
