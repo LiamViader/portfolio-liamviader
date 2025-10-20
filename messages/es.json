@@ -79,6 +79,79 @@
     "cta_text": "Si alguno de mis proyectos te ha despertado interés, estaré encantado de conversar. Escríbeme si quieres colaborar, necesitas más información o simplemente deseas saludar.",
     "cta_button_contact": "Contactar",
     "cta_button_cv": "Descargar CV"
+  },
+  "ContactPage": {
+    "hero": {
+      "eyebrow": "Contacto",
+      "title": "Construyamos la próxima <highlight>experiencia inolvidable</highlight>",
+      "description": "Ya sea que estés formando un equipo, validando una idea o dando soporte a un producto en vivo, puedo ayudarte a crear la siguiente entrega memorable.",
+      "primaryCta": "Escríbeme un correo",
+      "secondaryCta": "Conectemos en LinkedIn"
+    },
+    "sections": {
+      "employment": {
+        "title": "Incorpórame a tu equipo",
+        "description": "¿Buscas un desarrollador versátil capaz de entregar experiencias pulidas de principio a fin? Me adapto tanto a squads de alta velocidad como a equipos de producto consolidados.",
+        "points": [
+          "Entregas web full-stack",
+          "Funciones potenciadas con IA",
+          "Gameplay y herramientas"
+        ]
+      },
+      "projects": {
+        "title": "Colaboremos en un proyecto",
+        "description": "Desde prototipos hasta lanzamientos en producción, disfruto asociarme con fundadores, estudios y agencias para dar estructura técnica a las ideas.",
+        "points": [
+          "Prototipado rápido",
+          "Arquitectura técnica",
+          "Workshops co-creativos"
+        ]
+      },
+      "collaboration": {
+        "title": "Asesoría, mentoría o co-creación",
+        "description": "¿Necesitas feedback de roadmap, un sparring para I+D o soporte para tu equipo técnico? Veamos cómo puedo impulsar tu visión.",
+        "points": [
+          "Revisiones de roadmap",
+          "Capacitación de equipos",
+          "Alianzas a largo plazo"
+        ]
+      }
+    },
+    "links": {
+      "title": "Vías directas para contactarme",
+      "description": "Elige el canal que prefieras; responderé lo antes posible.",
+      "items": {
+        "email": {
+          "label": "Correo",
+          "value": "hello@liamviader.com"
+        },
+        "linkedin": {
+          "label": "LinkedIn",
+          "value": "liamviader",
+          "href": "https://www.linkedin.com/in/liamviader"
+        },
+        "github": {
+          "label": "GitHub",
+          "value": "liamviader",
+          "href": "https://github.com/liamviader"
+        }
+      }
+    },
+    "availability": {
+      "title": "Qué puedes esperar",
+      "description": "Me comprometo con una comunicación cuidadosa y con definir próximos pasos claros; así suelo trabajar.",
+      "points": [
+        "Con base en Barcelona (CET) y horario flexible para equipos globales",
+        "Disponible para colaboraciones freelance, contratos o roles a tiempo completo",
+        "Acostumbrado a liderar discovery y convertir necesidades en planes accionables"
+      ],
+      "responseTime": "Tiempo medio de respuesta: dentro de 2 días laborables"
+    },
+    "cta": {
+      "title": "Cuéntame tu próxima <highlight>gran idea</highlight>",
+      "description": "Comparte tus objetivos, plazos y contexto. Te responderé con ideas sobre cómo hacerlo realidad.",
+      "button": "Abrir correo",
+      "secondary": "Ver mi trabajo"
+    }
   }
-  
 }
