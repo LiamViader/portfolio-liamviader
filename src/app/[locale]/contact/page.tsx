@@ -22,35 +22,36 @@ const cardBaseClasses =
 export default function ContactPage() {
   const t = useTranslations("ContactPage");
 
-  const collaborationSections = [
+  const collaborationSectionsConfig = [
     {
       key: "employment",
       icon: BriefcaseBusiness,
       title: t("sections.employment.title"),
       description: t("sections.employment.description"),
-      highlights: Object.values(
-        t.raw("sections.employment.points") as Record<string, string>
-      ),
+      highlightKeys: ["fullStack", "aiEnabled", "gameplay"] as const,
     },
     {
       key: "projects",
       icon: Sparkles,
       title: t("sections.projects.title"),
       description: t("sections.projects.description"),
-      highlights: Object.values(
-        t.raw("sections.projects.points") as Record<string, string>
-      ),
+      highlightKeys: ["vision", "artDirection", "experiments"] as const,
     },
     {
       key: "collaboration",
       icon: UsersRound,
       title: t("sections.collaboration.title"),
       description: t("sections.collaboration.description"),
-      highlights: Object.values(
-        t.raw("sections.collaboration.points") as Record<string, string>
-      ),
+      highlightKeys: ["mentorship", "speaking", "community"] as const,
     },
-  ];
+  ] as const;
+
+  const collaborationSections = collaborationSectionsConfig.map(({ highlightKeys, ...section }) => ({
+    ...section,
+    highlights: highlightKeys.map((pointKey) =>
+      t(`sections.${section.key}.points.${pointKey}`)
+    ),
+  }));
 
   const contactLinks = [
     {
@@ -76,8 +77,8 @@ export default function ContactPage() {
     },
   ];
 
-  const availabilityPoints = Object.values(
-    t.raw("availability.points") as Record<string, string>
+  const availabilityPoints = ["openRoles", "freelance", "consulting"].map((pointKey) =>
+    t(`availability.points.${pointKey}`)
   );
 
   return (
