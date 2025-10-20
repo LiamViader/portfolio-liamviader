@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 import { useLocale, useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { BrainCircuit, Gamepad2, Sparkles, Workflow } from "lucide-react";
-
+import { useInView } from "react-intersection-observer";
 import PulseHexGridCanvas from "@/components/home/scene/PulseHexGridCanvas";
 import { getProjectsByLocale, TranslatedProject } from "@/data/projects";
 import { ScrollReveal } from "@/components/ScrollReveal";
@@ -38,7 +38,7 @@ export default function Home() {
   ];
 
   const metricKeys: Array<"ai" | "systems" | "collaboration"> = ["ai", "systems", "collaboration"];
-
+  const { ref, inView } = useInView({ triggerOnce: true, threshold: 0.12, rootMargin: "200px 0px 200px 0px" });
   return (
     <div className="flex flex-col bg-gray-900">
       <section className="relative overflow-hidden bg-gray-950/70 px-4 pb-14 pt-28 lg:py-34 shadow-[0_40px_50px_-40px_rgba(56,189,248,0.2)] mb-0">
@@ -151,36 +151,45 @@ export default function Home() {
         <PulseHexGridCanvas pixelsPerHex={25} gridType="Fill" s={80} hue={240} hueJitter={10} l={25}/>
         <PulseHexGridCanvas pixelsPerHex={25} hue={240} hueJitter={30} s={100} l={60} gridType="Trails" trailCount={30} fadeSeconds={4}/>
         <div className="absolute inset-0 bg-gradient-to-b from-gray-90/10 via-gray-950/60 to-sky-900/10" />
-        <ScrollReveal noOpacity>
-          <div className="relative mx-auto flex max-w-5xl flex-col gap-8 text-center md:text-left">
-            <div>
-              <h2 className="text-3xl font-semibold text-white md:text-4xl">{t("highlights.title")}</h2>
-              <p className="mt-3 text-balance text-base text-white/65 md:max-w-2xl">
-                {t("highlights.description")}
-              </p>
-            </div>
-            <div className="grid gap-6 md:grid-cols-3">
-              {highlightItems.map(({ key, descriptionKey }) => {
-                const Icon = highlightIcons[key];
-                return (
-                  <div
-                    key={key}
-                    className="group relative overflow-hidden rounded-3xl border border-white/10 bg-white/5 p-6 text-left backdrop-blur transition hover:-translate-y-1 hover:border-sky-400/60 hover:bg-sky-500/10"
-                  >
-                    <div className="absolute -right-10 -top-10 h-32 w-32 rounded-full bg-sky-500/5 blur-3xl transition group-hover:bg-sky-400/10" />
-                    <Icon className="h-8 w-8 text-sky-300" />
-                    <h3 className="mt-4 text-xl font-semibold text-white">
-                      {t(`highlights.items.${key}.title`)}
-                    </h3>
-                    <p className="mt-3 text-sm text-white/65">
-                      {t(descriptionKey)}
-                    </p>
-                  </div>
-                );
-              })}
-            </div>
+        
+        <div className="relative mx-auto flex max-w-5xl flex-col gap-8 text-center md:text-left">
+          <motion.div
+            initial="hidden"
+            animate={inView ? "show" : "hidden"}
+            variants={{
+              hidden: { opacity: 0, x: 200 },
+              show: { opacity: 1, x: 0, 
+              transitionEnd: { transform: "none" } },
+            }}
+            ref={ref}
+            transition={{ duration: 0.7, ease: "easeOut" }}
+          >
+            <h2 className="text-3xl font-semibold text-white md:text-4xl">{t("highlights.title")}</h2>
+            <p className="mt-3 text-balance text-base text-white/65 md:max-w-2xl">
+              {t("highlights.description")}
+            </p>
+          </motion.div>
+          <div className="grid gap-6 md:grid-cols-3">
+            {highlightItems.map(({ key, descriptionKey }) => {
+              const Icon = highlightIcons[key];
+              return (
+                <div
+                  key={key}
+                  className="group relative overflow-hidden rounded-3xl border border-white/10 bg-white/5 p-6 text-left backdrop-blur transition hover:-translate-y-1 hover:border-sky-400/60 hover:bg-sky-500/10"
+                >
+                  <div className="absolute -right-10 -top-10 h-32 w-32 rounded-full bg-sky-500/5 blur-3xl transition group-hover:bg-sky-400/10" />
+                  <Icon className="h-8 w-8 text-sky-300" />
+                  <h3 className="mt-4 text-xl font-semibold text-white">
+                    {t(`highlights.items.${key}.title`)}
+                  </h3>
+                  <p className="mt-3 text-sm text-white/65">
+                    {t(descriptionKey)}
+                  </p>
+                </div>
+              );
+            })}
           </div>
-        </ScrollReveal>
+        </div>
       </section>
 
       <section className="relative px-4 pt-12 pb-20 lg:py-28">

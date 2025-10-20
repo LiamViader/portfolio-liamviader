@@ -13,7 +13,9 @@ interface ScrollRevealProps extends PropsWithChildren {
   rootMargin?: string;
   motionProps?: MotionProps;
   noTransform?: boolean;
-  noOpacity?: boolean; // 👈 nueva prop
+  noOpacity?: boolean;
+  lateral?: boolean;
+  duration?: number;
 }
 
 export function ScrollReveal({
@@ -26,11 +28,12 @@ export function ScrollReveal({
   rootMargin = "200px 0px 200px 0px",
   motionProps,
   noTransform = false,
-  noOpacity = false, // 👈 valor por defecto
+  noOpacity = false,
+  lateral = false,
+  duration = 0.7,
 }: ScrollRevealProps) {
   const { ref, inView } = useInView({ triggerOnce: once, threshold: amount, rootMargin });
 
-  // 🔧 Construimos los variants dinámicamente
   const variants = (() => {
     if (noTransform && noOpacity) {
       return {
@@ -45,15 +48,30 @@ export function ScrollReveal({
       };
     }
     if (noOpacity) {
+      if (lateral){
+        return {
+          hidden: { x: distance },
+          show: { x: 0, transitionEnd: { transform: "none" } },
+        }
+      }
       return {
         hidden: { y: distance },
         show: { y: 0, transitionEnd: { transform: "none" } },
       };
     }
-    return {
-      hidden: { opacity: 0, y: distance },
-      show: { opacity: 1, y: 0, transitionEnd: { transform: "none" } },
-    };
+    else{
+      if (lateral){
+        return {
+          hidden: { opacity: 0, x: distance },
+          show: { opacity: 1, x: 0, transitionEnd: { transform: "none" } },
+        }
+      }
+      return {
+        hidden: { opacity: 0, y: distance },
+        show: { opacity: 1, y: 0, transitionEnd: { transform: "none" } },
+      };
+    }
+
   })();
 
   return (
@@ -62,7 +80,7 @@ export function ScrollReveal({
         initial="hidden"
         animate={inView ? "show" : "hidden"}
         variants={variants}
-        transition={{ duration: 0.7, ease: "easeOut", delay }}
+        transition={{ duration: duration, ease: "easeOut", delay }}
         style={noTransform ? undefined : inView ? { transform: "none" } : undefined}
         {...motionProps}
       >
