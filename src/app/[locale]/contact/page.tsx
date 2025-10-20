@@ -23,44 +23,53 @@ const cardBaseClasses =
 export default function ContactPage() {
   const t = useTranslations("ContactPage");
 
-  const collaborationHighlightKeys = {
-    employment: ["fullStack", "aiEnabled", "gameplay"],
-    projects: ["prototyping", "architecture", "workshops"],
-    collaboration: ["roadmap", "enablement", "partnerships"],
-  } as const;
+  const employmentHighlights = [
+    t("sections.employment.points.fullStack"),
+    t("sections.employment.points.aiEnabled"),
+    t("sections.employment.points.gameplay"),
+  ];
 
-  const collaborationSectionsConfig = [
+  const projectsHighlights = [
+    t("sections.projects.points.prototyping"),
+    t("sections.projects.points.architecture"),
+    t("sections.projects.points.workshops"),
+  ];
+
+  const collaborationHighlights = [
+    t("sections.collaboration.points.roadmap"),
+    t("sections.collaboration.points.enablement"),
+    t("sections.collaboration.points.partnerships"),
+  ];
+
+  const collaborationSections = [
     {
       key: "employment",
       icon: BriefcaseBusiness,
       title: t("sections.employment.title"),
       description: t("sections.employment.description"),
+      highlights: employmentHighlights,
     },
     {
       key: "projects",
       icon: Sparkles,
       title: t("sections.projects.title"),
       description: t("sections.projects.description"),
+      highlights: projectsHighlights,
     },
     {
       key: "collaboration",
       icon: UsersRound,
       title: t("sections.collaboration.title"),
       description: t("sections.collaboration.description"),
+      highlights: collaborationHighlights,
     },
   ] as const satisfies readonly {
-    key: keyof typeof collaborationHighlightKeys;
+    key: "employment" | "projects" | "collaboration";
     icon: LucideIcon;
     title: string;
     description: string;
+    highlights: string[];
   }[];
-
-  const collaborationSections = collaborationSectionsConfig.map((section) => ({
-    ...section,
-    highlights: collaborationHighlightKeys[section.key].map((pointKey) =>
-      t(`sections.${section.key}.points.${pointKey}`)
-    ),
-  }));
 
   const contactLinks = [
     {
@@ -86,10 +95,11 @@ export default function ContactPage() {
     },
   ];
 
-  const availabilityPointKeys = ["timezone", "engagements", "discovery"] as const;
-  const availabilityPoints = availabilityPointKeys.map((pointKey) =>
-    t(`availability.points.${pointKey}`)
-  );
+  const availabilityPoints = [
+    t("availability.points.timezone"),
+    t("availability.points.engagements"),
+    t("availability.points.discovery"),
+  ];
 
   return (
     <div className="relative isolate min-h-[calc(100vh-var(--header-h,73px))] overflow-hidden bg-gray-950 text-white">
@@ -131,8 +141,7 @@ export default function ContactPage() {
         <div className="mt-16 grid gap-6 lg:mt-24 lg:grid-cols-3">
           {collaborationSections.map(({ key, icon: Icon, title, description, highlights }, index) => (
             <ScrollReveal key={key} delay={0.12 + index * 0.08} className="h-full" lateral>
-              <article className={`${cardBaseClasses} h-full`}
-                aria-labelledby={`contact-section-${key}`}>
+              <article className={`${cardBaseClasses} h-full`} aria-labelledby={`contact-section-${key}`}>
                 <div className="absolute inset-0 bg-gradient-to-b from-transparent via-sky-500/5 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" aria-hidden />
                 <div className="relative z-10 flex flex-col gap-4">
                   <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-sky-500/15 text-sky-300 ring-1 ring-sky-400/20">
@@ -161,8 +170,7 @@ export default function ContactPage() {
 
         <div className="mt-24 grid gap-10 lg:grid-cols-[2fr,1fr] lg:items-start">
           <ScrollReveal className="space-y-6" delay={0.14}>
-            <div className={`${cardBaseClasses} p-8`}
-              aria-labelledby="contact-methods-title">
+            <div className={`${cardBaseClasses} p-8`} aria-labelledby="contact-methods-title">
               <div className="absolute inset-0 bg-gradient-to-br from-sky-500/5 via-transparent to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" aria-hidden />
               <div className="relative z-10 flex flex-col gap-6">
                 <div className="space-y-2">
@@ -201,8 +209,7 @@ export default function ContactPage() {
           </ScrollReveal>
 
           <ScrollReveal className="space-y-6" delay={0.18}>
-            <div className={`${cardBaseClasses} h-full p-8`}
-              aria-labelledby="contact-availability-title">
+            <div className={`${cardBaseClasses} h-full p-8`} aria-labelledby="contact-availability-title">
               <div className="absolute inset-0 bg-gradient-to-b from-transparent via-indigo-500/5 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" aria-hidden />
               <div className="relative z-10 flex h-full flex-col gap-5">
                 <div className="space-y-2">

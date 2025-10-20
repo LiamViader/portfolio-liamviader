@@ -74,7 +74,7 @@ export default function Home() {
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.45, duration: 0.6 }}
-            className="relative lg:ml-auto flex h-50 w-34 md:h-70 md:w-50 lg:h-90 lg:w-70 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-transparent via-sky-500/20 to-transparent p-[3px] shadow-[0_25px_70px_-40px_rgba(56,189,248,0.8)] ring-2 ring-white/40 hover:-translate-y-[1px] hover:shadow-[0_25px_100px_-40px_rgba(250,189,248,1)]"
+            className="relative lg:ml-auto flex h-50 w-34 md:h-70 md:w-50 lg:h-90 lg:w-70 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-transparent via-sky-500/20 to-transparent p-[3px] ring-2 ring-white/40 hover:-translate-y-[1px] shadow-[0_25px_60px_-40px_rgba(250,189,248,0.8)] hover:shadow-[0_25px_100px_-40px_rgba(56,189,248,1)]"
           >
             <div className="absolute -inset-5 -z-12 rounded-full bg-sky-500/10 blur-3xl" aria-hidden />
             <div className="absolute -inset-5 z-11 rounded-full bg-sky-400/5 blur-3xl" aria-hidden />
