@@ -52,9 +52,6 @@
       "button": "Iniciemos la conversación"
     }
   },
-
-
-  
   "Metadata": {
     "title": "Portafolio - Liam Viader",
     "description": "Desarrollo de Software, IA y Videojuegos"
@@ -149,6 +146,74 @@
         "submitted": "Mensaje enviado"
       },
       "success": "¡Gracias por escribir! En breve me pondré en contacto con los siguientes pasos."
+    },
+    "availability": {
+      "title": "Disponibilidad actual",
+      "subtitle": "Elige la modalidad que mejor acompañe tu hoja de ruta.",
+      "badge": "Actualizado semanalmente",
+      "note": "¿Necesitas algo distinto? Cuéntamelo en el mensaje y diseñamos un plan a medida.",
+      "items": {
+        "fractional": {
+          "label": "Liderazgo fraccional de producto y tecnología",
+          "description": "Me integro 1-2 días por semana para guiar la visión, destrabar equipos y mantener los lanzamientos en movimiento.",
+          "timeline": "Reservando nuevos retainers para el próximo trimestre"
+        },
+        "sprint": {
+          "label": "Sprints de diseño y construcción",
+          "description": "Impulsos de dos a cuatro semanas para prototipar, pulir UX o entregar hitos clave con velocidad.",
+          "timeline": "Próxima ventana de sprint a comienzos del próximo mes"
+        },
+        "advisory": {
+          "label": "Sesiones de asesoría y estrategia",
+          "description": "Encuentros mensuales o puntuales para revisar dirección de producto, decisiones técnicas y planes de contratación.",
+          "timeline": "Disponible la mayoría de los jueves (UTC-3)"
+        }
+      }
+    },
+    "focus": {
+      "subtitle": "Modos de colaboración",
+      "title": "Dónde genero mayor impacto",
+      "description": "Combino estrategia, craft y ejecución para llevar ideas ambiciosas del boceto al lanzamiento.",
+      "badge": "Compañero hands-on",
+      "items": {
+        "discovery": {
+          "label": "Descubrimiento de visión y prototipado",
+          "description": "Aclaramos el problema, mapeamos journeys y construimos prototipos vivos para alinear al equipo.",
+          "keywords": "Prototipado narrativo|Definición de producto|Mapeo de experiencias"
+        },
+        "launch": {
+          "label": "Lanzamientos y sistemas de crecimiento",
+          "description": "Entregamos código resiliente, alineamos analíticas y ajustamos live ops para sostener el impulso.",
+          "keywords": "Entrega full-stack|Design systems|Loops de crecimiento"
+        },
+        "enablement": {
+          "label": "Enablement y rituales de equipo",
+          "description": "Potenciamos al equipo con mejores flujos, pairing y documentación que perdura.",
+          "keywords": "Rituales creativos|Colaboración asíncrona|Mentoría técnica"
+        }
+      }
+    },
+    "social": {
+      "title": "Conectemos en la red",
+      "subtitle": "Mis DMs están abiertos; comparte una breve introducción y te responderé enseguida.",
+      "badge": "Sigamos en contacto",
+      "links": {
+        "linkedin": {
+          "label": "LinkedIn",
+          "handle": "@liamviader",
+          "description": "Actualizaciones profesionales, historias de colaboración y oportunidades."
+        },
+        "github": {
+          "label": "GitHub",
+          "handle": "@liamviader",
+          "description": "Experimentos de código, utilidades y prototipos jugables."
+        },
+        "twitter": {
+          "label": "X (Twitter)",
+          "handle": "@liamviader",
+          "description": "Ideas en tiempo real sobre productos, videojuegos e IA."
+        }
+      }
     }
   }
 }
