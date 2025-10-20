@@ -110,6 +110,56 @@ export const allProjects: ProjectData[] = [
 			}
 		}
 	},
+		{
+		id: 4,
+		tags: ["Godot", "GdScript"],
+		media_preview: "/images/testImage2.jpg",
+		github_url: "https://github.com/liam/project1",
+		live_url: "https://project1-live.com",
+		detailed_media: ["/images/testImage2.jpg", "/images/testImage2.jpg"],
+		categorys: ["Game"],
+		is_featured: true,
+		
+		translations: {
+			en: {
+				title: "Example 3",
+				short_description: "Short description.",
+				full_description: "Large description here. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+				role: "Full-Stack Developer & ML Engineer"
+			},
+			es: {
+				title: "Ejemplo 3",
+				short_description: "Descripcion corta.",
+				full_description: "Descripcion larga aqui. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+				role: "Desarrollador Full-Stack e Ingeniero de ML"
+			}
+		}
+	},
+			{
+		id: 5,
+		tags: ["Godot", "GdScript"],
+		media_preview: "/images/testImage2.jpg",
+		github_url: "https://github.com/liam/project1",
+		live_url: "https://project1-live.com",
+		detailed_media: ["/images/testImage2.jpg", "/images/testImage2.jpg"],
+		categorys: ["Game"],
+		is_featured: true,
+		
+		translations: {
+			en: {
+				title: "Example 3",
+				short_description: "Short description.",
+				full_description: "Large description here. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+				role: "Full-Stack Developer & ML Engineer"
+			},
+			es: {
+				title: "Ejemplo 3",
+				short_description: "Descripcion corta.",
+				full_description: "Descripcion larga aqui. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
+				role: "Desarrollador Full-Stack e Ingeniero de ML"
+			}
+		}
+	},
 ];
 
 // Function to extract data with the correct translations based on locale

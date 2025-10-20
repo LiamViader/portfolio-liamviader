@@ -36,8 +36,8 @@ const variantStyles: Record<CarouselVariant, VariantStyle> = {
   center:       { x: "-50%", scale: 1,   opacity: 1,   zIndex: 30 },
   left:         { x: "-108%", scale: 0.9, opacity: 0.5, zIndex: 20 },
   right:        { x: "8%",    scale: 0.9, opacity: 0.5, zIndex: 20 },
-  hiddenLeft:   { x: "-145%", scale: 0.5, opacity: 0,   zIndex: 10 },
-  hiddenRight:  { x: "45%",   scale: 0.5, opacity: 0,   zIndex: 10 },
+  hiddenLeft:   { x: "-120%", scale: 0.5, opacity: 0,   zIndex: 10 },
+  hiddenRight:  { x: "20%",   scale: 0.5, opacity: 0,   zIndex: 10 },
   hiddenCenter: { x: "-50%",  scale: 0.5, opacity: 0,   zIndex: 10 },
 };
 
@@ -101,7 +101,7 @@ export function getVariantAnimationFromTo(
         opacity: [from.opacity, to.opacity],
         zIndex: to.zIndex,
       },
-      transition: { duration: DUR_OTHER_S, ease: EASE_ENTER },
+      transition: { duration: 1.2, ease: EASE_ENTER },
     };
   }
 
