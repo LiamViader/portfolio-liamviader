@@ -41,19 +41,20 @@ export default function Home() {
 
   return (
     <div className="flex flex-col bg-gray-900">
-      <section className="relative overflow-hidden bg-gray-950/70 px-4 py-34 shadow-[0_40px_50px_-40px_rgba(56,189,248,0.2)] mb-0">
+      <section className="relative overflow-hidden bg-gray-950/70 px-4 pb-14 pt-28 lg:py-34 shadow-[0_40px_50px_-40px_rgba(56,189,248,0.2)] mb-0">
         <PulseHexGridCanvas pixelsPerHex={40} gridType="Fill" s={75} hue={240} hueJitter={5} l={0}/>
         <PulseHexGridCanvas pixelsPerHex={40} hue={240} hueJitter={30} s={80}/>
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(125,211,252,0.2),_transparent_65%)]" />
         <div className="absolute inset-0 bg-gradient-to-b from-gray-950/10 via-gray-950/60 to-gray-950" />
-        <div className="relative z-10 mx-auto flex w-full max-w-6xl flex-col items-center gap-16 px-2 text-center md:flex-row md:items-center md:justify-between md:text-left">
+        <div className="relative z-10 mx-auto flex w-full max-w-6xl flex-col items-center gap-8 lg:gap-16 px-2 text-center lg:flex-row lg:items-center lg:justify-between lg:text-left">
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.45, duration: 0.6 }}
-            className="relative ml-auto flex h-72 w-52 md:h-90 md:w-60 lg:h-100 lg:w-75 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-transparent via-sky-500/20 to-transparent p-[3px] shadow-[0_25px_70px_-40px_rgba(56,189,248,0.8)] ring-3 ring-white/40 "
+            className="relative lg:ml-auto flex h-50 w-34 md:h-70 md:w-50 lg:h-90 lg:w-70 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-transparent via-sky-500/20 to-transparent p-[3px] shadow-[0_25px_70px_-40px_rgba(56,189,248,0.8)] ring-2 ring-white/40 hover:-translate-y-[1px] hover:shadow-[0_25px_100px_-40px_rgba(250,189,248,1)]"
           >
-            <div className="absolute -inset-5 -z-10 rounded-full bg-sky-500/20 blur-3xl" aria-hidden />
+            <div className="absolute -inset-5 -z-12 rounded-full bg-sky-500/10 blur-3xl" aria-hidden />
+            <div className="absolute -inset-5 z-11 rounded-full bg-sky-400/5 blur-3xl" aria-hidden />
             <div className="relative h-full w-full overflow-hidden rounded-full border border-white/20">
               <Image
                 src="/images/test2_liam.png"
@@ -67,7 +68,7 @@ export default function Home() {
             </div>
           </motion.div>
 
-          <div className="flex w-full max-w-2xl flex-col items-center gap-8 md:items-start">
+          <div className="flex w/full max-w-2xl flex-col items-center gap-8 lg:items-start">
             <motion.span
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
@@ -84,7 +85,7 @@ export default function Home() {
               className="text-balance text-4xl font-semibold tracking-tight text-white/95 sm:text-5xl md:text-6xl"
             >
               {t.rich("hero.title", {
-                      highlight: (chunks) => <span className="text-sky-300">{chunks}</span>,
+                highlight: (chunks) => <span className="text-sky-300">{chunks}</span>,
               })}
             </motion.h1>
 
@@ -101,7 +102,7 @@ export default function Home() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.8, duration: 0.7 }}
-              className="flex w-full flex-wrap justify-center gap-4 md:justify-start"
+              className="flex w-full flex-wrap justify-center gap-4 lg:justify-start"
             >
               <Link href="/projects" className={heroButtons.primary}>
                 {t("hero.ctaProjects")}
@@ -110,7 +111,6 @@ export default function Home() {
                 {t("hero.ctaContact")}
               </Link>
             </motion.div>
-
           </div>
         </div>
         <div className="relative z-10 mx-auto max-w-6xl w-full pt-15 text-center">
@@ -149,7 +149,7 @@ export default function Home() {
 
       <section className="relative px-4 py-14 bg-black/10 border-y border-white/10 ">
         <PulseHexGridCanvas pixelsPerHex={25} gridType="Fill" s={80} hue={240} hueJitter={10} l={25}/>
-        <PulseHexGridCanvas pixelsPerHex={25} hue={200} hueJitter={30} s={90} l={50} gridType="Trails" trailCount={30} fadeSeconds={3}/>
+        <PulseHexGridCanvas pixelsPerHex={25} hue={240} hueJitter={30} s={100} l={60} gridType="Trails" trailCount={30} fadeSeconds={4}/>
         <div className="absolute inset-0 bg-gradient-to-b from-gray-90/10 via-gray-950/60 to-sky-900/10" />
         <ScrollReveal noOpacity>
           <div className="relative mx-auto flex max-w-5xl flex-col gap-8 text-center md:text-left">
@@ -183,7 +183,7 @@ export default function Home() {
         </ScrollReveal>
       </section>
 
-      <section className="relative px-4 py-34">
+      <section className="relative px-4 pt-12 pb-20 lg:py-28">
         <PulseHexGridCanvas pixelsPerHex={40} gridType="Fill" s={75} hue={240} hueJitter={5} l={0}/>
         <PulseHexGridCanvas pixelsPerHex={40} hue={240} hueJitter={30} s={40} l={25} gridType="Strata"/>
         <div className="absolute inset-0 bg-gradient-to-b from-gray-950 via-[rgba(56,189,248,0.02)] to-gray-950" />
@@ -199,7 +199,7 @@ export default function Home() {
                     {t("projects.description")}
                   </p>
                 </div>
-                <div className="flex flex-wrap items-center justify-center gap-4 lg:justify-start">
+                <div className="hidden lg:flex flex-wrap items-center justify-center gap-4 lg:justify-start">
                   <Link
                     href="/projects"
                     className="inline-flex items-center justify-center rounded-full bg-sky-500/90 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-sky-500/30 transition hover:bg-sky-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-400"
@@ -233,6 +233,21 @@ export default function Home() {
                     tagClassName: "text-[10px]"
                   }}
                 />
+              </div>
+              <div className="lg:hidden pt-5 flex flex-wrap items-center justify-center gap-4 lg:justify-start">
+                  <Link
+                    href="/projects"
+                    className="inline-flex items-center justify-center rounded-full bg-sky-500/90 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-sky-500/30 transition hover:bg-sky-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-400"
+                  >
+                    {t("projects.viewAll")}
+                    <Workflow className="ml-1 h-4 w-4" />
+                  </Link>
+                  <Link
+                    href="/contact"
+                    className="inline-flex items-center justify-center gap-2 rounded-full border border-white/20 bg-white/10 px-5 py-2 text-sm font-semibold text-white/80 transition hover:border-sky-400/60 hover:bg-sky-500/10"
+                  >
+                    {t("hero.ctaContact")}
+                  </Link>
               </div>
             </div>
           </div>

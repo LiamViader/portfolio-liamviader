@@ -11,24 +11,28 @@ interface LayoutContentProps {
 
 
 export default function LayoutContent({ children }: LayoutContentProps) {
-
-  
-
   return (
-    <>
-      <ModalProvider>
-        <Header/> 
-        <CustomScrollArea fillViewport>
-          <main 
-            className="flex-1" 
-          >
+    <ModalProvider>
+      <Header />
+      <CustomScrollArea fillViewport>
+        <div className="relative">
+          <main className="relative">
             {children}
           </main>
-          <footer className="z-20 p-4 text-center text-sm text-gray-400 border-t border-white/20 bg-black backdrop-blur-xl">
+
+          <footer
+            className="
+              absolute inset-x-0 bottom-0 z-20
+              border-t border-white/10
+              backdrop-blur-sm
+              p-4 text-center text-sm text-gray-300
+            "
+          >
+            <span className="pointer-events-none absolute -top-8 inset-x-0 h-8" />
             {new Date().getFullYear()} Liam Viader
           </footer>
-        </CustomScrollArea>
-      </ModalProvider>
-    </>
+        </div>
+      </CustomScrollArea>
+    </ModalProvider>
   );
 }

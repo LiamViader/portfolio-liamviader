@@ -7,7 +7,8 @@ import PulseHexGridOverlapLine, { type HexGridParams } from "./PulseHexGridOverl
 import PulseHexGridFill from "./PulseHexGridFill";
 import HexGridTrails from "./HexGridTrails";
 import HexGridStrata from "./HexGridStrata";
-
+import { FillTuning } from "./PulseHexGridFill";
+import { fill } from "three/src/extras/TextureUtils.js";
 export const grid_types = ['OverlapLine', 'Fill', 'Trails', 'Strata'] as const; 
 
 export type GridType = typeof grid_types[number]; 
@@ -25,6 +26,7 @@ export type CanvasSceneProps = {
   trailCount?: number;
   stepsPerSecond?: number;
   fadeSeconds?: number;
+  fillTuning?: FillTuning;
 };
 
 type HexGridTrailParams = {
@@ -33,10 +35,10 @@ type HexGridTrailParams = {
   fadeSeconds: number;
 }
 
-function renderGrid(finalGridType: GridType, mergedParams: HexGridParams, trailParams?: HexGridTrailParams) {
+function renderGrid(finalGridType: GridType, mergedParams: HexGridParams, trailParams?: HexGridTrailParams, filltuning?: FillTuning) {
   switch (finalGridType) {
     case "Fill":
-      return <PulseHexGridFill params={mergedParams} />;
+      return <PulseHexGridFill params={mergedParams} tuning={filltuning}/>;
 
     case "OverlapLine":
       return <PulseHexGridOverlapLine params={mergedParams} />;
@@ -77,6 +79,7 @@ export default function PulseHexGridCanvas({
   trailCount,
   stepsPerSecond,
   fadeSeconds,
+  fillTuning,
 }: CanvasSceneProps) {
   const hostRef = useRef<HTMLDivElement>(null);
 
@@ -115,7 +118,7 @@ export default function PulseHexGridCanvas({
         <fog attach="fog" args={["#04060c", 0.0018]} />
         <Suspense fallback={null}>
           <group>
-            {renderGrid(finalGridType, mergedParams, trailParams)}
+            {renderGrid(finalGridType, mergedParams, trailParams, fillTuning)}
           </group>
         </Suspense>
       </Canvas>

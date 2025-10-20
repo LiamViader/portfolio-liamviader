@@ -9,7 +9,7 @@ export default function CallToAction() {
 
   return (
     <section className="relative px-4 py-24 ">
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-gray-900/40 to-gray-950" />
+      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-gray-900/40 to-gray-950/60" />
       <ScrollReveal className="w-full">
         <div className="relative mx-auto max-w-5xl overflow-hidden rounded-3xl border border-white/10 bg-white/5 p-12 text-center shadow-[0_20px_10px_-30px_rgba(56,189,248,0.6)] backdrop-blur-sm">
 
