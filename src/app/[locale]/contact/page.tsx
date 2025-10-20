@@ -3,7 +3,16 @@
 import dynamic from "next/dynamic";
 import { useTranslations } from "next-intl";
 import type { LucideIcon } from "lucide-react";
-import { Mail, BriefcaseBusiness, Sparkles, UsersRound, ArrowUpRight, Linkedin, Github } from "lucide-react";
+import {
+  Mail,
+  BriefcaseBusiness,
+  Sparkles,
+  UsersRound,
+  Lightbulb,
+  ArrowUpRight,
+  Linkedin,
+  Github,
+} from "lucide-react";
 import { ScrollReveal } from "@/components/ScrollReveal";
 import { Link } from "@/i18n/navigation";
 
@@ -23,52 +32,57 @@ const cardBaseClasses =
 export default function ContactPage() {
   const t = useTranslations("ContactPage");
 
-  const employmentHighlights = [
-    t("sections.employment.points.fullStack"),
-    t("sections.employment.points.aiEnabled"),
-    t("sections.employment.points.gameplay"),
-  ];
-
-  const projectsHighlights = [
-    t("sections.projects.points.prototyping"),
-    t("sections.projects.points.architecture"),
-    t("sections.projects.points.workshops"),
-  ];
-
-  const collaborationHighlights = [
-    t("sections.collaboration.points.roadmap"),
-    t("sections.collaboration.points.enablement"),
-    t("sections.collaboration.points.partnerships"),
-  ];
-
-  const collaborationSections = [
-    {
-      key: "employment",
-      icon: BriefcaseBusiness,
-      title: t("sections.employment.title"),
-      description: t("sections.employment.description"),
-      highlights: employmentHighlights,
-    },
+  const highlightCards = [
     {
       key: "projects",
       icon: Sparkles,
-      title: t("sections.projects.title"),
-      description: t("sections.projects.description"),
-      highlights: projectsHighlights,
+      title: t("highlights.items.projects.title"),
+      description: t("highlights.items.projects.description"),
+      tags: [
+        t("highlights.items.projects.tags.discovery"),
+        t("highlights.items.projects.tags.systems"),
+        t("highlights.items.projects.tags.launch"),
+      ],
     },
     {
-      key: "collaboration",
+      key: "teams",
+      icon: BriefcaseBusiness,
+      title: t("highlights.items.teams.title"),
+      description: t("highlights.items.teams.description"),
+      tags: [
+        t("highlights.items.teams.tags.contract"),
+        t("highlights.items.teams.tags.fullTime"),
+        t("highlights.items.teams.tags.remote"),
+      ],
+    },
+    {
+      key: "advisory",
+      icon: Lightbulb,
+      title: t("highlights.items.advisory.title"),
+      description: t("highlights.items.advisory.description"),
+      tags: [
+        t("highlights.items.advisory.tags.strategy"),
+        t("highlights.items.advisory.tags.mentorship"),
+        t("highlights.items.advisory.tags.speaking"),
+      ],
+    },
+    {
+      key: "community",
       icon: UsersRound,
-      title: t("sections.collaboration.title"),
-      description: t("sections.collaboration.description"),
-      highlights: collaborationHighlights,
+      title: t("highlights.items.community.title"),
+      description: t("highlights.items.community.description"),
+      tags: [
+        t("highlights.items.community.tags.collabs"),
+        t("highlights.items.community.tags.openSource"),
+        t("highlights.items.community.tags.events"),
+      ],
     },
   ] as const satisfies readonly {
-    key: "employment" | "projects" | "collaboration";
+    key: "projects" | "teams" | "advisory" | "community";
     icon: LucideIcon;
     title: string;
     description: string;
-    highlights: string[];
+    tags: string[];
   }[];
 
   const contactLinks = [
@@ -138,27 +152,34 @@ export default function ContactPage() {
           </div>
         </ScrollReveal>
 
-        <div className="mt-16 grid gap-6 lg:mt-24 lg:grid-cols-3">
-          {collaborationSections.map(({ key, icon: Icon, title, description, highlights }, index) => (
-            <ScrollReveal key={key} delay={0.12 + index * 0.08} className="h-full" lateral>
-              <article className={`${cardBaseClasses} h-full`} aria-labelledby={`contact-section-${key}`}>
+        <ScrollReveal className="mt-16 max-w-3xl" delay={0.12}>
+          <div className="space-y-3">
+            <h2 className="text-2xl font-semibold text-white/95 sm:text-3xl">
+              {t("highlights.title")}
+            </h2>
+            <p className="text-sm text-white/70 sm:text-base">{t("highlights.description")}</p>
+          </div>
+        </ScrollReveal>
+
+        <div className="mt-12 grid gap-6 lg:grid-cols-2 xl:grid-cols-4">
+          {highlightCards.map(({ key, icon: Icon, title, description, tags }, index) => (
+            <ScrollReveal key={key} delay={0.16 + index * 0.08} className="h-full" lateral>
+              <article className={`${cardBaseClasses} h-full`} aria-labelledby={`contact-highlight-${key}`}>
                 <div className="absolute inset-0 bg-gradient-to-b from-transparent via-sky-500/5 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" aria-hidden />
-                <div className="relative z-10 flex flex-col gap-4">
+                <div className="relative z-10 flex h-full flex-col gap-4">
                   <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-sky-500/15 text-sky-300 ring-1 ring-sky-400/20">
                     <Icon className="h-5 w-5" />
                   </div>
                   <div className="flex flex-col gap-2">
-                    <h2 id={`contact-section-${key}`} className="text-xl font-semibold text-white/95">
+                    <h3 id={`contact-highlight-${key}`} className="text-lg font-semibold text-white/95">
                       {title}
-                    </h2>
-                    <p className="text-sm text-white/70">
-                      {description}
-                    </p>
+                    </h3>
+                    <p className="text-sm text-white/70">{description}</p>
                   </div>
                   <ul className="mt-2 flex flex-wrap gap-2">
-                    {highlights.map((point) => (
-                      <li key={point} className="rounded-full border border-white/10 bg-white/10 px-3 py-1 text-xs font-medium uppercase tracking-[0.2em] text-white/60">
-                        {point}
+                    {tags.map((tag) => (
+                      <li key={tag} className="rounded-full border border-white/10 bg-white/10 px-3 py-1 text-xs font-medium uppercase tracking-[0.2em] text-white/60">
+                        {tag}
                       </li>
                     ))}
                   </ul>

@@ -82,44 +82,57 @@
   },
   "ContactPage": {
     "hero": {
-      "eyebrow": "Contacto",
-      "title": "Construyamos la próxima <highlight>experiencia inolvidable</highlight>",
-      "description": "Ya sea que estés formando un equipo, validando una idea o dando soporte a un producto en vivo, puedo ayudarte a crear la siguiente entrega memorable.",
-      "primaryCta": "Escríbeme un correo",
-      "secondaryCta": "Conectemos en LinkedIn"
+      "eyebrow": "Conectemos",
+      "title": "Abierto a <highlight>nuevas colaboraciones</highlight>",
+      "description": "Cuéntame qué estás construyendo, explorando o imaginando. Encantado de hablar sobre nuevos productos, sumarme a tu organización o simplemente intercambiar ideas.",
+      "primaryCta": "Envíame un correo",
+      "secondaryCta": "Salúdame en LinkedIn"
     },
-    "sections": {
-      "employment": {
-        "title": "Incorpórame a tu equipo",
-        "description": "¿Buscas un desarrollador versátil capaz de entregar experiencias pulidas de principio a fin? Me adapto tanto a squads de alta velocidad como a equipos de producto consolidados.",
-        "points": {
-          "fullStack": "Entregas web full-stack",
-          "aiEnabled": "Funciones potenciadas con IA",
-          "gameplay": "Gameplay y herramientas"
-        }
-      },
-      "projects": {
-        "title": "Colaboremos en un proyecto",
-        "description": "Desde prototipos hasta lanzamientos en producción, disfruto asociarme con fundadores, estudios y agencias para dar estructura técnica a las ideas.",
-        "points": {
-          "prototyping": "Prototipado rápido",
-          "architecture": "Arquitectura técnica",
-          "workshops": "Workshops co-creativos"
-        }
-      },
-      "collaboration": {
-        "title": "Asesoría, mentoría o co-creación",
-        "description": "¿Necesitas feedback de roadmap, un sparring para I+D o soporte para tu equipo técnico? Veamos cómo puedo impulsar tu visión.",
-        "points": {
-          "roadmap": "Revisiones de roadmap",
-          "enablement": "Capacitación de equipos",
-          "partnerships": "Alianzas a largo plazo"
+    "highlights": {
+      "title": "Formas en las que podemos trabajar",
+      "description": "Adapto cada colaboración a las personas implicadas. Estos son algunos temas con los que me entusiasma empezar.",
+      "items": {
+        "projects": {
+          "title": "Dar forma a experiencias digitales",
+          "description": "Desde los primeros bocetos hasta un lanzamiento fiable, puedo ayudar a que el producto se sienta coherente y pensado.",
+          "tags": {
+            "discovery": "Descubrimiento y validación",
+            "systems": "Diseño de sistemas",
+            "launch": "Acompañamiento al lanzamiento"
+          }
+        },
+        "teams": {
+          "title": "Integrarme en tu equipo",
+          "description": "¿Necesitas un ingeniero que pueda sumarse a vuestro flujo y entregar con confianza? Soy flexible en alcance y duración.",
+          "tags": {
+            "contract": "Contratos y freelance",
+            "fullTime": "Oportunidades full-time",
+            "remote": "Trabajo remoto"
+          }
+        },
+        "advisory": {
+          "title": "Aportar guía y perspectiva",
+          "description": "Revisemos tu roadmap, evaluemos decisiones técnicas o mentoreemos talento emergente.",
+          "tags": {
+            "strategy": "Estrategia de producto",
+            "mentorship": "Mentoría",
+            "speaking": "Charlas y paneles"
+          }
+        },
+        "community": {
+          "title": "Colaborar con la comunidad",
+          "description": "Me encanta conectar con perfiles creativos, mantenedores open source y organizadores de eventos.",
+          "tags": {
+            "collabs": "Colaboraciones creativas",
+            "openSource": "Open source",
+            "events": "Talleres y eventos"
+          }
         }
       }
     },
     "links": {
-      "title": "Vías directas para contactarme",
-      "description": "Elige el canal que prefieras; responderé lo antes posible.",
+      "title": "Contáctame directamente",
+      "description": "Elige el canal más cómodo y te responderé pronto.",
       "items": {
         "email": {
           "label": "Correo",
@@ -139,17 +152,17 @@
     },
     "availability": {
       "title": "Qué puedes esperar",
-      "description": "Me comprometo con una comunicación cuidadosa y con definir próximos pasos claros; así suelo trabajar.",
+      "description": "Así es como suelo colaborar, para que sepas qué ocurre después de escribirme.",
       "points": {
-        "timezone": "Con base en Barcelona (CET) y horario flexible para equipos globales",
-        "engagements": "Disponible para colaboraciones freelance, contratos o roles a tiempo completo",
-        "discovery": "Acostumbrado a liderar discovery y convertir necesidades en planes accionables"
+        "timezone": "Con base en Barcelona (CET) y feliz de coordinar con otros husos horarios",
+        "engagements": "Abierto a colaboraciones desde exploraciones puntuales hasta compromisos prolongados",
+        "discovery": "Comenzaremos entendiendo objetivos, limitaciones y qué significa el éxito"
       },
-      "responseTime": "Tiempo medio de respuesta: dentro de 2 días laborables"
+      "responseTime": "Tiempo habitual de respuesta: dentro de 2 días laborables"
     },
     "cta": {
-      "title": "Cuéntame tu próxima <highlight>gran idea</highlight>",
-      "description": "Comparte tus objetivos, plazos y contexto. Te responderé con ideas sobre cómo hacerlo realidad.",
+      "title": "Cuéntame qué estás <highlight>explorando ahora</highlight>",
+      "description": "Comparte el contexto que tengas—links, documentos, una idea incipiente. Te responderé con los próximos pasos que veo.",
       "button": "Abrir correo",
       "secondary": "Ver mi trabajo"
     }
