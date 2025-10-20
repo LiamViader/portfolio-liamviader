@@ -1,5 +1,5 @@
 import type { Target, Transition } from "framer-motion";
-
+import { cubicBezier } from "framer-motion";
 
 export type CarouselVariant = "center" | "left" | "right" | "hiddenLeft" | "hiddenRight";
 
@@ -19,19 +19,26 @@ export type KeyframeAnimation = {
 
 export type AnimationTransition = {
   duration?: number;
-  ease?: number[];
+  ease?: ReturnType<typeof cubicBezier> | Array<ReturnType<typeof cubicBezier>>;
   times?: number[];
   type?: string;
   stiffness?: number;
   damping?: number;
 };
 
-
-
 export interface VariantAnimation {
   animate: Target;
   transition: Transition;
 }
+
+export const DUR_ENTER_CENTER_S = 0.6;
+export const DUR_OTHER_S = 0.55;
+
+export const DUR_ENTER_CENTER_MS = Math.round(DUR_ENTER_CENTER_S * 1000);
+export const DUR_OTHER_MS = Math.round(DUR_OTHER_S * 1000);
+
+export const EASE_LEAVE = cubicBezier(0.22, 1, 0.36, 1);
+export const EASE_ENTER = cubicBezier(0.16, 1, 0.3, 1);
 
 const variantStyles: Record<CarouselVariant, VariantStyle> = {
   center: {
@@ -69,7 +76,6 @@ const variantStyles: Record<CarouselVariant, VariantStyle> = {
 const hiddenVariants: CarouselVariant[] = ["hiddenLeft", "hiddenRight"];
 
 export const isHiddenVariant = (variant: CarouselVariant) => hiddenVariants.includes(variant);
-
 export const isCenterVariant = (variant: CarouselVariant) => variant === "center";
 
 export const getVariantAnimation = (
@@ -90,8 +96,8 @@ export const getVariantAnimation = (
         zIndex: baseAnimation.zIndex,
       },
       transition: {
-        duration: 0.55,
-        ease: [0.22, 1, 0.36, 1],
+        duration: DUR_OTHER_S,
+        ease: EASE_LEAVE,
       },
     };
   }
@@ -103,14 +109,12 @@ export const getVariantAnimation = (
       animate: {
         x: [from.x, "-50%"],
         scale: [from.scale, baseAnimation.scale],
-        // 👇 Opacidad salta directa al valor objetivo (sin animación)
         opacity: baseAnimation.opacity,
         zIndex: baseAnimation.zIndex,
       },
       transition: {
-        duration: 0.6,
-        ease: [0.16, 1, 0.3, 1],
-        // 👇 Transición por-propiedad: opacidad con duración 0
+        duration: DUR_ENTER_CENTER_S,
+        ease: EASE_ENTER,
         opacity: { duration: 0 },
       },
     };
@@ -118,7 +122,7 @@ export const getVariantAnimation = (
 
   return {
     animate: baseAnimation,
-    transition: { duration: 0.55, ease: [0.22, 1, 0.36, 1] },
+    transition: { duration: DUR_OTHER_S, ease: EASE_LEAVE },
   };
 };
 
