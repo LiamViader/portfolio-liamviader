@@ -22,7 +22,7 @@ export interface VariantAnimation {
 }
 
 /** Duraciones (s) y (ms) */
-export const DUR_ENTER_CENTER_S = 0.6;
+export const DUR_ENTER_CENTER_S = 1;
 export const DUR_OTHER_S = 0.55;
 
 export const DUR_ENTER_CENTER_MS = Math.round(DUR_ENTER_CENTER_S * 1000);
