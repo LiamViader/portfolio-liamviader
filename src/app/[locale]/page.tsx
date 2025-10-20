@@ -66,6 +66,11 @@ export default function Home() {
 
   const metricKeys: Array<"ai" | "systems" | "collaboration"> = ["ai", "systems", "collaboration"];
   const { ref, inView } = useInView({ triggerOnce: true, threshold: 0.12, rootMargin: "200px 0px 200px 0px" });
+  const { ref: cardsRef, inView: cardsInView } = useInView({
+    triggerOnce: true,
+    threshold: 0.2,
+    rootMargin: "0px 0px -80px 0px",
+  });
   return (
     <div className="flex flex-col bg-gray-900">
       <section className="relative overflow-hidden bg-gray-950/70 px-4 pb-14 pt-28 lg:py-34 shadow-[0_40px_50px_-40px_rgba(56,189,248,0.2)] mb-0">
