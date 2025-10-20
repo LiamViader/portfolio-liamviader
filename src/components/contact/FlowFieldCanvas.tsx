@@ -18,6 +18,112 @@ const palette = [
   new THREE.Color("#38bdf8"),
 ];
 
+const auroraVertexShader = /* glsl */ `
+  varying vec2 vUv;
+
+  void main() {
+    vUv = uv;
+    gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+  }
+`;
+
+const auroraFragmentShader = /* glsl */ `
+  varying vec2 vUv;
+
+  uniform float uTime;
+  uniform vec3 uColorPrimary;
+  uniform vec3 uColorSecondary;
+  uniform vec3 uColorAccent;
+
+  float hash(vec3 p) {
+    p = fract(p * 0.3183099 + vec3(0.1, 0.2, 0.3));
+    p += dot(p, p.yzx + 19.19);
+    return fract(p.x * p.y * p.z);
+  }
+
+  float noise(vec3 x) {
+    vec3 i = floor(x);
+    vec3 f = fract(x);
+    vec3 u = f * f * (3.0 - 2.0 * f);
+
+    float n = mix(
+      mix(
+        mix(hash(i + vec3(0.0, 0.0, 0.0)), hash(i + vec3(1.0, 0.0, 0.0)), u.x),
+        mix(hash(i + vec3(0.0, 1.0, 0.0)), hash(i + vec3(1.0, 1.0, 0.0)), u.x),
+        u.y
+      ),
+      mix(
+        mix(hash(i + vec3(0.0, 0.0, 1.0)), hash(i + vec3(1.0, 0.0, 1.0)), u.x),
+        mix(hash(i + vec3(0.0, 1.0, 1.0)), hash(i + vec3(1.0, 1.0, 1.0)), u.x),
+        u.y
+      ),
+      u.z
+    );
+
+    return n * n;
+  }
+
+  void main() {
+    vec2 uv = vUv;
+    vec2 centered = (uv - 0.5) * 2.2;
+    float time = uTime * 0.35;
+
+    float layers = 0.0;
+    float frequency = 1.4;
+    float amplitude = 0.7;
+
+    for (int i = 0; i < 4; i++) {
+      layers += noise(vec3(centered * frequency, time)) * amplitude;
+      frequency *= 1.7;
+      amplitude *= 0.55;
+    }
+
+    float ribbons = sin((centered.y + layers * 0.4) * 3.2 + time * 2.6);
+    float glow = smoothstep(-0.6, 0.8, ribbons) * 0.6 + layers * 0.35;
+
+    vec3 base = mix(uColorSecondary, uColorPrimary, clamp(centered.y * 0.45 + 0.55, 0.0, 1.0));
+    vec3 highlight = mix(base, uColorAccent, clamp(layers * 0.85 + 0.35, 0.0, 1.0));
+    vec3 color = highlight + vec3(0.05, 0.07, 0.12) * (0.6 + layers * 0.25);
+
+    float alpha = clamp(glow, 0.08, 0.85);
+
+    gl_FragColor = vec4(color, alpha);
+  }
+`;
+
+function AuroraPlane() {
+  const materialRef = useRef<THREE.ShaderMaterial>(null);
+  const uniforms = useMemo(
+    () => ({
+      uTime: { value: 0 },
+      uColorPrimary: { value: new THREE.Color("#2563eb") },
+      uColorSecondary: { value: new THREE.Color("#0ea5e9") },
+      uColorAccent: { value: new THREE.Color("#38bdf8") },
+    }),
+    []
+  );
+
+  useFrame((_, delta) => {
+    if (materialRef.current) {
+      materialRef.current.uniforms.uTime.value += delta;
+    }
+  });
+
+  return (
+    <mesh position={[0, 0, -6]} scale={[16, 10, 1]}>
+      <planeGeometry args={[1, 1, 240, 240]} />
+      <shaderMaterial
+        ref={materialRef}
+        uniforms={uniforms}
+        vertexShader={auroraVertexShader}
+        fragmentShader={auroraFragmentShader}
+        transparent
+        depthWrite={false}
+      />
+    </mesh>
+  );
+}
+
 function FlowField({ columns = 32, rows = 22, amplitude = 0.35, speed = 0.35 }: FlowFieldProps) {
   const meshRef = useRef<THREE.InstancedMesh>(null);
   const dummy = useMemo(() => new THREE.Object3D(), []);
@@ -73,14 +179,14 @@ function FlowField({ columns = 32, rows = 22, amplitude = 0.35, speed = 0.35 }: 
   return (
     <instancedMesh ref={meshRef} args={[undefined, undefined, columns * rows]} frustumCulled={false}>
       <planeGeometry args={[1.1, 0.22]} />
-      <meshBasicMaterial transparent opacity={0.8} toneMapped={false} vertexColors />
+      <meshBasicMaterial transparent opacity={0.55} toneMapped={false} vertexColors blending={THREE.AdditiveBlending} />
     </instancedMesh>
   );
 }
 
 export default function FlowFieldCanvas() {
   return (
-    <div className="pointer-events-none absolute inset-0 h-full w-full z-0">
+    <div className="pointer-events-none absolute inset-0 z-0 h-full w-full">
       <Canvas
         dpr={[1, 1.5]}
         orthographic
@@ -88,6 +194,7 @@ export default function FlowFieldCanvas() {
         camera={{ position: [0, 0, 20], zoom: 70, near: 0.1, far: 100 }}
         frameloop="always"
       >
+        <AuroraPlane />
         <FlowField />
       </Canvas>
     </div>
