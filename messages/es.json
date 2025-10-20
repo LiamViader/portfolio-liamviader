@@ -82,5 +82,73 @@
     "cta_text": "Si alguno de mis proyectos te ha despertado interés, estaré encantado de conversar. Escríbeme si quieres colaborar, necesitas más información o simplemente deseas saludar.",
     "cta_button_contact": "Contactar",
     "cta_button_cv": "Descargar CV"
+  },
+  "ContactPage": {
+    "hero": {
+      "eyebrow": "Hablemos",
+      "title": "Cuéntame sobre tu próximo proyecto ambicioso",
+      "subtitle": "Comparte toda la información que quieras sobre el producto, juego o sistema que tienes en mente. Te ayudaré a definir el plan, el equipo y el calendario para hacerlo realidad.",
+      "responseTime": "Tiempo medio de respuesta: 1-2 días hábiles"
+    },
+    "insight": {
+      "title": "Cuanto más contexto, mejor colaboración",
+      "copy": "¿En qué etapa está la idea? ¿Quiénes participan? ¿Cómo se ve el éxito dentro de seis meses? Con esos detalles puedo proponer la dirección técnica, el proceso creativo y el calendario adecuados."
+    },
+    "touchpoints": {
+      "email": {
+        "title": "Correo directo",
+        "description": "Comparte el problema que quieres resolver, enlaces de referencia o cualquier restricción que debamos tener en cuenta.",
+        "action": "Escribir correo"
+      },
+      "call": {
+        "title": "Agenda una llamada estratégica",
+        "description": "Reserva una sesión de 30 minutos para delimitar ideas, hablar de tiempos o explorar cómo podemos colaborar.",
+        "action": "Reservar llamada"
+      },
+      "chat": {
+        "title": "Mensaje en LinkedIn",
+        "description": "¿Prefieres una conversación asíncrona? Envíame una breve presentación y te responderé con los siguientes pasos.",
+        "action": "Abrir LinkedIn"
+      }
+    },
+    "form": {
+      "title": "Iniciemos la conversación",
+      "subtitle": "Cuéntame tu visión y te responderé con los siguientes pasos, casos similares o ideas para acelerar el trabajo.",
+      "fields": {
+        "name": {
+          "label": "Nombre completo",
+          "placeholder": "¿Cómo debo dirigirme a ti?"
+        },
+        "email": {
+          "label": "Correo electrónico",
+          "placeholder": "¿Dónde puedo contactarte?"
+        },
+        "company": {
+          "label": "Empresa o equipo",
+          "placeholder": "¿Quién impulsa el proyecto?"
+        },
+        "budget": {
+          "label": "Inversión del proyecto",
+          "placeholder": "Selecciona un rango",
+          "options": {
+            "starter": "Hasta $5k",
+            "growth": "$5k – $15k",
+            "scale": "$15k – $50k",
+            "open": "Lo conversamos"
+          }
+        },
+        "message": {
+          "label": "Detalles del proyecto",
+          "placeholder": "¿Qué estás construyendo? ¿Qué resultados son clave?"
+        }
+      },
+      "disclaimer": "No te suscribiré a ninguna lista. Usaré tu información únicamente para responder a tu mensaje.",
+      "submit": "Enviar mensaje",
+      "status": {
+        "submitting": "Enviando...",
+        "submitted": "Mensaje enviado"
+      },
+      "success": "¡Gracias por escribir! En breve me pondré en contacto con los siguientes pasos."
+    }
   }
 }
