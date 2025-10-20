@@ -39,6 +39,11 @@ export default function Home() {
 
   const metricKeys: Array<"ai" | "systems" | "collaboration"> = ["ai", "systems", "collaboration"];
   const { ref, inView } = useInView({ triggerOnce: true, threshold: 0.12, rootMargin: "200px 0px 200px 0px" });
+  const { ref: cardsRef, inView: cardsInView } = useInView({
+    triggerOnce: true,
+    threshold: 0.2,
+    rootMargin: "0px 0px -80px 0px",
+  });
   return (
     <div className="flex flex-col bg-gray-900">
       <section className="relative overflow-hidden bg-gray-950/70 px-4 pb-14 pt-28 lg:py-34 shadow-[0_40px_50px_-40px_rgba(56,189,248,0.2)] mb-0">
@@ -169,13 +174,35 @@ export default function Home() {
               {t("highlights.description")}
             </p>
           </motion.div>
-          <div className="grid gap-6 md:grid-cols-3">
+          <motion.div
+            ref={cardsRef}
+            initial="hidden"
+            animate={cardsInView ? "show" : "hidden"}
+            variants={{
+              hidden: {},
+              show: {
+                transition: {
+                  staggerChildren: 0.2,
+                  delayChildren: 0.15,
+                },
+              },
+            }}
+            className="grid gap-6 md:grid-cols-3"
+          >
             {highlightItems.map(({ key, descriptionKey }) => {
               const Icon = highlightIcons[key];
               return (
-                <div
+                <motion.div
                   key={key}
-                  className="group relative overflow-hidden rounded-3xl border border-white/10 bg-white/5 p-6 text-left backdrop-blur transition hover:-translate-y-1 hover:border-sky-400/60 hover:bg-sky-500/10"
+                  variants={{
+                    hidden: { opacity: 0, x: 80 },
+                    show: {
+                      opacity: 1,
+                      x: 0,
+                      transition: { duration: 0.6, ease: "easeOut" },
+                    },
+                  }}
+                  className="group relative h-full overflow-hidden rounded-3xl border border-white/10 bg-white/5 p-6 text-left backdrop-blur transition hover:-translate-y-1 hover:border-sky-400/60 hover:bg-sky-500/10"
                 >
                   <div className="absolute -right-10 -top-10 h-32 w-32 rounded-full bg-sky-500/5 blur-3xl transition group-hover:bg-sky-400/10" />
                   <Icon className="h-8 w-8 text-sky-300" />
@@ -185,10 +212,10 @@ export default function Home() {
                   <p className="mt-3 text-sm text-white/65">
                     {t(descriptionKey)}
                   </p>
-                </div>
+                </motion.div>
               );
             })}
-          </div>
+          </motion.div>
         </div>
       </section>
 
