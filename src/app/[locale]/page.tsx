@@ -170,12 +170,16 @@ export default function Home() {
             </p>
           </motion.div>
           <div className="grid gap-6 md:grid-cols-3">
-            {highlightItems.map(({ key, descriptionKey }) => {
+            {highlightItems.map(({ key, descriptionKey }, index) => {
               const Icon = highlightIcons[key];
               return (
-                <div
+                <motion.div
                   key={key}
-                  className="group relative overflow-hidden rounded-3xl border border-white/10 bg-white/5 p-6 text-left backdrop-blur transition hover:-translate-y-1 hover:border-sky-400/60 hover:bg-sky-500/10"
+                  initial={{ opacity: 0, x: 80 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  transition={{ duration: 0.6, delay: index * 0.15, ease: "easeOut" }}
+                  viewport={{ once: true, amount: 0.3 }}
+                  className="group relative h-full overflow-hidden rounded-3xl border border-white/10 bg-white/5 p-6 text-left backdrop-blur transition hover:-translate-y-1 hover:border-sky-400/60 hover:bg-sky-500/10"
                 >
                   <div className="absolute -right-10 -top-10 h-32 w-32 rounded-full bg-sky-500/5 blur-3xl transition group-hover:bg-sky-400/10" />
                   <Icon className="h-8 w-8 text-sky-300" />
@@ -185,7 +189,7 @@ export default function Home() {
                   <p className="mt-3 text-sm text-white/65">
                     {t(descriptionKey)}
                   </p>
-                </div>
+                </motion.div>
               );
             })}
           </div>
