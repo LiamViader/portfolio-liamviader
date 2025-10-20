@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { motion } from "framer-motion";
+import { motion, type Variants } from "framer-motion";
 import { useLocale, useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { BrainCircuit, Gamepad2, Sparkles, Workflow } from "lucide-react";
@@ -25,7 +25,7 @@ const highlightIcons = {
   games: Gamepad2,
 };
 
-const highlightListVariants = {
+const highlightListVariants: Variants = {
   hidden: {},
   show: {
     transition: {
@@ -35,7 +35,7 @@ const highlightListVariants = {
   },
 };
 
-const highlightCardVariants = {
+const highlightCardVariants: Variants = {
   hidden: {
     opacity: 0,
   },
@@ -62,11 +62,6 @@ export default function Home() {
 
   const metricKeys: Array<"ai" | "systems" | "collaboration"> = ["ai", "systems", "collaboration"];
   const { ref, inView } = useInView({ triggerOnce: true, threshold: 0.12, rootMargin: "200px 0px 200px 0px" });
-  const { ref: cardsRef, inView: cardsInView } = useInView({
-    triggerOnce: true,
-    threshold: 0.2,
-    rootMargin: "0px 0px -80px 0px",
-  });
   return (
     <div className="flex flex-col bg-gray-900">
       <section className="relative overflow-hidden bg-gray-950/70 px-4 pb-14 pt-28 lg:py-34 shadow-[0_40px_50px_-40px_rgba(56,189,248,0.2)] mb-0">
@@ -233,7 +228,7 @@ export default function Home() {
         <PulseHexGridCanvas pixelsPerHex={40} gridType="Fill" s={75} hue={240} hueJitter={5} l={0}/>
         <PulseHexGridCanvas pixelsPerHex={40} hue={240} hueJitter={30} s={40} l={25} gridType="Strata"/>
         <div className="absolute inset-0 bg-gradient-to-b from-gray-950 via-[rgba(56,189,248,0.02)] to-gray-950" />
-        <ScrollReveal noOpacity>
+        <ScrollReveal noOpacity distance={100}>
           <div className="relative mx-auto max-w-7xl">
             <div className="flex flex-col gap-6 lg:grid lg:grid-cols-[minmax(100px,1.1fr)_minmax(60%,0.9fr)] lg:items-start lg:gap-10">
               <div className="flex flex-col gap-6 text-center lg:text-left pl-3">
