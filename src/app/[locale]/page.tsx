@@ -46,62 +46,84 @@ export default function Home() {
         <PulseHexGridCanvas pixelsPerHex={40} hue={240} hueJitter={30} s={80}/>
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(125,211,252,0.2),_transparent_65%)]" />
         <div className="absolute inset-0 bg-gradient-to-b from-gray-950/10 via-gray-950/60 to-gray-950" />
-        <div className="relative z-10 mx-auto flex max-w-4xl flex-col items-center gap-8 text-center">
-          <motion.span
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.5, duration: 0.7 }}
-            className="inline-flex items-center gap-3 rounded-full border border-white/20 bg-white/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.35em] text-white/70 backdrop-blur"
-          >
-            {t("hero.tagline")}
-          </motion.span>
-
-          <motion.h1
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.6, duration: 0.7 }}
-            className="text-balance text-4xl font-semibold tracking-tight sm:text-5xl md:text-6xl text-white/95"
-          >
-            {t.rich("hero.title", {
-                    highlight: (chunks) => <span className="text-sky-300">{chunks}</span>,
-            })}
-          </motion.h1>
-
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.7, duration: 0.7 }}
-            className="max-w-2xl text-pretty text-lg text-white/70 sm:text-xl"
-          >
-            {t("hero.subtitle")}
-          </motion.p>
-
+        <div className="relative z-10 mx-auto flex w-full max-w-6xl flex-col items-center gap-12 px-2 text-center md:flex-row md:items-center md:justify-between md:text-left">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.8, duration: 0.7 }}
-            className="flex flex-wrap justify-center gap-4"
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ delay: 0.45, duration: 0.6 }}
+            className="relative flex h-48 w-48 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-sky-400/40 via-sky-500/20 to-transparent p-[3px] shadow-[0_25px_70px_-40px_rgba(56,189,248,0.8)] ring-1 ring-white/10 md:h-56 md:w-56"
           >
-            <Link href="/projects" className={heroButtons.primary}>
-              {t("hero.ctaProjects")}
-            </Link>
-            <Link href="/contact" className={heroButtons.secondary}>
-              {t("hero.ctaContact")}
-            </Link>
+            <div className="absolute -inset-5 -z-10 rounded-full bg-sky-500/20 blur-3xl" aria-hidden />
+            <div className="relative h-full w-full overflow-hidden rounded-full border border-white/20 bg-gray-900/40">
+              <Image
+                src="/images/profile-placeholder.svg"
+                alt="Portrait placeholder"
+                fill
+                sizes="(min-width: 768px) 224px, 192px"
+                className="object-cover"
+                priority
+              />
+            </div>
           </motion.div>
 
-          <motion.p
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.9, duration: 0.7 }}
-            className="text-sm font-medium uppercase tracking-[0.3em] text-white/50"
-          >
-            {t("hero.availability")}
-          </motion.p>
+          <div className="flex w-full max-w-2xl flex-col items-center gap-8 md:items-start">
+            <motion.span
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.5, duration: 0.7 }}
+              className="inline-flex items-center gap-3 rounded-full border border-white/20 bg-white/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.35em] text-white/70 backdrop-blur"
+            >
+              {t("hero.tagline")}
+            </motion.span>
 
-          <motion.ul
-            className="grid w-full gap-4 pt-6 text-left sm:grid-cols-3"
-          >
+            <motion.h1
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.6, duration: 0.7 }}
+              className="text-balance text-4xl font-semibold tracking-tight text-white/95 sm:text-5xl md:text-6xl"
+            >
+              {t.rich("hero.title", {
+                      highlight: (chunks) => <span className="text-sky-300">{chunks}</span>,
+              })}
+            </motion.h1>
+
+            <motion.p
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.7, duration: 0.7 }}
+              className="max-w-2xl text-pretty text-lg text-white/70 sm:text-xl"
+            >
+              {t("hero.subtitle")}
+            </motion.p>
+
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.8, duration: 0.7 }}
+              className="flex w-full flex-wrap justify-center gap-4 md:justify-start"
+            >
+              <Link href="/projects" className={heroButtons.primary}>
+                {t("hero.ctaProjects")}
+              </Link>
+              <Link href="/contact" className={heroButtons.secondary}>
+                {t("hero.ctaContact")}
+              </Link>
+            </motion.div>
+
+            <motion.p
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.9, duration: 0.7 }}
+              className="text-sm font-medium uppercase tracking-[0.3em] text-white/50"
+            >
+              {t("hero.availability")}
+            </motion.p>
+          </div>
+        </div>
+
+        <motion.ul
+          className="mx-auto grid w-full max-w-6xl gap-4 pt-10 text-left sm:grid-cols-3"
+        >
             {metricKeys.map((metricKey) => (
               <motion.li
                 initial={{ opacity: 0, y: 20 }}
@@ -119,7 +141,6 @@ export default function Home() {
               </motion.li>
             ))}
           </motion.ul>
-        </div>
       </section>
 
       <section className="relative px-4 py-14 bg-black/10 border-y border-white/10 ">
