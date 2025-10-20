@@ -2,6 +2,7 @@
 
 import dynamic from "next/dynamic";
 import { useTranslations } from "next-intl";
+import type { LucideIcon } from "lucide-react";
 import { Mail, BriefcaseBusiness, Sparkles, UsersRound, ArrowUpRight, Linkedin, Github } from "lucide-react";
 import { ScrollReveal } from "@/components/ScrollReveal";
 import { Link } from "@/i18n/navigation";
@@ -22,33 +23,41 @@ const cardBaseClasses =
 export default function ContactPage() {
   const t = useTranslations("ContactPage");
 
+  const collaborationHighlightKeys = {
+    employment: ["fullStack", "aiEnabled", "gameplay"],
+    projects: ["prototyping", "architecture", "workshops"],
+    collaboration: ["roadmap", "enablement", "partnerships"],
+  } as const;
+
   const collaborationSectionsConfig = [
     {
       key: "employment",
       icon: BriefcaseBusiness,
       title: t("sections.employment.title"),
       description: t("sections.employment.description"),
-      highlightKeys: ["fullStack", "aiEnabled", "gameplay"] as const,
     },
     {
       key: "projects",
       icon: Sparkles,
       title: t("sections.projects.title"),
       description: t("sections.projects.description"),
-      highlightKeys: ["vision", "artDirection", "experiments"] as const,
     },
     {
       key: "collaboration",
       icon: UsersRound,
       title: t("sections.collaboration.title"),
       description: t("sections.collaboration.description"),
-      highlightKeys: ["mentorship", "speaking", "community"] as const,
     },
-  ] as const;
+  ] as const satisfies readonly {
+    key: keyof typeof collaborationHighlightKeys;
+    icon: LucideIcon;
+    title: string;
+    description: string;
+  }[];
 
-  const collaborationSections = collaborationSectionsConfig.map(({ highlightKeys, ...section }) => ({
+  const collaborationSections = collaborationSectionsConfig.map((section) => ({
     ...section,
-    highlights: highlightKeys.map((pointKey) =>
+    highlights: collaborationHighlightKeys[section.key].map((pointKey) =>
       t(`sections.${section.key}.points.${pointKey}`)
     ),
   }));
@@ -77,7 +86,8 @@ export default function ContactPage() {
     },
   ];
 
-  const availabilityPoints = ["openRoles", "freelance", "consulting"].map((pointKey) =>
+  const availabilityPointKeys = ["timezone", "engagements", "discovery"] as const;
+  const availabilityPoints = availabilityPointKeys.map((pointKey) =>
     t(`availability.points.${pointKey}`)
   );
 
