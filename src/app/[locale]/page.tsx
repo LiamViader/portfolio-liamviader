@@ -25,6 +25,33 @@ const highlightIcons = {
   games: Gamepad2,
 };
 
+const highlightListVariants = {
+  hidden: {},
+  show: {
+    transition: {
+      staggerChildren: 0.22,
+      delayChildren: 0.12,
+    },
+  },
+};
+
+const highlightCardVariants = {
+  hidden: {
+    opacity: 0,
+    x: 56,
+    filter: "blur(8px)",
+  },
+  show: {
+    opacity: 1,
+    x: 0,
+    filter: "blur(0px)",
+    transition: {
+      duration: 0.7,
+      ease: [0.16, 1, 0.3, 1],
+    },
+  },
+};
+
 export default function Home() {
   const t = useTranslations("HomePage");
   const locale = useLocale();
@@ -169,26 +196,35 @@ export default function Home() {
               {t("highlights.description")}
             </p>
           </motion.div>
-          <div className="grid gap-6 md:grid-cols-3">
+          <motion.ul
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true, margin: "0px 0px -80px 0px" }}
+            variants={highlightListVariants}
+            className="grid gap-6 md:grid-cols-3"
+          >
             {highlightItems.map(({ key, descriptionKey }) => {
               const Icon = highlightIcons[key];
               return (
-                <div
-                  key={key}
-                  className="group relative overflow-hidden rounded-3xl border border-white/10 bg-white/5 p-6 text-left backdrop-blur transition hover:-translate-y-1 hover:border-sky-400/60 hover:bg-sky-500/10"
-                >
-                  <div className="absolute -right-10 -top-10 h-32 w-32 rounded-full bg-sky-500/5 blur-3xl transition group-hover:bg-sky-400/10" />
-                  <Icon className="h-8 w-8 text-sky-300" />
-                  <h3 className="mt-4 text-xl font-semibold text-white">
-                    {t(`highlights.items.${key}.title`)}
-                  </h3>
-                  <p className="mt-3 text-sm text-white/65">
-                    {t(descriptionKey)}
-                  </p>
-                </div>
+                <li key={key} className="h-full">
+                  <motion.article
+                    variants={highlightCardVariants}
+                    className="group relative h-full overflow-hidden rounded-3xl border border-white/10 bg-white/5 p-6 text-left backdrop-blur transition hover:-translate-y-1 hover:border-sky-400/60 hover:bg-sky-500/10"
+                    style={{ willChange: "transform, opacity" }}
+                  >
+                    <div className="pointer-events-none absolute -right-10 -top-10 h-32 w-32 rounded-full bg-sky-500/5 blur-3xl transition group-hover:bg-sky-400/10" />
+                    <Icon className="h-8 w-8 text-sky-300" />
+                    <h3 className="mt-4 text-xl font-semibold text-white">
+                      {t(`highlights.items.${key}.title`)}
+                    </h3>
+                    <p className="mt-3 text-sm text-white/65">
+                      {t(descriptionKey)}
+                    </p>
+                  </motion.article>
+                </li>
               );
             })}
-          </div>
+          </motion.ul>
         </div>
       </section>
 
