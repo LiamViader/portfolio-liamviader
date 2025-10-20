@@ -18,24 +18,43 @@ interface ModalPortalProps {
   onClose: () => void;
 }
 
-export function ProjectModalPortal({ project, originRect, originEl, onRevealOrigin, onClose }: ModalPortalProps) {
-  const { controls, containerRef, closing, passThrough, handleClose } = useProjectModalTransition({
-    originRect,
-    originEl,
-    onRevealOrigin,
-    onClose,
-  });
+export function ProjectModalPortal({
+  project,
+  originRect,
+  originEl,
+  onRevealOrigin,
+  onClose,
+}: ModalPortalProps) {
+  const { controls, containerRef, closing, passThrough, handleClose } =
+    useProjectModalTransition({
+      originRect,
+      originEl,
+      onRevealOrigin,
+      onClose,
+    });
 
   const portal = (
-    <AnimatePresence>
-      <ProjectModalBackdrop closing={closing} passThrough={passThrough} onClose={handleClose} />
+    // 👇 SIN initial={false} para que se apliquen los "initial" de los hijos
+    <AnimatePresence mode="wait">
+      <ProjectModalBackdrop
+        key="modal-backdrop"
+        closing={closing}
+        passThrough={passThrough}
+        onClose={handleClose}
+      />
       <ProjectModalShell
+        key={`modal-shell-${project.id}`}
         projectId={project.id}
         containerRef={containerRef}
         controls={controls}
         passThrough={passThrough}
       >
-        <ProjectModalContent project={project} closing={closing} onClose={handleClose} />
+        <ProjectModalContent
+          key={`modal-content-${project.id}`}
+          project={project}
+          closing={closing}
+          onClose={handleClose}
+        />
       </ProjectModalShell>
     </AnimatePresence>
   );

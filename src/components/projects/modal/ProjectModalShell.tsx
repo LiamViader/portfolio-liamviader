@@ -1,3 +1,5 @@
+"use client";
+
 import { ReactNode, RefObject } from "react";
 import { motion, useAnimation } from "framer-motion";
 
@@ -20,6 +22,7 @@ export function ProjectModalShell({
 }: ProjectModalShellProps) {
   return (
     <motion.div
+      // Esta key es interna al componente; no afecta a los hermanos del AnimatePresence
       key={`modal-${projectId}`}
       ref={containerRef}
       animate={controls}
@@ -35,7 +38,9 @@ export function ProjectModalShell({
         willChange: "transform, opacity",
         transform: "translateZ(0)",
       }}
-      className={`bg-gray-900 rounded-2xl border border-white/10 ${passThrough ? "pointer-events-none" : ""}`}
+      className={`bg-gray-900 rounded-2xl border border-white/10 ${
+        passThrough ? "pointer-events-none" : ""
+      }`}
       onClick={(event) => event.stopPropagation()}
     >
       {children}
