@@ -69,7 +69,6 @@ export function FeaturedCarousel({
     clearAutoplay();
     autoplayRef.current = setInterval(() => {
       setActiveIndex((idx) => (idx + 1) % totalProjects);
-      // Overlay desde el inicio de cada pase de autoplay
       startMaskForAnimation(DUR_ENTER_CENTER_MS);
     }, 5000);
   }, [clearAutoplay, hasSelectedProject, totalProjects]);
@@ -79,7 +78,6 @@ export function FeaturedCarousel({
     return () => {
       clearAutoplay();
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [scheduleAutoplay, clearAutoplay]);
 
   const handleManualNavigation = useCallback(
@@ -89,7 +87,6 @@ export function FeaturedCarousel({
       clearAutoplay();
       setActiveIndex((idx) => (idx + direction + totalProjects) % totalProjects);
 
-      // Overlay desde que empieza la animación
       startMaskForAnimation(DUR_ENTER_CENTER_MS);
 
       scheduleAutoplay();
@@ -165,12 +162,9 @@ export function FeaturedCarousel({
     [clearAutoplay, handleManualNavigation, onSelectProject],
   );
 
-  /** ---------------- Overlay anti-hover “fantasma” ---------------- */
 
-  // Mostrar/ocultar
   const [showHoverMask, setShowHoverMask] = useState(false);
 
-  // Control robusto de timers (evita carreras y overlays pegados)
   const maskCycleRef = useRef(0);
   const maskTimeoutRef = useRef<number | null>(null);
   const maskFailsafeRef = useRef<number | null>(null);
@@ -189,13 +183,11 @@ export function FeaturedCarousel({
     }
   }, []);
 
-  // 1-frame overlay para “refresh” inmediato del hover (lo usamos al volver de una pestaña)
   const refreshHoverOneFrame = useCallback(() => {
     setShowHoverMask(true);
     requestAnimationFrame(() => setShowHoverMask(false));
   }, []);
 
-  // Arranca overlay y programa su retirada a 75% + failsafe
   const startMaskForAnimation = useCallback(
     (totalMs: number) => {
       setShowHoverMask(true);
@@ -220,14 +212,12 @@ export function FeaturedCarousel({
     [clearMaskTimers],
   );
 
-  // Limpieza al desmontar
   useEffect(() => {
     return () => {
       clearMaskTimers();
     };
   }, [clearMaskTimers]);
 
-  // Robustez al cambiar de pestaña / ventana
   useEffect(() => {
     const handleHidden = () => {
       clearMaskTimers();
@@ -235,7 +225,6 @@ export function FeaturedCarousel({
       clearAutoplay();
     };
     const handleVisible = () => {
-      // Reprograma autoplay y refresca hover
       scheduleAutoplay();
       refreshHoverOneFrame();
     };
@@ -264,8 +253,6 @@ export function FeaturedCarousel({
     };
   }, [clearAutoplay, scheduleAutoplay, refreshHoverOneFrame, clearMaskTimers]);
 
-  /** --------------------------------------------------------------- */
-
   const cardClassName = clsx(
     "absolute top-0 h-full w-[47%] md:w-[42%] lg:w-[45%] xl:w-[48%]",
     layout?.cardClassName,
@@ -281,7 +268,6 @@ export function FeaturedCarousel({
     layout?.viewportClassName,
   );
 
-  // Subimos el z-index de los controles para que NUNCA los tape el overlay
   const controlsContainerClassName = clsx(
     "pointer-events-none absolute inset-y-0 flex w-full items-center justify-between px-2 md:px-6 z-[80]",
     layout?.controlsContainerClassName,
@@ -330,7 +316,6 @@ export function FeaturedCarousel({
           aria-hidden={isHidden}
           onClick={!isHidden ? handleClick : undefined}
           onKeyDown={!isHidden ? handleKeyDown : undefined}
-          // Backup: si por cualquier motivo acabara una animación y la máscara sigue, la quitamos.
           onAnimationComplete={() => setShowHoverMask(false)}
         >
           <FeaturedCarouselCard
