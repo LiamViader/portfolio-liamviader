@@ -46,20 +46,21 @@ export default function Home() {
         <PulseHexGridCanvas pixelsPerHex={40} hue={240} hueJitter={30} s={80}/>
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(125,211,252,0.2),_transparent_65%)]" />
         <div className="absolute inset-0 bg-gradient-to-b from-gray-950/10 via-gray-950/60 to-gray-950" />
-        <div className="relative z-10 mx-auto flex w-full max-w-6xl flex-col items-center gap-12 px-2 text-center md:flex-row md:items-center md:justify-between md:text-left">
+        <div className="relative z-10 mx-auto flex w-full max-w-6xl flex-col items-center gap-16 px-2 text-center md:flex-row md:items-center md:justify-between md:text-left">
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.45, duration: 0.6 }}
-            className="relative flex h-48 w-48 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-sky-400/40 via-sky-500/20 to-transparent p-[3px] shadow-[0_25px_70px_-40px_rgba(56,189,248,0.8)] ring-1 ring-white/10 md:h-56 md:w-56"
+            className="relative ml-auto flex h-72 w-52 md:h-90 md:w-60 lg:h-100 lg:w-75 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-transparent via-sky-500/20 to-transparent p-[3px] shadow-[0_25px_70px_-40px_rgba(56,189,248,0.8)] ring-3 ring-white/40 "
           >
             <div className="absolute -inset-5 -z-10 rounded-full bg-sky-500/20 blur-3xl" aria-hidden />
-            <div className="relative h-full w-full overflow-hidden rounded-full border border-white/20 bg-gray-900/40">
+            <div className="relative h-full w-full overflow-hidden rounded-full border border-white/20">
               <Image
-                src="/images/profile-placeholder.svg"
-                alt="Portrait placeholder"
+                src="/images/test2_liam.png"
+                alt="Portrait"
                 fill
-                sizes="(min-width: 768px) 224px, 192px"
+                sizes="(min-width: 1024px) 350px, (min-width: 768px) 280px, 200px"
+                quality={95}
                 className="object-cover"
                 priority
               />
@@ -110,16 +111,19 @@ export default function Home() {
               </Link>
             </motion.div>
 
-            <motion.p
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.9, duration: 0.7 }}
-              className="text-sm font-medium uppercase tracking-[0.3em] text-white/50"
-            >
-              {t("hero.availability")}
-            </motion.p>
           </div>
         </div>
+        <div className="relative z-10 mx-auto max-w-6xl w-full pt-15 text-center">
+          <motion.p
+            initial={{ opacity: 0, y: 10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.9, duration: 0.7 }}
+            className="z-10 text-sm font-medium uppercase tracking-[0.3em] text-white/50"
+          >
+            {t("hero.availability")}
+          </motion.p>
+        </div>
+
 
         <motion.ul
           className="mx-auto grid w-full max-w-6xl gap-4 pt-10 text-left sm:grid-cols-3"
@@ -145,7 +149,7 @@ export default function Home() {
 
       <section className="relative px-4 py-14 bg-black/10 border-y border-white/10 ">
         <PulseHexGridCanvas pixelsPerHex={25} gridType="Fill" s={80} hue={240} hueJitter={10} l={25}/>
-        <PulseHexGridCanvas pixelsPerHex={25} hue={260} hueJitter={30} s={90} l={50} gridType="Trails" trailCount={30} fadeSeconds={10}/>
+        <PulseHexGridCanvas pixelsPerHex={25} hue={200} hueJitter={30} s={90} l={50} gridType="Trails" trailCount={30} fadeSeconds={3}/>
         <div className="absolute inset-0 bg-gradient-to-b from-gray-90/10 via-gray-950/60 to-sky-900/10" />
         <ScrollReveal noOpacity>
           <div className="relative mx-auto flex max-w-5xl flex-col gap-8 text-center md:text-left">

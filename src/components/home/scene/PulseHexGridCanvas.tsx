@@ -82,7 +82,7 @@ export default function PulseHexGridCanvas({
 
   // Default wrapper classes + any extra from props
   const mergedClassName = clsx(
-    "pointer-events-none absolute inset-0 h-full w-full",
+    "pointer-events-none absolute inset-0 h-full w-full z-0",
     className
   );
 
