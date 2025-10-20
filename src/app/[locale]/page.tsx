@@ -38,16 +38,12 @@ const highlightListVariants = {
 const highlightCardVariants = {
   hidden: {
     opacity: 0,
-    x: 56,
-    filter: "blur(8px)",
   },
   show: {
     opacity: 1,
-    x: 0,
-    filter: "blur(0px)",
     transition: {
-      duration: 0.7,
-      ease: [0.16, 1, 0.3, 1],
+      duration: 1,
+      ease: [0.16, 1, 0.3, 0.9],
     },
   },
 };
