@@ -8,13 +8,14 @@ import { TranslatedProject } from "@/data/projects";
 import {
   CarouselVariant,
   getInitialStyle,
-  getVariantAnimation,
+  getVariantAnimationFromTo,
   isCenterVariant,
   isHiddenVariant,
   DUR_ENTER_CENTER_MS,
 } from "./carouselAnimations";
 import { FeaturedCarouselCard } from "./FeaturedCarouselCard";
 
+/* --------- Layout & Typography options --------- */
 export interface FeaturedCarouselLayoutOptions {
   containerClassName?: string;
   viewportClassName?: string;
@@ -23,6 +24,13 @@ export interface FeaturedCarouselLayoutOptions {
   controlButtonClassName?: string;
 }
 
+export interface FeaturedCarouselTypographyOptions {
+  titleClassName?: string;
+  descriptionClassName?: string;
+  tagClassName?: string;
+}
+
+/* ---------------- Props ---------------- */
 interface FeaturedCarouselProps {
   projects: TranslatedProject[];
   onSelectProject: (project: TranslatedProject) => void;
@@ -33,12 +41,9 @@ interface FeaturedCarouselProps {
   typography?: FeaturedCarouselTypographyOptions;
 }
 
-export interface FeaturedCarouselTypographyOptions {
-  titleClassName?: string;
-  descriptionClassName?: string;
-  tagClassName?: string;
-}
-
+/* =======================================================
+   ===============   COMPONENTE PRINCIPAL   ===============
+   ======================================================= */
 export function FeaturedCarousel({
   projects,
   onSelectProject,
@@ -49,135 +54,31 @@ export function FeaturedCarousel({
   typography,
 }: FeaturedCarouselProps) {
   const [activeIndex, setActiveIndex] = useState(0);
+  const [scrollDir, setScrollDir] = useState<1 | -1>(1); // +1 avanza, -1 retrocede
+
+  const prevActiveIndexRef = useRef<number>(0);
+  const prevScrollDirRef = useRef<1 | -1>(1);
+
   const containerRef = useRef<HTMLDivElement | null>(null);
   const autoplayRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   const totalProjects = projects.length;
-  const previousVariantsRef = useRef<Record<string, CarouselVariant | undefined>>({});
   const hasSelectedProject = selectedProjectId !== undefined;
 
   useEffect(() => {
     if (totalProjects === 0) return;
     setActiveIndex((current) => current % totalProjects);
+    prevActiveIndexRef.current = 0;
+    prevScrollDirRef.current = 1;
   }, [totalProjects]);
 
-  const clearAutoplay = useCallback(() => {
-    if (autoplayRef.current) {
-      clearInterval(autoplayRef.current);
-      autoplayRef.current = null;
-    }
-  }, []);
-
-  const scheduleAutoplay = useCallback(() => {
-    if (totalProjects <= 1 || hasSelectedProject) {
-      clearAutoplay();
-      return;
-    }
-
-    clearAutoplay();
-    autoplayRef.current = setInterval(() => {
-      setActiveIndex((idx) => (idx + 1) % totalProjects);
-      startMaskForAnimation(DUR_ENTER_CENTER_MS);
-    }, 5000);
-  }, [clearAutoplay, hasSelectedProject, totalProjects]);
-
-  useEffect(() => {
-    scheduleAutoplay();
-    return () => {
-      clearAutoplay();
-    };
-  }, [scheduleAutoplay, clearAutoplay]);
-
-  const handleManualNavigation = useCallback(
-    (direction: 1 | -1) => {
-      if (totalProjects <= 1) return;
-
-      clearAutoplay();
-      setActiveIndex((idx) => (idx + direction + totalProjects) % totalProjects);
-
-      startMaskForAnimation(DUR_ENTER_CENTER_MS);
-
-      scheduleAutoplay();
-    },
-    [clearAutoplay, scheduleAutoplay, totalProjects],
-  );
-
-  const handleInteractionStart = useCallback(() => {
-    clearAutoplay();
-  }, [clearAutoplay]);
-
-  const handleBlurCapture = useCallback(() => {
-    requestAnimationFrame(() => {
-      if (!containerRef.current) {
-        scheduleAutoplay();
-        return;
-      }
-      const active = document.activeElement;
-      if (active && containerRef.current.contains(active)) return;
-      scheduleAutoplay();
-    });
-  }, [scheduleAutoplay]);
-
-  const handleInteractionEnd = useCallback(() => {
-    scheduleAutoplay();
-  }, [scheduleAutoplay]);
-
-  const handleContainerKeyDown = useCallback(
-    (event: KeyboardEvent<HTMLDivElement>) => {
-      if (event.key === "ArrowRight") {
-        event.preventDefault();
-        handleManualNavigation(1);
-      }
-      if (event.key === "ArrowLeft") {
-        event.preventDefault();
-        handleManualNavigation(-1);
-      }
-    },
-    [handleManualNavigation],
-  );
-
-  const getVariantForIndex = useCallback(
-    (index: number): CarouselVariant => {
-      if (totalProjects <= 1) return "center";
-
-      const forwardDistance = (index - activeIndex + totalProjects) % totalProjects;
-      const backwardDistance = (activeIndex - index + totalProjects) % totalProjects;
-
-      if (forwardDistance === 0) return "center";
-      if (backwardDistance === 1) return "left";
-      if (forwardDistance === 1) return "right";
-      if (forwardDistance < backwardDistance) return "hiddenRight";
-      return "hiddenLeft";
-    },
-    [activeIndex, totalProjects],
-  );
-
-  const handleCardInteraction = useCallback(
-    (variant: CarouselVariant, project: TranslatedProject) => {
-      if (variant === "left") {
-        handleManualNavigation(-1);
-        return;
-      }
-      if (variant === "right") {
-        handleManualNavigation(1);
-        return;
-      }
-      if (variant === "center") {
-        clearAutoplay();
-        onSelectProject(project);
-      }
-    },
-    [clearAutoplay, handleManualNavigation, onSelectProject],
-  );
-
-
+  /* ------------ Overlay anti-hover “fantasma” ------------ */
   const [showHoverMask, setShowHoverMask] = useState(false);
-
   const maskCycleRef = useRef(0);
   const maskTimeoutRef = useRef<number | null>(null);
   const maskFailsafeRef = useRef<number | null>(null);
 
-  const MASK_RATIO = 0.50;
+  const MASK_RATIO = 0.5;
   const MASK_FAILSAFE_MS = 200;
 
   const clearMaskTimers = useCallback(() => {
@@ -226,41 +127,122 @@ export function FeaturedCarousel({
     };
   }, [clearMaskTimers]);
 
+  /* ------------------- Autoplay ------------------- */
+  const clearAutoplay = useCallback(() => {
+    if (autoplayRef.current) {
+      clearInterval(autoplayRef.current);
+      autoplayRef.current = null;
+    }
+  }, []);
+
+  const scheduleAutoplay = useCallback(() => {
+    if (totalProjects <= 1 || hasSelectedProject) {
+      clearAutoplay();
+      return;
+    }
+
+    clearAutoplay();
+    autoplayRef.current = setInterval(() => {
+      setScrollDir(1); // autoplay avanza
+      setActiveIndex((idx) => (idx + 1) % totalProjects);
+      startMaskForAnimation(DUR_ENTER_CENTER_MS);
+    }, 5000);
+  }, [clearAutoplay, hasSelectedProject, totalProjects, startMaskForAnimation]);
+
   useEffect(() => {
-    const handleHidden = () => {
-      clearMaskTimers();
-      setShowHoverMask(false);
+    scheduleAutoplay();
+    return () => {
       clearAutoplay();
     };
-    const handleVisible = () => {
+  }, [scheduleAutoplay, clearAutoplay]);
+
+  /* ------------------- Handlers ------------------- */
+  const handleManualNavigation = useCallback(
+    (direction: 1 | -1) => {
+      if (totalProjects <= 1) return;
+      setScrollDir(direction);
+      clearAutoplay();
+      setActiveIndex((idx) => (idx + direction + totalProjects) % totalProjects);
+      startMaskForAnimation(DUR_ENTER_CENTER_MS);
       scheduleAutoplay();
-      refreshHoverOneFrame();
-    };
-    const onVisChange = () => {
-      if (typeof document === "undefined") return;
-      if (document.hidden) handleHidden();
-      else handleVisible();
-    };
+    },
+    [clearAutoplay, scheduleAutoplay, totalProjects, startMaskForAnimation],
+  );
 
-    if (typeof document !== "undefined") {
-      document.addEventListener("visibilitychange", onVisChange);
-    }
-    if (typeof window !== "undefined") {
-      window.addEventListener("blur", handleHidden);
-      window.addEventListener("focus", handleVisible);
-    }
+  const handleInteractionStart = useCallback(() => {
+    clearAutoplay();
+  }, [clearAutoplay]);
 
-    return () => {
-      if (typeof document !== "undefined") {
-        document.removeEventListener("visibilitychange", onVisChange);
+  const handleBlurCapture = useCallback(() => {
+    requestAnimationFrame(() => {
+      if (!containerRef.current) {
+        scheduleAutoplay();
+        return;
       }
-      if (typeof window !== "undefined") {
-        window.removeEventListener("blur", handleHidden);
-        window.removeEventListener("focus", handleVisible);
-      }
-    };
-  }, [clearAutoplay, scheduleAutoplay, refreshHoverOneFrame, clearMaskTimers]);
+      const active = document.activeElement;
+      if (active && containerRef.current.contains(active)) return;
+      scheduleAutoplay();
+    });
+  }, [scheduleAutoplay]);
 
+  const handleInteractionEnd = useCallback(() => {
+    scheduleAutoplay();
+  }, [scheduleAutoplay]);
+
+  const handleContainerKeyDown = useCallback(
+    (event: KeyboardEvent<HTMLDivElement>) => {
+      if (event.key === "ArrowRight") {
+        event.preventDefault();
+        handleManualNavigation(1);
+      }
+      if (event.key === "ArrowLeft") {
+        event.preventDefault();
+        handleManualNavigation(-1);
+      }
+    },
+    [handleManualNavigation],
+  );
+
+  /* --------- Cálculo de variantes (determinista) --------- */
+  const computeVariant = useCallback(
+    (index: number, activeIdx: number, n: number, dir: 1 | -1): CarouselVariant => {
+      if (n <= 1) return "center";
+
+      const fd = (index - activeIdx + n) % n; // 0..n-1 hacia delante
+      const bd = (activeIdx - index + n) % n; // 0..n-1 hacia atrás
+
+      if (fd === 0) return "center";
+      if (bd === 1) return "left";
+      if (fd === 1) return "right";
+
+      // n=4 → opuesta va a hiddenCenter
+      if (n === 4 && fd === 2) return "hiddenCenter";
+
+      // Con >4: apilamos en el lado de ENTRADA según dir (para garantizar hidden→lateral correcto)
+      const half = Math.floor(n / 2);
+      if (dir === 1) {
+        // avanzando: cola por derecha; los que vienen por delante (fd >=2..half) se guardan en hiddenRight
+        if (fd >= 2 && fd <= half) return "hiddenRight";
+        return "hiddenLeft";
+      } else {
+        // retrocediendo: cola por izquierda
+        if (bd >= 2 && bd <= half) return "hiddenLeft";
+        return "hiddenRight";
+      }
+    },
+    [],
+  );
+
+  // Guarda "frame anterior" (activeIndex + scrollDir) para animar prev→next
+  const prevActive = prevActiveIndexRef.current;
+  const prevDir = prevScrollDirRef.current;
+
+  useEffect(() => {
+    prevActiveIndexRef.current = activeIndex;
+    prevScrollDirRef.current = scrollDir;
+  }, [activeIndex, scrollDir]);
+
+  /* ------------------- Clases ------------------- */
   const cardClassName = clsx(
     "absolute top-0 h-full w-[47%] md:w-[42%] lg:w-[45%] xl:w-[48%]",
     layout?.cardClassName,
@@ -286,25 +268,35 @@ export function FeaturedCarousel({
     layout?.controlButtonClassName,
   );
 
+  /* ------------------- Render ------------------- */
   const cardItems = useMemo(() => {
+    const n = totalProjects;
+
     return projects.map((project, index) => {
-      const variant = getVariantForIndex(index);
-      const previousVariant = previousVariantsRef.current[project.id];
-      previousVariantsRef.current[project.id] = variant;
+      // Calcula variante previa (con prevActive/prevDir) y actual (activeIndex/scrollDir)
+      const prevVariant = computeVariant(index, prevActive, n, prevDir);
+      const nextVariant = computeVariant(index, activeIndex, n, scrollDir);
 
-      const { animate, transition } = getVariantAnimation(variant, previousVariant);
+      const { animate, transition } = getVariantAnimationFromTo(nextVariant, prevVariant);
 
-      const isHidden = isHiddenVariant(variant);
-      const isCenter = isCenterVariant(variant);
+      const isHidden = isHiddenVariant(nextVariant);
+      const isCenter = isCenterVariant(nextVariant);
       const isSelectedCard = selectedProjectId === project.id;
       const shouldHideForModal = Boolean(isSelectedCard && !revealOrigin);
 
-      const handleClick = () => handleCardInteraction(variant, project);
+      const handleClick = () => {
+        if (nextVariant === "left") handleManualNavigation(-1);
+        else if (nextVariant === "right") handleManualNavigation(1);
+        else if (nextVariant === "center") {
+          clearAutoplay();
+          onSelectProject(project);
+        }
+      };
 
       const handleKeyDown = (event: KeyboardEvent<HTMLElement>) => {
         if (event.key !== "Enter" && event.key !== " ") return;
         event.preventDefault();
-        handleCardInteraction(variant, project);
+        handleClick();
       };
 
       return (
@@ -316,8 +308,9 @@ export function FeaturedCarousel({
             left: "50%",
             pointerEvents: isHidden || shouldHideForModal ? "none" : "auto",
           }}
+          // IMPORTANTE: siempre initial={false} y forzamos keyframes prev→next
+          initial={false}
           animate={animate}
-          initial={previousVariant ? false : getInitialStyle(variant)}
           transition={transition}
           role={!isHidden ? "button" : undefined}
           tabIndex={!isHidden ? 0 : -1}
@@ -338,13 +331,22 @@ export function FeaturedCarousel({
       );
     });
   }, [
-    getVariantForIndex,
-    handleCardInteraction,
     projects,
+    totalProjects,
+    activeIndex,
+    scrollDir,
+    prevActive,
+    prevDir,
     registerCardRef,
-    revealOrigin,
     selectedProjectId,
+    revealOrigin,
     cardClassName,
+    typography?.titleClassName,
+    typography?.descriptionClassName,
+    typography?.tagClassName,
+    handleManualNavigation,
+    clearAutoplay,
+    onSelectProject,
   ]);
 
   const hasMultipleProjects = totalProjects > 1;

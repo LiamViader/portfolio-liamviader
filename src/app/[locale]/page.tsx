@@ -29,8 +29,7 @@ export default function Home() {
   const t = useTranslations("HomePage");
   const locale = useLocale();
   const projects = getProjectsByLocale(locale)
-          .filter((project) => project.is_featured)
-          .slice(0, 3) satisfies TranslatedProject[];
+    .filter((project) => project.is_featured) satisfies TranslatedProject[];
 
   const highlightItems: Array<{ key: keyof typeof highlightIcons; descriptionKey: string }> = [
     { key: "ai", descriptionKey: "highlights.items.ai.description" },
