@@ -80,15 +80,16 @@ function FlowField({ columns = 32, rows = 22, amplitude = 0.35, speed = 0.35 }: 
 
 export default function FlowFieldCanvas() {
   return (
-    <Canvas
-      className="pointer-events-none absolute inset-0"
-      dpr={[1, 1.5]}
-      orthographic
-      gl={{ antialias: true, alpha: true }}
-      camera={{ position: [0, 0, 20], zoom: 70, near: 0.1, far: 100 }}
-      frameloop="always"
-    >
-      <FlowField />
-    </Canvas>
+    <div className="pointer-events-none absolute inset-0 h-full w-full z-0">
+      <Canvas
+        dpr={[1, 1.5]}
+        orthographic
+        gl={{ antialias: true, alpha: true }}
+        camera={{ position: [0, 0, 20], zoom: 70, near: 0.1, far: 100 }}
+        frameloop="always"
+      >
+        <FlowField />
+      </Canvas>
+    </div>
   );
 }
