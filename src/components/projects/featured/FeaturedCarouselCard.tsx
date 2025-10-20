@@ -1,19 +1,30 @@
 import Image from "next/image";
 import { Sparkles } from "lucide-react";
+import clsx from "clsx";
 import { TranslatedProject } from "@/data/projects";
+
 
 interface FeaturedCarouselCardProps {
   project: TranslatedProject;
   isCenter: boolean;
   shouldHide: boolean;
-  dimmed: boolean;
+  titleClassName?: string;       // default: "text-2xl md:text-3xl"
+  descriptionClassName?: string; // default: "text-sm md:text-base"
+  tagClassName?: string;         // default: "text-xs"
 }
 
 export function FeaturedCarouselCard({
   project,
   isCenter,
   shouldHide,
+  titleClassName,
+  descriptionClassName,
+  tagClassName,
 }: FeaturedCarouselCardProps) {
+  const titleSize = titleClassName ?? "text-2xl md:text-3xl";
+  const descSize = descriptionClassName ?? "text-sm md:text-base";
+  const tagSize = tagClassName ?? "text-xs";
+
   return (
     <div
       className={`
@@ -45,19 +56,19 @@ export function FeaturedCarouselCard({
           />
           <div className="absolute inset-0 bg-gradient-to-t from-gray-950/96 via-gray-900/40 to-transparent" />
 
-          <div className="absolute bottom-6 left-6 right-6 text-white flex flex-row gap-3 items-center align-middle">
+          <div className="absolute bottom-5 inset-x-0 px-6 text-white flex flex-row items-center gap-1 justify-center text-center items-center">
             <Sparkles
-              className={`h-6 w-6 text-white/70 transition-colors duration-300`}
+              className={`h-[1.15em] w-[1.15em] shrink-0 self-center text-white/70 transition-colors duration-300`}
               aria-hidden="true"
             />
-            <h3 className="mt-2 text-2xl font-semibold md:text-3xl">
+            <h3 className={clsx("font-semibold leading-tight", titleSize)}>
               {project.title}
             </h3>
           </div>
         </div>
 
         <div className="flex flex-1 flex-col justify-between gap-4 p-6">
-          <p className="text-sm text-slate-200/90 md:text-base">
+          <p className={clsx("text-slate-200/90", descSize)}>
             {project.short_description}
           </p>
 
@@ -65,7 +76,10 @@ export function FeaturedCarouselCard({
             {(project.tags ?? []).slice(0, 4).map((tag) => (
               <span
                 key={tag}
-                className="rounded-full bg-white/10 border border-white/20 px-3 py-1 text-xs font-medium tracking-wide text-white/70"
+                className={clsx(
+                  "rounded-full bg-white/10 border border-white/20 px-2 py-1 font-medium tracking-wide text-white/70",
+                  tagSize
+                )}
               >
                 {tag}
               </span>

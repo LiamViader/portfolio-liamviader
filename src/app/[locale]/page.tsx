@@ -203,6 +203,11 @@ export default function Home() {
                     cardClassName: "!w-[47%] md:!w-[39%] lg:!w-[37%] xl:!w-[38%]",
                     controlsContainerClassName: "",
                   }}
+                  carouselTypography={{
+                    titleClassName: "text-2xl",
+                    descriptionClassName: "text-sm",
+                    tagClassName: "text-[10px]"
+                  }}
                 />
               </div>
             </div>

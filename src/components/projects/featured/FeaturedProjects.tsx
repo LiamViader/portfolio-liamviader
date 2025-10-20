@@ -13,6 +13,7 @@ import { useProjectSelection } from "../grid/hooks/useProjectSelection";
 import {
   FeaturedCarousel,
   type FeaturedCarouselLayoutOptions,
+  type FeaturedCarouselTypographyOptions
 } from "./FeaturedCarousel";
 
 interface FeaturedProjectsProps {
@@ -20,6 +21,7 @@ interface FeaturedProjectsProps {
   className?: string;
   contentClassName?: string;
   carouselLayout?: FeaturedCarouselLayoutOptions;
+  carouselTypography?: FeaturedCarouselTypographyOptions;
 }
 
 type CardRegistry = Map<number, HTMLElement>;
@@ -31,6 +33,7 @@ export default function FeaturedProjects({
   className,
   contentClassName,
   carouselLayout,
+  carouselTypography,
 }: FeaturedProjectsProps) {
   const t = useTranslations("ProjectsPage");
   const featuredProjects = useMemo(
@@ -90,6 +93,7 @@ export default function FeaturedProjects({
           selectedProjectId={selectedProjectId}
           revealOrigin={revealOrigin}
           layout={carouselLayout}
+          typography={carouselTypography}
         />
       </div>
 

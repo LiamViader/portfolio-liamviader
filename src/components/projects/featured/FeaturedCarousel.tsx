@@ -30,6 +30,13 @@ interface FeaturedCarouselProps {
   selectedProjectId?: number;
   revealOrigin: boolean;
   layout?: FeaturedCarouselLayoutOptions;
+  typography?: FeaturedCarouselTypographyOptions;
+}
+
+export interface FeaturedCarouselTypographyOptions {
+  titleClassName?: string;
+  descriptionClassName?: string;
+  tagClassName?: string;
 }
 
 export function FeaturedCarousel({
@@ -39,6 +46,7 @@ export function FeaturedCarousel({
   selectedProjectId,
   revealOrigin,
   layout,
+  typography,
 }: FeaturedCarouselProps) {
   const [activeIndex, setActiveIndex] = useState(0);
   const containerRef = useRef<HTMLDivElement | null>(null);
@@ -321,8 +329,10 @@ export function FeaturedCarousel({
           <FeaturedCarouselCard
             project={project}
             isCenter={isCenter}
-            dimmed={!isCenter}
             shouldHide={shouldHideForModal}
+            titleClassName={typography?.titleClassName}
+            descriptionClassName={typography?.descriptionClassName}
+            tagClassName={typography?.tagClassName}
           />
         </motion.article>
       );
