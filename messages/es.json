@@ -92,29 +92,29 @@
       "employment": {
         "title": "Incorpórame a tu equipo",
         "description": "¿Buscas un desarrollador versátil capaz de entregar experiencias pulidas de principio a fin? Me adapto tanto a squads de alta velocidad como a equipos de producto consolidados.",
-        "points": [
-          "Entregas web full-stack",
-          "Funciones potenciadas con IA",
-          "Gameplay y herramientas"
-        ]
+        "points": {
+          "fullStack": "Entregas web full-stack",
+          "aiEnabled": "Funciones potenciadas con IA",
+          "gameplay": "Gameplay y herramientas"
+        }
       },
       "projects": {
         "title": "Colaboremos en un proyecto",
         "description": "Desde prototipos hasta lanzamientos en producción, disfruto asociarme con fundadores, estudios y agencias para dar estructura técnica a las ideas.",
-        "points": [
-          "Prototipado rápido",
-          "Arquitectura técnica",
-          "Workshops co-creativos"
-        ]
+        "points": {
+          "prototyping": "Prototipado rápido",
+          "architecture": "Arquitectura técnica",
+          "workshops": "Workshops co-creativos"
+        }
       },
       "collaboration": {
         "title": "Asesoría, mentoría o co-creación",
         "description": "¿Necesitas feedback de roadmap, un sparring para I+D o soporte para tu equipo técnico? Veamos cómo puedo impulsar tu visión.",
-        "points": [
-          "Revisiones de roadmap",
-          "Capacitación de equipos",
-          "Alianzas a largo plazo"
-        ]
+        "points": {
+          "roadmap": "Revisiones de roadmap",
+          "enablement": "Capacitación de equipos",
+          "partnerships": "Alianzas a largo plazo"
+        }
       }
     },
     "links": {
@@ -140,11 +140,11 @@
     "availability": {
       "title": "Qué puedes esperar",
       "description": "Me comprometo con una comunicación cuidadosa y con definir próximos pasos claros; así suelo trabajar.",
-      "points": [
-        "Con base en Barcelona (CET) y horario flexible para equipos globales",
-        "Disponible para colaboraciones freelance, contratos o roles a tiempo completo",
-        "Acostumbrado a liderar discovery y convertir necesidades en planes accionables"
-      ],
+      "points": {
+        "timezone": "Con base en Barcelona (CET) y horario flexible para equipos globales",
+        "engagements": "Disponible para colaboraciones freelance, contratos o roles a tiempo completo",
+        "discovery": "Acostumbrado a liderar discovery y convertir necesidades en planes accionables"
+      },
       "responseTime": "Tiempo medio de respuesta: dentro de 2 días laborables"
     },
     "cta": {

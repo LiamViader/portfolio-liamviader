@@ -28,21 +28,27 @@ export default function ContactPage() {
       icon: BriefcaseBusiness,
       title: t("sections.employment.title"),
       description: t("sections.employment.description"),
-      highlights: t("sections.employment.points", { returnObjects: true }) as string[],
+      highlights: Object.values(
+        t.raw("sections.employment.points") as Record<string, string>
+      ),
     },
     {
       key: "projects",
       icon: Sparkles,
       title: t("sections.projects.title"),
       description: t("sections.projects.description"),
-      highlights: t("sections.projects.points", { returnObjects: true }) as string[],
+      highlights: Object.values(
+        t.raw("sections.projects.points") as Record<string, string>
+      ),
     },
     {
       key: "collaboration",
       icon: UsersRound,
       title: t("sections.collaboration.title"),
       description: t("sections.collaboration.description"),
-      highlights: t("sections.collaboration.points", { returnObjects: true }) as string[],
+      highlights: Object.values(
+        t.raw("sections.collaboration.points") as Record<string, string>
+      ),
     },
   ];
 
@@ -70,7 +76,9 @@ export default function ContactPage() {
     },
   ];
 
-  const availabilityPoints = t("availability.points", { returnObjects: true }) as string[];
+  const availabilityPoints = Object.values(
+    t.raw("availability.points") as Record<string, string>
+  );
 
   return (
     <div className="relative isolate min-h-[calc(100vh-var(--header-h,73px))] overflow-hidden bg-gray-950 text-white">
