@@ -52,8 +52,6 @@
       "button": "Start a conversation"
     }
   },
-
-
   "Metadata": {
     "title": "Portfolio - Liam Viader",
     "description": "Software, AI, and Video Game Development"
@@ -148,6 +146,74 @@
         "submitted": "Message sent"
       },
       "success": "Thanks for reaching out! I'll be in touch shortly with next steps."
+    },
+    "availability": {
+      "title": "Current availability",
+      "subtitle": "Choose the engagement style that fits your roadmap.",
+      "badge": "Updated weekly",
+      "note": "Need something different? Mention it in your message and we'll tailor a plan.",
+      "items": {
+        "fractional": {
+          "label": "Fractional product & tech leadership",
+          "description": "Embed me 1-2 days per week to steer vision, unblock teams, and keep launches moving.",
+          "timeline": "Booking new retainers for the next quarter"
+        },
+        "sprint": {
+          "label": "Design & build sprints",
+          "description": "Two to four week pushes to prototype, polish UX, or ship key milestones fast.",
+          "timeline": "Next sprint window opens early next month"
+        },
+        "advisory": {
+          "label": "Advisory & strategy sessions",
+          "description": "Monthly or ad-hoc deep dives to review product direction, tech choices, and hiring plans.",
+          "timeline": "Available most Thursdays (UTC-3)"
+        }
+      }
+    },
+    "focus": {
+      "subtitle": "Collaborative modes",
+      "title": "Where I create the most impact",
+      "description": "Blend strategy, craft, and execution to move bold ideas from sketch to launch.",
+      "badge": "Hands-on partner",
+      "items": {
+        "discovery": {
+          "label": "Vision discovery & prototyping",
+          "description": "Clarify the problem, map user journeys, and build living prototypes everyone can react to.",
+          "keywords": "Narrative prototyping|Product framing|Experience mapping"
+        },
+        "launch": {
+          "label": "Launch & growth systems",
+          "description": "Ship resilient code, align analytics, and tune live ops so launches keep momentum.",
+          "keywords": "Full-stack delivery|Design systems|Growth loops"
+        },
+        "enablement": {
+          "label": "Team enablement & rituals",
+          "description": "Level up teams with better workflows, pairing, and documentation that sticks.",
+          "keywords": "Creative rituals|Async collaboration|Technical coaching"
+        }
+      }
+    },
+    "social": {
+      "title": "Connect across the web",
+      "subtitle": "DMs open on the channels below—share a brief intro and I'll follow up quickly.",
+      "badge": "Let's connect",
+      "links": {
+        "linkedin": {
+          "label": "LinkedIn",
+          "handle": "@liamviader",
+          "description": "Professional updates, collaboration stories, and openings."
+        },
+        "github": {
+          "label": "GitHub",
+          "handle": "@liamviader",
+          "description": "Code experiments, utilities, and playable prototypes."
+        },
+        "twitter": {
+          "label": "X (Twitter)",
+          "handle": "@liamviader",
+          "description": "Real-time thoughts on building products, games, and AI."
+        }
+      }
     }
   }
 }
