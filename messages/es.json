@@ -82,57 +82,57 @@
   },
   "ContactPage": {
     "hero": {
-      "eyebrow": "Conectemos",
-      "title": "Abierto a <highlight>nuevas colaboraciones</highlight>",
-      "description": "Cuéntame qué estás construyendo, explorando o imaginando. Encantado de hablar sobre nuevos productos, sumarme a tu organización o simplemente intercambiar ideas.",
-      "primaryCta": "Envíame un correo",
-      "secondaryCta": "Salúdame en LinkedIn"
-    },
-    "highlights": {
-      "title": "Formas en las que podemos trabajar",
-      "description": "Adapto cada colaboración a las personas implicadas. Estos son algunos temas con los que me entusiasma empezar.",
-      "items": {
-        "projects": {
-          "title": "Dar forma a experiencias digitales",
-          "description": "Desde los primeros bocetos hasta un lanzamiento fiable, puedo ayudar a que el producto se sienta coherente y pensado.",
-          "tags": {
-            "discovery": "Descubrimiento y validación",
-            "systems": "Diseño de sistemas",
-            "launch": "Acompañamiento al lanzamiento"
-          }
-        },
-        "teams": {
-          "title": "Integrarme en tu equipo",
-          "description": "¿Necesitas un ingeniero que pueda sumarse a vuestro flujo y entregar con confianza? Soy flexible en alcance y duración.",
-          "tags": {
-            "contract": "Contratos y freelance",
-            "fullTime": "Oportunidades full-time",
-            "remote": "Trabajo remoto"
-          }
-        },
-        "advisory": {
-          "title": "Aportar guía y perspectiva",
-          "description": "Revisemos tu roadmap, evaluemos decisiones técnicas o mentoreemos talento emergente.",
-          "tags": {
-            "strategy": "Estrategia de producto",
-            "mentorship": "Mentoría",
-            "speaking": "Charlas y paneles"
-          }
-        },
-        "community": {
-          "title": "Colaborar con la comunidad",
-          "description": "Me encanta conectar con perfiles creativos, mantenedores open source y organizadores de eventos.",
-          "tags": {
-            "collabs": "Colaboraciones creativas",
-            "openSource": "Open source",
-            "events": "Talleres y eventos"
-          }
+    "eyebrow": "Conectemos",
+    "title": "Empecemos algo <highlight>juntos</highlight>",
+    "description": "Soy un ingeniero recién graduado con muchas ganas de seguir aprendiendo con proyectos reales. Si buscas un compañero, una mirada fresca o alguien con curiosidad por ayudar, aquí estoy.",
+    "primaryCta": "Envíame un correo",
+    "secondaryCta": "Salúdame en LinkedIn"
+  },
+  "highlights": {
+    "title": "Formas en las que podemos colaborar",
+    "description": "Estoy al principio de mi carrera, así que cada reto es una oportunidad para crecer. Estas son algunas direcciones donde puedo aportar energía y aprender rápido.",
+    "items": {
+      "projects": {
+        "title": "Dar forma a experiencias digitales",
+        "description": "Diseñemos y lancemos webs, prototipos o ideas universitarias. Me ilusiona practicar la visión de producto mientras aporto valor real.",
+        "tags": {
+          "discovery": "Descubrimiento y validación",
+          "systems": "Cuidado por el frontend",
+          "launch": "Iterar rápido"
+        }
+      },
+      "teams": {
+        "title": "Integrarme en tu equipo",
+        "description": "Estoy listo para aportar como desarrollador junior: aprender vuestras herramientas, colaborar en sprints y crecer junto al equipo.",
+        "tags": {
+          "contract": "Prácticas y roles junior",
+          "fullTime": "Compromisos largos",
+          "remote": "Presencial o remoto"
+        }
+      },
+      "advisory": {
+        "title": "Aprender en equipo",
+        "description": "Agradezco feedback, sesiones de pair programming o consejos para mejorar mi forma de trabajar, y comparto encantado lo que sé.",
+        "tags": {
+          "strategy": "Bucles de feedback",
+          "mentorship": "Mentoría",
+          "speaking": "Grupos de estudio"
+        }
+      },
+      "community": {
+        "title": "Colaborar con la comunidad",
+        "description": "Hackathons, meetups, issues open source... Me apetece participar, aprender de otras personas y aportar donde pueda.",
+        "tags": {
+          "collabs": "Colaboraciones creativas",
+          "openSource": "Open source",
+          "events": "Hackathons y eventos"
         }
       }
-    },
-    "links": {
-      "title": "Contáctame directamente",
-      "description": "Elige el canal más cómodo y te responderé pronto.",
+    }
+  },
+  "links": {
+    "title": "Contáctame directamente",
+    "description": "Elige el canal que te resulte más cómodo y responderé con muchas ganas de colaborar.",
       "items": {
         "email": {
           "label": "Correo",
@@ -151,20 +151,20 @@
       }
     },
     "availability": {
-      "title": "Qué puedes esperar",
-      "description": "Así es como suelo colaborar, para que sepas qué ocurre después de escribirme.",
-      "points": {
-        "timezone": "Con base en Barcelona (CET) y feliz de coordinar con otros husos horarios",
-        "engagements": "Abierto a colaboraciones desde exploraciones puntuales hasta compromisos prolongados",
-        "discovery": "Comenzaremos entendiendo objetivos, limitaciones y qué significa el éxito"
-      },
-      "responseTime": "Tiempo habitual de respuesta: dentro de 2 días laborables"
+    "title": "Qué puedes esperar",
+    "description": "Así suelo colaborar, para que sepas qué ocurre después de escribirme.",
+    "points": {
+      "timezone": "Con base en Barcelona (CET) y flexible con los horarios",
+      "engagements": "Abierto a todo: pequeñas pruebas o retos más largos",
+      "discovery": "Empezaremos entendiendo tus objetivos y cómo puedo aportar"
     },
-    "cta": {
-      "title": "Cuéntame qué estás <highlight>explorando ahora</highlight>",
-      "description": "Comparte el contexto que tengas—links, documentos, una idea incipiente. Te responderé con los próximos pasos que veo.",
-      "button": "Abrir correo",
-      "secondary": "Ver mi trabajo"
-    }
+    "responseTime": "Tiempo habitual de respuesta: dentro de 2 días laborables"
+  },
+  "cta": {
+    "title": "Cuéntame qué estás <highlight>explorando ahora</highlight>",
+    "description": "Comparte el contexto que tengas—enlaces, bocetos, retos. Te responderé con cómo puedo ayudar y qué me gustaría aprender.",
+    "button": "Abrir correo",
+    "secondary": "Ver mi trabajo"
   }
+}
 }

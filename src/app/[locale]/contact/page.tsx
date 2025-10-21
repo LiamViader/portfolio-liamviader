@@ -116,13 +116,13 @@ export default function ContactPage() {
   ];
 
   return (
-    <div className="relative isolate min-h-[calc(100vh-var(--header-h,73px))] overflow-hidden bg-gray-950 text-white">
+    <div className="relative isolate min-h-screen overflow-hidden bg-slate-950 text-white">
       <div className="absolute inset-0">
         <FlowFieldCanvas />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(14,165,233,0.25),_transparent_65%)]" />
-        <div className="absolute inset-0 bg-gradient-to-b from-gray-950/40 via-gray-950/65 to-gray-950" />
-        <div className="absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-gray-950 via-gray-950/70 to-transparent" />
-        <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-gray-950 via-gray-950/70 to-transparent" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_15%,rgba(56,189,248,0.28),transparent_55%),radial-gradient(circle_at_75%_10%,rgba(129,140,248,0.26),transparent_55%),radial-gradient(circle_at_40%_80%,rgba(14,165,233,0.22),transparent_60%)]" />
+        <div className="absolute inset-0 bg-gradient-to-b from-slate-950/70 via-slate-950/50 to-slate-950" />
+        <div className="absolute inset-x-0 top-0 h-32 bg-gradient-to-b from-slate-950 via-slate-950/65 to-transparent" />
+        <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-slate-950 via-slate-950/65 to-transparent" />
       </div>
 
       <div className="relative z-10 mx-auto w-full max-w-6xl px-4 pb-28 pt-32 sm:px-6 sm:pb-32 sm:pt-40 lg:px-8">

@@ -110,7 +110,7 @@ function AuroraPlane() {
   });
 
   return (
-    <mesh position={[0, 0, -6]} scale={[16, 10, 1]}>
+    <mesh position={[0, 0, -6]} scale={[18, 12, 1]}>
       <planeGeometry args={[1, 1, 240, 240]} />
       <shaderMaterial
         ref={materialRef}
@@ -186,8 +186,10 @@ function FlowField({ columns = 32, rows = 22, amplitude = 0.35, speed = 0.35 }: 
 
 export default function FlowFieldCanvas() {
   return (
-    <div className="pointer-events-none absolute inset-0 z-0 h-full w-full">
+    <div className="pointer-events-none absolute inset-0 z-0 h-full w-full overflow-hidden">
       <Canvas
+        className="!h-full !w-full"
+        style={{ width: "100%", height: "100%" }}
         dpr={[1, 1.5]}
         orthographic
         gl={{ antialias: true, alpha: true }}

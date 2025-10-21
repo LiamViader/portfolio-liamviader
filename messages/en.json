@@ -82,60 +82,60 @@
   },
   "ContactPage": {
     "hero": {
-      "eyebrow": "Let's connect",
-      "title": "Open to <highlight>meaningful collaborations</highlight>",
-      "description": "Share what you're building, exploring, or dreaming up. I'm happy to talk about new products, teaming up with your organisation, or simply exchanging ideas.",
-      "primaryCta": "Email me",
-      "secondaryCta": "Say hi on LinkedIn"
-    },
-    "highlights": {
-      "title": "Ways we can work together",
-      "description": "I tailor every engagement to the people involved. Here are some of the conversations I love to start.",
-      "items": {
-        "projects": {
-          "title": "Build digital experiences",
-          "description": "From first sketches to reliable launches, I can help craft products that feel cohesive and intentional.",
-          "tags": {
-            "discovery": "Discovery & validation",
-            "systems": "System design",
-            "launch": "Launch support"
-          }
-        },
-        "teams": {
-          "title": "Embed with your team",
-          "description": "Need an engineer who can drop into your workflow and ship with confidence? I'm flexible on scope and duration.",
-          "tags": {
-            "contract": "Contract & freelance",
-            "fullTime": "Full-time opportunities",
-            "remote": "Remote-friendly"
-          }
-        },
-        "advisory": {
-          "title": "Offer guidance & perspective",
-          "description": "Let's explore your roadmap, review technical decisions, or mentor emerging talent together.",
-          "tags": {
-            "strategy": "Product strategy",
-            "mentorship": "Mentorship",
-            "speaking": "Talks & panels"
-          }
-        },
-        "community": {
-          "title": "Collaborate with the community",
-          "description": "I'm always keen to connect with creative folks, open-source maintainers, and event organisers.",
-          "tags": {
-            "collabs": "Creative collabs",
-            "openSource": "Open source",
-            "events": "Workshops & events"
-          }
+    "eyebrow": "Let's connect",
+    "title": "Let's start something <highlight>together</highlight>",
+    "description": "I'm a recent computer science graduate excited to keep learning through real projects. If you need a teammate, a fresh pair of eyes, or someone curious to help, I'm all ears.",
+    "primaryCta": "Email me",
+    "secondaryCta": "Say hi on LinkedIn"
+  },
+  "highlights": {
+    "title": "Ways we can collaborate",
+    "description": "I'm still early in my career, so every challenge is an opportunity to grow. These are a few directions where I can add energy and learn fast.",
+    "items": {
+      "projects": {
+        "title": "Build digital experiences",
+        "description": "Let's design and ship web apps, prototypes, or university ideas together. I'm eager to practice product thinking while delivering real value.",
+        "tags": {
+          "discovery": "Discovery & validation",
+          "systems": "Front-end craft",
+          "launch": "Iterating quickly"
+        }
+      },
+      "teams": {
+        "title": "Join your team",
+        "description": "I'm ready to contribute as a junior developer—learning your tools, collaborating in sprints, and growing alongside the team.",
+        "tags": {
+          "contract": "Internships & junior roles",
+          "fullTime": "Longer engagements",
+          "remote": "On-site or remote"
+        }
+      },
+      "advisory": {
+        "title": "Pair up & learn",
+        "description": "I'm always grateful for code reviews, pair-programming sessions, or advice on improving my workflow—and happy to share what I know in return.",
+        "tags": {
+          "strategy": "Feedback loops",
+          "mentorship": "Mentorship",
+          "speaking": "Study groups"
+        }
+      },
+      "community": {
+        "title": "Collaborate with the community",
+        "description": "Hackathons, meetups, open-source issues—I'm keen to jump in, learn from others, and contribute wherever I can.",
+        "tags": {
+          "collabs": "Creative collabs",
+          "openSource": "Open source",
+          "events": "Hackathons & events"
         }
       }
-    },
-    "links": {
-      "title": "Reach me directly",
-      "description": "Choose the channel that feels easiest and I'll follow up soon.",
-      "items": {
-        "email": {
-          "label": "Email",
+    }
+  },
+  "links": {
+    "title": "Reach me directly",
+    "description": "Pick the channel that works best for you and I'll answer with curiosity and enthusiasm.",
+    "items": {
+      "email": {
+        "label": "Email",
           "value": "hello@liamviader.com"
         },
         "linkedin": {
@@ -151,20 +151,20 @@
       }
     },
     "availability": {
-      "title": "What to expect",
-      "description": "Here’s how I like to collaborate so you know what happens after you reach out.",
-      "points": {
-        "timezone": "Based in Barcelona (CET) and happy to coordinate across time zones",
-        "engagements": "Open to collaborations from short explorations to long-term commitments",
-        "discovery": "We’ll begin by understanding goals, constraints, and what success looks like"
-      },
-      "responseTime": "Typical response time: within 2 business days"
+    "title": "What to expect",
+    "description": "Here's how I like to collaborate so you know what happens after you reach out.",
+    "points": {
+      "timezone": "Based in Barcelona (CET) and flexible with schedules",
+      "engagements": "Open to everything from short experiments to longer-term learning",
+      "discovery": "We'll start by understanding your goals and how I can contribute"
     },
-    "cta": {
-      "title": "Tell me what you're <highlight>exploring next</highlight>",
-      "description": "Send over any context you have—links, documents, a loose idea. I'll reply with thoughts on the best next step.",
-      "button": "Compose email",
-      "secondary": "Review my work"
-    }
+    "responseTime": "Typical response time: within 2 business days"
+  },
+  "cta": {
+    "title": "Tell me what you're <highlight>exploring next</highlight>",
+    "description": "Share as much or as little context as you like—links, sketches, challenges. I'll reply with how I can help and what I'd love to learn.",
+    "button": "Compose email",
+    "secondary": "Review my work"
   }
+}
 }
