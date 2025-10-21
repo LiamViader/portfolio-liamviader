@@ -82,60 +82,34 @@
   },
   "ContactPage": {
     "hero": {
-    "eyebrow": "Let's connect",
-    "title": "Let's start something <highlight>together</highlight>",
-    "description": "I'm a recent computer science graduate excited to keep learning through real projects. If you need a teammate, a fresh pair of eyes, or someone curious to help, I'm all ears.",
-    "primaryCta": "Email me",
-    "secondaryCta": "Say hi on LinkedIn"
-  },
-  "highlights": {
-    "title": "Ways we can collaborate",
-    "description": "I'm still early in my career, so every challenge is an opportunity to grow. These are a few directions where I can add energy and learn fast.",
-    "items": {
-      "projects": {
-        "title": "Build digital experiences",
-        "description": "Let's design and ship web apps, prototypes, or university ideas together. I'm eager to practice product thinking while delivering real value.",
-        "tags": {
-          "discovery": "Discovery & validation",
-          "systems": "Front-end craft",
-          "launch": "Iterating quickly"
-        }
-      },
-      "teams": {
-        "title": "Join your team",
-        "description": "I'm ready to contribute as a junior developer—learning your tools, collaborating in sprints, and growing alongside the team.",
-        "tags": {
-          "contract": "Internships & junior roles",
-          "fullTime": "Longer engagements",
-          "remote": "On-site or remote"
-        }
-      },
-      "advisory": {
-        "title": "Pair up & learn",
-        "description": "I'm always grateful for code reviews, pair-programming sessions, or advice on improving my workflow—and happy to share what I know in return.",
-        "tags": {
-          "strategy": "Feedback loops",
-          "mentorship": "Mentorship",
-          "speaking": "Study groups"
-        }
-      },
-      "community": {
-        "title": "Collaborate with the community",
-        "description": "Hackathons, meetups, open-source issues—I'm keen to jump in, learn from others, and contribute wherever I can.",
-        "tags": {
-          "collabs": "Creative collabs",
-          "openSource": "Open source",
-          "events": "Hackathons & events"
+      "eyebrow": "Let's connect",
+      "title": "Let's start something <highlight>together</highlight>",
+      "description": "I'm a recent computer science graduate excited to keep learning through real projects. If you need a teammate, a fresh pair of eyes, or someone curious to help, I'm all ears."
+    },
+    "highlights": {
+      "items": {
+        "projects": {
+          "title": "Build digital experiences",
+          "description": "Let's design and ship web apps, prototypes, or university ideas together. I'm eager to practice product thinking while delivering real value."
+        },
+        "teams": {
+          "title": "Join your team",
+          "description": "I'm ready to contribute as a junior developer—learning your tools, collaborating in sprints, and growing alongside the team."
+        },
+        "advisory": {
+          "title": "Pair up & learn",
+          "description": "I'm always grateful for code reviews, pair-programming sessions, or advice on improving my workflow—and happy to share what I know in return."
+        },
+        "community": {
+          "title": "Collaborate with the community",
+          "description": "Hackathons, meetups, open-source issues—I'm keen to jump in, learn from others, and contribute wherever I can."
         }
       }
-    }
-  },
-  "links": {
-    "title": "Reach me directly",
-    "description": "Pick the channel that works best for you and I'll answer with curiosity and enthusiasm.",
-    "items": {
-      "email": {
-        "label": "Email",
+    },
+    "links": {
+      "items": {
+        "email": {
+          "label": "Email",
           "value": "hello@liamviader.com"
         },
         "linkedin": {
@@ -149,22 +123,6 @@
           "href": "https://github.com/liamviader"
         }
       }
-    },
-    "availability": {
-    "title": "What to expect",
-    "description": "Here's how I like to collaborate so you know what happens after you reach out.",
-    "points": {
-      "timezone": "Based in Barcelona (CET) and flexible with schedules",
-      "engagements": "Open to everything from short experiments to longer-term learning",
-      "discovery": "We'll start by understanding your goals and how I can contribute"
-    },
-    "responseTime": "Typical response time: within 2 business days"
-  },
-  "cta": {
-    "title": "Tell me what you're <highlight>exploring next</highlight>",
-    "description": "Share as much or as little context as you like—links, sketches, challenges. I'll reply with how I can help and what I'd love to learn.",
-    "button": "Compose email",
-    "secondary": "Review my work"
+    }
   }
-}
 }

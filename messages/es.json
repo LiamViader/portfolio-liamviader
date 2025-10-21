@@ -80,91 +80,51 @@
     "cta_button_contact": "Contactar",
     "cta_button_cv": "Descargar CV"
   },
+
+
   "ContactPage": {
     "hero": {
-    "eyebrow": "Conectemos",
-    "title": "Empecemos algo <highlight>juntos</highlight>",
-    "description": "Soy un ingeniero recién graduado con muchas ganas de seguir aprendiendo con proyectos reales. Si buscas un compañero, una mirada fresca o alguien con curiosidad por ayudar, aquí estoy.",
-    "primaryCta": "Envíame un correo",
-    "secondaryCta": "Salúdame en LinkedIn"
-  },
+      "eyebrow": "Conectemos",
+      "title": "Empecemos algo <highlight>juntos</highlight>",
+      "description": "Soy un ingeniero recién graduado con muchas ganas de seguir aprendiendo con proyectos reales. Si buscas un compañero, una mirada fresca o alguien con curiosidad por ayudar, aquí estoy."
+    },
   "highlights": {
-    "title": "Formas en las que podemos colaborar",
-    "description": "Estoy al principio de mi carrera, así que cada reto es una oportunidad para crecer. Estas son algunas direcciones donde puedo aportar energía y aprender rápido.",
     "items": {
       "projects": {
         "title": "Dar forma a experiencias digitales",
-        "description": "Diseñemos y lancemos webs, prototipos o ideas universitarias. Me ilusiona practicar la visión de producto mientras aporto valor real.",
-        "tags": {
-          "discovery": "Descubrimiento y validación",
-          "systems": "Cuidado por el frontend",
-          "launch": "Iterar rápido"
-        }
+        "description": "Diseñemos y lancemos webs, prototipos o ideas universitarias. Me ilusiona practicar la visión de producto mientras aporto valor real."
       },
       "teams": {
         "title": "Integrarme en tu equipo",
-        "description": "Estoy listo para aportar como desarrollador junior: aprender vuestras herramientas, colaborar en sprints y crecer junto al equipo.",
-        "tags": {
-          "contract": "Prácticas y roles junior",
-          "fullTime": "Compromisos largos",
-          "remote": "Presencial o remoto"
-        }
+        "description": "Estoy listo para aportar como desarrollador junior: aprender vuestras herramientas, colaborar en sprints y crecer junto al equipo."
       },
       "advisory": {
         "title": "Aprender en equipo",
-        "description": "Agradezco feedback, sesiones de pair programming o consejos para mejorar mi forma de trabajar, y comparto encantado lo que sé.",
-        "tags": {
-          "strategy": "Bucles de feedback",
-          "mentorship": "Mentoría",
-          "speaking": "Grupos de estudio"
-        }
+        "description": "Agradezco feedback, sesiones de pair programming o consejos para mejorar mi forma de trabajar, y comparto encantado lo que sé."
       },
       "community": {
         "title": "Colaborar con la comunidad",
-        "description": "Hackathons, meetups, issues open source... Me apetece participar, aprender de otras personas y aportar donde pueda.",
-        "tags": {
-          "collabs": "Colaboraciones creativas",
-          "openSource": "Open source",
-          "events": "Hackathons y eventos"
-        }
+        "description": "Hackathons, meetups, issues open source... Me apetece participar, aprender de otras personas y aportar donde pueda."
       }
     }
   },
   "links": {
-    "title": "Contáctame directamente",
-    "description": "Elige el canal que te resulte más cómodo y responderé con muchas ganas de colaborar.",
-      "items": {
-        "email": {
-          "label": "Correo",
-          "value": "hello@liamviader.com"
-        },
-        "linkedin": {
-          "label": "LinkedIn",
-          "value": "liamviader",
-          "href": "https://www.linkedin.com/in/liamviader"
-        },
-        "github": {
-          "label": "GitHub",
-          "value": "liamviader",
-          "href": "https://github.com/liamviader"
-        }
+    "items": {
+      "email": {
+        "label": "Correo",
+        "value": "hello@liamviader.com"
+      },
+      "linkedin": {
+        "label": "LinkedIn",
+        "value": "liamviader",
+        "href": "https://www.linkedin.com/in/liamviader"
+      },
+      "github": {
+        "label": "GitHub",
+        "value": "liamviader",
+        "href": "https://github.com/liamviader"
       }
-    },
-    "availability": {
-    "title": "Qué puedes esperar",
-    "description": "Así suelo colaborar, para que sepas qué ocurre después de escribirme.",
-    "points": {
-      "timezone": "Con base en Barcelona (CET) y flexible con los horarios",
-      "engagements": "Abierto a todo: pequeñas pruebas o retos más largos",
-      "discovery": "Empezaremos entendiendo tus objetivos y cómo puedo aportar"
-    },
-    "responseTime": "Tiempo habitual de respuesta: dentro de 2 días laborables"
-  },
-  "cta": {
-    "title": "Cuéntame qué estás <highlight>explorando ahora</highlight>",
-    "description": "Comparte el contexto que tengas—enlaces, bocetos, retos. Te responderé con cómo puedo ayudar y qué me gustaría aprender.",
-    "button": "Abrir correo",
-    "secondary": "Ver mi trabajo"
+    }
   }
 }
 }
