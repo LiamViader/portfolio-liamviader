@@ -99,11 +99,7 @@ export default function Home() {
               className="text-balance text-4xl font-semibold tracking-tight text-white/95 sm:text-5xl md:text-6xl"
             >
               {t.rich("hero.title", {
-                highlight: (chunks) => (
-                  <span className="text-sky-300 inline-block whitespace-nowrap">
-                    {chunks}
-                  </span>
-                ),
+                highlight: (chunks) => <span className="text-sky-300">{chunks}</span>,
               })}
             </motion.h1>
 
