@@ -64,7 +64,7 @@ export default function Home() {
   const { ref, inView } = useInView({ triggerOnce: true, threshold: 0.12, rootMargin: "200px 0px 200px 0px" });
   return (
     <div className="flex flex-col bg-gray-900">
-      <section className="relative overflow-hidden bg-gray-950/70 px-4 pb-14 pt-28 lg:py-34 shadow-[0_40px_50px_-40px_rgba(56,189,248,0.2)] mb-0">
+      <section className="relative overflow-hidden bg-gray-950/70 px-4 pb-14 pt-28 lg:py-34 shadow-[0_40px_50px_-40px_rgba(56,189,248,0.2)] mb-0 min-h-[970px]">
         <PulseHexGridCanvas pixelsPerHex={40} gridType="Fill" s={75} hue={240} hueJitter={5} l={0}/>
         <PulseHexGridCanvas pixelsPerHex={40} hue={240} hueJitter={30} s={80}/>
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(125,211,252,0.2),_transparent_65%)]" />
