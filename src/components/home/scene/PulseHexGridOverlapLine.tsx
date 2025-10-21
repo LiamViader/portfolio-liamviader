@@ -1,27 +1,26 @@
 import * as THREE from "three";
-import React, { useEffect, useMemo, useRef } from "react";
+import React, { useLayoutEffect, useMemo, useRef, useEffect } from "react";
 import { useFrame, useThree } from "@react-three/fiber";
 
 /** Configurable parameters for the grid */
 export type HexGridParams = {
-  /** Width of each hexagon (flat-to-flat) in pixels; smaller => denser grid */
-  pixelsPerHex: number;
-  /** Base hue (0–360 degrees in HSL) */
-  hue: number;
-  /** Random hue variation ±degrees around base hue */
-  hueJitter: number;
-  /** Base saturation percentage */
-  s: number;
-  /** Base lightness percentage */
-  l: number;
+  pixelsPerHex: number; // width flat-to-flat in px
+  hue: number;          // base hue (0..360)
+  hueJitter: number;    // ±deg around base hue
+  s: number;            // saturation %
+  l: number;            // lightness % (no efecto en el shader original, se mantiene para compat)
 };
 
-// ================
-// GPU versión: **Instanced LineSegments** (sin SDF, sin quads)
-// Dibuja exactamente el mismo contorno que tu versión original (6 vértices),
-// pero en **un solo draw call** con atributos por instancia y shader propio.
-// Evitamos recortes y conservamos el look original de LineBasicMaterial.
-// ================
+type HexData = {
+  id: string;
+  position: [number, number, number];
+  baseScale: number;
+  phase: number;
+  depthOffset: number;
+  hue: number;      // 0..1
+  rotation: number; // radians
+  baseOpacity: number;
+};
 
 export default function PulseHexGridOverlapLine({ params }: { params: HexGridParams }) {
   const { size, camera, gl } = useThree();
@@ -29,8 +28,8 @@ export default function PulseHexGridOverlapLine({ params }: { params: HexGridPar
   const width = size.width / dpr;
   const height = size.height / dpr;
 
-  // Cámara ortográfica en espacio pixel
-  useEffect(() => {
+  // Cámara ortográfica en espacio pixel antes del paint
+  useLayoutEffect(() => {
     if (camera instanceof THREE.OrthographicCamera) {
       camera.left = -width / 2;
       camera.right = width / 2;
@@ -45,19 +44,18 @@ export default function PulseHexGridOverlapLine({ params }: { params: HexGridPar
     [width, height, params.pixelsPerHex, params.hue, params.hueJitter, params.s, params.l]
   );
 
-  // Geometría base: hex "unit" (circunradio=1) como líneas, con índices de segmentos.
+  // Geometría base del hex unitario (circunradio=1) como líneas con índices
   const baseGeom = useMemo(() => {
     const geom = new THREE.BufferGeometry();
     const pts: number[] = [];
     for (let i = 0; i < 6; i++) {
-      const angle = Math.PI / 6 + (i * Math.PI) / 3; // mismo offset que tu código original
+      const angle = Math.PI / 6 + (i * Math.PI) / 3;
       pts.push(Math.cos(angle), Math.sin(angle), 0);
     }
     const pos = new Float32Array(pts);
-    geom.setAttribute("position", new THREE.BufferAttribute(pos, 3));
-    // Segmentos: (0-1,1-2,2-3,3-4,4-5,5-0)
     const idx = new Uint16Array([0,1, 1,2, 2,3, 3,4, 4,5, 5,0]);
-    geom.setIndex(new THREE.BufferAttribute(idx, 1));
+    geom.setAttribute("position", new THREE.BufferAttribute(pos, 3).setUsage(THREE.StaticDrawUsage));
+    geom.setIndex(new THREE.BufferAttribute(idx, 1).setUsage(THREE.StaticDrawUsage));
     return geom;
   }, []);
 
@@ -75,43 +73,46 @@ export default function PulseHexGridOverlapLine({ params }: { params: HexGridPar
     geom.instanceCount = hexes.length;
 
     const n = hexes.length;
-    const offsets = new Float32Array(n * 3);
-    const scales = new Float32Array(n);
-    const rotations = new Float32Array(n);
-    const hues = new Float32Array(n);
-    const phases = new Float32Array(n);
-    const depths = new Float32Array(n);
-    const opacities = new Float32Array(n);
 
+    // Interleaved buffer para minimizar binds/lecturas de atributos
+    // Layout: [off.x, off.y, off.z, scale, hue, phase, depth, opacity, rotC, rotS]
+    const STRIDE = 10;
+    const data = new Float32Array(n * STRIDE);
     for (let i = 0; i < n; i++) {
       const h = hexes[i];
-      offsets[i * 3 + 0] = h.position[0];
-      offsets[i * 3 + 1] = h.position[1];
-      offsets[i * 3 + 2] = h.position[2];
-      scales[i] = h.baseScale;
-      rotations[i] = h.rotation; // pequeña rotación aleatoria como en tu versión
-      hues[i] = h.hue;
-      phases[i] = h.phase;
-      depths[i] = h.depthOffset;
-      opacities[i] = h.baseOpacity;
+      const base = i * STRIDE;
+      const rotC = Math.cos(h.rotation);
+      const rotS = Math.sin(h.rotation);
+      data[base + 0] = h.position[0];
+      data[base + 1] = h.position[1];
+      data[base + 2] = h.position[2];
+      data[base + 3] = h.baseScale;
+      data[base + 4] = h.hue;
+      data[base + 5] = h.phase;
+      data[base + 6] = h.depthOffset;
+      data[base + 7] = h.baseOpacity;
+      data[base + 8] = rotC;
+      data[base + 9] = rotS;
     }
+    const ib = new THREE.InstancedInterleavedBuffer(data, STRIDE).setUsage(THREE.StaticDrawUsage);
 
-    geom.setAttribute("aOffset", new THREE.InstancedBufferAttribute(offsets, 3));
-    geom.setAttribute("aScale", new THREE.InstancedBufferAttribute(scales, 1));
-    geom.setAttribute("aRotation", new THREE.InstancedBufferAttribute(rotations, 1));
-    geom.setAttribute("aHue", new THREE.InstancedBufferAttribute(hues, 1));
-    geom.setAttribute("aPhase", new THREE.InstancedBufferAttribute(phases, 1));
-    geom.setAttribute("aDepth", new THREE.InstancedBufferAttribute(depths, 1));
-    geom.setAttribute("aOpacity", new THREE.InstancedBufferAttribute(opacities, 1));
+    geom.setAttribute("aOffset",  new THREE.InterleavedBufferAttribute(ib, 3, 0));
+    geom.setAttribute("aScale",   new THREE.InterleavedBufferAttribute(ib, 1, 3));
+    geom.setAttribute("aHue",     new THREE.InterleavedBufferAttribute(ib, 1, 4));
+    geom.setAttribute("aPhase",   new THREE.InterleavedBufferAttribute(ib, 1, 5));
+    geom.setAttribute("aDepth",   new THREE.InterleavedBufferAttribute(ib, 1, 6));
+    geom.setAttribute("aOpacity", new THREE.InterleavedBufferAttribute(ib, 1, 7));
+    geom.setAttribute("aRotC",    new THREE.InterleavedBufferAttribute(ib, 1, 8));
+    geom.setAttribute("aRotS",    new THREE.InterleavedBufferAttribute(ib, 1, 9));
 
     const mat = new THREE.ShaderMaterial({
       uniforms: {
         uTime: { value: 0 },
-        uSPct: { value: params.s },
-        uLPct: { value: params.l },
+        uSPct01: { value: params.s / 100 }, // normalizado (misma salida)
+        uLPct: { value: params.l },         // se mantiene por compat, no afecta al color (igual que antes)
       },
-      vertexShader: lineVertGLSL,
-      fragmentShader: lineFragGLSL,
+      vertexShader: lineVertGLSL_Optimized,
+      fragmentShader: lineFragGLSL_Optimized,
       transparent: true,
       blending: THREE.AdditiveBlending,
       depthWrite: false,
@@ -119,10 +120,12 @@ export default function PulseHexGridOverlapLine({ params }: { params: HexGridPar
       toneMapped: false,
     });
 
-    return { geom, mat };
-  }, [hexes, baseGeom, params.s, params.l]);
+    // Bounding sphere grande para evitar cómputo (frustumCulled=false de todos modos)
+    geom.boundingSphere = new THREE.Sphere(new THREE.Vector3(0, 0, 0), Math.hypot(width, height));
 
-  // Animación global como en tu grupo original
+    return { geom, mat };
+  }, [hexes, baseGeom, width, height, params.s, params.l]);
+
   const groupRef = useRef<THREE.Group>(null);
   useFrame(({ clock }) => {
     if (!instanced) return;
@@ -136,11 +139,11 @@ export default function PulseHexGridOverlapLine({ params }: { params: HexGridPar
     }
   });
 
-  // Sync de S/L
+  // Sync S/L (S normalizado para evitar dividir en shader)
   useEffect(() => {
     if (!instanced) return;
-    instanced.mat.uniforms.uSPct.value = params.s;
-    instanced.mat.uniforms.uLPct.value = params.l;
+    instanced.mat.uniforms.uSPct01.value = params.s / 100;
+    instanced.mat.uniforms.uLPct.value = params.l; // (sin efecto, se preserva)
   }, [instanced, params.s, params.l]);
 
   useEffect(() => () => {
@@ -153,32 +156,20 @@ export default function PulseHexGridOverlapLine({ params }: { params: HexGridPar
 
   if (!instanced) return null;
 
-  // Usamos LineSegments para evitar dependencia de GL_LINE_LOOP con instancing
   return (
     <group ref={groupRef} frustumCulled={false}>
-      {/* @ts-ignore - three acepta ShaderMaterial en LineSegments */}
+      {/* @ts-ignore - ShaderMaterial en LineSegments es válido en three */}
       <lineSegments geometry={instanced.geom} material={instanced.mat} frustumCulled={false} renderOrder={1} />
     </group>
   );
 }
 
-// ===== Helpers =====
-
-type HexData = {
-  id: string;
-  position: [number, number, number];
-  baseScale: number; // circumradius en píxeles (igual que tu escala original)
-  phase: number;
-  depthOffset: number;
-  hue: number; // 0..1
-  rotation: number;
-  baseOpacity: number;
-};
+// ========= Helpers =========
 
 function generateHexGrid(width: number, height: number, p: HexGridParams): HexData[] {
   if (width === 0 || height === 0) return [];
 
-  const radius = p.pixelsPerHex / Math.sqrt(3); // igual que tu versión
+  const radius = p.pixelsPerHex / Math.sqrt(3);
   const hexWidth = Math.sqrt(3) * radius; // == p.pixelsPerHex
   const vSpacing = (3 / 2) * radius;
   const hSpacing = hexWidth;
@@ -218,55 +209,54 @@ function wrap01(n: number) {
   return (n % 1 + 1) % 1;
 }
 
-// ===== Shaders =====
+// ========= Shaders (optimizados, MISMO look) =========
 
-// Vertex: transformamos el hex unitario por instancia y aplicamos el pulso de escala
-const lineVertGLSL = /* glsl */`
-  // Nota: THREE ya declara 'attribute vec3 position;'. ¡No volver a declararlo!
-
-  attribute vec3 aOffset;
+// - Cos/Sin de rotación vienen precomputados (aRotC/aRotS).
+// - Bright/alpha se calculan en VERTEX y se interpolan (constantes por primitiva).
+const lineVertGLSL_Optimized = /* glsl */`
+  attribute vec3  aOffset;
   attribute float aScale;
-  attribute float aRotation;
   attribute float aHue;
   attribute float aPhase;
   attribute float aDepth;
   attribute float aOpacity;
+  attribute float aRotC;
+  attribute float aRotS;
 
   uniform float uTime;
 
   varying float vHue;
-  varying float vPhase;
-  varying float vOpacity;
+  varying float vAlpha;
+  varying float vBright;
 
   void main(){
     float pulse = 1.0 + 0.08 * sin(uTime * 2.2 + aPhase);
-    float cs = cos(aRotation);
-    float sn = sin(aRotation);
-    mat2 R = mat2(cs, -sn, sn, cs);
 
-    // 'position' viene de THREE por defecto
-    vec2 p = R * (position.xy * aScale * pulse);
+    // rotación aplicada sin construir mat2
+    vec2 v = position.xy * (aScale * pulse);
+    vec2 p = vec2(v.x * aRotC - v.y * aRotS, v.x * aRotS + v.y * aRotC);
+
     float z = aOffset.z + sin(uTime * 1.4 + aPhase) * aDepth;
 
-    vHue = aHue;
-    vPhase = aPhase;
-    vOpacity = aOpacity;
+    // mismos valores que antes, pero ya listos para el fragment
+    vBright = clamp(0.45 + 0.18 * sin(uTime * 1.7 + aPhase), 0.3, 0.7);
+    vAlpha  = clamp(aOpacity + 0.25 * sin(uTime * 1.9 + aPhase), 0.15, 0.55);
+    vHue    = aHue;
 
     vec3 world = vec3(aOffset.xy + p, z);
     gl_Position = projectionMatrix * modelViewMatrix * vec4(world, 1.0);
   }
 `;
 
-const lineFragGLSL = /* glsl */`
+const lineFragGLSL_Optimized = /* glsl */`
   precision highp float;
 
   varying float vHue;
-  varying float vPhase;
-  varying float vOpacity;
+  varying float vAlpha;
+  varying float vBright;
 
-  uniform float uTime;
-  uniform float uSPct; // 0..100
-  uniform float uLPct; // 0..100
+  uniform float uSPct01; // 0..1 (igual que uSPct/100.0)
+  uniform float uLPct;   // mantenido para compat (no usado, como antes)
 
   vec3 hsl2rgb(vec3 hsl){
     float H = hsl.x;
@@ -287,9 +277,7 @@ const lineFragGLSL = /* glsl */`
   }
 
   void main(){
-    float bright = clamp(0.45 + 0.18 * sin(uTime * 1.7 + vPhase), 0.3, 0.7);
-    float alpha  = clamp(vOpacity + 0.25 * sin(uTime * 1.9 + vPhase), 0.15, 0.55);
-    vec3 rgb = hsl2rgb(vec3(vHue, uSPct/100.0, bright));
-    gl_FragColor = vec4(rgb, alpha);
+    vec3 rgb = hsl2rgb(vec3(vHue, uSPct01, vBright));
+    gl_FragColor = vec4(rgb, vAlpha);
   }
 `;

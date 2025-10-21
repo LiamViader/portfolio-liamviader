@@ -1,22 +1,15 @@
 import * as THREE from "three";
-import React, { useEffect, useMemo, useRef } from "react";
+import React, { useLayoutEffect, useMemo, useRef, useEffect } from "react";
 import { useFrame, useThree } from "@react-three/fiber";
 import type { HexGridParams } from "./PulseHexGridOverlapLine";
 
-/**
- * HexGridStrata
- * --------------
- * Grid de hexágonos SOLO contorno (como tu look original) animados por "estratos":
- * por filas, por columnas, o en diagonal. Súper eficiente: Instanced + ShaderMaterial,
- * 1 draw call, nada de updates por-celda en CPU cada frame.
- */
 export type StrataMode = "rows" | "cols" | "diagA" | "diagB";
 export type StrataOptions = {
-  mode?: StrataMode;     // patrón de desplazamiento (default "rows")
-  amplitude?: number;    // px de desplazamiento máx (default 10)
-  speed?: number;        // ciclos/seg (default 0.3)
-  phaseStep?: number;    // desfase por estrato en rad (default 0.6)
-  jitter?: number;       // jitter per-instancia en fase (default 0.25)
+  mode?: StrataMode;   // default "rows"
+  amplitude?: number;  // px (default 10)
+  speed?: number;      // ciclos/seg (default 0.3)
+  phaseStep?: number;  // rad por estrato (default 0.6)
+  jitter?: number;     // jitter extra de fase (no se usa en color, default 0.25)
 };
 
 const DEFAULTS: Required<StrataOptions> = {
@@ -30,11 +23,10 @@ const DEFAULTS: Required<StrataOptions> = {
 type HexInstance = {
   x: number; y: number; z: number;
   scale: number;
-  rot: number;
-  hue: number;  // 0..1
+  rot: number;     // rad
+  hue: number;     // 0..1
   phase: number;
-  stripe: number; // índice de fila/col/diag según modo base (rows por defecto)
-  row: number; col: number; // guardamos ambos para cambiar de modo en runtime
+  row: number; col: number;
 };
 
 export default function HexGridStrata({
@@ -45,13 +37,14 @@ export default function HexGridStrata({
   options?: StrataOptions;
 }) {
   const opt = { ...DEFAULTS, ...(options ?? {}) };
+
   const { size, camera, gl } = useThree();
   const dpr = gl.getPixelRatio();
   const width = size.width / dpr;
   const height = size.height / dpr;
 
-  // Cámara ortográfica en px
-  useEffect(() => {
+  // Cámara ortográfica en px (antes del paint)
+  useLayoutEffect(() => {
     if (camera instanceof THREE.OrthographicCamera) {
       camera.left = -width / 2;
       camera.right = width / 2;
@@ -61,22 +54,20 @@ export default function HexGridStrata({
     }
   }, [camera, width, height]);
 
-  // Construye instancias del grid
+  // Instancias del grid (posiciones, rotación, hue, fase, row/col)
   const instances = useMemo<HexInstance[]>(() => {
     const radius = params.pixelsPerHex / Math.sqrt(3);
     const hexWidth = Math.sqrt(3) * radius;
     const vSpacing = (3 / 2) * radius;
     const hSpacing = hexWidth;
     const margin = Math.ceil((width / hSpacing) * 0.05);
-    const columns = Math.ceil(width / hSpacing) + + margin;
-    const rows = Math.ceil(height / vSpacing) + + margin;
+    const columns = Math.ceil(width / hSpacing) + margin;   // (fix del + +)
+    const rows = Math.ceil(height / vSpacing) + margin;
 
     const baseHue01 = (((params.hue % 360) + 360) % 360) / 360;
     const jitter01 = Math.abs(params.hueJitter) / 360;
 
-
     const list: HexInstance[] = [];
-    let idx = 0;
     for (let r = -1; r < rows; r++) {
       for (let c = -1; c < columns; c++) {
         const offsetX = r % 2 !== 0 ? hSpacing / 2 : 0;
@@ -89,16 +80,13 @@ export default function HexGridStrata({
         const phase = Math.random() * Math.PI * 2;
         const rot = (Math.random() - 0.5) * 0.08;
 
-        // stripe base: filas (r). Guardamos fila/col/diagonales para alternar modos sin recomputar
-        const stripe = r;
-        list.push({ x, y, z, scale, rot, hue, phase, stripe, row: r, col: c });
-        idx++;
+        list.push({ x, y, z, scale, rot, hue, phase, row: r, col: c });
       }
     }
     return list;
   }, [width, height, params.pixelsPerHex, params.hue, params.hueJitter]);
 
-  // Geometría base: contorno de hex (6 vértices) como LineSegments
+  // Geometría base: contorno del hex (6 vértices) como LineSegments
   const baseGeom = useMemo(() => {
     const geom = new THREE.BufferGeometry();
     const pts: number[] = [];
@@ -107,128 +95,88 @@ export default function HexGridStrata({
       pts.push(Math.cos(a), Math.sin(a), 0);
     }
     const pos = new Float32Array(pts);
-    geom.setAttribute("position", new THREE.BufferAttribute(pos, 3));
     const idx = new Uint16Array([0,1, 1,2, 2,3, 3,4, 4,5, 5,0]);
-    geom.setIndex(new THREE.BufferAttribute(idx, 1));
+    geom.setAttribute("position", new THREE.BufferAttribute(pos, 3).setUsage(THREE.StaticDrawUsage));
+    geom.setIndex(new THREE.BufferAttribute(idx, 1).setUsage(THREE.StaticDrawUsage));
     return geom;
   }, []);
 
-  // Instanced buffers
+  // Instanced + Shader optimizado
   const instanced = useMemo(() => {
     if (instances.length === 0) return null as unknown as {
       geom: THREE.InstancedBufferGeometry;
       mat: THREE.ShaderMaterial;
     };
+
     const geom = new THREE.InstancedBufferGeometry();
     geom.index = baseGeom.index!;
     // @ts-ignore
     geom.attributes.position = baseGeom.attributes.position;
     geom.instanceCount = instances.length;
 
+    // Interleaved: [off.x, off.y, off.z, scale, hue, phase, row, col, rotC, rotS]
     const n = instances.length;
-    const offsets = new Float32Array(n * 3);
-    const scales = new Float32Array(n);
-    const rotations = new Float32Array(n);
-    const hues = new Float32Array(n);
-    const phases = new Float32Array(n);
-    const stripes = new Float32Array(n);
-    const rows = new Float32Array(n);
-    const cols = new Float32Array(n);
-
+    const STRIDE = 10;
+    const data = new Float32Array(n * STRIDE);
     for (let i = 0; i < n; i++) {
       const it = instances[i];
-      offsets[i*3+0] = it.x;
-      offsets[i*3+1] = it.y;
-      offsets[i*3+2] = it.z;
-      scales[i] = it.scale;
-      rotations[i] = it.rot;
-      hues[i] = it.hue;
-      phases[i] = it.phase;
-      stripes[i] = it.stripe;
-      rows[i] = it.row;
-      cols[i] = it.col;
+      const base = i * STRIDE;
+      const rotC = Math.cos(it.rot);
+      const rotS = Math.sin(it.rot);
+      data[base + 0] = it.x;
+      data[base + 1] = it.y;
+      data[base + 2] = it.z;
+      data[base + 3] = it.scale;
+      data[base + 4] = it.hue;
+      data[base + 5] = it.phase;
+      data[base + 6] = it.row;
+      data[base + 7] = it.col;
+      data[base + 8] = rotC;
+      data[base + 9] = rotS;
     }
+    const ib = new THREE.InstancedInterleavedBuffer(data, STRIDE).setUsage(THREE.StaticDrawUsage);
+    geom.setAttribute("aOffset", new THREE.InterleavedBufferAttribute(ib, 3, 0));
+    geom.setAttribute("aScale",  new THREE.InterleavedBufferAttribute(ib, 1, 3));
+    geom.setAttribute("aHue",    new THREE.InterleavedBufferAttribute(ib, 1, 4));
+    geom.setAttribute("aPhase",  new THREE.InterleavedBufferAttribute(ib, 1, 5));
+    geom.setAttribute("aRow",    new THREE.InterleavedBufferAttribute(ib, 1, 6));
+    geom.setAttribute("aCol",    new THREE.InterleavedBufferAttribute(ib, 1, 7));
+    geom.setAttribute("aRotC",   new THREE.InterleavedBufferAttribute(ib, 1, 8));
+    geom.setAttribute("aRotS",   new THREE.InterleavedBufferAttribute(ib, 1, 9));
 
-    geom.setAttribute("aOffset", new THREE.InstancedBufferAttribute(offsets, 3));
-    geom.setAttribute("aScale", new THREE.InstancedBufferAttribute(scales, 1));
-    geom.setAttribute("aRotation", new THREE.InstancedBufferAttribute(rotations, 1));
-    geom.setAttribute("aHue", new THREE.InstancedBufferAttribute(hues, 1));
-    geom.setAttribute("aPhase", new THREE.InstancedBufferAttribute(phases, 1));
-    geom.setAttribute("aStripe", new THREE.InstancedBufferAttribute(stripes, 1));
-    geom.setAttribute("aRow", new THREE.InstancedBufferAttribute(rows, 1));
-    geom.setAttribute("aCol", new THREE.InstancedBufferAttribute(cols, 1));
-
+    // Shader: sin ramas de modo; color calculado en VERTEX (mismo look)
     const mat = new THREE.ShaderMaterial({
       uniforms: {
-        uTime: { value: 0 },
-        uSPct: { value: params.s / 100 },
-        uLPct: { value: params.l / 100 },
-        uAmplitude: { value: opt.amplitude },
-        uSpeed: { value: opt.speed },
-        uPhaseStep: { value: opt.phaseStep },
-        uMode: { value: modeToFloat(opt.mode) },
+        uTime:       { value: 0 },
+        uSPct:       { value: params.s / 100 },
+        uLPct:       { value: params.l / 100 },
+        uAmplitude:  { value: opt.amplitude },
+        uSpeed:      { value: opt.speed },
+        uPhaseStep:  { value: opt.phaseStep },
+        uModeW:      { value: modeWeights(opt.mode) }, // vec4 filas/cols/diagA/diagB
+        uDir:        { value: modeDir(opt.mode) },     // vec2
       },
       vertexShader: /* glsl */`
-        attribute vec3 aOffset;
+        attribute vec3  aOffset;
         attribute float aScale;
-        attribute float aRotation;
         attribute float aHue;
         attribute float aPhase;
-        attribute float aStripe;
         attribute float aRow;
         attribute float aCol;
+        attribute float aRotC;
+        attribute float aRotS;
 
         uniform float uTime;
         uniform float uAmplitude;
         uniform float uSpeed;
         uniform float uPhaseStep;
-        uniform float uMode; // 0 rows, 1 cols, 2 diagA, 3 diagB
+        uniform vec4  uModeW; // pesos para rows, cols, diagA, diagB (one-hot)
+        uniform vec2  uDir;   // dirección de desplazamiento
+        uniform float uSPct;  // 0..1
+        uniform float uLPct;  // 0..1
 
-        varying float vHue;
+        varying vec3 vRGB;
 
-        // Devuelve dirección de desplazamiento según modo y estrato
-        vec2 stratDir(float mode){
-          if (mode < 0.5) return vec2(1.0, 0.0);         // rows -> desplaza en X
-          if (mode < 1.5) return vec2(0.0, 1.0);         // cols -> desplaza en Y
-          if (mode < 2.5) return normalize(vec2(1.0, 1.0));   // diagA
-          return normalize(vec2(1.0, -1.0));             // diagB
-        }
-
-        float stripeIndex(float mode){
-          if (mode < 0.5) return aRow;             // filas
-          if (mode < 1.5) return aCol;             // columnas
-          if (mode < 2.5) return aRow + aCol;      // diag A
-          return aRow - aCol;                      // diag B
-        }
-
-        void main(){
-          float t = uTime * uSpeed;
-          float s = stripeIndex(uMode);
-          float phase = aPhase + s * uPhaseStep;
-          float disp = sin(6.2831 * t + phase) * uAmplitude;
-
-          // rotación leve por instancia (como tu código base)
-          float cs = cos(aRotation), sn = sin(aRotation);
-          mat2 R = mat2(cs, -sn, sn, cs);
-
-          vec2 pLocal = R * (position.xy * aScale);
-
-          // desplazamiento a lo largo de la dirección del estrato
-          vec2 dir = stratDir(uMode);
-          vec2 shift = dir * disp;
-
-          vec3 world = vec3(aOffset.xy + pLocal + shift, aOffset.z);
-          vHue = aHue;
-
-          gl_Position = projectionMatrix * modelViewMatrix * vec4(world, 1.0);
-        }
-      `,
-      fragmentShader: /* glsl */`
-        precision highp float;
-        uniform float uSPct;
-        uniform float uLPct;
-        varying float vHue;
-        // HSL -> RGB
         vec3 hsl2rgb(vec3 hsl){
           float H=hsl.x, S=clamp(hsl.y,0.,1.), L=clamp(hsl.z,0.,1.);
           float C=(1.-abs(2.*L-1.))*S;
@@ -244,9 +192,38 @@ export default function HexGridStrata({
           float m=L-0.5*C;
           return rgb+m;
         }
+
         void main(){
-          vec3 rgb = hsl2rgb(vec3(vHue, uSPct, uLPct));
-          gl_FragColor = vec4(rgb, 0.85); // contorno aditivo
+          float t = uTime * uSpeed;
+
+          // Estrato según pesos: dot([row, col, row+col, row-col], uModeW)
+          float sRow   = aRow;
+          float sCol   = aCol;
+          float sDiagA = aRow + aCol;
+          float sDiagB = aRow - aCol;
+          float stripe = dot(vec4(sRow, sCol, sDiagA, sDiagB), uModeW);
+
+          float phase = aPhase + stripe * uPhaseStep;
+          float disp  = sin(6.2831853 * t + phase) * uAmplitude; // TWO_PI
+
+          // rotación precomputada (sin mat2)
+          vec2 v = position.xy * aScale;
+          vec2 p = vec2(v.x * aRotC - v.y * aRotS, v.x * aRotS + v.y * aRotC);
+
+          // desplazamiento por dirección del modo
+          vec2 shift = uDir * disp;
+
+          vec3 world = vec3(aOffset.xy + p + shift, aOffset.z);
+          vRGB = hsl2rgb(vec3(aHue, uSPct, uLPct));
+
+          gl_Position = projectionMatrix * modelViewMatrix * vec4(world, 1.0);
+        }
+      `,
+      fragmentShader: /* glsl */`
+        precision highp float;
+        varying vec3 vRGB;
+        void main(){
+          gl_FragColor = vec4(vRGB, 0.85); // mismo alpha/look aditivo
         }
       `,
       transparent: true,
@@ -256,19 +233,28 @@ export default function HexGridStrata({
       toneMapped: false,
     });
 
-    return { geom, mat };
-  }, [instances, baseGeom, opt.amplitude, opt.speed, opt.phaseStep, opt.mode, params.s, params.l]);
+    geom.boundingSphere = new THREE.Sphere(new THREE.Vector3(0,0,0), Math.hypot(width, height) + opt.amplitude);
 
-  // Actualizamos uniforms si cambia el modo/opts en runtime
+    return { geom, mat };
+  }, [instances, baseGeom, width, height, opt.amplitude, opt.speed, opt.phaseStep, opt.mode, params.s, params.l]);
+
+  // Actualizar uniforms en runtime (sin recrear material)
   useEffect(() => {
     if (!instanced) return;
     instanced.mat.uniforms.uAmplitude.value = opt.amplitude;
     instanced.mat.uniforms.uSpeed.value = opt.speed;
     instanced.mat.uniforms.uPhaseStep.value = opt.phaseStep;
-    instanced.mat.uniforms.uMode.value = modeToFloat(opt.mode);
+    instanced.mat.uniforms.uModeW.value = modeWeights(opt.mode);
+    instanced.mat.uniforms.uDir.value = modeDir(opt.mode);
   }, [instanced, opt.amplitude, opt.speed, opt.phaseStep, opt.mode]);
 
-  // Animación
+  useEffect(() => {
+    if (!instanced) return;
+    instanced.mat.uniforms.uSPct.value = params.s / 100;
+    instanced.mat.uniforms.uLPct.value = params.l / 100;
+  }, [instanced, params.s, params.l]);
+
+  // Animación global (idéntica)
   const groupRef = useRef<THREE.Group>(null);
   useFrame(({ clock }) => {
     if (!instanced) return;
@@ -300,7 +286,23 @@ export default function HexGridStrata({
 }
 
 /* ===== utils ===== */
-function modeToFloat(m: StrataMode): number {
-  return m === "rows" ? 0 : m === "cols" ? 1 : m === "diagA" ? 2 : 3;
-}
 function wrap01(n: number){ return (n % 1 + 1) % 1; }
+
+function modeWeights(mode: StrataMode) {
+  // filas, columnas, diagA, diagB
+  switch (mode) {
+    case "rows":  return new THREE.Vector4(1, 0, 0, 0);
+    case "cols":  return new THREE.Vector4(0, 1, 0, 0);
+    case "diagA": return new THREE.Vector4(0, 0, 1, 0);
+    case "diagB": return new THREE.Vector4(0, 0, 0, 1);
+  }
+}
+
+function modeDir(mode: StrataMode) {
+  switch (mode) {
+    case "rows":  return new THREE.Vector2(1, 0);
+    case "cols":  return new THREE.Vector2(0, 1);
+    case "diagA": return new THREE.Vector2(1, 1).normalize();
+    case "diagB": return new THREE.Vector2(1,-1).normalize();
+  }
+}

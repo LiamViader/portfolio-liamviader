@@ -1,66 +1,68 @@
 import * as THREE from "three";
-import React, { useEffect, useMemo, useRef } from "react";
+import React, { useLayoutEffect, useMemo, useRef, useEffect } from "react";
 import { useFrame, useThree } from "@react-three/fiber";
-import type { HexGridParams } from "./PulseHexGridOverlapLine"; // reutiliza tu tipo
+import type { HexGridParams } from "./PulseHexGridOverlapLine";
 
 export type TrailOptions = {
-  /** Número de trails simultáneos */
   trailCount?: number;        // default 3
-  /** Velocidad de avance en aristas por segundo */
   stepsPerSecond?: number;    // default 20
-  /** Segundos que tarda en desvanecerse una arista “encendida” */
   fadeSeconds?: number;       // default 1.6
-  /** Evitar retroceder inmediatamente por la misma arista */
   avoidBacktrack?: boolean;   // default true
-  /** Cuánto jitter de color por arista (± grados HSL) */
   hueJitter?: number;         // default = params.hueJitter
 };
 
 type Vertex = { x: number; y: number; };
-type Edge = { a: number; b: number; }; // índices a vertices[]
+type Edge = { a: number; b: number; };
+
 type Graph = {
   vertices: Vertex[];
   edges: Edge[];
-  edgesByVertex: number[][]; // lista de ids de aristas por vértice
-  positions: Float32Array;   // 2 * edges * vec3
-  colors: Float32Array;      // 2 * edges * vec3
-  alphas: Float32Array;      // 2 * edges * float
+  edgesByVertex: number[][];
+  positions: Float32Array;
+  colors: Float32Array;
+  tLit: Float32Array;               // 2 * edges (tiempo de encendido por vértice)
   geometry: THREE.BufferGeometry;
   radius: number;
 };
 
-type Trail = {
-  edge: number;   // arista actual
-  at: number;     // cabeza en vértice: 0 -> en A; 1 -> en B (para selección de siguiente)
-  tAccum: number; // acumulador de tiempo para step discreto
-};
+type Trail = { edge: number; at: number; tAccum: number; };
 
-/** Shader de líneas con color por vértice y alpha por vértice */
-function makeLineShaderMaterial(): THREE.ShaderMaterial {
+/** Shader: color por vértice + alpha desde tLit y uTime (mismo fade que antes) */
+function makeTrailShaderMaterial(): THREE.ShaderMaterial {
   const vertexShader = /* glsl */`
     attribute vec3 color;
-    attribute float alpha;
+    attribute float tLit;
     varying vec3 vColor;
-    varying float vAlpha;
+    varying float vTLit;
     void main() {
       vColor = color;
-      vAlpha = alpha;
+      vTLit = tLit;
       gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
     }
   `;
   const fragmentShader = /* glsl */`
     precision mediump float;
     varying vec3 vColor;
-    varying float vAlpha;
-    uniform float uOpacity; // multiplicador global
-    void main() {
-      gl_FragColor = vec4(vColor, vAlpha * uOpacity);
+    varying float vTLit;
+    uniform float uOpacity;
+    uniform float uTime;
+    uniform float uFadeSeconds;
+    void main(){
+      // si nunca se encendió, alpha=0
+      float a = (vTLit < 0.0) ? 0.0 : exp(-(uTime - vTLit) / max(1e-4, uFadeSeconds));
+      // mismo "corte" efectivo de la versión CPU (<0.01 -> 0)
+      a = (a < 0.01) ? 0.0 : a;
+      gl_FragColor = vec4(vColor, a * uOpacity);
     }
   `;
   return new THREE.ShaderMaterial({
     vertexShader,
     fragmentShader,
-    uniforms: { uOpacity: { value: 1.0 } },
+    uniforms: {
+      uOpacity: { value: 1.0 },
+      uTime: { value: 0 },
+      uFadeSeconds: { value: 1.6 },
+    },
     transparent: true,
     depthWrite: false,
     depthTest: false,
@@ -90,7 +92,7 @@ export default function HexGridTrails({
   const height = size.height / dpr;
 
   // Cámara ortográfica alineada al canvas (espacio pixel)
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (camera instanceof THREE.OrthographicCamera) {
       camera.left = -width / 2;
       camera.right = width / 2;
@@ -100,100 +102,90 @@ export default function HexGridTrails({
     }
   }, [camera, width, height]);
 
-  // Construir grafo del hex grid y geometría de LineSegments
+  // Grafo + geometría
   const graph = useMemo(
     () => buildHexGraph(width, height, params, opts.hueJitter),
     [width, height, params.pixelsPerHex, params.hue, opts.hueJitter, params.s, params.l]
   );
 
   // Material shader
-  const lineMat = useMemo(() => makeLineShaderMaterial(), []);
-
-  // Guardamos referencias a arrays mutables para actualizar alphas sin recrear nada
-  const alphasRef = useRef<Float32Array | null>(null);
+  const lineMat = useMemo(() => makeTrailShaderMaterial(), []);
   useEffect(() => {
-    const alphaAttr = graph.geometry.getAttribute("alpha") as THREE.BufferAttribute;
-    alphaAttr.setUsage(THREE.DynamicDrawUsage);
-    alphasRef.current = alphaAttr.array as Float32Array;
+    (lineMat.uniforms.uFadeSeconds as any).value = opts.fadeSeconds;
+  }, [lineMat, opts.fadeSeconds]);
+
+  // Referencia al atributo tLit (para actualizar solo en pasos)
+  const tLitAttrRef = useRef<THREE.BufferAttribute | null>(null);
+  useEffect(() => {
+    const tAttr = graph.geometry.getAttribute("tLit") as THREE.BufferAttribute;
+    tAttr.setUsage(THREE.DynamicDrawUsage);
+    tLitAttrRef.current = tAttr;
   }, [graph.geometry]);
 
   // Estado de trails
   const trailsRef = useRef<Trail[]>([]);
-  const hotEdges = useRef<Map<number, number>>(new Map()); // edgeId -> alpha (0..1)
 
   // (re)spawn trails cuando cambia el grafo
   useEffect(() => {
     trailsRef.current = [];
-    hotEdges.current.clear();
     const totalEdges = graph.edges.length;
     if (totalEdges === 0) return;
+    // reset: tLit = -1 (invisible)
+    const tArr = (graph.geometry.getAttribute("tLit") as THREE.BufferAttribute).array as Float32Array;
+    tArr.fill(-1);
+    (graph.geometry.getAttribute("tLit") as THREE.BufferAttribute).needsUpdate = true;
+
     for (let i = 0; i < opts.trailCount; i++) {
-      const e = Math.floor(Math.random() * totalEdges);
+      const e = (Math.random() * totalEdges) | 0;
       trailsRef.current.push({ edge: e, at: Math.random() < 0.5 ? 0 : 1, tAccum: 0 });
     }
-    // arrancar con una chispa inicial
-    for (const tr of trailsRef.current) lightUpEdge(graph, tr.edge, hotEdges.current);
-    // limpiar alphas visibles a 0
-    const a = alphasRef.current!;
-    a.fill(0);
-    (graph.geometry.getAttribute("alpha") as THREE.BufferAttribute).needsUpdate = true;
   }, [graph, opts.trailCount]);
 
-  // Animación
+  // Animación (mismo bamboleo del grupo)
   const groupRef = useRef<THREE.Group>(null);
   useFrame((state, dt) => {
-    const g = groupRef.current;
     const t = state.clock.getElapsedTime();
+    (lineMat.uniforms.uTime as any).value = t;
+
+    const g = groupRef.current;
     if (g) {
       g.rotation.z = Math.sin(t * 0.18) * 0.04;
       g.position.z = Math.sin(t * 0.18) * 3.0;
     }
 
-    // 1) Avance discreto por aristas (step cuando tAccum supera 1/stepsPerSecond)
     const stepDt = 1 / Math.max(1e-4, opts.stepsPerSecond);
+    let anyLit = false;
+
+    // NOTA: mantenemos un paso máximo por frame (igual que tu versión con `if`).
     for (const tr of trailsRef.current) {
       tr.tAccum += dt;
       if (tr.tAccum >= stepDt) {
         tr.tAccum -= stepDt;
-        // Elegir siguiente arista desde el vértice actual
-        const next = pickNextEdge(graph, tr.edge, tr.at, opts.avoidBacktrack);
+        const next = pickNextEdgeFast(graph, tr.edge, tr.at, opts.avoidBacktrack);
         if (next === null) {
-          // respawn en una arista aleatoria
-          tr.edge = Math.floor(Math.random() * graph.edges.length);
+          tr.edge = (Math.random() * graph.edges.length) | 0;
           tr.at = Math.random() < 0.5 ? 0 : 1;
         } else {
           tr.edge = next.edge;
           tr.at = next.at;
         }
-        lightUpEdge(graph, tr.edge, hotEdges.current);
+        // encender arista: escribimos t actual en sus dos vértices
+        if (tLitAttrRef.current) {
+          const arr = tLitAttrRef.current.array as Float32Array;
+          const i = tr.edge * 2;
+          arr[i + 0] = t;
+          arr[i + 1] = t;
+          anyLit = true;
+        }
       }
     }
 
-    // 2) Decaimiento de alphas SOLO para aristas activas
-    const decay = Math.exp(-dt / Math.max(1e-4, opts.fadeSeconds));
-    const a = alphasRef.current!;
-    let dirty = false;
-    for (const [eid, val] of hotEdges.current) {
-      const newVal = val * decay;
-      if (newVal < 0.01) {
-        hotEdges.current.delete(eid);
-        // set a 0 para ambos extremos de la arista
-        const i = eid * 2;
-        a[i + 0] = 0;
-        a[i + 1] = 0;
-        dirty = true;
-      } else {
-        hotEdges.current.set(eid, newVal);
-        const i = eid * 2;
-        a[i + 0] = newVal;
-        a[i + 1] = newVal;
-        dirty = true;
-      }
+    // Subimos tLit SOLO si hubo encendidos este frame
+    if (anyLit && tLitAttrRef.current) {
+      tLitAttrRef.current.needsUpdate = true;
     }
-    if (dirty) (graph.geometry.getAttribute("alpha") as THREE.BufferAttribute).needsUpdate = true;
   });
 
-  // Render
   return (
     <group ref={groupRef} frustumCulled={false}>
       <lineSegments geometry={graph.geometry} material={lineMat} frustumCulled={false} renderOrder={1} />
@@ -213,7 +205,6 @@ function buildHexGraph(
   const edges: Edge[] = [];
   const edgesByVertex: number[][] = [];
 
-  // Layout igual que en tus otros fondos (pointy-top, desplazamiento en filas impares)
   const radius = p.pixelsPerHex / Math.sqrt(3);
   const hexWidth = Math.sqrt(3) * radius;
   const vSpacing = (3 / 2) * radius;
@@ -222,7 +213,7 @@ function buildHexGraph(
   const cols = Math.ceil(width / hSpacing) + margin;
   const rows = Math.ceil(height / vSpacing) + margin;
 
-  const VERT_KEY_PREC = 4; // evita duplicados numéricos
+  const VERT_KEY_PREC = 4;
   const key = (x: number, y: number) => `${x.toFixed(VERT_KEY_PREC)}|${y.toFixed(VERT_KEY_PREC)}`;
   const vIndex = new Map<string, number>();
 
@@ -231,15 +222,15 @@ function buildHexGraph(
   const sNorm = p.s / 100;
   const lNorm = p.l / 100;
 
-  // Precomputa los 6 ángulos del hex
+  // 6 ángulos del hex
   const ang: number[] = [];
   for (let i = 0; i < 6; i++) ang.push(Math.PI / 6 + (i * Math.PI) / 3);
 
-  // Crea vértices y aristas únicas (E, NE, SE) por celda
+  // Aristas únicas por celda (E, NE, SE)
   const sidePairs: [number, number][] = [
-    [5, 0], // E (horizontal)
-    [0, 1], // NE
-    [4, 5], // SE
+    [5, 0],
+    [0, 1],
+    [4, 5],
   ];
 
   function getOrCreateVertex(x: number, y: number): number {
@@ -273,10 +264,10 @@ function buildHexGraph(
     }
   }
 
-  // Construye atributos de LineSegments: pos(2*edges), color(2*edges), alpha(2*edges)
+  // Atributos de LineSegments: pos(2*edges), color(2*edges), tLit(2*edges)
   const positions = new Float32Array(edges.length * 2 * 3);
   const colors    = new Float32Array(edges.length * 2 * 3);
-  const alphas    = new Float32Array(edges.length * 2);
+  const tLit      = new Float32Array(edges.length * 2);
   let pi = 0, ci = 0;
 
   const color = new THREE.Color();
@@ -286,49 +277,57 @@ function buildHexGraph(
     positions[pi++] = va.x; positions[pi++] = va.y; positions[pi++] = 0;
     positions[pi++] = vb.x; positions[pi++] = vb.y; positions[pi++] = 0;
 
-    // Color por arista con jitter de H: ligero degradado entre extremos
+    // Color por arista con jitter de H, degradado entre extremos (exactamente igual)
     const h0 = wrap01(baseHue01 + (Math.random() * 2 - 1) * jitter01);
     const h1 = wrap01(baseHue01 + (Math.random() * 2 - 1) * jitter01);
     color.setHSL(h0, sNorm, lNorm);
     colors[ci++] = color.r; colors[ci++] = color.g; colors[ci++] = color.b;
     color.setHSL(h1, sNorm, lNorm);
     colors[ci++] = color.r; colors[ci++] = color.g; colors[ci++] = color.b;
+
+    // inicialmente "apagado"
+    tLit[e * 2 + 0] = -1;
+    tLit[e * 2 + 1] = -1;
   }
-  // al principio invisible
-  alphas.fill(0);
 
   const geometry = new THREE.BufferGeometry();
-  geometry.setAttribute("position", new THREE.BufferAttribute(positions, 3));
-  geometry.setAttribute("color",    new THREE.BufferAttribute(colors, 3));
-  geometry.setAttribute("alpha",    new THREE.BufferAttribute(alphas, 1));
+  geometry.setAttribute("position", new THREE.BufferAttribute(positions, 3).setUsage(THREE.StaticDrawUsage));
+  geometry.setAttribute("color",    new THREE.BufferAttribute(colors, 3).setUsage(THREE.StaticDrawUsage));
+  geometry.setAttribute("tLit",     new THREE.BufferAttribute(tLit, 1).setUsage(THREE.DynamicDrawUsage));
   geometry.computeBoundingSphere();
 
-  return { vertices, edges, edgesByVertex, positions, colors, alphas, geometry, radius };
+  return { vertices, edges, edgesByVertex, positions, colors, tLit, geometry, radius };
 }
 
-// elige próxima arista desde el vértice de salida
-function pickNextEdge(graph: Graph, edge: number, at: number, avoidBacktrack: boolean): { edge: number; at: number } | null {
+// Selección sin crear arrays temporales; conserva la misma lógica visual
+function pickNextEdgeFast(
+  graph: Graph,
+  edge: number,
+  at: number,
+  avoidBacktrack: boolean
+): { edge: number; at: number } | null {
   const { edges, edgesByVertex } = graph;
   const e = edges[edge];
-  const v = at === 0 ? e.a : e.b;          // vértice actual
-  const prev = edge;                        // arista por la que llegamos
-  const candidates = edgesByVertex[v].filter(eid => !avoidBacktrack || eid !== prev);
-  if (candidates.length === 0) return null;
-  const next = candidates[(Math.random() * candidates.length) | 0];
-  // nueva orientación: si next.a == v, avanzamos hacia next.b => at = 1; si no, hacia a => at = 0
-  const n = edges[next];
-  const nextAt = (n.a === v) ? 1 : 0;
-  return { edge: next, at: nextAt };
-}
+  const v = (at === 0) ? e.a : e.b;
+  const list = edgesByVertex[v];
 
-// ilumina (pone alpha=1) una arista y la marca como activa para que se desvanezca
-function lightUpEdge(graph: Graph, edgeId: number, hot: Map<number, number>) {
-  hot.set(edgeId, 1);
-  const a = (graph.geometry.getAttribute("alpha") as THREE.BufferAttribute).array as Float32Array;
-  const i = edgeId * 2;
-  a[i + 0] = 1;
-  a[i + 1] = 1;
-  (graph.geometry.getAttribute("alpha") as THREE.BufferAttribute).needsUpdate = true;
+  if (!avoidBacktrack) {
+    const next = list[(Math.random() * list.length) | 0];
+    const n = edges[next];
+    return { edge: next, at: (n.a === v) ? 1 : 0 };
+  }
+
+  if (list.length === 1 && list[0] === edge) return null;
+  // elegir aleatoriamente evitando 'edge' si es posible
+  let tries = 0;
+  let next = list[(Math.random() * list.length) | 0];
+  while (next === edge && tries < 4 && list.length > 1) {
+    next = list[(Math.random() * list.length) | 0];
+    tries++;
+  }
+  if (next === edge && list.length === 1) return null;
+  const n = edges[next];
+  return { edge: next, at: (n.a === v) ? 1 : 0 };
 }
 
 function wrap01(n: number) {
