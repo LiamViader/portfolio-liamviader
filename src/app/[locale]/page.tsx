@@ -92,15 +92,6 @@ export default function Home() {
           </motion.div>
 
           <div className="flex w/full max-w-2xl flex-col items-center gap-8 lg:items-start">
-            <motion.span
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.5, duration: 0.7 }}
-              className="inline-flex items-center gap-3 rounded-full border border-white/20 bg-white/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.35em] text-white/70 backdrop-blur"
-            >
-              {t("hero.tagline")}
-            </motion.span>
-
             <motion.h1
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}

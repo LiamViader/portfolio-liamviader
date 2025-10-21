@@ -1,7 +1,6 @@
 {
   "HomePage": {
     "hero": {
-      "tagline": "AI · VideoGames · Software",
       "title": "Hi, I'm <highlight>Liam Viader</highlight>. Welcome to my portfolio!",
       "subtitle": "I'm Liam Viader, a full-stack developer, AI tinkerer, and game designer who loves transforming ambitious ideas into polished, interactive realities.",
       "ctaProjects": "Explore projects",
@@ -64,7 +63,6 @@
   },
   "ProjectsPage": {
     "title": "Projects",
-    "tagline": "Curated work & explorations",
     "featured_title": "Featured",
     "featured_description": "A showcase of the initiatives I am most proud of, spanning immersive games, expressive interfaces, and intelligent systems.",
     "featured_badge": "Featured",
