@@ -64,7 +64,7 @@ export default function Home() {
   const { ref, inView } = useInView({ triggerOnce: true, threshold: 0.12, rootMargin: "200px 0px 200px 0px" });
   return (
     <div className="flex flex-col bg-gray-900">
-      <section className="relative overflow-hidden bg-gray-950/70 px-4 pb-14 pt-28 lg:py-34 shadow-[0_40px_50px_-40px_rgba(56,189,248,0.2)] mb-0 min-h-[970px]">
+      <section className="relative overflow-hidden bg-gray-950/70 px-4 pb-14 pt-28 lg:py-34 shadow-[0_40px_50px_-40px_rgba(56,189,248,0.2)] mb-0 md:min-h-[970px]">
         <PulseHexGridCanvas pixelsPerHex={40} gridType="Fill" s={75} hue={240} hueJitter={5} l={0}/>
         <PulseHexGridCanvas pixelsPerHex={40} hue={240} hueJitter={30} s={80}/>
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(125,211,252,0.2),_transparent_65%)]" />
@@ -99,7 +99,11 @@ export default function Home() {
               className="text-balance text-4xl font-semibold tracking-tight text-white/95 sm:text-5xl md:text-6xl"
             >
               {t.rich("hero.title", {
-                highlight: (chunks) => <span className="text-sky-300">{chunks}</span>,
+                highlight: (chunks) => (
+                  <span className="text-sky-300 inline-block whitespace-nowrap">
+                    {chunks}
+                  </span>
+                ),
               })}
             </motion.h1>
 
