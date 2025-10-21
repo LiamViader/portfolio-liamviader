@@ -38,11 +38,13 @@ const highlightListVariants: Variants = {
 const highlightCardVariants: Variants = {
   hidden: {
     opacity: 0,
+    x: 50,
   },
   show: {
     opacity: 1,
+    x: 0,
     transition: {
-      duration: 1,
+      duration: 0.8,
       ease: easeOut,
     },
   },
@@ -142,11 +144,11 @@ export default function Home() {
         <motion.ul
           className="mx-auto grid w-full max-w-6xl gap-4 pt-10 text-left sm:grid-cols-3"
         >
-            {metricKeys.map((metricKey) => (
+            {metricKeys.map((metricKey,index) => (
               <motion.li
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 1.55, duration: 0.8 }}
+                transition={{ delay: 1.55 + 0.2*index, duration: 0.8 }}
                 key={metricKey}
                 className="rounded-2xl border border-white/10 bg-white/5 p-5 backdrop-blur-lg transition hover:border-sky-400/60 hover:bg-sky-500/10"
               >
@@ -219,7 +221,7 @@ export default function Home() {
         <PulseHexGridCanvas pixelsPerHex={40} gridType="Fill" s={75} hue={240} hueJitter={5} l={0}/>
         <PulseHexGridCanvas pixelsPerHex={40} hue={240} hueJitter={30} s={40} l={25} gridType="Strata"/>
         <div className="absolute inset-0 bg-gradient-to-b from-gray-950 via-[rgba(56,189,248,0.02)] to-gray-950" />
-        <ScrollReveal distance={100}>
+        <ScrollReveal distance={-100} lateral duration={0.8}>
           <div className="relative mx-auto max-w-7xl">
             <div className="flex flex-col gap-6 lg:grid lg:grid-cols-[minmax(100px,1.1fr)_minmax(60%,0.9fr)] lg:items-start lg:gap-10">
               <div className="flex flex-col gap-6 text-center lg:text-left pl-3">
