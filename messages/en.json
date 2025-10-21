@@ -82,47 +82,60 @@
   },
   "ContactPage": {
     "hero": {
-      "eyebrow": "Contact",
-      "title": "Let's build the next <highlight>standout experience</highlight>",
-      "description": "Whether you're assembling a team, validating an idea, or polishing a shipped product, I'm ready to help craft the next memorable release.",
-      "primaryCta": "Start an email",
-      "secondaryCta": "Message me on LinkedIn"
-    },
-    "sections": {
-      "employment": {
-        "title": "Bring me onto your team",
-        "description": "Looking for a versatile developer who can ship polished experiences end-to-end? I'm comfortable joining fast-moving squads or long-term product teams.",
-        "points": {
-          "fullStack": "Full-stack web delivery",
-          "aiEnabled": "AI-enabled features",
-          "gameplay": "Gameplay & tools"
-        }
-      },
+    "eyebrow": "Let's connect",
+    "title": "Let's start something <highlight>together</highlight>",
+    "description": "I'm a recent computer science graduate excited to keep learning through real projects. If you need a teammate, a fresh pair of eyes, or someone curious to help, I'm all ears.",
+    "primaryCta": "Email me",
+    "secondaryCta": "Say hi on LinkedIn"
+  },
+  "highlights": {
+    "title": "Ways we can collaborate",
+    "description": "I'm still early in my career, so every challenge is an opportunity to grow. These are a few directions where I can add energy and learn fast.",
+    "items": {
       "projects": {
-        "title": "Collaborate on a project",
-        "description": "From prototypes to production launches, I love partnering with founders, studios, and agencies to give ideas a cohesive technical backbone.",
-        "points": {
-          "prototyping": "Rapid prototyping",
-          "architecture": "Technical architecture",
-          "workshops": "Co-creative workshops"
+        "title": "Build digital experiences",
+        "description": "Let's design and ship web apps, prototypes, or university ideas together. I'm eager to practice product thinking while delivering real value.",
+        "tags": {
+          "discovery": "Discovery & validation",
+          "systems": "Front-end craft",
+          "launch": "Iterating quickly"
         }
       },
-      "collaboration": {
-        "title": "Consult, mentor, or co-create",
-        "description": "Need feedback on a roadmap, a sounding board for R&D, or support for your technical artists? Let's explore how I can accelerate your vision.",
-        "points": {
-          "roadmap": "Roadmap reviews",
-          "enablement": "Team enablement",
-          "partnerships": "Long-term partnerships"
+      "teams": {
+        "title": "Join your team",
+        "description": "I'm ready to contribute as a junior developer—learning your tools, collaborating in sprints, and growing alongside the team.",
+        "tags": {
+          "contract": "Internships & junior roles",
+          "fullTime": "Longer engagements",
+          "remote": "On-site or remote"
+        }
+      },
+      "advisory": {
+        "title": "Pair up & learn",
+        "description": "I'm always grateful for code reviews, pair-programming sessions, or advice on improving my workflow—and happy to share what I know in return.",
+        "tags": {
+          "strategy": "Feedback loops",
+          "mentorship": "Mentorship",
+          "speaking": "Study groups"
+        }
+      },
+      "community": {
+        "title": "Collaborate with the community",
+        "description": "Hackathons, meetups, open-source issues—I'm keen to jump in, learn from others, and contribute wherever I can.",
+        "tags": {
+          "collabs": "Creative collabs",
+          "openSource": "Open source",
+          "events": "Hackathons & events"
         }
       }
-    },
-    "links": {
-      "title": "Direct ways to reach me",
-      "description": "Pick the channel that suits you best—I'll get back as quickly as possible.",
-      "items": {
-        "email": {
-          "label": "Email",
+    }
+  },
+  "links": {
+    "title": "Reach me directly",
+    "description": "Pick the channel that works best for you and I'll answer with curiosity and enthusiasm.",
+    "items": {
+      "email": {
+        "label": "Email",
           "value": "hello@liamviader.com"
         },
         "linkedin": {
@@ -138,20 +151,20 @@
       }
     },
     "availability": {
-      "title": "What to expect",
-      "description": "I'm committed to thoughtful communication and clear next steps—here's how I usually work.",
-      "points": {
-        "timezone": "Based in Barcelona (CET) with flexible hours for global teams",
-        "engagements": "Available for freelance collaborations, contract work, or full-time roles",
-        "discovery": "Comfortable leading discovery sessions and translating needs into actionable plans"
-      },
-      "responseTime": "Average response time: within 2 business days"
+    "title": "What to expect",
+    "description": "Here's how I like to collaborate so you know what happens after you reach out.",
+    "points": {
+      "timezone": "Based in Barcelona (CET) and flexible with schedules",
+      "engagements": "Open to everything from short experiments to longer-term learning",
+      "discovery": "We'll start by understanding your goals and how I can contribute"
     },
-    "cta": {
-      "title": "Tell me about your next <highlight>challenge</highlight>",
-      "description": "Share your goals, timeline, and any context you have. I'll reply with ideas on how we can make it real.",
-      "button": "Compose email",
-      "secondary": "Review my work"
-    }
+    "responseTime": "Typical response time: within 2 business days"
+  },
+  "cta": {
+    "title": "Tell me what you're <highlight>exploring next</highlight>",
+    "description": "Share as much or as little context as you like—links, sketches, challenges. I'll reply with how I can help and what I'd love to learn.",
+    "button": "Compose email",
+    "secondary": "Review my work"
   }
+}
 }
