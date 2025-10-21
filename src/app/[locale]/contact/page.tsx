@@ -41,19 +41,13 @@ export default function ContactPage() {
       description: t("highlights.items.teams.description"),
     },
     {
-      key: "advisory",
-      icon: Lightbulb,
-      title: t("highlights.items.advisory.title"),
-      description: t("highlights.items.advisory.description"),
-    },
-    {
-      key: "community",
+      key: "networking",
       icon: UsersRound,
-      title: t("highlights.items.community.title"),
-      description: t("highlights.items.community.description"),
+      title: t("highlights.items.networking.title"),
+      description: t("highlights.items.networking.description"),
     },
   ] as const satisfies readonly {
-    key: "projects" | "teams" | "advisory" | "community";
+    key: "projects" | "teams" | "networking";
     icon: LucideIcon;
     title: string;
     description: string;
@@ -95,9 +89,6 @@ export default function ContactPage() {
       <div className="relative z-10 mx-auto w-full max-w-6xl px-4 pb-28 pt-20 sm:px-6 sm:pb-32 sm:pt-34 lg:px-8">
         <ScrollReveal className="max-w-3xl" delay={0.1}>
           <div className="flex flex-col gap-6">
-            <span className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/10 px-4 py-2 text-xs font-semibold uppercase tracking-[0.3em] text-white/60 backdrop-blur-sm">
-              {t("hero.eyebrow")}
-            </span>
             <h1 className="text-balance text-4xl font-semibold tracking-tight text-white/95 sm:text-5xl md:text-6xl">
               {t.rich("hero.title", {
                 highlight: (chunks) => <span className="text-sky-300">{chunks}</span>,
@@ -141,7 +132,7 @@ export default function ContactPage() {
 
         <div className="mt-12 grid gap-6 lg:grid-cols-2 xl:grid-cols-4">
           {highlightCards.map(({ key, icon: Icon, title, description}, index) => (
-            <ScrollReveal key={key} delay={0.16 + index * 0.08} className="h-[400px]" lateral>
+            <ScrollReveal key={key} delay={0.16 + index * 0.18} className="h-[400px]" lateral>
               <article className="group relative overflow-hidden p-6 sm:p-8 h-full backdrop-blur-sm border border-white/10 bg-white/5 rounded-4xl transition hover:border-sky-400/60 hover:bg-sky-500/10" aria-labelledby={`contact-highlight-${key}`}>
                 <div className="absolute inset-0 bg-gradient-to-b from-transparent via-sky-500/5 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" aria-hidden />
                 <div className="relative z-10 flex h-full flex-col gap-4">

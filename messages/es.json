@@ -19,7 +19,7 @@
       },
       "collaboration": {
         "value": "Alianzas creativas",
-        "label": "Co-creo con artistas, fundadores y estudios para lanzar trabajos memorables."
+        "label": "Me interesan especialmente los proyectos que combinan tecnología y creatividad —ya sea en videojuegos, experiencias interactivas o aplicaciones impulsadas por IA generativa—.."
       }
     },
     "highlights": {
@@ -84,47 +84,42 @@
 
   "ContactPage": {
     "hero": {
-      "eyebrow": "Conectemos",
-      "title": "Empecemos algo <highlight>juntos</highlight>",
-      "description": "Soy un ingeniero recién graduado con muchas ganas de seguir aprendiendo con proyectos reales. Si buscas un compañero, una mirada fresca o alguien con curiosidad por ayudar, aquí estoy."
+      "title": "Ponte en <highlight>contacto</highlight>",
+      "description": "Puedes escribirme para colaborar, compartir ideas o hablar sobre posibles proyectos. Estoy abierto a trabajar en equipo, asumir encargos o simplemente conectar."
     },
-  "highlights": {
-    "items": {
-      "projects": {
-        "title": "Dar forma a experiencias digitales",
-        "description": "Diseñemos y lancemos webs, prototipos o ideas universitarias. Me ilusiona practicar la visión de producto mientras aporto valor real."
-      },
-      "teams": {
-        "title": "Integrarme en tu equipo",
-        "description": "Estoy listo para aportar como desarrollador junior: aprender vuestras herramientas, colaborar en sprints y crecer junto al equipo."
-      },
-      "advisory": {
-        "title": "Aprender en equipo",
-        "description": "Agradezco feedback, sesiones de pair programming o consejos para mejorar mi forma de trabajar, y comparto encantado lo que sé."
-      },
-      "community": {
-        "title": "Colaborar con la comunidad",
-        "description": "Hackathons, meetups, issues open source... Me apetece participar, aprender de otras personas y aportar donde pueda."
+    "highlights": {
+      "items": {
+        "teams": {
+          "title": "Trabajar juntos",
+          "description": "Estoy abierto a unirme a equipos ya establecidos, ya sea como desarrollador o en roles con una visión más global del sistema."
+        },
+        "projects": {
+          "title": "Colaboraciones y encargos",
+          "description": "Disponible para participar en proyectos como freelance. Puedo encargarme del desarrollo de funcionalidades, prototipos o proyectos completos, ya sean videojuegos, aplicaciones impulsadas por IA o de otro tipo."
+        },
+        "networking": {
+          "title": "Conectar",
+          "description": "Si te apetece hablar, compartir experiencias o intercambiar ideas también puedes escribirme. Me gusta conocer a gente con intereses parecidos y ver qué puede surgir de ahí."
+        }
       }
-    }
-  },
-  "links": {
-    "items": {
-      "email": {
-        "label": "Correo",
-        "value": "hello@liamviader.com"
-      },
-      "linkedin": {
-        "label": "LinkedIn",
-        "value": "liamviader",
-        "href": "https://www.linkedin.com/in/liamviader"
-      },
-      "github": {
-        "label": "GitHub",
-        "value": "liamviader",
-        "href": "https://github.com/liamviader"
+    },
+    "links": {
+      "items": {
+        "email": {
+          "label": "Correo",
+          "value": "hello@liamviader.com"
+        },
+        "linkedin": {
+          "label": "LinkedIn",
+          "value": "liamviader",
+          "href": "https://www.linkedin.com/in/liamviader"
+        },
+        "github": {
+          "label": "GitHub",
+          "value": "liamviader",
+          "href": "https://github.com/liamviader"
+        }
       }
     }
   }
-}
 }

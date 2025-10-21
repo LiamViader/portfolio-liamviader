@@ -82,27 +82,22 @@
   },
   "ContactPage": {
     "hero": {
-      "eyebrow": "Let's connect",
-      "title": "Let's start something <highlight>together</highlight>",
-      "description": "I'm a recent computer science graduate excited to keep learning through real projects. If you need a teammate, a fresh pair of eyes, or someone curious to help, I'm all ears."
+      "title": "Get in <highlight>touch</highlight>",
+      "description": "You can reach out to collaborate, share ideas, or talk about potential projects. I'm open to joining teams, taking on freelance work, or simply connecting."
     },
     "highlights": {
       "items": {
-        "projects": {
-          "title": "Build digital experiences",
-          "description": "Let's design and ship web apps, prototypes, or university ideas together. I'm eager to practice product thinking while delivering real value."
-        },
         "teams": {
-          "title": "Join your team",
-          "description": "I'm ready to contribute as a junior developer—learning your tools, collaborating in sprints, and growing alongside the team."
+          "title": "Work together",
+          "description": "I'm open to joining established teams, either as a developer or in roles with a broader view of the system."
         },
-        "advisory": {
-          "title": "Pair up & learn",
-          "description": "I'm always grateful for code reviews, pair-programming sessions, or advice on improving my workflow—and happy to share what I know in return."
+        "projects": {
+          "title": "Collaborations and commissions",
+          "description": "Available to take part in projects as a freelancer. I can handle the development of features, prototypes, or full projects — whether they’re games, AI-driven applications, or other types of software."
         },
-        "community": {
-          "title": "Collaborate with the community",
-          "description": "Hackathons, meetups, open-source issues—I'm keen to jump in, learn from others, and contribute wherever I can."
+        "networking": {
+          "title": "Connect",
+          "description": "If you'd like to talk, share experiences, or exchange ideas, feel free to reach out. I enjoy meeting people with similar interests and seeing what can come from it."
         }
       }
     },

@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { motion, type Variants } from "framer-motion";
+import { easeIn, easeOut, motion, type Variants } from "framer-motion";
 import { useLocale, useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
 import { BrainCircuit, Gamepad2, Sparkles, Workflow } from "lucide-react";
@@ -29,7 +29,7 @@ const highlightListVariants: Variants = {
   hidden: {},
   show: {
     transition: {
-      staggerChildren: 0.22,
+      staggerChildren: 0.3,
       delayChildren: 0.12,
     },
   },
@@ -43,7 +43,7 @@ const highlightCardVariants: Variants = {
     opacity: 1,
     transition: {
       duration: 1,
-      ease: [0.16, 1, 0.3, 0.9],
+      ease: easeOut,
     },
   },
 };
@@ -180,12 +180,12 @@ export default function Home() {
             initial="hidden"
             animate={inView ? "show" : "hidden"}
             variants={{
-              hidden: { opacity: 0, x: 200 },
+              hidden: { opacity: 0, x: 80 },
               show: { opacity: 1, x: 0, 
               transitionEnd: { transform: "none" } },
             }}
             ref={ref}
-            transition={{ duration: 0.7, ease: "easeOut" }}
+            transition={{ duration: 1, ease: easeOut }}
           >
             <h2 className="text-3xl font-semibold text-white md:text-4xl">{t("highlights.title")}</h2>
             <p className="mt-3 text-balance text-base text-white/65 md:max-w-2xl">
