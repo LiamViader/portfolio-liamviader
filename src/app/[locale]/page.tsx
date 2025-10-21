@@ -73,7 +73,7 @@ export default function Home() {
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.45, duration: 0.6 }}
+            transition={{ delay: 1, duration: 0.6 }}
             className="relative lg:ml-auto flex h-50 w-34 md:h-70 md:w-50 lg:h-90 lg:w-70 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-transparent via-sky-500/20 to-transparent p-[3px] ring-2 ring-white/40 hover:-translate-y-[1px] shadow-[0_25px_60px_-40px_rgba(250,189,248,0.8)] hover:shadow-[0_25px_80px_-40px_rgba(56,189,248,1)]"
           >
             <div className="absolute -inset-5 -z-12 rounded-full bg-sky-500/10 blur-3xl" aria-hidden />
@@ -95,7 +95,7 @@ export default function Home() {
             <motion.h1
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.6, duration: 0.7 }}
+              transition={{ delay: 1.15, duration: 0.7 }}
               className="text-balance text-4xl font-semibold tracking-tight text-white/95 sm:text-5xl md:text-6xl"
             >
               {t.rich("hero.title", {
@@ -106,7 +106,7 @@ export default function Home() {
             <motion.p
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.7, duration: 0.7 }}
+              transition={{ delay: 1.25, duration: 0.7 }}
               className="max-w-2xl text-pretty text-lg text-white/70 sm:text-xl"
             >
               {t("hero.subtitle")}
@@ -115,7 +115,7 @@ export default function Home() {
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.8, duration: 0.7 }}
+              transition={{ delay: 1.35, duration: 0.7 }}
               className="flex w-full flex-wrap justify-center gap-4 lg:justify-start"
             >
               <Link href="/projects" className={heroButtons.primary}>
@@ -131,7 +131,7 @@ export default function Home() {
           <motion.p
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.9, duration: 0.7 }}
+            transition={{ delay: 1.45, duration: 0.7 }}
             className="z-10 text-sm font-medium uppercase tracking-[0.3em] text-white/50"
           >
             {t("hero.availability")}
@@ -146,7 +146,7 @@ export default function Home() {
               <motion.li
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 1, duration: 0.8 }}
+                transition={{ delay: 1.55, duration: 0.8 }}
                 key={metricKey}
                 className="rounded-2xl border border-white/10 bg-white/5 p-5 backdrop-blur-lg transition hover:border-sky-400/60 hover:bg-sky-500/10"
               >
@@ -219,7 +219,7 @@ export default function Home() {
         <PulseHexGridCanvas pixelsPerHex={40} gridType="Fill" s={75} hue={240} hueJitter={5} l={0}/>
         <PulseHexGridCanvas pixelsPerHex={40} hue={240} hueJitter={30} s={40} l={25} gridType="Strata"/>
         <div className="absolute inset-0 bg-gradient-to-b from-gray-950 via-[rgba(56,189,248,0.02)] to-gray-950" />
-        <ScrollReveal noOpacity distance={100}>
+        <ScrollReveal distance={100}>
           <div className="relative mx-auto max-w-7xl">
             <div className="flex flex-col gap-6 lg:grid lg:grid-cols-[minmax(100px,1.1fr)_minmax(60%,0.9fr)] lg:items-start lg:gap-10">
               <div className="flex flex-col gap-6 text-center lg:text-left pl-3">
