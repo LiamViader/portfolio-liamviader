@@ -14,5 +14,6 @@ export const config = {
     '/',
     '/(es|en)/:path*', 
     '/projects/:path*',
+    '/contact/:path*',
   ]
 };
