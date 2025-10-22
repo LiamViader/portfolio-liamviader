@@ -10,6 +10,9 @@ import PulseHexGridCanvas from "@/components/home/scene/PulseHexGridCanvas";
 import { getProjectsByLocale, TranslatedProject } from "@/data/projects";
 import { ScrollReveal } from "@/components/ScrollReveal";
 import FeaturedProjects from "@/components/projects/featured/FeaturedProjects";
+import { InfoCard } from "@/components/home/InfoCard";
+import { HeroImage } from "@/components/home/HeroImage";
+
 
 const buttonBaseClasses =
   "inline-flex items-center justify-center rounded-full px-6 py-3 text-sm font-semibold transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-400";
@@ -72,26 +75,7 @@ export default function Home() {
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(125,211,252,0.2),_transparent_65%)]" />
         <div className="absolute inset-0 bg-gradient-to-b from-gray-950/10 via-gray-950/60 to-gray-950" />
         <div className="relative z-10 mx-auto flex w-full max-w-6xl flex-col items-center gap-8 lg:gap-16 px-2 text-center lg:flex-row lg:items-center lg:justify-between lg:text-left">
-          <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 1, duration: 0.6 }}
-            className="relative lg:ml-auto flex h-50 w-34 md:h-70 md:w-50 lg:h-90 lg:w-70 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-transparent via-sky-500/20 to-transparent p-[3px] ring-2 ring-white/40 hover:-translate-y-[1px] shadow-[0_25px_60px_-40px_rgba(250,189,248,0.8)] hover:shadow-[0_25px_80px_-40px_rgba(56,189,248,1)]"
-          >
-            <div className="absolute -inset-5 -z-12 rounded-full bg-sky-500/10 blur-3xl" aria-hidden />
-            <div className="absolute -inset-5 z-11 rounded-full bg-sky-400/5 blur-3xl" aria-hidden />
-            <div className="relative h-full w-full overflow-hidden rounded-full border border-white/20">
-              <Image
-                src="/images/test2_liam.png"
-                alt="Portrait"
-                fill
-                sizes="(min-width: 1024px) 350px, (min-width: 768px) 280px, 200px"
-                quality={95}
-                className="object-cover"
-                priority
-              />
-            </div>
-          </motion.div>
+          <HeroImage/>
 
           <div className="flex w/full max-w-2xl flex-col items-center gap-8 lg:items-start">
             <motion.h1
@@ -140,25 +124,24 @@ export default function Home() {
           </motion.p>
         </div>
 
-
         <motion.ul
+          variants={{
+            hidden: {opacity: 1},
+            show: {
+              opacity: 1,
+              transition: { delayChildren: 1.55, staggerChildren: 0.2, when: "beforeChildren" }
+            }
+          }}
+          initial="hidden" 
+          animate="show"
           className="mx-auto grid w-full max-w-6xl gap-4 pt-10 text-left sm:grid-cols-3"
         >
           {metricKeys.map((metricKey,index) => (
-            <motion.li
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 1.55 + 0.2*index, duration: 0.8 }}
-              key={metricKey}
-              className="rounded-2xl border border-white/10 bg-white/5 p-5 backdrop-blur-lg transition hover:border-sky-400/60 hover:bg-sky-500/10"
-            >
-              <p className="text-2xl font-semibold text-white">
-                {t(`metrics.${metricKey}.value`)}
-              </p>
-              <p className="mt-2 text-sm text-white/60">
-                {t(`metrics.${metricKey}.label`)}
-              </p>
-            </motion.li>
+            <InfoCard
+              key={index}
+              title={t(`metrics.${metricKey}.value`)}
+              info={t(`metrics.${metricKey}.label`)}
+            />
           ))}
         </motion.ul>
       </section>

@@ -1,0 +1,81 @@
+import Image from "next/image";
+import { easeInOut, easeOut, motion, type Variants } from "framer-motion";
+import { useState } from "react";
+
+const RING = "0 0 0 2px rgba(255, 255, 255, 0.4)";             
+const BASE_GLOW  = "0 25px 60px -40px rgba(250,189,248,0.8)";
+const HOVER_GLOW = "0 25px 80px -40px rgba(56,189,248,1)";
+
+const imageVariants: Variants = {
+  hidden: {
+    y: 0,
+    opacity: 0,
+    scale: 0.7,
+    boxShadow: `${RING}, ${BASE_GLOW}`,
+  },
+
+  // Only for the entrance
+  intro: {
+    y: 0,
+    opacity: 1,
+    scale: 1,
+    boxShadow: `${RING}, ${BASE_GLOW}`,
+    transition: { duration: 0.8, ease: easeOut, delay: 1 },
+  },
+
+  // Base state
+  show: {
+    y: 0,
+    opacity: 1,
+    scale: 1,
+    boxShadow: `${RING}, ${BASE_GLOW}`,
+    transition: {
+      duration: 0.35,
+      ease: easeInOut,
+    },
+  },
+
+  hover: {
+    y: -10,
+    boxShadow: `${RING}, ${HOVER_GLOW}`,
+    transition: { duration: 0.25, ease: easeOut },
+  },
+
+  tap: {
+    y: 2,
+    transition: { duration: 0.08, ease: easeOut },
+  },
+};
+
+
+export function HeroImage() {
+  const [phase, setPhase] = useState<"intro" | "show">("intro");
+
+  return (
+    <motion.div
+      variants={imageVariants}
+      initial="hidden"
+      animate={phase}
+      whileHover="hover"
+      whileTap="tap"
+      onAnimationComplete={(def) => {
+        if (def === "intro") setPhase("show");   // 👈 después de la 1ª animación, pasa a "show"
+      }}
+      className="relative lg:ml-auto flex h-50 w-34 md:h-70 md:w-50 lg:h-90 lg:w-70 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-transparent via-sky-500/20 to-transparent p-[3px] transform-gpu transition-none will-change-[transform, opacity] "
+    >
+      <div className="absolute -inset-5 -z-12 rounded-full bg-sky-500/10 blur-3xl" aria-hidden />
+      <div className="absolute -inset-5 z-11 rounded-full bg-sky-400/5 blur-3xl" aria-hidden />
+      <div className="relative h-full w-full overflow-hidden rounded-full border border-white/20">
+        <Image
+          src="/images/test2_liam.png"
+          alt="Portrait"
+          fill
+          sizes="(min-width: 1024px) 350px, (min-width: 768px) 280px, 200px"
+          quality={95}
+          className="object-cover"
+          priority
+        />
+      </div>
+    </motion.div>
+  );
+}
