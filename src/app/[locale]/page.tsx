@@ -77,7 +77,7 @@ export default function Home() {
         <div className="relative z-10 mx-auto flex w-full max-w-6xl flex-col items-center gap-8 lg:gap-16 px-2 text-center lg:flex-row lg:items-center lg:justify-between lg:text-left">
           <HeroImage/>
 
-          <div className="flex w/full max-w-2xl flex-col items-center gap-8 lg:items-start">
+          <div className="flex max-w-2xl flex-col items-center gap-8 lg:items-start">
             <motion.h1
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}

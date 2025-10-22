@@ -30,7 +30,7 @@ const imageVariants: Variants = {
     scale: 1,
     boxShadow: `${RING}, ${BASE_GLOW}`,
     transition: {
-      duration: 0.35,
+      duration: 0.55,
       ease: easeInOut,
     },
   },
@@ -42,7 +42,7 @@ const imageVariants: Variants = {
   },
 
   tap: {
-    y: 2,
+    scale: 0.98,
     transition: { duration: 0.08, ease: easeOut },
   },
 };
@@ -50,18 +50,23 @@ const imageVariants: Variants = {
 
 export function HeroImage() {
   const [phase, setPhase] = useState<"intro" | "show">("intro");
+  const [ready, setReady] = useState(false);
 
   return (
     <motion.div
       variants={imageVariants}
       initial="hidden"
       animate={phase}
-      whileHover="hover"
-      whileTap="tap"
       onAnimationComplete={(def) => {
-        if (def === "intro") setPhase("show");   // 👈 después de la 1ª animación, pasa a "show"
+        setReady(true)
+        if (def === "intro") setPhase("show");
       }}
+      whileHover={ready ? "hover" : undefined}
+      whileTap={ready ? "tap" : undefined}
       className="relative lg:ml-auto flex h-50 w-34 md:h-70 md:w-50 lg:h-90 lg:w-70 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-transparent via-sky-500/20 to-transparent p-[3px] transform-gpu transition-none will-change-[transform, opacity] "
+      style={{
+        pointerEvents: ready ? "auto" : "none",
+      }}
     >
       <div className="absolute -inset-5 -z-12 rounded-full bg-sky-500/10 blur-3xl" aria-hidden />
       <div className="absolute -inset-5 z-11 rounded-full bg-sky-400/5 blur-3xl" aria-hidden />

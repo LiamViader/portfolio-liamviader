@@ -1,5 +1,5 @@
 import { motion, Variants } from "framer-motion";
-import React from "react";
+import { useState } from "react";
 
 const BASE_BG   = "rgba(255,255,255,0.05)";
 const BASE_BORD = "rgba(255,255,255,0.10)";
@@ -64,7 +64,7 @@ const textVariants: Variants = {
 };
 
 export function InfoCard({ title, info }: { title: string; info: string }) {
-  const [ready, setReady] = React.useState(false);
+  const [ready, setReady] = useState(false);
 
   return (
     <motion.li
