@@ -124,7 +124,7 @@ export default function ContactPage() {
                     rel={key === "email" ? undefined : "noreferrer"}
                     className={`
                       inline-flex items-center gap-4 rounded-full
-                      px-4 py-2 sm:px-5 sm:py-2.5 text-md sm:text-xl
+                      px-4 py-2 sm:px-5 sm:py-2.5 text-sm sm:text-lg
                       transition ring-1 backdrop-blur-sm bg-transparent text-white/85 ring-white/15 hover:ring-sky-400/40 hover:bg-white/5
                     `}
                   >

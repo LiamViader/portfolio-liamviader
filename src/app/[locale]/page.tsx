@@ -98,7 +98,7 @@ export default function Home() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 1.15, duration: 0.7 }}
-              className="text-balance text-4xl font-semibold tracking-tight text-white/95 sm:text-5xl md:text-6xl"
+              className="whitespace-pre-line text-balance text-4xl font-semibold tracking-tight text-white/95 sm:text-5xl md:text-6xl"
             >
               {t.rich("hero.title", {
                 highlight: (chunks) => <span className="text-sky-300">{chunks}</span>,
@@ -144,23 +144,23 @@ export default function Home() {
         <motion.ul
           className="mx-auto grid w-full max-w-6xl gap-4 pt-10 text-left sm:grid-cols-3"
         >
-            {metricKeys.map((metricKey,index) => (
-              <motion.li
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 1.55 + 0.2*index, duration: 0.8 }}
-                key={metricKey}
-                className="rounded-2xl border border-white/10 bg-white/5 p-5 backdrop-blur-lg transition hover:border-sky-400/60 hover:bg-sky-500/10"
-              >
-                <p className="text-2xl font-semibold text-white">
-                  {t(`metrics.${metricKey}.value`)}
-                </p>
-                <p className="mt-2 text-sm text-white/60">
-                  {t(`metrics.${metricKey}.label`)}
-                </p>
-              </motion.li>
-            ))}
-          </motion.ul>
+          {metricKeys.map((metricKey,index) => (
+            <motion.li
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 1.55 + 0.2*index, duration: 0.8 }}
+              key={metricKey}
+              className="rounded-2xl border border-white/10 bg-white/5 p-5 backdrop-blur-lg transition hover:border-sky-400/60 hover:bg-sky-500/10"
+            >
+              <p className="text-2xl font-semibold text-white">
+                {t(`metrics.${metricKey}.value`)}
+              </p>
+              <p className="mt-2 text-sm text-white/60">
+                {t(`metrics.${metricKey}.label`)}
+              </p>
+            </motion.li>
+          ))}
+        </motion.ul>
       </section>
 
       <section className="relative px-4 py-14 bg-black/10 border-y border-white/10 ">

@@ -1,7 +1,7 @@
 {
   "HomePage": {
     "hero": {
-      "title": "Hi, I'm <highlight>Liam</highlight>. Welcome to my <highlight>portfolio</highlight>!",
+      "title": "Hi, I'm <highlight>Liam</highlight>.\nWelcome to my <highlight>portfolio</highlight>!",
       "subtitle": "I'm Liam Viader, a full-stack developer, AI tinkerer, and game designer who loves transforming ambitious ideas into polished, interactive realities.",
       "ctaProjects": "Explore projects",
       "ctaContact": "Contact",
