@@ -38,7 +38,7 @@ export function ProjectModalShell({
         willChange: "transform, opacity",
         transform: "translateZ(0)",
       }}
-      className={`bg-gray-900 rounded-2xl border border-white/10 ${
+      className={`bg-gray-900 rounded-2xl border border-white/10 transform-gpu will-change-[transform, opacity] ${
         passThrough ? "pointer-events-none" : ""
       }`}
       onClick={(event) => event.stopPropagation()}

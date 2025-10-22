@@ -34,7 +34,6 @@ export function ProjectModalPortal({
     });
 
   const portal = (
-    // 👇 SIN initial={false} para que se apliquen los "initial" de los hijos
     <AnimatePresence mode="wait">
       <ProjectModalBackdrop
         key="modal-backdrop"

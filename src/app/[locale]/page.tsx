@@ -129,7 +129,7 @@ export default function Home() {
             hidden: {opacity: 1},
             show: {
               opacity: 1,
-              transition: { delayChildren: 1.55, staggerChildren: 0.2, when: "beforeChildren" }
+              transition: { delayChildren: 1.55, staggerChildren: 0.15, when: "beforeChildren" }
             }
           }}
           initial="hidden" 
