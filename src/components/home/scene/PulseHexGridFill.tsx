@@ -2,7 +2,6 @@ import { useEffect, useMemo, useRef } from "react";
 import { useFrame, useThree } from "@react-three/fiber";
 import * as THREE from "three";
 import { HexGridParams } from "./PulseHexGridOverlapLine";
-import { hex } from "framer-motion";
 
 /** Optional fine-tuning (all fields optional). Pass as <PulseHexGridFill tuning={{ ... }} /> */
 export type FillTuning = {
@@ -139,6 +138,8 @@ export default function PulseHexGridFill({
   /** ===== Lines (shared edges) with per-vertex color + alpha ===== */
   const lineColorsRef = useRef<Float32Array | null>(null);
   const lineAlphasRef = useRef<Float32Array | null>(null);
+  const lineColorAttrRef = useRef<THREE.BufferAttribute | null>(null);
+  const lineAlphaAttrRef = useRef<THREE.BufferAttribute | null>(null);
 
   useEffect(() => {
     const colorAttr = lineGeometry.getAttribute("color") as THREE.BufferAttribute;
@@ -147,6 +148,8 @@ export default function PulseHexGridFill({
     alphaAttr.setUsage(THREE.DynamicDrawUsage);
     lineColorsRef.current = colorAttr.array as Float32Array;
     lineAlphasRef.current = alphaAttr.array as Float32Array;
+    lineColorAttrRef.current = colorAttr;
+    lineAlphaAttrRef.current = alphaAttr;
   }, [lineGeometry]);
 
   const lineMaterial = useMemo(() => makeLineShaderMaterial(), []);
@@ -155,6 +158,7 @@ export default function PulseHexGridFill({
   const fillGroupRef = useRef<THREE.Group>(null);
   const fillMeshesRef = useRef<THREE.Mesh[]>([]);
   const fillMatsRef = useRef<THREE.MeshBasicMaterial[]>([]);
+  const pulsesRef = useRef<Float32Array | null>(null);
   const sNorm = params.s / 100;
   const baseL = params.l / 100; // used as center for lightness modulation
 
@@ -166,6 +170,8 @@ export default function PulseHexGridFill({
     group.clear();
     fillMeshesRef.current = [];
     fillMatsRef.current = [];
+
+    pulsesRef.current = new Float32Array(cells.length);
 
     for (let i = 0; i < cells.length; i++) {
       const cell = cells[i];
@@ -191,6 +197,7 @@ export default function PulseHexGridFill({
 
   /** ===== Animation loop ===== */
   const groupRef = useRef<THREE.Group>(null);
+  const tempColor = useMemo(() => new THREE.Color(), []);
 
   useFrame(({ clock }) => {
     const t = clock.getElapsedTime();
@@ -202,32 +209,42 @@ export default function PulseHexGridFill({
       g.position.z = Math.sin(t * 0.22) * 2.5;
     }
 
+    const pulses = pulsesRef.current;
+    if (!pulses) return;
+
+    const invertAtMax = tuning.invertAtMax;
+    const baseOmega = 2 * Math.PI * tuning.baseFreq;
+    const fillScaleMin = tuning.fillScaleMin;
+    const fillScaleRange = tuning.fillScaleMax - tuning.fillScaleMin;
+    const fillAlphaMin = tuning.fillAlphaMin;
+    const fillAlphaRange = tuning.fillAlphaMax - tuning.fillAlphaMin;
+    const lineAlphaMin = tuning.lineAlphaMin;
+    const lineAlphaRange = tuning.lineAlphaMax - tuning.lineAlphaMin;
+    const lightnessAmp = tuning.lightnessAmp;
+
     /** 1) Per-cell pulse p in [0,1], with unique frequency & phase (no columns) */
-    const pulses = new Float32Array(cells.length);
     for (let i = 0; i < cells.length; i++) {
       // Each cell: p = 0.5 + 0.5 * sin(2π * f_i * t + phase_i)
-      const omega = 2 * Math.PI * cells[i].speed * tuning.baseFreq;
-      pulses[i] = 0.5 + 0.5 * Math.sin(omega * t + cells[i].phase);
+      pulses[i] = 0.5 + 0.5 * Math.sin((baseOmega * cells[i].speed) * t + cells[i].phase);
     }
 
     /** 2) Update fills: scale + opacity + lightness (base L respected) */
     for (let i = 0; i < cells.length; i++) {
-      const p = tuning.invertAtMax ? (1.0 - pulses[i]) : pulses[i]; // invert: bigger -> dimmer/fainter
+      const p = invertAtMax ? 1.0 - pulses[i] : pulses[i]; // invert: bigger -> dimmer/fainter
       const mesh = fillMeshesRef.current[i];
       const mat = fillMatsRef.current[i];
       if (!mesh || !mat) continue;
 
       // scale stays inside the outline (<= 1.0 * radius)
-      const scaleRel = THREE.MathUtils.lerp(tuning.fillScaleMin, tuning.fillScaleMax, 1.0 - p);
+      const scaleRel = fillScaleMin + fillScaleRange * (1.0 - p);
       mesh.scale.setScalar(scaleRel * radius);
 
       // opacity never reaches 1 (clamped by tuning.fillAlphaMax)
-      const a = THREE.MathUtils.lerp(tuning.fillAlphaMin, tuning.fillAlphaMax, 1.0 - p);
-      mat.opacity = a;
+      mat.opacity = fillAlphaMin + fillAlphaRange * (1.0 - p);
 
       // lightness around baseL with amplitude (so L is not ignored)
       const L = THREE.MathUtils.clamp(
-        baseL + (p - 0.5) * 2.0 * tuning.lightnessAmp,
+        baseL + (p - 0.5) * 2.0 * lightnessAmp,
         0.05,
         0.95
       );
@@ -239,42 +256,42 @@ export default function PulseHexGridFill({
     const alphas = lineAlphasRef.current;
     if (!colors || !alphas) return;
 
-    const color = new THREE.Color();
+    const color = tempColor;
     let ci = 0, ai = 0;
 
     for (let e = 0; e < edges.length; e++) {
       const edge = edges[e];
 
       // endpoint A uses cellA pulse/hue
-      const pA = tuning.invertAtMax ? (1.0 - pulses[edge.cellA]) : pulses[edge.cellA];
+      const pA = invertAtMax ? 1.0 - pulses[edge.cellA] : pulses[edge.cellA];
       const cA = cells[edge.cellA];
       const LA = THREE.MathUtils.clamp(
-        baseL + (pA - 0.5) * 2.0 * tuning.lightnessAmp,
+        baseL + (pA - 0.5) * 2.0 * lightnessAmp,
         0.05,
         0.95
       );
-      const aA = THREE.MathUtils.lerp(tuning.lineAlphaMin, tuning.lineAlphaMax, 1.0 - pA);
+      const aA = lineAlphaMin + lineAlphaRange * (1.0 - pA);
       color.setHSL(cA.hue01, sNorm, LA);
       colors[ci++] = color.r; colors[ci++] = color.g; colors[ci++] = color.b;
       alphas[ai++] = aA;
 
       // endpoint B uses neighbor's pulse/hue (or A at boundary)
       const nb = edge.cellB != null ? edge.cellB : edge.cellA;
-      const pB = tuning.invertAtMax ? (1.0 - pulses[nb]) : pulses[nb];
+      const pB = invertAtMax ? 1.0 - pulses[nb] : pulses[nb];
       const cB = cells[nb];
       const LB = THREE.MathUtils.clamp(
-        baseL + (pB - 0.5) * 2.0 * tuning.lightnessAmp,
+        baseL + (pB - 0.5) * 2.0 * lightnessAmp,
         0.05,
         0.95
       );
-      const aB = THREE.MathUtils.lerp(tuning.lineAlphaMin, tuning.lineAlphaMax, 1.0 - pB);
+      const aB = lineAlphaMin + lineAlphaRange * (1.0 - pB);
       color.setHSL(cB.hue01, sNorm, LB);
       colors[ci++] = color.r; colors[ci++] = color.g; colors[ci++] = color.b;
       alphas[ai++] = aB;
     }
 
-    (lineGeometry.getAttribute("color") as THREE.BufferAttribute).needsUpdate = true;
-    (lineGeometry.getAttribute("alpha") as THREE.BufferAttribute).needsUpdate = true;
+    if (lineColorAttrRef.current) lineColorAttrRef.current.needsUpdate = true;
+    if (lineAlphaAttrRef.current) lineAlphaAttrRef.current.needsUpdate = true;
   });
 
   return (
