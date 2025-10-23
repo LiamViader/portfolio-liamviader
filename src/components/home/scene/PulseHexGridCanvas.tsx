@@ -8,7 +8,6 @@ import PulseHexGridFill from "./PulseHexGridFill";
 import HexGridTrails from "./HexGridTrails";
 import HexGridStrata from "./HexGridStrata";
 import { FillTuning } from "./PulseHexGridFill";
-import { fill } from "three/src/extras/TextureUtils.js";
 export const grid_types = ['OverlapLine', 'Fill', 'Trails', 'Strata'] as const; 
 
 export type GridType = typeof grid_types[number]; 
