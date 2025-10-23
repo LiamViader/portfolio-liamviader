@@ -2,23 +2,26 @@
   "HomePage": {
     "hero": {
       "title": "Hi, I'm <highlight>Liam</highlight>.\nWelcome to my <highlight>portfolio</highlight>!",
-      "subtitle": "Software engineer with a technical and creative approach, graduated in game design and development, interested in artificial intelligence and the design of AI-driven systems",
+      "subtitle": "Software engineer with a technical and creative approach, graduated in game design and development, interested in artificial intelligence and AI-driven systems",
       "ctaProjects": "Explore projects",
       "ctaContact": "Contact"
     },
     "work_section": {
-      "title": "Available for collaborations worldwide",
+      "title": "Designing and Building",
       "ai": {
-        "value": "Artificial Intelligence & Intelligent Systems",
-        "label": "Designing AI-first features that feel natural to the player and the user."
+        "value": "Intelligent Systems",
+        "label": "I develop and apply artificial intelligence to create agents, tools, and systems powered by generative AI.",
+        "icon": "BrainCircuit"
       },
       "videogames": {
-        "value": "End-to-end systems",
-        "label": "Architecting the front end, backend, and tools that keep products running."
+        "value": "Video Games",
+        "label": "I design and develop video games with unique mechanics and a strong focus on player feel, aiming to create fun and memorable experiences.",
+        "icon": "Gamepad2"
       },
       "system_design": {
-        "value": "Creative partnerships",
-        "label": "Co-creating with artists, founders, and studios to ship memorable work."
+        "value": "System Design",
+        "label": "I'm interested in understanding and building systems from both a technical and creative perspective, from conceptual design to implementation.",
+        "icon": "Workflow"
       }
     },
     "highlights": {

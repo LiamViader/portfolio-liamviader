@@ -125,7 +125,7 @@ export default function Home() {
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 1.45, duration: 0.7 }}
-            className="z-10 text-lg font-medium uppercase tracking-[0.3em] text-white/50"
+            className="z-10 text-lg font-medium uppercase tracking-[0.3em] text-white/70"
           >
             {t("work_section.title")}
           </motion.p>
