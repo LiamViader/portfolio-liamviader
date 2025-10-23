@@ -15,11 +15,11 @@
       },
       "videogames": {
         "value": "Video Games",
-        "label": "I design and develop video games with unique mechanics and a strong focus on player feel, aiming to create fun and memorable experiences.",
+        "label": "I design and develop video games with unique mechanics and a strong focus on gameplay.",
         "icon": "Gamepad2"
       },
       "system_design": {
-        "value": "System Design",
+        "value": "My Approach",
         "label": "I'm interested in building systems from both a technical and creative perspective, from conceptual design to implementation.",
         "icon": "Workflow"
       }

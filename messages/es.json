@@ -9,17 +9,17 @@
     "work_section": {
       "title": "Pensar y construir",
       "ai": {
-        "value": "Sistemas inteligentes",
+        "value": "Sistemas Inteligentes",
         "label": "Desarrollo y aplico inteligencia artificial para crear agentes, herramientas y sistemas basados en IA generativa.",
         "icon": "BrainCircuit"
       },
       "videogames": {
         "value": "Videojuegos",
-        "label": "Diseño y desarrollo videojuegos con mecánicas únicas y especial atención al game feel, buscando crear experiencias divertidas y memorables.",
+        "label": "Diseño y desarrollo videojuegos con mecánicas únicas y especial atención a la jugabilidad.",
         "icon": "Gamepad2"
       },
       "system_design": {
-        "value": "Diseño de sistemas",
+        "value": "Mi Enfoque",
         "label": "Me interesa construir los sistemas desde una perspectiva técnica y creativa, desde el diseño conceptual hasta la implementación.",
         "icon": "Workflow"
       }

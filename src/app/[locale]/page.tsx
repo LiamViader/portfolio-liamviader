@@ -141,7 +141,7 @@ export default function Home() {
             }}
             initial="hidden" 
             animate="show"
-            className="mx-auto grid w-full max-w-6xl gap-4 pt-10 text-left sm:grid-cols-3"
+            className="mx-auto grid w-full max-w-6xl gap-4 pt-8 text-left sm:grid-cols-3"
           >
             {metricKeys.map((metricKey,index) => {
               const iconName = t(`work_section.${metricKey}.icon`);
