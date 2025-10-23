@@ -65,7 +65,7 @@ export default function Home() {
     { key: "games", descriptionKey: "highlights.items.games.description" },
   ];
 
-  const metricKeys: Array<"ai" | "systems" | "collaboration"> = ["ai", "systems", "collaboration"];
+  const metricKeys: Array<"ai" | "videogames" | "system_design"> = ["ai", "videogames", "system_design"];
   const { ref, inView } = useInView({ triggerOnce: true, threshold: 0.12, rootMargin: "200px 0px 200px 0px" });
   return (
     <div className="flex flex-col bg-gray-900">
@@ -113,37 +113,40 @@ export default function Home() {
             </motion.div>
           </div>
         </div>
-        <div className="relative z-10 mx-auto max-w-6xl w-full pt-15 text-center">
+
+
+        <div className="relative z-10 mx-auto pt-20 max-w-6xl w-full pt-15 text-center">
           <motion.p
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 1.45, duration: 0.7 }}
             className="z-10 text-sm font-medium uppercase tracking-[0.3em] text-white/50"
           >
-            {t("hero.availability")}
+            {t("work_section.title")}
           </motion.p>
-        </div>
+        
 
-        <motion.ul
-          variants={{
-            hidden: {opacity: 1},
-            show: {
-              opacity: 1,
-              transition: { delayChildren: 1.55, staggerChildren: 0.15, when: "beforeChildren" }
-            }
-          }}
-          initial="hidden" 
-          animate="show"
-          className="mx-auto grid w-full max-w-6xl gap-4 pt-10 text-left sm:grid-cols-3"
-        >
-          {metricKeys.map((metricKey,index) => (
-            <InfoCard
-              key={index}
-              title={t(`metrics.${metricKey}.value`)}
-              info={t(`metrics.${metricKey}.label`)}
-            />
-          ))}
-        </motion.ul>
+          <motion.ul
+            variants={{
+              hidden: {opacity: 1},
+              show: {
+                opacity: 1,
+                transition: { delayChildren: 1.55, staggerChildren: 0.15, when: "beforeChildren" }
+              }
+            }}
+            initial="hidden" 
+            animate="show"
+            className="mx-auto grid w-full max-w-6xl gap-4 pt-10 text-left sm:grid-cols-3"
+          >
+            {metricKeys.map((metricKey,index) => (
+              <InfoCard
+                key={index}
+                title={t(`work_section.${metricKey}.value`)}
+                info={t(`work_section.${metricKey}.label`)}
+              />
+            ))}
+          </motion.ul>
+        </div>
       </section>
 
       <section className="relative px-4 py-14 bg-black/10 border-y border-white/10 ">

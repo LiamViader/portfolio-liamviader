@@ -2,23 +2,23 @@
   "HomePage": {
     "hero": {
       "title": "Hola, soy <highlight>Liam</highlight>.\n¡Bienvenido a mi <highlight>portfolio</highlight>!",
-      "subtitle": "Soy Liam Viader, desarrollador full-stack, creador de IA y diseñador de videojuegos. Me apasiona transformar ideas ambiciosas en realidades interactivas pulidas.",
+      "subtitle": "Ingeniero de software con un enfoque técnico y creativo, graduado en diseño y desarrollo de videojuegos e interesado en inteligencia artificial y el diseño de sistemas impulsados por ella.",
       "ctaProjects": "Ver proyectos",
-      "ctaContact": "Contacto",
-      "availability": "Disponible para colaboraciones en todo el mundo"
+      "ctaContact": "Contacto"
     },
-    "metrics": {
+    "work_section": {
+      "title": "Pensar y construir",
       "ai": {
-        "value": "Viajes inteligentes",
-        "label": "Diseño funciones con IA que se sienten naturales tanto para el jugador como para la persona usuaria."
+        "value": "Sistemas inteligentes",
+        "label": "Desarrollo y aplico inteligencia artificial para crear agentes, herramientas y sistemas basados en IA generativa."
       },
-      "systems": {
-        "value": "Sistemas de punta a punta",
-        "label": "Arquitecto el frontend, backend y las herramientas que mantienen vivo cada proyecto."
+      "videogames": {
+        "value": "Videojuegos",
+        "label": "Diseño y desarrollo videojuegos poniendo el foco en la arquitectura del sistema, las mecánicas y la conexión entre idea y ejecución."
       },
-      "collaboration": {
-        "value": "Alianzas creativas",
-        "label": "Me interesan especialmente los proyectos que combinan tecnología y creatividad —ya sea en videojuegos, experiencias interactivas o aplicaciones impulsadas por IA generativa—.."
+      "system_design": {
+        "value": "Diseño de sistemas",
+        "label": "Me interesa entender y construir los sistemas desde una perspectiva técnica y creativa, desde el diseño conceptual hasta la implementación."
       }
     },
     "highlights": {

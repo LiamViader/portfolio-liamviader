@@ -2,21 +2,21 @@
   "HomePage": {
     "hero": {
       "title": "Hi, I'm <highlight>Liam</highlight>.\nWelcome to my <highlight>portfolio</highlight>!",
-      "subtitle": "I'm Liam Viader, a full-stack developer, AI tinkerer, and game designer who loves transforming ambitious ideas into polished, interactive realities.",
+      "subtitle": "Software engineer with a technical and creative approach, graduated in game design and development, interested in artificial intelligence and the design of AI-driven systems",
       "ctaProjects": "Explore projects",
-      "ctaContact": "Contact",
-      "availability": "Available for collaborations worldwide"
+      "ctaContact": "Contact"
     },
-    "metrics": {
+    "work_section": {
+      "title": "Available for collaborations worldwide",
       "ai": {
-        "value": "Intelligent journeys",
+        "value": "Artificial Intelligence & Intelligent Systems",
         "label": "Designing AI-first features that feel natural to the player and the user."
       },
-      "systems": {
+      "videogames": {
         "value": "End-to-end systems",
         "label": "Architecting the front end, backend, and tools that keep products running."
       },
-      "collaboration": {
+      "system_design": {
         "value": "Creative partnerships",
         "label": "Co-creating with artists, founders, and studios to ship memorable work."
       }
