@@ -4,7 +4,7 @@ import Image from "next/image";
 import { easeIn, easeOut, motion, type Variants } from "framer-motion";
 import { useLocale, useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
-import { BrainCircuit, Gamepad2, Sparkles, Workflow } from "lucide-react";
+import { BrainCircuit, Gamepad2, Workflow, Sparkles } from "lucide-react";
 import { useInView } from "react-intersection-observer";
 import PulseHexGridCanvas from "@/components/home/scene/PulseHexGridCanvas";
 import { getProjectsByLocale, TranslatedProject } from "@/data/projects";
@@ -13,6 +13,11 @@ import FeaturedProjects from "@/components/projects/featured/FeaturedProjects";
 import { InfoCard } from "@/components/home/InfoCard";
 import { HeroImage } from "@/components/home/HeroImage";
 
+const icons = {
+  BrainCircuit,
+  Gamepad2,
+  Workflow,
+};
 
 const buttonBaseClasses =
   "inline-flex items-center justify-center rounded-full px-6 py-3 text-sm font-semibold transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-400";
@@ -120,7 +125,7 @@ export default function Home() {
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 1.45, duration: 0.7 }}
-            className="z-10 text-sm font-medium uppercase tracking-[0.3em] text-white/50"
+            className="z-10 text-lg font-medium uppercase tracking-[0.3em] text-white/50"
           >
             {t("work_section.title")}
           </motion.p>
@@ -138,13 +143,18 @@ export default function Home() {
             animate="show"
             className="mx-auto grid w-full max-w-6xl gap-4 pt-10 text-left sm:grid-cols-3"
           >
-            {metricKeys.map((metricKey,index) => (
-              <InfoCard
-                key={index}
-                title={t(`work_section.${metricKey}.value`)}
-                info={t(`work_section.${metricKey}.label`)}
-              />
-            ))}
+            {metricKeys.map((metricKey,index) => {
+              const iconName = t(`work_section.${metricKey}.icon`);
+              const IconComponent = icons[iconName as keyof typeof icons];
+              return (
+                <InfoCard
+                  key={index}
+                  title={t(`work_section.${metricKey}.value`)}
+                  info={t(`work_section.${metricKey}.label`)}
+                  icon={<IconComponent className="h-7 w-7 text-sky-300" />}
+                />
+              )
+            })}
           </motion.ul>
         </div>
       </section>

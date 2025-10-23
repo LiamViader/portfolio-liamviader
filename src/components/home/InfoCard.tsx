@@ -63,7 +63,15 @@ const textVariants: Variants = {
   },
 };
 
-export function InfoCard({ title, info }: { title: string; info: string }) {
+export function InfoCard({
+  title,
+  info,
+  icon,
+}: {
+  title: string;
+  info: string;
+  icon?: React.ReactNode;
+}) {
   const [ready, setReady] = useState(false);
 
   return (
@@ -72,15 +80,35 @@ export function InfoCard({ title, info }: { title: string; info: string }) {
       onAnimationComplete={() => setReady(true)}
       whileHover={ready ? "hover" : undefined}
       whileTap={ready ? "tap" : undefined}
-      className="rounded-2xl border p-5 backdrop-blur-sm transform-gpu will-change-[transform, opacity] transition-none"
+      className="rounded-2xl border p-5 backdrop-blur-sm transform-gpu will-change-[transform,opacity] transition-none flex flex-col gap-3"
       style={{
         backgroundColor: BASE_BG,
         borderColor: BASE_BORD,
         pointerEvents: ready ? "auto" : "none",
       }}
     >
-      <motion.p variants={textVariants} className="text-2xl font-semibold text-white transition-none will-change-[transform, opacity]">{title}</motion.p>
-      <motion.p variants={textVariants} className="mt-2 text-sm text-white/60 transition-none will-change-[transform, opacity]">{info}</motion.p>
+      <motion.div
+        variants={textVariants}
+        className="flex items-center gap-3 text-white"
+      >
+        {icon && (
+          <motion.div
+            whileHover={{ scale: 1.1 }}
+            transition={{ duration: 0.2 }}
+            className="flex items-center justify-center rounded-md bg-white/5 p-2"
+          >
+            {icon}
+          </motion.div>
+        )}
+        <p className="text-xl font-semibold">{title}</p>
+      </motion.div>
+
+      <motion.p
+        variants={textVariants}
+        className="text-sm text-white/60 leading-relaxed"
+      >
+        {info}
+      </motion.p>
     </motion.li>
   );
 }

@@ -10,15 +10,18 @@
       "title": "Pensar y construir",
       "ai": {
         "value": "Sistemas inteligentes",
-        "label": "Desarrollo y aplico inteligencia artificial para crear agentes, herramientas y sistemas basados en IA generativa."
+        "label": "Desarrollo y aplico inteligencia artificial para crear agentes, herramientas y sistemas basados en IA generativa.",
+        "icon": "BrainCircuit"
       },
       "videogames": {
         "value": "Videojuegos",
-        "label": "Diseño y desarrollo videojuegos poniendo el foco en la arquitectura del sistema, las mecánicas y la conexión entre idea y ejecución."
+        "label": "Diseño y desarrollo videojuegos poniendo el foco en la arquitectura del sistema, las mecánicas y la conexión entre idea y ejecución.",
+        "icon": "Gamepad2"
       },
       "system_design": {
         "value": "Diseño de sistemas",
-        "label": "Me interesa entender y construir los sistemas desde una perspectiva técnica y creativa, desde el diseño conceptual hasta la implementación."
+        "label": "Me interesa entender y construir los sistemas desde una perspectiva técnica y creativa, desde el diseño conceptual hasta la implementación.",
+        "icon": "Workflow"
       }
     },
     "highlights": {
