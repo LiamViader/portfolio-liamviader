@@ -2,7 +2,7 @@
   "HomePage": {
     "hero": {
       "title": "Hola, soy <highlight>Liam</highlight>.\n¡Bienvenido a mi <highlight>portfolio</highlight>!",
-      "subtitle": "Ingeniero de software con un enfoque técnico y creativo, graduado en diseño y desarrollo de videojuegos e interesado en inteligencia artificial y sistemas impulsados por ella.",
+      "subtitle": "Soy un ingeniero de software con un enfoque técnico y creativo, graduado en diseño y desarrollo de videojuegos e interesado en inteligencia artificial y sistemas impulsados por ella.",
       "ctaProjects": "Ver proyectos",
       "ctaContact": "Contacto"
     },

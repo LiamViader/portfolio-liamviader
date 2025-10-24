@@ -2,7 +2,7 @@
   "HomePage": {
     "hero": {
       "title": "Hi, I'm <highlight>Liam</highlight>.\nWelcome to my <highlight>portfolio</highlight>!",
-      "subtitle": "Software engineer with a technical and creative approach, graduated in game design and development, interested in artificial intelligence and AI-driven systems",
+      "subtitle": "I'm a software engineer with a technical and creative approach, graduated in game design and development, interested in artificial intelligence and AI-driven systems",
       "ctaProjects": "Explore projects",
       "ctaContact": "Contact"
     },
