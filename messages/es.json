@@ -10,30 +10,25 @@
       "title": "Pensar y construir",
       "ai": {
         "value": "Sistemas Inteligentes",
-        "label": "Diseño, desarrollo y aplico inteligencia artificial para crear agentes, herramientas y sistemas basados en IA generativa.",
+        "label": "Diseño, desarrollo y aplico inteligencia artificial para crear agentes, herramientas y sistemas basados en IA generativa",
         "icon": "BrainCircuit"
       },
       "videogames": {
         "value": "Videojuegos",
-        "label": "Diseño y desarrollo videojuegos con mecánicas únicas y especial atención a la jugabilidad.",
+        "label": "Diseño y desarrollo videojuegos con mecánicas únicas y especial atención a la jugabilidad",
         "icon": "Gamepad2"
       },
       "system_design": {
         "value": "Mi Enfoque",
-        "label": "Disfruto participar desde una perspectiva tanto técnica como creativa, desde el diseño conceptual hasta la implementación.",
+        "label": "Disfruto participar desde una perspectiva tanto técnica como creativa, desde el diseño conceptual hasta la implementación",
         "icon": "Workflow"
       }
     },
     "projects": {
       "title": "Proyectos destacados",
-      "description": "Un vistazo a mis experimentos recientes en IA, herramientas y entretenimiento interactivo.",
+      "description": "Un vistazo a mis experimentos recientes en IA, herramientas y entretenimiento interactivo",
       "viewAll": "Ver la galería completa",
       "featuredBadge": "Destacado"
-    },
-    "cta": {
-      "title": "¿Listo para crear algo inolvidable?",
-      "subtitle": "Siempre me entusiasma colaborar en productos, prototipos o juegos con visión de futuro.",
-      "button": "Iniciemos la conversación"
     }
   },
   "Metadata": {
@@ -68,21 +63,21 @@
   "ContactPage": {
     "hero": {
       "title": "Ponte en <highlight>contacto</highlight>",
-      "description": "Puedes escribirme para colaborar, compartir ideas o hablar sobre posibles proyectos. Estoy abierto a trabajar en equipo, asumir encargos o simplemente conectar."
+      "description": "Puedes escribirme para colaborar, compartir ideas o hablar sobre posibles proyectos. Estoy abierto a trabajar en equipo, asumir encargos o simplemente conectar"
     },
     "highlights": {
       "items": {
         "teams": {
           "title": "Trabajar juntos",
-          "description": "Estoy abierto a unirme a equipos ya establecidos, ya sea como desarrollador o en roles con una visión más global del sistema."
+          "description": "Abierto a unirme a equipos existentes y colaborar donde pueda aportar valor"
         },
         "projects": {
           "title": "Colaboraciones y encargos",
-          "description": "Disponible para participar en proyectos como freelance. Puedo encargarme del desarrollo de funcionalidades, prototipos o proyectos completos, ya sean videojuegos, aplicaciones impulsadas por IA o de otro tipo."
+          "description": "Disponible para participar en proyectos como freelance. Puedo encargarme del diseño y desarrollo de funcionalidades, prototipos o proyectos completos, ya sean videojuegos, aplicaciones impulsadas por IA o de otro tipo"
         },
         "networking": {
           "title": "Conectar",
-          "description": "Si te apetece hablar, compartir experiencias o intercambiar ideas también puedes escribirme. Me gusta conocer a gente con intereses parecidos y ver qué puede surgir de ahí."
+          "description": "Si te apetece hablar, compartir experiencias o intercambiar ideas también puedes escribirme. Me gusta conocer a gente con intereses parecidos y ver qué puede surgir de ahí"
         }
       }
     },

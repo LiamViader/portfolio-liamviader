@@ -78,7 +78,7 @@ export default function ContactPage() {
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-gray-950/50" />
       </div>
 
-      <div className="relative z-10 mx-auto w-full max-w-6xl px-4 pb-28 pt-28 sm:px-6 sm:pb-32 sm:pt-34 lg:px-8">
+      <div className="relative z-10 mx-auto w-full max-w-6xl px-4 pb-28 pt-38 sm:px-6 sm:pb-42 sm:pt-34 lg:px-8">
         <ScrollReveal className="max-w-4xl" delay={1}>
           <div className="flex flex-col gap-6">
             <h1 className="text-center md:text-left text-balance text-4xl font-semibold tracking-tight text-white/95 sm:text-5xl md:text-6xl">
@@ -113,7 +113,7 @@ export default function ContactPage() {
           ))}
         </div>
         
-        <ScrollReveal className="mt-8" delay={1.5}>
+        <ScrollReveal className="mt-6" delay={1.5} distance={20}>
           <nav aria-label="Contact" className="mx-auto max-w-4xl">
             <ul className="flex flex-wrap justify-center gap-3 sm:gap-4">
               {contactLinks.map(({ key, icon: Icon, href, value }) => (
@@ -125,7 +125,7 @@ export default function ContactPage() {
                     className={`
                       inline-flex items-center gap-4 rounded-full
                       px-4 py-2 sm:px-5 sm:py-2.5 text-sm sm:text-lg
-                      transition ring-1 backdrop-blur-sm bg-transparent text-white/85 ring-white/15 hover:ring-sky-400/40 hover:bg-white/5
+                      transition ring-1 backdrop-blur-sm bg-white/2 text-white/85 ring-white/15 hover:ring-sky-400/40 hover:bg-white/5 shadow-md shadow-sky-500/30
                     `}
                   >
                     <Icon className="size-5 shrink-0 text-sky-200" />
