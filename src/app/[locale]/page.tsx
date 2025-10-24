@@ -87,8 +87,8 @@ export default function Home() {
       <section className="relative px-2 md:px-6 pt-10 sm:pt-20 lg:pt-22 xl:pt-28 pb-40 bg-gray-950/70 ">
         <PulseHexGridCanvas pixelsPerHex={40} gridType="Fill" s={75} hue={240} hueJitter={5} l={0}/>
         <PulseHexGridCanvas pixelsPerHex={40} hue={240} hueJitter={30} s={40} l={25} gridType="Strata"/>
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_left,_rgba(125,211,252,0.1),_transparent_65%)]" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_right,_rgba(125,211,252,0.1),_transparent_65%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_left,_rgba(125,211,252,0.1),_transparent_85%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_right,_rgba(125,211,252,0.1),_transparent_85%)]" />
         
         <div className="absolute inset-0 bg-gradient-to-b from-gray-950 via-transparent to-gray-950" />
         <ScrollReveal distance={-100} lateral duration={0.8}>
