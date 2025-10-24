@@ -2,17 +2,8 @@
 
 import { ReactNode, useEffect, useState } from "react";
 import { HeroImage } from "@/components/home/HeroImage";
-import { easeIn, easeOut, motion, useAnimationControls, type Variants } from "framer-motion";
-import { Link } from "@/i18n/navigation";
+import { motion, useAnimationControls } from "framer-motion";
 import { SkyButton, WhiteButton } from "./Buttons";
-
-const buttonBaseClasses =
-  "inline-flex items-center justify-center rounded-full px-6 py-3 text-sm font-semibold transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-400";
-
-const heroButtons = {
-  primary: `${buttonBaseClasses} bg-sky-500/90 text-white shadow-lg shadow-sky-500/30 hover:bg-sky-400`,
-  secondary: `${buttonBaseClasses} inline-flex items-center justify-center gap-2 rounded-full border border-white/20 bg-white/10 px-5 py-2 text-sm font-semibold text-white/80 transition hover:border-sky-400/60 hover:bg-sky-500/10`,
-};
 
 
 interface HeroSectionProps {
