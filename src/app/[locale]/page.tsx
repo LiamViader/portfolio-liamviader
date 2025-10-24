@@ -1,6 +1,5 @@
 "use client";
 
-import Image from "next/image";
 import { easeIn, easeOut, motion, type Variants } from "framer-motion";
 import { useLocale, useTranslations } from "next-intl";
 import { Link } from "@/i18n/navigation";
@@ -12,25 +11,13 @@ import { ScrollReveal } from "@/components/ScrollReveal";
 import FeaturedProjects from "@/components/projects/featured/FeaturedProjects";
 import { InfoCard } from "@/components/home/InfoCard";
 import { HeroImage } from "@/components/home/HeroImage";
+import { HeroSection } from "@/components/home/HeroSection";
+
 
 const icons = {
   BrainCircuit,
   Gamepad2,
   Workflow,
-};
-
-const buttonBaseClasses =
-  "inline-flex items-center justify-center rounded-full px-6 py-3 text-sm font-semibold transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-400";
-
-const heroButtons = {
-  primary: `${buttonBaseClasses} bg-sky-500/90 text-white shadow-lg shadow-sky-500/30 hover:bg-sky-400`,
-  secondary: `${buttonBaseClasses} inline-flex items-center justify-center gap-2 rounded-full border border-white/20 bg-white/10 px-5 py-2 text-sm font-semibold text-white/80 transition hover:border-sky-400/60 hover:bg-sky-500/10`,
-};
-
-const highlightIcons = {
-  ai: BrainCircuit,
-  experience: Sparkles,
-  games: Gamepad2,
 };
 
 export default function Home() {
@@ -47,45 +34,15 @@ export default function Home() {
         <PulseHexGridCanvas pixelsPerHex={40} hue={240} hueJitter={30} s={80}/>
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(125,211,252,0.2),_transparent_65%)]" />
         <div className="absolute inset-0 bg-gradient-to-b from-gray-950/10 via-gray-950/60 to-gray-950" />
-        <div className="relative z-10 mx-auto flex w-full max-w-6xl flex-col items-center gap-8 lg:gap-16 px-2 text-center lg:flex-row lg:items-center lg:justify-between lg:text-left">
-          <HeroImage/>
 
-          <div className="flex max-w-2xl flex-col items-center gap-8 lg:items-start">
-            <motion.h1
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 1.15, duration: 0.7 }}
-              className="whitespace-pre-line text-balance text-4xl font-semibold tracking-tight text-white/95 sm:text-5xl md:text-6xl"
-            >
-              {t.rich("hero.title", {
-                highlight: (chunks) => <span className="text-sky-300">{chunks}</span>,
-              })}
-            </motion.h1>
-
-            <motion.p
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 1.25, duration: 0.7 }}
-              className="max-w-2xl text-pretty text-lg text-white/70 sm:text-xl"
-            >
-              {t("hero.subtitle")}
-            </motion.p>
-
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 1.35, duration: 0.7 }}
-              className="flex w-full flex-wrap justify-center gap-4 lg:justify-start"
-            >
-              <Link href="/projects" className={heroButtons.primary}>
-                {t("hero.ctaProjects")}
-              </Link>
-              <Link href="/contact" className={heroButtons.secondary}>
-                {t("hero.ctaContact")}
-              </Link>
-            </motion.div>
-          </div>
-        </div>
+        <HeroSection 
+          title={t.rich("hero.title", {
+            highlight: (chunks) => <span className="text-sky-300">{chunks}</span>,
+          })}
+          subtitle={t("hero.subtitle")} 
+          contactButtonText={t("hero.ctaContact")} 
+          projectsButtonText={t("hero.ctaProjects")}
+        />
 
 
         <div className="relative z-10 mx-auto pt-20 max-w-6xl w-full pt-15 text-center">
