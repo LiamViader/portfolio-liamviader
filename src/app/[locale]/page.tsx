@@ -33,48 +33,16 @@ const highlightIcons = {
   games: Gamepad2,
 };
 
-const highlightListVariants: Variants = {
-  hidden: {},
-  show: {
-    transition: {
-      staggerChildren: 0.3,
-      delayChildren: 0.12,
-    },
-  },
-};
-
-const highlightCardVariants: Variants = {
-  hidden: {
-    opacity: 0,
-    x: 50,
-  },
-  show: {
-    opacity: 1,
-    x: 0,
-    transition: {
-      duration: 0.8,
-      ease: easeOut,
-    },
-  },
-};
-
 export default function Home() {
   const t = useTranslations("HomePage");
   const locale = useLocale();
   const projects = getProjectsByLocale(locale)
     .filter((project) => project.is_featured) satisfies TranslatedProject[];
 
-  const highlightItems: Array<{ key: keyof typeof highlightIcons; descriptionKey: string }> = [
-    { key: "ai", descriptionKey: "highlights.items.ai.description" },
-    { key: "experience", descriptionKey: "highlights.items.experience.description" },
-    { key: "games", descriptionKey: "highlights.items.games.description" },
-  ];
-
   const metricKeys: Array<"ai" | "videogames" | "system_design"> = ["ai", "videogames", "system_design"];
-  const { ref, inView } = useInView({ triggerOnce: true, threshold: 0.12, rootMargin: "200px 0px 200px 0px" });
   return (
     <div className="flex flex-col bg-gray-900">
-      <section className="relative overflow-hidden bg-gray-950/70 px-4 pb-14 pt-28 lg:py-34 shadow-[0_40px_50px_-40px_rgba(56,189,248,0.2)] mb-0 md:min-h-[970px]">
+      <section className="relative overflow-hidden bg-gray-950/70 px-4 md:px-8 pb-14 pt-28 lg:py-34 shadow-[0_40px_50px_-40px_rgba(56,189,248,0.2)] mb-0 md:min-h-[900px]">
         <PulseHexGridCanvas pixelsPerHex={40} gridType="Fill" s={75} hue={240} hueJitter={5} l={0}/>
         <PulseHexGridCanvas pixelsPerHex={40} hue={240} hueJitter={30} s={80}/>
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(125,211,252,0.2),_transparent_65%)]" />
@@ -159,70 +127,16 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="relative px-4 py-14 bg-black/10 border-y border-white/10 ">
-        <PulseHexGridCanvas pixelsPerHex={25} gridType="Fill" s={80} hue={240} hueJitter={10} l={25}/>
-        <PulseHexGridCanvas pixelsPerHex={25} hue={240} hueJitter={30} s={100} l={60} gridType="Trails" trailCount={30} fadeSeconds={4}/>
-        <div className="absolute inset-0 bg-gradient-to-b from-gray-90/10 via-gray-950/60 to-sky-900/10" />
-        
-        <div className="relative mx-auto flex max-w-5xl flex-col gap-8 text-center md:text-left">
-          <motion.div
-            initial="hidden"
-            animate={inView ? "show" : "hidden"}
-            variants={{
-              hidden: { opacity: 0, x: 80 },
-              show: { opacity: 1, x: 0, 
-              transitionEnd: { transform: "none" } },
-            }}
-            ref={ref}
-            transition={{ duration: 1, ease: easeOut }}
-          >
-            <h2 className="text-3xl font-semibold text-white md:text-4xl">{t("highlights.title")}</h2>
-            <p className="mt-3 text-balance text-base text-white/65 md:max-w-2xl">
-              {t("highlights.description")}
-            </p>
-          </motion.div>
-          <motion.ul
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: true, margin: "0px 0px -80px 0px" }}
-            variants={highlightListVariants}
-            className="grid gap-6 md:grid-cols-3"
-          >
-            {highlightItems.map(({ key, descriptionKey }) => {
-              const Icon = highlightIcons[key];
-              return (
-                <li key={key} className="h-full">
-                  <motion.article
-                    variants={highlightCardVariants}
-                    className="group relative h-full overflow-hidden rounded-3xl border border-white/10 bg-white/5 p-6 text-left backdrop-blur transition hover:-translate-y-1 hover:border-sky-400/60 hover:bg-sky-500/10"
-                    style={{ willChange: "transform, opacity" }}
-                  >
-                    <div className="pointer-events-none absolute -right-10 -top-10 h-32 w-32 rounded-full bg-sky-500/5 blur-3xl transition group-hover:bg-sky-400/10" />
-                    <Icon className="h-8 w-8 text-sky-300" />
-                    <h3 className="mt-4 text-xl font-semibold text-white">
-                      {t(`highlights.items.${key}.title`)}
-                    </h3>
-                    <p className="mt-3 text-sm text-white/65">
-                      {t(descriptionKey)}
-                    </p>
-                  </motion.article>
-                </li>
-              );
-            })}
-          </motion.ul>
-        </div>
-      </section>
-
-      <section className="relative px-4 pt-12 pb-20 lg:py-28">
+      <section className="relative px-2 md:px-6 pt-10 sm:pt-20 lg:pt-22 xl:pt-28 pb-40">
         <PulseHexGridCanvas pixelsPerHex={40} gridType="Fill" s={75} hue={240} hueJitter={5} l={0}/>
         <PulseHexGridCanvas pixelsPerHex={40} hue={240} hueJitter={30} s={40} l={25} gridType="Strata"/>
         <div className="absolute inset-0 bg-gradient-to-b from-gray-950 via-[rgba(56,189,248,0.02)] to-gray-950" />
         <ScrollReveal distance={-100} lateral duration={0.8}>
-          <div className="relative mx-auto max-w-7xl">
-            <div className="flex flex-col gap-6 lg:grid lg:grid-cols-[minmax(100px,1.1fr)_minmax(60%,0.9fr)] lg:items-start lg:gap-10">
+          <div className="relative mx-auto max-w-[1400px]">
+            <div className="flex flex-col gap-6 lg:grid lg:grid-cols-[minmax(0,0.55fr)_minmax(0,1fr)] xl:grid-cols-[minmax(0,0.75fr)_minmax(0,1fr)] lg:items-start lg:gap-10">
               <div className="flex flex-col gap-6 text-center lg:text-left pl-3">
                 <div className="space-y-4 mt-10">
-                  <h2 className="text-3xl font-semibold text-white md:text-4xl">
+                  <h2 className="font-semibold text-white text-3xl md:text-4xl xl:text-5xl whitespace-nowrap">
                     {t("projects.title")}
                   </h2>
                   <p className=" text-base text-white/65 lg:max-w-xl">
@@ -235,7 +149,6 @@ export default function Home() {
                     className="inline-flex items-center justify-center rounded-full bg-sky-500/90 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-sky-500/30 transition hover:bg-sky-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-400"
                   >
                     {t("projects.viewAll")}
-                    <Workflow className="ml-1 h-4 w-4" />
                   </Link>
                   <Link
                     href="/contact"
@@ -254,7 +167,7 @@ export default function Home() {
                     containerClassName: "!w-full",
                     viewportClassName:
                       "!h-[310px] md:!h-[390px] lg:!h-[390px] xl:!h-[410px] !w-full",
-                    cardClassName: "!w-[47%] md:!w-[39%] lg:!w-[37%] xl:!w-[38%]",
+                    cardClassName: "!w-[47%] sm:!w-[40%] md:!w-[39%] lg:!w-[37%] xl:!w-[38%]",
                     controlsContainerClassName: "",
                   }}
                   carouselTypography={{
@@ -270,7 +183,6 @@ export default function Home() {
                     className="inline-flex items-center justify-center rounded-full bg-sky-500/90 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-sky-500/30 transition hover:bg-sky-400 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-400"
                   >
                     {t("projects.viewAll")}
-                    <Workflow className="ml-1 h-4 w-4" />
                   </Link>
                   <Link
                     href="/contact"

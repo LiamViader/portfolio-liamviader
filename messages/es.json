@@ -10,7 +10,7 @@
       "title": "Pensar y construir",
       "ai": {
         "value": "Sistemas Inteligentes",
-        "label": "Desarrollo y aplico inteligencia artificial para crear agentes, herramientas y sistemas basados en IA generativa.",
+        "label": "Diseño, desarrollo y aplico inteligencia artificial para crear agentes, herramientas y sistemas basados en IA generativa.",
         "icon": "BrainCircuit"
       },
       "videogames": {
@@ -20,26 +20,8 @@
       },
       "system_design": {
         "value": "Mi Enfoque",
-        "label": "Me interesa construir los sistemas desde una perspectiva técnica y creativa, desde el diseño conceptual hasta la implementación.",
+        "label": "Disfruto participar desde una perspectiva tanto técnica como creativa, desde el diseño conceptual hasta la implementación.",
         "icon": "Workflow"
-      }
-    },
-    "highlights": {
-      "title": "Cómo llevo tus ideas a la realidad",
-      "description": "Combino profundidad técnica con experimentación lúdica para crear productos que destacan.",
-      "items": {
-        "ai": {
-          "title": "IA y sistemas inteligentes",
-          "description": "Entreno, ajusto e integro modelos de machine learning que aportan valor real y se sienten intuitivos."
-        },
-        "experience": {
-          "title": "Diseño de producto y experiencia",
-          "description": "Creo fundamentos de UX, design systems y narrativas que guían cada interacción."
-        },
-        "games": {
-          "title": "Mundos de juego inmersivos",
-          "description": "Desarrollo prototipos, sensaciones momento a momento y la capa técnica que hace que los mundos cobren vida."
-        }
       }
     },
     "projects": {
