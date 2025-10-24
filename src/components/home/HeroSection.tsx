@@ -4,8 +4,7 @@ import { ReactNode, useEffect, useState } from "react";
 import { HeroImage } from "@/components/home/HeroImage";
 import { easeIn, easeOut, motion, useAnimationControls, type Variants } from "framer-motion";
 import { Link } from "@/i18n/navigation";
-import { richify } from "@/utils/richify";
-import { filter } from "framer-motion/client";
+import { SkyButton, WhiteButton } from "./Buttons";
 
 const buttonBaseClasses =
   "inline-flex items-center justify-center rounded-full px-6 py-3 text-sm font-semibold transition focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-400";
@@ -77,12 +76,8 @@ export function HeroSection({title, subtitle, projectsButtonText, contactButtonT
           transition={{ delay: 1.35, duration: 0.7 }}
           className="flex w-full flex-wrap justify-center gap-4 lg:justify-start"
         >
-          <Link href="/projects" className={heroButtons.primary}>
-            {projectsButtonText}
-          </Link>
-          <Link href="/contact" className={heroButtons.secondary}>
-            {contactButtonText}
-          </Link>
+          <SkyButton href="/projects" text={projectsButtonText}/>
+          <WhiteButton href="/contact" text={contactButtonText}/>
         </motion.div>
       </div>
     </div>
