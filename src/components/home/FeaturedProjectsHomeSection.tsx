@@ -1,46 +1,80 @@
 "use client";
 
-import { motion, type Variants } from "framer-motion";
+import { useRef } from "react";
 
+import { motion, type Variants, useAnimationControls } from "framer-motion";
 import { WhiteButton, SkyButton } from "./Buttons";
 import FeaturedProjects from "../projects/featured/FeaturedProjects";
-import { TranslatedProject } from "@/data/projects";
+import type { TranslatedProject } from "@/data/projects";
 
 interface FeaturedProjectsHomeSectionProps {
-  title: string, 
-  description: string, 
-  projectsButtonText: string,
-  contactButtonText: string,
+  title: string;
+  description: string;
+  projectsButtonText: string;
+  contactButtonText: string;
   projects: TranslatedProject[];
 }
 
-const container: Variants = {
-  hidden: { opacity: 1 }, // el contenedor no anima visiblemente
+/** --- CONFIG GLOBAL --- */
+const PAGE_STAGGER = 0.1;     // separación entre bloques (col izq -> col der -> mobile)
+const LEFT_STAGGER = 0.1;     // separación entre título, descripción y botones
+const ITEM_DURATION = 0.6;    // duración por ítem
+
+/** --- VARIANTS (Nivel maestro: orquesta el orden de columnas) --- */
+const page: Variants = {
+  hidden: { opacity: 1 },
   show: {
     opacity: 1,
     transition: {
-      staggerChildren: 0.1, // 0.1s entre cada hijo (título -> desc -> botones)
+      staggerChildren: PAGE_STAGGER,
+      when: "beforeChildren",
+    },
+  },
+};
+
+/** --- VARIANTS (Columna izquierda: hace su propio stagger interno) --- */
+const leftCol: Variants = {
+  hidden: { opacity: 1 },
+  show: {
+    opacity: 1,
+    transition: {
+      when: "beforeChildren",       // primero el contenedor, luego sus hijos
+      staggerChildren: LEFT_STAGGER,
       delayChildren: 0,
     },
   },
 };
 
-const item: Variants = {
+const leftItem: Variants = {
   hidden: { opacity: 0, y: 16 },
   show: {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.6, ease: "easeOut" },
+    transition: { duration: ITEM_DURATION, ease: "easeOut" },
   },
 };
 
-const buttonsContainer: Variants = {
+const leftButtonsRow: Variants = {
   hidden: { opacity: 1 },
   show: {
     opacity: 1,
-    transition: { staggerChildren: 0.1, delayChildren: 0 }, // 0.1s entre los botones
+    transition: {
+      staggerChildren: LEFT_STAGGER,
+      delayChildren: 0,
+    },
   },
 };
+
+/** --- VARIANTS (Columna derecha: gate que se abre cuando se lo indiquemos) --- */
+const rightColGate: Variants = {
+  hidden: { opacity: 0, y: 12 },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.5, ease: "easeOut", when: "beforeChildren" },
+  },
+};
+
 
 export function FeaturedProjectsHomeSection({
   title,
@@ -49,50 +83,66 @@ export function FeaturedProjectsHomeSection({
   contactButtonText,
   projects,
 }: FeaturedProjectsHomeSectionProps) {
+  const leftControls = useAnimationControls();
+  const rightControls = useAnimationControls();
+  const firedRightOnceRef = useRef(false);
+
   return (
-    <div className="relative mx-auto max-w-[1400px]">
+    <motion.div
+      variants={page}
+      initial="hidden"
+      whileInView="show"
+      viewport={{ once: true, amount: 0.35, margin: "0px 0px -15% 0px" }}
+      className="relative mx-auto max-w-[1400px]"
+    >
       <div className="flex flex-col gap-6 lg:grid lg:grid-cols-[minmax(0,0.55fr)_minmax(0,1fr)] xl:grid-cols-[minmax(0,0.75fr)_minmax(0,1fr)] lg:items-start lg:gap-10">
         <motion.div
-          variants={container}
+          variants={leftCol}
           initial="hidden"
-          whileInView="show"
-          viewport={{
-            once: true,
-            amount: 0.35,
-            margin: "0px 0px -15% 0px",
+          animate={leftControls}
+          viewport={{ once: true, amount: 0.35, margin: "0px 0px -15% 0px" }}
+          onViewportEnter={() => {
+            leftControls.start("show");
           }}
           className="flex flex-col gap-6 text-center lg:text-left pl-3 will-change-transform"
         >
           <div className="space-y-4 mt-10">
-            <motion.h2
-              variants={item}
-              className="font-semibold text-white text-3xl md:text-4xl xl:text-5xl whitespace-nowrap"
-            >
+            <motion.h2 variants={leftItem} className="font-semibold text-white text-3xl md:text-4xl xl:text-5xl whitespace-nowrap">
               {title}
             </motion.h2>
 
-            <motion.p
-              variants={item}
-              className="text-base text-white/65 lg:max-w-xl"
-            >
+            <motion.p variants={leftItem} className="text-base text-white/65 lg:max-w-xl">
               {description}
             </motion.p>
           </div>
 
           <motion.div
-            variants={buttonsContainer}
+            variants={leftButtonsRow}
             className="hidden lg:flex flex-wrap items-center justify-center gap-4 lg:justify-start"
           >
-            <motion.div variants={item}>
+            <motion.div variants={leftItem}>
               <SkyButton href="/projects" text={projectsButtonText} />
             </motion.div>
-            <motion.div variants={item}>
+
+            <motion.div
+              variants={leftItem}
+              onAnimationStart={() => {
+                if (firedRightOnceRef.current) return;
+                firedRightOnceRef.current = true;
+                rightControls.start("show",  { delay: 0.1 });
+              }}
+            >
               <WhiteButton href="/contact" text={contactButtonText} />
             </motion.div>
           </motion.div>
         </motion.div>
 
-        <div className="lg:col-start-2 lg:flex lg:justify-end">
+        <motion.div
+          variants={rightColGate}
+          initial="hidden"
+          animate={rightControls}
+          className="lg:col-start-2 lg:flex lg:justify-end will-change-transform"
+        >
           <FeaturedProjects
             projects={projects}
             className="max-w-full"
@@ -111,19 +161,15 @@ export function FeaturedProjectsHomeSection({
               tagClassName: "text-[10px]",
             }}
           />
-        </div>
+        </motion.div>
 
         <div
           className="lg:hidden pt-5 flex flex-wrap items-center justify-center gap-4 lg:justify-start will-change-transform"
         >
-          <div>
-            <SkyButton href="/projects" text={projectsButtonText} />
-          </div>
-          <div>
-            <WhiteButton href="/contact" text={contactButtonText} />
-          </div>
+          <SkyButton href="/projects" text={projectsButtonText} />
+          <WhiteButton href="/contact" text={contactButtonText} />
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 }
