@@ -181,9 +181,10 @@ export default function ContactPage() {
         <div className="flex flex-col gap-6 max-w-4xl">
           <motion.h1
             className="text-center md:text-left text-balance text-4xl font-semibold tracking-tight text-white/95 sm:text-5xl md:text-6xl"
-            initial={{ y: 20, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ duration: 0.7, delay: 1, ease: "easeOut" }}
+            initial={{ y: 20, opacity: 0, scale: 1, filter: "drop-shadow(0 0 12px rgba(56,189,248,0.01))" }}
+            animate={{ y: 0, opacity: 1, scale: 1, filter: "drop-shadow(0 0 12px rgba(56,189,248,0.01))" }}
+            whileHover={introDone ? {scale: 1.02, y: -2, filter: "drop-shadow(0 0 12px rgba(56,189,248,0.35))", transition: {duration: 0.3}} : undefined}
+            transition={introDone ? {duration: 0.5, delay:0}: { duration: 0.7, delay: 1, ease: "easeOut" }}
           >
             {t.rich("hero.title", {
               highlight: (chunks) => <span className="text-sky-300">{chunks}</span>,
