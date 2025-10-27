@@ -10,7 +10,6 @@ import { measureStableRect } from "@/utils/measureStableRect";
 import { ProjectModalPortal } from "../modal/ProjectModalPortal";
 import { useProjectSelection } from "../grid/hooks/useProjectSelection";
 import { FeaturedCarousel } from "./FeaturedCarousel";
-import { ScrollReveal } from "../../ScrollReveal";
 import FeaturedProjects from "./FeaturedProjects";
 
 interface FeaturedProjectsProps {
@@ -23,18 +22,17 @@ export default function FeaturedProjectsSection({ projects }: FeaturedProjectsPr
   return (
     <section className="relative px-4 py-30">
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-gray-300/8 to-transparent" />
-      <ScrollReveal delay={0.7} className="w-full">
-        <div className="relative mx-auto flex max-w-6xl flex-col items-center gap-12 text-center">
-          <div className="space-y-4">
-            <h2 className="text-3xl font-semibold text-white md:text-4xl">{t("featured_title")}</h2>
-            <p className="mx-auto max-w-2xl text-balance text-base text-white/65">
-              {t("featured_description")}
-            </p>
-          </div>
 
-          <FeaturedProjects projects={projects}/>
+      <div className="relative mx-auto flex max-w-6xl flex-col items-center gap-12 text-center">
+        <div className="space-y-4">
+          <h2 className="text-3xl font-semibold text-white md:text-4xl">{t("featured_title")}</h2>
+          <p className="mx-auto max-w-2xl text-balance text-base text-white/65">
+            {t("featured_description")}
+          </p>
         </div>
-      </ScrollReveal>
+
+        <FeaturedProjects projects={projects}/>
+      </div>
     </section>
   );
 }

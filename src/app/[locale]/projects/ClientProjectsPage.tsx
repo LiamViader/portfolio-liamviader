@@ -9,7 +9,6 @@ import { CATEGORY_CONFIG, ClientCategorySlug } from "@/config/projectCategories"
 import type { TranslatedProject } from "@/data/projects";
 import FeaturedProjectsSection from "@/components/projects/featured/FeaturedProjectsSection";
 import ProjectGallery from "@/components/projects/gallery/ProjectGallery";
-import { ScrollReveal } from "@/components/ScrollReveal";
 
 interface ClientProjectsPageProps {
   projectsData: TranslatedProject[];
@@ -54,16 +53,14 @@ export default function ClientProjectsPage({ projectsData }: ClientProjectsPageP
         <section className="relative overflow-hidden bg-transparent px-4 pt-44 pb-30">
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_45%,rgba(125,211,252,0.20),transparent_30%)]" />
           <div className="absolute inset-0 bg-gradient-to-b from-gray-950/80 via-gray-950/20 to-transparent" />
-          <ScrollReveal delay={0.5} className="w-full">
-            <div className="relative mx-auto flex max-w-4xl flex-col items-center gap-8 text-center">
-              <h1 className="text-balance text-4xl font-semibold tracking-tight text-white/95 sm:text-5xl md:text-6xl">
-                {t("title")}
-              </h1>
-              <p className="max-w-2xl text-pretty text-lg text-white/70 sm:text-xl">
-                {t("intro_paragraph")}
-              </p>
-            </div>
-          </ScrollReveal>
+          <div className="relative mx-auto flex max-w-4xl flex-col items-center gap-8 text-center">
+            <h1 className="text-balance text-4xl font-semibold tracking-tight text-white/95 sm:text-5xl md:text-6xl">
+              {t("title")}
+            </h1>
+            <p className="max-w-2xl text-pretty text-lg text-white/70 sm:text-xl">
+              {t("intro_paragraph")}
+            </p>
+          </div>
         </section>
 
         <FeaturedProjectsSection projects={projectsData} />
