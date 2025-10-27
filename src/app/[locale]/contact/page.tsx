@@ -92,7 +92,7 @@ export default function ContactPage() {
           </div>
         </ScrollReveal>
 
-        <div className="space-y-6 mt-5 grid p-6 sm:p-8 overflow-hidden">
+        <div className="space-y-6 mt-5 grid py-6 sm:py-8 overflow-hidden">
           {highlightCards.map(({ key, icon: Icon, title, description}, index) => (
             <ScrollReveal key={key} delay={1.2 + index * 0.18} className="" lateral>
               <article className="group relative overflow-hidden p-5 sm:p-6 h-full backdrop-blur-sm border border-white/10 bg-white/5 rounded-3xl transition hover:border-sky-400/60 hover:bg-sky-500/10" aria-labelledby={`contact-highlight-${key}`}>

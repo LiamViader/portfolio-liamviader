@@ -22,6 +22,7 @@ interface FeaturedProjectsProps {
   contentClassName?: string;
   carouselLayout?: FeaturedCarouselLayoutOptions;
   carouselTypography?: FeaturedCarouselTypographyOptions;
+  introStart?: boolean;
 }
 
 type CardRegistry = Map<number, HTMLElement>;
@@ -34,6 +35,7 @@ export default function FeaturedProjects({
   contentClassName,
   carouselLayout,
   carouselTypography,
+  introStart,
 }: FeaturedProjectsProps) {
   const t = useTranslations("ProjectsPage");
   const featuredProjects = useMemo(
@@ -78,6 +80,8 @@ export default function FeaturedProjects({
     return null;
   }
 
+  console.log("FEATURED PROJECTS", introStart);
+
   return (
     <section className={clsx("relative w-full", className)}>
       <div
@@ -94,6 +98,7 @@ export default function FeaturedProjects({
           revealOrigin={revealOrigin}
           layout={carouselLayout}
           typography={carouselTypography}
+          introStart={introStart}
         />
       </div>
 

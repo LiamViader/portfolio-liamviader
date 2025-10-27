@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import type { KeyboardEvent } from "react";
 import clsx from "clsx";
-import { motion } from "framer-motion";
+import { motion, type Variants } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { TranslatedProject } from "@/data/projects";
 
@@ -15,7 +15,55 @@ import {
 } from "./carouselAnimations";
 import { FeaturedCarouselCard } from "./FeaturedCarouselCard";
 
-/* --------- Layout & Typography options --------- */
+
+const ctrlLeft: Variants = {
+  hidden: { opacity: 0, x: 50 },
+  show:   { opacity: 1, x: 0, transition: { duration: 0.8, ease: "easeOut", delay: 0.5 } },
+  hover: {
+    scale: 1.1,
+    backgroundColor: "rgba(14,165,233,0.10)",
+    borderColor: "rgba(14,165,233,0.60)",
+    boxShadow: "0 10px 28px rgba(56,189,248,0.35)",
+    transition: {
+      type: "spring", 
+      stiffness: 420, 
+      damping: 26
+    }
+  },
+  tap: {
+    scale: 0.95,
+    transition: {
+      type: "spring", 
+      stiffness: 420, 
+      damping: 26
+    }
+  }
+};
+
+const ctrlRight: Variants = {
+  hidden: { opacity: 0, x: -50 },
+  show:   { opacity: 1, x: 0, transition: { duration: 0.8, ease: "easeOut", delay: 0.5 } },
+  hover: {
+    scale: 1.1,
+    backgroundColor: "rgba(14,165,233,0.10)",
+    borderColor: "rgba(14,165,233,0.60)",
+    boxShadow: "0 10px 28px rgba(56,189,248,0.35)",
+    transition: {
+      type: "spring", 
+      stiffness: 420, 
+      damping: 26
+    }
+  },
+  tap: {
+    scale: 0.95,
+    transition: {
+      type: "spring", 
+      stiffness: 420, 
+      damping: 26
+    }
+  }
+};
+
 export interface FeaturedCarouselLayoutOptions {
   containerClassName?: string;
   viewportClassName?: string;
@@ -30,7 +78,6 @@ export interface FeaturedCarouselTypographyOptions {
   tagClassName?: string;
 }
 
-/* ---------------- Props ---------------- */
 interface FeaturedCarouselProps {
   projects: TranslatedProject[];
   onSelectProject: (project: TranslatedProject) => void;
@@ -39,11 +86,21 @@ interface FeaturedCarouselProps {
   revealOrigin: boolean;
   layout?: FeaturedCarouselLayoutOptions;
   typography?: FeaturedCarouselTypographyOptions;
+  introStart?: boolean;
 }
 
-/* =======================================================
-   ===============   COMPONENTE PRINCIPAL   ===============
-   ======================================================= */
+function getIntroOrder(nextVariant: CarouselVariant): number {
+  switch (nextVariant) {
+    case "center": return 0;
+    case "right":  return 1;
+    case "left":   return 2;
+    case "hiddenRight": return 3;
+    case "hiddenLeft":  return 4;
+    case "hiddenCenter":return 5;
+    default: return 6;
+  }
+}
+
 export function FeaturedCarousel({
   projects,
   onSelectProject,
@@ -52,9 +109,10 @@ export function FeaturedCarousel({
   revealOrigin,
   layout,
   typography,
+  introStart,
 }: FeaturedCarouselProps) {
   const [activeIndex, setActiveIndex] = useState(0);
-  const [scrollDir, setScrollDir] = useState<1 | -1>(1); // +1 avanza, -1 retrocede
+  const [scrollDir, setScrollDir] = useState<1 | -1>(1);
 
   const prevActiveIndexRef = useRef<number>(0);
   const prevScrollDirRef = useRef<1 | -1>(1);
@@ -72,7 +130,6 @@ export function FeaturedCarousel({
     prevScrollDirRef.current = 1;
   }, [totalProjects]);
 
-  /* ------------ Overlay anti-hover “fantasma” ------------ */
   const [showHoverMask, setShowHoverMask] = useState(false);
   const maskCycleRef = useRef(0);
   const maskTimeoutRef = useRef<number | null>(null);
@@ -80,6 +137,14 @@ export function FeaturedCarousel({
 
   const MASK_RATIO = 0.5;
   const MASK_FAILSAFE_MS = 200;
+
+  const introSuppressedOnceRef = useRef(false);
+
+  useEffect(() => {
+    if (introStart && !introSuppressedOnceRef.current) {
+      introSuppressedOnceRef.current = true;
+    }
+  }, [introStart]);
 
   const clearMaskTimers = useCallback(() => {
     if (maskTimeoutRef.current) {
@@ -127,7 +192,6 @@ export function FeaturedCarousel({
     };
   }, [clearMaskTimers]);
 
-  /* ------------------- Autoplay ------------------- */
   const clearAutoplay = useCallback(() => {
     if (autoplayRef.current) {
       clearInterval(autoplayRef.current);
@@ -264,21 +328,24 @@ export function FeaturedCarousel({
   );
 
   const controlButtonClassName = clsx(
-    "pointer-events-auto cursor-pointer inline-flex h-12 w-12 items-center justify-center rounded-full border border-white/40 bg-white/[0.07] text-white shadow-lg transition duration-200 hover:scale-110 hover:border-sky-400/60 hover:bg-sky-500/10 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/70 active:scale-90",
+    "pointer-events-auto cursor-pointer inline-flex h-12 w-12 items-center justify-center rounded-full border border-white/40 bg-white/[0.07] text-white shadow-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-white/70",
     layout?.controlButtonClassName,
   );
 
-  /* ------------------- Render ------------------- */
   const cardItems = useMemo(() => {
     const n = totalProjects;
 
+    const suppressParentIntro = introStart && !introSuppressedOnceRef.current;
+
     return projects.map((project, index) => {
-      // Calcula variante previa (con prevActive/prevDir) y actual (activeIndex/scrollDir)
       const prevVariant = computeVariant(index, prevActive, n, prevDir);
       const nextVariant = computeVariant(index, activeIndex, n, scrollDir);
+      
+      const { animate, transition } = suppressParentIntro
+        ? { animate: getInitialStyle(nextVariant), transition: { duration: 0 } }
+        : getVariantAnimationFromTo(nextVariant, prevVariant);
 
-      const { animate, transition } = getVariantAnimationFromTo(nextVariant, prevVariant);
-
+      const introOrder = getIntroOrder(nextVariant);
       const isHidden = isHiddenVariant(nextVariant);
       const isCenter = isCenterVariant(nextVariant);
       const isSelectedCard = selectedProjectId === project.id;
@@ -326,6 +393,8 @@ export function FeaturedCarousel({
             titleClassName={typography?.titleClassName}
             descriptionClassName={typography?.descriptionClassName}
             tagClassName={typography?.tagClassName}
+            introStart={introStart}
+            introOrder={introOrder}
           />
         </motion.article>
       );
@@ -347,11 +416,14 @@ export function FeaturedCarousel({
     handleManualNavigation,
     clearAutoplay,
     onSelectProject,
+    introStart
   ]);
 
   const hasMultipleProjects = totalProjects > 1;
 
   if (totalProjects === 0) return null;
+
+  console.log("Carousel", introStart);
 
   return (
     <div
@@ -378,29 +450,39 @@ export function FeaturedCarousel({
         )}
         {cardItems}
       </div>
-
+      
       {hasMultipleProjects && (
-        <div className={controlsContainerClassName}>
-          <button
+        <motion.div 
+          className={controlsContainerClassName}
+        >
+          <motion.button
             type="button"
             onClick={() => handleManualNavigation(1)}
             className={controlButtonClassName}
+            variants={ctrlLeft}
+            animate={introStart ? "show" : "hidden"}
+            whileHover='hover'
+            whileTap='tap'
             aria-label="View previous project"
           >
             <ChevronLeft className="h-5 w-5" />
             <span className="sr-only">View previous project</span>
-          </button>
+          </motion.button>
 
-          <button
+          <motion.button
             type="button"
             onClick={() => handleManualNavigation(-1)}
             className={controlButtonClassName}
+            variants={ctrlRight}
+            animate={introStart ? "show" : "hidden"}
+            whileHover='hover'
+            whileTap='tap'
             aria-label="View next project"
           >
             <ChevronRight className="h-5 w-5" />
             <span className="sr-only">View next project</span>
-          </button>
-        </div>
+          </motion.button>
+        </motion.div>
       )}
     </div>
   );

@@ -104,7 +104,6 @@ export default function Header() {
           }
         }
       }
-      console.log("Scroll Y:", currentScrollY, "Header Height:", headerHeight);
       setLastScrollY(currentScrollY);
     };
 

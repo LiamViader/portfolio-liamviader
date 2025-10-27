@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useState } from "react";
 
 import { motion, type Variants, useAnimationControls } from "framer-motion";
 import { WhiteButton, SkyButton } from "./Buttons";
@@ -87,6 +87,8 @@ export function FeaturedProjectsHomeSection({
   const rightControls = useAnimationControls();
   const firedRightOnceRef = useRef(false);
 
+  const [cardsIntro, setCardsIntro] = useState(false);
+
   return (
     <motion.div
       variants={page}
@@ -103,6 +105,7 @@ export function FeaturedProjectsHomeSection({
           viewport={{ once: true, amount: 0.35, margin: "0px 0px -15% 0px" }}
           onViewportEnter={() => {
             leftControls.start("show");
+            setTimeout(() => setCardsIntro(true), 100);
           }}
           className="flex flex-col gap-6 text-center lg:text-left pl-3 will-change-transform"
         >
@@ -137,14 +140,12 @@ export function FeaturedProjectsHomeSection({
           </motion.div>
         </motion.div>
 
-        <motion.div
-          variants={rightColGate}
-          initial="hidden"
-          animate={rightControls}
+        <div
           className="lg:col-start-2 lg:flex lg:justify-end will-change-transform"
         >
           <FeaturedProjects
             projects={projects}
+            introStart={cardsIntro}
             className="max-w-full"
             contentClassName="justify-center"
             carouselLayout={{
@@ -161,7 +162,7 @@ export function FeaturedProjectsHomeSection({
               tagClassName: "text-[10px]",
             }}
           />
-        </motion.div>
+        </div>
 
         <div
           className="lg:hidden pt-5 flex flex-wrap items-center justify-center gap-4 lg:justify-start will-change-transform"
