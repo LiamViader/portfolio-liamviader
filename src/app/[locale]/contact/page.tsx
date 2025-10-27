@@ -1,11 +1,14 @@
 "use client";
 
 import { motion, type Variants } from "framer-motion";
-import { useState } from "react";
+import { useState, type ComponentType } from "react";
 import { useTranslations } from "next-intl";
 import type { LucideIcon } from "lucide-react";
-import { Mail, Building2, MessageSquare, Hammer, ArrowUpRight, Linkedin, Github } from "lucide-react";
+import { Mail, Building2, MessageSquare, Hammer, ArrowUpRight } from "lucide-react";
+import { FaGithub, FaLinkedin } from "react-icons/fa";
 import PulseHexGridCanvas from "@/components/home/scene/PulseHexGridCanvas";
+
+type AnyIcon = ComponentType<{ className?: string }>;
 
 const BASE_BG = "rgba(255,255,255,0.05)";
 const BASE_BORD = "rgba(255,255,255,0.10)";
@@ -135,24 +138,30 @@ export default function ContactPage() {
     description: string;
   }[];
 
-  const contactLinks = [
+  const contactLinks: Array<{
+    key: "email" | "linkedin" | "github";
+    icon: AnyIcon;
+    href: string;
+    label: string;
+    value: string;
+  }> = [
     {
       key: "email",
-      icon: Mail,
+      icon: Mail as unknown as AnyIcon,
       href: `mailto:${t("links.items.email.value")}`,
       label: t("links.items.email.label"),
       value: t("links.items.email.value"),
     },
     {
       key: "linkedin",
-      icon: Linkedin,
+      icon: FaLinkedin,
       href: t("links.items.linkedin.href"),
       label: t("links.items.linkedin.label"),
       value: t("links.items.linkedin.value"),
     },
     {
       key: "github",
-      icon: Github,
+      icon: FaGithub,
       href: t("links.items.github.href"),
       label: t("links.items.github.label"),
       value: t("links.items.github.value"),
@@ -162,7 +171,7 @@ export default function ContactPage() {
   return (
     <div className="relative isolate min-h-screen overflow-hidden bg-slate-950 text-white px-3">
       <PulseHexGridCanvas gridType="Fill" pixelsPerHex={30} hue={250} l={5} s={100} fillTuning={{ fillAlphaMax: 0.2, fillAlphaMin: 0, lineAlphaMax: 1, lineAlphaMin: 0.8 }} />
-      <PulseHexGridCanvas gridType="Trails" pixelsPerHex={30} hue={270} s={100} l={37} hueJitter={30} trailCount={30} stepsPerSecond={20} />
+      <PulseHexGridCanvas gridType="Trails" pixelsPerHex={30} hue={270} s={100} l={37} hueJitter={30} trailCount={15} stepsPerSecond={20} />
       <div className="absolute inset-0">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(125,211,252,0.1),_transparent_65%)]" />
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-gray-950/50" />
