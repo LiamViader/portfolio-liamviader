@@ -75,7 +75,6 @@ export function FeaturedCarouselCard({
 
   const isIntro = introStart && !introDone;
 
-  console.log("Carousel CARD", introStart, introOrder);
   return (
     <motion.div
       variants={cardVariants}

@@ -42,17 +42,19 @@ export default function FeaturedProjectsSection({ projects }: FeaturedProjectsPr
     <section className="relative px-4 pb-28 sm:px-6 lg:px-10 ">
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-gray-300/5 to-transparent" />
 
-      <div
+      <motion.div
         className="relative mx-auto flex max-w-6xl flex-col items-center gap-12 text-center pt-15 border-t border-white/10"
+        initial={{opacity: 0}}
+        animate={{opacity:1}}
+        transition={{delay: 0.8, duration: 0.2}}
       >
         <motion.div 
           variants={leftCol}
           initial="hidden"
           animate="show"
           className="space-y-4"
-          onAnimationStart={ () => setTimeout(() => setCardsIntro(true), 1600) }
         >
-          <motion.h2 variants={leftItem} className="text-3xl md:text-4xl xl:text-[42px] font-semibold text-white">{t("featured_title")}</motion.h2>
+          <motion.h2 variants={leftItem} onAnimationStart={ () => setTimeout(() => setCardsIntro(true), 1600) } className="text-3xl md:text-4xl xl:text-[40px] font-semibold text-white">{t("featured_title")}</motion.h2>
           <motion.p variants={leftItem} className="mx-auto max-w-2xl text-balance text-base text-white/65">
             {t("featured_description")}
           </motion.p>
@@ -61,7 +63,7 @@ export default function FeaturedProjectsSection({ projects }: FeaturedProjectsPr
         <div className="w-full mt-3">
           <FeaturedProjects projects={projects} introStart={cardsIntro}/>
         </div>
-      </div>
+      </motion.div>
     </section>
   );
 }

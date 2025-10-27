@@ -460,6 +460,7 @@ export function FeaturedCarousel({
             onClick={() => handleManualNavigation(1)}
             className={controlButtonClassName}
             variants={ctrlLeft}
+            initial="hidden"
             animate={introStart ? "show" : "hidden"}
             whileHover='hover'
             whileTap='tap'
@@ -474,6 +475,7 @@ export function FeaturedCarousel({
             onClick={() => handleManualNavigation(-1)}
             className={controlButtonClassName}
             variants={ctrlRight}
+            initial="hidden"
             animate={introStart ? "show" : "hidden"}
             whileHover='hover'
             whileTap='tap'

@@ -26,7 +26,7 @@ const cardVariants: Variants = {
     y: 0,
     scale: 1,
     transition: {
-      duration: 0.7,
+      duration: 0.4,
       ease: "easeOut",
       when: "beforeChildren",
       staggerChildren: 0.12,

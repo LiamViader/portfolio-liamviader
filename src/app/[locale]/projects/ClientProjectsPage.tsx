@@ -81,7 +81,7 @@ export default function ClientProjectsPage({ projectsData }: ClientProjectsPageP
       <div className="relative z-10 flex flex-col">
 
         <section className="relative overflow-hidden bg-transparent px-4 pb-15 pt-34 sm:px-6 lg:px-10">
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_45%,rgba(125,211,252,0.20),transparent_25%)]" />
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_45%,rgba(125,211,252,0.20),transparent_20%)]" />
           <div className="absolute inset-0 bg-gradient-to-b from-gray-950/70 via-gray-950/30 to-transparent" />
           <motion.div
             initial="hidden"

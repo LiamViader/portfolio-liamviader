@@ -80,7 +80,6 @@ export default function FeaturedProjects({
     return null;
   }
 
-  console.log("FEATURED PROJECTS", introStart);
 
   return (
     <section className={clsx("relative w-full", className)}>
