@@ -39,7 +39,7 @@ const cardVariants: Variants = {
     borderColor: HOVER_BOR, 
     boxShadow: HOVER_SH,
     transition: { 
-      duration: 0.25, 
+      duration: 0.15, 
       ease: "easeOut" 
     } 
   },
