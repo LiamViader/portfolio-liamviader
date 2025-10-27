@@ -1,5 +1,6 @@
 "use client";
 
+import { motion, type Variants } from "framer-motion";
 import { useTranslations } from "next-intl";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
@@ -13,6 +14,37 @@ import ProjectGallery from "@/components/projects/gallery/ProjectGallery";
 interface ClientProjectsPageProps {
   projectsData: TranslatedProject[];
 }
+
+const heroContainerVariants: Variants = {
+  hidden: {
+    opacity: 0,
+    y: 48,
+    filter: "blur(8px)",
+  },
+  show: {
+    opacity: 1,
+    y: 0,
+    filter: "blur(0px)",
+    transition: {
+      duration: 0.8,
+      ease: "easeOut",
+      when: "beforeChildren",
+      staggerChildren: 0.18,
+    },
+  },
+};
+
+const heroChildVariants: Variants = {
+  hidden: { opacity: 0, y: 26 },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.6,
+      ease: "easeOut",
+    },
+  },
+};
 
 export default function ClientProjectsPage({ projectsData }: ClientProjectsPageProps) {
   const t = useTranslations("ProjectsPage");
@@ -42,29 +74,39 @@ export default function ClientProjectsPage({ projectsData }: ClientProjectsPageP
     return project.categorys.includes(currentFilter);
   });
 
-  const titleColorClass = CATEGORY_CONFIG[category].cssColor;
-
   return (
-    <div className="relative flex min-h-screen flex-col bg-gray-900 text-white">
+    <div className="relative flex min-h-screen flex-col bg-slate-950 text-white">
       <ProjectSceneCanvas category={category} />
 
       <div className="relative z-10 flex flex-col">
-        
-        <section className="relative overflow-hidden bg-transparent px-4 pt-44 pb-30">
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_45%,rgba(125,211,252,0.20),transparent_30%)]" />
-          <div className="absolute inset-0 bg-gradient-to-b from-gray-950/80 via-gray-950/20 to-transparent" />
-          <div className="relative mx-auto flex max-w-4xl flex-col items-center gap-8 text-center">
-            <h1 className="text-balance text-4xl font-semibold tracking-tight text-white/95 sm:text-5xl md:text-6xl">
+
+        <section className="relative overflow-hidden bg-transparent px-4 pb-32 pt-40 sm:px-6 lg:px-10">
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_45%,rgba(125,211,252,0.20),transparent_32%)]" />
+          <div className="absolute inset-0 bg-gradient-to-b from-gray-950/70 via-gray-950/30 to-transparent" />
+          <motion.div
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true, amount: 0.55 }}
+            variants={heroContainerVariants}
+            className="relative mx-auto flex max-w-4xl flex-col items-center gap-8 text-center"
+          >
+            <motion.h1
+              variants={heroChildVariants}
+              className="text-balance text-4xl font-semibold tracking-tight text-white/95 sm:text-5xl md:text-6xl"
+            >
               {t("title")}
-            </h1>
-            <p className="max-w-2xl text-pretty text-lg text-white/70 sm:text-xl">
+            </motion.h1>
+            <motion.p
+              variants={heroChildVariants}
+              className="max-w-2xl text-pretty text-lg text-white/70 sm:text-xl"
+            >
               {t("intro_paragraph")}
-            </p>
-          </div>
+            </motion.p>
+          </motion.div>
         </section>
 
         <FeaturedProjectsSection projects={projectsData} />
-        
+
         <ProjectGallery category={category} filteredProjects={filteredProjects} onCategoryChange={setCategory} />
 
         <CallToAction />
