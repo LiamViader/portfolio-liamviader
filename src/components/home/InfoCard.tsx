@@ -23,9 +23,9 @@ const cardVariants: Variants = {
     borderColor: BASE_BORD, 
     boxShadow: BASE_SH,
     transition: { 
-      duration: 0.5, 
+      duration: 0.6, 
       ease: "easeOut", 
-      staggerChildren: 0.1, 
+      staggerChildren: 0.15, 
     } 
   },
   hover: { 
@@ -57,7 +57,7 @@ const textVariants: Variants = {
     opacity: 1, 
     y: 0, 
     transition: { 
-      duration: 0.2, 
+      duration: 0.5, 
       ease: "easeInOut" 
     } 
   },

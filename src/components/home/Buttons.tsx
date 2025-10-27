@@ -47,6 +47,7 @@ const whiteVariants: Variants = {
     backgroundColor: "rgba(255,255,255,0.10)",
     borderColor: "rgba(255,255,255,0.20)",
     color: "rgba(255,255,255,0.80)",
+    boxShadow: "0 4px 16px rgba(56,189,248,0.3)",
     transition: {
       backgroundColor: { duration: 0.25 },
       borderColor: { duration: 0.25 },
@@ -58,6 +59,7 @@ const whiteVariants: Variants = {
     backgroundColor: "rgba(14,165,233,0.10)",
     borderColor: "rgba(14,165,233,0.60)",    
     color: "rgba(255,255,255,0.92)",
+    boxShadow: "0 6px 30px rgba(56,189,248,0.45)",
     transition: {
       backgroundColor: { duration: 0.35 },
       borderColor: { duration: 0.35 },

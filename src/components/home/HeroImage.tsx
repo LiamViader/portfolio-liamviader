@@ -10,7 +10,7 @@ const imageVariants: Variants = {
   hidden: {
     y: 0,
     opacity: 0,
-    scale: 0.7,
+    scale: 0.9,
     boxShadow: `${RING}, ${BASE_GLOW}`,
   },
 

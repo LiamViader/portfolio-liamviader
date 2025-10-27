@@ -1,6 +1,7 @@
 "use client";
 
-import dynamic from "next/dynamic";
+import { motion, type Variants } from "framer-motion";
+import { useState } from "react";
 import { useTranslations } from "next-intl";
 import type { LucideIcon } from "lucide-react";
 import {
@@ -16,8 +17,63 @@ import { ScrollReveal } from "@/components/ScrollReveal";
 
 import PulseHexGridCanvas from "@/components/home/scene/PulseHexGridCanvas";
 
+
+const BASE_BG   = "rgba(255,255,255,0.05)";
+const BASE_BORD = "rgba(255,255,255,0.10)";
+const HOVER_BG  = "rgba(56,189,248,0.10)";
+const HOVER_BOR = "rgba(56,189,248,0.60)";
+const HOVER_SH  = "0 0 30px rgba(56,189,248,0.30)";
+const BASE_SH = "0 0 30px rgba(56,189,248,0.01)";
+
+const contactContainerVariant: Variants = {
+  hidden: {
+    opacity: 0,
+    x: 20,
+    y: 0,
+    backgroundColor: BASE_BG,
+    borderColor: BASE_BORD,
+    boxShadow: BASE_SH
+  },
+  show: (c: { order: number; isIntro: boolean } = { order: 0, isIntro: false }) => ({
+    opacity: 1,
+    x: 0,
+    y: 0,
+    backgroundColor: BASE_BG,
+    borderColor: BASE_BORD,
+    boxShadow: BASE_SH,
+    transition: {
+      duration: c.isIntro ? 0.7 : 0.5,
+      delay: c.isIntro ? c.order * 0.2 + 1.2 : 0,
+      ease: "easeOut",
+    },
+  }),
+  hover: {
+    opacity: 1,
+    x: 0,
+    y: -7,
+    backgroundColor: HOVER_BG,
+    borderColor: HOVER_BOR,
+    boxShadow: HOVER_SH,
+    transition: { 
+      duration: 0.25, 
+      ease: "easeOut" 
+    } 
+  },
+  tap: { 
+    y: -2, 
+    transition: { 
+      duration: 0.08, 
+      ease: "easeOut" 
+    } 
+
+  },
+}
+
+
 export default function ContactPage() {
   const t = useTranslations("ContactPage");
+
+  const [introDone, setIntroDone] = useState(false);
 
   const highlightCards = [
     {
@@ -78,38 +134,58 @@ export default function ContactPage() {
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-gray-950/50" />
       </div>
 
-      <div className="relative z-10 mx-auto w-full max-w-6xl px-4 pb-28 pt-38 sm:px-6 sm:pb-42 sm:pt-34 lg:px-8">
-        <ScrollReveal className="max-w-4xl" delay={1}>
-          <div className="flex flex-col gap-6">
-            <h1 className="text-center md:text-left text-balance text-4xl font-semibold tracking-tight text-white/95 sm:text-5xl md:text-6xl">
-              {t.rich("hero.title", {
-                highlight: (chunks) => <span className="text-sky-300">{chunks}</span>,
-              })}
-            </h1>
-            <p className="text-center md:text-left text-pretty text-lg text-white/75 sm:text-xl">
-              {t("hero.description")}
-            </p>
-          </div>
-        </ScrollReveal>
+      <div className="relative z-10 mx-auto w-full max-w-6xl px-4 pb-28 pt-30 sm:px-6 sm:pb-42 sm:pt-34 lg:px-8">
+        <div className="flex flex-col gap-6 max-w-4xl">
+          <motion.h1 
+            className="text-center md:text-left text-balance text-4xl font-semibold tracking-tight text-white/95 sm:text-5xl md:text-6xl"
+            initial={{ y:20, opacity:0}} 
+            animate={{y: 0, opacity:1}}
+            transition={{duration: 0.7, delay:1, ease: "easeOut"}}
+          >
+            {t.rich("hero.title", {
+              highlight: (chunks) => <span className="text-sky-300">{chunks}</span>,
+            })}
+          </motion.h1>
+          <motion.p 
+            className="text-center md:text-left text-pretty text-lg text-white/75 sm:text-xl"
+            initial={{ y:20, opacity:0}} 
+            animate={{y: 0, opacity:1}}
+            transition={{duration: 0.7, delay:1.1, ease: "easeOut"}}
+          >
+            {t("hero.description")}
+          </motion.p>
+        </div>
 
-        <div className="space-y-6 mt-5 grid py-6 sm:py-8 overflow-hidden">
+        <div className="space-y-6 mt-5 gap-5 grid py-4 sm:py-6 overflow-hidden">
           {highlightCards.map(({ key, icon: Icon, title, description}, index) => (
-            <ScrollReveal key={key} delay={1.2 + index * 0.18} className="" lateral>
-              <article className="group relative overflow-hidden p-5 sm:p-6 h-full backdrop-blur-sm border border-white/10 bg-white/5 rounded-3xl transition hover:border-sky-400/60 hover:bg-sky-500/10" aria-labelledby={`contact-highlight-${key}`}>
-                <div className="absolute inset-0 bg-gradient-to-b from-transparent via-sky-500/5 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" aria-hidden />
-                <div className="relative z-10 flex h-full flex-row items-center justify-left gap-6">
-                  <div className="flex shrink-0 h-12 w-12 items-center justify-center text-sky-300/95">
-                    <Icon className="h-8 w-8" />
-                  </div>
-                  <div className="flex flex-col gap-2">
-                    <h3 id={`contact-highlight-${key}`} className="text-lg font-semibold text-sky-300/95">
-                      {title}
-                    </h3>
-                    <p className="text-sm text-white/70">{description}</p>
-                  </div>
+            <motion.article 
+              key={key} 
+              className="relative overflow-hidden p-2 sm:p-4 h-full backdrop-blur-sm border border-white/10 bg-white/5 rounded-3xl" aria-labelledby={`contact-highlight-${key}`}
+              initial="hidden"
+              animate="show"
+              whileHover={introDone ? "hover" : undefined}
+              whileTap={introDone? "tap": undefined}
+              custom={{ order: index, isIntro: !introDone }}
+              variants={contactContainerVariant}
+              onAnimationComplete={() => {
+                if (!introDone) {
+                  setIntroDone(true);
+                }
+              }}
+            >
+              <div className="absolute inset-0 bg-gradient-to-b from-transparent via-sky-500/5 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" aria-hidden />
+              <div className="relative z-10 flex h-full flex-row items-center justify-left gap-6">
+                <div className="flex shrink-0 h-12 w-12 items-center justify-center text-sky-300/95">
+                  <Icon className="h-8 w-8" />
                 </div>
-              </article>
-            </ScrollReveal>
+                <div className="flex flex-col gap-1">
+                  <h3 id={`contact-highlight-${key}`} className="text-lg font-semibold text-sky-300/95">
+                    {title}
+                  </h3>
+                  <p className="text-sm text-white/70">{description}</p>
+                </div>
+              </div>
+            </motion.article>
           ))}
         </div>
         
