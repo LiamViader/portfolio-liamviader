@@ -47,7 +47,7 @@ export function HeroSection({title, subtitle, projectsButtonText, contactButtonT
             if (!ready) return;
             controls.start("animate", { duration: 0.2, delay: 0 } )
           }}
-          className="whitespace-pre-line text-balance text-4xl font-semibold tracking-tight text-white/95 sm:text-5xl md:text-6xl"
+          className="whitespace-pre-line text-balance text-4xl sm:text-5xl md:text-6xl font-semibold tracking-tight text-white/95 "
         >
           {title}
         </motion.h1>

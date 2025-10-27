@@ -80,25 +80,26 @@ export default function ClientProjectsPage({ projectsData }: ClientProjectsPageP
 
       <div className="relative z-10 flex flex-col">
 
-        <section className="relative overflow-hidden bg-transparent px-4 pb-32 pt-40 sm:px-6 lg:px-10">
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_45%,rgba(125,211,252,0.20),transparent_32%)]" />
+        <section className="relative overflow-hidden bg-transparent px-4 pb-15 pt-34 sm:px-6 lg:px-10">
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_45%,rgba(125,211,252,0.20),transparent_25%)]" />
           <div className="absolute inset-0 bg-gradient-to-b from-gray-950/70 via-gray-950/30 to-transparent" />
           <motion.div
             initial="hidden"
-            whileInView="show"
-            viewport={{ once: true, amount: 0.55 }}
+            animate="show"
             variants={heroContainerVariants}
-            className="relative mx-auto flex max-w-4xl flex-col items-center gap-8 text-center"
+            className="relative mx-auto flex max-w-5xl flex-col items-center gap-8 text-center"
           >
             <motion.h1
               variants={heroChildVariants}
-              className="text-balance text-4xl font-semibold tracking-tight text-white/95 sm:text-5xl md:text-6xl"
+              className="text-balance text-4xl sm:text-5xl md:text-6xl font-semibold tracking-tight text-white/95"
             >
-              {t("title")}
+              {t.rich("title", {
+                highlight: (chunks) => <span className="text-sky-300">{chunks}</span>,
+              })}
             </motion.h1>
             <motion.p
               variants={heroChildVariants}
-              className="max-w-2xl text-pretty text-lg text-white/70 sm:text-xl"
+              className="max-w-3xl text-pretty text-balance text-lg text-white/70 sm:text-xl"
             >
               {t("intro_paragraph")}
             </motion.p>

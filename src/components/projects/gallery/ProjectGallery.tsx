@@ -13,7 +13,7 @@ const containerVariants: Variants = {
     opacity: 1,
     y: 0,
     transition: {
-      duration: 0.75,
+      duration: 0.1,
       ease: "easeOut",
       when: "beforeChildren",
       staggerChildren: 0.12,
@@ -44,17 +44,17 @@ export default function ProjectGallery({ category, filteredProjects, onCategoryC
   const t = useTranslations("ProjectsPage");
 
   return (
-    <section className="relative px-4 pb-28 pt-12 sm:px-6 lg:px-10">
+    <section className="relative px-4 pb-24 sm:px-6 lg:px-10 border-t border-white/10 pt-25">
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-gray-900/40 to-gray-950/60" />
       <motion.div
         initial="hidden"
         whileInView="show"
-        viewport={{ once: true, amount: 0.3 }}
+        viewport={{ once: true, amount: 0.01, margin: "0px 0px -15% 0px" }}
         variants={containerVariants}
         className="relative mx-auto flex max-w-6xl flex-col items-center gap-12 text-center"
       >
         <motion.div variants={itemVariants} className="space-y-4">
-          <h2 className="text-3xl font-semibold text-white md:text-4xl">{t("project_gallery_title")}</h2>
+          <h2 className="text-3xl md:text-4xl xl:text-[42px] font-semibold text-white">{t("project_gallery_title")}</h2>
           <p className="mx-auto max-w-2xl text-balance text-base text-white/65">
             {t("project_gallery_description")}
           </p>

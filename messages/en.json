@@ -42,21 +42,19 @@
     "contact": "Contact"
   },
   "ProjectsPage": {
-    "title": "Projects",
+    "title": "Some of my <highlight>Work</highlight>",
     "featured_title": "Featured",
-    "featured_description": "A showcase of the initiatives I am most proud of, spanning immersive games, expressive interfaces, and intelligent systems.",
-    "featured_badge": "Featured",
-    "project_gallery_title": "Complete gallery",
-    "project_gallery_description": "Browse the full archive and filter by focus area to discover how each project blends technology, design, and storytelling.",
+    "featured_description": "A selection of the most recent initiatives and those that best represent me",
+    "project_gallery_title": "Complete Gallery",
+    "project_gallery_description": "Explore the full archive and filter by area to find the projects that resonate with you or simply spark your curiosity",
     "projects": "Projects",
     "ai": "AI & Software",
     "all": "All",
-    "games": "Video Games",
-    "intro_paragraph": "Welcome to my projects page! Here you'll find a selection of my work in software development, artificial intelligence, and video game creation. Feel free to explore and reach out if you'd like to collaborate or learn more about my projects.",
-    "cta_title": "Interested in collaborating or learning more?",
-    "cta_text": "If any of my projects caught your attention, I'd love to talk. Get in touch if you want to collaborate, need more details, or simply wish to connect.",
-    "cta_button_contact": "Get in touch",
-    "cta_button_cv": "Download CV"
+    "games": "Games",
+    "intro_paragraph": "Welcome to my projects page! Here you'll find a selection of projects I created to learn, test ideas, or simply for fun. Feel free to explore and reach out if you'd like to collaborate or learn more about my work.",
+    "cta_title": "Interested in <highlight>collaborating</highlight> or <highlight>learning more</highlight>?",
+    "cta_text": "If any of my projects caught your interest, I'd be happy to chat. Get in touch if you'd like to collaborate, need more details, or simply want to say hello.",
+    "cta_button_contact": "Get in touch"
   },
   "ContactPage": {
     "hero": {

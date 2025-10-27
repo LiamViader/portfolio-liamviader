@@ -42,21 +42,19 @@
     "contact": "Contacto"
   },
   "ProjectsPage": {
-    "title": "Proyectos",
+    "title": "Algunos de mis <highlight>Trabajos</highlight>",
     "featured_title": "Destacados",
-    "featured_description": "Una selección de las iniciativas que más me representan, desde juegos inmersivos hasta interfaces expresivas y sistemas inteligentes.",
-    "featured_badge": "Destacado",
+    "featured_description": "A selection of my most recent projects, along with those that best reflect my work",
     "project_gallery_title": "Galería completa",
-    "project_gallery_description": "Explora el archivo completo y filtra por área para descubrir cómo cada proyecto combina tecnología, diseño y narrativa.",
+    "project_gallery_description": "Explora el archivo completo y filtra por área para encontrar aquello que más te llame la atención dentro de mi trabajo",
     "projects": "Proyectos",
     "ai": "IA y Software",
     "all": "Todos",
     "games": "Videojuegos",
-    "intro_paragraph": "¡Bienvenido a mi página de proyectos! Aquí encontrarás una selección de mi trabajo en desarrollo de software, inteligencia artificial y creación de videojuegos. Siéntete libre de explorar y contactarme si deseas colaborar o saber más sobre mis proyectos.",
-    "cta_title": "¿Te interesa colaborar o saber más?",
+    "intro_paragraph": "¡Bienvenido a mi página de proyectos! Aquí encontrarás una selección de proyectos que hice para aprender, probar ideas o simplemente por gusto. Siéntete libre de explorar y contactarme si deseas colaborar o saber más sobre mis proyectos",
+    "cta_title": "¿Te interesa <highlight>colaborar</highlight> o <highlight>saber más</highlight>?",
     "cta_text": "Si alguno de mis proyectos te ha despertado interés, estaré encantado de conversar. Escríbeme si quieres colaborar, necesitas más información o simplemente deseas saludar.",
-    "cta_button_contact": "Contactar",
-    "cta_button_cv": "Descargar CV"
+    "cta_button_contact": "Contactar"
   },
 
 

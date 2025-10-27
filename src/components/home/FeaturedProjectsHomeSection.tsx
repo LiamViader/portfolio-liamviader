@@ -15,12 +15,11 @@ interface FeaturedProjectsHomeSectionProps {
   projects: TranslatedProject[];
 }
 
-/** --- CONFIG GLOBAL --- */
-const PAGE_STAGGER = 0.1;     // separación entre bloques (col izq -> col der -> mobile)
-const LEFT_STAGGER = 0.1;     // separación entre título, descripción y botones
-const ITEM_DURATION = 0.6;    // duración por ítem
 
-/** --- VARIANTS (Nivel maestro: orquesta el orden de columnas) --- */
+const PAGE_STAGGER = 0.1;   
+const LEFT_STAGGER = 0.1; 
+const ITEM_DURATION = 0.6; 
+
 const page: Variants = {
   hidden: { opacity: 1 },
   show: {
@@ -32,13 +31,12 @@ const page: Variants = {
   },
 };
 
-/** --- VARIANTS (Columna izquierda: hace su propio stagger interno) --- */
 const leftCol: Variants = {
   hidden: { opacity: 1 },
   show: {
     opacity: 1,
     transition: {
-      when: "beforeChildren",       // primero el contenedor, luego sus hijos
+      when: "beforeChildren", 
       staggerChildren: LEFT_STAGGER,
       delayChildren: 0,
     },
@@ -65,7 +63,6 @@ const leftButtonsRow: Variants = {
   },
 };
 
-/** --- VARIANTS (Columna derecha: gate que se abre cuando se lo indiquemos) --- */
 const rightColGate: Variants = {
   hidden: { opacity: 0, y: 12 },
   show: {
@@ -105,7 +102,7 @@ export function FeaturedProjectsHomeSection({
           viewport={{ once: true, amount: 0.35, margin: "0px 0px -15% 0px" }}
           onViewportEnter={() => {
             leftControls.start("show");
-            setTimeout(() => setCardsIntro(true), 100);
+            setTimeout(() => setCardsIntro(true), 300);
           }}
           className="flex flex-col gap-6 text-center lg:text-left pl-3 will-change-transform"
         >

@@ -2,9 +2,7 @@
 
 import { motion } from "framer-motion";
 import { useTranslations } from "next-intl";
-
 import { CATEGORY_CONFIG, ClientCategorySlug } from "@/config/projectCategories";
-
 import { useCategoryHighlight } from "./hooks/useCategoryHighlight";
 
 interface CategorySwitcherProps {
@@ -20,7 +18,15 @@ export default function CategorySwitcher({ currentCategory, onCategoryChange }: 
   return (
     <div
       ref={containerRef}
-      className="relative flex justify-center mb-10 p-1 border border-white/10 bg-white/[0.02] backdrop-blur-sm rounded-full shadow-lg max-w-[360px] min-h-[64px] mx-auto"
+      className="
+        relative
+        w-fit mx-auto                 /* ancho justo al contenido y centrado */
+        flex flex-nowrap items-center /* sin saltos de línea */
+        whitespace-nowrap
+        gap-3
+        p-1 border border-white/10 bg-white/[0.02]
+        backdrop-blur-sm rounded-full shadow-lg
+      "
     >
       <motion.div
         layout
@@ -35,7 +41,6 @@ export default function CategorySwitcher({ currentCategory, onCategoryChange }: 
 
       {categories.map((category) => {
         const isActive = currentCategory === category.slug;
-
         return (
           <motion.button
             key={category.slug}
@@ -43,9 +48,11 @@ export default function CategorySwitcher({ currentCategory, onCategoryChange }: 
             whileHover={{ scale: 1.05, boxShadow: "0 8px 10px rgba(0,0,0,0.55)", backgroundColor: "rgba(255,255,255,0.1)" }}
             whileTap={{ scale: 0.95, backgroundColor: "rgba(0,0,0,0.1)" }}
             transition={{ type: "spring", stiffness: 200, damping: 20 }}
-            className={`relative z-10 px-6 py-2 cursor-pointer text-sm font-semibold rounded-full transition-colors duration-300 ease-out ${
-              isActive ? "text-black" : "text-gray-200 hover:text-white"
-            }`}
+            className={`
+              relative z-10 px-6 py-2 cursor-pointer text-sm font-semibold rounded-full min-h-[54px]
+              transition-colors duration-300 ease-out
+              ${isActive ? "text-black" : "text-gray-200 hover:text-white"}
+            `}
             onClick={() => onCategoryChange(category.slug)}
           >
             {t(category.tKey)}
