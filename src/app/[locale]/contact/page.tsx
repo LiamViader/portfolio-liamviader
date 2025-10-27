@@ -42,7 +42,7 @@ const contactContainerVariant: Variants = {
     borderColor: BASE_BORD,
     boxShadow: BASE_SH,
     transition: {
-      duration: c.isIntro ? 0.7 : 0.5,
+      duration: c.isIntro ? 0.6 : 0.5,
       delay: c.isIntro ? c.order * 0.2 + 1.2 : 0,
       ease: "easeOut",
     },
