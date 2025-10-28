@@ -12,15 +12,29 @@ export function ProjectModalBackdrop({ closing, passThrough, onClose }: ProjectM
   return (
     <motion.div
       key="backdrop"
-      className={`fixed inset-0 z-[990] bg-black/60 backdrop-blur-md ${passThrough ? "pointer-events-none" : ""}`}
+      className={`fixed inset-0 z-[990] overflow-hidden ${passThrough ? "pointer-events-none" : "cursor-pointer"}`}
       initial={{ opacity: 0 }}
       animate={{ opacity: closing ? 0 : 1 }}
-      transition={{ duration: closing ? 0.3 : 0.25, ease: "easeOut", delay: closing ? 0.1 : 0 }}
+      transition={{ duration: closing ? 0.32 : 0.28, ease: "easeOut", delay: closing ? 0.08 : 0 }}
       onClick={onClose}
     >
-      <div className="absolute inset-0 z-0 overflow-hidden pointer-events-none">
+      <motion.div
+        aria-hidden
+        className="absolute inset-0 bg-gradient-to-br from-slate-950/95 via-slate-950/80 to-slate-900/70 backdrop-blur-[14px]"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: closing ? 0 : 1 }}
+        transition={{ duration: 0.4, ease: "easeOut" }}
+      />
+      <div className="absolute inset-0 z-10 opacity-80">
         <BlobsBackground />
       </div>
+      <motion.div
+        aria-hidden
+        className="absolute inset-0 z-20 bg-gradient-to-t from-slate-950/60 via-slate-950/30 to-transparent"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: closing ? 0 : 1 }}
+        transition={{ duration: 0.5, ease: "easeOut", delay: 0.05 }}
+      />
     </motion.div>
   );
 }

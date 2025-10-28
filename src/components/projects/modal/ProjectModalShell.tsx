@@ -2,6 +2,7 @@
 
 import { ReactNode, RefObject } from "react";
 import { motion, useAnimation } from "framer-motion";
+import clsx from "clsx";
 
 type Controls = ReturnType<typeof useAnimation>;
 
@@ -30,20 +31,28 @@ export function ProjectModalShell({
       style={{
         position: "fixed",
         zIndex: 99999,
-        boxShadow: "0 25px 70px rgba(0,0,0,0.6)",
-        borderRadius: 16,
+        boxShadow: "0 40px 140px rgba(8, 47, 73, 0.65)",
+        borderRadius: 24,
         boxSizing: "border-box",
         overflow: "hidden",
         transformOrigin: "top left",
         willChange: "transform, opacity",
         transform: "translateZ(0)",
       }}
-      className={`bg-gray-900 rounded-2xl border border-white/10 transform-gpu will-change-[transform, opacity] ${
-        passThrough ? "pointer-events-none" : ""
-      }`}
+      className={clsx(
+        "relative flex h-full flex-col",
+        "rounded-3xl border border-white/10",
+        "bg-gradient-to-br from-slate-950/95 via-slate-950/85 to-slate-900/80",
+        "backdrop-blur-2xl",
+        "transform-gpu will-change-[transform,opacity]",
+        "transition-none",
+        passThrough && "pointer-events-none"
+      )}
       onClick={(event) => event.stopPropagation()}
     >
-      {children}
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(56,189,248,0.18),transparent_55%)]" />
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_bottom,_rgba(165,180,252,0.12),transparent_50%)]" />
+      <div className="relative flex h-full flex-col overflow-hidden">{children}</div>
     </motion.div>
   );
 }
