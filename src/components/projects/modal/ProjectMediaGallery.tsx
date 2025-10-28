@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { createPortal } from "react-dom";
 import { Play } from "lucide-react";
@@ -84,92 +84,13 @@ export function ProjectMediaGallery({
   const overlay = (
     <AnimatePresence>
       {activeMedia && (
-        <motion.div
-          className="fixed inset-0 z-[10000000] flex items-center justify-center bg-slate-950/85 p-3 sm:p-6 backdrop-blur-xl"
-          role="dialog"
-          aria-modal="true"
-          aria-label={buildMediaLabel(activeMedia) || activeMedia.alt || project.title}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          onClick={closeActiveMedia}
-        >
-          <motion.div
-            className="relative flex h-full w-full max-h-full max-w-full flex-col"
-            initial={{ opacity: 0, scale: 0.96, y: 18 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.96, y: 18 }}
-            transition={{ type: "spring", stiffness: 210, damping: 28 }}
-            onClick={(e) => e.stopPropagation()}
-          >
-            <button
-              ref={closeButtonRef}
-              type="button"
-              onClick={closeActiveMedia}
-              className="absolute -right-3 -top-3 z-20 inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/20 bg-slate-950/80 text-white shadow-[0_18px_48px_rgba(15,23,42,0.65)] backdrop-blur hover:bg-slate-900 focus:outline-none focus:ring-2 focus:ring-sky-400"
-            >
-              <span className="sr-only">{closeLabel}</span>
-              <svg
-                className="h-5 w-5"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="1.8"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                viewBox="0 0 24 24"
-              >
-                <path d="M18 6 6 18" />
-                <path d="M6 6l12 12" />
-              </svg>
-            </button>
-
-            <div className="flex min-h-0 flex-1 flex-col overflow-hidden rounded-[28px] border border-white/15 bg-slate-950/80 shadow-[0_30px_120px_rgba(10,15,35,0.75)]">
-              <div className="relative flex flex-1 items-center justify-center bg-black p-2 sm:p-4">
-                {activeMedia.type === "image" && (
-                  <img
-                    src={activeMedia.src}
-                    alt={activeMedia.alt ?? project.title}
-                    className="max-h-full max-w-full object-contain"
-                  />
-                )}
-                {activeMedia.type === "video" && (
-                  <video
-                    src={activeMedia.src}
-                    poster={activeMedia.poster ?? activeMedia.thumbnail}
-                    controls
-                    autoPlay
-                    playsInline
-                    className="max-h-full max-w-full object-contain"
-                  />
-                )}
-                {activeMedia.type === "externalVideo" && (
-                  <iframe
-                    src={getEmbeddedVideoSource(activeMedia)}
-                    title={activeMedia.alt ?? project.title}
-                    className="h-full w-full max-h-full max-w-full"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                    allowFullScreen
-                  />
-                )}
-              </div>
-
-              {(buildMediaLabel(activeMedia) || activeMedia.description || activeMedia.alt) && (
-                <div className="space-y-2 border-t border-white/10 bg-slate-950/85 px-6 py-5">
-                  {(buildMediaLabel(activeMedia) || activeMedia.alt) && (
-                    <p className="text-xs font-semibold uppercase tracking-[0.35em] text-slate-100/80">
-                      {buildMediaLabel(activeMedia) || activeMedia.alt}
-                    </p>
-                  )}
-                  {activeMedia.description && (
-                    <p className="text-sm leading-relaxed text-slate-100/80">
-                      {activeMedia.description}
-                    </p>
-                  )}
-                </div>
-              )}
-            </div>
-          </motion.div>
-        </motion.div>
+        <FittedOverlay
+          activeMedia={activeMedia}
+          projectTitle={project.title}
+          closeLabel={closeLabel}
+          onClose={closeActiveMedia}
+          closeButtonRef={closeButtonRef}
+        />
       )}
     </AnimatePresence>
   );
@@ -261,5 +182,172 @@ export function ProjectMediaGallery({
 
       {typeof document !== "undefined" ? createPortal(overlay, document.body) : null}
     </>
+  );
+}
+
+/* ----------------- Overlay que SIEMPRE encaja todo ----------------- */
+
+function FittedOverlay({
+  activeMedia,
+  projectTitle,
+  closeLabel,
+  onClose,
+  closeButtonRef,
+}: {
+  activeMedia: ProjectMediaItem;
+  projectTitle: string;
+  closeLabel: string;
+  onClose: () => void;
+  closeButtonRef: React.MutableRefObject<HTMLButtonElement | null>;
+}) {
+  const panelRef = useRef<HTMLDivElement | null>(null);
+  const captionRef = useRef<HTMLDivElement | null>(null);
+  const [captionH, setCaptionH] = useState(0);
+
+  // Recalcula altura de caption y fuerza el límite del viewer
+  const recalc = useCallback(() => {
+    const h = captionRef.current ? captionRef.current.offsetHeight : 0;
+    setCaptionH(h);
+  }, []);
+
+  useLayoutEffect(() => {
+    recalc();
+    const ro = new ResizeObserver(recalc);
+    if (captionRef.current) ro.observe(captionRef.current);
+    const onWin = () => recalc();
+    window.addEventListener("resize", onWin);
+    return () => {
+      ro.disconnect();
+      window.removeEventListener("resize", onWin);
+    };
+  }, [recalc]);
+
+  // CSS var para limitar el viewer a (viewport - caption - cromos)
+  const chromePadding = 24; // padding interior aprox (px)
+  const borderPad = 2; // bordes, etc. (px)
+  const totalChrome = chromePadding * 2 + borderPad;
+
+  const panelStyle = {
+    // @ts-ignore: CSS variable inline
+    "--captionH": `${captionH}px`,
+  } as React.CSSProperties;
+
+  return (
+    <motion.div
+      className="fixed inset-0 z-[1000000] flex items-center justify-center bg-slate-950/85 p-3 sm:p-6 backdrop-blur-xl"
+      role="dialog"
+      aria-modal="true"
+      aria-label={buildMediaLabel(activeMedia) || activeMedia.alt || projectTitle}
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      onClick={onClose}
+    >
+      <motion.div
+        ref={panelRef}
+        className="relative flex max-h-[98svh] max-w-[98svw] flex-col overflow-auto rounded-[28px] border border-white/15 bg-slate-950/80 shadow-[0_30px_120px_rgba(10,15,35,0.75)]"
+        style={panelStyle}
+        initial={{ opacity: 0, scale: 0.96, y: 18 }}
+        animate={{ opacity: 1, scale: 1, y: 0 }}
+        exit={{ opacity: 0, scale: 0.96, y: 18 }}
+        transition={{ type: "spring", stiffness: 210, damping: 28 }}
+        onClick={(e) => e.stopPropagation()}
+      >
+        <button
+          ref={closeButtonRef}
+          type="button"
+          onClick={onClose}
+          className="absolute -right-3 -top-3 z-20 inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/20 bg-slate-950/80 text-white shadow-[0_18px_48px_rgba(15,23,42,0.65)] backdrop-blur hover:bg-slate-900 focus:outline-none focus:ring-2 focus:ring-sky-400"
+        >
+          <span className="sr-only">{closeLabel}</span>
+          <svg
+            className="h-5 w-5"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="1.8"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            viewBox="0 0 24 24"
+          >
+            <path d="M18 6 6 18" />
+            <path d="M6 6l12 12" />
+          </svg>
+        </button>
+
+        {/* Viewer: altura exacta = viewport - caption - chrome. Centrado y sin recortes */}
+        <div
+          className="relative flex items-center justify-center bg-black p-3 sm:p-6 overflow-hidden"
+          style={{
+            height: `calc(100svh - var(--captionH) - ${totalChrome}px)`,
+            minHeight: 120, // por si el caption es enorme
+          }}
+        >
+          <MediaFittedContent media={activeMedia} projectTitle={projectTitle} />
+        </div>
+
+        {(buildMediaLabel(activeMedia) || activeMedia.description || activeMedia.alt) && (
+          <div
+            ref={captionRef}
+            className="shrink-0 space-y-2 border-t border-white/10 bg-slate-950/85 px-6 py-5"
+          >
+            {(buildMediaLabel(activeMedia) || activeMedia.alt) && (
+              <p className="text-xs font-semibold uppercase tracking-[0.35em] text-slate-100/80">
+                {buildMediaLabel(activeMedia) || activeMedia.alt}
+              </p>
+            )}
+            {activeMedia.description && (
+              <p className="text-sm leading-relaxed text-slate-100/80">
+                {activeMedia.description}
+              </p>
+            )}
+          </div>
+        )}
+      </motion.div>
+    </motion.div>
+  );
+}
+
+/* Contenido ajustado: SIEMPRE visible. Imagen/Vídeo nativo con object-contain; iframes llenan contenedor */
+function MediaFittedContent({
+  media,
+  projectTitle,
+}: {
+  media: ProjectMediaItem;
+  projectTitle: string;
+}) {
+  if (media.type === "image") {
+    return (
+      <img
+        src={media.src}
+        alt={media.alt ?? projectTitle}
+        className="h-full w-full object-contain"
+      />
+    );
+  }
+
+  if (media.type === "video") {
+    return (
+      <video
+        src={media.src}
+        poster={media.poster ?? media.thumbnail}
+        controls
+        autoPlay
+        playsInline
+        className="h-full w-full object-contain"
+      />
+    );
+  }
+
+  // externalVideo: dejamos que el reproductor gestione el letterboxing internamente
+  return (
+    <div className="h-full w-full">
+      <iframe
+        src={getEmbeddedVideoSource(media)}
+        title={media.alt ?? projectTitle}
+        className="h-full w-full"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        allowFullScreen
+      />
+    </div>
   );
 }
