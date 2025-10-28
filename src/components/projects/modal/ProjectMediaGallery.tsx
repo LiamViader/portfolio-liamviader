@@ -223,7 +223,7 @@ function FittedOverlay({
   }, [recalc]);
 
   // CSS var para limitar el viewer a (viewport - caption - cromos)
-  const chromePadding = 24; // padding interior aprox (px)
+  const chromePadding = 54; // padding interior aprox (px)
   const borderPad = 2; // bordes, etc. (px)
   const totalChrome = chromePadding * 2 + borderPad;
 
@@ -234,7 +234,7 @@ function FittedOverlay({
 
   return (
     <motion.div
-      className="fixed inset-0 z-[1000000] flex items-center justify-center bg-slate-950/85 p-3 sm:p-6 backdrop-blur-xl"
+      className="fixed inset-0 z-[1000000] flex items-center justify-center bg-slate-950/85 p-3 sm:p-6 backdrop-blur-xl overflow-hidden"
       role="dialog"
       aria-modal="true"
       aria-label={buildMediaLabel(activeMedia) || activeMedia.alt || projectTitle}
@@ -243,9 +243,35 @@ function FittedOverlay({
       exit={{ opacity: 0 }}
       onClick={onClose}
     >
+      <motion.button
+        ref={closeButtonRef}
+        type="button"
+        aria-label={closeLabel}
+        onClick={(e) => { e.stopPropagation(); onClose(); }}
+        className="group absolute cursor-pointer top-3 right-3 sm:top-6 sm:right-6 z-[1000001] inline-flex h-11 w-11 items-center justify-center rounded-full bg-slate-950/80 text-white shadow-[0_18px_48px_rgba(15,23,42,0.65)] backdrop-blur ring-2 ring-sky-400"
+        initial={{ opacity: 0, scale: 0.92, y: -6 }}
+        animate={{ opacity: 1, scale: 1, y: 0 }}
+        exit={{ opacity: 0, scale: 0.92, y: -6 }}
+        whileHover={{ scale: 1.06, rotate: 3 }}
+        whileTap={{ scale: 0.95 }}
+      >
+        <svg
+          className="h-5 w-5 transition-transform duration-300 group-hover:rotate-90"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.8"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          viewBox="0 0 24 24"
+        >
+          <path d="M18 6 6 18" />
+          <path d="M6 6l12 12" />
+        </svg>
+        <span className="sr-only">{closeLabel}</span>
+      </motion.button>
       <motion.div
         ref={panelRef}
-        className="relative flex max-h-[98svh] max-w-[98svw] flex-col overflow-auto rounded-[28px] border border-white/15 bg-slate-950/80 shadow-[0_30px_120px_rgba(10,15,35,0.75)]"
+        className="relative flex max-h-[98svh] max-w-[98svw] flex-col overflow-y-auto overflow-x-hidden rounded-[28px] border border-white/15 bg-slate-950/80 shadow-[0_30px_120px_rgba(10,15,35,0.75)]"
         style={panelStyle}
         initial={{ opacity: 0, scale: 0.96, y: 18 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
@@ -253,30 +279,11 @@ function FittedOverlay({
         transition={{ type: "spring", stiffness: 210, damping: 28 }}
         onClick={(e) => e.stopPropagation()}
       >
-        <button
-          ref={closeButtonRef}
-          type="button"
-          onClick={onClose}
-          className="absolute -right-3 -top-3 z-20 inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/20 bg-slate-950/80 text-white shadow-[0_18px_48px_rgba(15,23,42,0.65)] backdrop-blur hover:bg-slate-900 focus:outline-none focus:ring-2 focus:ring-sky-400"
-        >
-          <span className="sr-only">{closeLabel}</span>
-          <svg
-            className="h-5 w-5"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="1.8"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            viewBox="0 0 24 24"
-          >
-            <path d="M18 6 6 18" />
-            <path d="M6 6l12 12" />
-          </svg>
-        </button>
+        
 
         {/* Viewer: altura exacta = viewport - caption - chrome. Centrado y sin recortes */}
         <div
-          className="relative flex items-center justify-center bg-black p-3 sm:p-6 overflow-hidden"
+          className="relative flex items-center justify-center bg-black overflow-hidden"
           style={{
             height: `calc(100svh - var(--captionH) - ${totalChrome}px)`,
             minHeight: 120, // por si el caption es enorme
@@ -340,11 +347,11 @@ function MediaFittedContent({
 
   // externalVideo: dejamos que el reproductor gestione el letterboxing internamente
   return (
-    <div className="h-full w-full">
+    <div className="w-full h-full">
       <iframe
         src={getEmbeddedVideoSource(media)}
         title={media.alt ?? projectTitle}
-        className="h-full w-full"
+        className="w-full h-full"
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
         allowFullScreen
       />
