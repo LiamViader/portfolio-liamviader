@@ -47,7 +47,7 @@ const cardVariants: Variants = {
 
 const mediaVariants: Variants = {
   rest: { scale: 1, y: 0, },
-  hover: { scale: 1.05, y: -8, transition: {duration: 0.3} },
+  hover: { scale: 1.03, y: -8, transition: {duration: 0.3} },
 };
 
 const overlayVariants: Variants = {
