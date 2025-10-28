@@ -95,5 +95,20 @@
         }
       }
     }
+  },
+  "ProjectModal": {
+    "closeButton": "Close",
+    "closeAriaLabel": "Close project details",
+    "overviewTitle": "Overview",
+    "galleryTitle": "Project gallery",
+    "technologiesTitle": "Technologies",
+    "exploreMoreTitle": "Explore more",
+    "liveDemoCta": "Live demo",
+    "viewOnGithubCta": "View on GitHub",
+    "featuredBadge": "Featured",
+    "categories": {
+      "AI": "AI",
+      "Game": "Games"
+    }
   }
 }
