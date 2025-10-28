@@ -34,7 +34,7 @@ const containerVariants: Variants = {
     backgroundColor: HOVER_BG,
     borderColor: HOVER_BOR,
     boxShadow: HOVER_SH,
-    transition: { duration: 0.3, ease: "easeOut" }
+    transition: { duration: 0.15, ease: "easeOut" }
   },
   tap: {
     scale: 0.98,

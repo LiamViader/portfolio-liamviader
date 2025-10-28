@@ -21,7 +21,7 @@ const cardVariants: Variants = {
     borderColor: BASE_BORD, 
     boxShadow: BASE_SH
   },
-  show: (c: { order: number; isIntro: boolean } = { order: 0, isIntro: false }) => ({
+  show: (c: { translate:boolean; order: number; isIntro: boolean } = { order: 0, isIntro: false, translate:true }) => ({
     opacity: 1,
     y: 0,
     backgroundColor: BASE_BG,
@@ -33,8 +33,8 @@ const cardVariants: Variants = {
       ease: "easeOut",
     },
   }),
-  hover: { 
-    y: -15, 
+  hover: (c: {translate:boolean; order: number; isIntro: boolean} = {order: 0, isIntro: false, translate:true})=> ({ 
+    y: c.translate ? -20 : 0, 
     backgroundColor: HOVER_BG, 
     borderColor: HOVER_BOR, 
     boxShadow: HOVER_SH,
@@ -42,12 +42,12 @@ const cardVariants: Variants = {
       duration: 0.15, 
       ease: "easeOut" 
     } 
-  },
+  }),
 };
 
 const mediaVariants: Variants = {
   rest: { scale: 1, y: 0, },
-  hover: { scale: 1.03, y: -8, transition: {duration: 0.3} },
+  hover:  (c: {translate:boolean; order: number; isIntro: boolean} = {order: 0, isIntro: false, translate:true}) => ({ scale: c.translate ? 1.03 : 1, y: c.translate ? -8 : 0, transition: {duration: 0.3} }),
 };
 
 const overlayVariants: Variants = {
@@ -90,7 +90,7 @@ export function FeaturedCarouselCard({
       variants={cardVariants}
       initial="hidden"
       animate={introStart ? "show" : "hidden"}
-      custom={{ order: introOrder, isIntro }}
+      custom={{ order: introOrder, isIntro, translate: !shouldHide }}
       onAnimationComplete={() => {
         if (isIntro) {
           setIntroDone(true);
@@ -126,7 +126,8 @@ export function FeaturedCarouselCard({
             variants={mediaVariants}
             className="absolute inset-0"
             style={{ transformOrigin: "center" }}
-            transition={{duration: 0.4}}
+            transition={{duration: 0.2}}
+            custom={{ order: introOrder, isIntro, translate: isCenter }}
           >
             <Image
               src={project.media_preview}
@@ -138,7 +139,7 @@ export function FeaturedCarouselCard({
             />
             <motion.div 
               className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-950/40 to-transparent"
-              custom={{ center: isCenter }}
+              custom={{ center: isCenter && !shouldHide }}
               variants={overlayVariants}
             />
           </motion.div>
