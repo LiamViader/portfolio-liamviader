@@ -94,7 +94,6 @@ export function FeaturedCarouselCard({
         shadow-[0_0_10px_rgba(0,0,0,0.40)]
         backdrop-blur-sm
         transform-gpu will-change-[transform,opacity]
-        will-change-transform
       `}
       style={{
         backgroundColor: BASE_BG,
