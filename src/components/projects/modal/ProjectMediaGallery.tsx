@@ -216,14 +216,14 @@ export function ProjectMediaGallery({
           <AnimatePresence>
             {activeMedia && (
               <motion.div
-                className="fixed inset-0 z-[1200] flex items-center justify-center bg-slate-950/85 p-3 sm:p-6 backdrop-blur-xl"
+                className="fixed inset-0 z-[100100] flex items-center justify-center bg-slate-950/85 p-3 sm:p-6 backdrop-blur-xl"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 onClick={closeActiveMedia}
               >
                 <motion.div
-                  className="pointer-events-auto relative mx-auto flex w-full max-w-full flex-col items-center gap-4 overflow-y-auto"
+                  className="pointer-events-auto relative mx-auto flex w-auto max-w-full flex-col items-center gap-4 overflow-y-auto"
                   style={{
                     maxHeight: viewportMediaStyle.maxHeight,
                     maxWidth: viewportMediaStyle.maxWidth,
@@ -256,14 +256,14 @@ export function ProjectMediaGallery({
                   </button>
 
                   <div
-                    className="relative flex w-full items-center justify-center overflow-hidden rounded-[28px] border border-white/15 bg-slate-950/85 shadow-[0_30px_120px_rgba(10,15,35,0.75)]"
+                    className="relative flex max-h-full max-w-full items-center justify-center overflow-hidden rounded-[28px] border border-white/15 bg-slate-950/85 shadow-[0_30px_120px_rgba(10,15,35,0.75)]"
                     style={viewportMediaStyle}
                   >
                     {activeMedia.type === "image" && (
                       <img
                         src={activeMedia.src}
                         alt={activeMedia.alt ?? project.title}
-                        className="block h-auto w-auto object-contain"
+                        className="block max-h-full max-w-full object-contain"
                         style={viewportMediaStyle}
                       />
                     )}
@@ -274,7 +274,7 @@ export function ProjectMediaGallery({
                         controls
                         autoPlay
                         playsInline
-                        className="block h-auto w-auto object-contain"
+                        className="block max-h-full max-w-full object-contain"
                         style={viewportMediaStyle}
                       />
                     )}
