@@ -216,14 +216,14 @@ export function ProjectMediaGallery({
           <AnimatePresence>
             {activeMedia && (
               <motion.div
-                className="fixed inset-0 z-[100100] flex items-center justify-center bg-slate-950/85 p-3 sm:p-6 backdrop-blur-xl"
+                className="fixed inset-0 z-[100100] flex items-center justify-center overflow-x-hidden overflow-y-auto bg-slate-950/70 p-3 sm:p-6 backdrop-blur-xl"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
                 onClick={closeActiveMedia}
               >
                 <motion.div
-                  className="pointer-events-auto relative mx-auto flex w-auto max-w-full flex-col items-center gap-4 overflow-y-auto"
+                  className="pointer-events-auto relative mx-auto flex w-auto max-w-full flex-col items-center gap-4 overflow-y-auto overflow-x-hidden"
                   style={{
                     maxHeight: viewportMediaStyle.maxHeight,
                     maxWidth: viewportMediaStyle.maxWidth,
@@ -238,7 +238,7 @@ export function ProjectMediaGallery({
                     ref={closeButtonRef}
                     type="button"
                     onClick={closeActiveMedia}
-                    className="absolute -right-3 -top-3 z-20 inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/20 bg-slate-950/80 text-white shadow-[0_18px_48px_rgba(15,23,42,0.65)] backdrop-blur hover:bg-slate-900 focus:outline-none focus:ring-2 focus:ring-sky-400"
+                    className="absolute right-4 top-4 z-20 inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/20 bg-slate-950/80 text-white shadow-[0_18px_48px_rgba(15,23,42,0.65)] backdrop-blur hover:bg-slate-900 focus:outline-none focus:ring-2 focus:ring-sky-400"
                   >
                     <span className="sr-only">{closeLabel}</span>
                     <svg
