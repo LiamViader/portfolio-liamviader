@@ -2,10 +2,10 @@
 
 import { useCallback, useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
+import { createPortal } from "react-dom";
 import { Play } from "lucide-react";
 
 import type { TranslatedProject } from "@/data/projects";
-
 import { modalItemVariants } from "./animations";
 
 export type ProjectMediaItem = TranslatedProject["detailed_media"][number];
@@ -20,12 +20,8 @@ export const getMediaPreviewSource = (item?: ProjectMediaItem) => {
 
 const buildMediaLabel = (item: ProjectMediaItem) => {
   const parts: string[] = [];
-  if (item.captionLabel) {
-    parts.push(item.captionLabel);
-  }
-  if (item.figureNumber) {
-    parts.push(item.figureNumber);
-  }
+  if (item.captionLabel) parts.push(item.captionLabel);
+  if (item.figureNumber) parts.push(item.figureNumber);
   return parts.join(" ");
 };
 
@@ -33,16 +29,12 @@ const isVideoMedia = (item: ProjectMediaItem) =>
   item.type === "video" || item.type === "externalVideo";
 
 const getEmbeddedVideoSource = (item: ProjectMediaItem) => {
-  if (item.type !== "externalVideo") {
-    return item.src;
-  }
-
+  if (item.type !== "externalVideo") return item.src;
   const base = item.embedUrl ?? item.src;
   if (base.includes("youtube")) {
     const separator = base.includes("?") ? "&" : "?";
     return `${base}${separator}rel=0&autoplay=1`;
   }
-
   return base;
 };
 
@@ -64,47 +56,123 @@ export function ProjectMediaGallery({
   const closeButtonRef = useRef<HTMLButtonElement | null>(null);
   const activeMedia = activeMediaIndex !== null ? media[activeMediaIndex] : null;
 
-  const openMedia = useCallback((index: number) => {
-    setActiveMediaIndex(index);
-  }, []);
-
-  const closeActiveMedia = useCallback(() => {
-    setActiveMediaIndex(null);
-  }, []);
+  const openMedia = useCallback((index: number) => setActiveMediaIndex(index), []);
+  const closeActiveMedia = useCallback(() => setActiveMediaIndex(null), []);
 
   useEffect(() => {
     if (activeMediaIndex === null) return;
-
-    const handleKeyDown = (event: KeyboardEvent) => {
-      if (event.key === "Escape") {
-        closeActiveMedia();
-      }
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") closeActiveMedia();
     };
-
-    document.addEventListener("keydown", handleKeyDown);
-    return () => {
-      document.removeEventListener("keydown", handleKeyDown);
-    };
+    document.addEventListener("keydown", onKey);
+    return () => document.removeEventListener("keydown", onKey);
   }, [activeMediaIndex, closeActiveMedia]);
 
   useEffect(() => {
     if (activeMediaIndex === null) return;
-
-    const previousOverflow = document.body.style.overflow;
+    const prev = document.body.style.overflow;
     document.body.style.overflow = "hidden";
-    const timeout = window.setTimeout(() => {
-      closeButtonRef.current?.focus();
-    }, 0);
-
+    const t = window.setTimeout(() => closeButtonRef.current?.focus(), 0);
     return () => {
-      document.body.style.overflow = previousOverflow;
-      window.clearTimeout(timeout);
+      document.body.style.overflow = prev;
+      window.clearTimeout(t);
     };
   }, [activeMediaIndex]);
 
-  if (media.length === 0) {
-    return null;
-  }
+  if (media.length === 0) return null;
+
+  const overlay = (
+    <AnimatePresence>
+      {activeMedia && (
+        <motion.div
+          className="fixed inset-0 z-[10000000] flex items-center justify-center bg-slate-950/85 p-3 sm:p-6 backdrop-blur-xl"
+          role="dialog"
+          aria-modal="true"
+          aria-label={buildMediaLabel(activeMedia) || activeMedia.alt || project.title}
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          onClick={closeActiveMedia}
+        >
+          <motion.div
+            className="relative flex h-full w-full max-h-full max-w-full flex-col"
+            initial={{ opacity: 0, scale: 0.96, y: 18 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.96, y: 18 }}
+            transition={{ type: "spring", stiffness: 210, damping: 28 }}
+            onClick={(e) => e.stopPropagation()}
+          >
+            <button
+              ref={closeButtonRef}
+              type="button"
+              onClick={closeActiveMedia}
+              className="absolute -right-3 -top-3 z-20 inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/20 bg-slate-950/80 text-white shadow-[0_18px_48px_rgba(15,23,42,0.65)] backdrop-blur hover:bg-slate-900 focus:outline-none focus:ring-2 focus:ring-sky-400"
+            >
+              <span className="sr-only">{closeLabel}</span>
+              <svg
+                className="h-5 w-5"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.8"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                viewBox="0 0 24 24"
+              >
+                <path d="M18 6 6 18" />
+                <path d="M6 6l12 12" />
+              </svg>
+            </button>
+
+            <div className="flex min-h-0 flex-1 flex-col overflow-hidden rounded-[28px] border border-white/15 bg-slate-950/80 shadow-[0_30px_120px_rgba(10,15,35,0.75)]">
+              <div className="relative flex flex-1 items-center justify-center bg-black p-2 sm:p-4">
+                {activeMedia.type === "image" && (
+                  <img
+                    src={activeMedia.src}
+                    alt={activeMedia.alt ?? project.title}
+                    className="max-h-full max-w-full object-contain"
+                  />
+                )}
+                {activeMedia.type === "video" && (
+                  <video
+                    src={activeMedia.src}
+                    poster={activeMedia.poster ?? activeMedia.thumbnail}
+                    controls
+                    autoPlay
+                    playsInline
+                    className="max-h-full max-w-full object-contain"
+                  />
+                )}
+                {activeMedia.type === "externalVideo" && (
+                  <iframe
+                    src={getEmbeddedVideoSource(activeMedia)}
+                    title={activeMedia.alt ?? project.title}
+                    className="h-full w-full max-h-full max-w-full"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    allowFullScreen
+                  />
+                )}
+              </div>
+
+              {(buildMediaLabel(activeMedia) || activeMedia.description || activeMedia.alt) && (
+                <div className="space-y-2 border-t border-white/10 bg-slate-950/85 px-6 py-5">
+                  {(buildMediaLabel(activeMedia) || activeMedia.alt) && (
+                    <p className="text-xs font-semibold uppercase tracking-[0.35em] text-slate-100/80">
+                      {buildMediaLabel(activeMedia) || activeMedia.alt}
+                    </p>
+                  )}
+                  {activeMedia.description && (
+                    <p className="text-sm leading-relaxed text-slate-100/80">
+                      {activeMedia.description}
+                    </p>
+                  )}
+                </div>
+              )}
+            </div>
+          </motion.div>
+        </motion.div>
+      )}
+    </AnimatePresence>
+  );
 
   return (
     <>
@@ -113,9 +181,7 @@ export function ProjectMediaGallery({
         <div className="grid gap-5 sm:grid-cols-2">
           {media.map((item, idx) => {
             const figureLabel = buildMediaLabel(item);
-            const hasCaptionContent = Boolean(
-              figureLabel || item.description || item.alt,
-            );
+            const hasCaptionContent = Boolean(figureLabel || item.description || item.alt);
             const previewSource = getMediaPreviewSource(item);
             const fallbackTitle = `${project.title} detail ${idx + 1}`;
             const buttonLabel = item.alt ?? figureLabel ?? fallbackTitle;
@@ -170,6 +236,7 @@ export function ProjectMediaGallery({
                     )}
                   </div>
                 </motion.button>
+
                 {hasCaptionContent && (
                   <div className="relative z-10 -mt-1 px-0 pb-0">
                     <figcaption className="relative space-y-1.5 border border-white/12 bg-slate-950/85 px-5 py-4 text-left shadow-[0_18px_38px_rgba(6,12,30,0.65)] backdrop-blur">
@@ -192,95 +259,7 @@ export function ProjectMediaGallery({
         </div>
       </div>
 
-      <AnimatePresence>
-        {activeMedia && (
-          <motion.div
-            className="fixed inset-0 z-[120] flex items-center justify-center bg-slate-950/85 p-3 sm:p-6 backdrop-blur-xl"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            onClick={closeActiveMedia}
-          >
-            <motion.div
-              className="relative flex h-full w-full max-h-full max-w-full flex-col"
-              initial={{ opacity: 0, scale: 0.96, y: 18 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              exit={{ opacity: 0, scale: 0.96, y: 18 }}
-              transition={{ type: "spring", stiffness: 210, damping: 28 }}
-              onClick={(event) => event.stopPropagation()}
-            >
-              <button
-                ref={closeButtonRef}
-                type="button"
-                onClick={closeActiveMedia}
-                className="absolute -right-3 -top-3 z-20 inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/20 bg-slate-950/80 text-white shadow-[0_18px_48px_rgba(15,23,42,0.65)] backdrop-blur hover:bg-slate-900 focus:outline-none focus:ring-2 focus:ring-sky-400"
-              >
-                <span className="sr-only">{closeLabel}</span>
-                <svg
-                  className="h-5 w-5"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="1.8"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  viewBox="0 0 24 24"
-                >
-                  <path d="M18 6 6 18" />
-                  <path d="M6 6l12 12" />
-                </svg>
-              </button>
-
-              <div className="flex min-h-0 flex-1 flex-col overflow-hidden rounded-[28px] border border-white/15 bg-slate-950/80 shadow-[0_30px_120px_rgba(10,15,35,0.75)]">
-                <div className="relative flex flex-1 items-center justify-center bg-black p-2 sm:p-4">
-                  {activeMedia.type === "image" && (
-                    <img
-                      src={activeMedia.src}
-                      alt={activeMedia.alt ?? project.title}
-                      className="max-h-full max-w-full object-contain"
-                    />
-                  )}
-                  {activeMedia.type === "video" && (
-                    <video
-                      src={activeMedia.src}
-                      poster={activeMedia.poster ?? activeMedia.thumbnail}
-                      controls
-                      autoPlay
-                      playsInline
-                      className="max-h-full max-w-full object-contain"
-                    />
-                  )}
-                  {activeMedia.type === "externalVideo" && (
-                    <iframe
-                      src={getEmbeddedVideoSource(activeMedia)}
-                      title={activeMedia.alt ?? project.title}
-                      className="h-full w-full max-h-full max-w-full"
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                      allowFullScreen
-                    />
-                  )}
-                </div>
-
-                {(buildMediaLabel(activeMedia) ||
-                  activeMedia.description ||
-                  activeMedia.alt) && (
-                  <div className="space-y-2 border-t border-white/10 bg-slate-950/85 px-6 py-5">
-                    {(buildMediaLabel(activeMedia) || activeMedia.alt) && (
-                      <p className="text-xs font-semibold uppercase tracking-[0.35em] text-slate-100/80">
-                        {buildMediaLabel(activeMedia) || activeMedia.alt}
-                      </p>
-                    )}
-                    {activeMedia.description && (
-                      <p className="text-sm leading-relaxed text-slate-100/80">
-                        {activeMedia.description}
-                      </p>
-                    )}
-                  </div>
-                )}
-              </div>
-            </motion.div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+      {typeof document !== "undefined" ? createPortal(overlay, document.body) : null}
     </>
   );
 }
