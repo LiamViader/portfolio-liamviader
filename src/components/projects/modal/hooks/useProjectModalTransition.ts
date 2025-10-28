@@ -1,4 +1,10 @@
-import { RefObject, useCallback, useEffect, useRef, useState } from "react";
+import {
+  RefObject,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 
 import { useAnimation } from "framer-motion";
 
@@ -23,6 +29,21 @@ interface UseProjectModalTransitionResult {
 
 const easeOutCubic = (t: number) => 1 - Math.pow(1 - t, 3);
 
+const DEFAULT_CARD_RADIUS = 24;
+
+function readBorderRadius(el?: HTMLElement | null): number {
+  if (!el) return DEFAULT_CARD_RADIUS;
+
+  const { borderTopLeftRadius } = getComputedStyle(el);
+  const parsed = parseFloat(borderTopLeftRadius || "");
+
+  return Number.isFinite(parsed) ? parsed : DEFAULT_CARD_RADIUS;
+}
+
+function lerp(start: number, end: number, t: number) {
+  return start + (end - start) * t;
+}
+
 export function useProjectModalTransition({
   originRect,
   originEl,
@@ -31,6 +52,7 @@ export function useProjectModalTransition({
 }: UseProjectModalTransitionProps): UseProjectModalTransitionResult {
   const controls = useAnimation();
   const containerRef = useRef<HTMLDivElement>(null!);
+  const followFrameRef = useRef<number>();
 
   const [closing, setClosing] = useState(false);
   const [passThrough, setPassThrough] = useState(false);
@@ -42,10 +64,10 @@ export function useProjectModalTransition({
     const targetTop = Math.max(48, (window.innerHeight - modalHeight) / 6);
 
     controls.set({
-      left: Math.round(originRect.left),
-      top: Math.round(originRect.top),
-      width: Math.round(originRect.width),
-      height: Math.round(originRect.height),
+      left: originRect.left,
+      top: originRect.top,
+      width: originRect.width,
+      height: originRect.height,
       opacity: 1,
       borderRadius: 16,
       x: 0,
@@ -55,10 +77,10 @@ export function useProjectModalTransition({
     });
 
     controls.start({
-      left: Math.round(targetLeft),
-      top: Math.round(targetTop),
-      width: Math.round(modalWidth),
-      height: Math.round(modalHeight),
+      left: targetLeft,
+      top: targetTop,
+      width: modalWidth,
+      height: modalHeight,
       opacity: 1,
       borderRadius: 16,
       x: 0,
@@ -69,21 +91,47 @@ export function useProjectModalTransition({
     });
   }, [controls, originRect]);
 
+  useEffect(() => {
+    return () => {
+      if (followFrameRef.current) {
+        cancelAnimationFrame(followFrameRef.current);
+        followFrameRef.current = undefined;
+      }
+    };
+  }, []);
+
   const handleClose = useCallback(async () => {
     if (closing) return;
     setClosing(true);
     setPassThrough(true);
 
-    const baseRect = containerRef.current?.getBoundingClientRect() ?? originRect;
+    const baseRect = containerRef.current
+      ? measureStableRect(containerRef.current)
+      : originRect;
+    const containerRadius = readBorderRadius(containerRef.current);
+
+    const readOriginSnapshot = () => {
+      if (!originEl) {
+        return {
+          rect: originRect,
+          radius: readBorderRadius(originEl),
+        };
+      }
+
+      return {
+        rect: measureStableRect(originEl),
+        radius: readBorderRadius(originEl),
+      };
+    };
 
     await controls.stop();
     await controls.set({
-      left: Math.round(baseRect.left),
-      top: Math.round(baseRect.top),
-      width: Math.round(baseRect.width),
-      height: Math.round(baseRect.height),
+      left: baseRect.left,
+      top: baseRect.top,
+      width: baseRect.width,
+      height: baseRect.height,
       opacity: 1,
-      borderRadius: 50,
+      borderRadius: containerRadius,
       x: 0,
       y: 0,
       scaleX: 1,
@@ -97,49 +145,60 @@ export function useProjectModalTransition({
       const tick = (now: number) => {
         const t = Math.min(1, (now - startTime) / duration);
         const k = easeOutCubic(t);
-
-        const live = originEl ? measureStableRect(originEl) : originRect;
-
-        const tx = live.left - baseRect.left;
-        const ty = live.top - baseRect.top;
-        const sx = live.width / baseRect.width;
-        const sy = live.height / baseRect.height;
+        const { rect: liveRect, radius } = readOriginSnapshot();
 
         controls.set({
-          x: tx * k,
-          y: ty * k,
-          scaleX: 1 + (sx - 1) * k,
-          scaleY: 1 + (sy - 1) * k,
+          left: lerp(baseRect.left, liveRect.left, k),
+          top: lerp(baseRect.top, liveRect.top, k),
+          width: lerp(baseRect.width, liveRect.width, k),
+          height: lerp(baseRect.height, liveRect.height, k),
+          borderRadius: lerp(containerRadius, radius, k),
           opacity: 1,
+          x: 0,
+          y: 0,
+          scaleX: 1,
+          scaleY: 1,
         });
 
-        if (t < 1) requestAnimationFrame(tick);
-        else resolve();
+        if (t < 1) {
+          requestAnimationFrame(tick);
+        } else {
+          resolve();
+        }
       };
       requestAnimationFrame(tick);
     });
 
     onRevealOrigin?.();
 
-    let follow = true;
     const followLoop = () => {
-      if (!follow) return;
-      const live = originEl ? measureStableRect(originEl) : originRect;
-      const tx = live.left - baseRect.left;
-      const ty = live.top - baseRect.top;
-      const sx = live.width / baseRect.width;
-      const sy = live.height / baseRect.height;
-      controls.set({ x: tx, y: ty, scaleX: sx, scaleY: sy });
-      requestAnimationFrame(followLoop);
+      const { rect: liveRect, radius } = readOriginSnapshot();
+      controls.set({
+        left: liveRect.left,
+        top: liveRect.top,
+        width: liveRect.width,
+        height: liveRect.height,
+        borderRadius: radius,
+        x: 0,
+        y: 0,
+        scaleX: 1,
+        scaleY: 1,
+      });
+
+      followFrameRef.current = requestAnimationFrame(followLoop);
     };
-    requestAnimationFrame(followLoop);
+
+    followFrameRef.current = requestAnimationFrame(followLoop);
 
     await controls.start({
       opacity: 0,
       transition: { duration: 0.12, ease: "easeIn" },
     });
 
-    follow = false;
+    if (followFrameRef.current) {
+      cancelAnimationFrame(followFrameRef.current);
+      followFrameRef.current = undefined;
+    }
     onClose();
   }, [closing, controls, originEl, originRect, onClose, onRevealOrigin]);
 
