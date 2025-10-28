@@ -128,7 +128,7 @@ export function ProjectModalContent({
       </motion.header>
 
       <CustomScrollArea className="flex-1" topOffset={28} bottomOffset={28}>
-        <div className="px-10 pb-12 pt-10 md:px-14 lg:px-16">
+        <div className="px-7 pb-12 pt-10 md:px-10 lg:px-12">
           <motion.div
             className="grid gap-10"
             variants={modalItemVariants}
@@ -165,7 +165,7 @@ export function ProjectModalContent({
               animate={animationState}
             >
               <motion.div
-                className="rounded-[26px] border border-white/10 bg-gradient-to-br from-white/10 via-white/3 to-transparent p-6 shadow-[0_5px_20px_rgba(122,122,122,0.45)] backdrop-blur-xl md:flex-auto md:min-w-0"
+                className="rounded-[26px] border border-white/10 bg-gradient-to-br from-white/10 via-white/3 to-transparent p-6 shadow-[0_5px_10px_rgba(250,250,250,0.15)] backdrop-blur-xl md:flex-auto md:min-w-0"
                 variants={modalItemVariants}
                 initial="hidden"
                 animate={animationState}
@@ -187,7 +187,7 @@ export function ProjectModalContent({
 
               {(project.github_url || project.live_url) && (
                 <motion.div
-                  className="rounded-[26px] border border-sky-400/35 bg-gradient-to-br from-sky-500/18 via-sky-400/8 to-transparent p-6 shadow-[0_5px_20px_rgba(14,116,144,0.45)] backdrop-blur-xl md:flex-auto md:min-w-[250px]"
+                  className="rounded-[26px] border border-sky-400/35 bg-gradient-to-br from-sky-500/18 via-sky-400/8 to-transparent p-6 shadow-[0_5px_10px_rgba(14,116,144,0.45)] backdrop-blur-xl md:flex-auto md:min-w-[250px]"
                   variants={modalItemVariants}
                   initial="hidden"
                   animate={animationState}
