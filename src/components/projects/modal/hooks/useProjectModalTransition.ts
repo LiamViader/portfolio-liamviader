@@ -37,7 +37,7 @@ export function useProjectModalTransition({
 
   useEffect(() => {
     const modalWidth = Math.min(window.innerWidth - 48, 960);
-    const modalHeight = Math.min(window.innerHeight - 160, 800);
+    const modalHeight = Math.min(window.innerHeight - 100, 850);
     const targetLeft = Math.max(24, (window.innerWidth - modalWidth) / 2);
     const targetTop = Math.max(48, (window.innerHeight - modalHeight) / 6);
 
@@ -136,7 +136,7 @@ export function useProjectModalTransition({
 
     await controls.start({
       opacity: 0,
-      transition: { duration: 0.12, ease: "easeIn" },
+      transition: { duration: 0.25, ease: "easeIn" },
     });
 
     follow = false;

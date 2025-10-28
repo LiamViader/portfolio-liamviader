@@ -63,7 +63,7 @@ export function ProjectModalContent({
           </motion.div>
         )}
 
-        <div className="relative z-10 flex flex-col gap-4 py-6 px-10 md:px-10">
+        <div className="relative z-10 flex flex-col gap-4 py-6 pl-14 md:pl-19 pr-8">
           <div className="flex flex-wrap items-center justify-between gap-2">
             <div className="flex flex-wrap items-center gap-3 text-xs uppercase tracking-[0.35em] text-sky-200/80">
               { 
@@ -79,13 +79,13 @@ export function ProjectModalContent({
               type="button"
               onClick={onClose}
               aria-label="Cerrar"
-              className="group cursor-pointer relative inline-flex h-11 w-11 items-center justify-center rounded-full border border-sky-300/45 bg-slate-900/80 text-white/80 shadow-[0_0px_20px_rgba(14,116,144,0.75)]"
+              className="group cursor-pointer relative inline-flex h-9 w-9 items-center justify-center text-white/80"
               whileHover={{ scale: 1.08, rotate: 2 }}
               whileTap={{ scale: 0.92 }}
             >
               <span className="sr-only">Cerrar</span>
               <svg
-                className="h-5 w-5 transition-colors group-hover:text-white"
+                className="h-9 w-9 transition-colors group-hover:text-white"
                 fill="none"
                 stroke="currentColor"
                 viewBox="0 0 24 24"
@@ -96,7 +96,7 @@ export function ProjectModalContent({
           </div>
 
           <div className="space-y-2">
-            <h1 className="text-3xl font-semibold leading-tight text-white drop-shadow-[0_10px_35px_rgba(56,189,248,0.35)] md:text-4xl">
+            <h1 className="text-4xl font-semibold leading-tight text-white drop-shadow-[0_10px_35px_rgba(56,189,248,0.35)] md:text-5xl">
               {project.title}
             </h1>
             {project.role && (
@@ -107,9 +107,9 @@ export function ProjectModalContent({
       </motion.header>
 
       <CustomScrollArea className="flex-1" topOffset={28} bottomOffset={28}>
-        <div className="px-6 pb-12 pt-8 md:px-10 lg:px-12">
+        <div className="px-10 pb-12 pt-8 md:px-14 lg:px-16">
           <motion.div
-            className="grid gap-10 lg:grid-cols-[minmax(0,2.1fr)_minmax(0,1fr)] lg:items-start"
+            className="grid gap-10"
             variants={modalItemVariants}
             initial="hidden"
             animate={animationState}
@@ -121,15 +121,15 @@ export function ProjectModalContent({
               animate={animationState}
             >
               <div className="space-y-4">
-                <h2 className="text-xl font-semibold text-white">Visión general</h2>
+                <h2 className="text-2xl font-semibold text-white">Visión general</h2>
                 <p className="whitespace-pre-line text-base leading-relaxed text-white/80">
                   {project.full_description}
                 </p>
               </div>
 
               {media.length > 0 && (
-                <div className="space-y-4">
-                  <h3 className="text-lg font-semibold text-white">Galería del proyecto</h3>
+                <div className="space-y-4 border-t border-slate-400/20 pt-8">
+                  <h3 className="text-xl font-semibold text-white">Galería del proyecto</h3>
                   <div className="grid gap-4 sm:grid-cols-2">
                     {media.map((url, idx) => (
                       <motion.div
@@ -156,18 +156,18 @@ export function ProjectModalContent({
             </motion.article>
 
             <motion.aside
-              className="flex flex-col gap-6"
+              className="flex flex-col gap-6 md:flex-row md:items-stretch border-t border-slate-400/20 pt-8"
               variants={modalItemVariants}
               initial="hidden"
               animate={animationState}
             >
               <motion.div
-                className="rounded-3xl border border-white/10 bg-white/5 p-6 shadow-[0_16px_40px_rgba(15,23,42,0.45)] backdrop-blur"
+                className="rounded-3xl border border-white/10 bg-white/5 p-6 shadow-[0_16px_40px_rgba(15,23,42,0.45)] backdrop-blur md:flex-auto md:min-w-0"
                 variants={modalItemVariants}
                 initial="hidden"
                 animate={animationState}
               >
-                <h3 className="text-sm uppercase tracking-[0.4em] text-white/50">Tecnologías</h3>
+                <h3 className="text-sm uppercase text-center tracking-[0.4em] text-white/50">Tecnologías</h3>
                 <div className="mt-4 flex flex-wrap gap-2">
                   {tags.map((tag, idx) => (
                     <motion.span
@@ -184,39 +184,40 @@ export function ProjectModalContent({
 
               {(project.github_url || project.live_url) && (
                 <motion.div
-                  className="rounded-3xl border border-sky-400/20 bg-sky-400/10 p-6 shadow-[0_18px_45px_rgba(14,116,144,0.4)] backdrop-blur"
+                  className="rounded-3xl border border-sky-400/20 bg-sky-400/10 p-6 shadow-[0_18px_45px_rgba(14,116,144,0.4)] backdrop-blur md:flex-auto md:min-w-[250px]"
                   variants={modalItemVariants}
                   initial="hidden"
                   animate={animationState}
                 >
-                  <h3 className="text-sm uppercase tracking-[0.4em] text-sky-100/80">Explora más</h3>
+                  <h3 className="text-sm text-center uppercase tracking-[0.4em] text-sky-100/80">Explora más</h3>
                   <div className="mt-4 flex flex-col gap-3">
-                    {project.github_url && (
-                      <motion.a
-                        href={project.github_url}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="flex items-center justify-between gap-3 rounded-2xl border border-white/15 bg-white/10 px-4 py-3 text-sm font-semibold text-white/80 shadow-[0_10px_30px_rgba(14,116,144,0.35)]"
-                        whileHover={{ scale: 1.03, x: 4 }}
-                        whileTap={{ scale: 0.96 }}
-                      >
-                        <span>Ver en GitHub</span>
-                        <Github className="h-5 w-5" aria-hidden="true" />
-                      </motion.a>
-                    )}
                     {project.live_url && (
                       <motion.a
                         href={project.live_url}
                         target="_blank"
                         rel="noreferrer"
                         className="flex items-center justify-between gap-3 rounded-2xl border border-white/20 bg-gradient-to-r from-sky-500/30 via-sky-400/20 to-transparent px-4 py-3 text-sm font-semibold text-white shadow-[0_12px_35px_rgba(56,189,248,0.45)]"
-                        whileHover={{ scale: 1.04, x: 4 }}
+                        whileHover={{ scale: 1.04 }}
                         whileTap={{ scale: 0.95 }}
                       >
                         <span>Demo en vivo</span>
                         <ExternalLink className="h-5 w-5" aria-hidden="true" />
                       </motion.a>
                     )}
+                    {project.github_url && (
+                      <motion.a
+                        href={project.github_url}
+                        target="_blank"
+                        rel="noreferrer"
+                        className="flex items-center justify-between gap-3 rounded-2xl border border-white/15 bg-gradient-to-r from-purple-500/30 via-purple-400/20 to-transparent px-4 py-3 text-sm font-semibold text-white/80 shadow-[0_10px_30px_rgba(14,116,144,0.35)]"
+                        whileHover={{ scale: 1.03 }}
+                        whileTap={{ scale: 0.96 }}
+                      >
+                        <span>Ver en GitHub</span>
+                        <Github className="h-5 w-5" aria-hidden="true" />
+                      </motion.a>
+                    )}
+                    
                   </div>
                 </motion.div>
               )}
