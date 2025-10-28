@@ -3,7 +3,7 @@ import { Sparkles } from "lucide-react";
 import clsx from "clsx";
 import { TranslatedProject } from "@/data/projects";
 import { motion, Variants } from "framer-motion";
-import { useState, useRef } from "react";
+import { useState } from "react";
 
 
 const BASE_BG   = "rgba(255,255,255,0.05)";
@@ -84,7 +84,6 @@ export function FeaturedCarouselCard({
   const [introDone, setIntroDone] = useState(false);
 
   const isIntro = introStart && !introDone;
-  console.log(project.id, shouldHide)
   return (
     <motion.div
       variants={cardVariants}

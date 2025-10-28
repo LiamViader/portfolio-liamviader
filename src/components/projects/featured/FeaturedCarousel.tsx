@@ -131,6 +131,7 @@ export function FeaturedCarousel({
   }, [totalProjects]);
 
   const [showHoverMask, setShowHoverMask] = useState(false);
+  const [visibilityTick, setVisibilityTick] = useState(0);
   const maskCycleRef = useRef(0);
   const maskTimeoutRef = useRef<number | null>(null);
   const maskFailsafeRef = useRef<number | null>(null);
@@ -191,6 +192,31 @@ export function FeaturedCarousel({
       clearMaskTimers();
     };
   }, [clearMaskTimers]);
+
+  useEffect(() => {
+    if (typeof document === "undefined") return;
+
+    const handleVisibilityChange = () => {
+      if (document.visibilityState === "hidden") {
+        maskCycleRef.current += 1;
+        clearMaskTimers();
+        setShowHoverMask(false);
+        clearAutoplay();
+        return;
+      }
+
+      prevActiveIndexRef.current = activeIndex;
+      prevScrollDirRef.current = scrollDir;
+      setVisibilityTick((tick) => tick + 1);
+      refreshHoverOneFrame();
+      scheduleAutoplay();
+    };
+
+    document.addEventListener("visibilitychange", handleVisibilityChange);
+    return () => {
+      document.removeEventListener("visibilitychange", handleVisibilityChange);
+    };
+  }, [activeIndex, scrollDir, clearAutoplay, clearMaskTimers, refreshHoverOneFrame, scheduleAutoplay]);
 
   const clearAutoplay = useCallback(() => {
     if (autoplayRef.current) {
@@ -340,7 +366,7 @@ export function FeaturedCarousel({
     return projects.map((project, index) => {
       const prevVariant = computeVariant(index, prevActive, n, prevDir);
       const nextVariant = computeVariant(index, activeIndex, n, scrollDir);
-      
+
       const { animate, transition } = suppressParentIntro
         ? { animate: getInitialStyle(nextVariant), transition: { duration: 0 } }
         : getVariantAnimationFromTo(nextVariant, prevVariant);
@@ -375,6 +401,7 @@ export function FeaturedCarousel({
             left: "50%",
             pointerEvents: isHidden || shouldHideForModal ? "none" : "auto",
           }}
+          data-visibility-bump={visibilityTick}
           // IMPORTANTE: siempre initial={false} y forzamos keyframes prev→next
           initial={false}
           animate={animate}
@@ -402,28 +429,28 @@ export function FeaturedCarousel({
   }, [
     projects,
     totalProjects,
+    introStart,
     activeIndex,
     scrollDir,
     prevActive,
     prevDir,
+    cardClassName,
     registerCardRef,
     selectedProjectId,
     revealOrigin,
-    cardClassName,
     typography?.titleClassName,
     typography?.descriptionClassName,
     typography?.tagClassName,
     handleManualNavigation,
     clearAutoplay,
     onSelectProject,
-    introStart
+    visibilityTick,
+    computeVariant,
   ]);
 
   const hasMultipleProjects = totalProjects > 1;
 
   if (totalProjects === 0) return null;
-
-  console.log("Carousel", introStart);
 
   return (
     <div
@@ -452,9 +479,7 @@ export function FeaturedCarousel({
       </div>
       
       {hasMultipleProjects && (
-        <motion.div 
-          className={controlsContainerClassName}
-        >
+        <motion.div className={controlsContainerClassName}>
           <motion.button
             type="button"
             onClick={() => handleManualNavigation(1)}
@@ -462,8 +487,8 @@ export function FeaturedCarousel({
             variants={ctrlLeft}
             initial="hidden"
             animate={introStart ? "show" : "hidden"}
-            whileHover='hover'
-            whileTap='tap'
+            whileHover="hover"
+            whileTap="tap"
             aria-label="View previous project"
           >
             <ChevronLeft className="h-5 w-5" />
@@ -477,8 +502,8 @@ export function FeaturedCarousel({
             variants={ctrlRight}
             initial="hidden"
             animate={introStart ? "show" : "hidden"}
-            whileHover='hover'
-            whileTap='tap'
+            whileHover="hover"
+            whileTap="tap"
             aria-label="View next project"
           >
             <ChevronRight className="h-5 w-5" />
