@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useRef, useState } from "react";
+import { type CSSProperties, useCallback, useEffect, useRef, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { Play } from "lucide-react";
 
@@ -46,6 +46,8 @@ const getEmbeddedVideoSource = (item: ProjectMediaItem) => {
   return base;
 };
 
+const VIEWPORT_MEDIA_MARGIN_PX = 48;
+
 interface ProjectMediaGalleryProps {
   project: TranslatedProject;
   galleryTitle: string;
@@ -63,6 +65,10 @@ export function ProjectMediaGallery({
   const [activeMediaIndex, setActiveMediaIndex] = useState<number | null>(null);
   const closeButtonRef = useRef<HTMLButtonElement | null>(null);
   const activeMedia = activeMediaIndex !== null ? media[activeMediaIndex] : null;
+  const viewportMediaStyle: CSSProperties = {
+    maxHeight: `calc(100vh - ${VIEWPORT_MEDIA_MARGIN_PX}px)`,
+    maxWidth: `calc(100vw - ${VIEWPORT_MEDIA_MARGIN_PX}px)`,
+  };
 
   const openMedia = useCallback((index: number) => {
     setActiveMediaIndex(index);
@@ -202,7 +208,11 @@ export function ProjectMediaGallery({
             onClick={closeActiveMedia}
           >
             <motion.div
-              className="relative flex h-full w-full max-h-full max-w-full flex-col"
+              className="pointer-events-auto relative mx-auto flex w-full max-w-full flex-col items-center gap-4 overflow-y-auto"
+              style={{
+                maxHeight: viewportMediaStyle.maxHeight,
+                maxWidth: viewportMediaStyle.maxWidth,
+              }}
               initial={{ opacity: 0, scale: 0.96, y: 18 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.96, y: 18 }}
@@ -230,53 +240,64 @@ export function ProjectMediaGallery({
                 </svg>
               </button>
 
-              <div className="flex min-h-0 flex-1 flex-col overflow-hidden rounded-[28px] border border-white/15 bg-slate-950/80 shadow-[0_30px_120px_rgba(10,15,35,0.75)]">
-                <div className="relative flex flex-1 items-center justify-center bg-black p-2 sm:p-4">
-                  {activeMedia.type === "image" && (
-                    <img
-                      src={activeMedia.src}
-                      alt={activeMedia.alt ?? project.title}
-                      className="max-h-full max-w-full object-contain"
-                    />
-                  )}
-                  {activeMedia.type === "video" && (
-                    <video
-                      src={activeMedia.src}
-                      poster={activeMedia.poster ?? activeMedia.thumbnail}
-                      controls
-                      autoPlay
-                      playsInline
-                      className="max-h-full max-w-full object-contain"
-                    />
-                  )}
-                  {activeMedia.type === "externalVideo" && (
-                    <iframe
-                      src={getEmbeddedVideoSource(activeMedia)}
-                      title={activeMedia.alt ?? project.title}
-                      className="h-full w-full max-h-full max-w-full"
-                      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                      allowFullScreen
-                    />
-                  )}
-                </div>
-
-                {(buildMediaLabel(activeMedia) ||
-                  activeMedia.description ||
-                  activeMedia.alt) && (
-                  <div className="space-y-2 border-t border-white/10 bg-slate-950/85 px-6 py-5">
-                    {(buildMediaLabel(activeMedia) || activeMedia.alt) && (
-                      <p className="text-xs font-semibold uppercase tracking-[0.35em] text-slate-100/80">
-                        {buildMediaLabel(activeMedia) || activeMedia.alt}
-                      </p>
-                    )}
-                    {activeMedia.description && (
-                      <p className="text-sm leading-relaxed text-slate-100/80">
-                        {activeMedia.description}
-                      </p>
-                    )}
-                  </div>
+              <div
+                className="relative flex w-full items-center justify-center overflow-hidden rounded-[28px] border border-white/15 bg-slate-950/85 shadow-[0_30px_120px_rgba(10,15,35,0.75)]"
+                style={viewportMediaStyle}
+              >
+                {activeMedia.type === "image" && (
+                  <img
+                    src={activeMedia.src}
+                    alt={activeMedia.alt ?? project.title}
+                    className="block h-auto w-auto object-contain"
+                    style={viewportMediaStyle}
+                  />
+                )}
+                {activeMedia.type === "video" && (
+                  <video
+                    src={activeMedia.src}
+                    poster={activeMedia.poster ?? activeMedia.thumbnail}
+                    controls
+                    autoPlay
+                    playsInline
+                    className="block h-auto w-auto object-contain"
+                    style={viewportMediaStyle}
+                  />
+                )}
+                {activeMedia.type === "externalVideo" && (
+                  <iframe
+                    src={getEmbeddedVideoSource(activeMedia)}
+                    title={activeMedia.alt ?? project.title}
+                    className="block"
+                    style={{
+                      border: "0",
+                      width: `min(calc(100vw - ${VIEWPORT_MEDIA_MARGIN_PX}px), calc((100vh - ${VIEWPORT_MEDIA_MARGIN_PX}px) * 1.7778))`,
+                      height: `min(calc(100vh - ${VIEWPORT_MEDIA_MARGIN_PX}px), calc((100vw - ${VIEWPORT_MEDIA_MARGIN_PX}px) * 0.5625))`,
+                    }}
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                    allowFullScreen
+                  />
                 )}
               </div>
+
+              {(buildMediaLabel(activeMedia) ||
+                activeMedia.description ||
+                activeMedia.alt) && (
+                <div
+                  className="mx-auto w-full space-y-2 rounded-[24px] border border-white/12 bg-slate-950/90 px-6 py-5 text-left shadow-[0_18px_38px_rgba(6,12,30,0.65)]"
+                  style={{ maxWidth: viewportMediaStyle.maxWidth }}
+                >
+                  {(buildMediaLabel(activeMedia) || activeMedia.alt) && (
+                    <p className="text-xs font-semibold uppercase tracking-[0.35em] text-slate-100/80">
+                      {buildMediaLabel(activeMedia) || activeMedia.alt}
+                    </p>
+                  )}
+                  {activeMedia.description && (
+                    <p className="text-sm leading-relaxed text-slate-100/80">
+                      {activeMedia.description}
+                    </p>
+                  )}
+                </div>
+              )}
             </motion.div>
           </motion.div>
         )}
