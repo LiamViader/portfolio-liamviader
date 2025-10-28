@@ -195,14 +195,14 @@ export function ProjectMediaGallery({
       <AnimatePresence>
         {activeMedia && (
           <motion.div
-            className="fixed inset-0 z-[120] flex items-center justify-center bg-slate-950/85 px-4 py-8 backdrop-blur-xl"
+            className="fixed inset-0 z-[120] flex items-center justify-center bg-slate-950/85 p-3 sm:p-6 backdrop-blur-xl"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={closeActiveMedia}
           >
             <motion.div
-              className="relative w-full max-w-5xl"
+              className="relative flex h-full w-full max-h-full max-w-full flex-col"
               initial={{ opacity: 0, scale: 0.96, y: 18 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.96, y: 18 }}
@@ -230,13 +230,13 @@ export function ProjectMediaGallery({
                 </svg>
               </button>
 
-              <div className="overflow-hidden rounded-[28px] border border-white/15 bg-slate-950/80 shadow-[0_30px_120px_rgba(10,15,35,0.75)]">
-                <div className="relative aspect-video w-full bg-black">
+              <div className="flex min-h-0 flex-1 flex-col overflow-hidden rounded-[28px] border border-white/15 bg-slate-950/80 shadow-[0_30px_120px_rgba(10,15,35,0.75)]">
+                <div className="relative flex flex-1 items-center justify-center bg-black p-2 sm:p-4">
                   {activeMedia.type === "image" && (
                     <img
                       src={activeMedia.src}
                       alt={activeMedia.alt ?? project.title}
-                      className="h-full w-full object-contain"
+                      className="max-h-full max-w-full object-contain"
                     />
                   )}
                   {activeMedia.type === "video" && (
@@ -246,14 +246,14 @@ export function ProjectMediaGallery({
                       controls
                       autoPlay
                       playsInline
-                      className="h-full w-full object-contain"
+                      className="max-h-full max-w-full object-contain"
                     />
                   )}
                   {activeMedia.type === "externalVideo" && (
                     <iframe
                       src={getEmbeddedVideoSource(activeMedia)}
                       title={activeMedia.alt ?? project.title}
-                      className="h-full w-full"
+                      className="h-full w-full max-h-full max-w-full"
                       allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
                       allowFullScreen
                     />
