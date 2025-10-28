@@ -116,7 +116,7 @@ export function FeaturedCarouselCard({
             sizes="(min-width: 1280px) 60vw, (min-width: 1024px) 68vw, (min-width: 768px) 78vw, 90vw"
             priority={isCenter}
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-gray-950/96 via-gray-900/40 to-transparent" />
+          <div className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-950/40 to-transparent" />
 
           <div className="absolute bottom-5 inset-x-0 px-6 text-white flex flex-row items-center gap-1 justify-center text-center items-center">
             <Sparkles
