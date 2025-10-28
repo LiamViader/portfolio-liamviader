@@ -49,7 +49,7 @@ const mediaVariants: Variants = {
 
 const overlayVariants: Variants = {
   rest: { opacity: 1 },
-  hover: {  opacity: 0.1 },
+  hover: {  opacity: 0.2 },
 };
 
 const contentVariants: Variants = {
