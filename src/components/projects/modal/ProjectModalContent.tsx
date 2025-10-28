@@ -168,7 +168,7 @@ export function ProjectModalContent({
             </motion.article>
 
             <motion.aside
-              className="flex flex-col gap-6 border-t border-white/10 pt-10 md:flex-row md:items-stretch"
+              className="flex flex-col gap-6 md:flex-row md:items-stretch"
               variants={modalItemVariants}
               initial="hidden"
               animate={animationState}
