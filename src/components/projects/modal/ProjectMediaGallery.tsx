@@ -216,7 +216,7 @@ export function ProjectMediaGallery({
           <AnimatePresence>
             {activeMedia && (
               <motion.div
-                className="fixed inset-0 z-[120] flex items-center justify-center bg-slate-950/85 p-3 sm:p-6 backdrop-blur-xl"
+                className="fixed inset-0 z-[1200] flex items-center justify-center bg-slate-950/85 p-3 sm:p-6 backdrop-blur-xl"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
