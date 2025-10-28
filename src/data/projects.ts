@@ -6,9 +6,11 @@ export const project_categorys = ["AI", "Game"] as const;
 
 export type ProjectCategory = (typeof project_categorys)[number];
 
+type ProjectMediaType = "image" | "video" | "externalVideo";
+
 interface ProjectMediaLocalization {
   alt?: string;
-  caption?: string;
+  captionLabel?: string;
   description?: string;
 }
 
@@ -21,7 +23,12 @@ interface ProjectTranslations {
 }
 
 interface ProjectMediaItem {
+  type: ProjectMediaType;
   src: string;
+  thumbnail?: string;
+  poster?: string;
+  embedUrl?: string;
+  figureNumber?: string;
 }
 
 interface ProjectData {
@@ -45,10 +52,23 @@ export const allProjects: ProjectData[] = [
     live_url: "https://project1-live.com",
     detailed_media: [
       {
+        type: "image",
         src: "/images/testImage.jpg",
+        figureNumber: "1.1",
       },
       {
-        src: "/images/testImage.jpg",
+        type: "video",
+        src: "https://storage.googleapis.com/coverr-main/mp4/Mt_Baker.mp4",
+        poster: "/images/testImage2.jpg",
+        thumbnail: "/images/testImage2.jpg",
+        figureNumber: "1.2",
+      },
+      {
+        type: "externalVideo",
+        src: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
+        embedUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ",
+        thumbnail: "https://img.youtube.com/vi/dQw4w9WgXcQ/hqdefault.jpg",
+        figureNumber: "1.3",
       },
     ],
     categorys: ["AI", "Game"],
@@ -63,13 +83,18 @@ export const allProjects: ProjectData[] = [
         media: [
           {
             alt: "Primary interface view for project 1",
-            caption: "Figure 1.1",
+            captionLabel: "Figure",
             description: "Overview of the main interface.",
           },
           {
             alt: "Workflow detail for project 1",
-            caption: "Figure 1.2",
+            captionLabel: "Figure",
             description: "Highlighted workflow diagram.",
+          },
+          {
+            alt: "YouTube preview for project 1",
+            captionLabel: "Figure",
+            description: "Embedded presentation hosted on YouTube.",
           },
         ],
       },
@@ -82,13 +107,18 @@ export const allProjects: ProjectData[] = [
         media: [
           {
             alt: "Vista principal del proyecto 1",
-            caption: "Figura 1.1",
+            captionLabel: "Figura",
             description: "Vista general de la interfaz.",
           },
           {
             alt: "Detalle del flujo de trabajo del proyecto 1",
-            caption: "Figura 1.2",
+            captionLabel: "Figura",
             description: "Flujo de trabajo destacado.",
+          },
+          {
+            alt: "Vista previa de YouTube del proyecto 1",
+            captionLabel: "Figura",
+            description: "Presentación incrustada alojada en YouTube.",
           },
         ],
       },
@@ -102,10 +132,14 @@ export const allProjects: ProjectData[] = [
     live_url: "https://project1-live.com",
     detailed_media: [
       {
+        type: "image",
         src: "/images/testImage2.jpg",
+        figureNumber: "2.1",
       },
       {
+        type: "image",
         src: "/images/testImage2.jpg",
+        figureNumber: "2.2",
       },
     ],
     categorys: ["Game"],
@@ -120,12 +154,12 @@ export const allProjects: ProjectData[] = [
         media: [
           {
             alt: "Main gameplay screen for project 2",
-            caption: "Figure 2.1",
+            captionLabel: "Figure",
             description: "Gameplay sequence in progress.",
           },
           {
             alt: "Menu screen for project 2",
-            caption: "Figure 2.2",
+            captionLabel: "Figure",
             description: "Main menu and options layout.",
           },
         ],
@@ -139,12 +173,12 @@ export const allProjects: ProjectData[] = [
         media: [
           {
             alt: "Pantalla principal del juego 2",
-            caption: "Figura 2.1",
+            captionLabel: "Figura",
             description: "Gameplay en progreso.",
           },
           {
             alt: "Menú del juego 2",
-            caption: "Figura 2.2",
+            captionLabel: "Figura",
             description: "Menú principal y opciones.",
           },
         ],
@@ -159,10 +193,14 @@ export const allProjects: ProjectData[] = [
     live_url: "https://project1-live.com",
     detailed_media: [
       {
+        type: "image",
         src: "/images/testImage2.jpg",
+        figureNumber: "3.1",
       },
       {
+        type: "image",
         src: "/images/testImage2.jpg",
+        figureNumber: "3.2",
       },
     ],
     categorys: ["Game"],
@@ -177,12 +215,12 @@ export const allProjects: ProjectData[] = [
         media: [
           {
             alt: "Primary gameplay view for project 3",
-            caption: "Figure 3.1",
+            captionLabel: "Figure",
             description: "Real-time combat encounter.",
           },
           {
             alt: "Progress board for project 3",
-            caption: "Figure 3.2",
+            captionLabel: "Figure",
             description: "Player progression dashboard.",
           },
         ],
@@ -196,12 +234,12 @@ export const allProjects: ProjectData[] = [
         media: [
           {
             alt: "Pantalla principal del juego 3",
-            caption: "Figura 3.1",
+            captionLabel: "Figura",
             description: "Combate en tiempo real.",
           },
           {
             alt: "Tablero de progreso del juego 3",
-            caption: "Figura 3.2",
+            captionLabel: "Figura",
             description: "Progresión del jugador.",
           },
         ],
@@ -216,10 +254,14 @@ export const allProjects: ProjectData[] = [
     live_url: "https://project1-live.com",
     detailed_media: [
       {
+        type: "image",
         src: "/images/testImage2.jpg",
+        figureNumber: "4.1",
       },
       {
+        type: "image",
         src: "/images/testImage2.jpg",
+        figureNumber: "4.2",
       },
     ],
     categorys: ["Game"],
@@ -234,12 +276,12 @@ export const allProjects: ProjectData[] = [
         media: [
           {
             alt: "World exploration view for project 4",
-            caption: "Figure 4.1",
+            captionLabel: "Figure",
             description: "Map exploration sequence.",
           },
           {
             alt: "Configuration screen for project 4",
-            caption: "Figure 4.2",
+            captionLabel: "Figure",
             description: "Customizable settings panel.",
           },
         ],
@@ -253,12 +295,12 @@ export const allProjects: ProjectData[] = [
         media: [
           {
             alt: "Pantalla principal del juego 4",
-            caption: "Figura 4.1",
+            captionLabel: "Figura",
             description: "Exploración del mapa.",
           },
           {
             alt: "Configuración del juego 4",
-            caption: "Figura 4.2",
+            captionLabel: "Figura",
             description: "Ajustes personalizables.",
           },
         ],
@@ -273,10 +315,14 @@ export const allProjects: ProjectData[] = [
     live_url: "https://project1-live.com",
     detailed_media: [
       {
+        type: "image",
         src: "/images/testImage2.jpg",
+        figureNumber: "5.1",
       },
       {
+        type: "image",
         src: "/images/testImage2.jpg",
+        figureNumber: "5.2",
       },
     ],
     categorys: ["Game"],
@@ -291,12 +337,12 @@ export const allProjects: ProjectData[] = [
         media: [
           {
             alt: "Opening level view for project 5",
-            caption: "Figure 5.1",
+            captionLabel: "Figure",
             description: "Starting area of the experience.",
           },
           {
             alt: "Strategic map detail for project 5",
-            caption: "Figure 5.2",
+            captionLabel: "Figure",
             description: "Strategic map overview.",
           },
         ],
@@ -310,12 +356,12 @@ export const allProjects: ProjectData[] = [
         media: [
           {
             alt: "Pantalla principal del juego 5",
-            caption: "Figura 5.1",
+            captionLabel: "Figura",
             description: "Nivel inicial.",
           },
           {
             alt: "Detalle del mapa del juego 5",
-            caption: "Figura 5.2",
+            captionLabel: "Figura",
             description: "Vista del mapa estratégico.",
           },
         ],

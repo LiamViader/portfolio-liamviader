@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, scale, type Variants } from "framer-motion";
+import { motion, type Variants } from "framer-motion";
 import { ExternalLink, Github, Sparkles } from "lucide-react";
 import { useTranslations } from "next-intl";
 
@@ -8,6 +8,7 @@ import CustomScrollArea from "@/components/CustomScrollArea";
 import { TranslatedProject } from "@/data/projects";
 
 import { modalContentVariants, modalItemVariants, modalItemVariants2 } from "./animations";
+import { ProjectMediaGallery, getMediaPreviewSource } from "./ProjectMediaGallery";
 
 const heroMediaVariants: Variants = {
   hidden: { scale: 1.05, opacity: 0.6 },
@@ -27,12 +28,12 @@ export function ProjectModalContent({
   onClose,
 }: ProjectModalContentProps) {
   const t = useTranslations("ProjectModal");
-  const media = project.detailed_media ?? [];
   const tags = project.tags ?? [];
   const categories = project.categorys ?? [];
 
-  const heroMedia = project.media_preview ?? media[0]?.src;
-  const heroAlt = media[0]?.alt ?? project.title;
+  const heroMedia =
+    project.media_preview ?? getMediaPreviewSource(project.detailed_media?.[0]);
+  const heroAlt = project.detailed_media?.[0]?.alt ?? project.title;
   const categoryLabels = categories.map((category) =>
     t(`categories.${category}`)
   );
@@ -147,50 +148,14 @@ export function ProjectModalContent({
                 </p>
               </div>
 
-              {media.length > 0 && (
-                <div className="space-y-4 border-t border-white/10 pt-8">
-                  <h3 className="text-2xl font-semibold text-white pb-2">{t("galleryTitle")}</h3>
-                  <div className="grid gap-5 sm:grid-cols-2">
-                    {media.map((item, idx) => (
-                      <motion.figure
-                        key={`${project.id}-media-${idx}`}
-                        className="group overflow-hidden rounded-3xl border border-white/12 bg-slate-950/40 shadow-[0_24px_58px_rgba(8,15,35,0.55)] backdrop-blur"
-                        variants={modalItemVariants}
-                        whileHover={{ y: -6 }}
-                        transition={{ type: "spring", stiffness: 260, damping: 24 }}
-                      >
-                        <div className="relative aspect-video overflow-hidden">
-                          <motion.img
-                            src={item.src}
-                            alt={item.alt ?? `${project.title} detail ${idx + 1}`}
-                            className="h-full w-full object-cover will-change-transform"
-                            initial={{ scale: 1.01 }}
-                            whileHover={{ scale: 1.04 }}
-                            transition={{ duration: 0.45, ease: "easeOut" }}
-                          />
-                          <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-slate-950/65 via-slate-950/15 to-transparent opacity-60" />
-                        </div>
-                        {(item.caption || item.description || item.alt) && (
-                          <div className="relative z-10 -mt-1 px-0 pb-0">
-                            <figcaption className="relative space-y-1.5 border border-white/12 bg-slate-950/85 px-5 py-4 text-left shadow-[0_18px_38px_rgba(6,12,30,0.65)] backdrop-blur">
-                              {(item.caption ?? item.alt) && (
-                                <p className="text-[0.68rem] font-semibold uppercase tracking-[0.35em] text-slate-100/75">
-                                  {item.caption ?? item.alt}
-                                </p>
-                              )}
-                              {item.description && (
-                                <p className="text-sm leading-relaxed text-slate-100/80">
-                                  {item.description}
-                                </p>
-                              )}
-                            </figcaption>
-                          </div>
-                        )}
-                      </motion.figure>
-                    ))}
-                  </div>
-                </div>
-              )}
+              {project.detailed_media?.length ? (
+                <ProjectMediaGallery
+                  project={project}
+                  galleryTitle={t("galleryTitle")}
+                  closeLabel={closeLabel}
+                  animationState={animationState}
+                />
+              ) : null}
             </motion.article>
 
             <motion.aside
