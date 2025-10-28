@@ -23,7 +23,6 @@ export function ProjectModalShell({
 }: ProjectModalShellProps) {
   return (
     <motion.div
-      // Esta key es interna al componente; no afecta a los hermanos del AnimatePresence
       key={`modal-${projectId}`}
       ref={containerRef}
       animate={controls}
@@ -42,8 +41,8 @@ export function ProjectModalShell({
       className={clsx(
         "relative flex h-full flex-col",
         "rounded-3xl border border-white/10",
-        "bg-gradient-to-br from-slate-950/95 via-slate-950/85 to-slate-900/80",
-        "backdrop-blur-2xl",
+        "bg-gradient-to-br from-slate-950/25 via-slate-950/25 to-slate-900/20",
+        "backdrop-blur-sm",
         "transform-gpu will-change-[transform,opacity]",
         "transition-none",
         passThrough && "pointer-events-none"

@@ -1,14 +1,14 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, type Variants } from "framer-motion";
 import { ExternalLink, Github, Sparkles } from "lucide-react";
 
 import CustomScrollArea from "@/components/CustomScrollArea";
 import { TranslatedProject } from "@/data/projects";
 
-import { modalContentVariants, modalItemVariants } from "./animations";
+import { modalContentVariants, modalItemVariants, modalItemVariants2 } from "./animations";
 
-const heroMediaVariants = {
+const heroMediaVariants: Variants = {
   hidden: { scale: 1.05, opacity: 0.6 },
   visible: { scale: 1, opacity: 1, transition: { duration: 0.6, ease: "easeOut" } },
   exit: { scale: 1.02, opacity: 0.3, transition: { duration: 0.3, ease: "easeIn" } },
@@ -41,7 +41,7 @@ export function ProjectModalContent({
     >
       <motion.header
         className="relative overflow-hidden border-b border-white/10"
-        variants={modalItemVariants}
+        variants={modalItemVariants2}
       >
         {heroMedia && (
           <motion.div
@@ -58,17 +58,20 @@ export function ProjectModalContent({
               animate={{ scale: 1, opacity: 1 }}
               transition={{ duration: 0.65, ease: [0.23, 1, 0.32, 1] }}
             />
-            <div className="absolute inset-0 bg-gradient-to-br from-slate-950/95 via-slate-950/80 to-slate-900/60" />
+            <div className="absolute inset-0 bg-gradient-to-br from-slate-950/95 via-slate-950/70 to-slate-900/60" />
             <div className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-950/50 to-transparent" />
           </motion.div>
         )}
 
-        <div className="relative z-10 flex flex-col gap-6 p-6 md:p-10 lg:p-12">
-          <div className="flex flex-wrap items-center justify-between gap-4">
+        <div className="relative z-10 flex flex-col gap-4 py-6 px-10 md:px-10">
+          <div className="flex flex-wrap items-center justify-between gap-2">
             <div className="flex flex-wrap items-center gap-3 text-xs uppercase tracking-[0.35em] text-sky-200/80">
-              <Sparkles className="h-4 w-4 text-sky-300" aria-hidden="true" />
+              { 
+                project.is_featured &&
+                <Sparkles className="h-4 w-4 text-sky-300" aria-hidden="true" />
+              }
               <span className="font-semibold text-white/70">
-                {categories.length > 0 ? categories.join(" · ") : "Proyecto"}
+                {categories.length > 0 ? categories.join(" · ") : ""}
               </span>
             </div>
 
@@ -76,7 +79,7 @@ export function ProjectModalContent({
               type="button"
               onClick={onClose}
               aria-label="Cerrar"
-              className="group relative inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/15 bg-white/10 text-white/80 shadow-[0_12px_40px_rgba(14,116,144,0.35)] backdrop-blur"
+              className="group cursor-pointer relative inline-flex h-11 w-11 items-center justify-center rounded-full border border-sky-300/45 bg-slate-900/80 text-white/80 shadow-[0_0px_20px_rgba(14,116,144,0.75)]"
               whileHover={{ scale: 1.08, rotate: 2 }}
               whileTap={{ scale: 0.92 }}
             >
@@ -92,7 +95,7 @@ export function ProjectModalContent({
             </motion.button>
           </div>
 
-          <div className="space-y-4">
+          <div className="space-y-2">
             <h1 className="text-3xl font-semibold leading-tight text-white drop-shadow-[0_10px_35px_rgba(56,189,248,0.35)] md:text-4xl">
               {project.title}
             </h1>
@@ -100,22 +103,6 @@ export function ProjectModalContent({
               <p className="text-base text-white/70 md:text-lg">{project.role}</p>
             )}
           </div>
-
-          {tags.length > 0 && (
-            <div className="flex flex-wrap gap-2">
-              {tags.slice(0, 4).map((tag, idx) => (
-                <motion.span
-                  key={`${project.id}-hero-tag-${idx}`}
-                  className="rounded-full border border-white/20 bg-white/10 px-3 py-1 text-xs font-medium tracking-wide text-white/80 shadow-[0_12px_30px_rgba(15,23,42,0.45)]"
-                  initial={{ opacity: 0, y: 6 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.35, delay: 0.25 + idx * 0.04, ease: "easeOut" }}
-                >
-                  {tag}
-                </motion.span>
-              ))}
-            </div>
-          )}
         </div>
       </motion.header>
 

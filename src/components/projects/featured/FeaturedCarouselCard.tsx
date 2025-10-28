@@ -52,7 +52,7 @@ const mediaVariants: Variants = {
 
 const overlayVariants: Variants = {
   rest: { opacity: 1 },
-  hover: (c: {center:boolean} = {center:false})=> ({  opacity: c.center ? 0.4 : 1 }),
+  hover: (c: {center:boolean} = {center:false})=> ({  opacity: c.center ? 0.7 : 1 }),
 };
 
 

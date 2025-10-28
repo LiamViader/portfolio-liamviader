@@ -193,6 +193,27 @@ export function FeaturedCarousel({
     };
   }, [clearMaskTimers]);
 
+  const clearAutoplay = useCallback(() => {
+    if (autoplayRef.current) {
+      clearInterval(autoplayRef.current);
+      autoplayRef.current = null;
+    }
+  }, []);
+
+  const scheduleAutoplay = useCallback(() => {
+    if (totalProjects <= 1 || hasSelectedProject) {
+      clearAutoplay();
+      return;
+    }
+
+    clearAutoplay();
+    autoplayRef.current = setInterval(() => {
+      setScrollDir(1); // autoplay avanza
+      setActiveIndex((idx) => (idx + 1) % totalProjects);
+      startMaskForAnimation(DUR_ENTER_CENTER_MS);
+    }, 5000);
+  }, [clearAutoplay, hasSelectedProject, totalProjects, startMaskForAnimation]);
+
   useEffect(() => {
     if (typeof document === "undefined") return;
 
@@ -218,26 +239,6 @@ export function FeaturedCarousel({
     };
   }, [activeIndex, scrollDir, clearAutoplay, clearMaskTimers, refreshHoverOneFrame, scheduleAutoplay]);
 
-  const clearAutoplay = useCallback(() => {
-    if (autoplayRef.current) {
-      clearInterval(autoplayRef.current);
-      autoplayRef.current = null;
-    }
-  }, []);
-
-  const scheduleAutoplay = useCallback(() => {
-    if (totalProjects <= 1 || hasSelectedProject) {
-      clearAutoplay();
-      return;
-    }
-
-    clearAutoplay();
-    autoplayRef.current = setInterval(() => {
-      setScrollDir(1); // autoplay avanza
-      setActiveIndex((idx) => (idx + 1) % totalProjects);
-      startMaskForAnimation(DUR_ENTER_CENTER_MS);
-    }, 5000);
-  }, [clearAutoplay, hasSelectedProject, totalProjects, startMaskForAnimation]);
 
   useEffect(() => {
     scheduleAutoplay();
