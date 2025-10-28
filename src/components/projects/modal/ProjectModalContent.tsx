@@ -1,6 +1,6 @@
 "use client";
 
-import { motion, type Variants } from "framer-motion";
+import { motion, scale, type Variants } from "framer-motion";
 import { ExternalLink, Github, Sparkles } from "lucide-react";
 import { useTranslations } from "next-intl";
 
@@ -74,15 +74,15 @@ export function ProjectModalContent({
         <div className="relative z-10 px-6 py-6 md:px-10 md:py-8">
           <div className="flex flex-wrap items-start justify-between gap-6">
             <div className="space-y-3">
-              <div className="flex flex-wrap items-center gap-3 text-[0.68rem] uppercase tracking-[0.25em] text-slate-100/70">
+              <div className="flex flex-wrap items-center gap-5 text-[0.68rem] uppercase tracking-[0.25em] text-slate-100/70">
                 {project.is_featured && (
-                  <span className="inline-flex items-center gap-1.5 rounded-full border border-white/20 bg-white/5 px-3 py-1 text-sky-100 shadow-[0_8px_20px_rgba(56,189,248,0.2)]">
+                  <span className="inline-flex items-center gap-1.5 px-2 py-1 text-sky-200">
                     <Sparkles className="h-3 w-3" aria-hidden="true" />
                     <span>{t("featuredBadge")}</span>
                   </span>
                 )}
                 {categoryLabels.length > 0 && (
-                  <span className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-slate-100/70">
+                  <span className="inline-flex items-center gap-2 px-2 py-1 text-slate-100/70">
                     {categoryLabels.join(" • ")}
                   </span>
                 )}
@@ -101,15 +101,15 @@ export function ProjectModalContent({
               type="button"
               onClick={onClose}
               aria-label={closeAriaLabel}
-              className="group relative inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/15 bg-slate-950/40 text-white/75 shadow-[0_16px_38px_rgba(15,23,42,0.45)] backdrop-blur-lg"
-              whileHover={{ scale: 1.05, rotate: 1 }}
+              className="group relative inline-flex h-11 w-11 items-center justify-center rounded-full cursor-pointer border border-white/15 bg-slate-950/40 text-white/75 shadow-[0_16px_38px_rgba(15,23,42,0.45)] backdrop-blur-lg"
+              whileHover={{scale: 1.1, backgroundColor: "rgba(35,43,62,0.90)", borderColor: "rgba(200,200,200,0.60)"}}
               whileTap={{ scale: 0.94 }}
             >
               <span className="sr-only">{closeLabel}</span>
-              <div className="relative flex h-11 w-11 items-center justify-center overflow-hidden rounded-full">
+              <motion.div className="relative flex h-11 w-11 items-center justify-center overflow-hidden rounded-full" >
                 <span className="absolute inset-0 rounded-full bg-gradient-to-br from-white/10 via-transparent to-white/5 opacity-80" />
                 <svg
-                  className="relative h-5 w-5 text-white transition-transform duration-150 group-hover:scale-105"
+                  className="relative h-5 w-5 text-white"
                   fill="none"
                   stroke="currentColor"
                   strokeWidth="1.8"
@@ -120,7 +120,7 @@ export function ProjectModalContent({
                   <path d="M18 6 6 18" />
                   <path d="M6 6l12 12" />
                 </svg>
-              </div>
+              </motion.div>
             </motion.button>
           </div>
         </div>
@@ -149,7 +149,7 @@ export function ProjectModalContent({
 
               {media.length > 0 && (
                 <div className="space-y-4 border-t border-white/10 pt-8">
-                  <h3 className="text-xl font-semibold text-white">{t("galleryTitle")}</h3>
+                  <h3 className="text-2xl font-semibold text-white pb-2">{t("galleryTitle")}</h3>
                   <div className="grid gap-5 sm:grid-cols-2">
                     {media.map((item, idx) => (
                       <motion.figure
@@ -171,9 +171,8 @@ export function ProjectModalContent({
                           <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-slate-950/65 via-slate-950/15 to-transparent opacity-60" />
                         </div>
                         {(item.caption || item.description || item.alt) && (
-                          <div className="relative z-10 -mt-6 px-5 pb-5">
-                            <figcaption className="relative space-y-1.5 rounded-2xl border border-white/12 bg-slate-950/85 px-5 py-4 text-left shadow-[0_18px_38px_rgba(6,12,30,0.65)] backdrop-blur">
-                              <span className="pointer-events-none absolute inset-0 rounded-2xl border border-white/5 opacity-60" />
+                          <div className="relative z-10 -mt-1 px-0 pb-0">
+                            <figcaption className="relative space-y-1.5 border border-white/12 bg-slate-950/85 px-5 py-4 text-left shadow-[0_18px_38px_rgba(6,12,30,0.65)] backdrop-blur">
                               {(item.caption ?? item.alt) && (
                                 <p className="text-[0.68rem] font-semibold uppercase tracking-[0.35em] text-slate-100/75">
                                   {item.caption ?? item.alt}
@@ -201,7 +200,7 @@ export function ProjectModalContent({
               animate={animationState}
             >
               <motion.div
-                className="rounded-[26px] border border-white/10 bg-gradient-to-br from-white/10 via-white/0 to-transparent p-6 shadow-[0_20px_48px_rgba(15,23,42,0.4)] backdrop-blur-xl md:flex-auto md:min-w-0"
+                className="rounded-[26px] border border-white/10 bg-gradient-to-br from-white/10 via-white/3 to-transparent p-6 shadow-[0_5px_20px_rgba(122,122,122,0.45)] backdrop-blur-xl md:flex-auto md:min-w-0"
                 variants={modalItemVariants}
                 initial="hidden"
                 animate={animationState}
@@ -223,7 +222,7 @@ export function ProjectModalContent({
 
               {(project.github_url || project.live_url) && (
                 <motion.div
-                  className="rounded-[26px] border border-sky-400/35 bg-gradient-to-br from-sky-500/18 via-sky-400/8 to-transparent p-6 shadow-[0_24px_55px_rgba(14,116,144,0.45)] backdrop-blur-xl md:flex-auto md:min-w-[250px]"
+                  className="rounded-[26px] border border-sky-400/35 bg-gradient-to-br from-sky-500/18 via-sky-400/8 to-transparent p-6 shadow-[0_5px_20px_rgba(14,116,144,0.45)] backdrop-blur-xl md:flex-auto md:min-w-[250px]"
                   variants={modalItemVariants}
                   initial="hidden"
                   animate={animationState}
@@ -235,7 +234,7 @@ export function ProjectModalContent({
                         href={project.live_url}
                         target="_blank"
                         rel="noreferrer"
-                        className="flex items-center justify-between gap-3 rounded-2xl border border-white/20 bg-gradient-to-r from-sky-500/28 via-sky-400/18 to-transparent px-4 py-3 text-sm font-semibold text-white shadow-[0_12px_35px_rgba(56,189,248,0.45)]"
+                        className="flex items-center justify-between gap-3 rounded-2xl border border-white/20 bg-gradient-to-r from-sky-500/28 via-sky-400/18 to-transparent px-4 py-3 text-sm font-semibold text-white shadow-[0_2px_5px_rgba(56,189,248,0.45)]"
                         whileHover={{ scale: 1.04 }}
                         whileTap={{ scale: 0.95 }}
                       >
@@ -248,7 +247,7 @@ export function ProjectModalContent({
                         href={project.github_url}
                         target="_blank"
                         rel="noreferrer"
-                        className="flex items-center justify-between gap-3 rounded-2xl border border-white/15 bg-gradient-to-r from-slate-900/70 via-slate-900/40 to-transparent px-4 py-3 text-sm font-semibold text-white/85 shadow-[0_10px_30px_rgba(12,74,110,0.35)]"
+                        className="flex items-center justify-between gap-3 rounded-2xl border border-white/15 bg-gradient-to-r from-purple-900/70 via-purple-900/40 to-transparent px-4 py-3 text-sm font-semibold text-white/85 shadow-[0_2px_5px_rgba(142,36,170,0.45)]"
                         whileHover={{ scale: 1.03 }}
                         whileTap={{ scale: 0.96 }}
                       >
