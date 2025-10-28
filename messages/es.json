@@ -97,5 +97,20 @@
         }
       }
     }
+  },
+  "ProjectModal": {
+    "closeButton": "Cerrar",
+    "closeAriaLabel": "Cerrar detalles del proyecto",
+    "overviewTitle": "Visión general",
+    "galleryTitle": "Galería del proyecto",
+    "technologiesTitle": "Tecnologías",
+    "exploreMoreTitle": "Explora más",
+    "liveDemoCta": "Demo en vivo",
+    "viewOnGithubCta": "Ver en GitHub",
+    "featuredBadge": "Destacado",
+    "categories": {
+      "AI": "IA",
+      "Game": "Videojuegos"
+    }
   }
 }
