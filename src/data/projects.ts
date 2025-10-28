@@ -19,15 +19,21 @@ interface ProjectTranslations {
 
 
 // Structure of a Project with all its data
+interface ProjectMediaItem {
+        src: string;
+        alt?: string;
+        caption?: string;
+}
+
 interface ProjectData {
-	id: number;
-	tags: string[]; // Tecnologys used etc
-	media_preview: string; // URL of the preview image for the closed card
-	github_url?: string;
-	live_url?: string; // Live demo URL
-	detailed_media: string[]; // URLs of images/videos for the detailed view
-	categorys: ProjectCategory[]; // Categories for filtering
-	is_featured?: boolean; // Optional flag for featured projects
+        id: number;
+        tags: string[]; // Tecnologys used etc
+        media_preview: string; // URL of the preview image for the closed card
+        github_url?: string;
+        live_url?: string; // Live demo URL
+        detailed_media: ProjectMediaItem[]; // Media items for the detailed view
+        categorys: ProjectCategory[]; // Categories for filtering
+        is_featured?: boolean; // Optional flag for featured projects
 
 	// Object containing translations for each supported language
 	translations: Record<Locale, ProjectTranslations>; 
@@ -41,7 +47,18 @@ export const allProjects: ProjectData[] = [
 		media_preview: "/images/testImage.jpg",
 		github_url: "https://github.com/liam/project1",
 		live_url: "https://project1-live.com",
-		detailed_media: ["/images/testImage.jpg", "/images/testImage.jpg"],
+                detailed_media: [
+                        {
+                                src: "/images/testImage.jpg",
+                                alt: "Vista principal del proyecto 1",
+                                caption: "Figura 1.1 — Vista general de la interfaz."
+                        },
+                        {
+                                src: "/images/testImage.jpg",
+                                alt: "Detalle del flujo de trabajo del proyecto 1",
+                                caption: "Figura 1.2 — Flujo de trabajo destacado."
+                        }
+                ],
 		categorys: ["AI", "Game"],
 		is_featured: true,
 		
@@ -66,7 +83,18 @@ export const allProjects: ProjectData[] = [
 		media_preview: "/images/testImage2.jpg",
 		github_url: "https://github.com/liam/project1",
 		live_url: "https://project1-live.com",
-		detailed_media: ["/images/testImage2.jpg", "/images/testImage2.jpg"],
+                detailed_media: [
+                        {
+                                src: "/images/testImage2.jpg",
+                                alt: "Pantalla principal del juego 2",
+                                caption: "Figura 2.1 — Gameplay en progreso."
+                        },
+                        {
+                                src: "/images/testImage2.jpg",
+                                alt: "Menú del juego 2",
+                                caption: "Figura 2.2 — Menú principal y opciones."
+                        }
+                ],
 		categorys: ["Game"],
 		is_featured: true,
 		
@@ -91,7 +119,18 @@ export const allProjects: ProjectData[] = [
 		media_preview: "/images/testImage2.jpg",
 		github_url: "https://github.com/liam/project1",
 		live_url: "https://project1-live.com",
-		detailed_media: ["/images/testImage2.jpg", "/images/testImage2.jpg"],
+                detailed_media: [
+                        {
+                                src: "/images/testImage2.jpg",
+                                alt: "Pantalla principal del juego 3",
+                                caption: "Figura 3.1 — Combate en tiempo real."
+                        },
+                        {
+                                src: "/images/testImage2.jpg",
+                                alt: "Tablero de progreso del juego 3",
+                                caption: "Figura 3.2 — Progresión del jugador."
+                        }
+                ],
 		categorys: ["Game"],
 		is_featured: true,
 		
@@ -116,7 +155,18 @@ export const allProjects: ProjectData[] = [
 		media_preview: "/images/testImage2.jpg",
 		github_url: "https://github.com/liam/project1",
 		live_url: "https://project1-live.com",
-		detailed_media: ["/images/testImage2.jpg", "/images/testImage2.jpg"],
+                detailed_media: [
+                        {
+                                src: "/images/testImage2.jpg",
+                                alt: "Pantalla principal del juego 4",
+                                caption: "Figura 4.1 — Exploración del mapa."
+                        },
+                        {
+                                src: "/images/testImage2.jpg",
+                                alt: "Configuración del juego 4",
+                                caption: "Figura 4.2 — Ajustes personalizables."
+                        }
+                ],
 		categorys: ["Game"],
 		is_featured: true,
 		
@@ -141,7 +191,18 @@ export const allProjects: ProjectData[] = [
 		media_preview: "/images/testImage2.jpg",
 		github_url: "https://github.com/liam/project1",
 		live_url: "https://project1-live.com",
-		detailed_media: ["/images/testImage2.jpg", "/images/testImage2.jpg"],
+                detailed_media: [
+                        {
+                                src: "/images/testImage2.jpg",
+                                alt: "Pantalla principal del juego 5",
+                                caption: "Figura 5.1 — Nivel inicial."
+                        },
+                        {
+                                src: "/images/testImage2.jpg",
+                                alt: "Detalle del mapa del juego 5",
+                                caption: "Figura 5.2 — Vista del mapa estratégico."
+                        }
+                ],
 		categorys: ["Game"],
 		is_featured: true,
 		
