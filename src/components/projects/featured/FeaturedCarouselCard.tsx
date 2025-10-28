@@ -45,6 +45,16 @@ const cardVariants: Variants = {
   },
 };
 
+const mediaVariants: Variants = {
+  rest: { scale: 1, y: 0, },
+  hover: { scale: 1.05, y: -8, transition: {duration: 0.3} },
+};
+
+const overlayVariants: Variants = {
+  rest: { opacity: 1 },
+  hover: (c: {center:boolean} = {center:false})=> ({  opacity: c.center ? 0.4 : 1 }),
+};
+
 
 interface FeaturedCarouselCardProps {
   project: TranslatedProject;
@@ -74,7 +84,7 @@ export function FeaturedCarouselCard({
   const [introDone, setIntroDone] = useState(false);
 
   const isIntro = introStart && !introDone;
-
+  console.log(project.id, shouldHide)
   return (
     <motion.div
       variants={cardVariants}
@@ -94,12 +104,16 @@ export function FeaturedCarouselCard({
         shadow-[0_0_10px_rgba(0,0,0,0.40)]
         backdrop-blur-sm
         transform-gpu will-change-[transform,opacity]
+        ${
+          shouldHide
+            ? "pointer-events-none select-none !opacity-0"
+            : ""
+        }
       `}
       style={{
         backgroundColor: BASE_BG,
         borderColor: BASE_BORD,
         pointerEvents: introDone ? "auto" : "none",
-        opacity: shouldHide ? 0 : 1, // respeta modal
       }}
     >
       <div
@@ -108,16 +122,26 @@ export function FeaturedCarouselCard({
         `}
       >
         <div className="relative h-2/3 overflow-hidden">
-          <Image
-            src={project.media_preview}
-            alt={project.title}
-            fill
-            className="object-cover"
-            sizes="(min-width: 1280px) 60vw, (min-width: 1024px) 68vw, (min-width: 768px) 78vw, 90vw"
-            priority={isCenter}
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-950/40 to-transparent" />
-
+          <motion.div
+            variants={mediaVariants}
+            className="absolute inset-0"
+            style={{ transformOrigin: "center" }}
+            transition={{duration: 0.4}}
+          >
+            <Image
+              src={project.media_preview}
+              alt={project.title}
+              fill
+              className="object-cover"
+              sizes="(min-width: 1280px) 60vw, (min-width: 1024px) 68vw, (min-width: 768px) 78vw, 90vw"
+              priority={isCenter}
+            />
+            <motion.div 
+              className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-950/40 to-transparent"
+              custom={{ center: isCenter }}
+              variants={overlayVariants}
+            />
+          </motion.div>
           <div className="absolute bottom-5 inset-x-0 px-6 text-white flex flex-row items-center gap-1 justify-center text-center items-center">
             <Sparkles
               className={`h-[1.15em] w-[1.15em] shrink-0 self-center text-white/70 transition-colors duration-300`}

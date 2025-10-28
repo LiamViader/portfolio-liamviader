@@ -92,11 +92,13 @@ export default function ProjectCard({ project, onSelect, isHidden = false }: Pro
       tabIndex={0}
       onClick={handleClick}
       variants={containerVariants}
-      className={`cursor-pointer group relative flex h-full flex-col overflow-hidden rounded-3xl border border-white/10 bg-white/5 backdrop-blur transform-gpu will-change-[transform,opacity] transition-none ${
-        isHidden
-          ? "pointer-events-none select-none opacity-0"
-          : ""
-      }`}
+      className={`cursor-pointer group relative flex h-full flex-col overflow-hidden rounded-3xl border border-white/10 bg-white/5 backdrop-blur transform-gpu will-change-[transform,opacity] transition-none 
+        ${
+          isHidden
+            ? "pointer-events-none select-none opacity-0"
+            : ""
+        }
+      `}
       animate="rest"
       initial="rest"
       whileTap="tap"
