@@ -40,7 +40,7 @@ export function ProjectModalContent({
       className="flex h-full flex-col text-white"
     >
       <motion.header
-        className="relative overflow-hidden border-b border-white/10"
+        className="relative overflow-hidden border-b border-white/10  drop-shadow-[0_0px_10px_rgba(56,189,248,0.25)]"
         variants={modalItemVariants2}
       >
         {heroMedia && (
@@ -115,12 +115,12 @@ export function ProjectModalContent({
             animate={animationState}
           >
             <motion.article
-              className="space-y-8"
+              className="space-y-8 "
               variants={modalItemVariants}
               initial="hidden"
               animate={animationState}
             >
-              <div className="space-y-4">
+              <div className="space-y-4 ">
                 <h2 className="text-2xl font-semibold text-white">Visión general</h2>
                 <p className="whitespace-pre-line text-base leading-relaxed text-white/80">
                   {project.full_description}
