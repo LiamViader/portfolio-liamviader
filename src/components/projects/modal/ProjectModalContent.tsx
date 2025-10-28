@@ -48,12 +48,12 @@ export function ProjectModalContent({
       className="flex h-full flex-col text-white"
     >
       <motion.header
-        className="relative overflow-hidden rounded-b-[24px] border-b border-white/10 bg-slate-950/90 shadow-[0_14px_40px_rgba(10,21,40,0.6)]"
+        className="relative overflow-hidden rounded-b-[28px] border-b border-white/10 bg-slate-950/95 shadow-[0_14px_40px_rgba(10,21,40,0.6)]"
         variants={modalItemVariants2}
       >
         {heroMedia && (
           <motion.div
-            className="absolute inset-0 opacity-70 mix-blend-luminosity saturate-150"
+            className="absolute inset-0 opacity-65 mix-blend-luminosity saturate-150"
             variants={heroMediaVariants}
             initial="hidden"
             animate={animationState}
@@ -71,28 +71,28 @@ export function ProjectModalContent({
           </motion.div>
         )}
 
-        <div className="relative z-10 px-8 py-8 md:px-12 md:py-10">
+        <div className="relative z-10 px-6 py-6 md:px-10 md:py-8">
           <div className="flex flex-wrap items-start justify-between gap-6">
-            <div className="space-y-4">
-              <div className="flex flex-wrap items-center gap-x-4 gap-y-2 text-[0.7rem] uppercase tracking-[0.25em] text-slate-100/70">
+            <div className="space-y-3">
+              <div className="flex flex-wrap items-center gap-3 text-[0.68rem] uppercase tracking-[0.25em] text-slate-100/70">
                 {project.is_featured && (
-                  <span className="inline-flex items-center gap-2 text-sky-100">
-                    <Sparkles className="h-3.5 w-3.5" aria-hidden="true" />
-                    {t("featuredBadge")}
+                  <span className="inline-flex items-center gap-1.5 rounded-full border border-white/20 bg-white/5 px-3 py-1 text-sky-100 shadow-[0_8px_20px_rgba(56,189,248,0.2)]">
+                    <Sparkles className="h-3 w-3" aria-hidden="true" />
+                    <span>{t("featuredBadge")}</span>
                   </span>
                 )}
                 {categoryLabels.length > 0 && (
-                  <span className="text-slate-100/70">
+                  <span className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3 py-1 text-slate-100/70">
                     {categoryLabels.join(" • ")}
                   </span>
                 )}
               </div>
-              <div className="space-y-1.5">
-                <h1 className="text-3xl font-semibold leading-tight text-white drop-shadow-[0_12px_36px_rgba(56,189,248,0.22)] md:text-[2.5rem]">
+              <div className="space-y-1">
+                <h1 className="text-[2.1rem] font-semibold leading-tight text-white drop-shadow-[0_10px_30px_rgba(56,189,248,0.22)] md:text-[2.6rem]">
                   {project.title}
                 </h1>
                 {project.role && (
-                  <p className="text-base text-white/75 md:text-lg">{project.role}</p>
+                  <p className="text-sm text-white/70 md:text-base">{project.role}</p>
                 )}
               </div>
             </div>
@@ -101,28 +101,26 @@ export function ProjectModalContent({
               type="button"
               onClick={onClose}
               aria-label={closeAriaLabel}
-              className="group relative inline-flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/5 text-white/80 shadow-[0_14px_32px_rgba(12,74,110,0.45)] backdrop-blur"
-              whileHover={{ scale: 1.08, rotate: 2 }}
-              whileTap={{ scale: 0.92 }}
+              className="group relative inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/15 bg-slate-950/40 text-white/75 shadow-[0_16px_38px_rgba(15,23,42,0.45)] backdrop-blur-lg"
+              whileHover={{ scale: 1.05, rotate: 1 }}
+              whileTap={{ scale: 0.94 }}
             >
               <span className="sr-only">{closeLabel}</span>
-              <svg
-                className="h-5 w-5 transition-colors group-hover:text-white"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
+              <div className="relative flex h-11 w-11 items-center justify-center overflow-hidden rounded-full">
+                <span className="absolute inset-0 rounded-full bg-gradient-to-br from-white/10 via-transparent to-white/5 opacity-80" />
+                <svg
+                  className="relative h-5 w-5 text-white transition-transform duration-150 group-hover:scale-105"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="1.8"
                   strokeLinecap="round"
                   strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M6 18L18 6M6 6l12 12"
-                />
-              </svg>
-              <span
-                aria-hidden="true"
-                className="pointer-events-none absolute inset-0 rounded-full bg-gradient-to-br from-white/5 via-transparent to-white/10 opacity-0 transition-opacity duration-200 group-hover:opacity-100"
-              />
+                  viewBox="0 0 24 24"
+                >
+                  <path d="M18 6 6 18" />
+                  <path d="M6 6l12 12" />
+                </svg>
+              </div>
             </motion.button>
           </div>
         </div>
@@ -152,39 +150,42 @@ export function ProjectModalContent({
               {media.length > 0 && (
                 <div className="space-y-4 border-t border-white/10 pt-8">
                   <h3 className="text-xl font-semibold text-white">{t("galleryTitle")}</h3>
-                  <div className="grid gap-4 sm:grid-cols-2">
+                  <div className="grid gap-5 sm:grid-cols-2">
                     {media.map((item, idx) => (
                       <motion.figure
                         key={`${project.id}-media-${idx}`}
-                        className="group overflow-hidden rounded-2xl border border-white/12 bg-gradient-to-br from-white/10 via-white/0 to-transparent shadow-[0_20px_45px_rgba(15,23,42,0.4)] backdrop-blur"
+                        className="group overflow-hidden rounded-3xl border border-white/12 bg-slate-950/40 shadow-[0_24px_58px_rgba(8,15,35,0.55)] backdrop-blur"
                         variants={modalItemVariants}
-                        whileHover={{ y: -4 }}
-                        transition={{ type: "spring", stiffness: 260, damping: 26 }}
+                        whileHover={{ y: -6 }}
+                        transition={{ type: "spring", stiffness: 260, damping: 24 }}
                       >
                         <div className="relative aspect-video overflow-hidden">
                           <motion.img
                             src={item.src}
                             alt={item.alt ?? `${project.title} detail ${idx + 1}`}
-                            className="h-full w-full object-cover"
-                            initial={{ scale: 1.02 }}
-                            whileHover={{ scale: 1.06 }}
+                            className="h-full w-full object-cover will-change-transform"
+                            initial={{ scale: 1.01 }}
+                            whileHover={{ scale: 1.04 }}
                             transition={{ duration: 0.45, ease: "easeOut" }}
                           />
                           <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-slate-950/65 via-slate-950/15 to-transparent opacity-60" />
                         </div>
                         {(item.caption || item.description || item.alt) && (
-                          <figcaption className="space-y-1 border-t border-white/10 bg-slate-950/45 px-4 py-3 text-left">
-                            {(item.caption ?? item.alt) && (
-                              <p className="text-[0.7rem] font-semibold uppercase tracking-[0.3em] text-slate-100/80">
-                                {item.caption ?? item.alt}
-                              </p>
-                            )}
-                            {item.description && (
-                              <p className="text-sm leading-relaxed text-slate-100/75">
-                                {item.description}
-                              </p>
-                            )}
-                          </figcaption>
+                          <div className="relative z-10 -mt-6 px-5 pb-5">
+                            <figcaption className="relative space-y-1.5 rounded-2xl border border-white/12 bg-slate-950/85 px-5 py-4 text-left shadow-[0_18px_38px_rgba(6,12,30,0.65)] backdrop-blur">
+                              <span className="pointer-events-none absolute inset-0 rounded-2xl border border-white/5 opacity-60" />
+                              {(item.caption ?? item.alt) && (
+                                <p className="text-[0.68rem] font-semibold uppercase tracking-[0.35em] text-slate-100/75">
+                                  {item.caption ?? item.alt}
+                                </p>
+                              )}
+                              {item.description && (
+                                <p className="text-sm leading-relaxed text-slate-100/80">
+                                  {item.description}
+                                </p>
+                              )}
+                            </figcaption>
+                          </div>
                         )}
                       </motion.figure>
                     ))}
