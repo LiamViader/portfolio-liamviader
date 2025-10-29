@@ -51,15 +51,34 @@ export function ProjectModalContent({
       <CustomScrollArea className="flex-1" topOffset={28} bottomOffset={28}>
         <div className="px-7 pb-12 pt-9 md:px-10 lg:px-12">
           <motion.header
-            className="relative overflow-hidden rounded-[36px] border border-white/10 bg-slate-950/85 px-7 pb-10 pt-9 shadow-[0_24px_60px_rgba(8,15,28,0.55)] backdrop-blur-xl md:px-10"
+            className="relative overflow-hidden rounded-[36px] border border-white/10 bg-slate-950/80 px-7 pb-10 pt-9 shadow-[0_24px_60px_rgba(8,15,28,0.55)] backdrop-blur-xl md:px-10"
             variants={modalItemVariants2}
             initial="hidden"
             animate={animationState}
           >
+            {heroMedia && (
+              <motion.div
+                className="pointer-events-none absolute inset-0 -z-10 overflow-hidden"
+                variants={heroMediaVariants}
+                initial="hidden"
+                animate={animationState}
+              >
+                <motion.img
+                  src={heroMedia}
+                  alt={heroAlt}
+                  className="h-full w-full object-cover opacity-80 mix-blend-luminosity"
+                  initial={{ scale: 1.08, opacity: 0.65 }}
+                  animate={{ scale: 1, opacity: 1 }}
+                  transition={{ duration: 0.6, ease: [0.23, 1, 0.32, 1] }}
+                />
+                <div className="absolute inset-0 bg-gradient-to-br from-slate-950/92 via-slate-950/78 to-slate-900/70" />
+                <div className="absolute inset-0 bg-gradient-to-t from-slate-950/94 via-slate-950/50 to-transparent" />
+              </motion.div>
+            )}
             <div className="pointer-events-none absolute inset-0 z-0">
-              <div className="absolute inset-x-[-28%] top-[-52%] h-72 rounded-full bg-sky-500/25 blur-3xl" />
-              <div className="absolute inset-x-[-35%] bottom-[-58%] h-72 rounded-full bg-indigo-500/15 blur-[120px]" />
-              <div className="absolute inset-0 bg-gradient-to-br from-white/5 via-transparent to-slate-950/65" />
+              <div className="absolute inset-x-[-32%] top-[-48%] h-72 rounded-full bg-sky-500/20 blur-3xl" />
+              <div className="absolute inset-x-[-36%] bottom-[-58%] h-72 rounded-full bg-indigo-500/18 blur-[120px]" />
+              <div className="absolute inset-0 bg-gradient-to-br from-white/8 via-transparent to-slate-950/55" />
             </div>
             {heroMedia && (
               <motion.div
@@ -109,12 +128,8 @@ export function ProjectModalContent({
               </svg>
             </motion.button>
 
-            <div className="relative z-10 flex flex-col items-center gap-8 md:flex-row md:items-center md:gap-10 md:min-h-[9rem]">
-              <div
-                className={`flex-1 space-y-5 text-center md:text-left ${
-                  heroMedia ? "md:pl-[7.5rem]" : ""
-                }`}
-              >
+            <div className="relative z-10 flex flex-col items-center gap-6 text-center md:flex-row md:items-end md:justify-between md:text-left">
+              <div className="flex-1 space-y-5">
                 <div className="flex flex-wrap items-center justify-center gap-3 text-[0.68rem] uppercase tracking-[0.28em] text-slate-100/80 md:justify-start">
                   {project.is_featured && (
                     <span className="inline-flex items-center gap-1.5 rounded-full border border-sky-300/40 bg-sky-500/15 px-3 py-1 text-sky-100/90 shadow-[0_6px_18px_rgba(56,189,248,0.25)]">
