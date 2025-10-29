@@ -49,12 +49,12 @@ export function ProjectModalContent({
       className="flex h-full flex-col text-white"
     >
       <motion.header
-        className="relative overflow-hidden rounded-b-[28px] border-b border-white/10 bg-slate-950/95 shadow-[0_14px_40px_rgba(10,21,40,0.6)]"
+        className="relative overflow-hidden rounded-b-[32px] border-b border-white/10 bg-slate-950/95 shadow-[0_18px_48px_rgba(8,15,28,0.65)]"
         variants={modalItemVariants2}
       >
         {heroMedia && (
           <motion.div
-            className="absolute inset-0 opacity-65 mix-blend-luminosity saturate-150"
+            className="absolute inset-0 opacity-70 mix-blend-luminosity saturate-125"
             variants={heroMediaVariants}
             initial="hidden"
             animate={animationState}
@@ -67,33 +67,37 @@ export function ProjectModalContent({
               animate={{ scale: 1, opacity: 1 }}
               transition={{ duration: 0.6, ease: [0.23, 1, 0.32, 1] }}
             />
-            <div className="absolute inset-0 bg-gradient-to-br from-slate-950/95 via-slate-950/80 to-slate-900/70" />
-            <div className="absolute inset-0 bg-gradient-to-t from-slate-950/88 via-slate-950/45 to-transparent" />
+            <div className="absolute inset-0 bg-gradient-to-br from-slate-950/95 via-slate-950/85 to-slate-900/75" />
+            <div className="absolute inset-0 bg-gradient-to-t from-slate-950/92 via-slate-950/55 to-transparent" />
+            <div className="absolute inset-x-[-12%] bottom-[-26%] h-64 rounded-[50%] bg-sky-400/15 blur-3xl" />
           </motion.div>
         )}
 
-        <div className="relative z-10 px-6 py-6 md:px-10 md:py-8">
+        <div className="relative z-10 px-6 py-7 md:px-10 md:py-9">
+          <div className="absolute inset-x-6 bottom-0 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent md:inset-x-10" />
           <div className="flex flex-wrap items-start justify-between gap-6">
-            <div className="space-y-3">
-              <div className="flex flex-wrap items-center gap-5 text-[0.68rem] uppercase tracking-[0.25em] text-slate-100/70">
+            <div className="space-y-4">
+              <div className="flex flex-wrap items-center gap-3 text-[0.68rem] uppercase tracking-[0.28em] text-slate-100/80">
                 {project.is_featured && (
-                  <span className="inline-flex items-center gap-1.5 px-2 py-1 text-sky-200">
+                  <span className="inline-flex items-center gap-1.5 rounded-full border border-sky-300/40 bg-sky-500/15 px-3 py-1 text-sky-100/90 shadow-[0_6px_18px_rgba(56,189,248,0.25)]">
                     <Sparkles className="h-3 w-3" aria-hidden="true" />
-                    <span>{t("featuredBadge")}</span>
+                    <span className="tracking-[0.35em]">{t("featuredBadge")}</span>
                   </span>
                 )}
                 {categoryLabels.length > 0 && (
-                  <span className="inline-flex items-center gap-2 px-2 py-1 text-slate-100/70">
+                  <span className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/10 px-3 py-1 text-slate-50/85">
                     {categoryLabels.join(" • ")}
                   </span>
                 )}
               </div>
-              <div className="space-y-1">
-                <h1 className="text-[2.1rem] font-semibold leading-tight text-white drop-shadow-[0_10px_30px_rgba(56,189,248,0.22)] md:text-[2.6rem]">
+              <div className="space-y-2">
+                <h1 className="text-[2.15rem] font-semibold leading-tight text-white drop-shadow-[0_12px_32px_rgba(56,189,248,0.2)] md:text-[2.7rem]">
                   {project.title}
                 </h1>
                 {project.role && (
-                  <p className="text-sm text-white/70 md:text-base">{project.role}</p>
+                  <p className="text-sm font-medium text-white/75 md:text-base">
+                    {project.role}
+                  </p>
                 )}
               </div>
             </div>
@@ -102,13 +106,13 @@ export function ProjectModalContent({
               type="button"
               onClick={onClose}
               aria-label={closeAriaLabel}
-              className="group relative inline-flex h-12 w-12 items-center justify-center rounded-full cursor-pointer rounded-full bg-slate-950/70 text-white shadow-[0_3px_14px_rgba(0,0,0,1)] ring-2 ring-sky-200/30"
-              whileHover={{scale: 1.1, borderColor: "rgba(60, 183, 255, 0.6)"}}
+              className="group relative inline-flex h-12 w-12 items-center justify-center rounded-full cursor-pointer bg-slate-950/80 text-white shadow-[0_6px_18px_rgba(8,15,28,0.55)] ring-1 ring-white/20 transition-colors"
+              whileHover={{ scale: 1.08, boxShadow: "0 10px 26px rgba(56,189,248,0.35)" }}
               whileTap={{ scale: 0.94 }}
             >
               <span className="sr-only">{closeLabel}</span>
-              <motion.div className="relative flex h-12 w-12 items-center justify-center overflow-hidden rounded-full" >
-                <span className="absolute inset-0 rounded-full bg-gradient-to-br from-white/10 via-transparent to-white/5 opacity-80" />
+              <motion.div className="relative flex h-12 w-12 items-center justify-center overflow-hidden rounded-full">
+                <span className="absolute inset-0 rounded-full bg-gradient-to-br from-sky-400/25 via-transparent to-slate-100/10 opacity-80" />
                 <svg
                   className="relative h-6 w-6 text-white"
                   fill="none"
@@ -136,14 +140,14 @@ export function ProjectModalContent({
             animate={animationState}
           >
             <motion.article
-              className="space-y-8 rounded-[26px] border border-white/10 bg-gradient-to-br from-white/5 via-white/0 to-transparent p-8 shadow-[0_18px_48px_rgba(15,23,42,0.45)] backdrop-blur"
+              className="space-y-8 rounded-[26px] border border-white/10 bg-slate-900/40 p-8 shadow-[0_18px_48px_rgba(8,15,28,0.55)] backdrop-blur"
               variants={modalItemVariants}
               initial="hidden"
               animate={animationState}
             >
               <div className="space-y-4 ">
                 <h2 className="text-2xl font-semibold text-white">{t("overviewTitle")}</h2>
-                <p className="whitespace-pre-line text-base leading-relaxed text-white/80">
+                <p className="whitespace-pre-line text-base leading-relaxed text-white/85">
                   {project.full_description}
                 </p>
               </div>
@@ -165,17 +169,19 @@ export function ProjectModalContent({
               animate={animationState}
             >
               <motion.div
-                className="rounded-[26px] border border-white/10 bg-gradient-to-br from-white/10 via-white/3 to-transparent p-6 shadow-[0_5px_10px_rgba(250,250,250,0.15)] backdrop-blur-xl md:flex-auto md:min-w-0"
+                className="rounded-[26px] border border-white/12 bg-slate-900/45 p-6 shadow-[0_12px_36px_rgba(8,15,28,0.45)] backdrop-blur-xl md:flex-auto md:min-w-0"
                 variants={modalItemVariants}
                 initial="hidden"
                 animate={animationState}
               >
-                <h3 className="text-sm text-center uppercase tracking-[0.4em] text-white/55">{t("technologiesTitle")}</h3>
+                <h3 className="text-sm text-center uppercase tracking-[0.38em] text-white/65">
+                  {t("technologiesTitle")}
+                </h3>
                 <div className="mt-4 flex flex-wrap justify-center gap-2 md:justify-start">
                   {tags.map((tag, idx) => (
                     <motion.span
                       key={`${project.id}-tag-${idx}`}
-                      className="rounded-full border border-white/15 bg-gradient-to-r from-white/15 via-white/5 to-transparent px-3.5 py-1 text-sm font-medium text-white/85 shadow-[0_8px_18px_rgba(15,23,42,0.35)]"
+                      className="rounded-full border border-sky-300/30 bg-gradient-to-r from-sky-500/20 via-sky-400/10 to-transparent px-3.5 py-1 text-sm font-medium text-sky-100/90 shadow-[0_10px_24px_rgba(56,189,248,0.25)]"
                       whileHover={{ scale: 1.06 }}
                       transition={{ duration: 0.25 }}
                     >
@@ -187,12 +193,14 @@ export function ProjectModalContent({
 
               {(project.github_url || project.live_url) && (
                 <motion.div
-                  className="rounded-[26px] border border-sky-400/35 bg-gradient-to-br from-sky-500/18 via-sky-400/8 to-transparent p-6 shadow-[0_5px_10px_rgba(14,116,144,0.45)] backdrop-blur-xl md:flex-auto md:min-w-[250px]"
+                  className="rounded-[26px] border border-sky-400/40 bg-gradient-to-br from-sky-500/22 via-sky-400/12 to-transparent p-6 shadow-[0_12px_32px_rgba(14,116,144,0.45)] backdrop-blur-xl md:flex-auto md:min-w-[250px]"
                   variants={modalItemVariants}
                   initial="hidden"
                   animate={animationState}
                 >
-                  <h3 className="text-sm text-center uppercase tracking-[0.4em] text-sky-100/80">{t("exploreMoreTitle")}</h3>
+                  <h3 className="text-sm text-center uppercase tracking-[0.38em] text-sky-100/85">
+                    {t("exploreMoreTitle")}
+                  </h3>
                   <div className="mt-4 flex flex-col gap-3">
                     {project.live_url && (
                       <motion.a
