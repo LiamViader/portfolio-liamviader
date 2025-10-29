@@ -102,15 +102,15 @@ export function ProjectModalContent({
               type="button"
               onClick={onClose}
               aria-label={closeAriaLabel}
-              className="group relative inline-flex h-11 w-11 items-center justify-center rounded-full cursor-pointer border border-white/15 bg-slate-950/40 text-white/75 shadow-[0_16px_38px_rgba(15,23,42,0.45)] backdrop-blur-lg"
-              whileHover={{scale: 1.1, backgroundColor: "rgba(35,43,62,0.90)", borderColor: "rgba(200,200,200,0.60)"}}
+              className="group relative inline-flex h-12 w-12 items-center justify-center rounded-full cursor-pointer rounded-full bg-slate-950/70 text-white shadow-[0_3px_14px_rgba(0,0,0,1)] ring-2 ring-sky-200/30"
+              whileHover={{scale: 1.1, borderColor: "rgba(60, 183, 255, 0.6)"}}
               whileTap={{ scale: 0.94 }}
             >
               <span className="sr-only">{closeLabel}</span>
-              <motion.div className="relative flex h-11 w-11 items-center justify-center overflow-hidden rounded-full" >
+              <motion.div className="relative flex h-12 w-12 items-center justify-center overflow-hidden rounded-full" >
                 <span className="absolute inset-0 rounded-full bg-gradient-to-br from-white/10 via-transparent to-white/5 opacity-80" />
                 <svg
-                  className="relative h-5 w-5 text-white"
+                  className="relative h-6 w-6 text-white"
                   fill="none"
                   stroke="currentColor"
                   strokeWidth="1.8"

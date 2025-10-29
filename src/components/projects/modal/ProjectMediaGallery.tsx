@@ -150,7 +150,7 @@ export function ProjectMediaGallery({
                     <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-slate-950/65 via-slate-950/15 to-transparent opacity-60" />
                     {isVideoMedia(item) && (
                       <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
-                        <span className="flex h-16 w-16 items-center justify-center rounded-full bg-slate-950/75 text-white shadow-[0_18px_40px_rgba(15,23,42,0.55)] backdrop-blur">
+                        <span className="flex h-16 w-16 items-center justify-center rounded-full bg-gray-950/90 text-white shadow-[0_12px_30px_rgba(15,23,42,1)] backdrop-blur">
                           <Play className="h-8 w-8" aria-hidden="true" />
                         </span>
                       </div>
@@ -243,52 +243,49 @@ function FittedOverlay({
       exit={{ opacity: 0 }}
       onClick={onClose}
     >
-      <motion.button
-        ref={closeButtonRef}
-        type="button"
-        aria-label={closeLabel}
-        onClick={(e) => { e.stopPropagation(); onClose(); }}
-        className="group absolute cursor-pointer top-3 right-3 sm:top-6 sm:right-6 z-[1000001] inline-flex h-11 w-11 items-center justify-center rounded-full bg-slate-950/80 text-white shadow-[0_18px_48px_rgba(15,23,42,0.65)] backdrop-blur ring-2 ring-sky-400"
-        initial={{ opacity: 0, scale: 0.92, y: -6 }}
-        animate={{ opacity: 1, scale: 1, y: 0 }}
-        exit={{ opacity: 0, scale: 0.92, y: -6 }}
-        whileHover={{ scale: 1.06, rotate: 3 }}
-        whileTap={{ scale: 0.95 }}
-      >
-        <svg
-          className="h-5 w-5 transition-transform duration-300 group-hover:rotate-90"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="1.8"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          viewBox="0 0 24 24"
-        >
-          <path d="M18 6 6 18" />
-          <path d="M6 6l12 12" />
-        </svg>
-        <span className="sr-only">{closeLabel}</span>
-      </motion.button>
       <motion.div
         ref={panelRef}
-        className="relative flex max-h-[98svh] max-w-[98svw] flex-col overflow-y-auto overflow-x-hidden rounded-[28px] border border-white/15 bg-slate-950/80 shadow-[0_30px_120px_rgba(10,15,35,0.75)]"
+        className="relative flex max-h-[90svh] w-[1100px] flex-col overflow-y-auto overflow-x-hidden rounded-[28px] border border-white/15 bg-slate-950/80 shadow-[0_30px_120px_rgba(10,15,35,0.75)]"
         style={panelStyle}
         initial={{ opacity: 0, scale: 0.96, y: 18 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
         exit={{ opacity: 0, scale: 0.96, y: 18 }}
         transition={{ type: "spring", stiffness: 210, damping: 28 }}
         onClick={(e) => e.stopPropagation()}
-      >
         
-
+      >
         {/* Viewer: altura exacta = viewport - caption - chrome. Centrado y sin recortes */}
         <div
           className="relative flex items-center justify-center bg-black overflow-hidden"
-          style={{
-            height: `calc(100svh - var(--captionH) - ${totalChrome}px)`,
-            minHeight: 120, // por si el caption es enorme
-          }}
         >
+          {/* Botón de cerrar: en la esquina superior derecha del MEDIA DISPLAY */}
+          <motion.button
+            ref={closeButtonRef}
+            type="button"
+            aria-label={closeLabel}
+            onClick={(e) => { e.stopPropagation(); onClose(); }}
+            className="group absolute cursor-pointer top-3 right-3 sm:top-6 sm:right-6 z-[1000001] inline-flex h-11 w-11 items-center justify-center rounded-full bg-gray-950/90 text-white shadow-[0_3px_14px_rgba(0,0,0,1)] backdrop-blur ring-2 ring-slate-900"
+            initial={{ opacity: 0, scale: 0.92, y: -6 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.92, y: -6 }}
+            whileHover={{ scale: 1.06, rotate: 3 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            <svg
+              className="h-5 w-5 transition-transform duration-300 group-hover:rotate-90"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.8"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              viewBox="0 0 24 24"
+            >
+              <path d="M18 6 6 18" />
+              <path d="M6 6l12 12" />
+            </svg>
+            <span className="sr-only">{closeLabel}</span>
+          </motion.button>
+
           <MediaFittedContent media={activeMedia} projectTitle={projectTitle} />
         </div>
 
@@ -314,7 +311,7 @@ function FittedOverlay({
   );
 }
 
-/* Contenido ajustado: SIEMPRE visible. Imagen/Vídeo nativo con object-contain; iframes llenan contenedor */
+/* Contenido ajustado: SIEMPRE visible. Imagen/Vídeo nativo con object-contain; iframes con contenedor responsivo */
 function MediaFittedContent({
   media,
   projectTitle,
@@ -345,16 +342,21 @@ function MediaFittedContent({
     );
   }
 
-  // externalVideo: dejamos que el reproductor gestione el letterboxing internamente
+  // externalVideo: ocupar máximo ancho y alto posibles SIN recortar (contain)
+  const ratio = (media as any).aspectRatio ?? 16 / 9; // fallback sensato para YouTube/Vimeo
+
   return (
-    <div className="w-full h-full">
-      <iframe
-        src={getEmbeddedVideoSource(media)}
-        title={media.alt ?? projectTitle}
-        className="w-full h-full"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-        allowFullScreen
-      />
-    </div>
+      <div
+        className="relative h-full w-full object-contain"
+        style={{ aspectRatio: String(ratio) }}
+      >
+        <iframe
+          src={getEmbeddedVideoSource(media)}
+          title={media.alt ?? projectTitle}
+          className="absolute inset-0 h-full w-full"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          allowFullScreen
+        />
+      </div>
   );
 }
