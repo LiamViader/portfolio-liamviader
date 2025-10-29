@@ -48,93 +48,99 @@ export function ProjectModalContent({
       animate={animationState}
       className="flex h-full flex-col text-white"
     >
-      <motion.header
-        className="relative overflow-hidden rounded-b-[32px] border-b border-white/10 bg-slate-950/95 shadow-[0_18px_48px_rgba(8,15,28,0.65)]"
-        variants={modalItemVariants2}
-      >
-        {heroMedia && (
-          <motion.div
-            className="absolute inset-0 opacity-70 mix-blend-luminosity saturate-125"
-            variants={heroMediaVariants}
+      <CustomScrollArea className="flex-1" topOffset={28} bottomOffset={28}>
+        <div className="px-7 pb-12 pt-9 md:px-10 lg:px-12">
+          <motion.header
+            className="relative overflow-hidden rounded-[36px] border border-white/10 bg-slate-950/80 px-7 pb-10 pt-9 shadow-[0_24px_60px_rgba(8,15,28,0.55)] backdrop-blur-xl md:px-10"
+            variants={modalItemVariants2}
             initial="hidden"
             animate={animationState}
           >
-            <motion.img
-              src={heroMedia}
-              alt={heroAlt}
-              className="h-full w-full object-cover"
-              initial={{ scale: 1.04, opacity: 0.75 }}
-              animate={{ scale: 1, opacity: 1 }}
-              transition={{ duration: 0.6, ease: [0.23, 1, 0.32, 1] }}
-            />
-            <div className="absolute inset-0 bg-gradient-to-br from-slate-950/95 via-slate-950/85 to-slate-900/75" />
-            <div className="absolute inset-0 bg-gradient-to-t from-slate-950/92 via-slate-950/55 to-transparent" />
-            <div className="absolute inset-x-[-12%] bottom-[-26%] h-64 rounded-[50%] bg-sky-400/15 blur-3xl" />
-          </motion.div>
-        )}
-
-        <div className="relative z-10 px-6 py-7 md:px-10 md:py-9">
-          <div className="absolute inset-x-6 bottom-0 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent md:inset-x-10" />
-          <div className="flex flex-wrap items-start justify-between gap-6">
-            <div className="space-y-4">
-              <div className="flex flex-wrap items-center gap-3 text-[0.68rem] uppercase tracking-[0.28em] text-slate-100/80">
-                {project.is_featured && (
-                  <span className="inline-flex items-center gap-1.5 rounded-full border border-sky-300/40 bg-sky-500/15 px-3 py-1 text-sky-100/90 shadow-[0_6px_18px_rgba(56,189,248,0.25)]">
-                    <Sparkles className="h-3 w-3" aria-hidden="true" />
-                    <span className="tracking-[0.35em]">{t("featuredBadge")}</span>
-                  </span>
-                )}
-                {categoryLabels.length > 0 && (
-                  <span className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/10 px-3 py-1 text-slate-50/85">
-                    {categoryLabels.join(" • ")}
-                  </span>
-                )}
-              </div>
-              <div className="space-y-2">
-                <h1 className="text-[2.15rem] font-semibold leading-tight text-white drop-shadow-[0_12px_32px_rgba(56,189,248,0.2)] md:text-[2.7rem]">
-                  {project.title}
-                </h1>
-                {project.role && (
-                  <p className="text-sm font-medium text-white/75 md:text-base">
-                    {project.role}
-                  </p>
-                )}
-              </div>
+            {heroMedia && (
+              <motion.div
+                className="pointer-events-none absolute inset-0 -z-10 overflow-hidden"
+                variants={heroMediaVariants}
+                initial="hidden"
+                animate={animationState}
+              >
+                <motion.img
+                  src={heroMedia}
+                  alt={heroAlt}
+                  className="h-full w-full object-cover opacity-80 mix-blend-luminosity"
+                  initial={{ scale: 1.08, opacity: 0.65 }}
+                  animate={{ scale: 1, opacity: 1 }}
+                  transition={{ duration: 0.6, ease: [0.23, 1, 0.32, 1] }}
+                />
+                <div className="absolute inset-0 bg-gradient-to-br from-slate-950/92 via-slate-950/78 to-slate-900/70" />
+                <div className="absolute inset-0 bg-gradient-to-t from-slate-950/94 via-slate-950/50 to-transparent" />
+              </motion.div>
+            )}
+            <div className="pointer-events-none absolute inset-0 z-0">
+              <div className="absolute inset-x-[-32%] top-[-48%] h-72 rounded-full bg-sky-500/20 blur-3xl" />
+              <div className="absolute inset-x-[-36%] bottom-[-58%] h-72 rounded-full bg-indigo-500/18 blur-[120px]" />
+              <div className="absolute inset-0 bg-gradient-to-br from-white/8 via-transparent to-slate-950/55" />
             </div>
 
             <motion.button
               type="button"
               onClick={onClose}
               aria-label={closeAriaLabel}
-              className="group relative inline-flex h-12 w-12 items-center justify-center rounded-full cursor-pointer bg-slate-950/80 text-white shadow-[0_6px_18px_rgba(8,15,28,0.55)] ring-1 ring-white/20 transition-colors"
-              whileHover={{ scale: 1.08, boxShadow: "0 10px 26px rgba(56,189,248,0.35)" }}
+              className={[
+                "group absolute right-6 top-6 inline-flex h-11 w-11 items-center justify-center overflow-hidden",
+                "rounded-full border border-white/20 bg-white/5 text-white shadow-[0_12px_28px_rgba(15,23,42,0.45)]",
+                "transition-transform duration-300 md:z-20",
+              ].join(" ")}
+              whileHover={{ scale: 1.08, boxShadow: "0 16px 38px rgba(56,189,248,0.35)" }}
               whileTap={{ scale: 0.94 }}
             >
               <span className="sr-only">{closeLabel}</span>
-              <motion.div className="relative flex h-12 w-12 items-center justify-center overflow-hidden rounded-full">
-                <span className="absolute inset-0 rounded-full bg-gradient-to-br from-sky-400/25 via-transparent to-slate-100/10 opacity-80" />
-                <svg
-                  className="relative h-6 w-6 text-white"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="1.8"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  viewBox="0 0 24 24"
-                >
-                  <path d="M18 6 6 18" />
-                  <path d="M6 6l12 12" />
-                </svg>
-              </motion.div>
+              <span className="absolute inset-0 bg-gradient-to-br from-sky-500/25 via-transparent to-slate-300/10 opacity-80" />
+              <svg
+                className="relative h-5 w-5"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth="1.8"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                viewBox="0 0 24 24"
+              >
+                <path d="M18 6 6 18" />
+                <path d="M6 6l12 12" />
+              </svg>
             </motion.button>
-          </div>
-        </div>
-      </motion.header>
 
-      <CustomScrollArea className="flex-1" topOffset={28} bottomOffset={28}>
-        <div className="px-7 pb-12 pt-10 md:px-10 lg:px-12">
+            <div className="relative z-10 flex flex-col items-center gap-6 text-center md:flex-row md:items-end md:justify-between md:text-left">
+              <div className="flex-1 space-y-5">
+                <div className="flex flex-wrap items-center justify-center gap-3 text-[0.68rem] uppercase tracking-[0.28em] text-slate-100/80 md:justify-start">
+                  {project.is_featured && (
+                    <span className="inline-flex items-center gap-1.5 rounded-full border border-sky-300/40 bg-sky-500/15 px-3 py-1 text-sky-100/90 shadow-[0_6px_18px_rgba(56,189,248,0.25)]">
+                      <Sparkles className="h-3 w-3" aria-hidden="true" />
+                      <span className="tracking-[0.35em]">{t("featuredBadge")}</span>
+                    </span>
+                  )}
+                  {categoryLabels.length > 0 && (
+                    <span className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/10 px-3 py-1 text-slate-50/85">
+                      {categoryLabels.join(" • ")}
+                    </span>
+                  )}
+                </div>
+
+                <div className="space-y-3">
+                  <h1 className="text-[2.15rem] font-semibold leading-tight text-white drop-shadow-[0_14px_36px_rgba(56,189,248,0.22)] md:text-[2.7rem]">
+                    {project.title}
+                  </h1>
+                  {project.role && (
+                    <p className="text-sm font-medium text-white/75 md:text-base">
+                      {project.role}
+                    </p>
+                  )}
+                </div>
+              </div>
+            </div>
+          </motion.header>
+
           <motion.div
-            className="grid gap-10"
+            className="mt-10 grid gap-10"
             variants={modalItemVariants}
             initial="hidden"
             animate={animationState}
