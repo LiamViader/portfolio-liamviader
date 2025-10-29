@@ -51,7 +51,7 @@ export function ProjectModalContent({
       <CustomScrollArea className="flex-1" topOffset={28} bottomOffset={28}>
         <div className="px-7 pb-12 pt-9 md:px-10 lg:px-12">
           <motion.header
-            className="relative overflow-hidden rounded-[36px] border border-white/10 bg-slate-950/80 px-7 pb-10 pt-9 shadow-[0_24px_60px_rgba(8,15,28,0.55)] backdrop-blur-xl md:px-10"
+            className="relative overflow-hidden rounded-[36px] border border-white/10 bg-slate-900/45 px-7 pb-10 pt-9 shadow-[0_24px_60px_rgba(8,15,28,0.55)] backdrop-blur-xl md:px-10"
             variants={modalItemVariants2}
             initial="hidden"
             animate={animationState}
@@ -66,19 +66,19 @@ export function ProjectModalContent({
                 <motion.img
                   src={heroMedia}
                   alt={heroAlt}
-                  className="h-full w-full object-cover opacity-80 mix-blend-luminosity"
-                  initial={{ scale: 1.08, opacity: 0.65 }}
+                  className="h-full w-full object-cover opacity-75 mix-blend-luminosity filter saturate-0"
+                  initial={{ scale: 1.08, opacity: 0.6 }}
                   animate={{ scale: 1, opacity: 1 }}
                   transition={{ duration: 0.6, ease: [0.23, 1, 0.32, 1] }}
                 />
-                <div className="absolute inset-0 bg-gradient-to-br from-slate-950/92 via-slate-950/78 to-slate-900/70" />
-                <div className="absolute inset-0 bg-gradient-to-t from-slate-950/94 via-slate-950/50 to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-br from-slate-950/92 via-slate-950/82 to-slate-900/72" />
+                <div className="absolute inset-0 bg-gradient-to-t from-slate-950/92 via-slate-950/55 to-transparent" />
               </motion.div>
             )}
             <div className="pointer-events-none absolute inset-0 z-0">
-              <div className="absolute inset-x-[-32%] top-[-48%] h-72 rounded-full bg-sky-500/20 blur-3xl" />
-              <div className="absolute inset-x-[-36%] bottom-[-58%] h-72 rounded-full bg-indigo-500/18 blur-[120px]" />
-              <div className="absolute inset-0 bg-gradient-to-br from-white/8 via-transparent to-slate-950/55" />
+              <div className="absolute inset-x-[-32%] top-[-48%] h-72 rounded-full bg-sky-500/12 blur-3xl" />
+              <div className="absolute inset-x-[-36%] bottom-[-58%] h-72 rounded-full bg-indigo-500/12 blur-[120px]" />
+              <div className="absolute inset-0 bg-gradient-to-br from-white/4 via-transparent to-slate-950/65" />
             </div>
             {heroMedia && (
               <motion.div
