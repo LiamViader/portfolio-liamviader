@@ -80,6 +80,25 @@ export function ProjectModalContent({
               <div className="absolute inset-x-[-36%] bottom-[-58%] h-72 rounded-full bg-indigo-500/18 blur-[120px]" />
               <div className="absolute inset-0 bg-gradient-to-br from-white/8 via-transparent to-slate-950/55" />
             </div>
+            {heroMedia && (
+              <motion.div
+                className="relative z-10 mx-auto mb-8 h-28 w-28 overflow-hidden rounded-3xl border border-white/20 bg-slate-900/80 shadow-[0_16px_42px_rgba(56,189,248,0.35)] md:absolute md:left-8 md:top-8 md:mb-0 md:h-32 md:w-32"
+                variants={heroMediaVariants}
+                initial="hidden"
+                animate={animationState}
+              >
+                <motion.img
+                  src={heroMedia}
+                  alt={heroAlt}
+                  className="h-full w-full object-cover"
+                  initial={{ scale: 1.08, opacity: 0.65 }}
+                  animate={{ scale: 1, opacity: 1 }}
+                  transition={{ duration: 0.6, ease: [0.23, 1, 0.32, 1] }}
+                />
+                <div className="absolute inset-0 bg-gradient-to-br from-sky-500/30 via-transparent to-slate-900/60" />
+                <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(56,189,248,0.45),transparent_65%)] mix-blend-screen" />
+              </motion.div>
+            )}
 
             <motion.button
               type="button"
