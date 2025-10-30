@@ -131,7 +131,7 @@ export function ProjectModalContent({
           </motion.header>
 
           <motion.div
-            className="mt-10 grid gap-10"
+            className="mt-10 grid gap-8"
             variants={modalItemVariants}
             initial="hidden"
             animate={animationState}
