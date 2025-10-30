@@ -147,7 +147,7 @@ export function FeaturedCarouselCard({
               className={`h-[1.15em] w-[1.15em] shrink-0 self-center text-white/70 transition-colors duration-300`}
               aria-hidden="true"
             />
-            <h3 className={clsx("font-semibold leading-tight", titleSize)}>
+            <h3 className={clsx("font-semibold leading-tight drop-shadow-[0_4px_9px_rgba(0,0,0,1)]", titleSize)}>
               {project.title}
             </h3>
           </div>

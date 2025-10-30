@@ -98,7 +98,7 @@ export function ProjectMediaGallery({
   return (
     <>
       <div className="space-y-4 border-t border-white/10 pt-8">
-        <h3 className="pb-2 text-2xl font-semibold text-white">{galleryTitle}</h3>
+        <h3 className="pb-2 text-2xl font-semibold text-white ">{galleryTitle}</h3>
         <div className="grid gap-5 sm:grid-cols-2">
           {media.map((item, idx) => {
             const figureLabel = buildMediaLabel(item);

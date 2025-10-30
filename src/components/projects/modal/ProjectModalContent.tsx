@@ -49,40 +49,16 @@ export function ProjectModalContent({
       className="flex h-full flex-col text-white"
     >
       <CustomScrollArea className="flex-1" topOffset={28} bottomOffset={28}>
-        <div className="px-7 pb-12 pt-9 md:px-10 lg:px-12">
+        <div className="px-7 py-8 md:px-7 lg:px-8">
           <motion.header
-            className="relative overflow-hidden rounded-[36px] border border-white/10 bg-slate-900/45 px-7 pb-10 pt-9 shadow-[0_24px_60px_rgba(8,15,28,0.55)] backdrop-blur-xl md:px-10"
+            className="relative overflow-hidden rounded-[36px] border border-white/10 bg-slate-900/45 px-7 py-6 shadow-[0_18px_48px_rgba(8,15,28,0.55)] backdrop-blur-xl md:px-10"
             variants={modalItemVariants2}
             initial="hidden"
             animate={animationState}
           >
             {heroMedia && (
               <motion.div
-                className="pointer-events-none absolute inset-0 -z-10 overflow-hidden"
-                variants={heroMediaVariants}
-                initial="hidden"
-                animate={animationState}
-              >
-                <motion.img
-                  src={heroMedia}
-                  alt={heroAlt}
-                  className="h-full w-full object-cover opacity-75 mix-blend-luminosity filter saturate-0"
-                  initial={{ scale: 1.08, opacity: 0.6 }}
-                  animate={{ scale: 1, opacity: 1 }}
-                  transition={{ duration: 0.6, ease: [0.23, 1, 0.32, 1] }}
-                />
-                <div className="absolute inset-0 bg-gradient-to-br from-slate-950/92 via-slate-950/82 to-slate-900/72" />
-                <div className="absolute inset-0 bg-gradient-to-t from-slate-950/92 via-slate-950/55 to-transparent" />
-              </motion.div>
-            )}
-            <div className="pointer-events-none absolute inset-0 z-0">
-              <div className="absolute inset-x-[-32%] top-[-48%] h-72 rounded-full bg-sky-500/12 blur-3xl" />
-              <div className="absolute inset-x-[-36%] bottom-[-58%] h-72 rounded-full bg-indigo-500/12 blur-[120px]" />
-              <div className="absolute inset-0 bg-gradient-to-br from-white/4 via-transparent to-slate-950/65" />
-            </div>
-            {heroMedia && (
-              <motion.div
-                className="relative z-10 mx-auto mb-8 h-28 w-28 overflow-hidden rounded-3xl border border-white/20 bg-slate-900/80 shadow-[0_16px_42px_rgba(56,189,248,0.35)] md:absolute md:left-8 md:top-8 md:mb-0 md:h-32 md:w-32"
+                className="absolute inset-0 opacity-1 mix-blend-luminosity saturate-20"
                 variants={heroMediaVariants}
                 initial="hidden"
                 animate={animationState}
@@ -91,14 +67,19 @@ export function ProjectModalContent({
                   src={heroMedia}
                   alt={heroAlt}
                   className="h-full w-full object-cover"
-                  initial={{ scale: 1.08, opacity: 0.65 }}
+                  initial={{ scale: 1.04, opacity: 0.75 }}
                   animate={{ scale: 1, opacity: 1 }}
                   transition={{ duration: 0.6, ease: [0.23, 1, 0.32, 1] }}
                 />
-                <div className="absolute inset-0 bg-gradient-to-br from-sky-500/30 via-transparent to-slate-900/60" />
-                <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(56,189,248,0.45),transparent_65%)] mix-blend-screen" />
+                <div className="absolute inset-0 bg-gradient-to-br from-gray-950/20 via-gray-800/20 to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-r from-gray-950/50 via-gray-950/20 to-transparent" />
               </motion.div>
             )}
+            <div className="pointer-events-none absolute inset-0 z-0">
+              <div className="absolute inset-x-[-32%] top-[-48%] h-72 rounded-full bg-sky-500/12 blur-3xl" />
+              <div className="absolute inset-x-[-36%] bottom-[-58%] h-72 rounded-full bg-indigo-500/12 blur-[120px]" />
+              <div className="absolute inset-0 bg-gradient-to-br from-white/4 via-transparent to-slate-950/65" />
+            </div>
 
             <motion.button
               type="button"
@@ -129,27 +110,27 @@ export function ProjectModalContent({
             </motion.button>
 
             <div className="relative z-10 flex flex-col items-center gap-6 text-center md:flex-row md:items-end md:justify-between md:text-left">
-              <div className="flex-1 space-y-5">
+              <div className="flex-1 space-y-1">
                 <div className="flex flex-wrap items-center justify-center gap-3 text-[0.68rem] uppercase tracking-[0.28em] text-slate-100/80 md:justify-start">
                   {project.is_featured && (
-                    <span className="inline-flex items-center gap-1.5 rounded-full border border-sky-300/40 bg-sky-500/15 px-3 py-1 text-sky-100/90 shadow-[0_6px_18px_rgba(56,189,248,0.25)]">
+                    <span className="inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-sky-200/90 drop-shadow-[0_2px_3px_rgba(0,0,0,1)]">
                       <Sparkles className="h-3 w-3" aria-hidden="true" />
                       <span className="tracking-[0.35em]">{t("featuredBadge")}</span>
                     </span>
                   )}
                   {categoryLabels.length > 0 && (
-                    <span className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/10 px-3 py-1 text-slate-50/85">
+                    <span className="inline-flex items-center gap-2 px-3 py-1 text-gray-50/55 drop-shadow-[0_2px_3px_rgba(0,0,0,1)]">
                       {categoryLabels.join(" • ")}
                     </span>
                   )}
                 </div>
 
-                <div className="space-y-3">
-                  <h1 className="text-[2.15rem] font-semibold leading-tight text-white drop-shadow-[0_14px_36px_rgba(56,189,248,0.22)] md:text-[2.7rem]">
+                <div className="space-y-1">
+                  <h1 className="text-[2.15rem] font-semibold leading-tight text-white drop-shadow-[0_4px_9px_rgba(0,0,0,1)] md:text-[2.7rem]">
                     {project.title}
                   </h1>
                   {project.role && (
-                    <p className="text-sm font-medium text-white/75 md:text-base">
+                    <p className="text-sm font-medium text-white/75 md:text-base drop-shadow-[0_2px_3px_rgba(0,0,0,1)]">
                       {project.role}
                     </p>
                   )}
@@ -188,7 +169,7 @@ export function ProjectModalContent({
             </motion.article>
 
             <motion.aside
-              className="flex flex-col gap-6 md:flex-row md:items-stretch"
+              className="flex flex-col gap-8 md:flex-row md:items-stretch"
               variants={modalItemVariants}
               initial="hidden"
               animate={animationState}

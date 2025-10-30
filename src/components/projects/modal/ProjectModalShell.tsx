@@ -31,7 +31,7 @@ export function ProjectModalShell({
         position: "fixed",
         zIndex: 99999,
         boxShadow: "0 40px 140px rgba(8, 47, 73, 0.65)",
-        borderRadius: 24,
+        borderRadius: 26,
         boxSizing: "border-box",
         overflow: "hidden",
         transformOrigin: "top left",
@@ -40,11 +40,10 @@ export function ProjectModalShell({
       }}
       className={clsx(
         "relative flex h-full flex-col",
-        "rounded-[30px] border border-white/10",
+        "rounded-[26px] border border-white/10",
         "bg-gradient-to-br from-slate-950/35 via-slate-950/35 to-slate-900/30",
         "before:pointer-events-none before:absolute before:-inset-[1px] before:-z-10 before:bg-gradient-to-br before:from-slate-600/20 before:via-transparent before:to-slate-700/20 before:opacity-80 before:content-['']",
-        "after:pointer-events-none after:absolute after:inset-[1px] after:border after:border-white/5 after:opacity-70 after:content-['']",
-        "backdrop-blur-xl",
+        "backdrop-blur-sm",
         "transform-gpu will-change-[transform,opacity]",
         "transition-none",
         passThrough && "pointer-events-none"
