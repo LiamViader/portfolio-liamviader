@@ -48,17 +48,44 @@ export function ProjectModalContent({
       animate={animationState}
       className="flex h-full flex-col text-white"
     >
-      <CustomScrollArea className="flex-1" topOffset={28} bottomOffset={28}>
+      <motion.button
+        type="button"
+        onClick={onClose}
+        aria-label={closeAriaLabel}
+        className={[
+          "group absolute right-4 top-4 inline-flex h-12 w-12 items-center justify-center overflow-hidden",
+          "rounded-full border border-white/20 bg-white/5 text-white shadow-[0_12px_28px_rgba(15,23,42,0.45)]",
+          "transition-transform duration-300 cursor-pointer z-20",
+        ].join(" ")}
+        whileHover={{ scale: 1.08, boxShadow: "0 16px 38px rgba(56,189,248,0.35)" }}
+        whileTap={{ scale: 0.94 }}
+      >
+        <span className="sr-only">{closeLabel}</span>
+        <span className="absolute inset-0 bg-gradient-to-br from-sky-500/25 via-transparent to-slate-300/10 opacity-80" />
+        <svg
+          className="relative h-6 w-6"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.8"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          viewBox="0 0 24 24"
+        >
+          <path d="M18 6 6 18" />
+          <path d="M6 6l12 12" />
+        </svg>
+      </motion.button>
+      <div className="flex-1 overflow-auto no-scrollbar">
         <div className="px-7 py-8 md:px-7 lg:px-8">
           <motion.header
-            className="relative overflow-hidden rounded-[36px] border border-white/10 bg-slate-900/45 px-7 py-6 shadow-[0_18px_48px_rgba(8,15,28,0.55)] backdrop-blur-xl md:px-10"
+            className="relative overflow-hidden rounded-[36px] border border-white/25 bg-slate-900/45 px-7 py-6 shadow-[0_18px_48px_rgba(8,15,28,0.55)] backdrop-blur-xl md:px-10"
             variants={modalItemVariants2}
             initial="hidden"
             animate={animationState}
           >
             {heroMedia && (
               <motion.div
-                className="absolute inset-0 opacity-1 mix-blend-luminosity saturate-20"
+                className="absolute inset-0 mix-blend-luminosity saturate-20"
                 variants={heroMediaVariants}
                 initial="hidden"
                 animate={animationState}
@@ -66,48 +93,12 @@ export function ProjectModalContent({
                 <motion.img
                   src={heroMedia}
                   alt={heroAlt}
-                  className="h-full w-full object-cover"
-                  initial={{ scale: 1.04, opacity: 0.75 }}
-                  animate={{ scale: 1, opacity: 1 }}
-                  transition={{ duration: 0.6, ease: [0.23, 1, 0.32, 1] }}
+                  className="h-full w-full object-cover opacity-30"
                 />
-                <div className="absolute inset-0 bg-gradient-to-br from-gray-950/20 via-gray-800/20 to-transparent" />
-                <div className="absolute inset-0 bg-gradient-to-r from-gray-950/50 via-gray-950/20 to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-br from-slate-950/40 via-slate-800/20 to-transparent" />
               </motion.div>
             )}
-            <div className="pointer-events-none absolute inset-0 z-0">
-              <div className="absolute inset-x-[-32%] top-[-48%] h-72 rounded-full bg-sky-500/12 blur-3xl" />
-              <div className="absolute inset-x-[-36%] bottom-[-58%] h-72 rounded-full bg-indigo-500/12 blur-[120px]" />
-              <div className="absolute inset-0 bg-gradient-to-br from-white/4 via-transparent to-slate-950/65" />
-            </div>
 
-            <motion.button
-              type="button"
-              onClick={onClose}
-              aria-label={closeAriaLabel}
-              className={[
-                "group absolute right-6 top-6 inline-flex h-11 w-11 items-center justify-center overflow-hidden",
-                "rounded-full border border-white/20 bg-white/5 text-white shadow-[0_12px_28px_rgba(15,23,42,0.45)]",
-                "transition-transform duration-300 md:z-20",
-              ].join(" ")}
-              whileHover={{ scale: 1.08, boxShadow: "0 16px 38px rgba(56,189,248,0.35)" }}
-              whileTap={{ scale: 0.94 }}
-            >
-              <span className="sr-only">{closeLabel}</span>
-              <span className="absolute inset-0 bg-gradient-to-br from-sky-500/25 via-transparent to-slate-300/10 opacity-80" />
-              <svg
-                className="relative h-5 w-5"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="1.8"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                viewBox="0 0 24 24"
-              >
-                <path d="M18 6 6 18" />
-                <path d="M6 6l12 12" />
-              </svg>
-            </motion.button>
 
             <div className="relative z-10 flex flex-col items-center gap-6 text-center md:flex-row md:items-end md:justify-between md:text-left">
               <div className="flex-1 space-y-1">
@@ -187,7 +178,7 @@ export function ProjectModalContent({
                   {tags.map((tag, idx) => (
                     <motion.span
                       key={`${project.id}-tag-${idx}`}
-                      className="rounded-full border border-sky-300/30 bg-gradient-to-r from-sky-500/20 via-sky-400/10 to-transparent px-3.5 py-1 text-sm font-medium text-sky-100/90 shadow-[0_10px_24px_rgba(56,189,248,0.25)]"
+                      className="rounded-full border border-sky-300/30 bg-gradient-to-r from-sky-500/20 via-sky-400/10 to-transparent px-3.5 py-1 text-sm font-medium text-sky-100/90 shadow-[0_5px_14px_rgba(56,189,248,0.25)]"
                       whileHover={{ scale: 1.06 }}
                       transition={{ duration: 0.25 }}
                     >
@@ -241,7 +232,7 @@ export function ProjectModalContent({
             </motion.aside>
           </motion.div>
         </div>
-      </CustomScrollArea>
+      </div>
     </motion.div>
   );
 }

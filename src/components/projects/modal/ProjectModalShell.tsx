@@ -40,7 +40,7 @@ export function ProjectModalShell({
       }}
       className={clsx(
         "relative flex h-full flex-col",
-        "rounded-[26px] border border-white/10",
+        "rounded-[26px] border border-white/20",
         "bg-gradient-to-br from-slate-950/35 via-slate-950/35 to-slate-900/30",
         "before:pointer-events-none before:absolute before:-inset-[1px] before:-z-10 before:bg-gradient-to-br before:from-slate-600/20 before:via-transparent before:to-slate-700/20 before:opacity-80 before:content-['']",
         "backdrop-blur-sm",
