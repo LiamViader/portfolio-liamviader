@@ -100,9 +100,9 @@ export function ProjectModalContent({
             )}
 
 
-            <div className="relative z-10 flex flex-col items-center gap-6 text-center md:flex-row md:items-end md:justify-between md:text-left">
+            <div className="relative z-10 flex flex-col items-center gap-6 text-center sm:flex-row sm:items-end sm:justify-between sm:text-left">
               <div className="flex-1 space-y-1">
-                <div className="flex flex-wrap items-center justify-center gap-3 text-[0.68rem] uppercase tracking-[0.28em] text-slate-100/80 md:justify-start">
+                <div className="flex flex-wrap items-center justify-center gap-3 text-[0.68rem] uppercase tracking-[0.28em] text-slate-100/80 sm:justify-start">
                   {project.is_featured && (
                     <span className="inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-sky-200/90 drop-shadow-[0_2px_3px_rgba(0,0,0,1)]">
                       <Sparkles className="h-3 w-3" aria-hidden="true" />
@@ -142,7 +142,7 @@ export function ProjectModalContent({
               initial="hidden"
               animate={animationState}
             >
-              <div className="space-y-4 ">
+              <div className="space-y-4 text-center sm:text-left">
                 <h2 className="text-2xl font-semibold text-white">{t("overviewTitle")}</h2>
                 <p className="whitespace-pre-line text-base leading-relaxed text-white/85">
                   {project.full_description}
