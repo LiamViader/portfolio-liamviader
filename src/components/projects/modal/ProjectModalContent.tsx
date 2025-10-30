@@ -1,6 +1,7 @@
 "use client";
 
-import { motion, type Variants } from "framer-motion";
+import { useRef } from "react";
+import { motion, type Variants, useScroll, useTransform, useSpring } from "framer-motion";
 import { ExternalLink, Github, Sparkles } from "lucide-react";
 import { useTranslations } from "next-intl";
 
@@ -41,6 +42,21 @@ export function ProjectModalContent({
   const closeAriaLabel = t("closeAriaLabel");
   const animationState = closing ? "exit" : "visible";
 
+  const scrollRef = useRef<HTMLDivElement>(null);
+  const { scrollY, scrollYProgress } = useScroll({ container: scrollRef });
+  const topShadowOpacity = useTransform(scrollY, [0, 16], [0, 1]);
+  const bottomShadowOpacity = useTransform(scrollYProgress, [0.95, 1], [1, 0]);
+  const topShadowSmooth = useSpring(topShadowOpacity, {
+    stiffness: 320,
+    damping: 28,
+    mass: 0.4,
+  });
+  const bottomShadowSmooth = useSpring(bottomShadowOpacity, {
+    stiffness: 320,
+    damping: 28,
+    mass: 0.4,
+  });
+
   return (
     <motion.div
       variants={modalContentVariants}
@@ -48,17 +64,37 @@ export function ProjectModalContent({
       animate={animationState}
       className="flex h-full flex-col text-white"
     >
+      <motion.div
+        aria-hidden
+        className="pointer-events-none absolute inset-x-0 top-0 z-10 h-20"
+        style={{ opacity: topShadowSmooth }}
+      >
+        <div className="h-full w-full bg-gradient-to-b from-black/60 via-black/25 to-transparent" />
+      </motion.div>
+      <motion.div
+        aria-hidden
+        className="pointer-events-none absolute inset-x-0 bottom-0 z-10 h-20"
+        style={{ opacity: bottomShadowSmooth }}
+      >
+        <div className="h-full w-full bg-gradient-to-t from-black/60 via-black/25 to-transparent" />
+      </motion.div>
       <motion.button
         type="button"
         onClick={onClose}
         aria-label={closeAriaLabel}
         className={[
           "group absolute right-4 top-4 inline-flex h-12 w-12 items-center justify-center overflow-hidden",
-          "rounded-full border border-white/20 bg-white/5 text-white shadow-[0_12px_28px_rgba(15,23,42,0.45)]",
-          "transition-transform duration-300 cursor-pointer z-20",
+          "rounded-full border border-white/20 bg-slate-800 text-white",
+          "cursor-pointer z-20 will-change-[transform,opacity]",
         ].join(" ")}
-        whileHover={{ scale: 1.08, boxShadow: "0 16px 38px rgba(56,189,248,0.35)" }}
-        whileTap={{ scale: 0.94 }}
+        initial={{ scale: 1, opacity: 0, boxShadow: "0 0px 16px rgba(15,23,42,0.45)" }}
+        animate={{ scale: 1, opacity: 1, boxShadow: "0 0px 16px rgba(15,23,42,0.45)" }}
+        whileHover={{
+          scale: 1.08,
+          boxShadow: "0 0px 16px rgba(56,189,248,0.75)",
+          backgroundColor: "rgba(24,88,123,1)",
+        }}
+        whileTap={{ scale: 0.94, opacity: 1, boxShadow: "0 0px 16px rgba(15,23,42,0.45)" }}
       >
         <span className="sr-only">{closeLabel}</span>
         <span className="absolute inset-0 bg-gradient-to-br from-sky-500/25 via-transparent to-slate-300/10 opacity-80" />
@@ -75,10 +111,10 @@ export function ProjectModalContent({
           <path d="M6 6l12 12" />
         </svg>
       </motion.button>
-      <div className="flex-1 overflow-auto no-scrollbar">
+      <div ref={scrollRef} className="relative flex-1 overflow-auto no-scrollbar">
         <div className="px-7 py-8 md:px-7 lg:px-8">
           <motion.header
-            className="relative overflow-hidden rounded-[36px] border border-white/25 bg-slate-900/45 px-7 py-6 shadow-[0_18px_48px_rgba(8,15,28,0.55)] backdrop-blur-xl md:px-10"
+            className="relative overflow-hidden rounded-[36px] border border-white/20 bg-slate-900/45 px-7 py-6 shadow-[0_18px_48px_rgba(8,15,28,0.55)] backdrop-blur-xl md:px-10"
             variants={modalItemVariants2}
             initial="hidden"
             animate={animationState}
@@ -98,7 +134,6 @@ export function ProjectModalContent({
                 <div className="absolute inset-0 bg-gradient-to-br from-slate-950/40 via-slate-800/20 to-transparent" />
               </motion.div>
             )}
-
 
             <div className="relative z-10 flex flex-col items-center gap-6 text-center sm:flex-row sm:items-end sm:justify-between sm:text-left">
               <div className="flex-1 space-y-1">
@@ -137,7 +172,7 @@ export function ProjectModalContent({
             animate={animationState}
           >
             <motion.article
-              className="space-y-8 rounded-[26px] border border-white/10 bg-slate-900/40 p-8 shadow-[0_18px_48px_rgba(8,15,28,0.55)] backdrop-blur"
+              className="space-y-8 rounded-[26px] border border-white/20 bg-slate-900/40 p-8 shadow-[0_18px_48px_rgba(8,15,28,0.55)] backdrop-blur"
               variants={modalItemVariants}
               initial="hidden"
               animate={animationState}
@@ -166,7 +201,7 @@ export function ProjectModalContent({
               animate={animationState}
             >
               <motion.div
-                className="rounded-[26px] border border-white/12 bg-slate-900/45 p-6 shadow-[0_12px_36px_rgba(8,15,28,0.45)] backdrop-blur-xl md:flex-auto md:min-w-0"
+                className="rounded-[26px] border border-white/20 bg-slate-900/45 p-6 shadow-[0_12px_36px_rgba(8,15,28,0.45)] backdrop-blur-xl md:flex-auto md:min-w-0"
                 variants={modalItemVariants}
                 initial="hidden"
                 animate={animationState}
@@ -217,7 +252,7 @@ export function ProjectModalContent({
                         href={project.github_url}
                         target="_blank"
                         rel="noreferrer"
-                        className="flex items-center justify-between gap-3 rounded-2xl border border-white/15 bg-gradient-to-r from-purple-900/70 via-purple-900/40 to-transparent px-4 py-3 text-sm font-semibold text-white/85 shadow-[0_2px_5px_rgba(142,36,170,0.45)]"
+                        className="flex items-center justify-between gap-3 rounded-2xl border border-white/20 bg-gradient-to-r from-purple-900/70 via-purple-900/40 to-transparent px-4 py-3 text-sm font-semibold text-white/85 shadow-[0_2px_5px_rgba(142,36,170,0.45)]"
                         whileHover={{ scale: 1.03 }}
                         whileTap={{ scale: 0.96 }}
                       >

@@ -16,12 +16,6 @@ const rippleVariants: Variants = {
   tap:   { scale: 1.05, opacity: 0.2, transition: { duration: 0.15, ease: "easeOut" } },
 };
 
-const labelVariants: Variants = {
-  rest:  { y: 0, letterSpacing: "0em" },
-  hover: { y: -1, letterSpacing: "0.02em", transition: { duration: 0.18 } },
-  tap:   { y: 0, letterSpacing: "0.01em", transition: { duration: 0.12 } },
-};
-
 const skyVariants: Variants = {
   rest: {
     scale: 1,
@@ -38,8 +32,8 @@ const skyVariants: Variants = {
     },
   },
   hover: {
-    scale: 1.07,
-    y: -2,
+    scale: 1.03,
+    y: -1,
     backgroundColor: "rgb(56,189,248)",
     boxShadow: "0 14px 34px rgba(56,189,248,0.45)",
     transition: {
@@ -72,8 +66,8 @@ const whiteVariants: Variants = {
     },
   },
   hover: {
-    scale: 1.07,
-    y: -2,
+    scale: 1.03,
+    y: -1,
     backgroundColor: "rgba(14,165,233,0.10)",
     borderColor: "rgba(14,165,233,0.60)",
     color: "rgba(255,255,255,0.95)",
@@ -130,7 +124,7 @@ export function SkyButton({ text, href }: { text: string; href: string }) {
         }}
         variants={rippleVariants}
       />
-      <motion.span variants={labelVariants}>{text}</motion.span>
+      <span>{text}</span>
     </MotionLink>
   );
 }
@@ -164,7 +158,7 @@ export function WhiteButton({ text, href }: { text: string; href: string }) {
         }}
         variants={rippleVariants}
       />
-      <motion.span variants={labelVariants}>{text}</motion.span>
+      <span>{text}</span>
     </MotionLink>
   );
 }

@@ -69,7 +69,7 @@ const navLinkVariants: Variants = {
     transition: { duration: 0.7, delay: 1.5, ease: "easeOut" },
   },
   hover: {
-    scale: 1.06,
+    scale: 1.03,
     y: -2,
     backgroundColor: "rgba(56,189,248,0.08)",
     boxShadow: "0 12px 28px rgba(56,189,248,0.35), 0 0 0 1px rgba(56,189,248,0.60)",
@@ -227,7 +227,7 @@ export default function ContactPage() {
                   <h3 id={`contact-highlight-${key}`} className="text-lg font-semibold text-sky-300/95">
                     {title}
                   </h3>
-                  <p className="text-sm text-white/70">{description}</p>
+                  <p className="text-sm text-white/70 text-pretty">{description}</p>
                 </div>
               </div>
             </motion.article>
