@@ -260,10 +260,8 @@ export default function AboutPage() {
   return (
     <div className="relative flex min-h-screen flex-col bg-slate-950 text-white">
       {/* fondo */}
-      <PulseHexGridCanvas pixelsPerHex={45} hue={230} s={75} l={38} gridType="Fill" className="opacity-15" />
-      <PulseHexGridCanvas pixelsPerHex={45} hue={330} s={75} l={38} gridType="Fill" className="opacity-15" />
-      <PulseHexGridCanvas pixelsPerHex={45} hue={120} s={75} l={38} gridType="Fill" className="opacity-15" />
-      <PulseHexGridCanvas pixelsPerHex={45} hue={210} hueJitter={20} s={80} l={28} gridType="OverlapLine" className="opacity-30" />
+      <PulseHexGridCanvas pixelsPerHex={45} hue={230} s={75} l={8} gridType="Fill" className="opacity-45" />
+      <PulseHexGridCanvas pixelsPerHex={45} hue={210} hueJitter={20} s={80} l={18} gridType="Strata" className="opacity-100" />
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(56,189,248,0.22),_transparent_55%)]" />
 
       <div className="relative z-10 flex flex-col">
