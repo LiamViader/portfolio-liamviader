@@ -85,7 +85,7 @@ export default function AboutPage() {
   const [activeSection, setActiveSection] = useState<SectionKey>(sectionOrder[0]);
 
   const heroMeta = t.raw("hero.meta") as Record<string, string>;
-  const heroChips = [heroMeta.age, heroMeta.location, heroMeta.focus].filter(Boolean);
+  const heroChips = [heroMeta.age, heroMeta.location].filter(Boolean);
 
   const renderSectionContent = (section: SectionKey) => {
     switch (section) {
@@ -248,13 +248,15 @@ export default function AboutPage() {
 
   return (
     <div className="relative flex min-h-screen flex-col bg-slate-950 text-white">
-      <PulseHexGridCanvas pixelsPerHex={38} hue={220} hueJitter={18} s={70} className="opacity-80" />
-      <PulseHexGridCanvas pixelsPerHex={54} hue={210} hueJitter={12} s={55} l={18} gridType="Strata" className="opacity-60" />
+      <PulseHexGridCanvas pixelsPerHex={45} hue={230} s={75} l={38} gridType="Fill" className="opacity-15" />
+      <PulseHexGridCanvas pixelsPerHex={45} hue={330} s={75} l={38} gridType="Fill" className="opacity-15" />
+      <PulseHexGridCanvas pixelsPerHex={45} hue={120} s={75} l={38} gridType="Fill" className="opacity-15" />
+      <PulseHexGridCanvas pixelsPerHex={45} hue={210} hueJitter={20} s={80} l={28} gridType="OverlapLine" className="opacity-30" />
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(56,189,248,0.22),_transparent_55%)]" />
 
       <div className="relative z-10 flex flex-col">
         <section className="relative overflow-hidden px-4 pb-20 pt-32 sm:px-6 lg:px-10">
-          <div className="absolute inset-0 bg-gradient-to-b from-gray-950/60 via-gray-950/50 to-gray-950/40" />
+          <div className="absolute inset-0 bg-gradient-to-b from-gray-950/60 via-gray-950/20 to-gray-950/30" />
 
           <motion.div
             initial="hidden"
@@ -290,7 +292,7 @@ export default function AboutPage() {
 
         <section className="relative px-4 pb-24 pt-6 sm:px-6 lg:px-10">
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_left,_rgba(56,189,248,0.12),_transparent_25%)]" />
-          <div className="absolute inset-0 bg-gradient-to-b from-gray-950/40 via-gray-950/20 to-gray-950" />
+          <div className="absolute inset-0 bg-gradient-to-b from-gray-950/30 via-gray-950/10 to-gray-950" />
 
           <div className="relative mx-auto max-w-6xl">
             <div className="grid gap-6 lg:grid-cols-[minmax(0,280px)_minmax(0,1fr)] lg:items-start">
