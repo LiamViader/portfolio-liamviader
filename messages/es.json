@@ -31,6 +31,108 @@
       "featuredBadge": "Destacado"
     }
   },
+  "AboutPage": {
+    "hero": {
+      "title": "Sobre mí",
+      "subtitle": "Soy Liam Viader, diseñador y desarrollador que cruza lo técnico con lo creativo. Desde Barcelona construyo productos impulsados por IA, videojuegos y sistemas que conectan ideas con experiencias reales.",
+      "meta": {
+        "age": "24 años",
+        "location": "Cardedeu · Barcelona",
+        "focus": "IA · Videojuegos · Software"
+      }
+    },
+    "sections": {
+      "profile": {
+        "title": "Quién soy",
+        "subtitle": "Perfil técnico y creativo",
+        "paragraphs": [
+          "Soy diseñador y desarrollador graduado en Diseño y Desarrollo de Videojuegos por la UdG. Me gusta moverme en el punto en el que conviven la ingeniería de software, el diseño de sistemas y la narrativa interactiva.",
+          "Mi foco está en construir productos y prototipos impulsados por IA, agentes y herramientas creativas, videojuegos y plataformas que unen exploración con ejecución técnica sólida."
+        ]
+      },
+      "thinking": {
+        "title": "Cómo pienso",
+        "subtitle": "De idea a sistema",
+        "intro": "Trabajo como si alternara entre dos hemisferios: conecto conceptos, los convierto en sistemas tangibles y los refino iterando.",
+        "pillars": {
+          "ai": {
+            "title": "IA y sistemas inteligentes",
+            "description": "Diseño agentes y flujos que combinan razonamiento, datos y UX para que la IA aporte valor real."
+          },
+          "games": {
+            "title": "Videojuegos e interacción",
+            "description": "Creo mecánicas y experiencias expresivas donde la interacción es tan importante como la tecnología."
+          },
+          "systems": {
+            "title": "Diseño e iteración",
+            "description": "Mapeo las ideas, prototipo rápido y ajusto con métricas, feedback y sensibilidad creativa."
+          }
+        }
+      },
+      "stack": {
+        "title": "Stack y herramientas que uso",
+        "subtitle": "Un stack vivo entre IA, web y videojuegos",
+        "intro": "Combino herramientas de IA, entornos web y motores de juego para moverme ágil entre prototipo y producto.",
+        "items": [
+          "TypeScript y Node.js",
+          "Next.js y React",
+          "Python para IA y agentes",
+          "LangChain, OpenAI y herramientas LLM",
+          "Unity y C#",
+          "Godot y GDScript",
+          "Three.js y WebGL",
+          "Design systems, Figma y prototipado",
+          "PostgreSQL y Prisma",
+          "Infraestructura en Vercel y AWS",
+          "Herramientas de automatización y pipelines"
+        ]
+      },
+      "education": {
+        "title": "Formación",
+        "subtitle": "Diseño y Desarrollo de Videojuegos (UdG)",
+        "intro": "Graduado con una visión integral que abarca diseño, programación y producción de experiencias interactivas.",
+        "stats": {
+          "grade": { "label": "Nota final", "value": "9,07" },
+          "honors": { "label": "Matrículas de honor", "value": "17" }
+        },
+        "detail": "La carrera me permitió profundizar en diseño de sistemas, IA aplicada al juego y coordinación de equipos multidisciplinares."
+      },
+      "experience": {
+        "title": "Experiencia aplicada",
+        "subtitle": "Proyectos reales con impacto",
+        "paragraphs": [
+          "Durante mis prácticas en el grupo de investigación EXIT desarrollé un simulador de comunidades energéticas, conectando datos reales con modelos de IA para evaluar escenarios colaborativos.",
+          "Fue una oportunidad para trabajar con stakeholders reales y validar que mis ideas funcionan fuera de los proyectos personales. Más detalles en Proyectos."
+        ]
+      },
+      "personal": {
+        "title": "Fuera de la pantalla",
+        "subtitle": "Lo que me recarga",
+        "intro": "Necesito equilibrar la intensidad creativa con actividades que me devuelven al cuerpo y a la naturaleza.",
+        "items": [
+          "Naturaleza y montaña para desconectar, caminar y respirar.",
+          "Obsesión sana con el cielo: atardeceres, nubes y el cielo nocturno.",
+          "Aprendiendo saxofón y piano; la música me obliga a escuchar de otra manera.",
+          "Deporte habitual para mantener energía y foco.",
+          "Cualquier actividad creativa que implique tener ideas y llevarlas a la realidad."
+        ]
+      },
+      "philosophy": {
+        "title": "Filosofía de trabajo",
+        "subtitle": "Explorar, iterar y construir",
+        "paragraphs": [
+          "Soy una persona creativa con muchas ideas, pero siempre busco la manera de convertirlas en sistemas que respiren solos.",
+          "Disfruto trabajando con gente que quiera experimentar, iterar rápido y empujar la tecnología para crear experiencias significativas."
+        ]
+      }
+    },
+    "cta": {
+      "title": "¿Hablamos de construir algo juntos?",
+      "description": "Si quieres colaborar o necesitas a alguien que piense en IA, videojuegos o sistemas interactivos, aquí estoy.",
+      "primary": "Contacto",
+      "secondary": "Ver proyectos"
+    }
+  },
   "Metadata": {
     "title": "Portafolio - Liam Viader",
     "description": "Desarrollo de Software, IA y Videojuegos"
