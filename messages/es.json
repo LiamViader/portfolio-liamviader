@@ -10,23 +10,23 @@
       "title": "Pensar y construir",
       "ai": {
         "value": "Sistemas Inteligentes",
-        "label": "Diseño, desarrollo y aplico inteligencia artificial para crear agentes, herramientas y sistemas basados en IA generativa",
+        "label": "Diseño, desarrollo y aplico inteligencia artificial para crear agentes, herramientas y sistemas basados en IA generativa.",
         "icon": "BrainCircuit"
       },
       "videogames": {
         "value": "Videojuegos",
-        "label": "Diseño y desarrollo videojuegos con mecánicas únicas y especial atención a la jugabilidad",
+        "label": "Diseño y desarrollo videojuegos con mecánicas únicas y especial atención a la jugabilidad.",
         "icon": "Gamepad2"
       },
       "system_design": {
         "value": "Mi Enfoque",
-        "label": "Disfruto participar desde una perspectiva tanto técnica como creativa, desde el diseño conceptual hasta la implementación",
+        "label": "Disfruto participar desde una perspectiva tanto técnica como creativa, desde el diseño conceptual hasta la implementación.",
         "icon": "Workflow"
       }
     },
     "projects": {
       "title": "Proyectos destacados",
-      "description": "Un vistazo a mis experimentos recientes en IA, herramientas y entretenimiento interactivo",
+      "description": "Un vistazo a mis experimentos recientes en IA, herramientas y entretenimiento interactivo.",
       "viewAll": "Ver la galería completa",
       "featuredBadge": "Destacado"
     }
@@ -146,14 +146,14 @@
   "ProjectsPage": {
     "title": "Algunos de mis <highlight>Trabajos</highlight>",
     "featured_title": "Destacados",
-    "featured_description": "A selection of my most recent projects, along with those that best reflect my work",
+    "featured_description": "A selection of my most recent projects, along with those that best reflect my work.",
     "project_gallery_title": "Galería completa",
-    "project_gallery_description": "Explora el archivo completo y filtra por área para encontrar aquello que más te llame la atención dentro de mi trabajo",
+    "project_gallery_description": "Explora el archivo completo y filtra por área para encontrar aquello que más te llame la atención dentro de mi trabajo.",
     "projects": "Proyectos",
     "ai": "IA y Software",
     "all": "Todos",
     "games": "Videojuegos",
-    "intro_paragraph": "¡Bienvenido a mi página de proyectos! Aquí encontrarás una selección de proyectos que hice para aprender, probar ideas o simplemente por gusto. Siéntete libre de explorar y contactarme si deseas colaborar o saber más sobre mis proyectos",
+    "intro_paragraph": "¡Bienvenido a mi página de proyectos! Aquí encontrarás una selección de proyectos que hice para aprender, probar ideas o simplemente por gusto. Siéntete libre de explorar y contactarme si deseas colaborar o saber más sobre mis proyectos.",
     "cta_title": "¿Te interesa <highlight>colaborar</highlight> o <highlight>saber más</highlight>?",
     "cta_text": "Si alguno de mis proyectos te ha despertado interés, estaré encantado de conversar. Escríbeme si quieres colaborar, necesitas más información o simplemente deseas saludar.",
     "cta_button_contact": "Contactar"
@@ -163,21 +163,21 @@
   "ContactPage": {
     "hero": {
       "title": "Ponte en <highlight>contacto</highlight>",
-      "description": "Puedes escribirme para colaborar, compartir ideas o hablar sobre posibles proyectos. Estoy abierto a trabajar en equipo, asumir encargos o simplemente conectar"
+      "description": "Puedes escribirme para colaborar, compartir ideas o hablar sobre posibles proyectos. Estoy abierto a trabajar en equipo, asumir encargos o simplemente conectar."
     },
     "highlights": {
       "items": {
         "teams": {
           "title": "Trabajar juntos",
-          "description": "Abierto a unirme a equipos existentes y colaborar donde pueda aportar valor"
+          "description": "Abierto a unirme a equipos existentes y colaborar donde pueda aportar valor."
         },
         "projects": {
           "title": "Colaboraciones y encargos",
-          "description": "Disponible para participar en proyectos como freelance. Puedo encargarme de funcionalidades, prototipos o proyectos completos, ya sean videojuegos, aplicaciones impulsadas por IA o de otro tipo"
+          "description": "Disponible para participar en proyectos como freelance. Puedo encargarme de funcionalidades, prototipos o proyectos completos, ya sean videojuegos, aplicaciones impulsadas por IA o de otro tipo."
         },
         "networking": {
           "title": "Conectar",
-          "description": "Si te apetece hablar, compartir experiencias o intercambiar ideas también puedes escribirme. Me gusta conocer a gente con intereses parecidos y ver qué puede surgir de ahí"
+          "description": "Si te apetece hablar, compartir experiencias o intercambiar ideas también puedes escribirme. Me gusta conocer a gente con intereses parecidos y ver qué puede surgir de ahí."
         }
       }
     },

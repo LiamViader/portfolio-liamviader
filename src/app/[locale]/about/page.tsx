@@ -250,11 +250,11 @@ export default function AboutPage() {
     <div className="relative flex min-h-screen flex-col bg-slate-950 text-white">
       <PulseHexGridCanvas pixelsPerHex={38} hue={220} hueJitter={18} s={70} className="opacity-80" />
       <PulseHexGridCanvas pixelsPerHex={54} hue={210} hueJitter={12} s={55} l={18} gridType="Strata" className="opacity-60" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(56,189,248,0.22),_transparent_55%)]" />
 
       <div className="relative z-10 flex flex-col">
         <section className="relative overflow-hidden px-4 pb-20 pt-32 sm:px-6 lg:px-10">
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(56,189,248,0.22),_transparent_55%)]" />
-          <div className="absolute inset-0 bg-gradient-to-b from-gray-950/60 via-gray-950/80 to-gray-950" />
+          <div className="absolute inset-0 bg-gradient-to-b from-gray-950/60 via-gray-950/50 to-gray-950/40" />
 
           <motion.div
             initial="hidden"
@@ -289,8 +289,8 @@ export default function AboutPage() {
         </section>
 
         <section className="relative px-4 pb-24 pt-6 sm:px-6 lg:px-10">
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_left,_rgba(56,189,248,0.12),_transparent_65%)]" />
-          <div className="absolute inset-0 bg-gradient-to-b from-gray-950 via-gray-950/90 to-gray-950" />
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_left,_rgba(56,189,248,0.12),_transparent_25%)]" />
+          <div className="absolute inset-0 bg-gradient-to-b from-gray-950/40 via-gray-950/20 to-gray-950" />
 
           <div className="relative mx-auto max-w-6xl">
             <div className="grid gap-6 lg:grid-cols-[minmax(0,280px)_minmax(0,1fr)] lg:items-start">
@@ -367,32 +367,6 @@ export default function AboutPage() {
               </AnimatePresence>
             </div>
           </div>
-        </section>
-
-        <section className="relative px-4 pb-32 pt-0 sm:px-6 lg:px-10">
-          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-gray-950/70 to-gray-950" />
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom,_rgba(56,189,248,0.18),_transparent_55%)]" />
-
-          <motion.div
-            initial={{ opacity: 0, y: 32, filter: "blur(12px)" }}
-            whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-            viewport={{ once: true, amount: 0.2 }}
-            transition={{ duration: 0.6, ease: "easeOut" }}
-            className="relative mx-auto max-w-4xl"
-          >
-            <div className="overflow-hidden rounded-[26px] border border-white/10 bg-white/5 p-8 text-center backdrop-blur-xl sm:p-12">
-              <h2 className="text-3xl font-semibold text-white/95 sm:text-4xl">
-                {t("cta.title")}
-              </h2>
-              <p className="mt-4 text-base text-white/70 sm:text-lg">
-                {t("cta.description")}
-              </p>
-              <div className="mt-8 flex flex-wrap justify-center gap-4">
-                <SkyButton text={t("cta.primary")} href="/contact" />
-                <WhiteButton text={t("cta.secondary")} href="/projects" />
-              </div>
-            </div>
-          </motion.div>
         </section>
       </div>
     </div>

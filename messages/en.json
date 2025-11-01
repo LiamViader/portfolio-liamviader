@@ -2,7 +2,7 @@
   "HomePage": {
     "hero": {
       "title": "Hi, I'm <highlight>Liam</highlight>.\nWelcome to my <highlight>portfolio</highlight>!",
-      "subtitle": "I'm a software engineer with a technical and creative approach, graduated in game design and development, and interested in artificial intelligence and AI-driven systems",
+      "subtitle": "I'm a software engineer with a technical and creative approach, graduated in game design and development, and interested in artificial intelligence and AI-driven systems.",
       "ctaProjects": "Explore projects",
       "ctaContact": "Contact"
     },
@@ -10,23 +10,23 @@
       "title": "Designing and Building",
       "ai": {
         "value": "Intelligent Systems",
-        "label": "I design, develop and apply artificial intelligence to create agents, tools, and systems powered by generative AI",
+        "label": "I design, develop and apply artificial intelligence to create agents, tools, and systems powered by generative AI.",
         "icon": "BrainCircuit"
       },
       "videogames": {
         "value": "Video Games",
-        "label": "I design and develop video games with unique mechanics and a strong focus on gameplay",
+        "label": "I design and develop video games with unique mechanics and a strong focus on gameplay.",
         "icon": "Gamepad2"
       },
       "system_design": {
         "value": "My Approach",
-        "label": "I enjoy being involved from a technical and creative perspective, from conceptual design to implementation",
+        "label": "I enjoy being involved from a technical and creative perspective, from conceptual design to implementation.",
         "icon": "Workflow"
       }
     },
     "projects": {
       "title": "Featured projects",
-      "description": "A snapshot of recent experiments across AI, tools, and interactive entertainment",
+      "description": "A snapshot of recent experiments across AI, tools, and interactive entertainment.",
       "viewAll": "View the complete gallery",
       "featuredBadge": "Featured"
     }
@@ -146,9 +146,9 @@
   "ProjectsPage": {
     "title": "Some of my <highlight>Work</highlight>",
     "featured_title": "Featured",
-    "featured_description": "A selection of the most recent initiatives and those that best represent me",
+    "featured_description": "A selection of the most recent initiatives and those that best represent me.",
     "project_gallery_title": "Complete Gallery",
-    "project_gallery_description": "Explore the full archive and filter by area to find the projects that resonate with you or simply spark your curiosity",
+    "project_gallery_description": "Explore the full archive and filter by area to find the projects that resonate with you or simply spark your curiosity.",
     "projects": "Projects",
     "ai": "AI & Software",
     "all": "All",
@@ -161,21 +161,21 @@
   "ContactPage": {
     "hero": {
       "title": "Get in <highlight>touch</highlight>",
-      "description": "You can reach out to collaborate, share ideas, or talk about potential projects. I'm open to joining teams, taking on freelance work, or simply connecting"
+      "description": "You can reach out to collaborate, share ideas, or talk about potential projects. I'm open to joining teams, taking on freelance work, or simply connecting."
     },
     "highlights": {
       "items": {
         "teams": {
           "title": "Work together",
-          "description": "Happy to join existing teams and help out wherever I can make a difference"
+          "description": "Happy to join existing teams and help out wherever I can make a difference."
         },
         "projects": {
           "title": "Collaborations and commissions",
-          "description": "Available to take part in projects as a freelancer. I can handle prototypes, features, or full projects — whether they're games, AI-driven applications, or other types of software"
+          "description": "Available to take part in projects as a freelancer. I can handle prototypes, features, or full projects — whether they're games, AI-driven applications, or other types of software."
         },
         "networking": {
           "title": "Connect",
-          "description": "If you'd like to talk, share experiences, or exchange ideas, feel free to reach out. I enjoy meeting people with similar interests and seeing what can come from it"
+          "description": "If you'd like to talk, share experiences, or exchange ideas, feel free to reach out. I enjoy meeting people with similar interests and seeing what can come from it."
         }
       }
     },
