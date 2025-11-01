@@ -3,6 +3,8 @@
 import { useMemo, useState } from "react";
 import { AnimatePresence, motion, type Variants } from "framer-motion";
 import { useTranslations } from "next-intl";
+import Image from "next/image";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 import PulseHexGridCanvas from "@/components/home/scene/PulseHexGridCanvas";
 
@@ -93,7 +95,8 @@ export default function AboutPage() {
   const goNext = () => goToIndex(activeIndex + 1);
 
   const heroMeta = t.raw("hero.meta") as Record<string, string>;
-  const heroChips = [heroMeta.age, heroMeta.location].filter(Boolean);
+  const age = heroMeta.age;
+  const location = heroMeta.location;
 
   const renderSectionContent = (section: SectionKey) => {
     switch (section) {
@@ -272,31 +275,59 @@ export default function AboutPage() {
             initial="hidden"
             animate="show"
             variants={heroVariants}
-            className="relative mx-auto flex max-w-5xl flex-col items-center gap-8 text-center"
+            className="relative mx-auto flex max-w-6xl flex-col gap-10 lg:flex-row lg:items-center"
           >
-            <motion.div variants={heroChildVariants} className="flex flex-wrap justify-center gap-3">
-              {heroChips.map((chip, index) => (
-                <motion.span
-                  key={index}
+            {/* texto */}
+            <div className="flex-1 space-y-6 text-center lg:text-left">
+              <motion.p
+                variants={heroChildVariants}
+                className="text-xs uppercase tracking-[0.3em] text-white/40"
+              >
+                Sobre mí
+              </motion.p>
+
+              <motion.h1
+                variants={heroChildVariants}
+                className="text-balance text-4xl font-semibold tracking-tight text-white/95 sm:text-5xl"
+              >
+                {t("hero.title")}
+              </motion.h1>
+
+              {/* edad + ubicación SIN background */}
+              {(age || location) && (
+                <motion.p
                   variants={heroChildVariants}
-                  className="rounded-full border border-white/10 bg-white/10 px-4 py-2 text-sm font-medium text-white/80 backdrop-blur-md"
+                  className="flex flex-wrap items-center justify-center gap-3 text-sm text-white/55 lg:justify-start"
                 >
-                  {chip}
-                </motion.span>
-              ))}
+                  {age ? <span>{age}</span> : null}
+                  {age && location ? (
+                    <span className="h-1 w-1 rounded-full bg-white/25" aria-hidden />
+                  ) : null}
+                  {location ? <span>{location}</span> : null}
+                </motion.p>
+              )}
+
+              <motion.p
+                variants={heroChildVariants}
+                className="max-w-2xl text-pretty text-lg text-white/70 sm:text-xl lg:max-w-xl"
+              >
+                {t("hero.subtitle")}
+              </motion.p>
+            </div>
+
+            {/* foto */}
+            <motion.div
+              variants={heroChildVariants}
+              className="relative mx-auto flex h-[260px] w-[260px] items-center justify-center rounded-[34px] border border-white/10 bg-slate-900/30 p-2 shadow-[0_24px_80px_rgba(15,23,42,0.55)] backdrop-blur md:h-[280px] md:w-[280px] lg:mx-0"
+            >
+              <div className="absolute -inset-4 -z-10 bg-[radial-gradient(circle,_rgba(125,211,252,0.4),_transparent_60%)]" />
+              <Image
+                src="/images/test_liam.png"
+                alt="Profile picture"
+                fill
+                className="rounded-[28px] object-cover"
+              />
             </motion.div>
-            <motion.h1
-              variants={heroChildVariants}
-              className="text-balance text-4xl font-semibold tracking-tight text-white/95 sm:text-5xl"
-            >
-              {t("hero.title")}
-            </motion.h1>
-            <motion.p
-              variants={heroChildVariants}
-              className="max-w-3xl text-pretty text-lg text-white/70 sm:text-xl"
-            >
-              {t("hero.subtitle")}
-            </motion.p>
           </motion.div>
         </section>
 
@@ -306,28 +337,30 @@ export default function AboutPage() {
           <div className="absolute inset-0 bg-gradient-to-b from-gray-950/30 via-gray-950/10 to-gray-950" />
 
           <div className="relative mx-auto max-w-5xl">
-            {/* MENÚ FUERA del panel animado */}
-            <div className="mb-4 flex items-center justify-between gap-4">
+            {/* MENÚ FUERA del panel animado, un poco más grande */}
+            <div className="mb-6 flex items-center justify-center gap-3">
               <button
                 onClick={goPrev}
                 disabled={activeIndex === 0}
-                className={`inline-flex h-9 w-9 items-center justify-center rounded-full border border-white/10 bg-white/5 text-white/70 transition hover:bg-white/10 ${
-                  activeIndex === 0 ? "opacity-40 pointer-events-none" : ""
+                className={`inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/15 bg-slate-950/40 text-white/70 transition hover:bg-white/10 hover:text-white ${
+                  activeIndex === 0 ? "opacity-35 pointer-events-none" : ""
                 }`}
                 aria-label="Sección anterior"
               >
-                <span className="text-lg leading-none">‹</span>
+                <ChevronLeft className="h-5 w-5" strokeWidth={1.8} />
               </button>
 
-              <div className="flex items-center gap-2">
+              <div className="flex items-center gap-2 rounded-full px-3 py-2">
                 {sectionOrder.map((key) => {
                   const isActive = key === activeSection;
                   return (
                     <button
                       key={key}
                       onClick={() => setActiveSection(key)}
-                      className={`h-2.5 rounded-full transition-all ${
-                        isActive ? "w-9 bg-sky-300" : "w-2.5 bg-white/25 hover:bg-white/45"
+                      className={`transition-all ${
+                        isActive
+                          ? "h-3.5 w-10 rounded-full bg-sky-300 shadow-[0_0_12px_rgba(125,211,252,0.45)]"
+                          : "h-3 w-3 rounded-full bg-white/25 hover:bg-white/45"
                       }`}
                       aria-label={t(`sections.${key}.title`)}
                     />
@@ -338,12 +371,12 @@ export default function AboutPage() {
               <button
                 onClick={goNext}
                 disabled={activeIndex === sectionOrder.length - 1}
-                className={`inline-flex h-9 w-9 items-center justify-center rounded-full border border-white/10 bg-white/5 text-white/70 transition hover:bg-white/10 ${
-                  activeIndex === sectionOrder.length - 1 ? "opacity-40 pointer-events-none" : ""
+                className={`inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/15 bg-slate-950/40 text-white/70 transition hover:bg-white/10 hover:text-white ${
+                  activeIndex === sectionOrder.length - 1 ? "opacity-35 pointer-events-none" : ""
                 }`}
                 aria-label="Siguiente sección"
               >
-                <span className="text-lg leading-none">›</span>
+                <ChevronRight className="h-5 w-5" strokeWidth={1.8} />
               </button>
             </div>
 
@@ -354,10 +387,10 @@ export default function AboutPage() {
                 initial={{ opacity: 0, y: 24, filter: "blur(10px)" }}
                 animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
                 exit={{
-                    opacity: 0,
-                    y: -18,
-                    filter: "blur(8px)",
-                    transition: { duration: 0.2, ease: "easeInOut" },
+                  opacity: 0,
+                  y: -18,
+                  filter: "blur(8px)",
+                  transition: { duration: 0.2, ease: "easeInOut" },
                 }}
                 transition={{ duration: 0.3, ease: "easeOut" }}
                 className="rounded-[26px] border border-white/10 bg-white/5 p-6 sm:p-8 backdrop-blur-xl"
