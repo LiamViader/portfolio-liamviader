@@ -5,7 +5,6 @@ import { AnimatePresence, motion, type Variants } from "framer-motion";
 import { useTranslations } from "next-intl";
 
 import PulseHexGridCanvas from "@/components/home/scene/PulseHexGridCanvas";
-import { SkyButton, WhiteButton } from "@/components/home/Buttons";
 
 type SectionKey =
   | "profile"
@@ -83,6 +82,15 @@ export default function AboutPage() {
   );
 
   const [activeSection, setActiveSection] = useState<SectionKey>(sectionOrder[0]);
+  const activeIndex = sectionOrder.indexOf(activeSection);
+
+  const goToIndex = (idx: number) => {
+    const safe = Math.min(Math.max(idx, 0), sectionOrder.length - 1);
+    setActiveSection(sectionOrder[safe]);
+  };
+
+  const goPrev = () => goToIndex(activeIndex - 1);
+  const goNext = () => goToIndex(activeIndex + 1);
 
   const heroMeta = t.raw("hero.meta") as Record<string, string>;
   const heroChips = [heroMeta.age, heroMeta.location].filter(Boolean);
@@ -248,6 +256,7 @@ export default function AboutPage() {
 
   return (
     <div className="relative flex min-h-screen flex-col bg-slate-950 text-white">
+      {/* fondo */}
       <PulseHexGridCanvas pixelsPerHex={45} hue={230} s={75} l={38} gridType="Fill" className="opacity-15" />
       <PulseHexGridCanvas pixelsPerHex={45} hue={330} s={75} l={38} gridType="Fill" className="opacity-15" />
       <PulseHexGridCanvas pixelsPerHex={45} hue={120} s={75} l={38} gridType="Fill" className="opacity-15" />
@@ -255,6 +264,7 @@ export default function AboutPage() {
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(56,189,248,0.22),_transparent_55%)]" />
 
       <div className="relative z-10 flex flex-col">
+        {/* HERO */}
         <section className="relative overflow-hidden px-4 pb-20 pt-32 sm:px-6 lg:px-10">
           <div className="absolute inset-0 bg-gradient-to-b from-gray-950/60 via-gray-950/20 to-gray-950/30" />
 
@@ -290,84 +300,98 @@ export default function AboutPage() {
           </motion.div>
         </section>
 
-        <section className="relative px-4 pb-24 pt-6 sm:px-6 lg:px-10">
+        {/* CONTENT */}
+        <section className="relative px-4 pb-24 pt-6 sm:px-6 lg:px-10 min-h-[1000px]">
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_left,_rgba(56,189,248,0.12),_transparent_25%)]" />
           <div className="absolute inset-0 bg-gradient-to-b from-gray-950/30 via-gray-950/10 to-gray-950" />
 
-          <div className="relative mx-auto max-w-6xl">
-            <div className="grid gap-6 lg:grid-cols-[minmax(0,280px)_minmax(0,1fr)] lg:items-start">
-              <motion.div
-                variants={listVariants}
-                initial="hidden"
-                animate="show"
-                className="flex flex-col gap-3"
+          <div className="relative mx-auto max-w-5xl">
+            {/* MENÚ FUERA del panel animado */}
+            <div className="mb-4 flex items-center justify-between gap-4">
+              <button
+                onClick={goPrev}
+                disabled={activeIndex === 0}
+                className={`inline-flex h-9 w-9 items-center justify-center rounded-full border border-white/10 bg-white/5 text-white/70 transition hover:bg-white/10 ${
+                  activeIndex === 0 ? "opacity-40 pointer-events-none" : ""
+                }`}
+                aria-label="Sección anterior"
               >
-                {menuItems.map((item) => {
-                  const isActive = item.id === activeSection;
+                <span className="text-lg leading-none">‹</span>
+              </button>
+
+              <div className="flex items-center gap-2">
+                {sectionOrder.map((key) => {
+                  const isActive = key === activeSection;
                   return (
-                    <motion.button
-                      key={item.id}
-                      type="button"
-                      variants={itemVariants}
-                      onClick={() => setActiveSection(item.id)}
-                      className={`relative overflow-hidden rounded-[26px] border px-5 py-4 text-left transition-colors duration-300 backdrop-blur-md focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-400 ${
-                        isActive
-                          ? "border-sky-300/50 bg-sky-500/20 text-white"
-                          : "border-white/10 bg-white/5 text-white/80 hover:border-white/20 hover:bg-white/10"
+                    <button
+                      key={key}
+                      onClick={() => setActiveSection(key)}
+                      className={`h-2.5 rounded-full transition-all ${
+                        isActive ? "w-9 bg-sky-300" : "w-2.5 bg-white/25 hover:bg-white/45"
                       }`}
-                    >
-                      <div className="flex flex-col gap-1">
-                        <span className="text-sm uppercase tracking-[0.2em] text-white/60">
-                          {String(item.title)}
-                        </span>
-                        <span className="text-lg font-semibold leading-tight text-white">
-                          {String(item.subtitle)}
-                        </span>
-                      </div>
-                    </motion.button>
+                      aria-label={t(`sections.${key}.title`)}
+                    />
                   );
                 })}
-              </motion.div>
+              </div>
 
-              <AnimatePresence mode="wait">
-                <motion.article
-                  key={activeSection}
-                  initial={{ opacity: 0, y: 24, filter: "blur(10px)" }}
-                  animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-                  exit={{ opacity: 0, y: -18, filter: "blur(8px)" }}
-                  transition={{ duration: 0.55, ease: "easeOut" }}
-                  className="rounded-[26px] border border-white/10 bg-white/5 p-6 sm:p-8 backdrop-blur-xl"
-                >
-                  <motion.header
-                    initial={{ opacity: 0, y: 12 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.45, ease: "easeOut", delay: 0.08 }}
-                    className="mb-8"
-                  >
-                    <p className="text-sm uppercase tracking-[0.25em] text-white/50">
-                      {t(`sections.${activeSection}.title`)}
-                    </p>
-                    <h2 className="mt-3 text-2xl font-semibold text-white/95 sm:text-3xl">
-                      {t(`sections.${activeSection}.subtitle`)}
-                    </h2>
-                  </motion.header>
-                  <motion.div
-                    initial="hidden"
-                    animate="show"
-                    variants={{
-                      hidden: { opacity: 1 },
-                      show: {
-                        opacity: 1,
-                        transition: { delayChildren: 0.1, staggerChildren: 0.08 },
-                      },
-                    }}
-                    className="space-y-6"
-                  >
-                    {renderSectionContent(activeSection)}
-                  </motion.div>
-                </motion.article>
-              </AnimatePresence>
+              <button
+                onClick={goNext}
+                disabled={activeIndex === sectionOrder.length - 1}
+                className={`inline-flex h-9 w-9 items-center justify-center rounded-full border border-white/10 bg-white/5 text-white/70 transition hover:bg-white/10 ${
+                  activeIndex === sectionOrder.length - 1 ? "opacity-40 pointer-events-none" : ""
+                }`}
+                aria-label="Siguiente sección"
+              >
+                <span className="text-lg leading-none">›</span>
+              </button>
             </div>
+
+            {/* PANEL ANIMADO */}
+            <AnimatePresence mode="wait">
+              <motion.article
+                key={activeSection}
+                initial={{ opacity: 0, y: 24, filter: "blur(10px)" }}
+                animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
+                exit={{
+                    opacity: 0,
+                    y: -18,
+                    filter: "blur(8px)",
+                    transition: { duration: 0.2, ease: "easeInOut" },
+                }}
+                transition={{ duration: 0.3, ease: "easeOut" }}
+                className="rounded-[26px] border border-white/10 bg-white/5 p-6 sm:p-8 backdrop-blur-xl"
+              >
+                <motion.header
+                  initial={{ opacity: 0, y: 12 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.45, ease: "easeOut", delay: 0.08 }}
+                  className="mb-8"
+                >
+                  <p className="text-sm uppercase tracking-[0.25em] text-white/50">
+                    {t(`sections.${activeSection}.title`)}
+                  </p>
+                  <h2 className="mt-3 text-2xl font-semibold text-white/95 sm:text-3xl">
+                    {t(`sections.${activeSection}.subtitle`)}
+                  </h2>
+                </motion.header>
+
+                <motion.div
+                  initial="hidden"
+                  animate="show"
+                  variants={{
+                    hidden: { opacity: 1 },
+                    show: {
+                      opacity: 1,
+                      transition: { delayChildren: 0.1, staggerChildren: 0.08 },
+                    },
+                  }}
+                  className="space-y-6"
+                >
+                  {renderSectionContent(activeSection)}
+                </motion.div>
+              </motion.article>
+            </AnimatePresence>
           </div>
         </section>
       </div>
