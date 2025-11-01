@@ -1,11 +1,11 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { AnimatePresence, motion, type Variants } from "framer-motion";
 import { useTranslations } from "next-intl";
 
 import PulseHexGridCanvas from "@/components/home/scene/PulseHexGridCanvas";
-import { SkyButton, WhiteButton } from "@/components/home/Buttons";
+import { ChevronDown, ChevronUp } from "lucide-react";
 
 type SectionKey =
   | "profile"
@@ -83,6 +83,30 @@ export default function AboutPage() {
   );
 
   const [activeSection, setActiveSection] = useState<SectionKey>(sectionOrder[0]);
+  const [menuPage, setMenuPage] = useState(0);
+
+  const itemsPerPage = 3;
+  const totalPages = Math.ceil(menuItems.length / itemsPerPage);
+
+  useEffect(() => {
+    const activeIndex = sectionOrder.indexOf(activeSection);
+    const nextPage = Math.max(0, Math.floor(activeIndex / itemsPerPage));
+    if (nextPage !== menuPage) {
+      setMenuPage(nextPage);
+    }
+  }, [activeSection, itemsPerPage, menuPage]);
+
+  const startIndex = menuPage * itemsPerPage;
+  const visibleMenuItems = menuItems.slice(startIndex, startIndex + itemsPerPage);
+
+  const handlePageChange = (pageIndex: number) => {
+    if (pageIndex === menuPage) return;
+    setMenuPage(pageIndex);
+    const firstSectionOnPage = sectionOrder[pageIndex * itemsPerPage];
+    if (firstSectionOnPage) {
+      setActiveSection(firstSectionOnPage);
+    }
+  };
 
   const heroMeta = t.raw("hero.meta") as Record<string, string>;
   const heroChips = [heroMeta.age, heroMeta.location].filter(Boolean);
@@ -294,15 +318,44 @@ export default function AboutPage() {
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_left,_rgba(56,189,248,0.12),_transparent_25%)]" />
           <div className="absolute inset-0 bg-gradient-to-b from-gray-950/30 via-gray-950/10 to-gray-950" />
 
-          <div className="relative mx-auto max-w-6xl">
-            <div className="grid gap-6 lg:grid-cols-[minmax(0,280px)_minmax(0,1fr)] lg:items-start">
-              <motion.div
-                variants={listVariants}
-                initial="hidden"
-                animate="show"
-                className="flex flex-col gap-3"
-              >
-                {menuItems.map((item) => {
+          <div className="relative mx-auto flex max-w-6xl flex-col items-center gap-10 lg:flex-row lg:items-start lg:justify-center">
+            <motion.div
+              variants={listVariants}
+              initial="hidden"
+              animate="show"
+              className="relative w-full max-w-sm rounded-[32px] border border-white/10 bg-white/5 p-5 backdrop-blur-xl"
+            >
+              <div className="flex items-center justify-between gap-3">
+                <button
+                  type="button"
+                  onClick={() => handlePageChange(Math.max(0, menuPage - 1))}
+                  disabled={menuPage === 0}
+                  className="flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/10 text-white/80 transition hover:border-white/30 hover:bg-white/20 disabled:cursor-not-allowed disabled:border-white/5 disabled:bg-white/5 disabled:text-white/30"
+                  aria-label={t("menu.previous")}
+                >
+                  <ChevronUp className="h-4 w-4" />
+                </button>
+                <div className="flex flex-col items-center text-center">
+                  <span className="text-xs uppercase tracking-[0.35em] text-white/50">
+                    {t("menu.title")}
+                  </span>
+                  <span className="text-sm font-medium text-white/80">
+                    {t(`sections.${activeSection}.title`)}
+                  </span>
+                </div>
+                <button
+                  type="button"
+                  onClick={() => handlePageChange(Math.min(totalPages - 1, menuPage + 1))}
+                  disabled={menuPage === totalPages - 1}
+                  className="flex h-10 w-10 items-center justify-center rounded-full border border-white/10 bg-white/10 text-white/80 transition hover:border-white/30 hover:bg-white/20 disabled:cursor-not-allowed disabled:border-white/5 disabled:bg-white/5 disabled:text-white/30"
+                  aria-label={t("menu.next")}
+                >
+                  <ChevronDown className="h-4 w-4" />
+                </button>
+              </div>
+
+              <div className="mt-6 flex flex-col gap-3">
+                {visibleMenuItems.map((item) => {
                   const isActive = item.id === activeSection;
                   return (
                     <motion.button
@@ -310,9 +363,9 @@ export default function AboutPage() {
                       type="button"
                       variants={itemVariants}
                       onClick={() => setActiveSection(item.id)}
-                      className={`relative overflow-hidden rounded-[26px] border px-5 py-4 text-left transition-colors duration-300 backdrop-blur-md focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-400 ${
+                      className={`relative overflow-hidden rounded-[24px] border px-5 py-4 text-left transition-colors duration-300 backdrop-blur-md focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-400 ${
                         isActive
-                          ? "border-sky-300/50 bg-sky-500/20 text-white"
+                          ? "border-sky-300/50 bg-sky-500/20 text-white shadow-[0_0_35px_rgba(56,189,248,0.25)]"
                           : "border-white/10 bg-white/5 text-white/80 hover:border-white/20 hover:bg-white/10"
                       }`}
                     >
@@ -327,16 +380,36 @@ export default function AboutPage() {
                     </motion.button>
                   );
                 })}
-              </motion.div>
+              </div>
 
-              <AnimatePresence mode="wait">
+              <div className="mt-6 flex items-center justify-center gap-2">
+                {Array.from({ length: totalPages }).map((_, index) => {
+                  const isActiveDot = index === menuPage;
+                  return (
+                    <button
+                      key={index}
+                      type="button"
+                      onClick={() => handlePageChange(index)}
+                      className={`h-2.5 w-2.5 rounded-full transition ${
+                        isActiveDot
+                          ? "bg-sky-300 shadow-[0_0_12px_rgba(125,211,252,0.6)]"
+                          : "bg-white/20 hover:bg-white/40"
+                      }`}
+                      aria-label={t("menu.page", { page: index + 1 })}
+                    />
+                  );
+                })}
+              </div>
+            </motion.div>
+
+            <AnimatePresence mode="wait">
                 <motion.article
                   key={activeSection}
                   initial={{ opacity: 0, y: 24, filter: "blur(10px)" }}
                   animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
                   exit={{ opacity: 0, y: -18, filter: "blur(8px)" }}
                   transition={{ duration: 0.55, ease: "easeOut" }}
-                  className="rounded-[26px] border border-white/10 bg-white/5 p-6 sm:p-8 backdrop-blur-xl"
+                  className="w-full max-w-3xl rounded-[26px] border border-white/10 bg-white/5 p-6 sm:p-8 backdrop-blur-xl"
                 >
                   <motion.header
                     initial={{ opacity: 0, y: 12 }}
@@ -368,7 +441,6 @@ export default function AboutPage() {
                 </motion.article>
               </AnimatePresence>
             </div>
-          </div>
         </section>
       </div>
     </div>

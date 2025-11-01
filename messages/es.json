@@ -40,6 +40,12 @@
         "location": "Cardedeu · Barcelona"
       }
     },
+    "menu": {
+      "title": "Secciones",
+      "previous": "Anterior",
+      "next": "Siguiente",
+      "page": "Página {page}"
+    },
     "sections": {
       "profile": {
         "title": "Quién soy",

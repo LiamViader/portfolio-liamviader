@@ -40,6 +40,12 @@
         "location": "Cardedeu · Barcelona Area"
       }
     },
+    "menu": {
+      "title": "Sections",
+      "previous": "Previous",
+      "next": "Next",
+      "page": "Page {page}"
+    },
     "sections": {
       "profile": {
         "title": "Who I am",
