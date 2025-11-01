@@ -47,14 +47,14 @@ export function ProjectModalContent({
   const topShadowOpacity = useTransform(scrollY, [0, 16], [0, 1]);
   const bottomShadowOpacity = useTransform(scrollYProgress, [0.95, 1], [1, 0]);
   const topShadowSmooth = useSpring(topShadowOpacity, {
-    stiffness: 320,
-    damping: 28,
-    mass: 0.4,
+    stiffness: 120,
+    damping: 26,
+    mass: 0.5,
   });
   const bottomShadowSmooth = useSpring(bottomShadowOpacity, {
     stiffness: 320,
-    damping: 28,
-    mass: 0.4,
+    damping: 26,
+    mass: 0.5,
   });
 
   return (
