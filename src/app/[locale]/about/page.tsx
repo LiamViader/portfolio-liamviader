@@ -4,7 +4,7 @@ import { motion, type Variants } from "framer-motion";
 import { useTranslations } from "next-intl";
 import Image from "next/image";
 
-import PulseHexGridCanvas from "@/components/home/scene/PulseHexGridCanvas";
+import PageLayout from "@/components/layout/PageLayout";
 
 const listVariants: Variants = {
   hidden: { opacity: 1 },
@@ -38,6 +38,24 @@ const heroChildVariants: Variants = {
   show: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } },
 };
 
+const heroMetaListVariants: Variants = {
+  hidden: { opacity: 0, y: 12 },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: { delayChildren: 0.15, staggerChildren: 0.1, duration: 0.6, ease: "easeOut" },
+  },
+};
+
+const heroMetaItemVariants: Variants = {
+  hidden: { opacity: 0, y: 10 },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.4, ease: "easeOut" },
+  },
+};
+
 const contentParentVariants: Variants = {
   hidden: { opacity: 1 },
   show: {
@@ -48,12 +66,40 @@ const contentParentVariants: Variants = {
 
 const PROFILE_IMAGE = "/images/test_liam.png";
 
+const BACKGROUND_LAYERS = [
+  {
+    id: "primary",
+    gridType: "Fill" as const,
+    pixelsPerHex: 45,
+    hue: 240,
+    hueJitter: 5,
+    s: 75,
+    l: 1,
+    className: "opacity-85",
+  },
+  {
+    id: "secondary",
+    gridType: "Strata" as const,
+    pixelsPerHex: 45,
+    hue: 240,
+    hueJitter: 30,
+    s: 60,
+    l: 25,
+  },
+];
+
+const BACKGROUND_OVERLAY = (
+  <>
+    <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(125,211,252,0.1),_transparent_55%)]" />
+    <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-gray-950/50 via-gray-950/25 to-gray-950/80" />
+  </>
+);
+
 export default function AboutPage() {
   const t = useTranslations("AboutPage");
 
   const heroMeta = t.raw("hero.meta") as Record<string, string>;
-  const age = heroMeta.age;
-  const location = heroMeta.location;
+  const heroMetaEntries = [heroMeta.age, heroMeta.location].filter(Boolean);
 
   const profileParagraphs = t.raw(
     "sections.profile.paragraphs"
@@ -81,72 +127,75 @@ export default function AboutPage() {
     Boolean
   );
 
+  const workStyle = t.raw("sections.thinking.workStyle") as {
+    eyebrow: string;
+    title: string;
+    description: string;
+    items: string[];
+  };
+
   const personalIntro = t("sections.personal.intro");
   const personalItems = t.raw("sections.personal.items") as string[];
 
   return (
-    <div className="relative flex min-h-screen flex-col bg-slate-950 text-white">
-      {/* Fondo */}
-      <PulseHexGridCanvas
-        pixelsPerHex={45}
-        hue={240}
-        hueJitter={5}
-        s={75}
-        l={1}
-        gridType="Fill"
-        className="opacity-85"
-      />
-      <PulseHexGridCanvas
-        pixelsPerHex={45}
-        hue={240}
-        hueJitter={30}
-        s={60}
-        l={25}
-        gridType="Strata"
-      />
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(125,211,252,0.1),_transparent_55%)]" />
+    <PageLayout backgroundLayers={BACKGROUND_LAYERS} overlays={BACKGROUND_OVERLAY}>
+      {/* HERO */}
+      <section className="relative overflow-hidden px-4 pb-16 pt-28 sm:px-6 lg:px-10 lg:pt-34">
+        <div className="absolute inset-0 bg-gradient-to-b from-gray-950/60 via-gray-950/20 to-gray-950/30" />
 
-      <div className="relative z-10 flex flex-col">
-        {/* HERO (mismo estilo que tenías, con título + subtítulo + edad/ubicación) */}
-        <section className="relative overflow-hidden px-4 pb-16 pt-28 lg:pt-34 sm:px-6 lg:px-10">
-          <div className="absolute inset-0 bg-gradient-to-b from-gray-950/60 via-gray-950/20 to-gray-950/30" />
-
-          <motion.div
-            initial="hidden"
-            animate="show"
-            variants={heroVariants}
-            className="relative mx-auto flex w-full max-w-6xl flex-col gap-6 text-center lg:text-left"
+        <motion.div
+          initial="hidden"
+          animate="show"
+          variants={heroVariants}
+          className="relative mx-auto flex w-full max-w-6xl flex-col gap-6 text-center lg:text-left"
+        >
+          <motion.h1
+            variants={heroChildVariants}
+            className="text-balance text-4xl font-semibold tracking-tight text-white/95 sm:text-5xl md:text-6xl"
           >
-            <motion.h1
-              variants={heroChildVariants}
-              className="text-balance text-4xl sm:text-5xl md:text-6xl font-semibold tracking-tight text-white/95"
+            {t.rich("hero.title", {
+              highlight: (chunks) => <span className="text-sky-300">{chunks}</span>,
+            })}
+          </motion.h1>
+
+          <motion.p
+            variants={heroChildVariants}
+            transition={{ delay: 0.1, duration: 0.6 }}
+            className="max-w-2xl text-pretty text-lg text-white/70 sm:text-xl"
+          >
+            {t("hero.subtitle")}
+          </motion.p>
+
+          {heroMetaEntries.length > 0 && (
+            <motion.ul
+              variants={heroMetaListVariants}
+              initial="hidden"
+              animate="show"
+              className="flex flex-wrap justify-center gap-3 pt-4 text-sm text-white/75 lg:justify-start"
             >
-              {t.rich("hero.title", {
-                highlight: (chunks) => (
-                  <span className="text-sky-300">{chunks}</span>
-                ),
-              })}
-            </motion.h1>
+              {heroMetaEntries.map((entry, index) => (
+                <motion.li
+                  key={index}
+                  variants={heroMetaItemVariants}
+                  className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/10 px-4 py-1.5 backdrop-blur-md"
+                >
+                  <span>{entry}</span>
+                </motion.li>
+              ))}
+            </motion.ul>
+          )}
 
-            <motion.p
-              variants={heroChildVariants}
-              transition={{ delay: 0.1, duration: 0.6 }}
-              className="max-w-2xl text-pretty text-lg text-white/70 sm:text-xl"
-            >
-              {t("hero.subtitle")}
-            </motion.p>
+        </motion.div>
+      </section>
 
-          </motion.div>
-        </section>
+      {/* CONTENIDO */}
+      <section className="relative px-4 pb-28 pt-6 sm:px-6 lg:px-10">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_left,_rgba(56,189,248,0.12),_transparent_25%)]" />
+        <div className="absolute inset-0 bg-gradient-to-b from-gray-950/30 via-gray-950/10 to-gray-950" />
 
-        {/* CONTENIDO – página normal, con layouts distintos por bloque */}
-        <section className="relative px-4 pb-28 pt-6 sm:px-6 lg:px-10">
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_left,_rgba(56,189,248,0.12),_transparent_25%)]" />
-          <div className="absolute inset-0 bg-gradient-to-b from-gray-950/30 via-gray-950/10 to-gray-950" />
-
-          <div className="relative mx-auto flex w-full max-w-6xl flex-col gap-16 lg:gap-20">
+        <div className="relative mx-auto flex w-full max-w-6xl flex-col gap-16 lg:gap-20">
             {/* 1. PROFILE – Card principal con blur + foto a la derecha */}
-            <motion.section
+          <motion.section
               id="profile"
               initial={{ opacity: 0, y: 24 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -200,10 +249,10 @@ export default function AboutPage() {
                   />
                 </motion.div>
               </div>
-            </motion.section>
+          </motion.section>
 
             {/* 2. THINKING – 2 columnas: izquierda pilares, derecha “cómo trabajo” */}
-            <motion.section
+          <motion.section
               id="thinking"
               initial={{ opacity: 0, y: 24 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -263,7 +312,7 @@ export default function AboutPage() {
               </div>
 
               {/* Columna derecha: mini-panel de “cómo me gusta trabajar” */}
-              <motion.aside
+            <motion.aside
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, amount: 0.3 }}
@@ -271,26 +320,27 @@ export default function AboutPage() {
                 className="rounded-[24px] border border-white/10 bg-slate-950/70 p-5 sm:p-6 backdrop-blur-md"
               >
                 <p className="text-xs uppercase tracking-[0.24em] text-white/45">
-                  Cómo me gusta trabajar
+                  {workStyle.eyebrow}
                 </p>
                 <h3 className="mt-3 text-lg font-semibold text-white/95">
-                  Ritmo tranquilo, ideas claras
+                  {workStyle.title}
                 </h3>
                 <p className="mt-3 text-sm leading-relaxed text-white/70">
-                  Me siento cómodo cuando hay tiempo para pensar, contrastar ideas
-                  y aterrizarlas en algo concreto. Prefiero conversaciones honestas
-                  y directas, sin vender humo.
+                  {workStyle.description}
                 </p>
                 <ul className="mt-4 space-y-2 text-sm text-white/70">
-                  <li>• Profundizar antes de decidir.</li>
-                  <li>• Explicar las decisiones de forma clara.</li>
-                  <li>• Pedir feedback cuando algo puede mejorar.</li>
+                  {workStyle.items.map((item, index) => (
+                    <li key={index} className="flex items-start gap-2">
+                      <span aria-hidden className="mt-1 inline-flex h-2 w-2 flex-none rounded-full bg-sky-300" />
+                      <span>{item}</span>
+                    </li>
+                  ))}
                 </ul>
               </motion.aside>
-            </motion.section>
+          </motion.section>
 
             {/* 3. STACK – banda con gradiente + tiles de tech */}
-            <motion.section
+          <motion.section
               id="stack"
               initial={{ opacity: 0, y: 24 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -336,10 +386,10 @@ export default function AboutPage() {
                   })}
                 </motion.div>
               </div>
-            </motion.section>
+          </motion.section>
 
             {/* 4. EDUCATION – grid 2 columnas: texto + stats */}
-            <motion.section
+          <motion.section
               id="education"
               initial={{ opacity: 0, y: 24 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -396,10 +446,10 @@ export default function AboutPage() {
                   ))}
                 </motion.div>
               </div>
-            </motion.section>
+          </motion.section>
 
             {/* 5. PERSONAL – final, más ligero, con grid de pill-cards */}
-            <motion.section
+          <motion.section
               id="personal"
               initial={{ opacity: 0, y: 24 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -447,10 +497,9 @@ export default function AboutPage() {
                   </motion.li>
                 ))}
               </motion.ul>
-            </motion.section>
-          </div>
-        </section>
-      </div>
-    </div>
+          </motion.section>
+        </div>
+      </section>
+    </PageLayout>
   );
 }

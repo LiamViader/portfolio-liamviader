@@ -6,7 +6,8 @@ import { useTranslations } from "next-intl";
 import type { LucideIcon } from "lucide-react";
 import { Mail, Building2, MessageSquare, Hammer, ArrowUpRight } from "lucide-react";
 import { FaGithub, FaLinkedin } from "react-icons/fa";
-import PulseHexGridCanvas from "@/components/home/scene/PulseHexGridCanvas";
+
+import PageLayout from "@/components/layout/PageLayout";
 
 type AnyIcon = ComponentType<{ className?: string }>;
 
@@ -108,6 +109,37 @@ const arrowVariants: Variants = {
   hover: { x: 8, rotate: 15, opacity: 1, transition: { type: "spring", stiffness: 360, damping: 20 } },
 };
 
+const CONTACT_BACKGROUND_LAYERS = [
+  {
+    id: "fill",
+    gridType: "Fill" as const,
+    pixelsPerHex: 30,
+    hue: 250,
+    s: 100,
+    l: 5,
+    hueJitter: 0,
+    fillTuning: { fillAlphaMax: 0.2, fillAlphaMin: 0, lineAlphaMax: 1, lineAlphaMin: 0.8 },
+  },
+  {
+    id: "trails",
+    gridType: "Trails" as const,
+    pixelsPerHex: 30,
+    hue: 270,
+    s: 100,
+    l: 37,
+    hueJitter: 30,
+    trailCount: 15,
+    stepsPerSecond: 20,
+  },
+];
+
+const CONTACT_OVERLAY = (
+  <>
+    <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(125,211,252,0.1),_transparent_65%)]" />
+    <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-gray-950/60" />
+  </>
+);
+
 export default function ContactPage() {
   const t = useTranslations("ContactPage");
   const [introDone, setIntroDone] = useState(false);
@@ -169,15 +201,12 @@ export default function ContactPage() {
   ];
 
   return (
-    <div className="relative isolate min-h-screen overflow-hidden bg-slate-950 text-white px-3">
-      <PulseHexGridCanvas gridType="Fill" pixelsPerHex={30} hue={250} l={5} s={100} fillTuning={{ fillAlphaMax: 0.2, fillAlphaMin: 0, lineAlphaMax: 1, lineAlphaMin: 0.8 }} />
-      <PulseHexGridCanvas gridType="Trails" pixelsPerHex={30} hue={270} s={100} l={37} hueJitter={30} trailCount={15} stepsPerSecond={20} />
-      <div className="absolute inset-0">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(125,211,252,0.1),_transparent_65%)]" />
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-gray-950/50" />
-      </div>
-
-      <div className="relative z-10 mx-auto w-full max-w-6xl px-4 pb-28 pt-30 sm:px-6 sm:pb-42 sm:pt-34 lg:px-8">
+    <PageLayout
+      className="isolate px-3"
+      backgroundLayers={CONTACT_BACKGROUND_LAYERS}
+      overlays={CONTACT_OVERLAY}
+    >
+      <div className="mx-auto w-full max-w-6xl px-4 pb-28 pt-30 sm:px-6 sm:pb-42 sm:pt-34 lg:px-8">
         <div className="flex flex-col gap-6 max-w-4xl">
           <motion.h1
             className="text-center md:text-left text-balance text-4xl font-semibold tracking-tight text-white/95 sm:text-5xl md:text-6xl"
@@ -276,6 +305,6 @@ export default function ContactPage() {
           </nav>
         </div>
       </div>
-    </div>
+    </PageLayout>
   );
 }
