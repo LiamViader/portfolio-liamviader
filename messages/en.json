@@ -33,8 +33,9 @@
   },
   "AboutPage": {
     "hero": {
-      "title": "About me",
-      "subtitle": "I'm Liam Viader, a designer and developer who balances the technical with the creative. Based near Barcelona, I build AI-powered products, games, and systems that turn ideas into real experiences.",
+      "aboutTitle": "About me",
+      "title": "Who I am, <highlight>in and beyond</highlight> work",
+      "subtitle": "A look at my path, what inspires me, and how I think about building things.",
       "meta": {
         "age": "24 years old",
         "location": "Cardedeu · Barcelona Area"
@@ -138,7 +139,7 @@
   },
   "Navbar": {
     "home": "Home",
-    "about": "About Me",
+    "about": "About me",
     "projects": "Projects",
     "contact": "Contact"
   },

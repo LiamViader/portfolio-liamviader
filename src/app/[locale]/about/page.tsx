@@ -1,40 +1,16 @@
 "use client";
 
-import { useMemo, useState } from "react";
-import { AnimatePresence, motion, type Variants } from "framer-motion";
+import { motion, type Variants } from "framer-motion";
 import { useTranslations } from "next-intl";
 import Image from "next/image";
-import { ChevronLeft, ChevronRight } from "lucide-react";
 
 import PulseHexGridCanvas from "@/components/home/scene/PulseHexGridCanvas";
-
-type SectionKey =
-  | "profile"
-  | "thinking"
-  | "stack"
-  | "education"
-  | "experience"
-  | "personal"
-  | "philosophy";
-
-const sectionOrder: SectionKey[] = [
-  "profile",
-  "thinking",
-  "stack",
-  "education",
-  "experience",
-  "personal",
-  "philosophy",
-];
 
 const listVariants: Variants = {
   hidden: { opacity: 1 },
   show: {
     opacity: 1,
-    transition: {
-      delayChildren: 0.1,
-      staggerChildren: 0.08,
-    },
+    transition: { delayChildren: 0.1, staggerChildren: 0.08 },
   },
 };
 
@@ -53,376 +29,441 @@ const heroVariants: Variants = {
     opacity: 1,
     y: 0,
     filter: "blur(0px)",
-    transition: {
-      duration: 0.8,
-      ease: "easeOut",
-      staggerChildren: 0.14,
-    },
+    transition: { duration: 0.8, ease: "easeOut", staggerChildren: 0.14 },
   },
 };
 
 const heroChildVariants: Variants = {
   hidden: { opacity: 0, y: 20 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } },
+};
+
+const contentParentVariants: Variants = {
+  hidden: { opacity: 1 },
   show: {
     opacity: 1,
-    y: 0,
-    transition: { duration: 0.6, ease: "easeOut" },
+    transition: { delayChildren: 0.1, staggerChildren: 0.08 },
   },
 };
 
+const PROFILE_IMAGE = "/images/test_liam.png";
+
 export default function AboutPage() {
   const t = useTranslations("AboutPage");
-
-  const menuItems = useMemo(
-    () =>
-      sectionOrder.map((key) => ({
-        id: key,
-        title: t(`sections.${key}.title`),
-        subtitle: t(`sections.${key}.subtitle`),
-      })),
-    [t]
-  );
-
-  const [activeSection, setActiveSection] = useState<SectionKey>(sectionOrder[0]);
-  const activeIndex = sectionOrder.indexOf(activeSection);
-
-  const goToIndex = (idx: number) => {
-    const safe = Math.min(Math.max(idx, 0), sectionOrder.length - 1);
-    setActiveSection(sectionOrder[safe]);
-  };
-
-  const goPrev = () => goToIndex(activeIndex - 1);
-  const goNext = () => goToIndex(activeIndex + 1);
 
   const heroMeta = t.raw("hero.meta") as Record<string, string>;
   const age = heroMeta.age;
   const location = heroMeta.location;
 
-  const renderSectionContent = (section: SectionKey) => {
-    switch (section) {
-      case "profile": {
-        const paragraphs = t.raw("sections.profile.paragraphs") as string[];
-        return (
-          <div className="space-y-5 text-base leading-relaxed text-white/75">
-            {paragraphs.map((paragraph, index) => (
-              <motion.p key={index} variants={itemVariants} className="text-pretty">
-                {paragraph}
-              </motion.p>
-            ))}
-          </div>
-        );
-      }
-      case "thinking": {
-        const intro = t("sections.thinking.intro");
-        const pillars = t.raw("sections.thinking.pillars") as Record<
-          string,
-          { title: string; description: string }
-        >;
-        const pillarOrder: Array<keyof typeof pillars> = ["ai", "games", "systems"];
-        return (
-          <div className="space-y-8">
-            <motion.p variants={itemVariants} className="text-base leading-relaxed text-white/75">
-              {intro}
-            </motion.p>
-            <motion.div
-              variants={listVariants}
-              className="grid gap-4 sm:grid-cols-3"
-            >
-              {pillarOrder.map((pillarKey) => {
-                const pillar = pillars[pillarKey];
-                if (!pillar) return null;
-                return (
-                  <motion.div
-                    key={pillarKey}
-                    variants={itemVariants}
-                    className="h-full rounded-[26px] border border-white/10 bg-white/5 p-5 backdrop-blur-md"
-                  >
-                    <h3 className="text-lg font-semibold text-white/90">{pillar.title}</h3>
-                    <p className="mt-2 text-sm leading-relaxed text-white/70">{pillar.description}</p>
-                  </motion.div>
-                );
-              })}
-            </motion.div>
-          </div>
-        );
-      }
-      case "stack": {
-        const intro = t("sections.stack.intro");
-        const items = t.raw("sections.stack.items") as string[];
-        return (
-          <div className="space-y-6">
-            <motion.p variants={itemVariants} className="text-base leading-relaxed text-white/75">
-              {intro}
-            </motion.p>
-            <motion.div
-              variants={listVariants}
-              className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3"
-            >
-              {items.map((tool, index) => (
-                <motion.span
-                  key={index}
-                  variants={itemVariants}
-                  className="rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm text-white/80 backdrop-blur-md"
-                >
-                  {tool}
-                </motion.span>
-              ))}
-            </motion.div>
-          </div>
-        );
-      }
-      case "education": {
-        const intro = t("sections.education.intro");
-        const detail = t("sections.education.detail");
-        const stats = t.raw("sections.education.stats") as Record<
-          string,
-          { label: string; value: string }
-        >;
-        const statEntries = [stats.grade, stats.honors].filter(Boolean);
-        return (
-          <div className="space-y-8">
-            <motion.p variants={itemVariants} className="text-base leading-relaxed text-white/75">
-              {intro}
-            </motion.p>
-            <motion.div
-              variants={listVariants}
-              className="grid gap-4 sm:grid-cols-2"
-            >
-              {statEntries.map((stat, index) => (
-                <motion.div
-                  key={index}
-                  variants={itemVariants}
-                  className="rounded-[26px] border border-white/10 bg-gradient-to-br from-white/8 to-transparent p-6 backdrop-blur-md"
-                >
-                  <p className="text-sm uppercase tracking-[0.18em] text-white/50">{stat.label}</p>
-                  <p className="mt-3 text-3xl font-semibold text-white/90">{stat.value}</p>
-                </motion.div>
-              ))}
-            </motion.div>
-            <motion.p variants={itemVariants} className="text-base leading-relaxed text-white/70">
-              {detail}
-            </motion.p>
-          </div>
-        );
-      }
-      case "experience": {
-        const paragraphs = t.raw("sections.experience.paragraphs") as string[];
-        return (
-          <div className="space-y-5 text-base leading-relaxed text-white/75">
-            {paragraphs.map((paragraph, index) => (
-              <motion.p key={index} variants={itemVariants} className="text-pretty">
-                {paragraph}
-              </motion.p>
-            ))}
-          </div>
-        );
-      }
-      case "personal": {
-        const intro = t("sections.personal.intro");
-        const items = t.raw("sections.personal.items") as string[];
-        return (
-          <div className="space-y-6">
-            <motion.p variants={itemVariants} className="text-base leading-relaxed text-white/75">
-              {intro}
-            </motion.p>
-            <motion.ul variants={listVariants} className="space-y-3">
-              {items.map((item, index) => (
-                <motion.li
-                  key={index}
-                  variants={itemVariants}
-                  className="flex items-start gap-3 rounded-[22px] border border-white/10 bg-white/5 px-4 py-3 text-sm leading-relaxed text-white/75 backdrop-blur-md"
-                >
-                  <span className="mt-1 inline-flex h-2 w-2 flex-none rounded-full bg-sky-300" aria-hidden />
-                  <span>{item}</span>
-                </motion.li>
-              ))}
-            </motion.ul>
-          </div>
-        );
-      }
-      case "philosophy": {
-        const paragraphs = t.raw("sections.philosophy.paragraphs") as string[];
-        return (
-          <div className="space-y-5 text-base leading-relaxed text-white/75">
-            {paragraphs.map((paragraph, index) => (
-              <motion.p key={index} variants={itemVariants} className="text-pretty">
-                {paragraph}
-              </motion.p>
-            ))}
-          </div>
-        );
-      }
-      default:
-        return null;
-    }
-  };
+  const profileParagraphs = t.raw(
+    "sections.profile.paragraphs"
+  ) as string[];
+
+  const thinkingIntro = t("sections.thinking.intro");
+  const thinkingPillars = t.raw(
+    "sections.thinking.pillars"
+  ) as Record<string, { title: string; description: string }>;
+  const thinkingPillarOrder: Array<keyof typeof thinkingPillars> = [
+    "ai",
+    "games",
+    "systems",
+  ];
+
+  const stackIntro = t("sections.stack.intro");
+  const stackItems = t.raw("sections.stack.items") as string[];
+
+  const educationIntro = t("sections.education.intro");
+  const educationDetail = t("sections.education.detail");
+  const educationStats = t.raw(
+    "sections.education.stats"
+  ) as Record<string, { label: string; value: string }>;
+  const educationStatEntries = [educationStats.grade, educationStats.honors].filter(
+    Boolean
+  );
+
+  const personalIntro = t("sections.personal.intro");
+  const personalItems = t.raw("sections.personal.items") as string[];
 
   return (
     <div className="relative flex min-h-screen flex-col bg-slate-950 text-white">
-      {/* fondo */}
-      <PulseHexGridCanvas pixelsPerHex={45} hue={230} hueJitter={10} s={75} l={1} gridType="Fill" className="opacity-85" />
-      <PulseHexGridCanvas pixelsPerHex={45} hue={210} hueJitter={20} s={80} l={18} gridType="Strata" />
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(56,189,248,0.22),_transparent_55%)]" />
+      {/* Fondo */}
+      <PulseHexGridCanvas
+        pixelsPerHex={45}
+        hue={240}
+        hueJitter={5}
+        s={75}
+        l={1}
+        gridType="Fill"
+        className="opacity-85"
+      />
+      <PulseHexGridCanvas
+        pixelsPerHex={45}
+        hue={240}
+        hueJitter={30}
+        s={60}
+        l={25}
+        gridType="Strata"
+      />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(125,211,252,0.1),_transparent_55%)]" />
 
       <div className="relative z-10 flex flex-col">
-        {/* HERO */}
-        <section className="relative overflow-hidden px-4 pb-20 pt-32 sm:px-6 lg:px-10">
+        {/* HERO (mismo estilo que tenías, con título + subtítulo + edad/ubicación) */}
+        <section className="relative overflow-hidden px-4 pb-16 pt-28 lg:pt-34 sm:px-6 lg:px-10">
           <div className="absolute inset-0 bg-gradient-to-b from-gray-950/60 via-gray-950/20 to-gray-950/30" />
 
           <motion.div
             initial="hidden"
             animate="show"
             variants={heroVariants}
-            className="relative mx-auto flex max-w-6xl flex-col gap-10 lg:flex-row lg:items-center"
+            className="relative mx-auto flex w-full max-w-6xl flex-col gap-6 text-center lg:text-left"
           >
-            {/* texto */}
-            <div className="flex-1 space-y-6 text-center lg:text-left">
-              <motion.p
-                variants={heroChildVariants}
-                className="text-xs uppercase tracking-[0.3em] text-white/40"
-              >
-                Sobre mí
-              </motion.p>
-
-              <motion.h1
-                variants={heroChildVariants}
-                className="text-balance text-4xl font-semibold tracking-tight text-white/95 sm:text-5xl"
-              >
-                {t("hero.title")}
-              </motion.h1>
-
-              {/* edad + ubicación SIN background */}
-              {(age || location) && (
-                <motion.p
-                  variants={heroChildVariants}
-                  className="flex flex-wrap items-center justify-center gap-3 text-sm text-white/55 lg:justify-start"
-                >
-                  {age ? <span>{age}</span> : null}
-                  {age && location ? (
-                    <span className="h-1 w-1 rounded-full bg-white/25" aria-hidden />
-                  ) : null}
-                  {location ? <span>{location}</span> : null}
-                </motion.p>
-              )}
-
-              <motion.p
-                variants={heroChildVariants}
-                className="max-w-2xl text-pretty text-lg text-white/70 sm:text-xl lg:max-w-xl"
-              >
-                {t("hero.subtitle")}
-              </motion.p>
-            </div>
-
-            {/* foto */}
-            <motion.div
+            <motion.h1
               variants={heroChildVariants}
-              className="relative mx-auto flex h-[260px] w-[260px] items-center justify-center rounded-[34px] border border-white/10 bg-slate-900/30 p-2 shadow-[0_24px_80px_rgba(15,23,42,0.55)] backdrop-blur md:h-[280px] md:w-[280px] lg:mx-0"
+              className="text-balance text-4xl sm:text-5xl md:text-6xl font-semibold tracking-tight text-white/95"
             >
-              <div className="absolute -inset-4 -z-10 bg-[radial-gradient(circle,_rgba(125,211,252,0.4),_transparent_60%)]" />
-              <Image
-                src="/images/test_liam.png"
-                alt="Profile picture"
-                fill
-                className="rounded-[28px] object-cover"
-              />
-            </motion.div>
+              {t.rich("hero.title", {
+                highlight: (chunks) => (
+                  <span className="text-sky-300">{chunks}</span>
+                ),
+              })}
+            </motion.h1>
+
+            <motion.p
+              variants={heroChildVariants}
+              transition={{ delay: 0.1, duration: 0.6 }}
+              className="max-w-2xl text-pretty text-lg text-white/70 sm:text-xl"
+            >
+              {t("hero.subtitle")}
+            </motion.p>
+
+            {(age || location) && (
+              <motion.p
+                variants={heroChildVariants}
+                transition={{ delay: 0.18, duration: 0.6 }}
+                className="flex flex-wrap items-center justify-center gap-3 text-sm text-white/55 lg:justify-start"
+              >
+                {age ? <span>{age}</span> : null}
+                {age && location ? (
+                  <span
+                    className="h-1 w-1 rounded-full bg-white/25"
+                    aria-hidden
+                  />
+                ) : null}
+                {location ? <span>{location}</span> : null}
+              </motion.p>
+            )}
           </motion.div>
         </section>
 
-        {/* CONTENT */}
-        <section className="relative px-4 pb-24 pt-6 sm:px-6 lg:px-10 min-h-[1000px]">
+        {/* CONTENIDO – página normal, con layouts distintos por bloque */}
+        <section className="relative px-4 pb-28 pt-6 sm:px-6 lg:px-10">
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_left,_rgba(56,189,248,0.12),_transparent_25%)]" />
           <div className="absolute inset-0 bg-gradient-to-b from-gray-950/30 via-gray-950/10 to-gray-950" />
 
-          <div className="relative mx-auto max-w-5xl">
-            {/* MENÚ FUERA del panel animado, un poco más grande */}
-            <div className="mb-6 flex items-center justify-center gap-3">
-              <button
-                onClick={goPrev}
-                disabled={activeIndex === 0}
-                className={`inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/15 bg-slate-950/40 text-white/70 transition hover:bg-white/10 hover:text-white ${
-                  activeIndex === 0 ? "opacity-35 pointer-events-none" : ""
-                }`}
-                aria-label="Sección anterior"
-              >
-                <ChevronLeft className="h-5 w-5" strokeWidth={1.8} />
-              </button>
+          <div className="relative mx-auto flex w-full max-w-6xl flex-col gap-16 lg:gap-20">
+            {/* 1. PROFILE – Card principal con blur + foto a la derecha */}
+            <motion.section
+              id="profile"
+              initial={{ opacity: 0, y: 24 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.25 }}
+              transition={{ duration: 0.5, ease: "easeOut" }}
+              className="rounded-[26px] border border-white/10 bg-white/10 p-6 sm:p-8 backdrop-blur-xl shadow-[0_24px_80px_rgba(15,23,42,0.55)]"
+            >
+              <div className="flex flex-col gap-8 lg:flex-row lg:items-center">
+                <div className="flex-1">
+                  <header className="mb-5 sm:mb-6">
+                    <p className="text-sm uppercase tracking-[0.25em] text-white/50">
+                      {t("sections.profile.title")}
+                    </p>
+                    <h2 className="mt-3 text-2xl font-semibold text-white/95 sm:text-3xl">
+                      {t("sections.profile.subtitle")}
+                    </h2>
+                  </header>
 
-              <div className="flex items-center gap-2 rounded-full px-3 py-2">
-                {sectionOrder.map((key) => {
-                  const isActive = key === activeSection;
-                  return (
-                    <button
-                      key={key}
-                      onClick={() => setActiveSection(key)}
-                      className={`transition-all ${
-                        isActive
-                          ? "h-3.5 w-10 rounded-full bg-sky-300 shadow-[0_0_12px_rgba(125,211,252,0.45)]"
-                          : "h-3 w-3 rounded-full bg-white/25 hover:bg-white/45"
-                      }`}
-                      aria-label={t(`sections.${key}.title`)}
-                    />
-                  );
-                })}
-              </div>
+                  <motion.div
+                    initial="hidden"
+                    whileInView="show"
+                    viewport={{ once: true, amount: 0.3 }}
+                    variants={contentParentVariants}
+                    className="space-y-5 text-base leading-relaxed text-white/75"
+                  >
+                    {profileParagraphs.map((paragraph, index) => (
+                      <motion.p
+                        key={index}
+                        variants={itemVariants}
+                        className="text-pretty"
+                      >
+                        {paragraph}
+                      </motion.p>
+                    ))}
+                  </motion.div>
+                </div>
 
-              <button
-                onClick={goNext}
-                disabled={activeIndex === sectionOrder.length - 1}
-                className={`inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/15 bg-slate-950/40 text-white/70 transition hover:bg-white/10 hover:text-white ${
-                  activeIndex === sectionOrder.length - 1 ? "opacity-35 pointer-events-none" : ""
-                }`}
-                aria-label="Siguiente sección"
-              >
-                <ChevronRight className="h-5 w-5" strokeWidth={1.8} />
-              </button>
-            </div>
-
-            {/* PANEL ANIMADO */}
-            <AnimatePresence mode="wait">
-              <motion.article
-                key={activeSection}
-                initial={{ opacity: 0, y: 24, filter: "blur(10px)" }}
-                animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-                exit={{
-                  opacity: 0,
-                  y: -18,
-                  filter: "blur(8px)",
-                  transition: { duration: 0.2, ease: "easeInOut" },
-                }}
-                transition={{ duration: 0.3, ease: "easeOut" }}
-                className="rounded-[26px] border border-white/10 bg-white/5 p-6 sm:p-8 backdrop-blur-xl"
-              >
-                <motion.header
-                  initial={{ opacity: 0, y: 12 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.45, ease: "easeOut", delay: 0.08 }}
-                  className="mb-8"
+                {/* Foto a la derecha, tamaño contenido */}
+                <motion.div
+                  initial={{ opacity: 0, y: 16, scale: 0.96 }}
+                  whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                  viewport={{ once: true, amount: 0.3 }}
+                  transition={{ duration: 0.35, ease: "easeOut", delay: 0.05 }}
+                  className="relative mx-auto h-32 w-32 overflow-hidden rounded-3xl border border-white/15 bg-slate-900/70 shadow-[0_18px_60px_rgba(15,23,42,0.7)] md:h-40 md:w-40 lg:mx-0 lg:ml-6 lg:h-44 lg:w-44"
                 >
+                  <Image
+                    src={PROFILE_IMAGE}
+                    alt={t("sections.profile.title")}
+                    fill
+                    className="object-cover"
+                  />
+                </motion.div>
+              </div>
+            </motion.section>
+
+            {/* 2. THINKING – 2 columnas: izquierda pilares, derecha “cómo trabajo” */}
+            <motion.section
+              id="thinking"
+              initial={{ opacity: 0, y: 24 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.25 }}
+              transition={{ duration: 0.5, ease: "easeOut" }}
+              className="grid gap-10 lg:grid-cols-[minmax(0,1.6fr)_minmax(0,1fr)] lg:items-start"
+            >
+              {/* Columna izquierda: intro + pilares */}
+              <div className="space-y-6">
+                <header>
                   <p className="text-sm uppercase tracking-[0.25em] text-white/50">
-                    {t(`sections.${activeSection}.title`)}
+                    {t("sections.thinking.title")}
                   </p>
                   <h2 className="mt-3 text-2xl font-semibold text-white/95 sm:text-3xl">
-                    {t(`sections.${activeSection}.subtitle`)}
+                    {t("sections.thinking.subtitle")}
                   </h2>
-                </motion.header>
+                </header>
 
                 <motion.div
                   initial="hidden"
-                  animate="show"
-                  variants={{
-                    hidden: { opacity: 1 },
-                    show: {
-                      opacity: 1,
-                      transition: { delayChildren: 0.1, staggerChildren: 0.08 },
-                    },
-                  }}
-                  className="space-y-6"
+                  whileInView="show"
+                  viewport={{ once: true, amount: 0.3 }}
+                  variants={contentParentVariants}
+                  className="space-y-7"
                 >
-                  {renderSectionContent(activeSection)}
+                  <motion.p
+                    variants={itemVariants}
+                    className="text-base leading-relaxed text-white/75"
+                  >
+                    {thinkingIntro}
+                  </motion.p>
+
+                  <motion.div
+                    variants={listVariants}
+                    className="grid gap-4 sm:grid-cols-3"
+                  >
+                    {thinkingPillarOrder.map((pillarKey) => {
+                      const pillar = thinkingPillars[pillarKey];
+                      if (!pillar) return null;
+                      return (
+                        <motion.div
+                          key={pillarKey}
+                          variants={itemVariants}
+                          className="h-full rounded-[22px] border border-white/10 bg-white/5 p-5 backdrop-blur-md"
+                        >
+                          <h3 className="text-base font-semibold text-white/90">
+                            {pillar.title}
+                          </h3>
+                          <p className="mt-2 text-sm leading-relaxed text-white/70">
+                            {pillar.description}
+                          </p>
+                        </motion.div>
+                      );
+                    })}
+                  </motion.div>
                 </motion.div>
-              </motion.article>
-            </AnimatePresence>
+              </div>
+
+              {/* Columna derecha: mini-panel de “cómo me gusta trabajar” */}
+              <motion.aside
+                initial={{ opacity: 0, y: 20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.3 }}
+                transition={{ duration: 0.5, ease: "easeOut", delay: 0.05 }}
+                className="rounded-[24px] border border-white/10 bg-slate-950/70 p-5 sm:p-6 backdrop-blur-md"
+              >
+                <p className="text-xs uppercase tracking-[0.24em] text-white/45">
+                  Cómo me gusta trabajar
+                </p>
+                <h3 className="mt-3 text-lg font-semibold text-white/95">
+                  Ritmo tranquilo, ideas claras
+                </h3>
+                <p className="mt-3 text-sm leading-relaxed text-white/70">
+                  Me siento cómodo cuando hay tiempo para pensar, contrastar ideas
+                  y aterrizarlas en algo concreto. Prefiero conversaciones honestas
+                  y directas, sin vender humo.
+                </p>
+                <ul className="mt-4 space-y-2 text-sm text-white/70">
+                  <li>• Profundizar antes de decidir.</li>
+                  <li>• Explicar las decisiones de forma clara.</li>
+                  <li>• Pedir feedback cuando algo puede mejorar.</li>
+                </ul>
+              </motion.aside>
+            </motion.section>
+
+            {/* 3. STACK – banda con gradiente + tiles de tech */}
+            <motion.section
+              id="stack"
+              initial={{ opacity: 0, y: 24 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.25 }}
+              transition={{ duration: 0.5, ease: "easeOut" }}
+              className="rounded-[28px] border border-sky-500/15 bg-gradient-to-r from-slate-950/80 via-slate-900/70 to-slate-950/80 px-5 py-7 sm:px-8 sm:py-8"
+            >
+              <div className="flex flex-col gap-6 lg:flex-row lg:items-center lg:justify-between">
+                <div className="max-w-xl space-y-3">
+                  <p className="text-sm uppercase tracking-[0.25em] text-sky-200/70">
+                    {t("sections.stack.title")}
+                  </p>
+                  <h2 className="text-2xl font-semibold text-white/95 sm:text-3xl">
+                    {t("sections.stack.subtitle")}
+                  </h2>
+                  <p className="text-sm sm:text-base leading-relaxed text-white/70">
+                    {stackIntro}
+                  </p>
+                </div>
+
+                <motion.div
+                  initial="hidden"
+                  whileInView="show"
+                  viewport={{ once: true, amount: 0.3 }}
+                  variants={contentParentVariants}
+                  className="mt-3 flex flex-wrap justify-start gap-3 sm:gap-4 lg:mt-0"
+                >
+                  {stackItems.map((tool, index) => {
+                    const abbrev = tool
+                      .replace(/[^A-Za-z0-9]/g, "")
+                      .slice(0, 3)
+                      .toUpperCase();
+                    return (
+                      <motion.div
+                        key={index}
+                        variants={itemVariants}
+                        className="flex h-12 w-12 items-center justify-center rounded-2xl border border-white/20 bg-white/5 text-xs font-semibold text-white/90 shadow-[0_10px_30px_rgba(15,23,42,0.65)] backdrop-blur-md sm:h-14 sm:w-14"
+                      >
+                        <span aria-hidden>{abbrev}</span>
+                        <span className="sr-only">{tool}</span>
+                      </motion.div>
+                    );
+                  })}
+                </motion.div>
+              </div>
+            </motion.section>
+
+            {/* 4. EDUCATION – grid 2 columnas: texto + stats */}
+            <motion.section
+              id="education"
+              initial={{ opacity: 0, y: 24 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.25 }}
+              transition={{ duration: 0.5, ease: "easeOut" }}
+              className="space-y-8"
+            >
+              <header className="max-w-2xl">
+                <p className="text-sm uppercase tracking-[0.25em] text-white/50">
+                  {t("sections.education.title")}
+                </p>
+                <h2 className="mt-3 text-2xl font-semibold text-white/95 sm:text-3xl">
+                  {t("sections.education.subtitle")}
+                </h2>
+              </header>
+
+              <div className="grid gap-8 lg:grid-cols-[minmax(0,1.6fr)_minmax(0,1fr)] lg:items-start">
+                <motion.div
+                  initial="hidden"
+                  whileInView="show"
+                  viewport={{ once: true, amount: 0.3 }}
+                  variants={contentParentVariants}
+                  className="space-y-5 text-base leading-relaxed text-white/75"
+                >
+                  <motion.p variants={itemVariants}>{educationIntro}</motion.p>
+                  <motion.p
+                    variants={itemVariants}
+                    className="text-white/70"
+                  >
+                    {educationDetail}
+                  </motion.p>
+                </motion.div>
+
+                <motion.div
+                  initial="hidden"
+                  whileInView="show"
+                  viewport={{ once: true, amount: 0.3 }}
+                  variants={contentParentVariants}
+                  className="space-y-4"
+                >
+                  {educationStatEntries.map((stat, index) => (
+                    <motion.div
+                      key={index}
+                      variants={itemVariants}
+                      className="rounded-[22px] border border-white/10 bg-gradient-to-br from-white/8 to-transparent p-6 backdrop-blur-md"
+                    >
+                      <p className="text-xs uppercase tracking-[0.18em] text-white/50">
+                        {stat.label}
+                      </p>
+                      <p className="mt-3 text-2xl font-semibold text-white/90">
+                        {stat.value}
+                      </p>
+                    </motion.div>
+                  ))}
+                </motion.div>
+              </div>
+            </motion.section>
+
+            {/* 5. PERSONAL – final, más ligero, con grid de pill-cards */}
+            <motion.section
+              id="personal"
+              initial={{ opacity: 0, y: 24 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, amount: 0.25 }}
+              transition={{ duration: 0.5, ease: "easeOut" }}
+              className="space-y-6 border-t border-white/10 pt-10"
+            >
+              <header>
+                <p className="text-sm uppercase tracking-[0.25em] text-white/50">
+                  {t("sections.personal.title")}
+                </p>
+                <h2 className="mt-3 text-2xl font-semibold text-white/95 sm:text-3xl">
+                  {t("sections.personal.subtitle")}
+                </h2>
+              </header>
+
+              <motion.p
+                initial={{ opacity: 0, y: 10 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, amount: 0.3 }}
+                transition={{ duration: 0.45, ease: "easeOut" }}
+                className="max-w-3xl text-base leading-relaxed text-white/75"
+              >
+                {personalIntro}
+              </motion.p>
+
+              <motion.ul
+                variants={listVariants}
+                initial="hidden"
+                whileInView="show"
+                viewport={{ once: true, amount: 0.3 }}
+                className="grid gap-3 sm:grid-cols-2"
+              >
+                {personalItems.map((item, index) => (
+                  <motion.li
+                    key={index}
+                    variants={itemVariants}
+                    className="flex items-start gap-3 rounded-[18px] border border-white/10 bg-white/5 px-4 py-3 text-sm leading-relaxed text-white/75 backdrop-blur-md"
+                  >
+                    <span
+                      className="mt-1 inline-flex h-2 w-2 flex-none rounded-full bg-sky-300"
+                      aria-hidden
+                    />
+                    <span>{item}</span>
+                  </motion.li>
+                ))}
+              </motion.ul>
+            </motion.section>
           </div>
         </section>
       </div>
