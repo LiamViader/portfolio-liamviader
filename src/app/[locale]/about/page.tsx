@@ -136,22 +136,6 @@ export default function AboutPage() {
               {t("hero.subtitle")}
             </motion.p>
 
-            {(age || location) && (
-              <motion.p
-                variants={heroChildVariants}
-                transition={{ delay: 0.18, duration: 0.6 }}
-                className="flex flex-wrap items-center justify-center gap-3 text-sm text-white/55 lg:justify-start"
-              >
-                {age ? <span>{age}</span> : null}
-                {age && location ? (
-                  <span
-                    className="h-1 w-1 rounded-full bg-white/25"
-                    aria-hidden
-                  />
-                ) : null}
-                {location ? <span>{location}</span> : null}
-              </motion.p>
-            )}
           </motion.div>
         </section>
 
