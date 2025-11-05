@@ -67,6 +67,16 @@
             "title": "Diseño e iteración",
             "description": "Mapeo las ideas, prototipo rápido y ajusto con métricas, feedback y sensibilidad creativa."
           }
+        },
+        "workStyle": {
+          "eyebrow": "Cómo me gusta trabajar",
+          "title": "Ritmo tranquilo, ideas claras",
+          "description": "Me siento cómodo cuando hay tiempo para pensar, contrastar ideas y aterrizarlas en algo concreto. Prefiero conversaciones honestas y directas, sin vender humo.",
+          "items": [
+            "Profundizar antes de decidir.",
+            "Explicar las decisiones de forma clara.",
+            "Pedir feedback cuando algo puede mejorar."
+          ]
         }
       },
       "stack": {
@@ -92,8 +102,14 @@
         "subtitle": "Diseño y Desarrollo de Videojuegos (UdG)",
         "intro": "Graduado con una visión integral que abarca diseño, programación y producción de experiencias interactivas.",
         "stats": {
-          "grade": { "label": "Nota final", "value": "9,07" },
-          "honors": { "label": "Matrículas de honor", "value": "17" }
+          "grade": {
+            "label": "Nota final",
+            "value": "9,07"
+          },
+          "honors": {
+            "label": "Matrículas de honor",
+            "value": "17"
+          }
         },
         "detail": "La carrera me permitió profundizar en diseño de sistemas, IA aplicada al juego y coordinación de equipos multidisciplinares."
       },
@@ -158,8 +174,6 @@
     "cta_text": "Si alguno de mis proyectos te ha despertado interés, estaré encantado de conversar. Escríbeme si quieres colaborar, necesitas más información o simplemente deseas saludar.",
     "cta_button_contact": "Contactar"
   },
-
-
   "ContactPage": {
     "hero": {
       "title": "Ponte en <highlight>contacto</highlight>",

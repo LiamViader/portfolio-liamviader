@@ -67,6 +67,16 @@
             "title": "Design and iteration",
             "description": "I map ideas, prototype quickly, and adjust with metrics, feedback, and creative sensitivity."
           }
+        },
+        "workStyle": {
+          "eyebrow": "How I like to work",
+          "title": "Calm rhythm, clear ideas",
+          "description": "I do my best work when there's space to think, stress-test ideas, and land them in something tangible. I prefer honest, direct conversations over buzzwords.",
+          "items": [
+            "Dive deep before deciding.",
+            "Explain decisions with clarity.",
+            "Ask for feedback when something can be better."
+          ]
         }
       },
       "stack": {
@@ -92,8 +102,14 @@
         "subtitle": "Game Design and Development (UdG)",
         "intro": "Graduated with a holistic view across design, programming, and production of interactive experiences.",
         "stats": {
-          "grade": { "label": "Final grade", "value": "9.07" },
-          "honors": { "label": "Honors", "value": "17" }
+          "grade": {
+            "label": "Final grade",
+            "value": "9.07"
+          },
+          "honors": {
+            "label": "Honors",
+            "value": "17"
+          }
         },
         "detail": "The degree let me dive deep into system design, applied AI for gameplay, and multidisciplinary team coordination."
       },

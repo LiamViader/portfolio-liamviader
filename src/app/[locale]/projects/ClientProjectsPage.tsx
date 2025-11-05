@@ -4,6 +4,7 @@ import { motion, type Variants } from "framer-motion";
 import { useTranslations } from "next-intl";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
+import PageLayout from "@/components/layout/PageLayout";
 import CallToAction from "@/components/CallToAction";
 import { ProjectSceneCanvas } from "@/components/projects/ProjectSceneCanvas";
 import { CATEGORY_CONFIG, ClientCategorySlug } from "@/config/projectCategories";
@@ -74,44 +75,56 @@ export default function ClientProjectsPage({ projectsData }: ClientProjectsPageP
     return project.categorys.includes(currentFilter);
   });
 
-  return (
-    <div className="relative flex min-h-screen flex-col bg-slate-950 text-white">
+  const overlays = (
+    <>
       <ProjectSceneCanvas category={category} />
+      <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-gray-950/85 via-gray-950/65 to-gray-950/90" />
+    </>
+  );
 
-      <div className="relative z-10 flex flex-col">
-
-        <section className="relative overflow-hidden bg-transparent px-4 pb-15 pt-34 sm:px-6 lg:px-10">
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_45%,rgba(125,211,252,0.20),transparent_20%)]" />
-          <div className="absolute inset-0 bg-gradient-to-b from-gray-950/70 via-gray-950/30 to-transparent" />
-          <motion.div
-            initial="hidden"
-            animate="show"
-            variants={heroContainerVariants}
-            className="relative mx-auto flex max-w-5xl flex-col items-center gap-8 text-center"
+  return (
+    <PageLayout
+      className="isolate"
+      backgroundLayers={[]}
+      overlays={overlays}
+      contentClassName="flex flex-col"
+    >
+      <section className="relative overflow-hidden px-4 pb-20 pt-34 sm:px-6 lg:px-10">
+        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_45%,rgba(125,211,252,0.28),transparent_25%)]" />
+        <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-gray-950/80 via-gray-950/50 to-transparent" />
+        <div className="pointer-events-none absolute inset-0 backdrop-blur-[1.5px]" />
+        <motion.div
+          initial="hidden"
+          animate="show"
+          variants={heroContainerVariants}
+          className="relative mx-auto flex max-w-5xl flex-col items-center gap-8 text-center"
+        >
+          <motion.h1
+            variants={heroChildVariants}
+            className="text-balance text-4xl font-semibold tracking-tight text-white/95 sm:text-5xl md:text-6xl"
           >
-            <motion.h1
-              variants={heroChildVariants}
-              className="text-balance text-4xl sm:text-5xl md:text-6xl font-semibold tracking-tight text-white/95"
-            >
-              {t.rich("title", {
-                highlight: (chunks) => <span className="text-sky-300">{chunks}</span>,
-              })}
-            </motion.h1>
-            <motion.p
-              variants={heroChildVariants}
-              className="max-w-3xl text-pretty text-balance text-lg text-white/70 sm:text-xl"
-            >
-              {t("intro_paragraph")}
-            </motion.p>
-          </motion.div>
-        </section>
+            {t.rich("title", {
+              highlight: (chunks) => <span className="text-sky-300">{chunks}</span>,
+            })}
+          </motion.h1>
+          <motion.p
+            variants={heroChildVariants}
+            className="max-w-3xl text-pretty text-balance text-lg text-white/70 sm:text-xl"
+          >
+            {t("intro_paragraph")}
+          </motion.p>
+        </motion.div>
+      </section>
 
-        <FeaturedProjectsSection projects={projectsData} />
+      <FeaturedProjectsSection projects={projectsData} />
 
-        <ProjectGallery category={category} filteredProjects={filteredProjects} onCategoryChange={setCategory} />
+      <ProjectGallery
+        category={category}
+        filteredProjects={filteredProjects}
+        onCategoryChange={setCategory}
+      />
 
-        <CallToAction />
-      </div>
-    </div>
+      <CallToAction />
+    </PageLayout>
   );
 }
