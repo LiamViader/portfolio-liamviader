@@ -44,7 +44,7 @@ export default function Home() {
           <motion.p
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 1.45, duration: 0.7 }}
+            transition={{ delay: 1.15, duration: 0.7 }}
             className="z-10 text-lg font-medium uppercase tracking-[0.3em] text-white/70"
           >
             {t("work_section.title")}
@@ -56,7 +56,7 @@ export default function Home() {
               hidden: {opacity: 1},
               show: {
                 opacity: 1,
-                transition: { delayChildren: 1.55, staggerChildren: 0.15, when: "beforeChildren" }
+                transition: { delayChildren: 1.25, staggerChildren: 0.15, when: "beforeChildren" }
               }
             }}
             initial="hidden" 

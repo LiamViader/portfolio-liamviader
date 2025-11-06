@@ -46,7 +46,7 @@ export default function FeaturedProjectsSection({ projects }: FeaturedProjectsPr
         className="relative mx-auto flex max-w-6xl flex-col items-center gap-12 text-center pt-15 border-t border-white/10"
         initial={{opacity: 0}}
         animate={{opacity:1}}
-        transition={{delay: 0.8, duration: 0.2}}
+        transition={{delay: 0.4, duration: 0.2}}
       >
         <motion.div 
           variants={leftCol}
@@ -54,7 +54,7 @@ export default function FeaturedProjectsSection({ projects }: FeaturedProjectsPr
           animate="show"
           className="space-y-4"
         >
-          <motion.h2 variants={leftItem} onAnimationStart={ () => setTimeout(() => setCardsIntro(true), 1600) } className="text-3xl md:text-4xl xl:text-[40px] font-semibold text-white">{t("featured_title")}</motion.h2>
+          <motion.h2 variants={leftItem} onAnimationStart={ () => setTimeout(() => setCardsIntro(true), 1000) } className="text-3xl md:text-4xl xl:text-[40px] font-semibold text-white">{t("featured_title")}</motion.h2>
           <motion.p variants={leftItem} className="mx-auto max-w-2xl text-balance text-base text-white/65">
             {t("featured_description")}
           </motion.p>

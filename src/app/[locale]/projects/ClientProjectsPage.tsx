@@ -27,7 +27,7 @@ const heroContainerVariants: Variants = {
     y: 0,
     filter: "blur(0px)",
     transition: {
-      duration: 0.8,
+      duration: 0.6,
       ease: "easeOut",
       when: "beforeChildren",
       staggerChildren: 0.18,

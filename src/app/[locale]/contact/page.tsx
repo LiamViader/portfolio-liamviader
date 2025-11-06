@@ -36,7 +36,7 @@ const contactContainerVariant: Variants = {
     boxShadow: BASE_SH,
     transition: {
       duration: c.isIntro ? 0.6 : 0.5,
-      delay: c.isIntro ? c.order * 0.2 + 1.2 : 0,
+      delay: c.isIntro ? c.order * 0.2 + 1 : 0,
       ease: "easeOut",
     },
   }),
@@ -67,7 +67,7 @@ const navLinkVariants: Variants = {
     opacity: 1,
     y: 0,
     filter: "blur(0px)",
-    transition: { duration: 0.7, delay: 1.5, ease: "easeOut" },
+    transition: { duration: 0.7, delay: 1.3, ease: "easeOut" },
   },
   hover: {
     scale: 1.03,
@@ -213,7 +213,7 @@ export default function ContactPage() {
             initial={{ y: 20, opacity: 0, scale: 1, filter: "drop-shadow(0 0 12px rgba(56,189,248,0.01))" }}
             animate={{ y: 0, opacity: 1, scale: 1, filter: "drop-shadow(0 0 12px rgba(56,189,248,0.01))" }}
             whileHover={introDone ? {scale: 1.02, y: -2, filter: "drop-shadow(0 0 12px rgba(56,189,248,0.35))", transition: {duration: 0.3}} : undefined}
-            transition={introDone ? {duration: 0.5, delay:0}: { duration: 0.7, delay: 1, ease: "easeOut" }}
+            transition={introDone ? {duration: 0.5, delay:0}: { duration: 0.7, delay: 0.8, ease: "easeOut" }}
           >
             {t.rich("hero.title", {
               highlight: (chunks) => <span className="text-sky-300">{chunks}</span>,
@@ -223,7 +223,7 @@ export default function ContactPage() {
             className="text-center md:text-left text-pretty text-lg text-white/75 sm:text-xl"
             initial={{ y: 20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
-            transition={{ duration: 0.7, delay: 1.1, ease: "easeOut" }}
+            transition={{ duration: 0.7, delay: 0.9, ease: "easeOut" }}
           >
             {t("hero.description")}
           </motion.p>

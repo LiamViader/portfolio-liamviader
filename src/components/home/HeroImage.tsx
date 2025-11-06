@@ -20,7 +20,7 @@ const imageVariants: Variants = {
     opacity: 1,
     scale: 1,
     boxShadow: `${RING}, ${BASE_GLOW}`,
-    transition: { duration: 0.8, ease: easeOut, delay: 1 },
+    transition: { duration: 0.8, ease: easeOut, delay: 0.7 },
   },
 
   // Base state
