@@ -25,7 +25,7 @@ export default function ProjectSceneContent({ category }: ProjectSceneContentPro
 
   const PX_TO_WORLD_Y = -0.0025; // sensibilidad vertical por píxel de scroll
   const TARGET_Z = 5;
-  const DAMPING = 0.01; // suavizado
+  const DAMPING = 0.2; // suavizado
 
   useEffect(() => {
     const handleAppScroll = (e: Event) => {

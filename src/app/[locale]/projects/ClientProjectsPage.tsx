@@ -78,7 +78,7 @@ export default function ClientProjectsPage({ projectsData }: ClientProjectsPageP
   const overlays = (
     <>
       <ProjectSceneCanvas category={category} />
-      <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-gray-950/85 via-gray-950/65 to-gray-950/90" />
+      <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-gray-950/15 via-gray-950/15 to-gray-950/20" />
     </>
   );
 
@@ -90,7 +90,7 @@ export default function ClientProjectsPage({ projectsData }: ClientProjectsPageP
       contentClassName="flex flex-col"
     >
       <section className="relative overflow-hidden px-4 pb-20 pt-34 sm:px-6 lg:px-10">
-        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_45%,rgba(125,211,252,0.28),transparent_25%)]" />
+        <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_30%,rgba(125,211,252,0.28),transparent_25%)]" />
         <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-gray-950/80 via-gray-950/50 to-transparent" />
         <div className="pointer-events-none absolute inset-0 backdrop-blur-[1.5px]" />
         <motion.div
