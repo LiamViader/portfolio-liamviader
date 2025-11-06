@@ -478,7 +478,7 @@ export default function AboutPage() {
       {/* FILOSOFÍA / MANERA DE PENSAR */}
       <section className="relative border-t border-gray-700/50 px-4 pb-24 pt-10 sm:px-6 lg:px-12 lg:pb-32 lg:pt-20">
         <div className="absolute inset-0 bg-gradient-to-b from-gray-950 via-transparent to-gray-950" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_left,_rgba(56,189,248,0.05),_transparent_50%)]" />
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom,_rgba(56,189,248,0.05),_transparent_50%)]" />
 
         <div className="relative mx-auto max-w-6xl space-y-8">
           <div className="space-y-3 max-w-3xl">
