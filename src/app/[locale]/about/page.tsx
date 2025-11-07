@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, type ReactNode } from "react";
+import { useState, type ReactNode, type CSSProperties } from "react";
 import { motion, type Variants } from "framer-motion";
 import Image from "next/image";
 import PageLayout from "@/components/layout/PageLayout";
@@ -95,53 +95,51 @@ const EXPERIENCE_PATH: TimelineItem[] = [
   },
 ];
 
-const TECH_STACK: Array<{
-  name: string;
-  short?: string;
-  description?: string;
-}> = [
-  {
-    name: "C#",
-    short: "C#",
-    description: "Backend, tooling o juegos. Pon aquí tu uso principal.",
-  },
-  {
-    name: "Python",
-    short: "Py",
-    description:
-      "Data, scripting, IA, automatización… lo que más encaje contigo.",
-  },
-  {
-    name: "JavaScript / TypeScript",
-    short: "JS",
-    description: "Frontend, backend o full-stack. Ajusta según lo que hagas.",
-  },
-  {
-    name: "React / Next.js",
-    short: "R",
-    description: "Interfaz, UX y aplicaciones web modernas.",
-  },
-  {
-    name: "SQL / Bases de datos",
-    short: "DB",
-    description: "Diseño de modelos de datos y consultas.",
-  },
-  {
-    name: "Git & GitHub",
-    short: "Git",
-    description: "Flujo de trabajo, ramas, PRs y colaboración.",
-  },
-  {
-    name: "CI/CD & DevOps básico",
-    short: "Ops",
-    description: "Pipelines, despliegues y entornos.",
-  },
-  {
-    name: "Otros",
-    short: "+",
-    description:
-      "Añade aquí frameworks, motores de juegos, nubes o lo que tenga sentido.",
-  },
+type TechIcon = {
+  id: string;
+  label: string;
+  iconSrc?: string;
+  color?: string;
+};
+
+const TECH_STACK: TechIcon[] = [
+  // Languages
+  { id: "csharp", label: "C#", iconSrc: "/icons/csharp.svg" },
+  { id: "python", label: "Python", iconSrc: "/icons/python.svg" },
+  { id: "javascript", label: "JavaScript", iconSrc: "/icons/javascript.svg" },
+  { id: "typescript", label: "TypeScript", iconSrc: "/icons/typescript.svg" },
+  { id: "php", label: "PHP", iconSrc: "/icons/php.svg" },
+  { id: "cpp", label: "C++", iconSrc: "/icons/cplusplus.svg" },
+
+  // Frontend
+  { id: "html", label: "HTML", iconSrc: "/icons/html.svg" },
+  { id: "css", label: "CSS", iconSrc: "/icons/css.svg" },
+  { id: "react", label: "React", iconSrc: "/icons/react.svg" },
+  { id: "nextjs", label: "Next.js", iconSrc: "/icons/nextjs.svg" },
+  { id: "tailwind", label: "Tailwind CSS", iconSrc: "/icons/tailwind.svg" },
+
+  // Backend / APIs
+  { id: "node", label: "Node.js", iconSrc: "/icons/nodejs.svg" },
+  { id: "nest", label: "NestJS", iconSrc: "/icons/nestjs.svg" },
+  { id: "fastapi", label: "FastAPI", iconSrc: "/icons/fastapi.svg" },
+
+  // Data / ML / BD
+  { id: "pandas", label: "Pandas", iconSrc: "/icons/pandas.svg" },
+  { id: "mysql", label: "MySQL", iconSrc: "/icons/mysql.svg" },
+  { id: "mongodb", label: "MongoDB", iconSrc: "/icons/mongodb.svg" },
+  { id: "jupyter", label: "Jupyter Notebook", iconSrc: "/icons/jupyter.svg" },
+
+  // AI / tooling
+  { id: "openai", label: "OpenAI API", iconSrc: "/icons/openai.svg" },
+  { id: "langchain", label: "LangChain & LangGraph", iconSrc: "/icons/langchain.svg" },
+  { id: "comfyui", label: "ComfyUI", iconSrc: "/icons/comfyui.svg" },
+
+  // Tools
+  { id: "git", label: "Git", iconSrc: "/icons/git.svg" },
+
+  // Game dev
+  { id: "unity", label: "Unity", iconSrc: "/icons/unity.svg" },
+  { id: "godot", label: "Godot", iconSrc: "/icons/godot.svg" },
 ];
 
 function getAge(dateString: string): number {
@@ -172,10 +170,8 @@ function Timeline({
     <ul className="space-y-6">
       {items.map((item, index) => (
         <li key={`${item.title}-${index}`} className="relative pl-7">
-          {/* Línea vertical */}
           <span className="pointer-events-none absolute left-1 top-2 -bottom-2 w-px bg-gradient-to-b from-sky-400/60 via-sky-400/20 to-transparent" />
 
-          {/* Nodo */}
           <span className="absolute left-0 top-2 flex h-4 w-4 items-center justify-center">
             <span className="flex h-2.5 w-2.5 items-center justify-center rounded-full bg-sky-400/80">
               <span className="h-1.5 w-1.5 rounded-full bg-gray-950" />
@@ -201,22 +197,18 @@ function Timeline({
   );
 }
 
-/* ====== ANIMACIÓN DE LA IMAGEN (CON VARIANTS, SIN DELAY EN HOVER) ====== */
-
 const portraitVariants: Variants = {
   hidden: {
     opacity: 0,
     y: 20,
     boxShadow: "0 25px 60px -40px rgba(56,189,248,0.4)",
   },
-  // Solo para la primera entrada, con delay
   intro: {
     opacity: 1,
     y: 0,
     boxShadow: "0 25px 60px -40px rgba(56,189,248,0.4)",
     transition: { duration: 0.7, ease: "easeOut", delay: BASE_DELAY_ENTRANCE },
   },
-  // Estado base después del intro, sin delay
   show: {
     opacity: 1,
     y: 0,
@@ -231,6 +223,59 @@ const portraitVariants: Variants = {
   tap: {
     scale: 0.98,
     transition: { duration: 0.08, ease: "easeOut" },
+  },
+};
+
+/** Variants para la sección de tecnologías **/
+const techSectionContainerVariants: Variants = {
+  hidden: { opacity: 0, y: 30 },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0,
+      ease: "easeOut",
+      when: "beforeChildren",
+      staggerChildren: 0.1,
+    },
+  },
+};
+
+const techTextVariants: Variants = {
+  hidden: { opacity: 0, y: 24 },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.5,
+      ease: "easeOut",
+    },
+  },
+}
+
+const techItemVariants: Variants = {
+  hidden: { opacity: 0, y: 24 },
+  show: {
+    opacity: 1,
+    y: 0,
+    boxShadow: "0 0px 30px 1px rgba(56,189,248,0.01)",
+    borderColor: "rgba(255,255,255,0.10)",
+    backgroundColor: "rgba(255,255,255,0.05)",
+    transition: {
+      duration: 0.7,
+      ease: "easeOut",
+    },
+  },
+};
+
+
+// Para que el grid “diga” que va a estackear a los hijos
+const techGridVariants: Variants = {
+  hidden: {},
+  show: {
+    transition: {
+      staggerChildren: 0.04,
+    },
   },
 };
 
@@ -254,7 +299,6 @@ function AboutPortrait() {
         pointerEvents: ready ? "auto" : "none",
       }}
     >
-      {/* Halo suave detrás */}
       <div
         className="pointer-events-none absolute -inset-10 rounded-[2rem] bg-sky-500/25 blur-3xl"
         aria-hidden
@@ -287,9 +331,7 @@ export default function AboutPage() {
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(56,189,248,0.05),_transparent_50%)]" />
 
         <div className="relative mx-auto flex w-full max-w-6xl flex-col gap-10">
-          {/* Fila: título/subtítulo + imagen */}
           <div className="flex flex-col-reverse gap-8 lg:flex-row items-center lg:gap-16">
-            {/* Columna texto */}
             <div className="flex-1 space-y-8">
               <motion.h1
                 initial={{ opacity: 0, y: 20 }}
@@ -297,7 +339,7 @@ export default function AboutPage() {
                 transition={{
                   duration: 0.7,
                   ease: "easeOut",
-                  delay: BASE_DELAY_ENTRANCE + 0.1, // empieza después de 0.8s
+                  delay: BASE_DELAY_ENTRANCE + 0.1,
                 }}
                 className="text-pretty text-4xl font-semibold tracking-tight text-white/95 sm:text-5xl md:text-6xl text-center lg:text-left"
               >
@@ -311,7 +353,7 @@ export default function AboutPage() {
                 transition={{
                   duration: 0.7,
                   ease: "easeOut",
-                  delay: BASE_DELAY_ENTRANCE + 0.2, // un poco después del título
+                  delay: BASE_DELAY_ENTRANCE + 0.2,
                 }}
                 className="lg:max-w-2xl text-pretty text-lg text-white/70 sm:text-xl text-center lg:text-left"
               >
@@ -319,14 +361,13 @@ export default function AboutPage() {
                 vengo y qué cosas me importan dentro y fuera del trabajo.
               </motion.p>
 
-              {/* CTA buttons debajo del subtítulo */}
               <motion.div
                 initial={{ opacity: 0, y: 18 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{
                   duration: 0.7,
                   ease: "easeOut",
-                  delay: BASE_DELAY_ENTRANCE + 0.3, // después del subtítulo
+                  delay: BASE_DELAY_ENTRANCE + 0.3,
                 }}
                 className="flex w-full flex-wrap justify-center gap-4 lg:justify-start"
               >
@@ -335,21 +376,19 @@ export default function AboutPage() {
               </motion.div>
             </div>
 
-            {/* Columna imagen / avatar, más pequeña y cuadrada */}
             <div className="flex w-full justify-center lg:w-auto lg:justify-end">
               <AboutPortrait />
             </div>
           </div>
 
-          {/* Snapshot / Datos rápidos – InfoCards con stagger, animación en la card, no en el contenedor */}
           <motion.ul
             variants={{
               hidden: { opacity: 1 },
               show: {
                 opacity: 1,
                 transition: {
-                  delayChildren: BASE_DELAY_ENTRANCE + 0.3, // empieza después del hero
-                  staggerChildren: 0.15, // stagger suave
+                  delayChildren: BASE_DELAY_ENTRANCE + 0.3,
+                  staggerChildren: 0.15,
                   when: "beforeChildren",
                 },
               },
@@ -360,13 +399,13 @@ export default function AboutPage() {
           >
             <InfoCard
               title={PERSONAL_INFO.fullName}
-              info={`Nacido el 16 de febrero de 2001 (${age} años).`}
+              info={`${age} años · nacido el 16 de febrero de 2001.`}
               icon={<User2 className="h-6 w-6 text-sky-300" />}
             />
 
             <InfoCard
               title={PERSONAL_INFO.city}
-              info="Con base en Barcelona. Aquí puedes añadir una frase sobre qué te conecta con esta ciudad."
+              info="Actualmente vivo en un pueblo tranquilo cerca de Barcelona, donde nací y encuentro calma para pensar y construir. No descarto vivir en otras ciudades si el proyecto y el momento encajan."
               icon={<MapPin className="h-6 w-6 text-sky-300" />}
             />
 
@@ -378,73 +417,97 @@ export default function AboutPage() {
 
             <InfoCard
               title="Qué hago"
-              info="Desarrollador de software especializado en X e Y. (Ajusta este texto a lo que mejor te defina.)"
+              info="Ingeniero de software con enfoque técnico y creativo, cómodo tanto diseñando el sistema como construyéndolo."
               icon={<Sparkles className="h-6 w-6 text-sky-300" />}
             />
           </motion.ul>
         </div>
       </section>
 
-      {/* TECNOLOGÍAS */}
-      <section className="relative px-4 pb-20 pt-10 sm:px-6 lg:px-12 lg:pb-24 lg:pt-16 mx-0">
+      {/* TECNOLOGÍAS & HERRAMIENTAS */}
+      <motion.section
+        className="relative px-4 pb-20 pt-10 sm:px-6 lg:px-12 lg:pb-24 lg:pt-16 mx-0"
+        initial="hidden"
+        whileInView="show"
+        viewport={{ once: true, amount: 0.25 }}
+      >
         <div className="absolute inset-0 bg-gradient-to-b from-gray-950 via-gray-950 to-gray-950" />
 
-        <div className="relative mx-auto max-w-[1400px] space-y-8">
-          <div className="flex flex-col gap-3 lg:flex-row lg:items-end lg:justify-between">
+        <motion.div
+          className="relative mx-auto max-w-[1400px] space-y-8"
+          variants={techSectionContainerVariants}
+        >
+          {/* Título + subtítulo */}
+          <motion.div
+            className="flex flex-col gap-3 lg:flex-row lg:items-end lg:justify-between"
+            variants={techTextVariants}
+          >
             <div>
               <h2 className="text-2xl font-semibold text-white sm:text-3xl">
                 Tecnologías & herramientas
               </h2>
-              <p className="mt-2 max-w-xl text-sm text-white/70 sm:text-base">
-                Un vistazo rápido a las tecnologías con las que más cómodo te
-                sientes. Puedes usar esta sección como referencia rápida para
-                recruiters o colaboradores.
+              <p className="mt-2 max-w-5xl text-sm text-pretty text-white/70 sm:text-base">
+                Un vistazo rápido a las tecnologías con las que me siento
+                cómodo trabajando.
               </p>
             </div>
+          </motion.div>
 
-            <p className="text-xs text-white/40 max-w-sm">
-              Consejo: piensa en esta lista como tu “zona de confort técnica”.
-              No tienen por qué ser todas las cosas que conoces, solo las que
-              usarías con confianza.
-            </p>
-          </div>
-
-          <div className="grid gap-3 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+          {/* GRID DE ICONOS con stagger + hover tipo InfoCard */}
+          <motion.div
+            className="grid gap-4 grid-cols-[repeat(auto-fit,minmax(100px,1fr))]"
+            variants={techGridVariants}
+          >
             {TECH_STACK.map((tech) => (
-              <div
-                key={tech.name}
-                className="group flex items-center gap-3 rounded-2xl border border-white/10 bg-white/5 px-3 py-3 backdrop-blur-sm transition hover:border-sky-400/70 hover:bg-sky-500/10"
-              >
-                <div className="flex h-9 w-9 items-center justify-center rounded-xl bg-sky-500/15 text-xs font-semibold text-sky-100">
-                  {tech.short ?? tech.name[0]}
-                </div>
-                <div className="flex flex-col">
-                  <p className="text-sm font-medium text-white">
-                    {tech.name}
-                  </p>
-                  {tech.description && (
-                    <p className="text-xs text-white/65 leading-relaxed">
-                      {tech.description}
-                    </p>
-                  )}
-                </div>
+              <motion.div
+              key={tech.id}
+              variants={techItemVariants}
+              whileHover={{
+                y: -6,
+                rotateX: 2,
+                rotateY: -2,
+                boxShadow: "0 0px 30px 1px rgba(56,189,248,0.70)",
+                transition: {duration: 0.3, ease: "easeOut"},
+                borderColor: "rgba(56,189,248,0.60)",
+                backgroundColor: "rgba(56,189,248,0.10)",
+              }}
+              whileTap={{
+                scale: 0.97,
+              }}
+              className="group flex flex-col items-center gap-1 rounded-2xl border border-white/10 bg-white/5 px-1 py-2 backdrop-blur-sm"
+            >
+              <div className="flex h-20 w-20 items-center justify-center">
+                {tech.iconSrc ? (
+                  <Image
+                    src={tech.iconSrc}
+                    alt={tech.label}
+                    width={40}
+                    height={40}
+                    className="object-contain"
+                  />
+                ) : null}
               </div>
+              <p className="text-xs text-white/70 text-center">{tech.label}</p>
+            </motion.div>
             ))}
-          </div>
+          </motion.div>
 
-          <div className="rounded-2xl border border-dashed border-sky-400/40 bg-sky-500/5 px-4 py-3 text-xs text-sky-100/80">
-            <p>
-              Si quieres usar iconos de cada tecnología (C#, Python, JS, etc.),
-              puedes reemplazar el cuadrado con texto por un{" "}
-              <code className="font-mono text-[11px]">
-                &lt;Image /&gt;
-              </code>{" "}
-              o por un componente de icono. La estructura ya está preparada
-              para ello.
-            </p>
-          </div>
-        </div>
-      </section>
+          {/* Párrafo de TensorFlow / Scikit-Learn */}
+          <motion.p
+            className="mt-3 text-xs text-white/55 sm:text-[13px] leading-relaxed"
+            variants={techTextVariants}
+          >
+            También he usado herramientas como{" "}
+            <span className="font-medium text-sky-300/60">TensorFlow</span> y{" "}
+            <span className="font-medium text-sky-300/60">Scikit-Learn</span>{" "}
+            en proyectos de aprendizaje: un clasificador de imágenes con redes
+            convolucionales, pequeños experimentos de machine learning
+            supervisado y no supervisado y algún proyecto de optimización. No me
+            considero experto, pero sí tengo una base práctica sólida y sigo
+            profundizando en ellas.
+          </motion.p>
+        </motion.div>
+      </motion.section>
 
       {/* ACADÉMICO + EXPERIENCIA */}
       <section className="relative px-4 pb-20 pt-10 sm:px-6 lg:px-12 lg:pb-24 lg:pt-20">
@@ -493,7 +556,6 @@ export default function AboutPage() {
         <div className="absolute inset-0 bg-gradient-to-b from-gray-950 via-gray-950 to-gray-950" />
 
         <div className="relative mx-auto flex max-w-[1400px] flex-col gap-10 lg:flex-row lg:items-center">
-          {/* Texto */}
           <div className="flex-1 space-y-4">
             <h2 className="text-2xl font-semibold text-white sm:text-3xl">
               Más allá del código
@@ -517,10 +579,8 @@ export default function AboutPage() {
             </p>
           </div>
 
-          {/* Imagen / visual personal */}
           <div className="flex-1">
             <div className="relative mx-auto aspect-[4/3] max-w-md overflow-hidden rounded-3xl border border-white/15 bg-gradient-to-br from-sky-500/20 via-sky-500/5 to-indigo-500/10 shadow-[0_40px_80px_-60px_rgba(56,189,248,0.7)]">
-              {/* TODO: reemplaza este bloque por tu propia imagen si quieres */}
               <div className="absolute inset-0 flex items-center justify-center">
                 <div className="rounded-2xl border border-white/20 bg-black/30 px-4 py-3 text-center text-sm text-white/75 backdrop-blur-md">
                   Aquí puedes poner una foto tuya, del cielo, o cualquier imagen
