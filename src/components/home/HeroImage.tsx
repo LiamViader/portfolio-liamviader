@@ -1,10 +1,14 @@
 import Image from "next/image";
 import { easeInOut, easeOut, motion, type Variants } from "framer-motion";
 import { useState } from "react";
+import { BASE_DELAY_ENTRANCE } from "@/utils/constants";
+
 
 const RING = "0 0 0 2px rgba(255, 255, 255, 0.4)";             
 const BASE_GLOW  = "0 25px 60px -40px rgba(250,189,248,0.8)";
 const HOVER_GLOW = "0 25px 80px -40px rgba(56,189,248,1)";
+
+
 
 const imageVariants: Variants = {
   hidden: {
@@ -20,7 +24,7 @@ const imageVariants: Variants = {
     opacity: 1,
     scale: 1,
     boxShadow: `${RING}, ${BASE_GLOW}`,
-    transition: { duration: 0.8, ease: easeOut, delay: 0.7 },
+    transition: { duration: 0.8, ease: easeOut, delay: BASE_DELAY_ENTRANCE },
   },
 
   // Base state

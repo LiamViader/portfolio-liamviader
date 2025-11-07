@@ -4,7 +4,7 @@ import { ReactNode, useEffect, useState } from "react";
 import { HeroImage } from "@/components/home/HeroImage";
 import { motion, useAnimationControls } from "framer-motion";
 import { SkyButton, WhiteButton } from "./Buttons";
-
+import { BASE_DELAY_ENTRANCE } from "@/utils/constants";
 
 interface HeroSectionProps {
   title: ReactNode;
@@ -24,7 +24,7 @@ export function HeroSection({title, subtitle, projectsButtonText, contactButtonT
   const [ready, setReady] = useState(false);
 
   useEffect(() => {
-    controls.start("animate", { delay: 0.85, duration: 0.7 });
+    controls.start("animate", { delay: BASE_DELAY_ENTRANCE + 0.1, duration: 0.7 });
   }, [controls]);
 
   return (
@@ -55,7 +55,7 @@ export function HeroSection({title, subtitle, projectsButtonText, contactButtonT
         <motion.p
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.95, duration: 0.7 }}
+          transition={{ delay: BASE_DELAY_ENTRANCE + 0.2, duration: 0.7 }}
           className="max-w-2xl text-pretty text-lg text-white/70 sm:text-xl"
         >
           {subtitle}
@@ -64,7 +64,7 @@ export function HeroSection({title, subtitle, projectsButtonText, contactButtonT
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 1.05, duration: 0.7 }}
+          transition={{ delay: BASE_DELAY_ENTRANCE + 0.3, duration: 0.7 }}
           className="flex w-full flex-wrap justify-center gap-4 lg:justify-start"
         >
           <SkyButton href="/projects" text={projectsButtonText}/>

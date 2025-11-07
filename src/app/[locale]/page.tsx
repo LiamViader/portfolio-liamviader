@@ -8,6 +8,8 @@ import { getProjectsByLocale, TranslatedProject } from "@/data/projects";
 import { InfoCard } from "@/components/home/InfoCard";
 import { HeroSection } from "@/components/home/HeroSection";
 import { FeaturedProjectsHomeSection } from "@/components/home/FeaturedProjectsHomeSection";
+import { BASE_DELAY_ENTRANCE } from "@/utils/constants";
+
 
 const icons = {
   BrainCircuit,
@@ -56,7 +58,7 @@ export default function Home() {
               hidden: {opacity: 1},
               show: {
                 opacity: 1,
-                transition: { delayChildren: 1.25, staggerChildren: 0.15, when: "beforeChildren" }
+                transition: { delayChildren: BASE_DELAY_ENTRANCE+0.4, staggerChildren: 0.15, when: "beforeChildren" }
               }
             }}
             initial="hidden" 

@@ -1,0 +1,1 @@
+export const BASE_DELAY_ENTRANCE = 0.5;

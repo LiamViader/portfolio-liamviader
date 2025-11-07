@@ -1,7 +1,7 @@
 "use client";
 
-import type { ReactNode } from "react";
-import { motion } from "framer-motion";
+import { useState, type ReactNode } from "react";
+import { motion, type Variants } from "framer-motion";
 import Image from "next/image";
 import PageLayout from "@/components/layout/PageLayout";
 import { InfoCard } from "@/components/home/InfoCard";
@@ -14,6 +14,9 @@ import {
   Sparkles,
   Quote,
 } from "lucide-react";
+import { SkyButton, WhiteButton } from "@/components/home/Buttons";
+
+import { BASE_DELAY_ENTRANCE } from "@/utils/constants";
 
 const BACKGROUND_LAYERS = [
   {
@@ -198,26 +201,58 @@ function Timeline({
   );
 }
 
+/* ====== ANIMACIÓN DE LA IMAGEN (CON VARIANTS, SIN DELAY EN HOVER) ====== */
+
+const portraitVariants: Variants = {
+  hidden: {
+    opacity: 0,
+    y: 20,
+    boxShadow: "0 25px 60px -40px rgba(56,189,248,0.4)",
+  },
+  // Solo para la primera entrada, con delay
+  intro: {
+    opacity: 1,
+    y: 0,
+    boxShadow: "0 25px 60px -40px rgba(56,189,248,0.4)",
+    transition: { duration: 0.7, ease: "easeOut", delay: BASE_DELAY_ENTRANCE },
+  },
+  // Estado base después del intro, sin delay
+  show: {
+    opacity: 1,
+    y: 0,
+    boxShadow: "0 25px 60px -40px rgba(56,189,248,0.4)",
+    transition: { duration: 0.45, ease: "easeOut" },
+  },
+  hover: {
+    y: -8,
+    boxShadow: "0 30px 80px -50px rgba(56,189,248,0.9)",
+    transition: { duration: 0.25, ease: "easeOut" },
+  },
+  tap: {
+    scale: 0.98,
+    transition: { duration: 0.08, ease: "easeOut" },
+  },
+};
+
 function AboutPortrait() {
+  const [phase, setPhase] = useState<"intro" | "show">("intro");
+  const [ready, setReady] = useState(false);
+
   return (
     <motion.div
-      initial={{
-        opacity: 0,
-        y: 20,
-        boxShadow: "0 25px 60px -40px rgba(56,189,248,0.4)",
+      variants={portraitVariants}
+      initial="hidden"
+      animate={phase}
+      onAnimationComplete={(def) => {
+        setReady(true);
+        if (def === "intro") setPhase("show");
       }}
-      animate={{
-        opacity: 1,
-        y: 0,
-        boxShadow: "0 25px 60px -40px rgba(56,189,248,0.4)",
-      }}
-      transition={{ duration: 0.7, ease: "easeOut", delay: 0.8 }}
-      whileHover={{
-        y: -8,
-        boxShadow: "0 30px 80px -50px rgba(56,189,248,0.9)",
-        transition: { duration: 0.3, ease: "easeOut" },
-      }}
+      whileHover={ready ? "hover" : undefined}
+      whileTap={ready ? "tap" : undefined}
       className="relative w-38 aspect-square sm:w-46 md:w-54 rounded-2xl border border-white/20 overflow-hidden bg-gradient-to-br from-sky-500/30 via-sky-500/10 to-indigo-500/30"
+      style={{
+        pointerEvents: ready ? "auto" : "none",
+      }}
     >
       {/* Halo suave detrás */}
       <div
@@ -262,7 +297,7 @@ export default function AboutPage() {
                 transition={{
                   duration: 0.7,
                   ease: "easeOut",
-                  delay: 0.9, // empieza después de 0.8s
+                  delay: BASE_DELAY_ENTRANCE + 0.1, // empieza después de 0.8s
                 }}
                 className="text-pretty text-4xl font-semibold tracking-tight text-white/95 sm:text-5xl md:text-6xl text-center lg:text-left"
               >
@@ -276,13 +311,28 @@ export default function AboutPage() {
                 transition={{
                   duration: 0.7,
                   ease: "easeOut",
-                  delay: 1.0, // un poco después del título
+                  delay: BASE_DELAY_ENTRANCE + 0.2, // un poco después del título
                 }}
                 className="lg:max-w-2xl text-pretty text-lg text-white/70 sm:text-xl text-center lg:text-left"
               >
                 Esta página recoge un poco de contexto sobre quién soy, de dónde
                 vengo y qué cosas me importan dentro y fuera del trabajo.
               </motion.p>
+
+              {/* CTA buttons debajo del subtítulo */}
+              <motion.div
+                initial={{ opacity: 0, y: 18 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{
+                  duration: 0.7,
+                  ease: "easeOut",
+                  delay: BASE_DELAY_ENTRANCE + 0.3, // después del subtítulo
+                }}
+                className="flex w-full flex-wrap justify-center gap-4 lg:justify-start"
+              >
+                <SkyButton href="/projects" text="Ver proyectos" />
+                <WhiteButton href="/contact" text="Contacto" />
+              </motion.div>
             </div>
 
             {/* Columna imagen / avatar, más pequeña y cuadrada */}
@@ -291,15 +341,15 @@ export default function AboutPage() {
             </div>
           </div>
 
-          {/* Snapshot / Datos rápidos – InfoCards con stagger */}
+          {/* Snapshot / Datos rápidos – InfoCards con stagger, animación en la card, no en el contenedor */}
           <motion.ul
             variants={{
               hidden: { opacity: 1 },
               show: {
                 opacity: 1,
                 transition: {
-                  delayChildren: 1, // empieza después del hero
-                  staggerChildren: 0.08, // muy poco, como pedías
+                  delayChildren: BASE_DELAY_ENTRANCE + 0.3, // empieza después del hero
+                  staggerChildren: 0.15, // stagger suave
                   when: "beforeChildren",
                 },
               },
@@ -337,7 +387,7 @@ export default function AboutPage() {
 
       {/* TECNOLOGÍAS */}
       <section className="relative px-4 pb-20 pt-10 sm:px-6 lg:px-12 lg:pb-24 lg:pt-16 mx-0">
-        <div className="absolute  inset-0 bg-gradient-to-b from-gray-950 via-gray-950 to-gray-950" />
+        <div className="absolute inset-0 bg-gradient-to-b from-gray-950 via-gray-950 to-gray-950" />
 
         <div className="relative mx-auto max-w-[1400px] space-y-8">
           <div className="flex flex-col gap-3 lg:flex-row lg:items-end lg:justify-between">
@@ -397,7 +447,7 @@ export default function AboutPage() {
       </section>
 
       {/* ACADÉMICO + EXPERIENCIA */}
-      <section className="relative  px-4 pb-20 pt-10 sm:px-6 lg:px-12 lg:pb-24 lg:pt-20">
+      <section className="relative px-4 pb-20 pt-10 sm:px-6 lg:px-12 lg:pb-24 lg:pt-20">
         <div className="absolute inset-0 bg-gradient-to-b from-gray-950 via-transparent to-gray-950" />
 
         <div className="relative mx-auto max-w-6xl space-y-10">
@@ -439,7 +489,7 @@ export default function AboutPage() {
       </section>
 
       {/* PARTE PERSONAL */}
-      <section className="relative  px-4 pb-20 pt-10 sm:px-6 lg:px-12 lg:pb-24 lg:pt-20">
+      <section className="relative px-4 pb-20 pt-10 sm:px-6 lg:px-12 lg:pb-24 lg:pt-20">
         <div className="absolute inset-0 bg-gradient-to-b from-gray-950 via-gray-950 to-gray-950" />
 
         <div className="relative mx-auto flex max-w-[1400px] flex-col gap-10 lg:flex-row lg:items-center">
@@ -490,7 +540,7 @@ export default function AboutPage() {
       </section>
 
       {/* FILOSOFÍA / MANERA DE PENSAR */}
-      <section className="relative  px-4 pb-24 pt-10 sm:px-6 lg:px-12 lg:pb-32 lg:pt-20">
+      <section className="relative px-4 pb-24 pt-10 sm:px-6 lg:px-12 lg:pb-32 lg:pt-20">
         <div className="absolute inset-0 bg-gradient-to-b from-gray-950 via-transparent to-gray-950/50" />
 
         <div className="relative mx-auto max-w-6xl space-y-8">
