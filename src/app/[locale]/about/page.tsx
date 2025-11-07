@@ -45,7 +45,6 @@ const BACKGROUND_OVERLAY = (
 );
 
 const PERSONAL_INFO = {
-  // TODO: cambia esto por tu nombre real
   fullName: "Liam Viader Molina",
   birthdate: "2001-02-16",
   city: "Barcelona, España",
@@ -106,7 +105,8 @@ const TECH_STACK: Array<{
   {
     name: "Python",
     short: "Py",
-    description: "Data, scripting, IA, automatización… lo que más encaje contigo.",
+    description:
+      "Data, scripting, IA, automatización… lo que más encaje contigo.",
   },
   {
     name: "JavaScript / TypeScript",
@@ -210,14 +210,13 @@ function AboutPortrait() {
         opacity: 1,
         y: 0,
         boxShadow: "0 25px 60px -40px rgba(56,189,248,0.4)",
-        transition: { duration: 0.6, ease: "easeOut" }
       }}
+      transition={{ duration: 0.7, ease: "easeOut", delay: 0.8 }}
       whileHover={{
         y: -8,
         boxShadow: "0 30px 80px -50px rgba(56,189,248,0.9)",
-        transition: { duration: 0.3, ease: "easeOut" }
+        transition: { duration: 0.3, ease: "easeOut" },
       }}
-      transition={{ duration: 0.6, ease: "easeOut" }}
       className="relative w-38 aspect-square sm:w-46 md:w-54 rounded-2xl border border-white/20 overflow-hidden bg-gradient-to-br from-sky-500/30 via-sky-500/10 to-indigo-500/30"
     >
       {/* Halo suave detrás */}
@@ -228,7 +227,7 @@ function AboutPortrait() {
 
       <div className="relative h-full w-full">
         <Image
-          src="/images/test2_liam.png" // cámbialo si quieres otra imagen
+          src="/images/test2_liam.png"
           alt="Retrato"
           fill
           sizes="(min-width: 1024px) 260px, (min-width: 768px) 220px, 190px"
@@ -251,6 +250,7 @@ export default function AboutPage() {
       <section className="relative overflow-hidden px-4 pb-16 pt-28 sm:px-6 lg:px-12 lg:pb-20 lg:pt-36 md:min-h-[950px]">
         <div className="absolute inset-0 bg-gradient-to-b from-gray-950/10 via-gray-950/50 to-gray-950" />
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(56,189,248,0.05),_transparent_50%)]" />
+
         <div className="relative mx-auto flex w-full max-w-6xl flex-col gap-10">
           {/* Fila: título/subtítulo + imagen */}
           <div className="flex flex-col-reverse gap-8 lg:flex-row items-center lg:gap-16">
@@ -259,7 +259,11 @@ export default function AboutPage() {
               <motion.h1
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, ease: "easeOut" }}
+                transition={{
+                  duration: 0.7,
+                  ease: "easeOut",
+                  delay: 0.9, // empieza después de 0.8s
+                }}
                 className="text-pretty text-4xl font-semibold tracking-tight text-white/95 sm:text-5xl md:text-6xl text-center lg:text-left"
               >
                 Yo, como <span className="text-sky-300">persona</span> y como{" "}
@@ -269,7 +273,11 @@ export default function AboutPage() {
               <motion.p
                 initial={{ opacity: 0, y: 18 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, delay: 0.1, ease: "easeOut" }}
+                transition={{
+                  duration: 0.7,
+                  ease: "easeOut",
+                  delay: 1.0, // un poco después del título
+                }}
                 className="lg:max-w-2xl text-pretty text-lg text-white/70 sm:text-xl text-center lg:text-left"
               >
                 Esta página recoge un poco de contexto sobre quién soy, de dónde
@@ -283,11 +291,21 @@ export default function AboutPage() {
             </div>
           </div>
 
-          {/* Snapshot / Datos rápidos – ahora debajo de la fila principal */}
-          <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.2, ease: "easeOut" }}
+          {/* Snapshot / Datos rápidos – InfoCards con stagger */}
+          <motion.ul
+            variants={{
+              hidden: { opacity: 1 },
+              show: {
+                opacity: 1,
+                transition: {
+                  delayChildren: 1, // empieza después del hero
+                  staggerChildren: 0.08, // muy poco, como pedías
+                  when: "beforeChildren",
+                },
+              },
+            }}
+            initial="hidden"
+            animate="show"
             className="grid gap-4 sm:grid-cols-2"
           >
             <InfoCard
@@ -310,18 +328,16 @@ export default function AboutPage() {
 
             <InfoCard
               title="Qué hago"
-              info="Escribe aquí una frase corta que resuma tu rol: por ejemplo, “Desarrollador de software especializado en X e Y”."
+              info="Desarrollador de software especializado en X e Y. (Ajusta este texto a lo que mejor te defina.)"
               icon={<Sparkles className="h-6 w-6 text-sky-300" />}
             />
-          </motion.div>
+          </motion.ul>
         </div>
       </section>
 
       {/* TECNOLOGÍAS */}
       <section className="relative px-4 pb-20 pt-10 sm:px-6 lg:px-12 lg:pb-24 lg:pt-16 mx-0">
-        <div className="absolute border-t border-gray-700/50 inset-0 bg-gradient-to-br from-gray-950 via-transparent to-gray-950" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_right,_rgba(56,189,248,0.05),_transparent_50%)]" />
-        
+        <div className="absolute  inset-0 bg-gradient-to-b from-gray-950 via-gray-950 to-gray-950" />
 
         <div className="relative mx-auto max-w-[1400px] space-y-8">
           <div className="flex flex-col gap-3 lg:flex-row lg:items-end lg:justify-between">
@@ -381,9 +397,8 @@ export default function AboutPage() {
       </section>
 
       {/* ACADÉMICO + EXPERIENCIA */}
-      <section className="relative border-t border-gray-700/50 px-4 pb-20 pt-10 sm:px-6 lg:px-12 lg:pb-24 lg:pt-20">
+      <section className="relative  px-4 pb-20 pt-10 sm:px-6 lg:px-12 lg:pb-24 lg:pt-20">
         <div className="absolute inset-0 bg-gradient-to-b from-gray-950 via-transparent to-gray-950" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_left,_rgba(56,189,248,0.05),_transparent_50%)]" />
 
         <div className="relative mx-auto max-w-6xl space-y-10">
           <div className="space-y-3">
@@ -424,11 +439,10 @@ export default function AboutPage() {
       </section>
 
       {/* PARTE PERSONAL */}
-      <section className="relative border-t border-gray-700/50 px-4 pb-20 pt-10 sm:px-6 lg:px-12 lg:pb-24 lg:pt-20">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_right,_rgba(56,189,248,0.05),_transparent_50%)]" />
-        <div className="absolute inset-0 bg-gradient-to-r from-gray-950 via-transparent to-transparent" />
+      <section className="relative  px-4 pb-20 pt-10 sm:px-6 lg:px-12 lg:pb-24 lg:pt-20">
+        <div className="absolute inset-0 bg-gradient-to-b from-gray-950 via-gray-950 to-gray-950" />
 
-        <div className="relative mx-auto flex max-w-7xl flex-col gap-10 lg:flex-row lg:items-center">
+        <div className="relative mx-auto flex max-w-[1400px] flex-col gap-10 lg:flex-row lg:items-center">
           {/* Texto */}
           <div className="flex-1 space-y-4">
             <h2 className="text-2xl font-semibold text-white sm:text-3xl">
@@ -476,9 +490,8 @@ export default function AboutPage() {
       </section>
 
       {/* FILOSOFÍA / MANERA DE PENSAR */}
-      <section className="relative border-t border-gray-700/50 px-4 pb-24 pt-10 sm:px-6 lg:px-12 lg:pb-32 lg:pt-20">
-        <div className="absolute inset-0 bg-gradient-to-b from-gray-950 via-transparent to-gray-950" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom,_rgba(56,189,248,0.05),_transparent_50%)]" />
+      <section className="relative  px-4 pb-24 pt-10 sm:px-6 lg:px-12 lg:pb-32 lg:pt-20">
+        <div className="absolute inset-0 bg-gradient-to-b from-gray-950 via-transparent to-gray-950/50" />
 
         <div className="relative mx-auto max-w-6xl space-y-8">
           <div className="space-y-3 max-w-3xl">
