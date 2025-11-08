@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, type ReactNode, type CSSProperties } from "react";
+import { useState, type ReactNode } from "react";
 import { motion, type Variants } from "framer-motion";
 import Image from "next/image";
 import PageLayout from "@/components/layout/PageLayout";
@@ -58,40 +58,37 @@ type TimelineItem = {
   period: string;
   title: string;
   place: string;
-  description: string;
+  description?: ReactNode;
 };
 
 const ACADEMIC_PATH: TimelineItem[] = [
   {
-    period: "Año de inicio – Año de fin",
-    title: "Tu grado / máster principal",
-    place: "Universidad / centro",
-    description:
-      "Frase corta sobre qué estudiaste y en qué te especializaste.",
-  },
-  {
-    period: "Opcional",
-    title: "Otro curso, bootcamp o formación relevante",
-    place: "Plataforma / institución",
-    description:
-      "Añade aquí formaciones complementarias que hayan marcado tu forma de trabajar.",
+    period: "2020 - 2025",
+    title: "Grado en Diseño y Desarrollo de Videojuegos",
+    place: "Universitat de Girona (UdG)",
+    description: (
+      <>
+        Media final de{" "}
+        <span className="font-semibold text-sky-300/90">9,07</span> y{" "}
+        <span className="font-semibold text-sky-300/90">
+          18 matrículas de honor
+        </span>{" "}
+        durante el grado. Es una carrera muy centrada en informática
+        (programación, estructuras de datos, arquitectura de software, redes,
+        IA, cloud computing, informática gráfica, visión por computador...) y
+        una parte aplicada a videojuegos y al diseño de sistemas interactivos.
+      </>
+    ),
   },
 ];
 
 const EXPERIENCE_PATH: TimelineItem[] = [
   {
-    period: "Año – Año / Actualidad",
-    title: "Tu rol actual o más reciente",
-    place: "Empresa / proyecto",
+    period: "Jun 2024 - Sep 2024",
+    title: "Desarrollador de software (prácticas)",
+    place: "Grup de recerca eXiT · Universitat de Girona",
     description:
-      "Resumen breve del tipo de trabajo que haces: producto, cliente, stack, responsabilidades.",
-  },
-  {
-    period: "Opcional",
-    title: "Rol anterior relevante",
-    place: "Empresa / proyecto",
-    description:
-      "Cuenta qué aportaste, qué aprendiste o qué tipo de problemas resolviste.",
+      "Proyecto en Python desarrollado en solitario: diseño e implementación desde cero de un simulador de comunidades energéticas. Modelado de hogares con distintos activos y patrones de uso configurables, generación de perfiles de consumo y producción y algoritmos para repartir energía y calcular costes dentro de la comunidad.",
   },
 ];
 
@@ -130,8 +127,18 @@ const TECH_STACK: TechIcon[] = [
   { id: "jupyter", label: "Jupyter Notebook", iconSrc: "/icons/jupyter.svg" },
 
   // AI / tooling
+  {
+    id: "scikitlearn",
+    label: "Scikit-Learn",
+    iconSrc: "/icons/scikitlearn.svg",
+  },
+  { id: "tensorflow", label: "TensorFlow", iconSrc: "/icons/tensorflow.svg" },
   { id: "openai", label: "OpenAI API", iconSrc: "/icons/openai.svg" },
-  { id: "langchain", label: "LangChain & LangGraph", iconSrc: "/icons/langchain.svg" },
+  {
+    id: "langchain",
+    label: "LangChain & LangGraph",
+    iconSrc: "/icons/langchain.svg",
+  },
   { id: "comfyui", label: "ComfyUI", iconSrc: "/icons/comfyui.svg" },
 
   // Tools
@@ -159,6 +166,201 @@ function getAge(dateString: string): number {
   return age;
 }
 
+/** Variants para la sección de tecnologías **/
+const techSectionContainerVariants: Variants = {
+  hidden: { opacity: 0, y: 30 },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0,
+      ease: "easeOut",
+      when: "beforeChildren",
+      staggerChildren: 0.1,
+    },
+  },
+};
+
+const techTextVariants: Variants = {
+  hidden: { opacity: 0, y: 24 },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.5,
+      ease: "easeOut",
+    },
+  },
+};
+
+const techItemVariants: Variants = {
+  hidden: { opacity: 0, y: 24 },
+  show: {
+    opacity: 1,
+    y: 0,
+    boxShadow: "0 0px 30px 1px rgba(56,189,248,0.01)",
+    borderColor: "rgba(255,255,255,0.10)",
+    backgroundColor: "rgba(255,255,255,0.05)",
+    transition: {
+      duration: 0.7,
+      ease: "easeOut",
+    },
+  },
+};
+
+const techGridVariants: Variants = {
+  hidden: {},
+  show: {
+    transition: {
+      staggerChildren: 0.04,
+    },
+  },
+};
+
+/** Variants para la sección de trayectoria (académico + experiencia) **/
+
+// Contenedor de la sección: solo mueve en Y, sin tocar opacidad
+const pathSectionContainerVariants: Variants = {
+  hidden: { y: 30 },
+  show: {
+    y: 0,
+    transition: {
+      duration: 0.45,
+      ease: "easeOut",
+      staggerChildren: 0.18, // header primero, luego columnas
+    },
+  },
+};
+
+// Header general: puede animar opacidad sin problema (no hay blur aquí)
+const pathHeaderVariants: Variants = {
+  hidden: { opacity: 0, y: 18 },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.6,
+      ease: "easeOut",
+    },
+  },
+};
+
+// Wrapper de columnas: solo coordina stagger, no cambia opacity/y
+const pathColumnsWrapperVariants: Variants = {
+  hidden: {},
+  show: {
+    transition: {
+      staggerChildren: 0.12,
+      delayChildren: 0.05,
+    },
+  },
+};
+
+// Cada columna: también solo delega, no anima nada en sí
+const pathColumnVariants: Variants = {
+  hidden: {},
+  show: {
+    transition: {
+      when: "beforeChildren",
+    },
+  },
+};
+
+// Header de cada columna ("Formación académica", "Experiencia profesional")
+const pathColumnHeaderVariants: Variants = {
+  hidden: { opacity: 0, y: 8 },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.45,
+      ease: "easeOut",
+    },
+  },
+};
+
+// Lista de items: solo stagger
+const pathListVariants: Variants = {
+  hidden: {},
+  show: {
+    transition: {
+      staggerChildren: 0.5,
+    },
+  },
+};
+
+// El <li> solo participa en el stagger, pero no anima nada en sí
+const pathItemShellVariants: Variants = {
+  hidden: {},
+  show: {},
+};
+
+// El que realmente anima es el contenedor con el backdrop-blur (la hoja)
+const pathCardVariants: Variants = {
+  hidden: { opacity: 0, y: 14 },
+  show: {
+    opacity: 1,
+    y: 0,
+    boxShadow: "0 0px 30px 1px rgba(56,189,248,0.01)",
+    transition: {
+      duration: 0.8,
+      ease: "easeOut",
+      staggerChildren: 0.04, // ahora el contenido interno también hace stagger
+    },
+  },
+};
+
+// Línea vertical de la timeline
+const pathLineVariants: Variants = {
+  hidden: { opacity: 0 },
+  show: {
+    opacity: 1,
+    transition: {
+      duration: 0.35,
+      ease: "easeOut",
+    },
+  },
+};
+
+// Flecha en la parte superior de la línea
+const pathArrowVariants: Variants = {
+  hidden: { opacity: 0, y: 4 },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.35,
+      ease: "easeOut",
+    },
+  },
+};
+
+// Bolitas de la timeline
+const pathDotVariants: Variants = {
+  hidden: { opacity: 0, scale: 0.8 },
+  show: {
+    opacity: 1,
+    scale: 1,
+    transition: {
+      duration: 0.35,
+      ease: "easeOut",
+    },
+  },
+};
+
+// Contenido textual dentro de la card (periodo, título, lugar, descripción)
+const pathCardInnerVariants: Variants = {
+  hidden: { opacity: 0, y: 6 },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.5,
+      ease: "easeOut",
+    },
+  },
+};
+
 function Timeline({
   items,
   icon,
@@ -167,33 +369,94 @@ function Timeline({
   icon: ReactNode;
 }) {
   return (
-    <ul className="space-y-6">
-      {items.map((item, index) => (
-        <li key={`${item.title}-${index}`} className="relative pl-7">
-          <span className="pointer-events-none absolute left-1 top-2 -bottom-2 w-px bg-gradient-to-b from-sky-400/60 via-sky-400/20 to-transparent" />
+    <div className="relative pl-0">
+      {/* Flecha arriba indicando sentido temporal (de abajo hacia arriba) */}
+      <motion.span
+        variants={pathArrowVariants}
+        className="pointer-events-none absolute left-2 top-0 -translate-x-1/2 flex items-center justify-center"
+      >
+        <span className="h-0 w-0 border-l-[5px] border-r-[5px] border-b-[7px] border-l-transparent border-r-transparent border-b-sky-400/80" />
+      </motion.span>
 
-          <span className="absolute left-0 top-2 flex h-4 w-4 items-center justify-center">
-            <span className="flex h-2.5 w-2.5 items-center justify-center rounded-full bg-sky-400/80">
-              <span className="h-1.5 w-1.5 rounded-full bg-gray-950" />
-            </span>
-          </span>
+      {/* Línea vertical continua (animada) */}
+      <motion.span
+        className="pointer-events-none absolute left-2 top-3 bottom-3 w-px bg-gradient-to-b from-sky-400/60 via-sky-400/60 to-transparent"
+        variants={pathLineVariants}
+      />
 
-          <div className="rounded-2xl border border-white/10 bg-white/5 px-4 py-3.5 backdrop-blur-sm">
-            <div className="mb-1 flex items-center gap-2 text-xs font-medium uppercase tracking-[0.2em] text-sky-200/80">
-              {icon}
-              <span>{item.period}</span>
-            </div>
-            <p className="text-sm font-medium text-white">{item.title}</p>
-            <p className="text-xs text-white/60">{item.place}</p>
-            {item.description && (
-              <p className="mt-2 text-sm text-white/60 leading-relaxed">
-                {item.description}
-              </p>
-            )}
-          </div>
-        </li>
-      ))}
-    </ul>
+      <motion.ul className="space-y-6" variants={pathListVariants}>
+        {items.map((item, index) => (
+          <motion.li
+            key={`${item.title}-${index}`}
+            className="relative pl-6"
+            variants={pathItemShellVariants}
+          >
+            {/* Nodo (bolita) animado */}
+            <motion.span
+              className="absolute left-0 top-2 flex h-4 w-4 items-center justify-center"
+              variants={pathDotVariants}
+            >
+              <span className="flex h-2.5 w-2.5 items-center justify-center rounded-full bg-sky-400/80">
+                <span className="h-1.5 w-1.5 rounded-full bg-gray-950" />
+              </span>
+            </motion.span>
+
+            {/* Contenedor animado (opacidad + y + backdrop-blur + hover) */}
+            <motion.div
+              variants={pathCardVariants}
+              whileHover={{
+                y: -6,
+                rotateX: 2,
+                rotateY: -2,
+                boxShadow: "0 0px 30px 1px rgba(56,189,248,0.30)",
+                transition: { duration: 0.3, ease: "easeOut" },
+                borderColor: "rgba(56,189,248,0.60)",
+                backgroundColor: "rgba(56,189,248,0.10)",
+              }}
+              whileTap={{
+                scale: 0.97,
+              }}
+              className="rounded-2xl border border-white/10 bg-white/5 px-4 py-3.5 backdrop-blur-sm"
+            >
+              {/* Periodo */}
+              <motion.div
+                variants={pathCardInnerVariants}
+                className="mb-1 flex items-center gap-2 text-[12px] font-medium uppercase tracking-[0.2em] text-sky-200/80"
+              >
+                {icon}
+                <span>{item.period}</span>
+              </motion.div>
+
+              {/* Título */}
+              <motion.p
+                variants={pathCardInnerVariants}
+                className="text-[17px] font-semibold text-white"
+              >
+                {item.title}
+              </motion.p>
+
+              {/* Lugar */}
+              <motion.p
+                variants={pathCardInnerVariants}
+                className="text-[13px] text-white/60"
+              >
+                {item.place}
+              </motion.p>
+
+              {/* Descripción */}
+              {item.description && (
+                <motion.p
+                  variants={pathCardInnerVariants}
+                  className="mt-2 text-[15px] text-white/60 leading-relaxed"
+                >
+                  {item.description}
+                </motion.p>
+              )}
+            </motion.div>
+          </motion.li>
+        ))}
+      </motion.ul>
+    </div>
   );
 }
 
@@ -223,59 +486,6 @@ const portraitVariants: Variants = {
   tap: {
     scale: 0.98,
     transition: { duration: 0.08, ease: "easeOut" },
-  },
-};
-
-/** Variants para la sección de tecnologías **/
-const techSectionContainerVariants: Variants = {
-  hidden: { opacity: 0, y: 30 },
-  show: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      duration: 0,
-      ease: "easeOut",
-      when: "beforeChildren",
-      staggerChildren: 0.1,
-    },
-  },
-};
-
-const techTextVariants: Variants = {
-  hidden: { opacity: 0, y: 24 },
-  show: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      duration: 0.5,
-      ease: "easeOut",
-    },
-  },
-}
-
-const techItemVariants: Variants = {
-  hidden: { opacity: 0, y: 24 },
-  show: {
-    opacity: 1,
-    y: 0,
-    boxShadow: "0 0px 30px 1px rgba(56,189,248,0.01)",
-    borderColor: "rgba(255,255,255,0.10)",
-    backgroundColor: "rgba(255,255,255,0.05)",
-    transition: {
-      duration: 0.7,
-      ease: "easeOut",
-    },
-  },
-};
-
-
-// Para que el grid “diga” que va a estackear a los hijos
-const techGridVariants: Variants = {
-  hidden: {},
-  show: {
-    transition: {
-      staggerChildren: 0.04,
-    },
   },
 };
 
@@ -405,7 +615,7 @@ export default function AboutPage() {
 
             <InfoCard
               title={PERSONAL_INFO.city}
-              info="Actualmente vivo en un pueblo tranquilo cerca de Barcelona, donde nací y encuentro calma para pensar y construir. No descarto vivir en otras ciudades si el proyecto y el momento encajan."
+              info="Actualmente vivo en un pueblo tranquilo cerca de Barcelona, donde nací y encuentro calma para pensar y construir. Estoy abierto vivir en otro lugar si el proyecto y el momento encajan."
               icon={<MapPin className="h-6 w-6 text-sky-300" />}
             />
 
@@ -429,7 +639,7 @@ export default function AboutPage() {
         className="relative px-4 pb-20 pt-10 sm:px-6 lg:px-12 lg:pb-24 lg:pt-16 mx-0"
         initial="hidden"
         whileInView="show"
-        viewport={{ once: true, amount: 0.25 }}
+        viewport={{ once: true, amount: 0.15 }}
       >
         <div className="absolute inset-0 bg-gradient-to-b from-gray-950 via-gray-950 to-gray-950" />
 
@@ -444,7 +654,7 @@ export default function AboutPage() {
           >
             <div>
               <h2 className="text-2xl font-semibold text-white sm:text-3xl">
-                Tecnologías & herramientas
+                Tecnologías y herramientas
               </h2>
               <p className="mt-2 max-w-5xl text-sm text-pretty text-white/70 sm:text-base">
                 Un vistazo rápido a las tecnologías con las que me siento
@@ -455,40 +665,42 @@ export default function AboutPage() {
 
           {/* GRID DE ICONOS con stagger + hover tipo InfoCard */}
           <motion.div
-            className="grid gap-4 grid-cols-[repeat(auto-fit,minmax(100px,1fr))]"
+            className="grid gap-4 grid-cols-[repeat(auto-fit,minmax(90px,1fr))]"
             variants={techGridVariants}
           >
             {TECH_STACK.map((tech) => (
               <motion.div
-              key={tech.id}
-              variants={techItemVariants}
-              whileHover={{
-                y: -6,
-                rotateX: 2,
-                rotateY: -2,
-                boxShadow: "0 0px 30px 1px rgba(56,189,248,0.70)",
-                transition: {duration: 0.3, ease: "easeOut"},
-                borderColor: "rgba(56,189,248,0.60)",
-                backgroundColor: "rgba(56,189,248,0.10)",
-              }}
-              whileTap={{
-                scale: 0.97,
-              }}
-              className="group flex flex-col items-center gap-1 rounded-2xl border border-white/10 bg-white/5 px-1 py-2 backdrop-blur-sm"
-            >
-              <div className="flex h-20 w-20 items-center justify-center">
-                {tech.iconSrc ? (
-                  <Image
-                    src={tech.iconSrc}
-                    alt={tech.label}
-                    width={40}
-                    height={40}
-                    className="object-contain saturate-90"
-                  />
-                ) : null}
-              </div>
-              <p className="text-xs text-white/70 text-center">{tech.label}</p>
-            </motion.div>
+                key={tech.id}
+                variants={techItemVariants}
+                whileHover={{
+                  y: -6,
+                  rotateX: 2,
+                  rotateY: -2,
+                  boxShadow: "0 0px 30px 1px rgba(56,189,248,0.70)",
+                  transition: { duration: 0.3, ease: "easeOut" },
+                  borderColor: "rgba(56,189,248,0.60)",
+                  backgroundColor: "rgba(56,189,248,0.10)",
+                }}
+                whileTap={{
+                  scale: 0.97,
+                }}
+                className="group flex flex-col items-center gap-1 rounded-2xl border border-white/10 bg-white/5 px-1 py-2 backdrop-blur-sm"
+              >
+                <div className="flex h-20 w-20 items-center justify-center">
+                  {tech.iconSrc ? (
+                    <Image
+                      src={tech.iconSrc}
+                      alt={tech.label}
+                      width={40}
+                      height={40}
+                      className="object-contain saturate-90"
+                    />
+                  ) : null}
+                </div>
+                <p className="text-xs text-white/70 text-center">
+                  {tech.label}
+                </p>
+              </motion.div>
             ))}
           </motion.div>
 
@@ -497,59 +709,78 @@ export default function AboutPage() {
             className="mt-3 text-xs text-white/55 sm:text-[13px] leading-relaxed"
             variants={techTextVariants}
           >
-            También he usado herramientas como{" "}
+            Algunas herramientas como{" "}
             <span className="font-medium text-sky-300/60">TensorFlow</span> y{" "}
             <span className="font-medium text-sky-300/60">Scikit-Learn</span>{" "}
-            en proyectos de aprendizaje: un clasificador de imágenes con redes
-            convolucionales, pequeños experimentos de machine learning
-            supervisado y no supervisado y algún proyecto de optimización. No me
-            considero experto, pero sí tengo una base práctica sólida y sigo
-            profundizando en ellas.
+            las he usado sobre todo en proyectos de aprendizaje: un clasificador
+            de imágenes con redes convolucionales, pequeños experimentos de
+            machine learning supervisado y no supervisado y algún proyecto de
+            optimización. No me considero experto, pero sí tengo una base
+            práctica sólida y sigo profundizando.
           </motion.p>
         </motion.div>
       </motion.section>
 
       {/* ACADÉMICO + EXPERIENCIA */}
-      <section className="relative px-4 pb-20 pt-10 sm:px-6 lg:px-12 lg:pb-24 lg:pt-20">
+      <motion.section
+        className="relative px-4 pb-20 pt-10 sm:px-6 lg:px-12 lg:pb-24 lg:pt-20"
+        initial="hidden"
+        whileInView="show"
+        viewport={{ once: true, amount: 0.15 }}
+      >
         <div className="absolute inset-0 bg-gradient-to-b from-gray-950 via-transparent to-gray-950" />
 
-        <div className="relative mx-auto max-w-6xl space-y-10">
-          <div className="space-y-3">
+        <motion.div
+          className="relative mx-auto max-w-6xl space-y-10"
+          variants={pathSectionContainerVariants}
+        >
+          <motion.div className="space-y-3" variants={pathHeaderVariants}>
             <h2 className="text-2xl font-semibold text-white sm:text-3xl">
-              Trayectoria académica & experiencia
+              Trayectoria académica y experiencia
             </h2>
-            <p className="max-w-2xl text-sm text-white/70 sm:text-base">
-              Esta sección es el puente entre quién eres y lo que has hecho. No
-              hace falta que sea un CV completo, sino una narrativa corta de
-              cómo has ido tomando decisiones.
+            <p className="text-sm max-w-4xl text-white/70 sm:text-base">
+              De momento mi recorrido pasa por un grado en videojuegos, unas
+              primeras prácticas en investigación aplicada y muchas horas de
+              aprendizaje autodidacta. Prefiero centrarme en pocas cosas a la vez, 
+              pero trabajarlas a fondo, de forma que cada etapa cambie 
+              de verdad cómo pienso y cómo trabajo.
             </p>
-          </div>
+          </motion.div>
 
-          <div className="grid gap-10 lg:grid-cols-2">
-            <div className="space-y-4">
-              <div className="flex items-center gap-2 text-xs font-medium uppercase tracking-[0.25em] text-white/60">
+          <motion.div
+            className="grid gap-10 lg:grid-cols-2"
+            variants={pathColumnsWrapperVariants}
+          >
+            <motion.div className="space-y-4" variants={pathColumnVariants}>
+              <motion.div
+                className="flex items-center gap-2 text-[13px] font-medium uppercase tracking-[0.25em] text-white/60"
+                variants={pathColumnHeaderVariants}
+              >
                 <GraduationCap className="h-4 w-4 text-sky-300" />
                 <span>Formación académica</span>
-              </div>
+              </motion.div>
               <Timeline
                 items={ACADEMIC_PATH}
                 icon={<GraduationCap className="h-3.5 w-3.5 text-sky-200" />}
               />
-            </div>
+            </motion.div>
 
-            <div className="space-y-4">
-              <div className="flex items-center gap-2 text-xs font-medium uppercase tracking-[0.25em] text-white/60">
+            <motion.div className="space-y-4" variants={pathColumnVariants}>
+              <motion.div
+                className="flex items-center gap-2 text-[13px] font-medium uppercase tracking-[0.25em] text-white/60"
+                variants={pathColumnHeaderVariants}
+              >
                 <Briefcase className="h-4 w-4 text-sky-300" />
                 <span>Experiencia profesional</span>
-              </div>
+              </motion.div>
               <Timeline
                 items={EXPERIENCE_PATH}
                 icon={<Briefcase className="h-3.5 w-3.5 text-sky-200" />}
               />
-            </div>
-          </div>
-        </div>
-      </section>
+            </motion.div>
+          </motion.div>
+        </motion.div>
+      </motion.section>
 
       {/* PARTE PERSONAL */}
       <section className="relative px-4 pb-20 pt-10 sm:px-6 lg:px-12 lg:pb-24 lg:pt-20">
@@ -647,7 +878,8 @@ export default function AboutPage() {
               </div>
               <p>
                 Y uno más. Por ejemplo: “prefiero avanzar de forma iterativa,
-                con feedback real, antes que perseguir una perfección abstracta”.
+                con feedback real, antes que perseguir una perfección
+                abstracta”.
               </p>
             </div>
           </div>
