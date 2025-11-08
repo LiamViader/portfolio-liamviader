@@ -107,7 +107,7 @@ export function FeaturedProjectsHomeSection({
           className="flex flex-col gap-6 text-center lg:text-left pl-3 will-change-transform"
         >
           <div className="space-y-4 mt-10">
-            <motion.h2 variants={leftItem} className="font-semibold text-white text-3xl md:text-4xl xl:text-5xl whitespace-nowrap">
+            <motion.h2 variants={leftItem} className="font-semibold text-white text-3xl md:text-4xl xl:text-4xl whitespace-nowrap">
               {title}
             </motion.h2>
 
