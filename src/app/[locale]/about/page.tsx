@@ -483,7 +483,7 @@ export default function AboutPage() {
                     alt={tech.label}
                     width={40}
                     height={40}
-                    className="object-contain"
+                    className="object-contain saturate-90"
                   />
                 ) : null}
               </div>
