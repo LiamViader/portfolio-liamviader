@@ -87,7 +87,7 @@ export default function Home() {
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_left,_rgba(125,211,252,0.05),_transparent_85%)]" />
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_right,_rgba(125,211,252,0.05),_transparent_85%)]" />
         
-        <div className="absolute inset-0 bg-gradient-to-b from-gray-950 via-gray-950/20 to-gray-950" />
+        <div className="absolute inset-0 bg-gradient-to-b from-gray-950 via-gray-950/15 to-gray-950" />
 
         <FeaturedProjectsHomeSection title={t("projects.title")} description={t("projects.description")} contactButtonText={t("hero.ctaContact")} projectsButtonText={t("projects.viewAll")} projects={projects}/>
       </section>
