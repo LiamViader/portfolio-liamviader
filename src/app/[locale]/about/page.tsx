@@ -225,9 +225,9 @@ const pathSectionContainerVariants: Variants = {
   show: {
     y: 0,
     transition: {
-      duration: 0.45,
+      duration: 0.05,
       ease: "easeOut",
-      staggerChildren: 0.18, // header primero, luego columnas
+      when: "beforeChildren", // mueve la sección y luego deja que los hijos se animen
     },
   },
 };
@@ -247,11 +247,16 @@ const pathHeaderVariants: Variants = {
 
 // Wrapper de columnas: solo coordina stagger, no cambia opacity/y
 const pathColumnsWrapperVariants: Variants = {
-  hidden: {},
+  hidden: { opacity: 0, y: 10 },
   show: {
+    opacity: 1,
+    y: 0,
     transition: {
+      duration: 0.25,
+      ease: "easeOut",
+      delay: 0.02,      // <-- aquí decides cuánto tarda en empezar lo de abajo
+      when: "beforeChildren",
       staggerChildren: 0.12,
-      delayChildren: 0.05,
     },
   },
 };
