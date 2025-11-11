@@ -62,32 +62,36 @@ type TechStackSectionProps = {
 export function TechStackSection({ techStack }: TechStackSectionProps) {
   return (
     <motion.section
-      className="relative overflow-hidden px-4 py-16 sm:px-6 lg:px-12 lg:py-24"
+      className="relative px-4 pb-20 pt-10 sm:px-6 lg:px-12 lg:pb-24 lg:pt-16 mx-0"
       initial="hidden"
       whileInView="show"
       viewport={{ once: true, amount: 0.2 }}
     >
-      <div className="absolute inset-0 bg-gradient-to-b from-gray-950/60 via-gray-950/30 to-gray-950" />
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(56,189,248,0.03),_transparent_55%)]" />
+      <div className="absolute inset-0 bg-gradient-to-b from-gray-950 via-gray-950 to-gray-950" />
 
       <motion.div
-        className="relative mx-auto max-w-6xl"
+        className="relative mx-auto max-w-[1400px] space-y-8"
         variants={techSectionContainerVariants}
       >
-        <motion.div className="space-y-4" variants={techTextVariants}>
-          <h2 className="text-2xl font-semibold text-white sm:text-3xl">
-            Tecnologías y herramientas
-          </h2>
-          <p className="text-sm text-white/70 sm:text-base leading-relaxed">
-            Este es un repaso rápido a las tecnologías con las que me siento
-            más cómodo. Algunas las uso a diario; otras forman parte de mi
-            toolkit cuando surge un reto más específico.
-          </p>
+        {/* Título + subtítulo */}
+        <motion.div
+          className="flex flex-col gap-3 lg:flex-row lg:items-end lg:justify-between"
+          variants={techTextVariants}
+        >
+          <div>
+            <h2 className="text-2xl font-semibold text-white sm:text-3xl">
+              Tecnologías y herramientas
+            </h2>
+            <p className="mt-2 max-w-5xl text-sm text-pretty text-white/70 sm:text-base">
+              Un vistazo rápido a las tecnologías con las que me siento
+              cómodo trabajando.
+            </p>
+          </div>
         </motion.div>
 
         <motion.div
+          className="grid gap-4 grid-cols-[repeat(auto-fit,minmax(90px,1fr))]"
           variants={techGridVariants}
-          className="mt-8 grid gap-3 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5"
         >
           {techStack.map((tech) => (
             <motion.div
