@@ -1,3 +1,5 @@
+import PersonalGallery from "./PersonalGallery";
+
 export function PersonalSection() {
   return (
     <section className="relative px-4 pb-20 pt-10 sm:px-6 lg:px-12 lg:pb-24 lg:pt-20">
@@ -28,20 +30,15 @@ export function PersonalSection() {
         </div>
 
         <div className="flex-1">
-          <div className="relative mx-auto aspect-[4/3] max-w-md overflow-hidden rounded-3xl border border-white/15 bg-gradient-to-br from-sky-500/20 via-sky-500/5 to-indigo-500/10 shadow-[0_40px_80px_-60px_rgba(56,189,248,0.7)]">
-            <div className="absolute inset-0 flex items-center justify-center">
-              <div className="rounded-2xl border border-white/20 bg-black/30 px-4 py-3 text-center text-sm text-white/75 backdrop-blur-md">
-                Aquí puedes poner una foto tuya, del cielo, o cualquier imagen
-                que conecte con esta parte más personal.
-              </div>
-            </div>
-          </div>
+          <PersonalGallery
+            photos={[
+              { src: "/images/emporda_original.jpg", alt: "Caminata en la montaña", caption: "Montaña · Octubre 2025" },
+              { src: "/images/test2_liam.png", alt: "Puesta de sol", caption: "Atardecer que me inspiró" },
+              { src: "/images/emporda_original.jpg", alt: "Libros que leo ahora", caption: "Lecturas actuales" },
+            ]}
+          />
           <p className="mt-3 text-xs text-white/50 text-center">
-            Puedes sustituir el contenido de este recuadro por un{" "}
-            <code className="font-mono text-[11px]">
-              &lt;Image src=&quot;/ruta/a/tu/imagen.jpg&quot; /&gt;
-            </code>{" "}
-            usando el mismo estilo que en tu portada.
+            Haz clic en una foto para verla ampliada.
           </p>
         </div>
       </div>
