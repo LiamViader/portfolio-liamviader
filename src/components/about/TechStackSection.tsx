@@ -99,10 +99,8 @@ export function TechStackSection({ techStack }: TechStackSectionProps) {
               variants={techItemVariants}
               whileHover={{
                 y: -6,
-                rotateX: 2,
-                rotateY: -2,
                 boxShadow: "0 0px 30px 1px rgba(56,189,248,0.40)",
-                transition: { duration: 0.3, ease: "easeOut" },
+                transition: { duration: 0.2, ease: "easeOut" },
                 borderColor: "rgba(56,189,248,0.60)",
                 backgroundColor: "rgba(56,189,248,0.10)",
               }}

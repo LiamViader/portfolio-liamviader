@@ -1,12 +1,13 @@
+// ProjectMediaGallery.tsx
 "use client";
 
-import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
-import { AnimatePresence, motion } from "framer-motion";
-import { createPortal } from "react-dom";
+import { useCallback, useState } from "react";
+import { motion } from "framer-motion";
 import { Play } from "lucide-react";
 
 import type { TranslatedProject } from "@/data/projects";
 import { modalItemVariants } from "./animations";
+import { FittedMediaOverlay } from "@/components/shared/FittedMediaOverlay"; // ajusta ruta
 
 export type ProjectMediaItem = TranslatedProject["detailed_media"][number];
 
@@ -28,16 +29,6 @@ const buildMediaLabel = (item: ProjectMediaItem) => {
 const isVideoMedia = (item: ProjectMediaItem) =>
   item.type === "video" || item.type === "externalVideo";
 
-const getEmbeddedVideoSource = (item: ProjectMediaItem) => {
-  if (item.type !== "externalVideo") return item.src;
-  const base = item.embedUrl ?? item.src;
-  if (base.includes("youtube")) {
-    const separator = base.includes("?") ? "&" : "?";
-    return `${base}${separator}rel=0&autoplay=1`;
-  }
-  return base;
-};
-
 interface ProjectMediaGalleryProps {
   project: TranslatedProject;
   galleryTitle: string;
@@ -53,47 +44,13 @@ export function ProjectMediaGallery({
 }: ProjectMediaGalleryProps) {
   const media = project.detailed_media ?? [];
   const [activeMediaIndex, setActiveMediaIndex] = useState<number | null>(null);
-  const closeButtonRef = useRef<HTMLButtonElement | null>(null);
-  const activeMedia = activeMediaIndex !== null ? media[activeMediaIndex] : null;
 
   const openMedia = useCallback((index: number) => setActiveMediaIndex(index), []);
   const closeActiveMedia = useCallback(() => setActiveMediaIndex(null), []);
 
-  useEffect(() => {
-    if (activeMediaIndex === null) return;
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") closeActiveMedia();
-    };
-    document.addEventListener("keydown", onKey);
-    return () => document.removeEventListener("keydown", onKey);
-  }, [activeMediaIndex, closeActiveMedia]);
-
-  useEffect(() => {
-    if (activeMediaIndex === null) return;
-    const prev = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-    const t = window.setTimeout(() => closeButtonRef.current?.focus(), 0);
-    return () => {
-      document.body.style.overflow = prev;
-      window.clearTimeout(t);
-    };
-  }, [activeMediaIndex]);
-
   if (media.length === 0) return null;
 
-  const overlay = (
-    <AnimatePresence>
-      {activeMedia && (
-        <FittedOverlay
-          activeMedia={activeMedia}
-          projectTitle={project.title}
-          closeLabel={closeLabel}
-          onClose={closeActiveMedia}
-          closeButtonRef={closeButtonRef}
-        />
-      )}
-    </AnimatePresence>
-  );
+  const activeMedia = activeMediaIndex !== null ? media[activeMediaIndex] : null;
 
   return (
     <>
@@ -102,7 +59,9 @@ export function ProjectMediaGallery({
         <div className="grid gap-5 sm:grid-cols-2">
           {media.map((item, idx) => {
             const figureLabel = buildMediaLabel(item);
-            const hasCaptionContent = Boolean(figureLabel || item.description || item.alt);
+            const hasCaptionContent = Boolean(
+              figureLabel || item.description || item.alt,
+            );
             const previewSource = getMediaPreviewSource(item);
             const fallbackTitle = `${project.title} detail ${idx + 1}`;
             const buttonLabel = item.alt ?? figureLabel ?? fallbackTitle;
@@ -180,183 +139,14 @@ export function ProjectMediaGallery({
         </div>
       </div>
 
-      {typeof document !== "undefined" ? createPortal(overlay, document.body) : null}
+      {/* Nuevo visor reutilizable */}
+      <FittedMediaOverlay
+        isOpen={activeMediaIndex !== null}
+        media={activeMedia}
+        title={project.title}
+        closeLabel={closeLabel}
+        onClose={closeActiveMedia}
+      />
     </>
-  );
-}
-
-/* ----------------- Overlay que SIEMPRE encaja todo ----------------- */
-
-function FittedOverlay({
-  activeMedia,
-  projectTitle,
-  closeLabel,
-  onClose,
-  closeButtonRef,
-}: {
-  activeMedia: ProjectMediaItem;
-  projectTitle: string;
-  closeLabel: string;
-  onClose: () => void;
-  closeButtonRef: React.MutableRefObject<HTMLButtonElement | null>;
-}) {
-  const panelRef = useRef<HTMLDivElement | null>(null);
-  const captionRef = useRef<HTMLDivElement | null>(null);
-  const [captionH, setCaptionH] = useState(0);
-
-  // Recalcula altura de caption y fuerza el límite del viewer
-  const recalc = useCallback(() => {
-    const h = captionRef.current ? captionRef.current.offsetHeight : 0;
-    setCaptionH(h);
-  }, []);
-
-  useLayoutEffect(() => {
-    recalc();
-    const ro = new ResizeObserver(recalc);
-    if (captionRef.current) ro.observe(captionRef.current);
-    const onWin = () => recalc();
-    window.addEventListener("resize", onWin);
-    return () => {
-      ro.disconnect();
-      window.removeEventListener("resize", onWin);
-    };
-  }, [recalc]);
-
-  // CSS var para limitar el viewer a (viewport - caption - cromos)
-  const chromePadding = 54; // padding interior aprox (px)
-  const borderPad = 2; // bordes, etc. (px)
-  const totalChrome = chromePadding * 2 + borderPad;
-
-  const panelStyle = {
-    // @ts-ignore: CSS variable inline
-    "--captionH": `${captionH}px`,
-  } as React.CSSProperties;
-
-  return (
-    <motion.div
-      className="fixed inset-0 z-[1000000] flex items-center justify-center bg-slate-950/85 p-3 sm:p-6 backdrop-blur-xl overflow-hidden"
-      role="dialog"
-      aria-modal="true"
-      aria-label={buildMediaLabel(activeMedia) || activeMedia.alt || projectTitle}
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      onClick={onClose}
-    >
-      <motion.div
-        ref={panelRef}
-        className="relative flex max-h-[90svh] w-[1100px] flex-col overflow-y-auto overflow-x-hidden rounded-[28px] border border-white/15 bg-slate-950/80 shadow-[0_30px_120px_rgba(10,15,35,0.75)]"
-        style={panelStyle}
-        initial={{ opacity: 0, scale: 0.96, y: 18 }}
-        animate={{ opacity: 1, scale: 1, y: 0 }}
-        exit={{ opacity: 0, scale: 0.96, y: 18 }}
-        transition={{ type: "spring", stiffness: 210, damping: 28 }}
-        onClick={(e) => e.stopPropagation()}
-        
-      >
-        {/* Viewer: altura exacta = viewport - caption - chrome. Centrado y sin recortes */}
-        <div
-          className="relative flex items-center justify-center bg-black overflow-hidden"
-        >
-          {/* Botón de cerrar: en la esquina superior derecha del MEDIA DISPLAY */}
-          <motion.button
-            ref={closeButtonRef}
-            type="button"
-            aria-label={closeLabel}
-            onClick={(e) => { e.stopPropagation(); onClose(); }}
-            className="group absolute cursor-pointer top-3 right-3 sm:top-6 sm:right-6 z-[1000001] inline-flex h-11 w-11 items-center justify-center rounded-full bg-gray-950/90 text-white shadow-[0_3px_14px_rgba(0,0,0,1)] backdrop-blur ring-2 ring-slate-900"
-            initial={{ opacity: 0, scale: 0.92, y: -6 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.92, y: -6 }}
-            whileHover={{ scale: 1.06, rotate: 3 }}
-            whileTap={{ scale: 0.95 }}
-          >
-            <svg
-              className="h-5 w-5 transition-transform duration-300 group-hover:rotate-90"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="1.8"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              viewBox="0 0 24 24"
-            >
-              <path d="M18 6 6 18" />
-              <path d="M6 6l12 12" />
-            </svg>
-            <span className="sr-only">{closeLabel}</span>
-          </motion.button>
-
-          <MediaFittedContent media={activeMedia} projectTitle={projectTitle} />
-        </div>
-
-        {(buildMediaLabel(activeMedia) || activeMedia.description || activeMedia.alt) && (
-          <div
-            ref={captionRef}
-            className="shrink-0 space-y-2 border-t border-white/10 bg-slate-950/85 px-6 py-5"
-          >
-            {(buildMediaLabel(activeMedia) || activeMedia.alt) && (
-              <p className="text-xs font-semibold uppercase tracking-[0.35em] text-slate-100/80">
-                {buildMediaLabel(activeMedia) || activeMedia.alt}
-              </p>
-            )}
-            {activeMedia.description && (
-              <p className="text-sm leading-relaxed text-slate-100/80">
-                {activeMedia.description}
-              </p>
-            )}
-          </div>
-        )}
-      </motion.div>
-    </motion.div>
-  );
-}
-
-/* Contenido ajustado: SIEMPRE visible. Imagen/Vídeo nativo con object-contain; iframes con contenedor responsivo */
-function MediaFittedContent({
-  media,
-  projectTitle,
-}: {
-  media: ProjectMediaItem;
-  projectTitle: string;
-}) {
-  if (media.type === "image") {
-    return (
-      <img
-        src={media.src}
-        alt={media.alt ?? projectTitle}
-        className="h-full w-full object-contain"
-      />
-    );
-  }
-
-  if (media.type === "video") {
-    return (
-      <video
-        src={media.src}
-        poster={media.poster ?? media.thumbnail}
-        controls
-        autoPlay
-        playsInline
-        className="h-full w-full object-contain"
-      />
-    );
-  }
-
-  // externalVideo: ocupar máximo ancho y alto posibles SIN recortar (contain)
-  const ratio = (media as any).aspectRatio ?? 16 / 9; // fallback sensato para YouTube/Vimeo
-
-  return (
-      <div
-        className="relative h-full w-full object-contain"
-        style={{ aspectRatio: String(ratio) }}
-      >
-        <iframe
-          src={getEmbeddedVideoSource(media)}
-          title={media.alt ?? projectTitle}
-          className="absolute inset-0 h-full w-full"
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-          allowFullScreen
-        />
-      </div>
   );
 }

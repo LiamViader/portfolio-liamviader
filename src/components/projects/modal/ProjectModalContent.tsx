@@ -82,24 +82,15 @@ export function ProjectModalContent({
         type="button"
         onClick={onClose}
         aria-label={closeAriaLabel}
-        className={[
-          "group absolute right-4 top-4 inline-flex h-12 w-12 items-center justify-center overflow-hidden",
-          "rounded-full border border-white/20 bg-slate-800 text-white",
-          "cursor-pointer z-20 will-change-[transform,opacity]",
-        ].join(" ")}
-        initial={{ scale: 1, opacity: 0, boxShadow: "0 0px 16px rgba(15,23,42,0.45)" }}
-        animate={{ scale: 1, opacity: 1, boxShadow: "0 0px 16px rgba(15,23,42,0.45)" }}
-        whileHover={{
-          scale: 1.08,
-          boxShadow: "0 0px 16px rgba(56,189,248,0.75)",
-          backgroundColor: "rgba(24,88,123,1)",
-        }}
-        whileTap={{ scale: 0.94, opacity: 1, boxShadow: "0 0px 16px rgba(15,23,42,0.45)" }}
+        className="group absolute cursor-pointer top-3 right-3 z-[1000001] inline-flex h-11 w-11 items-center justify-center rounded-full bg-gray-950/90 text-white shadow-[0_3px_14px_rgba(0,0,0,1)] backdrop-blur ring-2 ring-gray-600"
+        initial={{ opacity: 0, scale: 0.92, y: -6 }}
+        animate={{ opacity: 1, scale: 1, y: 0 }}
+        exit={{ opacity: 0, scale: 0.92, y: -6 }}
+        whileHover={{ scale: 1.06, rotate: 3 }}
+        whileTap={{ scale: 0.95 }}
       >
-        <span className="sr-only">{closeLabel}</span>
-        <span className="absolute inset-0 bg-gradient-to-br from-sky-500/25 via-transparent to-slate-300/10 opacity-80" />
         <svg
-          className="relative h-6 w-6"
+          className="h-5 w-5 transition-transform duration-300 group-hover:rotate-90"
           fill="none"
           stroke="currentColor"
           strokeWidth="1.8"
@@ -110,6 +101,7 @@ export function ProjectModalContent({
           <path d="M18 6 6 18" />
           <path d="M6 6l12 12" />
         </svg>
+        <span className="sr-only">{closeLabel}</span>
       </motion.button>
       <div ref={scrollRef} className="relative flex-1 overflow-auto no-scrollbar">
         <div className="px-7 py-8 md:px-7 lg:px-8">

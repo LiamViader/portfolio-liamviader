@@ -11,21 +11,31 @@ export function PersonalSection() {
             Más allá del código
           </h2>
           <p className="text-sm text-white/70 sm:text-base leading-relaxed">
-            Aquí puedes hablar de las cosas que te gustan a nivel personal:
-            qué te inspira, qué te relaja, qué te obsesiona un poco (en el
-            buen sentido). Por ejemplo: el cielo, la luz de ciertas horas,
-            videojuegos concretos, música, deporte, lo que te haga ser tú.
+            Siempre he sido una persona que le da muchas vueltas a las cosas. Pienso, analizo, conecto ideas, 
+            y muchas veces me descubro imaginando soluciones o sistemas que ni siquiera voy a construir. 
+            Me gusta reflexionar sobre temas muy distintos —desde cuestiones filosóficas hasta ideas sobre arte o tecnología—, 
+            y creo que esa curiosidad constante define bastante mi forma de ser.
           </p>
           <p className="text-sm text-white/70 sm:text-base leading-relaxed">
-            Intenta que no sea una lista fría, sino pequeños detalles
-            concretos. En vez de “me gusta la naturaleza”, puedes escribir
-            algo como “me encanta salir a caminar cuando el cielo está
-            nublado y parece que todo va más lento”.
+            Por eso incluso en mi tiempo libre sigo creando. A veces simplemente escribo o dibujo, 
+            otras diseño sistemas imaginarios o pequeños proyectos de software que me apetece explorar.
+            No siempre busco un resultado tangible, a veces solo pretendo explorar una idea.
           </p>
+
           <p className="text-sm text-white/60 sm:text-base leading-relaxed">
-            También puedes conectar esta parte con cómo te afecta al trabajo:
-            cómo tus hobbies influyen en tu forma de diseñar sistemas, pensar
-            en problemas o colaborar con otras personas.
+            Pero a veces estar tan activo mentalmente me agota y necesito moverme para desconectar. 
+            Me encanta caminar: por la ciudad, por la montaña, por los campos y montes a las afueras de donde vivo. 
+            A veces solo es un paseo rutinario para recargar energía y volver más despejado; 
+            otras me tomo mi tiempo para caminar sin rumbo y descubrir nuevos lugares que me sorprendan. 
+            Me gusta estar presente cuando el sol empieza a desvanecerse y el cielo nos deleita con sus pinceladas más coloridas. 
+            También suelo ir al gimnasio, salir a correr o hacer algo de bici; son momentos en los que dejo que el cuerpo tome el protagonismo 
+            y la mente, por fin, se calme un poco.
+          </p>
+                    
+          <p className="text-sm text-white/70 sm:text-base leading-relaxed">
+            También encuentro inspiración en momentos más tranquilos. Me gusta leer —desde libros sobre programación, inteligencia artificial o diseño de sistemas, 
+            hasta ensayos de filosofía o narrativa fantástica— y a veces perderme en un buen videojuego. 
+            Ambos me sirven para aprender, para inspirarme y para descubrir nuevas formas de pensar y crear.
           </p>
         </div>
 
