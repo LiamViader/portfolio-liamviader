@@ -61,7 +61,7 @@ export default function PersonalGallery({
     <div className={`relative ${className}`}>
       <motion.div
         className="grid grid-cols-2 gap-3 sm:grid-cols-3"
-        variants={gridContainerVariants} // ← hereda initial/show del padre (la sección)
+        variants={gridContainerVariants} 
       >
         {photos.map((p, i) => (
           <motion.button
