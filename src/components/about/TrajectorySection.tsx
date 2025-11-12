@@ -86,6 +86,7 @@ const pathCardVariants: Variants = {
     opacity: 1,
     y: 0,
     boxShadow: "0 0px 30px 1px rgba(56,189,248,0.01)",
+    borderColor: "rgba(255,255,255,0.10)",
     transition: {
       duration: 0.8,
       ease: "easeOut",
@@ -184,7 +185,7 @@ function Timeline({ items, icon }: TimelineProps) {
                 rotateX: 2,
                 rotateY: -2,
                 boxShadow: "0 0px 30px 1px rgba(56,189,248,0.30)",
-                transition: { duration: 0.3, ease: "easeOut" },
+                transition: { duration: 0.2, ease: "easeOut" },
                 borderColor: "rgba(56,189,248,0.60)",
                 backgroundColor: "rgba(56,189,248,0.10)",
               }}

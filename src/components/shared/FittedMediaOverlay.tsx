@@ -43,6 +43,7 @@ export function FittedMediaOverlay<T extends BaseMediaItem>({
 }: FittedMediaOverlayProps<T>) {
   const closeButtonRef = useRef<HTMLButtonElement | null>(null);
 
+  // Esc + bloqueo de scroll (sin timeout de focus)
   useEffect(() => {
     if (!isOpen) return;
     const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") onClose(); };
@@ -50,21 +51,20 @@ export function FittedMediaOverlay<T extends BaseMediaItem>({
 
     const prevOverflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
-    const t = window.setTimeout(() => closeButtonRef.current?.focus(), 0);
 
     return () => {
       document.removeEventListener("keydown", onKey);
       document.body.style.overflow = prevOverflow;
-      window.clearTimeout(t);
     };
   }, [isOpen, onClose]);
 
-  if (!isOpen || !media) return null;
+  // Importante: no devolvemos null cuando isOpen=false,
+  // para que AnimatePresence pueda reproducir el `exit`.
   if (typeof document === "undefined") return null;
 
   return createPortal(
-    <AnimatePresence>
-      {isOpen && (
+    <AnimatePresence mode="wait">
+      {isOpen && media && (
         <InnerFittedOverlay
           activeMedia={media as BaseMediaItem}
           title={title}
@@ -87,7 +87,6 @@ type InnerFittedOverlayProps = {
   closeButtonRef: React.MutableRefObject<HTMLButtonElement | null>;
   footer?: React.ReactNode;
 };
-
 
 function InnerFittedOverlay({
   activeMedia,
@@ -126,9 +125,11 @@ function InnerFittedOverlay({
       role="dialog"
       aria-modal="true"
       aria-label={buildMediaLabel(activeMedia) || activeMedia.alt || title}
+      // animación de entrada/salida del overlay (incluye fondo)
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
+      exit={{ opacity: 0, pointerEvents: "none" }} // ← fade-out + liberar clics durante el exit
+      transition={{ duration: 0.2, ease: "easeOut" }}
       onClick={onClose}
     >
       <motion.div
@@ -170,7 +171,7 @@ function InnerFittedOverlay({
           <MediaFittedContent media={activeMedia} title={title} />
         </div>
 
-        {(hasCaption) && (
+        {hasCaption && (
           <div
             ref={captionRef}
             className="shrink-0 space-y-2 border-t border-white/10 bg-slate-950/85 px-6 py-5"
@@ -286,8 +287,6 @@ function ExternalVideoContained({
     </div>
   );
 }
-
-
 
 function fitContain(ar: number, maxW: number, maxH: number) {
   const hByW = maxW / ar;
