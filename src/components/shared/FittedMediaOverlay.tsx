@@ -43,7 +43,6 @@ export function FittedMediaOverlay<T extends BaseMediaItem>({
 }: FittedMediaOverlayProps<T>) {
   const closeButtonRef = useRef<HTMLButtonElement | null>(null);
 
-  // Esc + bloqueo de scroll (sin timeout de focus)
   useEffect(() => {
     if (!isOpen) return;
     const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") onClose(); };
@@ -58,8 +57,6 @@ export function FittedMediaOverlay<T extends BaseMediaItem>({
     };
   }, [isOpen, onClose]);
 
-  // Importante: no devolvemos null cuando isOpen=false,
-  // para que AnimatePresence pueda reproducir el `exit`.
   if (typeof document === "undefined") return null;
 
   return createPortal(
@@ -125,10 +122,9 @@ function InnerFittedOverlay({
       role="dialog"
       aria-modal="true"
       aria-label={buildMediaLabel(activeMedia) || activeMedia.alt || title}
-      // animación de entrada/salida del overlay (incluye fondo)
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
-      exit={{ opacity: 0, pointerEvents: "none" }} // ← fade-out + liberar clics durante el exit
+      exit={{ opacity: 0, pointerEvents: "none" }}
       transition={{ duration: 0.2, ease: "easeOut" }}
       onClick={onClose}
     >
@@ -137,7 +133,7 @@ function InnerFittedOverlay({
         initial={{ opacity: 0, scale: 0.96, y: 18 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
         exit={{ opacity: 0, scale: 0.96, y: 18 }}
-        transition={{ type: "spring", stiffness: 210, damping: 28 }}
+        transition={{ duration: 0.4, ease: "easeOut" }}
         onClick={(e) => e.stopPropagation()}
       >
         <div className="relative mx-auto inline-flex items-center justify-center overflow-hidden">
