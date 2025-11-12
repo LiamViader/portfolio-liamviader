@@ -58,7 +58,7 @@ export function PersonalSection() {
             </motion.h2>
 
             <motion.p
-              className="text-sm text-white/70 sm:text-base leading-relaxed pt-3"
+              className="text-sm text-white/70 sm:text-base leading-relaxed pt-2"
               variants={textItem}
             >
               Siempre he sido una persona que le da muchas vueltas a las cosas. Pienso, analizo, conecto ideas, 
