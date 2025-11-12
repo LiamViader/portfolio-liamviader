@@ -24,12 +24,13 @@ export default function PersonalGallery({
 }) {
   const [idx, setIdx] = useState<number | null>(null);
 
+  // Título consistente con la figura
   const figureTitle = useMemo(
-    () =>
-      photos.map((p, i) => p.caption ?? p.alt ?? `Foto ${i + 1}`),
+    () => photos.map((p, i) => p.caption ?? p.alt ?? `Foto ${i + 1}`),
     [photos]
   );
 
+  // Adaptación a BaseMediaItem
   const mediaItems: BaseMediaItem[] = useMemo(
     () =>
       photos.map((p, i) => ({
@@ -47,21 +48,20 @@ export default function PersonalGallery({
       y: 0,
       boxShadow: "0 0px 50px 2px rgba(56,189,248,0.01)",
       borderColor: "rgba(255,255,255,0.1)",
-      transition: { duration: 0.3, ease: "easeOut" },
+      transition: { duration: 0.6, ease: "easeOut" },
     },
+  };
+
+  const gridContainerVariants: Variants = {
+    hidden: {},
+    show: { transition: { staggerChildren: 0.15 } },
   };
 
   return (
     <div className={`relative ${className}`}>
       <motion.div
-        initial="hidden"
-        whileInView="show"
-        viewport={{ once: true, amount: 0.2 }}
         className="grid grid-cols-2 gap-3 sm:grid-cols-3"
-        variants={{
-          hidden: {},
-          show: { transition: { staggerChildren: 0.06 } },
-        }}
+        variants={gridContainerVariants} // ← hereda initial/show del padre (la sección)
       >
         {photos.map((p, i) => (
           <motion.button
