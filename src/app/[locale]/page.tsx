@@ -28,7 +28,7 @@ export default function Home() {
     <div className="flex flex-col bg-gray-900">
       <section className="relative overflow-hidden bg-gray-950/70 px-4 md:px-8 pb-14 pt-28 lg:py-34 shadow-[0_40px_50px_-40px_rgba(56,189,248,0.2)] mb-0 md:min-h-[900px]">
         <PulseHexGridCanvas pixelsPerHex={40} gridType="Fill" s={75} hue={240} hueJitter={5} l={0}/>
-        <PulseHexGridCanvas pixelsPerHex={40} hue={240} hueJitter={30} s={80}/>
+        <PulseHexGridCanvas pixelsPerHex={40} hue={240} hueJitter={30} s={60}/>
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(125,211,252,0.1),_transparent_65%)]" />
         <div className="absolute inset-0 bg-gradient-to-b from-gray-950/10 via-gray-950/60 to-gray-950" />
 
@@ -83,7 +83,7 @@ export default function Home() {
 
       <section className="relative px-2 md:px-6 pt-10 sm:pt-20 lg:pt-22 xl:pt-28 pb-40 bg-gray-950/70 ">
         <PulseHexGridCanvas pixelsPerHex={40} gridType="Fill" s={75} hue={240} hueJitter={5} l={0}/>
-        <PulseHexGridCanvas pixelsPerHex={40} hue={240} hueJitter={30} s={80}/>
+        <PulseHexGridCanvas pixelsPerHex={40} hue={240} hueJitter={30} s={60}/>
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_left,_rgba(125,211,252,0.05),_transparent_85%)]" />
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_right,_rgba(125,211,252,0.05),_transparent_85%)]" />
         
