@@ -11,8 +11,8 @@ import {
 
 type Photo = {
   src: string;
-  alt?: string;
-  caption?: string;
+  alt?: string;      // accesibilidad
+  caption?: string;  // título visible (si existe)
 };
 
 export default function PersonalGallery({
@@ -24,21 +24,27 @@ export default function PersonalGallery({
 }) {
   const [idx, setIdx] = useState<number | null>(null);
 
-  // Título consistente con la figura
-  const figureTitle = useMemo(
-    () => photos.map((p, i) => p.caption ?? p.alt ?? `Foto ${i + 1}`),
+  // Título visible SOLO si hay caption (si no, undefined)
+  const displayTitle = useMemo(
+    () => photos.map((p) => p.caption || undefined),
     [photos]
   );
 
-  // Adaptación a BaseMediaItem
+  // ALT solo para imágenes; no se usa como título
+  const altText = useMemo(
+    () => photos.map((p) => p.alt || ""),
+    [photos]
+  );
+
+  // Adaptación al overlay: mantenemos alt para el <img> grande (accesibilidad)
   const mediaItems: BaseMediaItem[] = useMemo(
     () =>
       photos.map((p, i) => ({
         type: "image",
         src: p.src,
-        alt: figureTitle[i],
+        alt: altText[i], // solo atributo alt, NO visible en el overlay
       })),
-    [photos, figureTitle]
+    [photos, altText]
   );
 
   const gridItemVariants: Variants = {
@@ -61,7 +67,7 @@ export default function PersonalGallery({
     <div className={`relative ${className}`}>
       <motion.div
         className="grid grid-cols-2 gap-3 sm:grid-cols-3"
-        variants={gridContainerVariants} 
+        variants={gridContainerVariants}
       >
         {photos.map((p, i) => (
           <motion.button
@@ -72,18 +78,18 @@ export default function PersonalGallery({
               y: -6,
               rotateX: 2,
               rotateY: -2,
-              boxShadow: "0 0px 50px 2px rgba(56,189,248,0.30)",
+              boxShadow: "0 0px 50px 2px rgba(56,189,248,0.60)",
               transition: { duration: 0.25, ease: "easeOut" },
               borderColor: "rgba(56,189,248,0.60)",
               backgroundColor: "rgba(56,189,248,0.06)",
             }}
             className="overflow-hidden rounded-2xl border border-white/10 bg-white/5 p-0 cursor-pointer"
-            aria-label={figureTitle[i]}
+            aria-label={displayTitle[i] || altText[i] || undefined} // no “Foto N”
           >
             <div className="relative h-36 w-full">
               <Image
                 src={p.src}
-                alt={figureTitle[i]}
+                alt={altText[i]} // ALT real, no visible
                 fill
                 sizes="(min-width:1024px) 320px, (min-width: 768px) 220px, 150px"
                 className="object-cover"
@@ -101,7 +107,8 @@ export default function PersonalGallery({
       <FittedMediaOverlay
         isOpen={idx !== null}
         media={idx !== null ? mediaItems[idx] : null}
-        title={idx !== null ? figureTitle[idx] : "Galería personal"}
+        // Solo mostramos título si hay caption; si no, vacío (no se renderiza nada)
+        title={idx !== null ? (displayTitle[idx] ?? "") : "Galería personal"}
         closeLabel="Cerrar"
         onClose={() => setIdx(null)}
         footer={

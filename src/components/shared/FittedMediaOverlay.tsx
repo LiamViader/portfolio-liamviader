@@ -112,8 +112,9 @@ function InnerFittedOverlay({
     };
   }, [recalc]);
 
+  // ⬇️ SIN alt en la decisión de mostrar cabecera visible
   const hasCaption =
-    Boolean(buildMediaLabel(activeMedia) || activeMedia.description || activeMedia.alt) ||
+    Boolean(buildMediaLabel(activeMedia) || activeMedia.description || title) ||
     Boolean(footer);
 
   return (
@@ -125,14 +126,14 @@ function InnerFittedOverlay({
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0, pointerEvents: "none" }}
-      transition={{ duration: 0.2, ease: "easeOut" }}
+      transition={{ duration: 0.15, ease: "easeOut" }}
       onClick={onClose}
     >
       <motion.div
         className="relative flex w-auto max-w-[100svw] max-h-[100svh] flex-col overflow-y-auto overflow-x-hidden rounded-[28px] border border-white/10 bg-white/5 shadow-[0_30px_120px_rgba(10,15,35,0.75)]"
         initial={{ opacity: 0, scale: 0.96, y: 18 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
-        exit={{ opacity: 0, scale: 0.96, y: 18 }}
+        exit={{ opacity: 0, scale: 0.96, y: 18, transition: { duration: 0.1, ease: "easeIn" } }}
         transition={{ duration: 0.4, ease: "easeOut" }}
         onClick={(e) => e.stopPropagation()}
       >
@@ -172,9 +173,10 @@ function InnerFittedOverlay({
             ref={captionRef}
             className="shrink-0 space-y-2 border-t border-white/10 bg-slate-950/85 px-6 py-5"
           >
-            {(buildMediaLabel(activeMedia) || activeMedia.alt) && (
+            {/* ⬇️ Visible: SOLO title o buildMediaLabel, nunca alt */}
+            {(buildMediaLabel(activeMedia) || title) && (
               <p className="text-xs uppercase tracking-[0.35em] text-slate-100/80">
-                {buildMediaLabel(activeMedia) || activeMedia.alt}
+                {buildMediaLabel(activeMedia) || title}
               </p>
             )}
             {activeMedia.description && (
