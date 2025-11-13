@@ -60,7 +60,7 @@ export default function PersonalGallery({
 
   const gridContainerVariants: Variants = {
     hidden: {},
-    show: { transition: { staggerChildren: 0.15 } },
+    show: { transition: { staggerChildren: 0.1 } },
   };
 
   return (
