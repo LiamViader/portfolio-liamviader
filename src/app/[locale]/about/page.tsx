@@ -44,8 +44,14 @@ const BACKGROUND_OVERLAY = (
 const PERSONAL_INFO: PersonalInfo = {
   fullName: "Liam Viader Molina",
   birthdate: "2001-02-16",
-  city: "Barcelona, España",
-  languages: ["Catalán", "Español", "Inglés"],
+  city: {
+    es: "Barcelona, España",
+    en: "Barcelona, Spain",
+  },
+  languages: {
+    es: ["Catalán", "Español", "Inglés"],
+    en: ["Catalan", "Spanish", "English"],
+  },
 };
 
 const ACADEMIC_PATH: TimelineItem[] = [

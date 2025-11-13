@@ -32,7 +32,17 @@
     }
   },
   "AboutPage": {
-
+    "hero": {
+      "title": "Yo, como <highlight>persona</highlight> y como <highlight>profesional</highlight>",
+      "subtitle": "Esta página recoge un poco de contexto sobre quién soy, de dónde vengo y qué cosas me importan dentro y fuera del trabajo.",
+      "ctaProjects": "Ver proyectos",
+      "ctaContact": "Contacto",
+      "birthInfo": "{age} años · nacido el 16 de febrero de 2001.",
+      "locationInfo": "Actualmente vivo en un pueblo tranquilo cerca de Barcelona, donde nací y encuentro calma para pensar y construir. Estoy abierto a vivir en otro lugar si el proyecto y el momento encajan.",
+      "languagesTitle": "Idiomas",
+      "whatIDoTitle": "Qué hago",
+      "whatIDoInfo": "Ingeniero de software con enfoque técnico y creativo, cómodo tanto diseñando el sistema como construyéndolo."
+    }
   },
   "Metadata": {
     "title": "Portafolio - Liam Viader",
