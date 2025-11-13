@@ -103,7 +103,7 @@ export function PersonalSection() {
                 className="text-sm text-white/70 sm:text-base leading-relaxed pt-2"
                 variants={textItem}
               >
-                Y, en medio de todo esto, también están Neo e Iris —mi gato y mi perro—, que a veces se cuelan en mis fotos sin avisar.
+                Y, en medio de todo esto, están Neo e Iris —mi gato y mi perro—, que a veces se cuelan en mis fotos sin avisar.
               </motion.p>
             </motion.div>
           </motion.div>
@@ -111,15 +111,16 @@ export function PersonalSection() {
           <motion.div className="flex-1" variants={blockFadeUp}>
             <PersonalGallery
               photos={[
-                { src: "/images/personal_gallery/emporda_original.jpg"},
                 { src: "/images/personal_gallery/cala_arenys.jpg"},
-                { src: "/images/personal_gallery/pineta_liam_croped.jpg"},
+                { src: "/images/personal_gallery/neo_taula.jpg"},
+                { src: "/images/personal_gallery/llums_cel_alps.jpg"},
                 { src: "/images/personal_gallery/landscape_alps.jpg"},
                 { src: "/images/personal_gallery/posta_sol_pais_vasc.jpg"},
-                { src: "/images/personal_gallery/llums_cel_alps.jpg"},
-                { src: "/images/personal_gallery/llibres.jpg"},
+                { src: "/images/personal_gallery/emporda_original.jpg"},
+                { src: "/images/personal_gallery/pineta_liam_croped.jpg"},
                 { src: "/images/personal_gallery/iris_camps.jpg"},
-                { src: "/images/personal_gallery/neo_taula.jpg"},
+                { src: "/images/personal_gallery/llibres.jpg"},
+
               ]}
             />
             <motion.p

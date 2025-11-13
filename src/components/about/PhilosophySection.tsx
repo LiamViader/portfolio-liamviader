@@ -56,25 +56,25 @@ export function PhilosophySection() {
           variants={listVariants}
         >
           <InfoCard
-            title="Requisitos del sistema"
+            title="Listar requisitos"
             info="Casos de uso y restricciones claras. Delimito el alcance mínimo con ejemplos de entrada/salida."
             icon={<ListChecks className="h-5 w-5 text-sky-300" />}
           />
 
           <InfoCard
-            title="Diseño con diagramas"
+            title="Crear diagramas"
             info="Diagramas de flujo/actividad y clases para fijar límites, tener mejor visión global y detectar dependencias temprano."
             icon={<Workflow className="h-5 w-5 text-sky-300" />}
           />
 
           <InfoCard
-            title="Supuestos y riesgos"
+            title="Validar"
             info="Anoto supuestos y riesgos. Los valido con pruebas rápidas y preparo un plan B si no se cumplen."
             icon={<AlertTriangle className="h-5 w-5 text-sky-300" />}
           />
 
           <InfoCard
-            title="Prototipado rápido"
+            title="Prototipar"
             info="Primero prototipo módulos críticos con interfaces claras; después una bala trazadora que recorre todo el sistema; luego iteraciones de refinado."
             icon={<Rocket className="h-5 w-5 text-sky-300" />}
           />
