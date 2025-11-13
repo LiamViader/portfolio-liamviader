@@ -55,7 +55,6 @@ export function HeroSection({ personalInfo, age }: HeroSectionProps) {
       <div className="relative mx-auto flex w-full max-w-6xl flex-col gap-10">
         <div className="flex flex-col-reverse gap-8 lg:flex-row items-center lg:gap-16">
           <div className="flex-1 space-y-8">
-            {/* Título con el mismo efecto de hover que la home */}
             <motion.h1
               variants={titleVariants}
               initial="initial"
