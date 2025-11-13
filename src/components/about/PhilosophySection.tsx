@@ -26,28 +26,28 @@ const listVariants: Variants = {
 const PHILOSOPHY_ITEMS = [
   {
     icon: <ListChecks className="h-5 w-5 text-sky-300" />,
-    titleKey: "items.requirements.title",
-    descriptionKey: "items.requirements.description",
-  },
-  {
-    icon: <Workflow className="h-5 w-5 text-sky-300" />,
-    titleKey: "items.diagrams.title",
-    descriptionKey: "items.diagrams.description",
+    titleKey: "philosophySection.items.requirements.title",
+    descriptionKey: "philosophySection.items.requirements.description",
   },
   {
     icon: <AlertTriangle className="h-5 w-5 text-sky-300" />,
-    titleKey: "items.validate.title",
-    descriptionKey: "items.validate.description",
+    titleKey: "philosophySection.items.validate.title",
+    descriptionKey: "philosophySection.items.validate.description",
+  },
+  {
+    icon: <Workflow className="h-5 w-5 text-sky-300" />,
+    titleKey: "philosophySection.items.diagrams.title",
+    descriptionKey: "philosophySection.items.diagrams.description",
   },
   {
     icon: <Rocket className="h-5 w-5 text-sky-300" />,
-    titleKey: "items.prototype.title",
-    descriptionKey: "items.prototype.description",
+    titleKey: "philosophySection.items.prototype.title",
+    descriptionKey: "philosophySection.items.prototype.description",
   },
 ];
 
 export function PhilosophySection() {
-  const t = useTranslations("AboutPage.philosophySection");
+  const t = useTranslations("AboutPage");
 
   return (
     <motion.section
@@ -66,13 +66,13 @@ export function PhilosophySection() {
             className="text-2xl font-semibold text-white sm:text-3xl"
             variants={headerItem}
           >
-            {t("title")}
+            {t("philosophySection.title")}
           </motion.h2>
           <motion.p
             className="text-sm text-white/70 sm:text-base leading-relaxed"
             variants={headerItem}
           >
-            {t("subtitle")}
+            {t("philosophySection.subtitle")}
           </motion.p>
         </motion.div>
 

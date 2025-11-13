@@ -115,25 +115,55 @@ export default function PersonalGallery({
           idx !== null && (
             <div className="mt-4 flex items-center justify-between">
               <div className="flex gap-2">
-                <button
+                <motion.button
+                  type="button"
+                  animate={{
+                    scale: 1,
+                    backgroundColor: "rgba(0,0,0,0.2)",
+                  }}
+                  whileHover={{
+                    scale: 1.06,
+                    backgroundColor: "rgba(100,100,100,0.18)",
+                  }}
+                  whileTap={{
+                    scale: 0.94,
+                    backgroundColor: "rgba(50,50,50,0.18)",
+                  }}
+                  transition={{ duration: 0.15, ease: "easeOut" }}
                   onClick={() =>
                     setIdx((s) =>
                       s === null ? null : (s - 1 + photos.length) % photos.length
                     )
                   }
                   className="rounded-md border border-white/10 bg-black/20 px-3 py-2 text-sm text-white/80"
+                  aria-label="Imagen anterior"
                 >
                   ←
-                </button>
+                </motion.button>
 
-                <button
+                <motion.button
+                  type="button"
+                  animate={{
+                    scale: 1,
+                    backgroundColor: "rgba(0,0,0,0.2)",
+                  }}
+                  whileHover={{
+                    scale: 1.06,
+                    backgroundColor: "rgba(100,100,100,0.18)",
+                  }}
+                  whileTap={{
+                    scale: 0.94,
+                    backgroundColor: "rgba(50,50,50,0.18)",
+                  }}
+                  transition={{ duration: 0.15, ease: "easeOut" }}
                   onClick={() =>
                     setIdx((s) => (s === null ? null : (s + 1) % photos.length))
                   }
                   className="rounded-md border border-white/10 bg-black/20 px-3 py-2 text-sm text-white/80"
+                  aria-label="Imagen siguiente"
                 >
                   →
-                </button>
+                </motion.button>
               </div>
 
               <div className="text-xs text-white/60">

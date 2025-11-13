@@ -45,45 +45,45 @@
     },
     "techStack": {
       "title": "Technologies and tools",
-      "description": "A quick look at the technologies I'm comfortable working with.",
-      "note": "Tools like <highlight>TensorFlow</highlight> and <highlight>Scikit-Learn</highlight> are ones I've mostly used in learning-driven projects: an image classifier built with convolutional networks, small supervised and unsupervised machine-learning experiments, and a few optimization projects. I wouldn't call myself an expert, but I do have a solid hands-on foundation and keep digging deeper."
+      "description": "A quick look at the technologies I feel comfortable working with.",
+      "note": "I've mostly used tools like <highlight>TensorFlow</highlight> and <highlight>Scikit-Learn</highlight> in learning-oriented projects: an image classifier built with convolutional networks, small supervised and unsupervised machine-learning experiments, and a few optimization projects. I wouldn't call myself an expert, but I do have a solid hands-on foundation and I'm continuing to go deeper."
     },
     "trajectory": {
-      "title": "Academic path and experience",
-      "description": "So far my journey includes a game design and development degree, an initial applied research internship, and lots of self-directed learning. I prefer to focus on a handful of things at a time but go deep, so each stage truly reshapes how I think and how I work.",
+      "title": "Academic background and experience",
+      "description": "So far, my journey includes a degree in video game design and development, an initial internship in applied research, and many hours of self-taught learning. I prefer to focus on a few things at a time but dive into them deeply, making sure each stage truly reshapes how I think and how I work.",
       "academicTitle": "Academic background",
       "experienceTitle": "Professional experience"
     },
     "personalSection": {
       "title": "Beyond the code",
       "paragraphs": {
-        "first": "I've always been someone who overthinks things — I think, analyze, connect ideas, and often find myself imagining solutions or systems I won't end up building. I enjoy reflecting on very different topics, from philosophy to art or technology, and that constant curiosity says a lot about who I am.",
-        "second": "That's why I keep creating even in my free time. Sometimes I write or sketch, other times I design imaginary systems or small software projects I feel like exploring. I don't always aim for a tangible outcome; sometimes I just want to chase an idea.",
-        "third": "But being so mentally active can be exhausting, so I need to move to disconnect. I love walking through the city, the mountains, or the fields near where I live. Sometimes it's just a routine walk to recharge; other times I wander without a destination to find new places that surprise me. I like being there when the sun starts fading and the sky paints itself with color. I also go to the gym, run, or ride my bike — moments where my body takes over and my mind finally slows down.",
-        "fourth": "I also find inspiration in quiet moments. I enjoy reading — anything from books on programming, AI, or system design to philosophy essays or fantasy novels — and getting lost in a good video game. Both help me learn, get inspired, and discover new ways to think and create.",
-        "fifth": "And in the middle of all this are Neo and Iris — my cat and dog — who like to sneak into my photos without warning."
+        "first": "My mind never really stops. I ponder, analyze, connect ideas, and often catch myself imagining solutions or systems I'll never actually build. I enjoy reflecting on all kinds of topics —from philosophical questions to thoughts about art or technology— and I think this constant curiosity says a lot about who I am.",
+        "second": "So even in my free time I keep creating. Sometimes I write or sketch, other times I design imaginary systems or small software projects I want to play around with. I'm not always aiming for something tangible —sometimes it's just about exploring an idea.",
+        "third": "But sometimes being so mentally active wears me out, and I need to move to disconnect. I love walking —through the city, in the mountains, or across the fields and hills just outside where I live—; sometimes it's just a quick walk to recharge and clear my head, and other times I take my time, wandering aimlessly and discovering new places that surprise me. I like being there when the sun starts to fade and the sky shifts in color. I also go to the gym, go for a run, or take the bike out; those are the moments when I let my body take the lead and my mind can finally slow down a little.",
+        "fourth": "I also find inspiration in quieter moments. I enjoy reading —from books on programming, artificial intelligence, or system design to philosophy essays or fantasy fiction— and sometimes getting lost in a good video game. Both help me learn, get inspired, and discover new ways of thinking and creating.",
+        "fifth": "And in the middle of all this are Neo and Iris —my cat and my dog— who sometimes sneak into my photos without warning."
       },
-      "galleryHint": "Tap on a photo to view it larger."
+      "galleryHint": "Click on a photo to view it in full size."
     },
     "philosophySection": {
       "title": "How I think and how I work",
-      "subtitle": "My approach to designing, building, and maintaining.",
+      "subtitle": "The way I design, build, and maintain.",
       "items": {
         "requirements": {
           "title": "List requirements",
-          "description": "Clear use cases and constraints. I define the minimum scope with input/output examples."
+          "description": "Clear use cases and constraints. I define the minimum scope with concrete examples."
         },
         "diagrams": {
-          "title": "Create diagrams",
-          "description": "Flow/activity and class diagrams to set boundaries, get a better global view, and detect dependencies early."
+          "title": "Create Diagrams",
+          "description": "Flow/activity and class diagrams to set boundaries, get a clearer big-picture view, and detect dependencies early."
         },
         "validate": {
           "title": "Validate",
-          "description": "I note assumptions and risks, validate them with quick tests, and prepare a plan B if they break."
+          "description": "I note assumptions and risks, validate them with quick tests, and prepare a plan B if they don't hold up."
         },
         "prototype": {
           "title": "Prototype",
-          "description": "I prototype critical modules with clear interfaces, then build a tracer bullet across the whole system, and iterate from there."
+          "description": "I first prototype critical modules with clear interfaces; then I build a tracer bullet that runs through the whole system; and finally I iterate on that foundation."
         }
       }
     }
