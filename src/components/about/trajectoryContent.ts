@@ -12,26 +12,8 @@ export const ACADEMIC_PATH: TimelineItem[] = [
       en: "University of Girona (UdG)",
     },
     description: {
-      es: (
-        <>
-          Media final de <span className="font-semibold text-sky-300/90">9,07</span> y{" "}
-          <span className="font-semibold text-sky-300/90">18 matrículas de honor</span>{" "}
-          durante el grado. Es una carrera muy centrada en informática
-          (programación, estructuras de datos, arquitectura de software, redes,
-          IA, cloud computing, informática gráfica, visión por computador...) y
-          una parte aplicada a videojuegos y al diseño de sistemas interactivos.
-        </>
-      ),
-      en: (
-        <>
-          Graduated with a <span className="font-semibold text-sky-300/90">9.07</span> GPA
-          and <span className="font-semibold text-sky-300/90">18 honors distinctions</span>{" "}
-          across the program. The degree is strongly rooted in computer science
-          (programming, data structures, software architecture, networking, AI,
-          cloud computing, computer graphics, computer vision...) with a hands-on
-          focus on video games and interactive system design.
-        </>
-      ),
+      es: "Media final de <highlight>9,07</highlight> y <highlight>18 matrículas de honor</highlight> durante el grado. Es una carrera muy centrada en informática (programación, estructuras de datos, arquitectura de software, redes, IA, cloud computing, informática gráfica, visión por computador...) y una parte aplicada a videojuegos y al diseño de sistemas interactivos.",
+      en: "Graduated with a <highlight>9.07</highlight> GPA and <highlight>18 honors distinctions</highlight> across the program. The degree is strongly rooted in computer science (programming, data structures, software architecture, networking, AI, cloud computing, computer graphics, computer vision...) with a hands-on focus on video games and interactive system design.",
     },
   },
 ];

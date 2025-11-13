@@ -1,4 +1,3 @@
-import { type ReactNode } from "react";
 import { type Locale } from "@/i18n/routing";
 
 export type PersonalInfo = {
@@ -12,7 +11,7 @@ export type TimelineItem = {
   period: string;
   title: Record<Locale, string>;
   place: Record<Locale, string>;
-  description?: Record<Locale, ReactNode>;
+  description?: Record<Locale, string>;
 };
 
 export type TechIcon = {

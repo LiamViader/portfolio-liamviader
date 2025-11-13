@@ -1,6 +1,6 @@
 "use client";
 
-import { type ReactNode } from "react";
+import { Fragment, type ReactNode } from "react";
 import { motion, type Variants } from "framer-motion";
 import { Briefcase, GraduationCap } from "lucide-react";
 import { useLocale, useTranslations } from "next-intl";
@@ -152,6 +152,58 @@ const getLocalizedValue = <T,>(
   return value[locale] ?? value.en;
 };
 
+type RichTextSegment =
+  | { type: "text"; content: string }
+  | { type: "highlight"; content: string };
+
+const highlightRegex = /<highlight>(.*?)<\/highlight>/g;
+
+function parseRichText(text: string): RichTextSegment[] {
+  const segments: RichTextSegment[] = [];
+  let lastIndex = 0;
+  let match: RegExpExecArray | null;
+  highlightRegex.lastIndex = 0;
+
+  while ((match = highlightRegex.exec(text)) !== null) {
+    if (match.index > lastIndex) {
+      segments.push({ type: "text", content: text.slice(lastIndex, match.index) });
+    }
+
+    segments.push({ type: "highlight", content: match[1] ?? "" });
+    lastIndex = match.index + match[0].length;
+  }
+
+  if (lastIndex < text.length) {
+    segments.push({ type: "text", content: text.slice(lastIndex) });
+  }
+
+  return segments;
+}
+
+type RichTextProps = {
+  text: string;
+};
+
+function RichText({ text }: RichTextProps) {
+  const segments = parseRichText(text);
+
+  return (
+    <>
+      {segments.map((segment, index) => {
+        if (segment.type === "highlight") {
+          return (
+            <span key={`highlight-${index}`} className="font-semibold text-sky-300/90">
+              {segment.content}
+            </span>
+          );
+        }
+
+        return <Fragment key={`text-${index}`}>{segment.content}</Fragment>;
+      })}
+    </>
+  );
+}
+
 type TimelineProps = {
   items: TimelineItem[];
   icon: ReactNode;
@@ -232,7 +284,7 @@ function Timeline({ items, icon, locale }: TimelineProps) {
                   variants={pathCardInnerVariants}
                   className="mt-2 text-[15px] text-white/60 leading-relaxed"
                 >
-                  {getLocalizedValue(item.description, locale)}
+                  <RichText text={getLocalizedValue(item.description, locale)!} />
                 </motion.p>
               ) : null}
             </motion.div>
