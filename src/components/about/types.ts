@@ -1,10 +1,11 @@
 import { type ReactNode } from "react";
+import { type Locale } from "@/i18n/routing";
 
 export type PersonalInfo = {
   fullName: string;
   birthdate: string;
-  city: string;
-  languages: string[];
+  city: Record<Locale, string>;
+  languages: Record<Locale, string[]>;
 };
 
 export type TimelineItem = {

@@ -32,7 +32,17 @@
     }
   },
   "AboutPage": {
-    
+    "hero": {
+      "title": "Me, as a <highlight>person</highlight> and as a <highlight>professional</highlight>",
+      "subtitle": "This page offers a bit of context about who I am, where I come from, and the things that matter to me in and out of work.",
+      "ctaProjects": "Explore projects",
+      "ctaContact": "Contact",
+      "birthInfo": "{age} years old · born on February 16, 2001.",
+      "locationInfo": "I currently live in a quiet town near Barcelona, where I was born and find the calm to think and build. I'm open to moving elsewhere if the project and timing feel right.",
+      "languagesTitle": "Languages",
+      "whatIDoTitle": "What I do",
+      "whatIDoInfo": "Software engineer with a technical and creative focus, comfortable designing the system as well as building it."
+    }
   },
   "Metadata": {
     "title": "Portfolio - Liam Viader",

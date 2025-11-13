@@ -4,12 +4,15 @@ import { motion, useAnimationControls } from "framer-motion";
 import { useEffect, useState } from "react";
 import { Languages, MapPin, Sparkles, User2 } from "lucide-react";
 
+import { useTranslations, useLocale } from "next-intl";
+
 import { InfoCard } from "@/components/home/InfoCard";
 import { SkyButton, WhiteButton } from "@/components/home/Buttons";
 import { BASE_DELAY_ENTRANCE } from "@/utils/constants";
 
 import { AboutPortrait } from "./AboutPortrait";
 import { type PersonalInfo } from "./types";
+import { type Locale } from "@/i18n/routing";
 
 type HeroSectionProps = {
   personalInfo: PersonalInfo;
@@ -39,6 +42,11 @@ const titleVariants = {
 export function HeroSection({ personalInfo, age }: HeroSectionProps) {
   const controls = useAnimationControls();
   const [ready, setReady] = useState(false);
+  const t = useTranslations("AboutPage.hero");
+  const locale = useLocale() as Locale;
+
+  const localizedLanguages = personalInfo.languages[locale] ?? [];
+  const localizedCity = personalInfo.city[locale] ?? personalInfo.city.en;
 
   useEffect(() => {
     controls.start("animate", {
@@ -70,8 +78,11 @@ export function HeroSection({ personalInfo, age }: HeroSectionProps) {
               }}
               className="text-pretty text-4xl font-semibold tracking-tight text-white/95 sm:text-5xl md:text-6xl text-center lg:text-left"
             >
-              Yo, como <span className="text-sky-300">persona</span> y como{" "}
-              <span className="text-sky-300">profesional</span>
+              {t.rich("title", {
+                highlight: (chunks) => (
+                  <span className="text-sky-300">{chunks}</span>
+                ),
+              })}
             </motion.h1>
 
             <motion.p
@@ -84,8 +95,7 @@ export function HeroSection({ personalInfo, age }: HeroSectionProps) {
               }}
               className="lg:max-w-2xl text-pretty text-lg text-white/70 sm:text-xl text-center lg:text-left"
             >
-              Esta página recoge un poco de contexto sobre quién soy, de dónde
-              vengo y qué cosas me importan dentro y fuera del trabajo.
+              {t("subtitle")}
             </motion.p>
 
             <motion.div
@@ -98,8 +108,11 @@ export function HeroSection({ personalInfo, age }: HeroSectionProps) {
               }}
               className="flex w-full flex-wrap justify-center gap-4 lg:justify-start"
             >
-              <SkyButton href="/projects" text="Ver proyectos" />
-              <WhiteButton href="/contact" text="Contacto" />
+              <SkyButton
+                href="/projects"
+                text={t("ctaProjects")}
+              />
+              <WhiteButton href="/contact" text={t("ctaContact")} />
             </motion.div>
           </div>
 
@@ -126,25 +139,25 @@ export function HeroSection({ personalInfo, age }: HeroSectionProps) {
         >
           <InfoCard
             title={personalInfo.fullName}
-            info={`${age} años · nacido el 16 de febrero de 2001.`}
+            info={t("birthInfo", { age })}
             icon={<User2 className="h-6 w-6 text-sky-300" />}
           />
 
           <InfoCard
-            title={personalInfo.city}
-            info="Actualmente vivo en un pueblo tranquilo cerca de Barcelona, donde nací y encuentro calma para pensar y construir. Estoy abierto vivir en otro lugar si el proyecto y el momento encajan."
+            title={localizedCity}
+            info={t("locationInfo")}
             icon={<MapPin className="h-6 w-6 text-sky-300" />}
           />
 
           <InfoCard
-            title="Idiomas"
-            info={personalInfo.languages.join(" · ")}
+            title={t("languagesTitle")}
+            info={localizedLanguages.join(" · ")}
             icon={<Languages className="h-6 w-6 text-sky-300" />}
           />
 
           <InfoCard
-            title="Qué hago"
-            info="Ingeniero de software con enfoque técnico y creativo, cómodo tanto diseñando el sistema como construyéndolo."
+            title={t("whatIDoTitle")}
+            info={t("whatIDoInfo")}
             icon={<Sparkles className="h-6 w-6 text-sky-300" />}
           />
         </motion.ul>
