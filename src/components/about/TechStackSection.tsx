@@ -2,6 +2,7 @@
 
 import { motion, type Variants } from "framer-motion";
 import Image from "next/image";
+import { useTranslations } from "next-intl";
 
 import { type TechIcon } from "./types";
 
@@ -60,6 +61,8 @@ type TechStackSectionProps = {
 };
 
 export function TechStackSection({ techStack }: TechStackSectionProps) {
+  const t = useTranslations("AboutPage.techStack");
+
   return (
     <motion.section
       className="relative px-4 pb-20 pt-10 sm:px-6 lg:px-12 lg:pb-24 lg:pt-16 mx-0"
@@ -78,16 +81,15 @@ export function TechStackSection({ techStack }: TechStackSectionProps) {
           className="flex flex-col gap-3 lg:flex-row lg:items-end lg:justify-between"
           variants={techTextVariants}
         >
-          <div>
-            <h2 className="text-2xl font-semibold text-white sm:text-3xl">
-              Tecnologías y herramientas
-            </h2>
-            <p className="mt-2 max-w-5xl text-sm text-pretty text-white/70 sm:text-base">
-              Un vistazo rápido a las tecnologías con las que me siento
-              cómodo trabajando.
-            </p>
-          </div>
-        </motion.div>
+            <div>
+              <h2 className="text-2xl font-semibold text-white sm:text-3xl">
+                {t("title")}
+              </h2>
+              <p className="mt-2 max-w-5xl text-sm text-pretty text-white/70 sm:text-base">
+                {t("description")}
+              </p>
+            </div>
+          </motion.div>
 
         <motion.div
           className="grid gap-4 grid-cols-[repeat(auto-fit,minmax(90px,1fr))]"
@@ -127,18 +129,17 @@ export function TechStackSection({ techStack }: TechStackSectionProps) {
           ))}
         </motion.div>
 
-        <motion.p
-          className="mt-3 text-xs text-white/55 sm:text-[13px] leading-relaxed"
-          variants={techTextVariants}
-        >
-          Algunas herramientas como <span className="font-medium text-sky-300/60">TensorFlow</span> y{" "}
-          <span className="font-medium text-sky-300/60">Scikit-Learn</span> las he usado sobre todo en proyectos de aprendizaje: un clasificador
-          de imágenes con redes convolucionales, pequeños experimentos de
-          machine learning supervisado y no supervisado y algún proyecto de
-          optimización. No me considero experto, pero sí tengo una base
-          práctica sólida y sigo profundizando.
-        </motion.p>
-      </motion.div>
-    </motion.section>
-  );
-}
+          <motion.p
+            className="mt-3 text-xs text-white/55 sm:text-[13px] leading-relaxed"
+            variants={techTextVariants}
+          >
+            {t.rich("note", {
+              highlight: (chunks) => (
+                <span className="font-medium text-sky-300/60">{chunks}</span>
+              ),
+            })}
+          </motion.p>
+        </motion.div>
+      </motion.section>
+    );
+  }
