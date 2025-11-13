@@ -11,7 +11,7 @@ const imageVariants: Variants = {
   hidden: { y: 0, opacity: 0, scale: 0.9, boxShadow: `${RING}, ${BASE_GLOW}` },
   intro: {
     y: 0, opacity: 1, scale: 1, boxShadow: `${RING}, ${BASE_GLOW}`,
-    transition: { duration: 0.6, ease: easeOut, delay: BASE_DELAY_ENTRANCE+0.3 },
+    transition: { duration: 0.7, ease: easeOut, delay: BASE_DELAY_ENTRANCE+0.3},
   },
   show: {
     y: 0, opacity: 1, scale: 1, boxShadow: `${RING}, ${BASE_GLOW}`,

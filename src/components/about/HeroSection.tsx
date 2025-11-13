@@ -1,6 +1,7 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, useAnimationControls } from "framer-motion";
+import { useEffect, useState } from "react";
 import { Languages, MapPin, Sparkles, User2 } from "lucide-react";
 
 import { InfoCard } from "@/components/home/InfoCard";
@@ -15,7 +16,37 @@ type HeroSectionProps = {
   age: number;
 };
 
+const titleVariants = {
+  initial: {
+    opacity: 0,
+    y: 20,
+    scale: 1,
+    filter: "drop-shadow(0 0 12px rgba(56,189,248,0.01))",
+  },
+  animate: {
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    filter: "drop-shadow(0 0 12px rgba(56,189,248,0.12))",
+  },
+  hover: {
+    scale: 1.02,
+    y: -2,
+    filter: "drop-shadow(0 0 12px rgba(56,189,248,0.35))",
+  },
+};
+
 export function HeroSection({ personalInfo, age }: HeroSectionProps) {
+  const controls = useAnimationControls();
+  const [ready, setReady] = useState(false);
+
+  useEffect(() => {
+    controls.start("animate", {
+      delay: BASE_DELAY_ENTRANCE + 0.1,
+      duration: 0.7,
+    });
+  }, [controls]);
+
   return (
     <section className="relative overflow-hidden px-4 pb-16 pt-28 sm:px-6 lg:px-12 lg:pb-20 lg:pt-36 md:min-h-[950px]">
       <div className="absolute inset-0 bg-gradient-to-b from-gray-950/10 via-gray-950/50 to-gray-950" />
@@ -24,13 +55,19 @@ export function HeroSection({ personalInfo, age }: HeroSectionProps) {
       <div className="relative mx-auto flex w-full max-w-6xl flex-col gap-10">
         <div className="flex flex-col-reverse gap-8 lg:flex-row items-center lg:gap-16">
           <div className="flex-1 space-y-8">
+            {/* Título con el mismo efecto de hover que la home */}
             <motion.h1
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{
-                duration: 0.7,
-                ease: "easeOut",
-                delay: BASE_DELAY_ENTRANCE + 0.1,
+              variants={titleVariants}
+              initial="initial"
+              animate={controls}
+              onAnimationComplete={() => setReady(true)}
+              onHoverStart={() => {
+                if (!ready) return;
+                controls.start("hover", { duration: 0.25 });
+              }}
+              onHoverEnd={() => {
+                if (!ready) return;
+                controls.start("animate", { duration: 0.2 });
               }}
               className="text-pretty text-4xl font-semibold tracking-tight text-white/95 sm:text-5xl md:text-6xl text-center lg:text-left"
             >
