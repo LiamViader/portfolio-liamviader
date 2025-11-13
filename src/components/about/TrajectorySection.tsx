@@ -70,7 +70,7 @@ const pathListVariants: Variants = {
   hidden: {},
   show: {
     transition: {
-      staggerChildren: 0.5,
+      staggerChildren: 0.1,
     },
   },
 };

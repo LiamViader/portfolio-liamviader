@@ -50,7 +50,7 @@ const techGridVariants: Variants = {
   hidden: {},
   show: {
     transition: {
-      staggerChildren: 0.04,
+      staggerChildren: 0.02,
     },
   },
 };
