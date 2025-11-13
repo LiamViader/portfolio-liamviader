@@ -42,6 +42,17 @@
       "languagesTitle": "Idiomas",
       "whatIDoTitle": "Qué hago",
       "whatIDoInfo": "Ingeniero de software con enfoque técnico y creativo, cómodo tanto diseñando el sistema como construyéndolo."
+    },
+    "techStack": {
+      "title": "Tecnologías y herramientas",
+      "description": "Un vistazo rápido a las tecnologías con las que me siento cómodo trabajando.",
+      "note": "Algunas herramientas como <highlight>TensorFlow</highlight> y <highlight>Scikit-Learn</highlight> las he usado sobre todo en proyectos de aprendizaje: un clasificador de imágenes con redes convolucionales, pequeños experimentos de machine learning supervisado y no supervisado y algún proyecto de optimización. No me considero experto, pero sí tengo una base práctica sólida y sigo profundizando."
+    },
+    "trajectory": {
+      "title": "Trayectoria académica y experiencia",
+      "description": "De momento mi recorrido pasa por un grado en videojuegos, unas primeras prácticas en investigación aplicada y muchas horas de aprendizaje autodidacta. Prefiero centrarme en pocas cosas a la vez, pero trabajarlas a fondo, de forma que cada etapa cambie de verdad cómo pienso y cómo trabajo.",
+      "academicTitle": "Formación académica",
+      "experienceTitle": "Experiencia profesional"
     }
   },
   "Metadata": {

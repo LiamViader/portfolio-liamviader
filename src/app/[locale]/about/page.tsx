@@ -9,8 +9,11 @@ import { PhilosophySection } from "@/components/about/PhilosophySection";
 import {
   type PersonalInfo,
   type TechIcon,
-  type TimelineItem,
 } from "@/components/about/types";
+import {
+  ACADEMIC_PATH,
+  EXPERIENCE_PATH,
+} from "@/components/about/trajectoryContent";
 
 const BACKGROUND_LAYERS = [
   {
@@ -53,34 +56,6 @@ const PERSONAL_INFO: PersonalInfo = {
     en: ["Catalan", "Spanish", "English"],
   },
 };
-
-const ACADEMIC_PATH: TimelineItem[] = [
-  {
-    period: "2020 - 2025",
-    title: "Grado en Diseño y Desarrollo de Videojuegos",
-    place: "Universitat de Girona (UdG)",
-    description: (
-      <>
-        Media final de <span className="font-semibold text-sky-300/90">9,07</span> y{" "}
-        <span className="font-semibold text-sky-300/90">18 matrículas de honor</span>{" "}
-        durante el grado. Es una carrera muy centrada en informática
-        (programación, estructuras de datos, arquitectura de software, redes,
-        IA, cloud computing, informática gráfica, visión por computador...) y
-        una parte aplicada a videojuegos y al diseño de sistemas interactivos.
-      </>
-    ),
-  },
-];
-
-const EXPERIENCE_PATH: TimelineItem[] = [
-  {
-    period: "Jun 2024 - Sep 2024",
-    title: "Desarrollador de software (prácticas)",
-    place: "Grup de recerca eXiT · Universitat de Girona",
-    description:
-      "Proyecto en Python desarrollado en solitario: diseño e implementación desde cero de un simulador de comunidades energéticas. Modelado de hogares con distintos activos y patrones de uso configurables, generación de perfiles de consumo y producción y algoritmos para repartir energía y calcular costes dentro de la comunidad.",
-  },
-];
 
 const TECH_STACK: TechIcon[] = [
   { id: "csharp", label: "C#", iconSrc: "/icons/csharp.svg" },

@@ -1,9 +1,11 @@
 "use client";
 
-import { type ReactNode } from "react";
+import { Fragment, type ReactNode } from "react";
 import { motion, type Variants } from "framer-motion";
 import { Briefcase, GraduationCap } from "lucide-react";
+import { useLocale, useTranslations } from "next-intl";
 
+import { type Locale } from "@/i18n/routing";
 import { type TimelineItem } from "./types";
 
 const pathSectionContainerVariants: Variants = {
@@ -142,12 +144,73 @@ const pathCardInnerVariants: Variants = {
   },
 };
 
+const getLocalizedValue = <T,>(
+  value: Record<Locale, T> | undefined,
+  locale: Locale,
+) => {
+  if (!value) return undefined;
+  return value[locale] ?? value.en;
+};
+
+type RichTextSegment =
+  | { type: "text"; content: string }
+  | { type: "highlight"; content: string };
+
+const highlightRegex = /<highlight>(.*?)<\/highlight>/g;
+
+function parseRichText(text: string): RichTextSegment[] {
+  const segments: RichTextSegment[] = [];
+  let lastIndex = 0;
+  let match: RegExpExecArray | null;
+  highlightRegex.lastIndex = 0;
+
+  while ((match = highlightRegex.exec(text)) !== null) {
+    if (match.index > lastIndex) {
+      segments.push({ type: "text", content: text.slice(lastIndex, match.index) });
+    }
+
+    segments.push({ type: "highlight", content: match[1] ?? "" });
+    lastIndex = match.index + match[0].length;
+  }
+
+  if (lastIndex < text.length) {
+    segments.push({ type: "text", content: text.slice(lastIndex) });
+  }
+
+  return segments;
+}
+
+type RichTextProps = {
+  text: string;
+};
+
+function RichText({ text }: RichTextProps) {
+  const segments = parseRichText(text);
+
+  return (
+    <>
+      {segments.map((segment, index) => {
+        if (segment.type === "highlight") {
+          return (
+            <span key={`highlight-${index}`} className="font-semibold text-sky-300/90">
+              {segment.content}
+            </span>
+          );
+        }
+
+        return <Fragment key={`text-${index}`}>{segment.content}</Fragment>;
+      })}
+    </>
+  );
+}
+
 type TimelineProps = {
   items: TimelineItem[];
   icon: ReactNode;
+  locale: Locale;
 };
 
-function Timeline({ items, icon }: TimelineProps) {
+function Timeline({ items, icon, locale }: TimelineProps) {
   return (
     <div className="relative pl-0">
       <motion.span
@@ -165,7 +228,7 @@ function Timeline({ items, icon }: TimelineProps) {
       <motion.ul className="space-y-6" variants={pathListVariants}>
         {items.map((item, index) => (
           <motion.li
-            key={`${item.title}-${index}`}
+            key={`${item.period}-${index}`}
             className="relative pl-6"
             variants={pathItemShellVariants}
           >
@@ -206,22 +269,22 @@ function Timeline({ items, icon }: TimelineProps) {
                 variants={pathCardInnerVariants}
                 className="text-[17px] font-semibold text-white"
               >
-                {item.title}
+                {getLocalizedValue(item.title, locale)}
               </motion.p>
 
               <motion.p
                 variants={pathCardInnerVariants}
                 className="text-[13px] text-white/60"
               >
-                {item.place}
+                {getLocalizedValue(item.place, locale)}
               </motion.p>
 
-              {item.description ? (
+              {getLocalizedValue(item.description, locale) ? (
                 <motion.p
                   variants={pathCardInnerVariants}
                   className="mt-2 text-[15px] text-white/60 leading-relaxed"
                 >
-                  {item.description}
+                  <RichText text={getLocalizedValue(item.description, locale)!} />
                 </motion.p>
               ) : null}
             </motion.div>
@@ -241,6 +304,9 @@ export function TrajectorySection({
   academicPath,
   experiencePath,
 }: TrajectorySectionProps) {
+  const t = useTranslations("AboutPage.trajectory");
+  const locale = useLocale() as Locale;
+
   return (
     <motion.section
       className="relative px-4 pb-20 pt-10 sm:px-6 lg:px-12 lg:pb-24 lg:pt-20"
@@ -256,14 +322,10 @@ export function TrajectorySection({
       >
         <motion.div className="space-y-3" variants={pathHeaderVariants}>
           <h2 className="text-2xl font-semibold text-white sm:text-3xl">
-            Trayectoria académica y experiencia
+            {t("title")}
           </h2>
           <p className="text-sm max-w-4xl text-white/70 sm:text-base">
-            De momento mi recorrido pasa por un grado en videojuegos, unas
-            primeras prácticas en investigación aplicada y muchas horas de
-            aprendizaje autodidacta. Prefiero centrarme en pocas cosas a la vez,
-            pero trabajarlas a fondo, de forma que cada etapa cambie
-            de verdad cómo pienso y cómo trabajo.
+            {t("description")}
           </p>
         </motion.div>
 
@@ -277,11 +339,12 @@ export function TrajectorySection({
               variants={pathColumnHeaderVariants}
             >
               <GraduationCap className="h-4 w-4 text-sky-300" />
-              <span>Formación académica</span>
+              <span>{t("academicTitle")}</span>
             </motion.div>
             <Timeline
               items={academicPath}
               icon={<GraduationCap className="h-3.5 w-3.5 text-sky-200" />}
+              locale={locale}
             />
           </motion.div>
 
@@ -291,11 +354,12 @@ export function TrajectorySection({
               variants={pathColumnHeaderVariants}
             >
               <Briefcase className="h-4 w-4 text-sky-300" />
-              <span>Experiencia profesional</span>
+              <span>{t("experienceTitle")}</span>
             </motion.div>
             <Timeline
               items={experiencePath}
               icon={<Briefcase className="h-3.5 w-3.5 text-sky-200" />}
+              locale={locale}
             />
           </motion.div>
         </motion.div>

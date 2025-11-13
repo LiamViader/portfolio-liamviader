@@ -42,6 +42,17 @@
       "languagesTitle": "Languages",
       "whatIDoTitle": "What I do",
       "whatIDoInfo": "Software engineer with a technical and creative focus, comfortable designing the system as well as building it."
+    },
+    "techStack": {
+      "title": "Technologies and tools",
+      "description": "A quick look at the technologies I'm comfortable working with.",
+      "note": "Tools like <highlight>TensorFlow</highlight> and <highlight>Scikit-Learn</highlight> are ones I've mostly used in learning-driven projects: an image classifier built with convolutional networks, small supervised and unsupervised machine-learning experiments, and a few optimization projects. I wouldn't call myself an expert, but I do have a solid hands-on foundation and keep digging deeper."
+    },
+    "trajectory": {
+      "title": "Academic path and experience",
+      "description": "So far my journey includes a game design and development degree, an initial applied research internship, and lots of self-directed learning. I prefer to focus on a handful of things at a time but go deep, so each stage truly reshapes how I think and how I work.",
+      "academicTitle": "Academic background",
+      "experienceTitle": "Professional experience"
     }
   },
   "Metadata": {
