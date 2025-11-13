@@ -42,7 +42,7 @@ const titleVariants = {
 export function HeroSection({ personalInfo, age }: HeroSectionProps) {
   const controls = useAnimationControls();
   const [ready, setReady] = useState(false);
-  const t = useTranslations("AboutPage.hero");
+  const t = useTranslations("AboutPage");
   const locale = useLocale() as Locale;
 
   const localizedLanguages = personalInfo.languages[locale] ?? [];
@@ -78,7 +78,7 @@ export function HeroSection({ personalInfo, age }: HeroSectionProps) {
               }}
               className="text-pretty text-4xl font-semibold tracking-tight text-white/95 sm:text-5xl md:text-6xl text-center lg:text-left"
             >
-              {t.rich("title", {
+              {t.rich("hero.title", {
                 highlight: (chunks) => (
                   <span className="text-sky-300">{chunks}</span>
                 ),
@@ -95,7 +95,7 @@ export function HeroSection({ personalInfo, age }: HeroSectionProps) {
               }}
               className="lg:max-w-2xl text-pretty text-lg text-white/70 sm:text-xl text-center lg:text-left"
             >
-              {t("subtitle")}
+              {t("hero.subtitle")}
             </motion.p>
 
             <motion.div
@@ -110,9 +110,9 @@ export function HeroSection({ personalInfo, age }: HeroSectionProps) {
             >
               <SkyButton
                 href="/projects"
-                text={t("ctaProjects")}
+                text={t("hero.ctaProjects")}
               />
-              <WhiteButton href="/contact" text={t("ctaContact")} />
+              <WhiteButton href="/contact" text={t("hero.ctaContact")} />
             </motion.div>
           </div>
 
@@ -139,25 +139,25 @@ export function HeroSection({ personalInfo, age }: HeroSectionProps) {
         >
           <InfoCard
             title={personalInfo.fullName}
-            info={t("birthInfo", { age })}
+            info={t("hero.birthInfo", { age })}
             icon={<User2 className="h-6 w-6 text-sky-300" />}
           />
 
           <InfoCard
             title={localizedCity}
-            info={t("locationInfo")}
+            info={t("hero.locationInfo")}
             icon={<MapPin className="h-6 w-6 text-sky-300" />}
           />
 
           <InfoCard
-            title={t("languagesTitle")}
+            title={t("hero.languagesTitle")}
             info={localizedLanguages.join(" · ")}
             icon={<Languages className="h-6 w-6 text-sky-300" />}
           />
 
           <InfoCard
-            title={t("whatIDoTitle")}
-            info={t("whatIDoInfo")}
+            title={t("hero.whatIDoTitle")}
+            info={t("hero.whatIDoInfo")}
             icon={<Sparkles className="h-6 w-6 text-sky-300" />}
           />
         </motion.ul>
