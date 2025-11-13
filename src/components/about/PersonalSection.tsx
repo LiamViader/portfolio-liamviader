@@ -1,5 +1,6 @@
 import PersonalGallery from "./PersonalGallery";
 import { motion, type Variants } from "framer-motion";
+import { useTranslations } from "next-intl";
 
 const sectionVariants: Variants = {
   hidden: {},
@@ -35,7 +36,17 @@ const textItem: Variants = {
   show: { opacity: 1, y: 0, transition: { duration: 0.55, ease: "easeOut" } },
 };
 
+const PARAGRAPH_KEYS = [
+  "paragraphs.first",
+  "paragraphs.second",
+  "paragraphs.third",
+  "paragraphs.fourth",
+  "paragraphs.fifth",
+];
+
 export function PersonalSection() {
+  const t = useTranslations("AboutPage.personalSection");
+
   return (
     <motion.section
       className="relative px-4 pb-20 pt-10 sm:px-6 lg:px-12 lg:pb-24 lg:pt-20"
@@ -51,60 +62,21 @@ export function PersonalSection() {
           className="text-2xl font-semibold text-white sm:text-3xl"
           variants={textItem}
         >
-          Más allá del código
+          {t("title")}
         </motion.h2>
         <div className="flex flex-col gap-10 lg:flex-row lg:items-center">
           {/* Bloque de texto: entra con fade+stagger de cada elemento */}
           <motion.div className="flex-1 space-y-4" variants={blockFadeUp}>
             <motion.div variants={textGroup}>
-
-              <motion.p
-                className="text-sm text-white/70 sm:text-base leading-relaxed pt-3"
-                variants={textItem}
-              >
-                Siempre he sido una persona que le da muchas vueltas a las cosas. Pienso, analizo, conecto ideas, 
-                y muchas veces me descubro imaginando soluciones o sistemas que ni siquiera voy a construir. 
-                Me gusta reflexionar sobre temas muy distintos —desde cuestiones filosóficas hasta ideas sobre arte o tecnología—, 
-                y creo que esa curiosidad constante define bastante mi forma de ser.
-              </motion.p>
-
-              <motion.p
-                className="text-sm text-white/70 sm:text-base leading-relaxed pt-2"
-                variants={textItem}
-              >
-                Por eso incluso en mi tiempo libre sigo creando. A veces simplemente escribo o dibujo, 
-                otras diseño sistemas imaginarios o pequeños proyectos de software que me apetece explorar.
-                No siempre busco un resultado tangible, a veces solo pretendo explorar una idea.
-              </motion.p>
-
-              <motion.p
-                className="text-sm text-white/60 sm:text-base leading-relaxed pt-2"
-                variants={textItem}
-              >
-                Pero a veces estar tan activo mentalmente me agota y necesito moverme para desconectar. 
-                Me encanta caminar: por la ciudad, por la montaña, por los campos y montes a las afueras de donde vivo. 
-                A veces solo es un paseo rutinario para recargar energía y volver más despejado; 
-                otras me tomo mi tiempo para caminar sin rumbo y descubrir nuevos lugares que me sorprendan. 
-                Me gusta estar presente cuando el sol empieza a desvanecerse y el cielo nos deleita con sus pinceladas más coloridas. 
-                También suelo ir al gimnasio, salir a correr o hacer algo de bici; son momentos en los que dejo que el cuerpo tome el protagonismo 
-                y la mente, por fin, se calme un poco.
-              </motion.p>
-
-              <motion.p
-                className="text-sm text-white/70 sm:text-base leading-relaxed pt-2"
-                variants={textItem}
-              >
-                También encuentro inspiración en momentos más tranquilos. Me gusta leer —desde libros sobre programación, inteligencia artificial o diseño de sistemas, 
-                hasta ensayos de filosofía o narrativa fantástica— y a veces perderme en un buen videojuego. 
-                Ambos me sirven para aprender, para inspirarme y para descubrir nuevas formas de pensar y crear.
-              </motion.p>
-
-              <motion.p
-                className="text-sm text-white/70 sm:text-base leading-relaxed pt-2"
-                variants={textItem}
-              >
-                Y, en medio de todo esto, están Neo e Iris —mi gato y mi perro—, que a veces se cuelan en mis fotos sin avisar.
-              </motion.p>
+              {PARAGRAPH_KEYS.map((paragraphKey) => (
+                <motion.p
+                  key={paragraphKey}
+                  className="text-sm text-white/70 sm:text-base leading-relaxed pt-3 first:pt-3 [&:not(:first-child)]:pt-2"
+                  variants={textItem}
+                >
+                  {t(paragraphKey)}
+                </motion.p>
+              ))}
             </motion.div>
           </motion.div>
 
@@ -127,7 +99,7 @@ export function PersonalSection() {
               className="mt-3 text-xs text-white/50 text-center"
               variants={textItem}
             >
-              Haz clic en una foto para verla ampliada.
+              {t("galleryHint")}
             </motion.p>
           </motion.div>
         </div>

@@ -1,6 +1,7 @@
 import { motion, type Variants } from "framer-motion";
 import { InfoCard } from "../home/InfoCard";
 import { ListChecks, Workflow, AlertTriangle, Rocket } from "lucide-react";
+import { useTranslations } from "next-intl";
 
 const sectionVariants: Variants = {
   hidden: {},
@@ -22,7 +23,32 @@ const listVariants: Variants = {
   show: { transition: { staggerChildren: 0.08, delayChildren: 0.05 } },
 };
 
+const PHILOSOPHY_ITEMS = [
+  {
+    icon: <ListChecks className="h-5 w-5 text-sky-300" />,
+    titleKey: "items.requirements.title",
+    descriptionKey: "items.requirements.description",
+  },
+  {
+    icon: <Workflow className="h-5 w-5 text-sky-300" />,
+    titleKey: "items.diagrams.title",
+    descriptionKey: "items.diagrams.description",
+  },
+  {
+    icon: <AlertTriangle className="h-5 w-5 text-sky-300" />,
+    titleKey: "items.validate.title",
+    descriptionKey: "items.validate.description",
+  },
+  {
+    icon: <Rocket className="h-5 w-5 text-sky-300" />,
+    titleKey: "items.prototype.title",
+    descriptionKey: "items.prototype.description",
+  },
+];
+
 export function PhilosophySection() {
+  const t = useTranslations("AboutPage.philosophySection");
+
   return (
     <motion.section
       className="relative px-4 pb-24 pt-10 sm:px-6 lg:px-12 lg:pb-32 lg:pt-20"
@@ -40,13 +66,13 @@ export function PhilosophySection() {
             className="text-2xl font-semibold text-white sm:text-3xl"
             variants={headerItem}
           >
-            Cómo pienso y cómo trabajo
+            {t("title")}
           </motion.h2>
           <motion.p
             className="text-sm text-white/70 sm:text-base leading-relaxed"
             variants={headerItem}
           >
-            Mi manera de diseñar, construir y mantener.
+            {t("subtitle")}
           </motion.p>
         </motion.div>
 
@@ -55,29 +81,14 @@ export function PhilosophySection() {
           className="grid gap-4 md:grid-cols-2 lg:grid-cols-4"
           variants={listVariants}
         >
-          <InfoCard
-            title="Listar requisitos"
-            info="Casos de uso y restricciones claras. Delimito el alcance mínimo con ejemplos de entrada/salida."
-            icon={<ListChecks className="h-5 w-5 text-sky-300" />}
-          />
-
-          <InfoCard
-            title="Crear diagramas"
-            info="Diagramas de flujo/actividad y clases para fijar límites, tener mejor visión global y detectar dependencias temprano."
-            icon={<Workflow className="h-5 w-5 text-sky-300" />}
-          />
-
-          <InfoCard
-            title="Validar"
-            info="Anoto supuestos y riesgos. Los valido con pruebas rápidas y preparo un plan B si no se cumplen."
-            icon={<AlertTriangle className="h-5 w-5 text-sky-300" />}
-          />
-
-          <InfoCard
-            title="Prototipar"
-            info="Primero prototipo módulos críticos con interfaces claras; después una bala trazadora que recorre todo el sistema; luego iteraciones de refinado."
-            icon={<Rocket className="h-5 w-5 text-sky-300" />}
-          />
+          {PHILOSOPHY_ITEMS.map((item) => (
+            <InfoCard
+              key={item.titleKey}
+              title={t(item.titleKey)}
+              info={t(item.descriptionKey)}
+              icon={item.icon}
+            />
+          ))}
         </motion.ul>
       </div>
     </motion.section>

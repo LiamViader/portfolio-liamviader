@@ -53,6 +53,39 @@
       "description": "So far my journey includes a game design and development degree, an initial applied research internship, and lots of self-directed learning. I prefer to focus on a handful of things at a time but go deep, so each stage truly reshapes how I think and how I work.",
       "academicTitle": "Academic background",
       "experienceTitle": "Professional experience"
+    },
+    "personalSection": {
+      "title": "Beyond the code",
+      "paragraphs": {
+        "first": "I've always been someone who overthinks things — I think, analyze, connect ideas, and often find myself imagining solutions or systems I won't end up building. I enjoy reflecting on very different topics, from philosophy to art or technology, and that constant curiosity says a lot about who I am.",
+        "second": "That's why I keep creating even in my free time. Sometimes I write or sketch, other times I design imaginary systems or small software projects I feel like exploring. I don't always aim for a tangible outcome; sometimes I just want to chase an idea.",
+        "third": "But being so mentally active can be exhausting, so I need to move to disconnect. I love walking through the city, the mountains, or the fields near where I live. Sometimes it's just a routine walk to recharge; other times I wander without a destination to find new places that surprise me. I like being there when the sun starts fading and the sky paints itself with color. I also go to the gym, run, or ride my bike — moments where my body takes over and my mind finally slows down.",
+        "fourth": "I also find inspiration in quiet moments. I enjoy reading — anything from books on programming, AI, or system design to philosophy essays or fantasy novels — and getting lost in a good video game. Both help me learn, get inspired, and discover new ways to think and create.",
+        "fifth": "And in the middle of all this are Neo and Iris — my cat and dog — who like to sneak into my photos without warning."
+      },
+      "galleryHint": "Tap on a photo to view it larger."
+    },
+    "philosophySection": {
+      "title": "How I think and how I work",
+      "subtitle": "My approach to designing, building, and maintaining.",
+      "items": {
+        "requirements": {
+          "title": "List requirements",
+          "description": "Clear use cases and constraints. I define the minimum scope with input/output examples."
+        },
+        "diagrams": {
+          "title": "Create diagrams",
+          "description": "Flow/activity and class diagrams to set boundaries, get a better global view, and detect dependencies early."
+        },
+        "validate": {
+          "title": "Validate",
+          "description": "I note assumptions and risks, validate them with quick tests, and prepare a plan B if they break."
+        },
+        "prototype": {
+          "title": "Prototype",
+          "description": "I prototype critical modules with clear interfaces, then build a tracer bullet across the whole system, and iterate from there."
+        }
+      }
     }
   },
   "Metadata": {

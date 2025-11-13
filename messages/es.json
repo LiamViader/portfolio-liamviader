@@ -53,6 +53,39 @@
       "description": "De momento mi recorrido pasa por un grado en videojuegos, unas primeras prácticas en investigación aplicada y muchas horas de aprendizaje autodidacta. Prefiero centrarme en pocas cosas a la vez, pero trabajarlas a fondo, de forma que cada etapa cambie de verdad cómo pienso y cómo trabajo.",
       "academicTitle": "Formación académica",
       "experienceTitle": "Experiencia profesional"
+    },
+    "personalSection": {
+      "title": "Más allá del código",
+      "paragraphs": {
+        "first": "Siempre he sido una persona que le da muchas vueltas a las cosas. Pienso, analizo, conecto ideas, y muchas veces me descubro imaginando soluciones o sistemas que ni siquiera voy a construir. Me gusta reflexionar sobre temas muy distintos —desde cuestiones filosóficas hasta ideas sobre arte o tecnología—, y creo que esa curiosidad constante define bastante mi forma de ser.",
+        "second": "Por eso incluso en mi tiempo libre sigo creando. A veces simplemente escribo o dibujo, otras diseño sistemas imaginarios o pequeños proyectos de software que me apetece explorar. No siempre busco un resultado tangible, a veces solo pretendo explorar una idea.",
+        "third": "Pero a veces estar tan activo mentalmente me agota y necesito moverme para desconectar. Me encanta caminar: por la ciudad, por la montaña, por los campos y montes a las afueras de donde vivo. A veces solo es un paseo rutinario para recargar energía y volver más despejado; otras me tomo mi tiempo para caminar sin rumbo y descubrir nuevos lugares que me sorprendan. Me gusta estar presente cuando el sol empieza a desvanecerse y el cielo nos deleita con sus pinceladas más coloridas. También suelo ir al gimnasio, salir a correr o hacer algo de bici; son momentos en los que dejo que el cuerpo tome el protagonismo y la mente, por fin, se calme un poco.",
+        "fourth": "También encuentro inspiración en momentos más tranquilos. Me gusta leer —desde libros sobre programación, inteligencia artificial o diseño de sistemas, hasta ensayos de filosofía o narrativa fantástica— y a veces perderme en un buen videojuego. Ambos me sirven para aprender, para inspirarme y para descubrir nuevas formas de pensar y crear.",
+        "fifth": "Y, en medio de todo esto, están Neo e Iris —mi gato y mi perro—, que a veces se cuelan en mis fotos sin avisar."
+      },
+      "galleryHint": "Haz clic en una foto para verla ampliada."
+    },
+    "philosophySection": {
+      "title": "Cómo pienso y cómo trabajo",
+      "subtitle": "Mi manera de diseñar, construir y mantener.",
+      "items": {
+        "requirements": {
+          "title": "Listar requisitos",
+          "description": "Casos de uso y restricciones claras. Delimito el alcance mínimo con ejemplos de entrada/salida."
+        },
+        "diagrams": {
+          "title": "Crear diagramas",
+          "description": "Diagramas de flujo/actividad y clases para fijar límites, tener mejor visión global y detectar dependencias temprano."
+        },
+        "validate": {
+          "title": "Validar",
+          "description": "Anoto supuestos y riesgos. Los valido con pruebas rápidas y preparo un plan B si no se cumplen."
+        },
+        "prototype": {
+          "title": "Prototipar",
+          "description": "Primero prototipo módulos críticos con interfaces claras; después una bala trazadora que recorre todo el sistema; luego iteraciones de refinado."
+        }
+      }
     }
   },
   "Metadata": {
