@@ -10,9 +10,9 @@ export type PersonalInfo = {
 
 export type TimelineItem = {
   period: string;
-  title: string;
-  place: string;
-  description?: ReactNode;
+  title: Record<Locale, string>;
+  place: Record<Locale, string>;
+  description?: Record<Locale, ReactNode>;
 };
 
 export type TechIcon = {
