@@ -82,7 +82,7 @@ export function ProjectModalContent({
         type="button"
         onClick={onClose}
         aria-label={closeAriaLabel}
-        className="group absolute cursor-pointer top-3 right-3 z-[1000001] inline-flex h-11 w-11 items-center justify-center rounded-full bg-gray-950/90 text-white shadow-[0_3px_14px_rgba(0,0,0,1)] backdrop-blur ring-2 ring-gray-600"
+        className="group absolute cursor-pointer top-3 right-3 z-[1000001] inline-flex h-11 w-11 items-center justify-center rounded-full bg-gray-950/90 text-white shadow-[0_3px_14px_rgba(0,0,0,1)] ring-2 ring-gray-600"
         initial={{ opacity: 0, scale: 0.92, y: -6 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
         exit={{ opacity: 0, scale: 0.92, y: -6 }}
@@ -106,14 +106,14 @@ export function ProjectModalContent({
       <div ref={scrollRef} className="relative flex-1 overflow-auto no-scrollbar">
         <div className="px-7 py-8 md:px-7 lg:px-8">
           <motion.header
-            className="relative overflow-hidden rounded-[36px] border border-white/20 bg-slate-900/45 px-7 py-6 shadow-[0_18px_48px_rgba(8,15,28,0.55)] backdrop-blur-xl md:px-10"
+            className="relative overflow-hidden rounded-[36px] border border-white/20 bg-white/4 px-7 py-6 shadow-[0_18px_48px_rgba(0,0,0,0.55)] md:px-10"
             variants={modalItemVariants2}
             initial="hidden"
             animate={animationState}
           >
             {heroMedia && (
               <motion.div
-                className="absolute inset-0 mix-blend-luminosity saturate-20"
+                className="absolute inset-0 mix-blend-luminosity saturate-30"
                 variants={heroMediaVariants}
                 initial="hidden"
                 animate={animationState}
@@ -123,7 +123,7 @@ export function ProjectModalContent({
                   alt={heroAlt}
                   className="h-full w-full object-cover opacity-30"
                 />
-                <div className="absolute inset-0 bg-gradient-to-br from-slate-950/40 via-slate-800/20 to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-br from-slate-950/10 via-transparent to-white/4" />
               </motion.div>
             )}
 
@@ -164,7 +164,7 @@ export function ProjectModalContent({
             animate={animationState}
           >
             <motion.article
-              className="space-y-8 rounded-[26px] border border-white/20 bg-slate-900/40 p-8 shadow-[0_18px_48px_rgba(8,15,28,0.55)] backdrop-blur"
+              className="space-y-8 rounded-[26px] border border-white/20 bg-white/4 p-8 shadow-[0_18px_48px_rgba(8,15,28,0.55)]"
               variants={modalItemVariants}
               initial="hidden"
               animate={animationState}
@@ -193,7 +193,7 @@ export function ProjectModalContent({
               animate={animationState}
             >
               <motion.div
-                className="rounded-[26px] border border-white/20 bg-slate-900/45 p-6 shadow-[0_12px_36px_rgba(8,15,28,0.45)] backdrop-blur-xl md:flex-auto md:min-w-0"
+                className="rounded-[26px] border border-white/20 bg-white/4 p-6 shadow-[0_12px_36px_rgba(8,15,28,0.45)] md:flex-auto md:min-w-0"
                 variants={modalItemVariants}
                 initial="hidden"
                 animate={animationState}
@@ -205,7 +205,7 @@ export function ProjectModalContent({
                   {tags.map((tag, idx) => (
                     <motion.span
                       key={`${project.id}-tag-${idx}`}
-                      className="rounded-full border border-sky-300/30 bg-gradient-to-r from-sky-500/20 via-sky-400/10 to-transparent px-3.5 py-1 text-sm font-medium text-sky-100/90 shadow-[0_5px_14px_rgba(56,189,248,0.25)]"
+                      className="rounded-full border border-white/30 bg-white/10 px-3.5 py-1 text-sm font-medium text-sky-100/90 shadow-[0_5px_14px_rgba(0,0,0,0.15)]"
                       whileHover={{ scale: 1.06 }}
                       transition={{ duration: 0.25 }}
                     >
@@ -217,7 +217,7 @@ export function ProjectModalContent({
 
               {(project.github_url || project.live_url) && (
                 <motion.div
-                  className="rounded-[26px] border border-sky-400/40 bg-gradient-to-br from-sky-500/22 via-sky-400/12 to-transparent p-6 shadow-[0_12px_32px_rgba(14,116,144,0.45)] backdrop-blur-xl md:flex-auto md:min-w-[250px]"
+                  className="rounded-[26px] border border-sky-400/40 bg-gradient-to-br from-sky-500/22 via-sky-400/13 to-transparent p-6 shadow-[0_12px_32px_rgba(0,0,0,0.25)] md:flex-auto md:min-w-[250px]"
                   variants={modalItemVariants}
                   initial="hidden"
                   animate={animationState}

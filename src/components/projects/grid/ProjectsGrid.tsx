@@ -29,12 +29,16 @@ const itemVariants: Variants = {
 };
 
 export default function ProjectsGrid({ projects }: ProjectsGridProps) {
-  const { selected, revealOrigin, selectProject, closeProject, markOriginRevealed } = useProjectSelection();
+  const { selected, revealOrigin, selectProject, closeProject, markOriginRevealed } =
+    useProjectSelection();
 
   return (
     <>
       <LayoutGroup id="projects">
-        <motion.div layoutRoot className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 p-4">
+        <motion.div
+          layoutRoot
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 p-4"
+        >
           <AnimatePresence initial={false} mode="popLayout">
             {projects.map((project) => (
               <motion.div
@@ -49,7 +53,11 @@ export default function ProjectsGrid({ projects }: ProjectsGridProps) {
                 <ProjectCard
                   project={project}
                   onSelect={selectProject}
-                  isHidden={Boolean(selected && selected.project.id === project.id && !revealOrigin)}
+                  isHidden={Boolean(
+                    selected &&
+                      selected.project.id === project.id &&
+                      !revealOrigin,
+                  )}
                 />
               </motion.div>
             ))}
@@ -59,6 +67,7 @@ export default function ProjectsGrid({ projects }: ProjectsGridProps) {
 
       {selected && (
         <ProjectModalPortal
+          key={selected.project.id}
           project={selected.project}
           originRect={selected.rect}
           originEl={selected.el}

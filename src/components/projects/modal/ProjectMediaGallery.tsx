@@ -89,9 +89,6 @@ export function ProjectMediaGallery({
                         src={previewSource}
                         alt={item.alt ?? fallbackTitle}
                         className="h-full w-full object-cover will-change-transform"
-                        initial={{ scale: 1.01 }}
-                        whileHover={{ scale: 1.04 }}
-                        transition={{ duration: 0.45, ease: "easeOut" }}
                       />
                     ) : item.type === "video" ? (
                       <video

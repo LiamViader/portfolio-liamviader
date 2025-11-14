@@ -13,7 +13,7 @@ import { useProjectSelection } from "../grid/hooks/useProjectSelection";
 import {
   FeaturedCarousel,
   type FeaturedCarouselLayoutOptions,
-  type FeaturedCarouselTypographyOptions
+  type FeaturedCarouselTypographyOptions,
 } from "./FeaturedCarousel";
 
 interface FeaturedProjectsProps {
@@ -26,7 +26,6 @@ interface FeaturedProjectsProps {
 }
 
 type CardRegistry = Map<number, HTMLElement>;
-
 type CardRefRegister = (projectId: number) => (node: HTMLElement | null) => void;
 
 export default function FeaturedProjects({
@@ -43,7 +42,8 @@ export default function FeaturedProjects({
     [projects],
   );
 
-  const { selected, revealOrigin, selectProject, closeProject, markOriginRevealed } = useProjectSelection();
+  const { selected, revealOrigin, selectProject, closeProject, markOriginRevealed } =
+    useProjectSelection();
 
   const cardRefs = useRef<CardRegistry>(new Map());
 
@@ -64,9 +64,7 @@ export default function FeaturedProjects({
     (project: TranslatedProject) => {
       const element = cardRefs.current.get(project.id);
 
-      if (!element) {
-        return;
-      }
+      if (!element) return;
 
       const rect = measureStableRect(element);
       selectProject(project, rect, element);
@@ -76,10 +74,7 @@ export default function FeaturedProjects({
 
   const selectedProjectId = selected?.project.id;
 
-  if (featuredProjects.length === 0) {
-    return null;
-  }
-
+  if (featuredProjects.length === 0) return null;
 
   return (
     <section className={clsx("relative w-full", className)}>
@@ -103,6 +98,7 @@ export default function FeaturedProjects({
 
       {selected && (
         <ProjectModalPortal
+          key={selected.project.id}
           project={selected.project}
           originRect={selected.rect}
           originEl={selected.el}

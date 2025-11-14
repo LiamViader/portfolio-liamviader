@@ -1,7 +1,5 @@
 import { RefObject, useCallback, useEffect, useRef, useState } from "react";
-
 import { useAnimation } from "framer-motion";
-
 import { measureStableRect } from "@/utils/measureStableRect";
 
 type Controls = ReturnType<typeof useAnimation>;
@@ -35,7 +33,20 @@ export function useProjectModalTransition({
   const [closing, setClosing] = useState(false);
   const [passThrough, setPassThrough] = useState(false);
 
+  const isMountedRef = useRef(false);
+  const closeRafRef = useRef<number | null>(null);
+  const followRafRef = useRef<number | null>(null);
+
+  // ⚠️ CLAVE: cada vez que “abrimos” de nuevo (nuevo originRect / originEl),
+  // arrancamos un ciclo nuevo de modal, así que reseteamos flags.
   useEffect(() => {
+    setClosing(false);
+    setPassThrough(false);
+  }, [originRect, originEl]);
+
+  useEffect(() => {
+    isMountedRef.current = true;
+
     const modalWidth = Math.min(window.innerWidth - 48, 960);
     const modalHeight = Math.min(window.innerHeight - 100, 850);
     const targetLeft = Math.max(24, (window.innerWidth - modalWidth) / 2);
@@ -65,8 +76,14 @@ export function useProjectModalTransition({
       y: 0,
       scaleX: 1,
       scaleY: 1,
-      transition: { duration: 0.45, ease: [0.4, 0, 0.2, 1] },
+      transition: { duration: 0.35, ease: [0.4, 0, 0.2, 1] },
     });
+
+    return () => {
+      isMountedRef.current = false;
+      if (closeRafRef.current != null) cancelAnimationFrame(closeRafRef.current);
+      if (followRafRef.current != null) cancelAnimationFrame(followRafRef.current);
+    };
   }, [controls, originRect]);
 
   const handleClose = useCallback(async () => {
@@ -90,20 +107,33 @@ export function useProjectModalTransition({
       scaleY: 1,
     });
 
-    const duration = 300;
+    const duration = 250;
     const startTime = performance.now();
 
     await new Promise<void>((resolve) => {
       const tick = (now: number) => {
+        if (!isMountedRef.current) {
+          resolve();
+          return;
+        }
+
         const t = Math.min(1, (now - startTime) / duration);
         const k = easeOutCubic(t);
 
-        const live = originEl ? measureStableRect(originEl) : originRect;
+        let live: DOMRect = originRect;
+        try {
+          if (originEl && originEl.isConnected) {
+            live = measureStableRect(originEl);
+          }
+        } catch {
+          resolve();
+          return;
+        }
 
         const tx = live.left - baseRect.left;
         const ty = live.top - baseRect.top;
-        const sx = live.width / baseRect.width;
-        const sy = live.height / baseRect.height;
+        const sx = live.width / baseRect.width || 1;
+        const sy = live.height / baseRect.height || 1;
 
         controls.set({
           x: tx * k,
@@ -113,33 +143,50 @@ export function useProjectModalTransition({
           opacity: 1,
         });
 
-        if (t < 1) requestAnimationFrame(tick);
-        else resolve();
+        if (t < 1) {
+          closeRafRef.current = requestAnimationFrame(tick);
+        } else {
+          resolve();
+        }
       };
-      requestAnimationFrame(tick);
+
+      closeRafRef.current = requestAnimationFrame(tick);
     });
 
     onRevealOrigin?.();
 
     let follow = true;
     const followLoop = () => {
-      if (!follow) return;
-      const live = originEl ? measureStableRect(originEl) : originRect;
+      if (!follow || !isMountedRef.current) return;
+
+      if (!originEl || !originEl.isConnected) {
+        follow = false;
+        return;
+      }
+
+      let live: DOMRect;
+      try {
+        live = measureStableRect(originEl);
+      } catch {
+        follow = false;
+        return;
+      }
+
       const tx = live.left - baseRect.left;
       const ty = live.top - baseRect.top;
-      const sx = live.width / baseRect.width;
-      const sy = live.height / baseRect.height;
-      controls.set({ x: tx, y: ty, scaleX: sx, scaleY: sy });
-      requestAnimationFrame(followLoop);
-    };
-    requestAnimationFrame(followLoop);
+      const sx = live.width / baseRect.width || 1;
+      const sy = live.height / baseRect.height || 1;
 
-    await controls.start({
-      opacity: 0,
-      transition: { duration: 0.25, ease: "easeIn" },
-    });
+      controls.set({ x: tx, y: ty, scaleX: sx, scaleY: sy });
+
+      followRafRef.current = requestAnimationFrame(followLoop);
+    };
+
+    followRafRef.current = requestAnimationFrame(followLoop);
 
     follow = false;
+    if (followRafRef.current != null) cancelAnimationFrame(followRafRef.current);
+
     onClose();
   }, [closing, controls, originEl, originRect, onClose, onRevealOrigin]);
 
