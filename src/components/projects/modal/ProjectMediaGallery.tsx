@@ -115,8 +115,8 @@ export function ProjectMediaGallery({
                 </motion.button>
 
                 {hasCaptionContent && (
-                  <div className="relative z-10 -mt-1 px-0 pb-0">
-                    <figcaption className="relative space-y-1.5 border border-white/12 bg-slate-950/85 px-5 py-4 text-left shadow-[0_18px_38px_rgba(6,12,30,0.65)] backdrop-blur">
+                  <div className="relative z-10 px-0 pb-0">
+                    <figcaption className="relative space-y-1.5 bg-slate-950/85 px-5 py-4 text-left shadow-[0_18px_38px_rgba(6,12,30,0.65)] backdrop-blur">
                       {(figureLabel || item.alt) && (
                         <p className="text-[0.68rem] font-semibold uppercase tracking-[0.35em] text-slate-100/75">
                           {figureLabel || item.alt}

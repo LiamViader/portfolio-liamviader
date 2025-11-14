@@ -106,14 +106,14 @@ export function ProjectModalContent({
       <div ref={scrollRef} className="relative flex-1 overflow-auto no-scrollbar">
         <div className="px-7 py-8 md:px-7 lg:px-8">
           <motion.header
-            className="relative overflow-hidden rounded-[36px] border border-white/20 bg-white/4 px-7 py-6 shadow-[0_18px_48px_rgba(0,0,0,0.55)] md:px-10"
+            className="relative overflow-hidden rounded-[36px] border border-white/20 bg-white/4 px-7 py-6 shadow-[0_18px_48px_rgba(8,15,28,0.55)] md:px-10"
             variants={modalItemVariants2}
             initial="hidden"
             animate={animationState}
           >
             {heroMedia && (
               <motion.div
-                className="absolute inset-0 mix-blend-luminosity saturate-30"
+                className="absolute inset-0 mix-blend-luminosity saturate-10"
                 variants={heroMediaVariants}
                 initial="hidden"
                 animate={animationState}
