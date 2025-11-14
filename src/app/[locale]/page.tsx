@@ -37,6 +37,13 @@ const BACKGROUND_LAYERS = [
   },
 ];
 
+const BACKGROUND_OVERLAY = (
+  <>
+    <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(125,211,252,0.1),_transparent_55%)]" />
+    <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-gray-950/5 via-gray-950/15 to-gray-950/20" />
+  </>
+);
+
 export default function Home() {
   const t = useTranslations("HomePage");
   const locale = useLocale();
@@ -46,9 +53,7 @@ export default function Home() {
   const metricKeys: Array<"ai" | "videogames" | "system_design"> = ["ai", "videogames", "system_design"];
   return (
     <PageLayout
-      className="bg-gray-900"
-      contentClassName="bg-gray-950/70"
-      overlays={null}
+      overlays={BACKGROUND_OVERLAY}
       backgroundLayers={BACKGROUND_LAYERS}
     >
       <section className="relative overflow-hidden px-4 md:px-8 pb-14 pt-28 lg:py-34 shadow-[0_40px_50px_-40px_rgba(56,189,248,0.2)] mb-0 md:min-h-[900px]">
