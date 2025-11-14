@@ -135,7 +135,7 @@ export default function PersonalGallery({
                       s === null ? null : (s - 1 + photos.length) % photos.length
                     )
                   }
-                  className="rounded-md border border-white/10 bg-black/20 px-3 py-2 text-sm text-white/80"
+                  className="rounded-md border border-white/10 bg-black/20 px-3 py-2 text-sm text-white/80 cursor-pointer"
                   aria-label="Imagen anterior"
                 >
                   ←
@@ -159,7 +159,7 @@ export default function PersonalGallery({
                   onClick={() =>
                     setIdx((s) => (s === null ? null : (s + 1) % photos.length))
                   }
-                  className="rounded-md border border-white/10 bg-black/20 px-3 py-2 text-sm text-white/80"
+                  className="rounded-md border border-white/10 bg-black/20 px-3 py-2 text-sm text-white/80 cursor-pointer"
                   aria-label="Imagen siguiente"
                 >
                   →
