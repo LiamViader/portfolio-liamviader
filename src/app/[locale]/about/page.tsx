@@ -23,8 +23,7 @@ const BACKGROUND_LAYERS = [
     hue: 240,
     hueJitter: 5,
     s: 75,
-    l: 1,
-    className: "opacity-85",
+    l: 0,
   },
   {
     id: "secondary",

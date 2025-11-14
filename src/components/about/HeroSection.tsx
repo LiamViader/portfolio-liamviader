@@ -57,7 +57,7 @@ export function HeroSection({ personalInfo, age }: HeroSectionProps) {
 
   return (
     <section className="relative overflow-hidden px-4 pb-16 pt-28 sm:px-6 lg:px-12 lg:pb-20 lg:pt-36 md:min-h-[950px]">
-      <div className="absolute inset-0 bg-gradient-to-b from-gray-950/10 via-gray-950/50 to-gray-950" />
+      <div className="absolute inset-0 bg-gradient-to-b from-gray-950/5 via-gray-950/50 to-gray-950" />
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(56,189,248,0.05),_transparent_50%)]" />
 
       <div className="relative mx-auto flex w-full max-w-6xl flex-col gap-10">
