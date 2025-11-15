@@ -171,9 +171,13 @@ export function ProjectModalContent({
             >
               <div className="space-y-4 text-left">
                 <h2 className="text-2xl font-semibold text-white text-center md:text-left">{t("overviewTitle")}</h2>
-                <p className="whitespace-pre-line text-base leading-relaxed text-white/65 text-justify">
-                  {project.full_description}
-                </p>
+                <div className="space-y-3 text-base leading-relaxed text-white/65 text-justify">
+                  {project.full_description
+                    .split(/\n+/)
+                    .map((paragraph, i) => (
+                      <p key={i}>{paragraph}</p>
+                    ))}
+                </div>
               </div>
 
               {project.detailed_media?.length ? (
