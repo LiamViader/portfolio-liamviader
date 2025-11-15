@@ -109,7 +109,7 @@ export default function ProjectCard({ project, onSelect, isHidden = false }: Pro
         <div className="relative h-48 w-full overflow-hidden">
           <motion.div
             variants={mediaVariants}
-            className="absolute inset-0"
+            className="absolute inset-0 border-b border-white/10"
             style={{ transformOrigin: "center" }}
             transition={{duration: 0.4}}
           >
@@ -131,18 +131,16 @@ export default function ProjectCard({ project, onSelect, isHidden = false }: Pro
 
       <motion.div
         variants={contentVariants}
-        className={`flex flex-1 flex-col ${hasPreviewImage ? "p-6" : "p-8"}`}
+        className={`flex flex-1 flex-col px-4 pb-4 pt-4 gap-4`}
       >
-        <h3 className="text-xl font-semibold text-white">{project.title}</h3>
+        <h3 className="text-xl font-semibold text-white/80 border-b border-white/10 pb-4 text-left text-pretty">{project.title}</h3>
         <p
-          className={`mt-3 text-sm text-white/70 ${
-            hasPreviewImage ? "line-clamp-3" : "line-clamp-4"
-          }`}
+          className={`text-sm text-white/70 text-pretty text-left`}
         >
           {project.short_description}
         </p>
 
-        <div className="mt-auto flex flex-wrap gap-2 pt-6 text-xs text-white/70">
+        <div className="mt-auto flex flex-wrap gap-2 text-xs text-white/70">
           {(project.tags ?? []).slice(0, 4).map((tag) => (
             <motion.span
               key={tag}

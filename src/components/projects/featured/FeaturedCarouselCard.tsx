@@ -137,24 +137,20 @@ export function FeaturedCarouselCard({
               priority={isCenter}
             />
             <motion.div 
-              className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-950/40 to-transparent"
+              className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-950/70 to-transparent"
               custom={{ center: isCenter && !shouldHide }}
               variants={overlayVariants}
             />
           </motion.div>
-          <div className="absolute bottom-5 inset-x-0 px-6 text-white flex flex-row items-center gap-1 justify-center text-center items-center">
-            <Sparkles
-              className={`h-[1.15em] w-[1.15em] shrink-0 self-center text-white/70 transition-colors duration-300`}
-              aria-hidden="true"
-            />
-            <h3 className={clsx("font-semibold leading-tight drop-shadow-[0_4px_9px_rgba(0,0,0,1)]", titleSize)}>
+          <div className="absolute bottom-4 inset-x-0 px-4 text-white/90 flex flex-row items-center gap-2 justify-left text-center items-center">
+            <h3 className={clsx("font-semibold leading-tight drop-shadow-[0_4px_9px_rgba(0,0,0,1)] text-left text-pretty text-white/80", titleSize)}>
               {project.title}
             </h3>
           </div>
         </div>
 
-        <div className="flex flex-1 flex-col justify-between gap-4 p-6">
-          <p className={clsx("text-slate-200/90", descSize)}>
+        <div className="flex flex-1 flex-col justify-around gap-4 px-4 pt-4 pb-4">
+          <p className={clsx("text-white/60 text-pretty text-left", descSize)}>
             {project.short_description}
           </p>
 

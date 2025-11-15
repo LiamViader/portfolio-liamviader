@@ -127,11 +127,11 @@ export function ProjectModalContent({
               </motion.div>
             )}
 
-            <div className="relative z-10 flex flex-col items-center gap-6 text-center sm:flex-row sm:items-end sm:justify-between sm:text-left">
+            <div className="relative z-10 flex flex-col items-center gap-6 sm:flex-row sm:items-end sm:justify-between text-left">
               <div className="flex-1 space-y-1">
                 <div className="flex flex-wrap items-center justify-center gap-3 text-[0.68rem] uppercase tracking-[0.28em] text-slate-100/80 sm:justify-start">
                   {project.is_featured && (
-                    <span className="inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-sky-200/90 drop-shadow-[0_2px_3px_rgba(0,0,0,1)]">
+                    <span className="inline-flex items-center gap-1.5 rounded-full pr-3 py-1 text-sky-200/90 drop-shadow-[0_2px_3px_rgba(0,0,0,1)]">
                       <Sparkles className="h-3 w-3" aria-hidden="true" />
                       <span className="tracking-[0.35em]">{t("featuredBadge")}</span>
                     </span>
@@ -143,7 +143,7 @@ export function ProjectModalContent({
                   )}
                 </div>
 
-                <div className="space-y-1">
+                <div className="space-y-2">
                   <h1 className="text-[2.15rem] font-semibold leading-tight text-white drop-shadow-[0_4px_9px_rgba(0,0,0,1)] md:text-[2.7rem]">
                     {project.title}
                   </h1>
@@ -169,9 +169,9 @@ export function ProjectModalContent({
               initial="hidden"
               animate={animationState}
             >
-              <div className="space-y-4 text-center sm:text-left">
-                <h2 className="text-2xl font-semibold text-white">{t("overviewTitle")}</h2>
-                <p className="whitespace-pre-line text-base leading-relaxed text-white/85">
+              <div className="space-y-4 text-left">
+                <h2 className="text-2xl font-semibold text-white text-center md:text-left">{t("overviewTitle")}</h2>
+                <p className="whitespace-pre-line text-base leading-relaxed text-white/65 text-justify">
                   {project.full_description}
                 </p>
               </div>

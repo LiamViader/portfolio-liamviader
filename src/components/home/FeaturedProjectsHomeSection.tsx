@@ -154,8 +154,8 @@ export function FeaturedProjectsHomeSection({
               controlsContainerClassName: "",
             }}
             carouselTypography={{
-              titleClassName: "text-2xl",
-              descriptionClassName: "text-sm",
+              titleClassName: "text-base sm:text-lg md:text-xl",
+              descriptionClassName: "text-xs md:text-sm",
               tagClassName: "text-[10px]",
             }}
           />

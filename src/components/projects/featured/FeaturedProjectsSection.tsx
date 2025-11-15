@@ -55,13 +55,21 @@ export default function FeaturedProjectsSection({ projects }: FeaturedProjectsPr
           className="space-y-4"
         >
           <motion.h2 variants={leftItem} onAnimationStart={ () => setTimeout(() => setCardsIntro(true), 1000) } className="text-3xl md:text-4xl xl:text-[40px] font-semibold text-white">{t("featured_title")}</motion.h2>
-          <motion.p variants={leftItem} className="mx-auto max-w-2xl text-balance text-base text-white/65">
+          <motion.p variants={leftItem} className="mx-auto max-w-2xl text-pretty text-base text-white/65">
             {t("featured_description")}
           </motion.p>
         </motion.div>
 
         <div className="w-full mt-3">
-          <FeaturedProjects projects={projects} introStart={cardsIntro}/>
+          <FeaturedProjects
+            projects={projects} 
+            introStart={cardsIntro}
+            carouselTypography={{
+              titleClassName: "text-md sm:text-lg md:text-xl lg:text-2xl xl:text-3xl",
+              descriptionClassName: "text-xs md:text-sm xl:text-base",
+              tagClassName: "text-[10px] lg:text-xs",
+            }}
+          />
         </div>
       </motion.div>
     </section>
