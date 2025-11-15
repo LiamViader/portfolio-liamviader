@@ -441,7 +441,7 @@ export const allProjects: ProjectData[] = [
           A nivel técnico, el proyecto incluye el diseño completo de la arquitectura del sistema, la implementación del núcleo funcional en Python, la orquestación de agentes y flujos de generación, la integración con servicios de generación de imágenes, la gestión del estado y trazabilidad mínima mediante logs, así como el desarrollo de una API y un cliente en Unity para interactuar con el prototipo. Aunque esta primera versión es experimental y no incluye aún dirección dinámica, memoria persistente ni alteración del mundo por los agentes en tiempo real, sienta las bases para futuras extensiones en esa dirección.
 
           En conjunto, este proyecto explora cómo la IA generativa puede asumir parte del rol tradicional del diseñador y director de videojuegos, pasando de un modelo basado en contenido cerrado a uno en el que la experiencia surge dinámicamente de la colaboración entre jugador y sistema. Representa un primer paso hacia entornos interactivos donde la IA no solo genera contenido, sino que también está diseñada para influir, estructurar y expandir la experiencia jugable.`,
-        role: "Creador, Diseñador y Desarrollador Completo del Proyecto",
+        role: "Creador, Diseñador y Desarrollador del Proyecto Completo",
         media: [
           {
             alt: "Vista principal del proyecto 1",
