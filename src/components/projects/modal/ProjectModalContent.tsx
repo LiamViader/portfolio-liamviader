@@ -104,9 +104,9 @@ export function ProjectModalContent({
         <span className="sr-only">{closeLabel}</span>
       </motion.button>
       <div ref={scrollRef} className="relative flex-1 overflow-auto no-scrollbar">
-        <div className="px-7 py-8 md:px-7 lg:px-8">
+        <div className="px-6 py-6 md:py-8 md:px-8">
           <motion.header
-            className="relative overflow-hidden rounded-[36px] border border-white/20 bg-white/4 px-7 py-6 shadow-[0_18px_48px_rgba(8,15,28,0.55)] md:px-10"
+            className="relative overflow-hidden rounded-[36px] border border-white/20 bg-white/4 px-6 md:px-8 py-6 shadow-[0_18px_48px_rgba(8,15,28,0.55)]"
             variants={modalItemVariants2}
             initial="hidden"
             animate={animationState}
@@ -127,9 +127,9 @@ export function ProjectModalContent({
               </motion.div>
             )}
 
-            <div className="relative z-10 flex flex-col items-center gap-6 sm:flex-row sm:items-end sm:justify-between text-left">
+            <div className="relative z-10 flex flex-col items-center gap-6 sm:flex-row sm:items-end sm:justify-between text-center md:text-left">
               <div className="flex-1 space-y-1">
-                <div className="flex flex-wrap items-center justify-center gap-3 text-[0.68rem] uppercase tracking-[0.28em] text-slate-100/80 sm:justify-start">
+                <div className="flex flex-wrap items-center justify-center gap-3 text-[0.68rem] uppercase tracking-[0.28em] text-slate-100/80 md:justify-start">
                   {project.is_featured && (
                     <span className="inline-flex items-center gap-1.5 rounded-full pr-3 py-1 text-sky-200/90 drop-shadow-[0_2px_3px_rgba(0,0,0,1)]">
                       <Sparkles className="h-3 w-3" aria-hidden="true" />
@@ -158,13 +158,13 @@ export function ProjectModalContent({
           </motion.header>
 
           <motion.div
-            className="mt-10 grid gap-8"
+            className="mt-6 md:mt-8 grid gap-6 md:gap-8"
             variants={modalItemVariants}
             initial="hidden"
             animate={animationState}
           >
             <motion.article
-              className="space-y-8 rounded-[26px] border border-white/20 bg-white/4 p-8 shadow-[0_18px_48px_rgba(8,15,28,0.55)]"
+              className="space-y-8 rounded-[26px] border border-white/20 bg-white/4 p-6 md:p-8 shadow-[0_18px_48px_rgba(8,15,28,0.55)]"
               variants={modalItemVariants}
               initial="hidden"
               animate={animationState}
@@ -187,7 +187,7 @@ export function ProjectModalContent({
             </motion.article>
 
             <motion.aside
-              className="flex flex-col gap-8 md:flex-row md:items-stretch"
+              className="flex flex-col gap-6 md:gap-8 md:flex-row md:items-stretch"
               variants={modalItemVariants}
               initial="hidden"
               animate={animationState}
