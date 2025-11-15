@@ -24,7 +24,7 @@ export default function Navbar({ isOpen, setIsOpen }: { isOpen: boolean; setIsOp
       <div className="md:hidden">
         <button
           onClick={() => setIsOpen(!isOpen)}
-          className="p-2 rounded bg-white/20 backdrop-blur-xl hover:bg-white/30 relative z-50"
+          className="p-2 rounded bg-white/8 hover:bg-white/15 relative z-50"
         >
           {isOpen ? <X size={24} /> : <Menu size={24} />}
         </button>

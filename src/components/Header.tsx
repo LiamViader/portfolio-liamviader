@@ -118,7 +118,7 @@ export default function Header() {
     <div style={{ height: `${headerHeight}px` }} className={"text-gray-50 absolute"}>
       <header
           ref={headerRef}
-          className={`fixed top-0 left-0 w-full px-4 md:px-8 py-3 md:py-5 flex justify-between items-center shadow-sm bg-gray/5 backdrop-blur-sm z-50 transition-transform `}
+          className={`fixed top-0 left-0 w-full px-4 md:px-8 py-3 md:py-5 border-b border-black/20 flex justify-between items-center shadow-sm bg-gray/5 backdrop-blur-sm z-50 transition-transform `}
           style={{ 
             transform: `translateY(${yOffset}px)`,
             transitionDuration: `${transitionDurationMs}ms` 
@@ -138,7 +138,7 @@ export default function Header() {
                 animate={{ opacity: 0.7 }}
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.2 }}
-                className="fixed top-0 left-0 right-0 min-h-screen mt-16 bg-black/50 z-40 "
+                className="fixed top-0 left-0 right-0 min-h-screen mt-0 bg-black/50 z-40 "
                 onClick={() => setIsMenuOpen(false)}
               />
 
@@ -149,7 +149,7 @@ export default function Header() {
                 exit={{ scaleY: 0 }}
                 transition={{ duration: 0.2, ease: "easeInOut" }}
                 style={{ top: headerHeight }}
-                className="fixed left-0 w-full shadow-sm bg-gray/5 backdrop-blur-xl flex flex-col items-center gap-4 py-6 origin-top z-50"
+                className="fixed left-0 w-full shadow-sm bg-gray/5 backdrop-blur-lg flex flex-col items-center gap-4 py-6 origin-top z-50"
               >
                 <Link href="/" onClick={() => setIsMenuOpen(false)} className="hover:underline">{t("home")}</Link>
                 <Link href="/about" onClick={() => setIsMenuOpen(false)} className="hover:underline">{t("about")}</Link>
