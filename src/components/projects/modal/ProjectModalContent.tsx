@@ -236,7 +236,7 @@ export function ProjectModalContent({
                         target="_blank"
                         rel="noreferrer"
                         className="flex items-center justify-between gap-3 rounded-2xl border border-white/20 bg-gradient-to-r from-sky-500/28 via-sky-400/18 to-transparent px-4 py-3 text-sm font-semibold text-white shadow-[0_2px_5px_rgba(56,189,248,0.45)]"
-                        whileHover={{ scale: 1.02 }}
+                        whileHover={{ scale: 1.02, y:-1 }}
                         whileTap={{ scale: 0.95 }}
                       >
                         <span>{t("liveDemoCta")}</span>
@@ -249,7 +249,7 @@ export function ProjectModalContent({
                         target="_blank"
                         rel="noreferrer"
                         className="flex items-center justify-between gap-3 rounded-2xl border border-white/20 bg-gradient-to-r from-purple-900/70 via-purple-900/40 to-transparent px-4 py-3 text-sm font-semibold text-white/85 shadow-[0_2px_5px_rgba(142,36,170,0.45)]"
-                        whileHover={{ scale: 1.02 }}
+                        whileHover={{ scale: 1.02, y:-1 }}
                         whileTap={{ scale: 0.96 }}
                       >
                         <span>{t("viewOnGithubCta")}</span>

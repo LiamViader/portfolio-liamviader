@@ -92,7 +92,7 @@ export default function ProjectCard({ project, onSelect, isHidden = false }: Pro
       tabIndex={0}
       onClick={handleClick}
       variants={containerVariants}
-      className={`cursor-pointer group relative flex h-full flex-col overflow-hidden rounded-3xl border border-white/10 bg-white/5 backdrop-blur transform-gpu will-change-[transform,opacity] transition-none 
+      className={`cursor-pointer group relative flex h-full flex-col overflow-hidden rounded-3xl border border-white/10 bg-white/5 backdrop-blur-xl transform-gpu will-change-[transform,opacity] transition-none 
         ${
           isHidden
             ? "pointer-events-none select-none opacity-0"
@@ -133,20 +133,20 @@ export default function ProjectCard({ project, onSelect, isHidden = false }: Pro
         variants={contentVariants}
         className={`flex flex-1 flex-col px-4 pb-4 pt-4`}
       >
-        <h3 className="text-xl font-semibold text-white/80 border-b border-white/10 pb-3 text-left text-pretty">{project.title}</h3>
+        <h3 className="text-xl font-semibold text-white/80 text-left text-pretty drop-shadow-[0_4px_12px_rgba(0,0,0,1)]">{project.title}</h3>
         <div className="pt-3 flex flex-1 flex-col gap-6 justify-between">
           <p
-            className={`text-sm text-white/70 text-pretty text-left `}
+            className={`text-sm text-white/70 text-pretty text-left drop-shadow-[0_4px_8px_rgba(0,0,0,1)]`}
           >
             {project.short_description}
           </p>
 
-          <div className="mt-auto flex flex-wrap gap-2 text-xs text-white/70">
+          <div className="mt-auto flex flex-wrap gap-2 text-xs text-white/70 ">
             {(project.tags ?? []).slice(0, 4).map((tag) => (
               <motion.span
                 key={tag}
                 variants={tagVariants}
-                className="rounded-full border px-3 py-1"
+                className="rounded-full border px-3 py-1 drop-shadow-[0_8px_6px_rgba(0,0,0,1)]"
               >
                 {tag}
               </motion.span>

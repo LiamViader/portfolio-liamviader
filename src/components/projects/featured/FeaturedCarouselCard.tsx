@@ -101,7 +101,7 @@ export function FeaturedCarouselCard({
         border border-white/10
         bg-white/5
         shadow-[0_0_10px_rgba(0,0,0,0.40)]
-        backdrop-blur-sm
+        backdrop-blur-xl
         transform-gpu will-change-[transform,opacity]
         ${
           shouldHide
@@ -142,15 +142,15 @@ export function FeaturedCarouselCard({
               variants={overlayVariants}
             />
           </motion.div>
-          <div className="absolute bottom-4 inset-x-0 px-4 text-white/90 flex flex-row items-center gap-2 justify-left text-center items-center">
-            <h3 className={clsx("font-semibold leading-tight drop-shadow-[0_4px_9px_rgba(0,0,0,1)] text-left text-pretty text-white/80", titleSize)}>
-              {project.title}
-            </h3>
-          </div>
         </div>
 
         <div className="flex flex-1 flex-col justify-around gap-4 px-4 pt-4 pb-4">
-          <p className={clsx("text-white/60 text-pretty text-left", descSize)}>
+          <div className="inset-x-0 text-white/90 flex flex-row items-center gap-2 justify-left items-center full-w">
+            <h3 className={clsx("font-semibold leading-tight drop-shadow-[0_4px_16px_rgba(0,0,0,1)] text-left text-pretty text-white/80 ", titleSize)}>
+              {project.title}
+            </h3>
+          </div>
+          <p className={clsx("text-white/60 text-pretty text-left drop-shadow-[0_4px_8px_rgba(0,0,0,1)] ", descSize)}>
             {project.short_description}
           </p>
 
@@ -159,7 +159,7 @@ export function FeaturedCarouselCard({
               <span
                 key={tag}
                 className={clsx(
-                  "rounded-full bg-white/10 border border-white/20 px-2 py-1 font-medium tracking-wide text-white/70",
+                  "rounded-full bg-white/10 border border-white/20 px-2 py-1 font-medium tracking-wide text-white/70 drop-shadow-[0_8px_6px_rgba(0,0,0,1)]",
                   tagSize
                 )}
               >
