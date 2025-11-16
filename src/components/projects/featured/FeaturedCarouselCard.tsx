@@ -3,25 +3,30 @@ import { Sparkles } from "lucide-react";
 import clsx from "clsx";
 import { TranslatedProject } from "@/data/projects";
 import { motion, Variants } from "framer-motion";
-import { useState } from "react";
-
+import { useState, useRef, useEffect } from "react";
 
 const BASE_BG   = "rgba(255,255,255,0.05)";
 const BASE_BORD = "rgba(255,255,255,0.10)";
 const HOVER_BG  = "rgba(56,189,248,0.10)";
 const HOVER_BOR = "rgba(56,189,248,0.60)";
 const HOVER_SH  = "0 0 30px rgba(56,189,248,0.50)";
-const BASE_SH = "0 0 30px rgba(56,189,248,0.01)";
+const BASE_SH   = "0 0 30px rgba(56,189,248,0.01)";
 
 const cardVariants: Variants = {
-  hidden: { 
-    opacity: 0, 
-    y: 30, 
-    backgroundColor: BASE_BG, 
-    borderColor: BASE_BORD, 
-    boxShadow: BASE_SH
+  hidden: {
+    opacity: 0,
+    y: 30,
+    backgroundColor: BASE_BG,
+    borderColor: BASE_BORD,
+    boxShadow: BASE_SH,
   },
-  show: (c: { translate:boolean; order: number; isIntro: boolean } = { order: 0, isIntro: false, translate:true }) => ({
+  show: (
+    c: { translate: boolean; order: number; isIntro: boolean } = {
+      order: 0,
+      isIntro: false,
+      translate: true,
+    }
+  ) => ({
     opacity: 1,
     y: 0,
     backgroundColor: BASE_BG,
@@ -33,28 +38,45 @@ const cardVariants: Variants = {
       ease: "easeOut",
     },
   }),
-  hover: (c: {translate:boolean; order: number; isIntro: boolean} = {order: 0, isIntro: false, translate:true})=> ({ 
-    y: c.translate ? -20 : 0, 
-    backgroundColor: HOVER_BG, 
-    borderColor: HOVER_BOR, 
+  hover: (
+    c: { translate: boolean; order: number; isIntro: boolean } = {
+      order: 0,
+      isIntro: false,
+      translate: true,
+    }
+  ) => ({
+    y: c.translate ? -20 : 0,
+    backgroundColor: HOVER_BG,
+    borderColor: HOVER_BOR,
     boxShadow: HOVER_SH,
-    transition: { 
-      duration: 0.15, 
-      ease: "easeOut" 
-    } 
+    transition: {
+      duration: 0.15,
+      ease: "easeOut",
+    },
   }),
 };
 
 const mediaVariants: Variants = {
-  rest: { scale: 1, y: 0, },
-  hover:  (c: {translate:boolean; order: number; isIntro: boolean} = {order: 0, isIntro: false, translate:true}) => ({ scale: c.translate ? 1.03 : 1, y: c.translate ? -8 : 0, transition: {duration: 0.3} }),
+  rest: { scale: 1, y: 0 },
+  hover: (
+    c: { translate: boolean; order: number; isIntro: boolean } = {
+      order: 0,
+      isIntro: false,
+      translate: true,
+    }
+  ) => ({
+    scale: c.translate ? 1.03 : 1,
+    y: c.translate ? -8 : 0,
+    transition: { duration: 0.3 },
+  }),
 };
 
 const overlayVariants: Variants = {
   rest: { opacity: 1 },
-  hover: (c: {center:boolean} = {center:false})=> ({  opacity: c.center ? 0.7 : 1 }),
+  hover: (c: { center: boolean } = { center: false }) => ({
+    opacity: c.center ? 0.7 : 1,
+  }),
 };
-
 
 interface FeaturedCarouselCardProps {
   project: TranslatedProject;
@@ -82,10 +104,124 @@ export function FeaturedCarouselCard({
   const tagSize = tagClassName ?? "text-xs";
 
   const [introDone, setIntroDone] = useState(false);
-
   const isIntro = introStart && !introDone;
+
+  const allTags = project.tags ?? [];
+
+  // 🔍 medimos el ancho real de la card
+  const cardRef = useRef<HTMLDivElement | null>(null);
+
+  // 🎯 número máximo de líneas de tags permitido según ancho de la card
+  const [allowedLines, setAllowedLines] = useState<number>(0);
+
+  // 👀 cálculo final: cuántos tags se muestran y cuántos quedan ocultos
+  const [visibleCount, setVisibleCount] = useState<number>(allTags.length);
+  const [hiddenCount, setHiddenCount] = useState<number>(0);
+
+  // 🧪 contenedor "fantasma" para medir cómo se distribuyen los tags en líneas
+  const tagsMeasureRef = useRef<HTMLDivElement | null>(null);
+
+  // 1️⃣ Observamos el ancho de la card y decidimos cuántas líneas se permiten
+  useEffect(() => {
+    const el = cardRef.current;
+    if (!el) return;
+
+    const computeAllowedLines = (width: number): number => {
+      if (width < 200) return 0;
+      if (width < 320) return 1;
+      return 2;
+    };
+
+    const updateFromWidth = (width: number) => {
+      setAllowedLines(computeAllowedLines(width));
+    };
+
+    const observer = new ResizeObserver((entries) => {
+      for (const entry of entries) {
+        updateFromWidth(entry.contentRect.width);
+      }
+    });
+
+    observer.observe(el);
+    // inicial
+    updateFromWidth(el.getBoundingClientRect().width);
+
+    return () => observer.disconnect();
+  }, []);
+
+  // 2️⃣ Medimos cómo se reparten los tags en líneas y decidimos visibles + "+N"
+  useEffect(() => {
+    if (!tagsMeasureRef.current) return;
+    if (allTags.length === 0) {
+      setVisibleCount(0);
+      setHiddenCount(0);
+      return;
+    }
+
+    // si no se permiten líneas -> no se muestran tags ni "+N"
+    if (allowedLines <= 0) {
+      setVisibleCount(0);
+      setHiddenCount(0);
+      return;
+    }
+
+    const container = tagsMeasureRef.current;
+    const spans = container.querySelectorAll<HTMLSpanElement>("[data-tag-index]");
+    if (!spans.length) {
+      setVisibleCount(0);
+      setHiddenCount(0);
+      return;
+    }
+
+    const lineTops: number[] = [];
+    let lastAllowedIndex = -1;
+
+    spans.forEach((span, idx) => {
+      const top = span.offsetTop;
+      // detectamos líneas según offsetTop (con pequeño margen)
+      let lineIndex = lineTops.findIndex((t) => Math.abs(t - top) < 2);
+      if (lineIndex === -1) {
+        lineTops.push(top);
+        lineIndex = lineTops.length - 1;
+      }
+      const lineNumber = lineIndex + 1;
+
+      if (lineNumber <= allowedLines) {
+        lastAllowedIndex = idx;
+      }
+    });
+
+    if (lastAllowedIndex === -1) {
+      // nada cabe dentro de las líneas permitidas
+      setVisibleCount(0);
+      setHiddenCount(allTags.length);
+      return;
+    }
+
+    const numberThatFit = lastAllowedIndex + 1;
+    const total = allTags.length;
+    const hasOverflow = numberThatFit < total;
+
+    if (!hasOverflow) {
+      // todos caben dentro del número de líneas
+      setVisibleCount(total);
+      setHiddenCount(0);
+      return;
+    }
+
+    // Si hay overflow, reservamos el último "slot" de la última línea para el "+N":
+    const visible = Math.max(numberThatFit - 1, 0);
+    const hidden = total - visible;
+
+    setVisibleCount(visible);
+    setHiddenCount(hidden);
+  }, [allowedLines, allTags]);
+
+  const visibleTags = allTags.slice(0, visibleCount);
+
   return (
     <motion.div
+      ref={cardRef}
       variants={cardVariants}
       initial="hidden"
       animate={introStart ? "show" : "hidden"}
@@ -115,6 +251,29 @@ export function FeaturedCarouselCard({
         pointerEvents: introDone ? "auto" : "none",
       }}
     >
+      {/* Contenedor fantasma para medir cómo se rompen las líneas de tags */}
+      <div
+        ref={tagsMeasureRef}
+        className="pointer-events-none absolute left-0 top-0 -z-10 opacity-0"
+      >
+        <div className="px-4 pt-4 pb-4">
+          <div className="flex flex-wrap gap-2">
+            {allTags.map((tag, idx) => (
+              <span
+                key={`measure-${project.id}-tag-${idx}-${tag}`}
+                data-tag-index={idx}
+                className={clsx(
+                  "rounded-full bg-white/10 border border-white/20 px-2 py-1 font-medium tracking-wide text-white/70",
+                  tagSize
+                )}
+              >
+                {tag}
+              </span>
+            ))}
+          </div>
+        </div>
+      </div>
+
       <div
         className={`
           relative z-10 flex h-full flex-col
@@ -125,7 +284,7 @@ export function FeaturedCarouselCard({
             variants={mediaVariants}
             className="absolute inset-0"
             style={{ transformOrigin: "center" }}
-            transition={{duration: 0.2}}
+            transition={{ duration: 0.2 }}
             custom={{ order: introOrder, isIntro, translate: isCenter }}
           >
             <Image
@@ -136,7 +295,7 @@ export function FeaturedCarouselCard({
               sizes="(min-width: 1280px) 60vw, (min-width: 1024px) 68vw, (min-width: 768px) 78vw, 90vw"
               priority={isCenter}
             />
-            <motion.div 
+            <motion.div
               className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-950/70 to-transparent"
               custom={{ center: isCenter && !shouldHide }}
               variants={overlayVariants}
@@ -146,27 +305,52 @@ export function FeaturedCarouselCard({
 
         <div className="flex flex-1 flex-col justify-around gap-4 px-4 pt-4 pb-4">
           <div className="inset-x-0 text-white/90 flex flex-row items-center gap-2 justify-left items-center full-w">
-            <h3 className={clsx("font-semibold leading-tight drop-shadow-[0_4px_16px_rgba(0,0,0,1)] text-left text-pretty text-white/80 ", titleSize)}>
+            <h3
+              className={clsx(
+                "font-semibold leading-tight drop-shadow-[0_4px_16px_rgba(0,0,0,1)] text-left text-pretty text-white/80 ",
+                titleSize
+              )}
+            >
               {project.title}
             </h3>
           </div>
-          <p className={clsx("text-white/60 text-pretty text-left drop-shadow-[0_4px_8px_rgba(0,0,0,1)] ", descSize)}>
+          <p
+            className={clsx(
+              "text-white/60 text-pretty text-left drop-shadow-[0_4px_8px_rgba(0,0,0,1)] ",
+              descSize
+            )}
+          >
             {project.short_description}
           </p>
 
-          <div className="flex flex-wrap gap-2">
-            {(project.tags ?? []).slice(0, 4).map((tag) => (
-              <span
-                key={tag}
-                className={clsx(
-                  "rounded-full bg-white/10 border border-white/20 px-2 py-1 font-medium tracking-wide text-white/70 drop-shadow-[0_8px_6px_rgba(0,0,0,1)]",
-                  tagSize
-                )}
-              >
-                {tag}
-              </span>
-            ))}
-          </div>
+          {/* Render real de los tags con límite por líneas */}
+          {allowedLines > 0 && (
+            <div className="flex flex-wrap gap-2">
+              {visibleTags.map((tag, idx) => (
+                <span
+                  key={`${project.id}-tag-${idx}-${tag}`}
+                  className={clsx(
+                    "rounded-full bg-white/10 border border-white/20 px-2 py-1 font-medium tracking-wide text-white/70 drop-shadow-[0_8px_6px_rgba(0,0,0,1)]",
+                    tagSize
+                  )}
+                >
+                  {tag}
+                </span>
+              ))}
+
+              {hiddenCount > 0 && visibleCount > 0 && (
+                <span
+                  key={`${project.id}-tag-more`}
+                  className={clsx(
+                    "rounded-full bg-white/5 border border-dashed border-white/35 px-2 py-1 font-medium tracking-wide text-white/75 drop-shadow-[0_8px_6px_rgba(0,0,0,1)]",
+                    tagSize
+                  )}
+                >
+                  +{hiddenCount}
+                </span>
+              )}
+            </div>
+          )}
         </div>
       </div>
     </motion.div>

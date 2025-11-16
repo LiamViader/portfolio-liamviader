@@ -335,7 +335,7 @@ export function FeaturedCarousel({
 
   /* ------------------- Clases ------------------- */
   const cardClassName = clsx(
-    "absolute top-0 h-full w-[47%] md:w-[42%] lg:w-[45%] xl:w-[48%]",
+    "absolute top-0 h-full w-[47%] sm:w-[40%] md:w-[42%] lg:w-[45%] xl:w-[48%]",
     layout?.cardClassName,
   );
 
@@ -345,7 +345,7 @@ export function FeaturedCarousel({
   );
 
   const viewportClassName = clsx(
-    "relative w-full md:w-[85%] h-[300px] md:h-[380px] lg:h-[450px] xl:h-[500px]",
+    "relative w-full md:w-[85%] h-[310px] sm:h-[350px] md:h-[380px] lg:h-[450px] xl:h-[500px]",
     layout?.viewportClassName,
   );
 

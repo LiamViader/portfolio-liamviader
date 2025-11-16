@@ -373,7 +373,7 @@ export const testProjects: ProjectData[] = [
 export const allProjects: ProjectData[] = [
   {
     id: 1,
-    tags: ["React", "TypeScript", "Tailwind", "Framer Motion"],
+    tags: ["Python", "C#", "Unity", "LangChain", "LangGraph", "FastAPI", "TensorFlow", "ComfyUI", "Stable Diffusion", "OpenAI API"],
     media_preview: "/images/testImage.jpg",
     github_url: "https://github.com/liam/project1",
     live_url: "https://project1-live.com",
