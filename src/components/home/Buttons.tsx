@@ -90,7 +90,7 @@ const whiteVariants: Variants = {
 };
 
 const base =
-  "relative overflow-hidden inline-flex items-center justify-center rounded-full px-6 py-3 text-sm font-semibold select-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-400";
+  "relative overflow-hidden inline-flex items-center justify-center rounded-full px-5 py-3 text-sm font-semibold select-none focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-sky-400";
 
 const skyBase = base;
 const whiteBase = base + " border";

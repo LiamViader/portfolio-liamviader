@@ -62,7 +62,7 @@ export default function CallToAction() {
   const t = useTranslations("ProjectsPage");
 
   return (
-    <section className="relative px-4 pb-32 pt-2 sm:px-6 lg:px-10">
+    <section className="relative px-4 pb-32 pt-2 lg:px-10">
       
       <div className="absolute inset-0 bg-gradient-to-b from-gray-950/60 via-gray-950/90 to-gray-950" />
       <motion.div
@@ -82,7 +82,7 @@ export default function CallToAction() {
                 highlight: (chunks) => <span className="text-sky-300">{chunks}</span>,
               })}
             </motion.h2>
-            <motion.p variants={contentVariants} className="text-balance text-base text-white/70 md:text-lg drop-shadow-[0_4px_8px_rgba(0,0,0,1)]">
+            <motion.p variants={contentVariants} className="text-pretty text-base text-white/70 md:text-lg drop-shadow-[0_4px_8px_rgba(0,0,0,1)]">
               {t("cta_text")}
             </motion.p>
             <motion.div variants={contentVariants} className="flex flex-wrap justify-center gap-4">

@@ -78,6 +78,18 @@ const overlayVariants: Variants = {
   }),
 };
 
+const tagVariants: Variants = {
+  rest: {
+    backgroundColor: "rgba(255,255,255,0.1)",
+    borderColor: "rgba(255,255,255,0.15)",
+  },
+  hover: {
+    backgroundColor: "rgba(56,189,248,0.10)",
+    borderColor: "rgba(56,189,248,0.50)",
+    transition: { duration: 0.2 },
+  },
+};
+
 interface FeaturedCarouselCardProps {
   project: TranslatedProject;
   isCenter: boolean;
@@ -127,7 +139,7 @@ export function FeaturedCarouselCard({
     if (!el) return;
 
     const computeAllowedLines = (width: number): number => {
-      if (width < 200) return 0;
+      if (width < 220) return 0;
       if (width < 320) return 1;
       return 2;
     };
@@ -327,27 +339,29 @@ export function FeaturedCarouselCard({
           {allowedLines > 0 && (
             <div className="flex flex-wrap gap-2">
               {visibleTags.map((tag, idx) => (
-                <span
+                <motion.span
+                  variants={tagVariants}
                   key={`${project.id}-tag-${idx}-${tag}`}
                   className={clsx(
-                    "rounded-full bg-white/10 border border-white/20 px-2 py-1 font-medium tracking-wide text-white/70 drop-shadow-[0_8px_6px_rgba(0,0,0,1)]",
+                    "rounded-full bg-white/10 border border-white/20 px-2 py-1 font-medium text-white/70 drop-shadow-[0_8px_6px_rgba(0,0,0,1)]",
                     tagSize
                   )}
                 >
                   {tag}
-                </span>
+                </motion.span>
               ))}
 
               {hiddenCount > 0 && visibleCount > 0 && (
-                <span
+                <motion.span
+                  variants={tagVariants}
                   key={`${project.id}-tag-more`}
                   className={clsx(
-                    "rounded-full bg-white/5 border border-dashed border-white/35 px-2 py-1 font-medium tracking-wide text-white/75 drop-shadow-[0_8px_6px_rgba(0,0,0,1)]",
+                    "rounded-full bg-white/10 border border-dashed border-white/35 px-2 py-1 font-medium text-white/75 drop-shadow-[0_8px_6px_rgba(0,0,0,1)]",
                     tagSize
                   )}
                 >
                   +{hiddenCount}
-                </span>
+                </motion.span>
               )}
             </div>
           )}

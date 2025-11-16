@@ -135,7 +135,7 @@ export default function Header() {
               {/* Overlay */}
               <motion.div
                 initial={{ opacity: 0 }}
-                animate={{ opacity: 0.7 }}
+                animate={{ opacity: 0.9 }}
                 exit={{ opacity: 0 }}
                 transition={{ duration: 0.2 }}
                 className="fixed top-0 left-0 right-0 min-h-screen mt-0 bg-black/50 z-40 "
@@ -144,12 +144,12 @@ export default function Header() {
 
               {/* Menu */}
               <motion.div
-                initial={{ scaleY: 0 }}
-                animate={{ scaleY: 1 }}
-                exit={{ scaleY: 0 }}
+                initial={{ scaleY: 0, opacity:0 }}
+                animate={{ scaleY: 1, opacity:1 }}
+                exit={{ scaleY: 0, opacity:0 }}
                 transition={{ duration: 0.2, ease: "easeInOut" }}
                 style={{ top: headerHeight }}
-                className="fixed left-0 w-full shadow-sm bg-gray/5 backdrop-blur-lg flex flex-col items-center gap-4 py-6 origin-top z-50"
+                className="fixed left-0 w-full shadow-sm bg-gray/5 backdrop-blur-sm border-b border-black/20 flex flex-col items-center gap-4 py-6 origin-top z-50"
               >
                 <Link href="/" onClick={() => setIsMenuOpen(false)} className="hover:underline">{t("home")}</Link>
                 <Link href="/about" onClick={() => setIsMenuOpen(false)} className="hover:underline">{t("about")}</Link>
