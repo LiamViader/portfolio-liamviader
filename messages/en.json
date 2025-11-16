@@ -27,7 +27,7 @@
     "projects": {
       "title": "Featured projects",
       "description": "A snapshot of recent experiments across AI, tools, and interactive entertainment.",
-      "viewAll": "View the complete gallery",
+      "viewAll": "View complete gallery",
       "featuredBadge": "Featured"
     }
   },
