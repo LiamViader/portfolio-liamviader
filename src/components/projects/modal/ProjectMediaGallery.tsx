@@ -69,7 +69,7 @@ export function ProjectMediaGallery({
             return (
               <motion.figure
                 key={`${project.id}-media-${idx}`}
-                className="group overflow-hidden rounded-3xl border border-white/12 bg-slate-950/40 shadow-[0_24px_58px_rgba(8,15,35,0.55)] backdrop-blur"
+                className="group overflow-hidden rounded-3xl border border-white/12 bg-slate-950/40 shadow-[0_8px_16px_rgba(8,15,35,0.55)] backdrop-blur"
                 variants={modalItemVariants}
                 initial="hidden"
                 animate={animationState}
