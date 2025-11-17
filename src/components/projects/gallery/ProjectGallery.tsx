@@ -2,7 +2,7 @@ import { motion, type Variants } from "framer-motion";
 import { useTranslations } from "next-intl";
 
 import { ClientCategorySlug } from "@/config/projectCategories";
-import { TranslatedProject } from "@/data/projects";
+import { type TranslatedProject } from "@/data/projects/types";
 
 import CategorySwitcher from "./CategorySwitcher";
 import ProjectsGrid from "../grid/ProjectsGrid";

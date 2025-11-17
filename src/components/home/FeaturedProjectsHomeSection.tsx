@@ -5,7 +5,7 @@ import { useRef, useState } from "react";
 import { motion, type Variants, useAnimationControls } from "framer-motion";
 import { WhiteButton, SkyButton } from "./Buttons";
 import FeaturedProjects from "../projects/featured/FeaturedProjects";
-import type { TranslatedProject } from "@/data/projects";
+import { type TranslatedProject } from "@/data/projects/types";
 
 interface FeaturedProjectsHomeSectionProps {
   title: string;

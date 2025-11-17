@@ -43,15 +43,13 @@ export function HeroImage() {
       <div className="absolute -inset-5 z-11 rounded-full bg-sky-400/5 blur-3xl" aria-hidden />
       <div className="relative h-full w-full overflow-hidden rounded-full border border-white/20">
         <Image
-          src="/images/test2_liam.png"
+          src="/images/profesional_liam.png"
           alt="Portrait"
           fill
           quality={95}
           priority
           fetchPriority="high"
           decoding="async"
-          // Tailwind breakpoints: md=768px, lg=1024px
-          // Anchos reales del contenedor: 136px (base), 200px (md), 280px (lg)
           sizes="(min-width: 1024px) 280px, (min-width: 768px) 200px, 136px"
           className="object-cover"
         />

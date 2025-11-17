@@ -4,7 +4,7 @@ import Image from "next/image";
 import { useCallback, useRef, useState, useEffect } from "react";
 import { motion, type Variants } from "framer-motion";
 
-import { TranslatedProject } from "@/data/projects";
+import {type TranslatedProject} from "@/data/projects/types";
 import { measureStableRect } from "@/utils/measureStableRect";
 
 const BASE_BG   = "rgba(255,255,255,0.05)";

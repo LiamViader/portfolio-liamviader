@@ -2,7 +2,7 @@
 
 import { AnimatePresence, LayoutGroup, Variants, motion } from "framer-motion";
 
-import { TranslatedProject } from "@/data/projects";
+import { type TranslatedProject } from "@/data/projects/types";
 
 import ProjectCard from "../card/ProjectCard";
 import { ProjectModalPortal } from "../modal/ProjectModalPortal";

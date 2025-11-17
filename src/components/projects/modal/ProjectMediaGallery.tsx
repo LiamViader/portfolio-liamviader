@@ -5,7 +5,7 @@ import { useCallback, useState } from "react";
 import { motion } from "framer-motion";
 import { Play } from "lucide-react";
 
-import type { TranslatedProject } from "@/data/projects";
+import { type TranslatedProject } from "@/data/projects/types";
 import { modalItemVariants } from "./animations";
 import { FittedMediaOverlay } from "@/components/shared/FittedMediaOverlay"; // ajusta ruta
 

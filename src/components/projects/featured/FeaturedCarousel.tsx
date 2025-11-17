@@ -3,7 +3,7 @@ import type { KeyboardEvent } from "react";
 import clsx from "clsx";
 import { motion, type Variants } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import { TranslatedProject } from "@/data/projects";
+import { type TranslatedProject } from "@/data/projects/types";
 
 import {
   CarouselVariant,

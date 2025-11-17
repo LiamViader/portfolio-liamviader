@@ -2,7 +2,6 @@
 
 import { useRef, useEffect } from 'react';
 import { useFrame, useThree, extend } from '@react-three/fiber';
-import { animated, Interpolation } from '@react-spring/three';
 import * as THREE from 'three';
 
 import { useSceneTransition } from '@/hooks/useSceneTransition';

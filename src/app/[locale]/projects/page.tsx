@@ -1,4 +1,4 @@
-import { getProjectsByLocale } from "@/data/projects";
+import { getProjectsByLocale } from "@/data/projects/allProjects";
 import ClientProjectsPage from "./ClientProjectsPage"; // <-- Nuevo componente de Cliente
 
 interface ProjectsPageProps {

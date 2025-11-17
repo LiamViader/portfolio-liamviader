@@ -1,6 +1,6 @@
 import { useCallback, useState } from "react";
 
-import { TranslatedProject } from "@/data/projects";
+import { type TranslatedProject } from "@/data/projects/types";
 
 interface SelectedProjectState {
   project: TranslatedProject;

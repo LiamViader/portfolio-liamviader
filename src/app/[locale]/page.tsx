@@ -3,7 +3,8 @@
 import { motion } from "framer-motion";
 import { useLocale, useTranslations } from "next-intl";
 import { BrainCircuit, Gamepad2, Workflow } from "lucide-react";
-import { getProjectsByLocale, TranslatedProject } from "@/data/projects";
+import { getProjectsByLocale } from "@/data/projects/allProjects";
+import { type TranslatedProject } from "@/data/projects/types";
 import { InfoCard } from "@/components/home/InfoCard";
 import { HeroSection } from "@/components/home/HeroSection";
 import { FeaturedProjectsHomeSection } from "@/components/home/FeaturedProjectsHomeSection";

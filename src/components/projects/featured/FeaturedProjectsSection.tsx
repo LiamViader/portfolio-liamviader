@@ -3,7 +3,7 @@
 import { motion, type Variants } from "framer-motion";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
-import { TranslatedProject } from "@/data/projects";
+import { type TranslatedProject } from "@/data/projects/types";
 
 import FeaturedProjects from "./FeaturedProjects";
 

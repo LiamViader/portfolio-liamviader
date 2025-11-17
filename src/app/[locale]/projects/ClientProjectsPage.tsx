@@ -8,7 +8,7 @@ import PageLayout from "@/components/layout/PageLayout";
 import CallToAction from "@/components/CallToAction";
 import { ProjectSceneCanvas } from "@/components/projects/ProjectSceneCanvas";
 import { CATEGORY_CONFIG, ClientCategorySlug } from "@/config/projectCategories";
-import type { TranslatedProject } from "@/data/projects";
+import { type TranslatedProject } from "@/data/projects/types";
 import FeaturedProjectsSection from "@/components/projects/featured/FeaturedProjectsSection";
 import ProjectGallery from "@/components/projects/gallery/ProjectGallery";
 
@@ -72,7 +72,7 @@ export default function ClientProjectsPage({ projectsData }: ClientProjectsPageP
 
     if (!currentFilter) return true;
 
-    return project.categorys.includes(currentFilter);
+    return project.categories.includes(currentFilter);
   });
 
   const overlays = (

@@ -3,7 +3,7 @@
 import { createPortal } from "react-dom";
 import { AnimatePresence } from "framer-motion";
 
-import { TranslatedProject } from "@/data/projects";
+import { type TranslatedProject } from "@/data/projects/types";
 
 import { ProjectModalBackdrop } from "./ProjectModalBackdrop";
 import { ProjectModalContent } from "./ProjectModalContent";

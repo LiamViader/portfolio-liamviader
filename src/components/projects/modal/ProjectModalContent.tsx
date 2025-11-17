@@ -5,8 +5,7 @@ import { motion, type Variants, useScroll, useTransform, useSpring } from "frame
 import { ExternalLink, Github, Sparkles } from "lucide-react";
 import { useTranslations } from "next-intl";
 
-import CustomScrollArea from "@/components/CustomScrollArea";
-import { TranslatedProject } from "@/data/projects";
+import { type TranslatedProject } from "@/data/projects/types";
 
 import { modalContentVariants, modalItemVariants, modalItemVariants2 } from "./animations";
 import { ProjectMediaGallery, getMediaPreviewSource } from "./ProjectMediaGallery";
@@ -30,7 +29,7 @@ export function ProjectModalContent({
 }: ProjectModalContentProps) {
   const t = useTranslations("ProjectModal");
   const tags = project.tags ?? [];
-  const categories = project.categorys ?? [];
+  const categories = project.categories ?? [];
 
   const heroMedia =
     project.media_preview ?? getMediaPreviewSource(project.detailed_media?.[0]);

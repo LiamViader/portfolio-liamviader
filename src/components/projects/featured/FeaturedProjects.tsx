@@ -5,7 +5,7 @@ import { useCallback, useMemo, useRef } from "react";
 import clsx from "clsx";
 import { useTranslations } from "next-intl";
 
-import { TranslatedProject } from "@/data/projects";
+import { type TranslatedProject } from "@/data/projects/types";
 import { measureStableRect } from "@/utils/measureStableRect";
 
 import { ProjectModalPortal } from "../modal/ProjectModalPortal";

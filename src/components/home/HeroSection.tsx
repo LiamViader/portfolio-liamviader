@@ -37,12 +37,10 @@ export function HeroSection({title, subtitle, projectsButtonText, contactButtonT
           onAnimationComplete={() => setReady(true)}
           initial="initial"
           animate={controls}
-          // animate -> hover (3s)
           onHoverStart={() =>{
             if (!ready) return;
             controls.start("hover", { duration: 0.25, delay: 0 })
           }}
-          // hover -> animate (1s)
           onHoverEnd={() => {
             if (!ready) return;
             controls.start("animate", { duration: 0.2, delay: 0 } )
