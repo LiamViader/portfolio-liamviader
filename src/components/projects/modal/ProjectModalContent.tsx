@@ -192,14 +192,14 @@ export function ProjectModalContent({
       </motion.button>
       <div ref={scrollRef} className="relative flex-1 overflow-auto no-scrollbar">
         <motion.header
-          className="relative overflow-hidden h-20 md:h-30 border-b border-white/20"
+          className="relative overflow-hidden h-35 md:h-40 border-b border-white/20"
           variants={modalItemVariants2}
           initial="hidden"
           animate={animationState}
         >
           {heroMedia && (
             <motion.div
-              className="absolute inset-0"
+              className="absolute inset-0 saturate-80"
               variants={heroMediaVariants}
               initial="hidden"
               animate={animationState}
