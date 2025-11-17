@@ -62,7 +62,7 @@ export default function CallToAction() {
   const t = useTranslations("ProjectsPage");
 
   return (
-    <section className="relative px-4 pb-32 pt-2 lg:px-10">
+    <section className="relative px-8 pb-26 pt-10">
       
       <div className="absolute inset-0 bg-gradient-to-b from-gray-950/60 via-gray-950/90 to-gray-950" />
       <motion.div
@@ -74,15 +74,15 @@ export default function CallToAction() {
       >
         <motion.div
           variants={cardVariants}
-          className="overflow-hidden rounded-3xl border border-white/10 bg-white/5 p-9 text-center backdrop-blur-xl"
+          className="overflow-hidden rounded-3xl border border-white/10 bg-white/5 py-8 px-6 text-center backdrop-blur-xl"
         >
           <div className="relative z-10 space-y-6">
-            <motion.h2 variants={contentVariants} className="text-3xl font-semibold text-white md:text-4xl drop-shadow-[0_4px_16px_rgba(0,0,0,1)]">
+            <motion.h2 variants={contentVariants} className="text-2xl font-semibold text-white md:text-4xl drop-shadow-[0_4px_16px_rgba(0,0,0,1)]">
               {t.rich("cta_title", {
                 highlight: (chunks) => <span className="text-sky-300">{chunks}</span>,
               })}
             </motion.h2>
-            <motion.p variants={contentVariants} className="text-pretty text-base text-white/70 md:text-lg drop-shadow-[0_4px_8px_rgba(0,0,0,1)]">
+            <motion.p variants={contentVariants} className="text-pretty text-sm md:text-base text-white/70 lg:text-lg drop-shadow-[0_4px_8px_rgba(0,0,0,1)]">
               {t("cta_text")}
             </motion.p>
             <motion.div variants={contentVariants} className="flex flex-wrap justify-center gap-4">

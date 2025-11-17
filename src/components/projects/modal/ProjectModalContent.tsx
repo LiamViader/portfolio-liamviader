@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useState, useMemo, useEffect } from "react";
 import { motion, type Variants, useScroll, useTransform, useSpring } from "framer-motion";
 import { ExternalLink, Github, Sparkles } from "lucide-react";
 import { useTranslations } from "next-intl";
@@ -57,6 +57,93 @@ export function ProjectModalContent({
     mass: 0.5,
   });
 
+  // ----------- OVERVIEW: texto truncado + "Ver más" ----------- //
+  const [isExpanded, setIsExpanded] = useState(false);
+  const [pendingScrollOnCollapse, setPendingScrollOnCollapse] = useState(false);
+
+  // ref solo para el botón "Ver más / Ver menos"
+  const overviewToggleRef = useRef<HTMLButtonElement | null>(null);
+
+  const fullDescription = project.full_description ?? "";
+  const descriptionParagraphs = useMemo(
+    () => fullDescription.split(/\n+/).filter((p) => p.trim().length > 0),
+    [fullDescription]
+  );
+
+  const MAX_WORDS = 90; // ajusta esto al gusto
+
+  const { isTruncated, collapsedParagraphs } = useMemo(() => {
+    const allWords = fullDescription.trim().split(/\s+/).filter(Boolean);
+    if (!fullDescription || allWords.length <= MAX_WORDS) {
+      return {
+        isTruncated: false,
+        collapsedParagraphs: descriptionParagraphs,
+      };
+    }
+
+    let remaining = MAX_WORDS;
+    const result: string[] = [];
+
+    for (const para of descriptionParagraphs) {
+      const words = para.trim().split(/\s+/).filter(Boolean);
+      if (words.length <= remaining) {
+        result.push(para);
+        remaining -= words.length;
+      } else {
+        const partial = words.slice(0, remaining).join(" ") + "…";
+        result.push(partial);
+        remaining = 0;
+        break;
+      }
+      if (remaining <= 0) break;
+    }
+
+    return {
+      isTruncated: true,
+      collapsedParagraphs: result,
+    };
+  }, [fullDescription, descriptionParagraphs]);
+
+  const paragraphsToRender =
+    isExpanded || !isTruncated ? descriptionParagraphs : collapsedParagraphs;
+
+  const handleToggleExpand = () => {
+    if (isExpanded) {
+      // Vamos a colapsar: después del render veremos si hay que recolocar el scroll
+      setPendingScrollOnCollapse(true);
+      setIsExpanded(false);
+    } else {
+      // En "Ver más" NO tocamos el scroll
+      setIsExpanded(true);
+    }
+  };
+
+  useEffect(() => {
+    if (!pendingScrollOnCollapse) return;
+    if (!scrollRef.current || !overviewToggleRef.current) {
+      setPendingScrollOnCollapse(false);
+      return;
+    }
+
+    const container = scrollRef.current;
+    const button = overviewToggleRef.current;
+
+    const containerRect = container.getBoundingClientRect();
+    const buttonRect = button.getBoundingClientRect();
+
+    // margen extra para que se vea algo por encima del "Ver más"
+    const margin = 20; 
+    const offset = buttonRect.top - containerRect.top;
+
+    // Solo corregimos si el botón ha quedado por encima del viewport del contenedor
+    if (offset < margin) {
+      container.scrollTop = container.scrollTop + offset - margin;
+    }
+
+    setPendingScrollOnCollapse(false);
+  }, [pendingScrollOnCollapse]);
+  // ------------------------------------------------------------- //
+
   return (
     <motion.div
       variants={modalContentVariants}
@@ -104,80 +191,94 @@ export function ProjectModalContent({
         <span className="sr-only">{closeLabel}</span>
       </motion.button>
       <div ref={scrollRef} className="relative flex-1 overflow-auto no-scrollbar">
+        <motion.header
+          className="relative overflow-hidden h-20 md:h-30 border-b border-white/20"
+          variants={modalItemVariants2}
+          initial="hidden"
+          animate={animationState}
+        >
+          {heroMedia && (
+            <motion.div
+              className="absolute inset-0"
+              variants={heroMediaVariants}
+              initial="hidden"
+              animate={animationState}
+            >
+              <motion.img
+                src={heroMedia}
+                alt={heroAlt}
+                className="h-full w-full object-cover opacity-80"
+              />
+              <div className="absolute inset-0 bg-gradient-to-br from-slate-950/10 via-transparent to-white/4" />
+            </motion.div>
+          )}
+        </motion.header>
         <div className="px-6 py-6 md:py-8 md:px-8">
-          <motion.header
-            className="relative overflow-hidden rounded-[36px] border border-white/20 bg-white/4 px-6 md:px-8 py-6 shadow-[0_18px_48px_rgba(8,15,28,0.55)]"
-            variants={modalItemVariants2}
-            initial="hidden"
-            animate={animationState}
-          >
-            {heroMedia && (
-              <motion.div
-                className="absolute inset-0 mix-blend-luminosity saturate-10"
-                variants={heroMediaVariants}
-                initial="hidden"
-                animate={animationState}
-              >
-                <motion.img
-                  src={heroMedia}
-                  alt={heroAlt}
-                  className="h-full w-full object-cover opacity-30"
-                />
-                <div className="absolute inset-0 bg-gradient-to-br from-slate-950/10 via-transparent to-white/4" />
-              </motion.div>
-            )}
-
-            <div className="relative z-10 flex flex-col items-center gap-6 sm:flex-row sm:items-end sm:justify-between text-center md:text-left">
-              <div className="flex-1 space-y-1">
-                <div className="flex flex-wrap items-center justify-center gap-3 text-[0.68rem] uppercase tracking-[0.28em] text-slate-100/80 md:justify-start">
-                  {project.is_featured && (
-                    <span className="inline-flex items-center gap-1.5 rounded-full pr-3 py-1 text-sky-200/90 drop-shadow-[0_2px_3px_rgba(0,0,0,1)]">
-                      <Sparkles className="h-3 w-3" aria-hidden="true" />
-                      <span className="tracking-[0.35em]">{t("featuredBadge")}</span>
-                    </span>
-                  )}
-                  {categoryLabels.length > 0 && (
-                    <span className="inline-flex items-center gap-2 px-3 py-1 text-gray-50/55 drop-shadow-[0_2px_3px_rgba(0,0,0,1)]">
-                      {categoryLabels.join(" • ")}
-                    </span>
-                  )}
-                </div>
-
-                <div className="space-y-2">
-                  <h1 className="text-[2.15rem] font-semibold leading-tight text-white drop-shadow-[0_4px_9px_rgba(0,0,0,1)] md:text-[2.7rem]">
-                    {project.title}
-                  </h1>
-                  {project.role && (
-                    <p className="text-sm font-medium text-white/75 md:text-base drop-shadow-[0_2px_3px_rgba(0,0,0,1)]">
-                      {project.role}
-                    </p>
-                  )}
-                </div>
-              </div>
-            </div>
-          </motion.header>
-
           <motion.div
-            className="mt-6 md:mt-8 grid gap-6 md:gap-8"
+            className="grid gap-6 md:gap-8"
             variants={modalItemVariants}
             initial="hidden"
             animate={animationState}
           >
             <motion.article
-              className="space-y-8 rounded-[26px] border border-white/20 bg-white/4 p-6 md:p-8 shadow-[0_18px_48px_rgba(8,15,28,0.55)]"
+              className="space-y-8"
               variants={modalItemVariants}
               initial="hidden"
               animate={animationState}
             >
-              <div className="space-y-4 text-left">
-                <h2 className="text-2xl font-semibold text-white text-center md:text-left">{t("overviewTitle")}</h2>
-                <div className="space-y-3 text-base leading-relaxed text-white/65 text-justify">
-                  {project.full_description
-                    .split(/\n+/)
-                    .map((paragraph, i) => (
-                      <p key={i}>{paragraph}</p>
-                    ))}
+              <div className="relative z-10 flex flex-col items-center gap-6 sm:flex-row sm:items-end sm:justify-between text-center md:text-left border-b border-white/20 pb-8">
+                <div className="flex-1 space-y-1">
+                  <div className="flex flex-wrap items-center justify-center gap-3 text-[0.68rem] uppercase tracking-[0.28em] text-slate-100/80 md:justify-start">
+                    {project.is_featured && (
+                      <span className="inline-flex items-center gap-1.5 rounded-full pr-3 py-1 text-sky-200/90">
+                        <Sparkles className="h-3 w-3" aria-hidden="true" />
+                        <span className="tracking-[0.35em]">{t("featuredBadge")}</span>
+                      </span>
+                    )}
+                    {categoryLabels.length > 0 && (
+                      <span className="inline-flex items-center gap-2 px-3 py-1 text-gray-50/75">
+                        {categoryLabels.join(" • ")}
+                      </span>
+                    )}
+                  </div>
+
+                  <div className="space-y-2">
+                    <h1 className="text-[2.15rem] font-semibold leading-tight text-white md:text-[2.7rem]">
+                      {project.title}
+                    </h1>
+                    {project.role && (
+                      <p className="text-sm font-medium text-white/75 md:text-base">
+                        {project.role}
+                      </p>
+                    )}
+                  </div>
                 </div>
+              </div>
+
+              {/* OVERVIEW */}
+              <div className="space-y-4 text-left pb-4">
+                <h2 className="text-2xl font-semibold text-white text-center md:text-left">
+                  {t("overviewTitle")}
+                </h2>
+
+                <div className="space-y-3 text-base leading-relaxed text-white/65 text-justify">
+                  {paragraphsToRender.map((paragraph, i) => (
+                    <p className="" key={i}>
+                      {paragraph}
+                    </p>
+                  ))}
+                </div>
+
+                {isTruncated && (
+                  <button
+                    ref={overviewToggleRef}
+                    type="button"
+                    onClick={handleToggleExpand}
+                    className="cursor-pointer mt-1 text-sm font-semibold text-sky-300/85 hover:underline underline-offset-4 decoration-sky-300/80 drop-shadow-[0_4px_4px_rgba(0,0,0,1)]"
+                  >
+                    {isExpanded ? t("read_less") : t("read_more")}
+                  </button>
+                )}
               </div>
 
               {project.detailed_media?.length ? (
@@ -197,7 +298,7 @@ export function ProjectModalContent({
               animate={animationState}
             >
               <motion.div
-                className="rounded-[26px] border border-white/20 bg-white/4 p-6 shadow-[0_12px_36px_rgba(8,15,28,0.45)] md:flex-auto md:min-w-0"
+                className="rounded-[26px] border border-white/20 bg-white/2 p-6 shadow-[0_12px_26px_rgba(8,15,28,1)] md:flex-auto md:min-w-0"
                 variants={modalItemVariants}
                 initial="hidden"
                 animate={animationState}
@@ -209,9 +310,9 @@ export function ProjectModalContent({
                   {tags.map((tag, idx) => (
                     <motion.span
                       key={`${project.id}-tag-${idx}`}
-                      className="rounded-full border border-white/30 bg-white/10 px-3.5 py-1 text-sm font-medium text-sky-100/90 shadow-[0_5px_14px_rgba(0,0,0,0.15)]"
+                      className="cursor-pointer rounded-full border border-white/30 bg-white/2 px-3.5 py-1 text-sm font-medium text-sky-100/90 shadow-[0_5px_4px_rgba(0,0,0,0.25)]"
                       whileHover={{ scale: 1.06 }}
-                      transition={{ duration: 0.25 }}
+                      transition={{ duration: 0.1 }}
                     >
                       {tag}
                     </motion.span>
@@ -221,7 +322,7 @@ export function ProjectModalContent({
 
               {(project.github_url || project.live_url) && (
                 <motion.div
-                  className="rounded-[26px] border border-sky-400/40 bg-gradient-to-br from-sky-500/22 via-sky-400/13 to-transparent p-6 shadow-[0_12px_32px_rgba(0,0,0,0.25)] md:flex-auto md:min-w-[250px]"
+                  className="rounded-[26px] border border-sky-400/40 bg-gradient-to-br from-sky-500/22 via-sky-400/13 to-transparent p-6 shadow-[0_12px_26px_rgba(8,15,28,1)] md:flex-auto md:min-w-[250px]"
                   variants={modalItemVariants}
                   initial="hidden"
                   animate={animationState}
@@ -235,8 +336,8 @@ export function ProjectModalContent({
                         href={project.live_url}
                         target="_blank"
                         rel="noreferrer"
-                        className="flex items-center justify-between gap-3 rounded-2xl border border-white/20 bg-gradient-to-r from-sky-500/28 via-sky-400/18 to-transparent px-4 py-3 text-sm font-semibold text-white shadow-[0_2px_5px_rgba(56,189,248,0.45)]"
-                        whileHover={{ scale: 1.02, y:-1 }}
+                        className="flex items-center justify-between gap-3 rounded-2xl border border-white/30 bg-gradient-to-r from-sky-500/28 via-sky-400/18 to-transparent px-4 py-3 text-sm font-semibold text-white shadow-[0_5px_4px_rgba(0,0,0,0.25)]"
+                        whileHover={{ scale: 1.02, y: -1 }}
                         whileTap={{ scale: 0.95 }}
                       >
                         <span>{t("liveDemoCta")}</span>
@@ -248,15 +349,14 @@ export function ProjectModalContent({
                         href={project.github_url}
                         target="_blank"
                         rel="noreferrer"
-                        className="flex items-center justify-between gap-3 rounded-2xl border border-white/20 bg-gradient-to-r from-purple-900/70 via-purple-900/40 to-transparent px-4 py-3 text-sm font-semibold text-white/85 shadow-[0_2px_5px_rgba(142,36,170,0.45)]"
-                        whileHover={{ scale: 1.02, y:-1 }}
+                        className="flex items-center justify-between gap-3 rounded-2xl border border-white/30 bg-gradient-to-r from-purple-900/70 via-purple-900/40 to-transparent px-4 py-3 text-sm font-semibold text-white/85 shadow-[0_5px_4px_rgba(0,0,0,0.25)]"
+                        whileHover={{ scale: 1.02, y: -1 }}
                         whileTap={{ scale: 0.96 }}
                       >
                         <span>{t("viewOnGithubCta")}</span>
                         <Github className="h-5 w-5" aria-hidden="true" />
                       </motion.a>
                     )}
-                    
                   </div>
                 </motion.div>
               )}

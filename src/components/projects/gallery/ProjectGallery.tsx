@@ -44,7 +44,7 @@ export default function ProjectGallery({ category, filteredProjects, onCategoryC
   const t = useTranslations("ProjectsPage");
 
   return (
-    <section className="relative px-4 pb-24 sm:px-6 lg:px-10 border-t border-white/10 pt-18">
+    <section className="relative px-4 pb-10 sm:px-6 lg:px-10 border-t border-white/10 pt-18">
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-gray-900/40 to-gray-950/60" />
       <motion.div
         initial="hidden"

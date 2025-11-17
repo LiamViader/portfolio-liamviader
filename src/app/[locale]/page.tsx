@@ -71,7 +71,7 @@ export default function Home() {
         />
 
 
-        <div className="relative z-10 mx-auto pt-20 max-w-6xl w-full pt-15 text-center">
+        <div className="relative z-10 mx-auto max-w-6xl w-full pt-15 text-center">
           <motion.p
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}

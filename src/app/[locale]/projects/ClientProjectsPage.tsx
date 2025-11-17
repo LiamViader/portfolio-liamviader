@@ -109,7 +109,7 @@ export default function ClientProjectsPage({ projectsData }: ClientProjectsPageP
           </motion.h1>
           <motion.p
             variants={heroChildVariants}
-            className="max-w-3xl text-pretty text-balance text-lg text-white/70 sm:text-xl"
+            className="max-w-3xl text-pretty text-lg text-white/70 sm:text-xl"
           >
             {t("intro_paragraph")}
           </motion.p>

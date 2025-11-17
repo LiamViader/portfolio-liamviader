@@ -316,7 +316,7 @@ export function FeaturedCarouselCard({
         </div>
 
         <div className="flex flex-1 flex-col justify-around gap-4 px-4 pt-4 pb-4">
-          <div className="inset-x-0 text-white/90 flex flex-row items-center gap-2 justify-left items-center full-w">
+          <div className="inset-x-0 text-white/90 flex flex-row gap-2 justify-left items-center full-w">
             <h3
               className={clsx(
                 "font-semibold leading-tight drop-shadow-[0_4px_16px_rgba(0,0,0,1)] text-left text-pretty text-white/80 ",

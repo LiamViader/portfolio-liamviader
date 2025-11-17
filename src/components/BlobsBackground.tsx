@@ -78,7 +78,7 @@ export default function BlobsBackground() {
   return (
     <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
       <Blob
-        color="rgba(99, 118, 241, 0.9)"
+        color="rgba(43, 62, 184, 0.9)"
         sizeVW={55}
         phase={0}
         speed={speed}
@@ -90,7 +90,7 @@ export default function BlobsBackground() {
         blurPx={60}
       />
       <Blob
-        color="rgba(184, 92, 246, 0.9)"
+        color="rgba(130, 46, 185, 0.9)"
         sizeVW={48}
         phase={(1.5 * Math.PI) / 3}
         speed={speed}
@@ -102,7 +102,7 @@ export default function BlobsBackground() {
         blurPx={60}
       />
       <Blob
-        color="rgba(81, 70, 229, 0.9)"
+        color="rgba(35, 24, 185, 0.9)"
         sizeVW={62}
         phase={(2 * Math.PI) / 3}
         speed={speed}

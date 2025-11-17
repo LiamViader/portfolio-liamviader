@@ -157,6 +157,8 @@
     "closeButton": "Cerrar",
     "closeAriaLabel": "Cerrar detalles del proyecto",
     "overviewTitle": "Visión general",
+    "read_more": "Leer más",
+    "read_less": "Leer menos",
     "galleryTitle": "Galería del proyecto",
     "technologiesTitle": "Tecnologías",
     "exploreMoreTitle": "Explora más",
