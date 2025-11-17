@@ -336,7 +336,7 @@ export function ProjectModalContent({
                         href={project.live_url}
                         target="_blank"
                         rel="noreferrer"
-                        className="flex items-center justify-between gap-3 rounded-2xl border border-white/30 bg-gradient-to-r from-sky-500/28 via-sky-400/18 to-transparent px-4 py-3 text-sm font-semibold text-white shadow-[0_5px_4px_rgba(0,0,0,0.25)]"
+                        className="flex items-center justify-between gap-3 rounded-2xl border border-sky-400/40 bg-gradient-to-r from-sky-500/28 via-sky-400/18 to-transparent px-4 py-3 text-sm font-semibold text-white shadow-[0_5px_14px_rgba(167,167,250,0.15)]"
                         whileHover={{ scale: 1.02, y: -1 }}
                         whileTap={{ scale: 0.95 }}
                       >
@@ -349,7 +349,7 @@ export function ProjectModalContent({
                         href={project.github_url}
                         target="_blank"
                         rel="noreferrer"
-                        className="flex items-center justify-between gap-3 rounded-2xl border border-white/30 bg-gradient-to-r from-purple-900/70 via-purple-900/40 to-transparent px-4 py-3 text-sm font-semibold text-white/85 shadow-[0_5px_4px_rgba(0,0,0,0.25)]"
+                        className="flex items-center justify-between gap-3 rounded-2xl border border-purple-400/40 bg-gradient-to-r from-purple-900/70 via-purple-900/40 to-transparent px-4 py-3 text-sm font-semibold text-white/85 shadow-[0_5px_14px_rgba(167,139,250,0.15)]"
                         whileHover={{ scale: 1.02, y: -1 }}
                         whileTap={{ scale: 0.96 }}
                       >
