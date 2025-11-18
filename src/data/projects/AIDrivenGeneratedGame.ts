@@ -14,28 +14,79 @@ export const AIDrivenGeneratedGame: ProjectDefinition = {
     "Stable Diffusion",
     "OpenAI API",
   ],
-  media_preview: "/images/testImage.jpg",
-  github_url: "https://github.com/liam/project1",
-  live_url: "https://project1-live.com",
+  media_preview: "/images/projects/ai_driven_generated_game/preview.png",
+  github_url: "https://github.com/LiamViader/tfg-ai-driven-generated-game",
   detailed_media: [
     {
       type: "image",
-      src: "/images/testImage.jpg",
+      src: "/images/projects/ai_driven_generated_game/penguin_green_cave.jpg",
       figureNumber: "1.1",
+      translations: {
+        en: {
+          alt: "Example overview of the main in-game interface",
+          captionLabel: "Figure",
+          description: "Example overview of the main in-game interface",
+        },
+        es: {
+          alt: "Ejemplo de vista general de la interfaz in-game",
+          captionLabel: "Figura",
+          description: "Ejemplo de vista general de la interfaz in-game",
+        },
+      },
     },
     {
-      type: "video",
-      src: "https://storage.googleapis.com/coverr-main/mp4/Mt_Baker.mp4",
-      poster: "/images/testImage2.jpg",
-      thumbnail: "/images/testImage2.jpg",
+      type: "image",
+      src: "/images/projects/ai_driven_generated_game/interaction_monkeys.jpg",
       figureNumber: "1.2",
+      translations: {
+        en: {
+          alt: "Example of an interaction between the player and NPCs",
+          captionLabel: "Figure",
+          description: "Example of an interaction between the player and NPCs",
+        },
+        es: {
+          alt: "Ejemplo de una interacción entre el jugador y los NPCs",
+          captionLabel: "Figura",
+          description: "Ejemplo de una interacción entre el jugador y NPCs",
+        },
+      },
     },
     {
       type: "externalVideo",
-      src: "https://www.youtube.com/watch?v=dQw4w9WgXcQ",
-      embedUrl: "https://www.youtube.com/embed/dQw4w9WgXcQ",
-      thumbnail: "https://img.youtube.com/vi/dQw4w9WgXcQ/hqdefault.jpg",
+      src: "https://www.youtu.be.com/zsVrbzOQcAI",
+      embedUrl: "https://www.youtube.com/embed/zsVrbzOQcAI",
+      thumbnail: "https://img.youtube.com/vi/zsVrbzOQcAI/maxresdefault.jpg",
       figureNumber: "1.3",
+      translations: {
+        en: {
+          alt: "YouTube preview for project 1",
+          captionLabel: "Figure",
+          description: "Summary video of two different runs of the system.",
+        },
+        es: {
+          alt: "Vista previa de YouTube del proyecto 1",
+          captionLabel: "Figura",
+          description: "Video resumen de dos ejecuciones distintas del sistema.",
+        },
+      },
+    },
+    {
+      type: "externalVideo",
+      src: "https://youtu.be/-TcYASrU6WE",
+      thumbnail: "https://img.youtube.com/vi/-TcYASrU6WE/hqdefault.jpg",
+      figureNumber: "1.2",
+      translations: {
+        en: {
+          alt: "YouTube preview for project 1",
+          captionLabel: "Figure",
+          description: "Summary video of two different runs of the system.",
+        },
+        es: {
+          alt: "Vista previa de YouTube del proyecto 1",
+          captionLabel: "Figura",
+          description: "Video resumen de dos ejecuciones distintas del sistema.",
+        },
+      },
     },
   ],
   categories: ["AI", "Game"],
@@ -48,23 +99,6 @@ export const AIDrivenGeneratedGame: ProjectDefinition = {
       full_description:
         "Large description here. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Large description here. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.Large description here. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.Large description here. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
       role: "Full-Stack Developer & ML Engineer",
-      media: [
-        {
-          alt: "Primary interface view for project 1",
-          captionLabel: "Figure",
-          description: "Overview of the main interface.",
-        },
-        {
-          alt: "Workflow detail for project 1",
-          captionLabel: "Figure",
-          description: "Highlighted workflow diagram.",
-        },
-        {
-          alt: "YouTube preview for project 1",
-          captionLabel: "Figure",
-          description: "Embedded presentation hosted on YouTube.",
-        },
-      ],
     },
     es: {
       title: "Videojuego generado y dirigido por IA",
@@ -84,23 +118,6 @@ export const AIDrivenGeneratedGame: ProjectDefinition = {
 
         En conjunto, este proyecto explora cómo la IA generativa puede asumir parte del rol tradicional del diseñador y director de videojuegos, pasando de un modelo basado en contenido cerrado a uno en el que la experiencia surge dinámicamente de la colaboración entre jugador y sistema. Representa un primer paso hacia entornos interactivos donde la IA no solo genera contenido, sino que también está diseñada para influir, estructurar y expandir la experiencia jugable.`,
       role: "Creador, Diseñador y Desarrollador del Proyecto Completo",
-      media: [
-        {
-          alt: "Vista principal del proyecto 1",
-          captionLabel: "Figura",
-          description: "Vista general de la interfaz.",
-        },
-        {
-          alt: "Detalle del flujo de trabajo del proyecto 1",
-          captionLabel: "Figura",
-          description: "Flujo de trabajo destacado.",
-        },
-        {
-          alt: "Vista previa de YouTube del proyecto 1",
-          captionLabel: "Figura",
-          description: "Presentación incrustada alojada en YouTube.",
-        },
-      ],
     },
   },
 };

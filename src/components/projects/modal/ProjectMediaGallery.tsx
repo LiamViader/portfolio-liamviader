@@ -54,7 +54,7 @@ export function ProjectMediaGallery({
 
   return (
     <>
-      <div className="space-y-4 border-t border-white/10 pt-8 text-center sm:text-left">
+      <div className="space-y-4 border-t border-white/20 pt-8 text-center sm:text-left">
         <h3 className="pb-2 text-2xl font-semibold text-white">{galleryTitle}</h3>
         <div className="grid gap-5 sm:grid-cols-2">
           {media.map((item, idx) => {
@@ -69,7 +69,7 @@ export function ProjectMediaGallery({
             return (
               <motion.figure
                 key={`${project.id}-media-${idx}`}
-                className="group overflow-hidden rounded-3xl border border-white/12 bg-slate-950/40 shadow-[0_8px_16px_rgba(8,15,35,0.55)] backdrop-blur"
+                className="group overflow-hidden rounded-3xl border border-gray-700 shadow-[0_0px_10px_rgba(100,100,100,0.2)] backdrop-blur"
                 variants={modalItemVariants}
                 initial="hidden"
                 animate={animationState}
@@ -106,7 +106,7 @@ export function ProjectMediaGallery({
                     <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-slate-950/65 via-slate-950/15 to-transparent opacity-60" />
                     {isVideoMedia(item) && (
                       <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
-                        <span className="flex h-16 w-16 items-center justify-center rounded-full bg-gray-950/90 text-white shadow-[0_12px_30px_rgba(15,23,42,1)] backdrop-blur">
+                        <span className="flex h-16 w-16 items-center justify-center rounded-full bg-slate-950  text-sky-200/90 shadow-[0_0px_30px_rgba(15,23,42,1)] backdrop-blur">
                           <Play className="h-8 w-8" aria-hidden="true" />
                         </span>
                       </div>
@@ -116,14 +116,14 @@ export function ProjectMediaGallery({
 
                 {hasCaptionContent && (
                   <div className="relative z-10 px-0 pb-0">
-                    <figcaption className="relative space-y-1.5 bg-slate-950/85 px-5 py-4 text-left shadow-[0_18px_38px_rgba(6,12,30,0.65)] backdrop-blur">
+                    <figcaption className="relative space-y-1.5 bg-slate-950 border-t border-white/20 px-5 py-4 text-left shadow-[0_18px_38px_rgba(6,12,30,0.65)] backdrop-blur">
                       {(figureLabel || item.alt) && (
-                        <p className="text-[0.68rem] font-semibold uppercase tracking-[0.35em] text-slate-100/75">
+                        <p className="text-[0.68rem] font-semibold uppercase tracking-[0.35em] text-sky-200/90">
                           {figureLabel || item.alt}
                         </p>
                       )}
                       {item.description && (
-                        <p className="text-sm leading-relaxed text-slate-100/80">
+                        <p className="text-sm leading-relaxed text-sky-100/80">
                           {item.description}
                         </p>
                       )}

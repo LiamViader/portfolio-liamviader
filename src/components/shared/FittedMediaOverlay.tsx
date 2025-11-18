@@ -143,7 +143,7 @@ function InnerFittedOverlay({
             type="button"
             aria-label={closeLabel}
             onClick={(e) => { e.stopPropagation(); onClose(); }}
-            className="group absolute cursor-pointer top-3 right-3 z-[1000001] inline-flex h-11 w-11 items-center justify-center rounded-full bg-gray-950/90 text-white shadow-[0_3px_14px_rgba(0,0,0,1)] backdrop-blur ring-2 ring-gray-600"
+            className="group absolute cursor-pointer top-3 right-3 z-[1000001] inline-flex h-11 w-11 items-center justify-center rounded-full bg-gray-950/90 text-white shadow-[0_3px_14px_rgba(0,0,0,1)] backdrop-blur ring-3 ring-sky-200/40"
             initial={{ opacity: 0, scale: 0.92, y: -6 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.92, y: -6 }}
@@ -280,7 +280,6 @@ function ExternalVideoContained({
         title={media.alt ?? title}
         className="block w-full h-full"
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-        allowFullScreen
       />
     </div>
   );
@@ -304,7 +303,7 @@ function getEmbeddedVideoSource(item: BaseMediaItem) {
   const base = item.embedUrl ?? item.src;
   if (base.includes("youtube")) {
     const separator = base.includes("?") ? "&" : "?";
-    return `${base}${separator}rel=0&autoplay=1`;
+    return `${base}${separator}rel=0&playsinline=1`;
   }
   return base;
 }

@@ -1,6 +1,8 @@
 import type { Locale } from "@/i18n/routing";
 
-// TODO: Make possible that the detailed card has metadata, for SEO purposes, also make the detailed description be able to have html content or some formatting to be able to add links, bold, sections, media etc
+// TODO: Make possible that the detailed card has metadata, for SEO purposes,
+// also make the detailed description be able to have html content or some
+// formatting to be able to add links, bold, sections, media etc
 
 export const projectCategories = ["AI", "Game"] as const;
 
@@ -19,7 +21,6 @@ export interface ProjectTranslations {
   short_description: string;
   full_description: string;
   role?: string;
-  media: ProjectMediaLocalization[];
 }
 
 export interface ProjectMediaItem {
@@ -29,11 +30,13 @@ export interface ProjectMediaItem {
   poster?: string;
   embedUrl?: string;
   figureNumber?: string;
+
+  translations: Record<Locale, ProjectMediaLocalization>;
 }
 
 export interface ProjectData {
-  id: number;                    
-  slug: string;                  
+  id: number; // generated automatically
+  slug: string; // for URLs
   tags: string[];
   media_preview: string;
   github_url?: string;
@@ -48,7 +51,9 @@ export interface ProjectData {
 export type ProjectDefinition = Omit<ProjectData, "id">;
 
 export type ProjectBase = Omit<ProjectData, "translations" | "detailed_media">;
-export type ProjectTranslationBase = Omit<ProjectTranslations, "media">;
+export type ProjectTranslationBase = ProjectTranslations;
+
+
 export type LocalizedProjectMedia = ProjectMediaItem & ProjectMediaLocalization;
 
 export type TranslatedProject = ProjectBase &

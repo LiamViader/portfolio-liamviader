@@ -168,7 +168,7 @@ export function ProjectModalContent({
         type="button"
         onClick={onClose}
         aria-label={closeAriaLabel}
-        className="group absolute cursor-pointer top-3 right-3 z-[1000001] inline-flex h-11 w-11 items-center justify-center rounded-full bg-slate-950/90 backdrop-blur-xl text-white shadow-[0_3px_14px_rgba(0,0,0,1)] ring-2 ring-gray-600"
+        className="group absolute cursor-pointer top-3 right-3 z-[1000001] inline-flex h-11 w-11 items-center justify-center rounded-full bg-slate-950/90 backdrop-blur-xl text-white shadow-[0_3px_14px_rgba(0,0,0,1)] ring-3 ring-sky-200/40"
         initial={{ opacity: 0, scale: 0.92, y: -6 }}
         animate={{ opacity: 1, scale: 1, y: 0 }}
         exit={{ opacity: 0, scale: 0.92, y: -6 }}
@@ -297,19 +297,19 @@ export function ProjectModalContent({
               animate={animationState}
             >
               <motion.div
-                className="rounded-[26px] border border-white/20 bg-white/2 p-6 shadow-[0_8px_16px_rgba(8,15,35,0.55)] md:flex-auto md:min-w-0"
+                className="rounded-[26px] border border-white/20 bg-gradient-to-br from-slate-950 via-slate-950/50 to-transparent p-6 shadow-[0_0px_10px_rgba(100,100,100,0.2)] md:flex-auto md:min-w-0"
                 variants={modalItemVariants}
                 initial="hidden"
                 animate={animationState}
               >
-                <h3 className="text-sm text-center uppercase tracking-[0.38em] text-white/65">
+                <h3 className="text-sm text-center uppercase tracking-[0.38em] text-sky-100/90">
                   {t("technologiesTitle")}
                 </h3>
                 <div className="mt-4 flex flex-wrap justify-center gap-2 md:justify-start">
                   {tags.map((tag, idx) => (
                     <motion.span
                       key={`${project.id}-tag-${idx}`}
-                      className="cursor-pointer rounded-full border border-white/30 bg-white/2 px-3.5 py-1 text-sm font-medium text-sky-100/90 shadow-[0_5px_4px_rgba(200,200,200,0.05)]"
+                      className="cursor-pointer rounded-full border border-white/30 bg-slate-950/90 px-3.5 py-1 text-sm font-medium text-sky-100/80 shadow-[0_2px_2px_rgba(100,100,200,0.1)]"
                       whileHover={{ scale: 1.06 }}
                       transition={{ duration: 0.1 }}
                     >
@@ -321,7 +321,7 @@ export function ProjectModalContent({
 
               {(project.github_url || project.live_url) && (
                 <motion.div
-                  className="rounded-[26px] border border-sky-400/40 bg-gradient-to-br from-sky-500/22 via-sky-400/13 to-transparent p-6 shadow-[0_8px_16px_rgba(8,47,73,0.5)] md:flex-auto md:min-w-[250px]"
+                  className="rounded-[26px] border border-white/20 bg-gradient-to-br from-sky-500/22 via-sky-400/13 to-transparent p-6 shadow-[0_0px_10px_rgba(8,47,73,0.2)] md:flex-auto md:min-w-[250px]"
                   variants={modalItemVariants}
                   initial="hidden"
                   animate={animationState}

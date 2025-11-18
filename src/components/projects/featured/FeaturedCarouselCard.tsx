@@ -308,7 +308,7 @@ export function FeaturedCarouselCard({
               priority={isCenter}
             />
             <motion.div
-              className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-950/70 to-transparent"
+              className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-950/50 to-transparent"
               custom={{ center: isCenter && !shouldHide }}
               variants={overlayVariants}
             />
