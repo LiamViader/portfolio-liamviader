@@ -1,18 +1,148 @@
 "use client";
 
+import { useState, useEffect, useRef, KeyboardEvent } from "react";
 import { Link, usePathname } from "@/i18n/navigation";
+import { useLocale } from "next-intl";
+import { routing } from "@/i18n/routing";
+import ReactCountryFlag from "react-country-flag";
+import { motion, AnimatePresence } from "framer-motion";
+
+const labelByLocale: Record<string, string> = {
+  en: "English",
+  es: "Español",
+};
+
+const countryCodeByLocale: Record<string, string> = {
+  en: "GB",
+  es: "ES",
+};
 
 export default function LanguageSwitcher() {
   const pathname = usePathname();
+  const locale = useLocale();
+  const [open, setOpen] = useState(false);
+
+  const locales = routing.locales;
+
+  const currentLabel = labelByLocale[locale] ?? locale.toUpperCase();
+  const currentCountryCode = countryCodeByLocale[locale] ?? "UN";
+
+  const dropdownRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    setOpen(false);
+  }, [pathname, locale]);
+
+  useEffect(() => {
+    function handleClickOutside(e: MouseEvent) {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(e.target as Node)
+      ) {
+        setOpen(false);
+      }
+    }
+
+    if (open) {
+      document.addEventListener("mousedown", handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, [open]);
+
+  const handleButtonKeyDown = (e: KeyboardEvent<HTMLButtonElement>) => {
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      setOpen((prev) => !prev);
+    }
+    if (e.key === "Escape") {
+      setOpen(false);
+    }
+  };
 
   return (
-    <div className="flex gap-2">
-      <Link href={pathname} locale="en" className="px-3 py-1 bg-white/10 backdrop-blur-sm hover:bg-white/20 border border-white/10 rounded">
-        EN
-      </Link>
-      <Link href={pathname} locale="es" className="px-3 py-1 bg-white/10 backdrop-blur-sm hover:bg-white/20 border border-white/10 rounded h">
-        ES
-      </Link>
+    <div ref={dropdownRef} className="relative inline-block text-left">
+      <motion.button
+        type="button"
+        whileTap={{ scale: 0.96 }}
+        onClick={() => setOpen((prev) => !prev)}
+        onKeyDown={handleButtonKeyDown}
+        aria-haspopup="menu"
+        aria-expanded={open}
+        className="flex items-center gap-2 px-3 py-1 bg-white/10 backdrop-blur-xl hover:bg-white/20 border border-white/10 rounded text-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-white/40 focus-visible:ring-offset-2 focus-visible:ring-offset-transparent"
+      >
+        <ReactCountryFlag
+          svg
+          countryCode={currentCountryCode}
+          className="text-xl"
+          style={{ width: "1em", height: "1em" }}
+        />
+        <span>{currentLabel}</span>
+
+        <motion.span
+          className="ml-1 text-xs opacity-70"
+          animate={{ rotate: open ? 180 : 0 }}
+          transition={{ duration: 0.15, ease: "easeOut" }}
+        >
+          ▾
+        </motion.span>
+      </motion.button>
+
+      <AnimatePresence>
+        {open && (
+          <motion.div
+            key="language-dropdown"
+            initial={{ opacity: 0, y: -4, scale: 0.98 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: -4, scale: 0.98 }}
+            transition={{ duration: 0.15, ease: "easeOut" }}
+            className="absolute mt-2 w-full bg-black/40 backdrop-blur-xl border border-white/10 rounded shadow-lg z-20 overflow-hidden"
+            role="menu"
+          >
+            {locales.map((code) => {
+              const countryCode = countryCodeByLocale[code] ?? "UN";
+              const label = labelByLocale[code] ?? code.toUpperCase();
+              const isActive = code === locale;
+
+              return (
+                <Link
+                  key={code}
+                  href={pathname}
+                  locale={code}
+                  onClick={() => setOpen(false)}
+                  role="menuitem"
+                  className={`flex items-center justify-between gap-2 px-3 py-2 text-sm hover:bg-white/10 transition-colors ${
+                    isActive ? "bg-white/10" : ""
+                  }`}
+                >
+                  <span className="flex items-center gap-2">
+                    <ReactCountryFlag
+                      svg
+                      countryCode={countryCode}
+                      className="text-xl"
+                      style={{ width: "1em", height: "1em" }}
+                    />
+                    <span>{label}</span>
+                  </span>
+
+                  {isActive && (
+                    <motion.span
+                      initial={{ opacity: 0, scale: 0.8 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      exit={{ opacity: 0, scale: 0.8 }}
+                      className="text-xs opacity-80"
+                    >
+                      ✓
+                    </motion.span>
+                  )}
+                </Link>
+              );
+            })}
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
