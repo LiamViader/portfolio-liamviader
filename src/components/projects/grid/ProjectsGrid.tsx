@@ -45,17 +45,41 @@ export default function ProjectsGrid({ projects, replaceUrl = true, allowUrlOpen
   };
 
   useEffect(() => {
+    let timeoutId: NodeJS.Timeout;
+    let intervalId: NodeJS.Timeout;
+
     if (projectFromUrl && !selected && allowUrlOpen) {
-      
       const element = cardRefs.current.get(projectFromUrl.id);
+
       if (element) {
-        element.scrollIntoView({ behavior: "auto", block: "center" });
-        requestAnimationFrame(() => {
-             const rect = measureStableRect(element);
-             selectProject(projectFromUrl, rect, element);
-        });
+        timeoutId = setTimeout(() => {
+          
+          element.scrollIntoView({ behavior: "smooth", block: "center" });
+
+          let lastScrollY = window.scrollY;
+          
+          intervalId = setInterval(() => {
+            if (Math.abs(window.scrollY - lastScrollY) < 1) {
+              clearInterval(intervalId);
+
+              requestAnimationFrame(() => {
+                const rect = measureStableRect(element);
+                selectProject(projectFromUrl, rect, element);
+              });
+              
+            } else {
+              lastScrollY = window.scrollY;
+            }
+          }, 400);
+
+        }, 200); 
       }
     }
+
+    return () => {
+      clearTimeout(timeoutId);
+      clearInterval(intervalId);
+    };
   }, [projectFromUrl, selected, allowUrlOpen, selectProject]);
   
   return (
