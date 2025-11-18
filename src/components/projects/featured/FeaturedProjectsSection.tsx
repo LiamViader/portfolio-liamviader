@@ -12,6 +12,8 @@ const ITEM_DURATION = 0.6;
 
 interface FeaturedProjectsProps {
   projects: TranslatedProject[];
+  replaceUrl?: boolean;
+  allowUrlOpen?: boolean;
 }
 
 const leftCol: Variants = {
@@ -35,7 +37,7 @@ const leftItem: Variants = {
   },
 };
 
-export default function FeaturedProjectsSection({ projects }: FeaturedProjectsProps) {
+export default function FeaturedProjectsSection({ projects, replaceUrl = true, allowUrlOpen = false, }: FeaturedProjectsProps) {
   const t = useTranslations("ProjectsPage");
   const [cardsIntro, setCardsIntro] = useState(false);
   return (
@@ -69,6 +71,8 @@ export default function FeaturedProjectsSection({ projects }: FeaturedProjectsPr
               descriptionClassName: "text-xs md:text-sm xl:text-base",
               tagClassName: "text-[10px] lg:text-xs",
             }}
+            replaceUrl={replaceUrl}
+            allowUrlOpen={allowUrlOpen}
           />
         </div>
       </motion.div>

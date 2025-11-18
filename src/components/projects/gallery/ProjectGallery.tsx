@@ -65,7 +65,7 @@ export default function ProjectGallery({ category, filteredProjects, onCategoryC
         </motion.div>
 
         <motion.div variants={itemVariants} className="w-full">
-          <ProjectsGrid projects={filteredProjects} />
+          <ProjectsGrid projects={filteredProjects} replaceUrl={true} allowUrlOpen={true} />
         </motion.div>
       </motion.div>
     </section>

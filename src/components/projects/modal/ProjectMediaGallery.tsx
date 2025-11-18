@@ -81,7 +81,8 @@ export function ProjectMediaGallery({
                   onClick={() => openMedia(idx)}
                   aria-label={buttonLabel}
                   className="relative block w-full cursor-pointer overflow-hidden text-left"
-                  whileTap={{ scale: 0.98 }}
+                  whileHover={{scale: 1.04}}
+                  transition={{duration: 0.3, ease: "easeOut"}}
                 >
                   <div className="relative aspect-video overflow-hidden">
                     {previewSource ? (

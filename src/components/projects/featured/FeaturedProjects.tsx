@@ -23,6 +23,8 @@ interface FeaturedProjectsProps {
   carouselLayout?: FeaturedCarouselLayoutOptions;
   carouselTypography?: FeaturedCarouselTypographyOptions;
   introStart?: boolean;
+  replaceUrl?: boolean;
+  allowUrlOpen?: boolean;
 }
 
 type CardRegistry = Map<number, HTMLElement>;
@@ -35,6 +37,8 @@ export default function FeaturedProjects({
   carouselLayout,
   carouselTypography,
   introStart,
+  replaceUrl = true,
+  allowUrlOpen = false,
 }: FeaturedProjectsProps) {
   const t = useTranslations("ProjectsPage");
   const featuredProjects = useMemo(
@@ -43,7 +47,7 @@ export default function FeaturedProjects({
   );
 
   const { selected, revealOrigin, selectProject, closeProject, markOriginRevealed } =
-    useProjectSelection();
+    useProjectSelection(projects, { replaceUrl: replaceUrl, allowUrlOpen: allowUrlOpen });
 
   const cardRefs = useRef<CardRegistry>(new Map());
 

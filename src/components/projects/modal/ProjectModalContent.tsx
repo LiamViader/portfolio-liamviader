@@ -289,77 +289,80 @@ export function ProjectModalContent({
                 />
               ) : null}
             </motion.article>
-
-            <motion.aside
-              className="flex flex-col gap-6 md:gap-8 md:flex-row md:items-stretch"
-              variants={modalItemVariants}
-              initial="hidden"
-              animate={animationState}
-            >
-              <motion.div
-                className="rounded-[26px] border border-white/20  p-6 shadow-[0_0px_10px_rgba(100,100,100,0.2)] md:flex-auto md:min-w-0"
+            
+            
+            <div className="border-t border-white/20 pt-8 mt-2">
+              <motion.aside
+                className="flex flex-col gap-6 md:gap-8 md:flex-row md:items-stretch"
                 variants={modalItemVariants}
                 initial="hidden"
                 animate={animationState}
               >
-                <h3 className="text-sm text-center uppercase tracking-[0.38em] text-sky-100/90">
-                  {t("technologiesTitle")}
-                </h3>
-                <div className="mt-4 flex flex-wrap justify-center gap-2 md:justify-start">
-                  {tags.map((tag, idx) => (
-                    <motion.span
-                      key={`${project.id}-tag-${idx}`}
-                      className="rounded-full border border-white/30 bg-black/5 px-3.5 py-1 text-sm font-medium text-sky-100/80 shadow-[0_2px_2px_rgba(100,100,200,0.1)]"
-                      whileHover={{ scale: 1.06 }}
-                      transition={{ duration: 0.1 }}
-                    >
-                      {tag}
-                    </motion.span>
-                  ))}
-                </div>
-              </motion.div>
-
-              {(project.github_url || project.live_url) && (
                 <motion.div
-                  className="rounded-[26px] border border-white/20 bg-gradient-to-br from-sky-500/22 via-sky-400/13 to-transparent p-6 shadow-[0_0px_10px_rgba(8,47,73,0.2)] md:flex-auto md:min-w-[250px]"
+                  className="rounded-[26px] border border-white/20  p-6 shadow-[0_0px_10px_rgba(100,100,100,0.2)] md:flex-auto md:min-w-0"
                   variants={modalItemVariants}
                   initial="hidden"
                   animate={animationState}
                 >
-                  <h3 className="text-sm text-center uppercase tracking-[0.38em] text-sky-100/85">
-                    {t("exploreMoreTitle")}
+                  <h3 className="text-sm text-center uppercase tracking-[0.38em] text-sky-100/90">
+                    {t("technologiesTitle")}
                   </h3>
-                  <div className="mt-4 flex flex-col gap-3">
-                    {project.live_url && (
-                      <motion.a
-                        href={project.live_url}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="flex items-center justify-between gap-3 rounded-2xl border border-sky-400/40 bg-gradient-to-r from-sky-500/28 via-sky-400/18 to-transparent px-4 py-3 text-sm font-semibold text-white shadow-[0_5px_14px_rgba(167,167,250,0.15)]"
-                        whileHover={{ scale: 1.02, y: -1 }}
-                        whileTap={{ scale: 0.95 }}
+                  <div className="mt-4 flex flex-wrap justify-center gap-2 md:justify-start">
+                    {tags.map((tag, idx) => (
+                      <motion.span
+                        key={`${project.id}-tag-${idx}`}
+                        className="rounded-full border border-white/30 bg-black/5 px-3.5 py-1 text-sm font-medium text-sky-100/80 shadow-[0_2px_2px_rgba(100,100,200,0.1)]"
+                        whileHover={{ scale: 1.06 }}
+                        transition={{ duration: 0.1 }}
                       >
-                        <span>{t("liveDemoCta")}</span>
-                        <ExternalLink className="h-5 w-5" aria-hidden="true" />
-                      </motion.a>
-                    )}
-                    {project.github_url && (
-                      <motion.a
-                        href={project.github_url}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="flex items-center justify-between gap-3 rounded-2xl border border-purple-400/40 bg-gradient-to-r from-purple-900/70 via-purple-900/40 to-transparent px-4 py-3 text-sm font-semibold text-white/85 shadow-[0_5px_14px_rgba(167,139,250,0.15)]"
-                        whileHover={{ scale: 1.02, y: -1 }}
-                        whileTap={{ scale: 0.96 }}
-                      >
-                        <span>{t("viewOnGithubCta")}</span>
-                        <Github className="h-5 w-5" aria-hidden="true" />
-                      </motion.a>
-                    )}
+                        {tag}
+                      </motion.span>
+                    ))}
                   </div>
                 </motion.div>
-              )}
-            </motion.aside>
+
+                {(project.github_url || project.live_url) && (
+                  <motion.div
+                    className="rounded-[26px] border border-white/20 bg-gradient-to-br from-sky-500/22 via-sky-400/13 to-transparent p-6 shadow-[0_0px_10px_rgba(8,47,73,0.2)] md:flex-auto md:min-w-[250px]"
+                    variants={modalItemVariants}
+                    initial="hidden"
+                    animate={animationState}
+                  >
+                    <h3 className="text-sm text-center uppercase tracking-[0.38em] text-sky-100/85">
+                      {t("exploreMoreTitle")}
+                    </h3>
+                    <div className="mt-4 flex flex-col gap-3">
+                      {project.live_url && (
+                        <motion.a
+                          href={project.live_url}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="flex items-center justify-between gap-3 rounded-2xl border border-sky-400/40 bg-gradient-to-r from-sky-500/28 via-sky-400/18 to-transparent px-4 py-3 text-sm font-semibold text-white shadow-[0_5px_14px_rgba(167,167,250,0.15)]"
+                          whileHover={{ scale: 1.02, y: -1 }}
+                          whileTap={{ scale: 0.95 }}
+                        >
+                          <span>{t("liveDemoCta")}</span>
+                          <ExternalLink className="h-5 w-5" aria-hidden="true" />
+                        </motion.a>
+                      )}
+                      {project.github_url && (
+                        <motion.a
+                          href={project.github_url}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="flex items-center justify-between gap-3 rounded-2xl border border-purple-400/40 bg-gradient-to-r from-purple-900/70 via-purple-900/40 to-transparent px-4 py-3 text-sm font-semibold text-white/85 shadow-[0_5px_14px_rgba(167,139,250,0.15)]"
+                          whileHover={{ scale: 1.02, y: -1 }}
+                          whileTap={{ scale: 0.96 }}
+                        >
+                          <span>{t("viewOnGithubCta")}</span>
+                          <Github className="h-5 w-5" aria-hidden="true" />
+                        </motion.a>
+                      )}
+                    </div>
+                  </motion.div>
+                )}
+              </motion.aside>
+            </div>
           </motion.div>
         </div>
       </div>

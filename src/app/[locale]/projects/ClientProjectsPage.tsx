@@ -116,7 +116,7 @@ export default function ClientProjectsPage({ projectsData }: ClientProjectsPageP
         </motion.div>
       </section>
 
-      <FeaturedProjectsSection projects={projectsData} />
+      <FeaturedProjectsSection projects={projectsData} replaceUrl={true} allowUrlOpen={false}/>
 
       <ProjectGallery
         category={category}

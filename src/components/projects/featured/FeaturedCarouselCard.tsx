@@ -120,20 +120,15 @@ export function FeaturedCarouselCard({
 
   const allTags = project.tags ?? [];
 
-  // 🔍 medimos el ancho real de la card
   const cardRef = useRef<HTMLDivElement | null>(null);
 
-  // 🎯 número máximo de líneas de tags permitido según ancho de la card
   const [allowedLines, setAllowedLines] = useState<number>(0);
 
-  // 👀 cálculo final: cuántos tags se muestran y cuántos quedan ocultos
   const [visibleCount, setVisibleCount] = useState<number>(allTags.length);
   const [hiddenCount, setHiddenCount] = useState<number>(0);
 
-  // 🧪 contenedor "fantasma" para medir cómo se distribuyen los tags en líneas
   const tagsMeasureRef = useRef<HTMLDivElement | null>(null);
 
-  // 1️⃣ Observamos el ancho de la card y decidimos cuántas líneas se permiten
   useEffect(() => {
     const el = cardRef.current;
     if (!el) return;
@@ -155,13 +150,11 @@ export function FeaturedCarouselCard({
     });
 
     observer.observe(el);
-    // inicial
     updateFromWidth(el.getBoundingClientRect().width);
 
     return () => observer.disconnect();
   }, []);
 
-  // 2️⃣ Medimos cómo se reparten los tags en líneas y decidimos visibles + "+N"
   useEffect(() => {
     if (!tagsMeasureRef.current) return;
     if (allTags.length === 0) {
@@ -170,7 +163,6 @@ export function FeaturedCarouselCard({
       return;
     }
 
-    // si no se permiten líneas -> no se muestran tags ni "+N"
     if (allowedLines <= 0) {
       setVisibleCount(0);
       setHiddenCount(0);
@@ -190,7 +182,6 @@ export function FeaturedCarouselCard({
 
     spans.forEach((span, idx) => {
       const top = span.offsetTop;
-      // detectamos líneas según offsetTop (con pequeño margen)
       let lineIndex = lineTops.findIndex((t) => Math.abs(t - top) < 2);
       if (lineIndex === -1) {
         lineTops.push(top);
@@ -204,7 +195,6 @@ export function FeaturedCarouselCard({
     });
 
     if (lastAllowedIndex === -1) {
-      // nada cabe dentro de las líneas permitidas
       setVisibleCount(0);
       setHiddenCount(allTags.length);
       return;
@@ -215,13 +205,11 @@ export function FeaturedCarouselCard({
     const hasOverflow = numberThatFit < total;
 
     if (!hasOverflow) {
-      // todos caben dentro del número de líneas
       setVisibleCount(total);
       setHiddenCount(0);
       return;
     }
 
-    // Si hay overflow, reservamos el último "slot" de la última línea para el "+N":
     const visible = Math.max(numberThatFit - 1, 0);
     const hidden = total - visible;
 
@@ -263,7 +251,6 @@ export function FeaturedCarouselCard({
         pointerEvents: introDone ? "auto" : "none",
       }}
     >
-      {/* Contenedor fantasma para medir cómo se rompen las líneas de tags */}
       <div
         ref={tagsMeasureRef}
         className="pointer-events-none absolute left-0 top-0 -z-10 opacity-0"
@@ -335,7 +322,6 @@ export function FeaturedCarouselCard({
             {project.short_description}
           </p>
 
-          {/* Render real de los tags con límite por líneas */}
           {allowedLines > 0 && (
             <div className="flex flex-wrap gap-2">
               {visibleTags.map((tag, idx) => (

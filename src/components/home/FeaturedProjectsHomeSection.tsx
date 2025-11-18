@@ -13,6 +13,8 @@ interface FeaturedProjectsHomeSectionProps {
   projectsButtonText: string;
   contactButtonText: string;
   projects: TranslatedProject[];
+  replaceUrl?: boolean;
+  allowUrlOpen?: boolean;
 }
 
 
@@ -79,6 +81,8 @@ export function FeaturedProjectsHomeSection({
   projectsButtonText,
   contactButtonText,
   projects,
+  replaceUrl = true,
+  allowUrlOpen = true,
 }: FeaturedProjectsHomeSectionProps) {
   const leftControls = useAnimationControls();
   const rightControls = useAnimationControls();
@@ -158,6 +162,8 @@ export function FeaturedProjectsHomeSection({
               descriptionClassName: "text-xs md:text-sm",
               tagClassName: "text-[10px]",
             }}
+            replaceUrl={replaceUrl}
+            allowUrlOpen={allowUrlOpen}
           />
         </div>
 

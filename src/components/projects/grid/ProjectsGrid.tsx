@@ -10,6 +10,8 @@ import { useProjectSelection } from "./hooks/useProjectSelection";
 
 interface ProjectsGridProps {
   projects: TranslatedProject[];
+  replaceUrl?: boolean;
+  allowUrlOpen?: boolean;
 }
 
 const itemVariants: Variants = {
@@ -28,9 +30,9 @@ const itemVariants: Variants = {
   },
 };
 
-export default function ProjectsGrid({ projects }: ProjectsGridProps) {
-  const { selected, revealOrigin, selectProject, closeProject, markOriginRevealed } =
-    useProjectSelection();
+export default function ProjectsGrid({ projects, replaceUrl = true, allowUrlOpen = true }: ProjectsGridProps) {
+    const { selected, revealOrigin, selectProject, closeProject, markOriginRevealed } =
+    useProjectSelection(projects, { replaceUrl: replaceUrl, allowUrlOpen: allowUrlOpen });
 
   return (
     <>

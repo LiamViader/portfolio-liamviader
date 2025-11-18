@@ -22,7 +22,7 @@ export const AIDrivenGeneratedGame: ProjectDefinition = {
       src: "https://www.youtu.be.com/dk2FS6lLUzs",
       embedUrl: "https://www.youtube.com/embed/dk2FS6lLUzs",
       thumbnail: "https://img.youtube.com/vi/dk2FS6lLUzs/maxresdefault.jpg",
-      figureNumber: "1.3",
+      figureNumber: "1.1",
       translations: {
         en: {
           alt: "YouTube preview for project 1",
@@ -41,17 +41,17 @@ export const AIDrivenGeneratedGame: ProjectDefinition = {
       src: "https://www.youtu.be.com/7fzslPdg4xY",
       embedUrl: "https://www.youtube.com/embed/7fzslPdg4xY",
       thumbnail: "https://img.youtube.com/vi/7fzslPdg4xY/maxresdefault.jpg",
-      figureNumber: "1.4",
+      figureNumber: "1.2",
       translations: {
         en: {
-          alt: "Uncut video of the game",
+          alt: "Uncut video showing one run of the game",
           captionLabel: "Figure",
-          description: "Uncut video of the game",
+          description: "Uncut video showing one run of the game",
         },
         es: {
-          alt: "Video sin cortes del videojuego",
+          alt: "Video sin cortes de una ejecución del videojuego",
           captionLabel: "Figura",
-          description: "Video sin cortes del videojuego",
+          description: "Video sin cortes de una ejecución del videojuego",
         },
       },
     },
