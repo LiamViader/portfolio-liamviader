@@ -74,7 +74,7 @@ const mediaVariants: Variants = {
 const overlayVariants: Variants = {
   rest: { opacity: 1 },
   hover: (c: { center: boolean } = { center: false }) => ({
-    opacity: c.center ? 0.7 : 1,
+    opacity: c.center ? 0.5 : 1,
   }),
 };
 
@@ -308,7 +308,7 @@ export function FeaturedCarouselCard({
               priority={isCenter}
             />
             <motion.div
-              className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-950/50 to-transparent"
+              className="absolute inset-0 bg-gradient-to-t from-slate-950/90 via-slate-950/20 to-transparent"
               custom={{ center: isCenter && !shouldHide }}
               variants={overlayVariants}
             />
