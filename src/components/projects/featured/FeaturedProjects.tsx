@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useMemo, useRef } from "react";
+import { useCallback, useEffect, useMemo, useRef } from "react";
 
 import clsx from "clsx";
 import { useTranslations } from "next-intl";
@@ -46,8 +46,18 @@ export default function FeaturedProjects({
     [projects],
   );
 
-  const { selected, revealOrigin, selectProject, closeProject, markOriginRevealed } =
-    useProjectSelection(projects, { replaceUrl: replaceUrl, allowUrlOpen: allowUrlOpen });
+  const { 
+    selected, 
+    revealOrigin, 
+    selectProject, 
+    closeProject, 
+    markOriginRevealed,
+    projectFromUrl 
+  } = useProjectSelection(projects, { 
+      replaceUrl: replaceUrl, 
+      allowUrlOpen: allowUrlOpen,
+      deferUrlTrigger: true 
+  });
 
   const cardRefs = useRef<CardRegistry>(new Map());
 
@@ -58,18 +68,31 @@ export default function FeaturedProjects({
           cardRefs.current.delete(projectId);
           return;
         }
-
         cardRefs.current.set(projectId, node);
       },
     [],
   );
 
+  useEffect(() => {
+    if (projectFromUrl && !selected && allowUrlOpen) {
+        const element = cardRefs.current.get(projectFromUrl.id);
+        
+        if (element) {
+            element.scrollIntoView({ behavior: "auto", block: "center" });
+
+            requestAnimationFrame(() => {
+                const rect = measureStableRect(element);
+                selectProject(projectFromUrl, rect, element);
+            });
+        }
+    }
+  }, [projectFromUrl, selected, allowUrlOpen, selectProject]);
+
+
   const openProjectDetails = useCallback(
     (project: TranslatedProject) => {
       const element = cardRefs.current.get(project.id);
-
       if (!element) return;
-
       const rect = measureStableRect(element);
       selectProject(project, rect, element);
     },

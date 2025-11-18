@@ -3,6 +3,8 @@
 import { AnimatePresence, LayoutGroup, Variants, motion } from "framer-motion";
 
 import { type TranslatedProject } from "@/data/projects/types";
+import { useEffect, useRef } from "react";
+import { measureStableRect } from "@/utils/measureStableRect";
 
 import ProjectCard from "../card/ProjectCard";
 import { ProjectModalPortal } from "../modal/ProjectModalPortal";
@@ -13,6 +15,8 @@ interface ProjectsGridProps {
   replaceUrl?: boolean;
   allowUrlOpen?: boolean;
 }
+
+type CardRegistry = Map<number, HTMLElement>;
 
 const itemVariants: Variants = {
   hidden: { opacity: 0, y: 20, scale: 0.98 },
@@ -31,9 +35,29 @@ const itemVariants: Variants = {
 };
 
 export default function ProjectsGrid({ projects, replaceUrl = true, allowUrlOpen = true }: ProjectsGridProps) {
-    const { selected, revealOrigin, selectProject, closeProject, markOriginRevealed } =
-    useProjectSelection(projects, { replaceUrl: replaceUrl, allowUrlOpen: allowUrlOpen });
+  const { selected, revealOrigin, selectProject, closeProject, markOriginRevealed, projectFromUrl } =
+    useProjectSelection(projects, { replaceUrl: replaceUrl, allowUrlOpen: allowUrlOpen, deferUrlTrigger: true });
+  const cardRefs = useRef<CardRegistry>(new Map());
 
+  const setCardRef = (id: number) => (node: HTMLElement | null) => {
+    if (node) cardRefs.current.set(id, node);
+    else cardRefs.current.delete(id);
+  };
+
+  useEffect(() => {
+    if (projectFromUrl && !selected && allowUrlOpen) {
+      
+      const element = cardRefs.current.get(projectFromUrl.id);
+      if (element) {
+        element.scrollIntoView({ behavior: "auto", block: "center" });
+        requestAnimationFrame(() => {
+             const rect = measureStableRect(element);
+             selectProject(projectFromUrl, rect, element);
+        });
+      }
+    }
+  }, [projectFromUrl, selected, allowUrlOpen, selectProject]);
+  
   return (
     <>
       <LayoutGroup id="projects">
@@ -52,15 +76,20 @@ export default function ProjectsGrid({ projects, replaceUrl = true, allowUrlOpen
                 exit="exit"
                 transition={{ layout: { duration: 0.25, ease: "easeInOut" } }}
               >
-                <ProjectCard
-                  project={project}
-                  onSelect={selectProject}
-                  isHidden={Boolean(
-                    selected &&
-                      selected.project.id === project.id &&
-                      !revealOrigin,
-                  )}
-                />
+                <div ref={setCardRef(project.id)} className="h-full w-full"> 
+                  <ProjectCard
+                    project={project}
+                    onSelect={(p) => {
+                        // Manual click handling: medimos el elemento actual
+                        const el = cardRefs.current.get(p.id);
+                        if(el) {
+                            const rect = measureStableRect(el);
+                            selectProject(p, rect, el);
+                        }
+                    }}
+                    isHidden={Boolean(selected?.project.id === project.id && !revealOrigin)}
+                  />
+                </div>
               </motion.div>
             ))}
           </AnimatePresence>
