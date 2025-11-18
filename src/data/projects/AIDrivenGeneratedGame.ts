@@ -18,6 +18,44 @@ export const AIDrivenGeneratedGame: ProjectDefinition = {
   github_url: "https://github.com/LiamViader/tfg-ai-driven-generated-game",
   detailed_media: [
     {
+      type: "externalVideo",
+      src: "https://www.youtu.be.com/dk2FS6lLUzs",
+      embedUrl: "https://www.youtube.com/embed/dk2FS6lLUzs",
+      thumbnail: "https://img.youtube.com/vi/dk2FS6lLUzs/maxresdefault.jpg",
+      figureNumber: "1.3",
+      translations: {
+        en: {
+          alt: "YouTube preview for project 1",
+          captionLabel: "Figure",
+          description: "Summary video of two different runs of the system",
+        },
+        es: {
+          alt: "Vista previa de YouTube del proyecto 1",
+          captionLabel: "Figura",
+          description: "Video resumen de dos ejecuciones distintas del sistema",
+        },
+      },
+    },
+    {
+      type: "externalVideo",
+      src: "https://www.youtu.be.com/7fzslPdg4xY",
+      embedUrl: "https://www.youtube.com/embed/7fzslPdg4xY",
+      thumbnail: "https://img.youtube.com/vi/7fzslPdg4xY/maxresdefault.jpg",
+      figureNumber: "1.4",
+      translations: {
+        en: {
+          alt: "Uncut video of the game",
+          captionLabel: "Figure",
+          description: "Uncut video of the game",
+        },
+        es: {
+          alt: "Video sin cortes del videojuego",
+          captionLabel: "Figura",
+          description: "Video sin cortes del videojuego",
+        },
+      },
+    },
+    {
       type: "image",
       src: "/images/projects/ai_driven_generated_game/penguin_green_cave.jpg",
       figureNumber: "1.1",
@@ -48,43 +86,6 @@ export const AIDrivenGeneratedGame: ProjectDefinition = {
           alt: "Ejemplo de una interacción entre el jugador y los NPCs",
           captionLabel: "Figura",
           description: "Ejemplo de una interacción entre el jugador y NPCs",
-        },
-      },
-    },
-    {
-      type: "externalVideo",
-      src: "https://www.youtu.be.com/zsVrbzOQcAI",
-      embedUrl: "https://www.youtube.com/embed/zsVrbzOQcAI",
-      thumbnail: "https://img.youtube.com/vi/zsVrbzOQcAI/maxresdefault.jpg",
-      figureNumber: "1.3",
-      translations: {
-        en: {
-          alt: "YouTube preview for project 1",
-          captionLabel: "Figure",
-          description: "Summary video of two different runs of the system.",
-        },
-        es: {
-          alt: "Vista previa de YouTube del proyecto 1",
-          captionLabel: "Figura",
-          description: "Video resumen de dos ejecuciones distintas del sistema.",
-        },
-      },
-    },
-    {
-      type: "externalVideo",
-      src: "https://youtu.be/-TcYASrU6WE",
-      thumbnail: "https://img.youtube.com/vi/-TcYASrU6WE/hqdefault.jpg",
-      figureNumber: "1.2",
-      translations: {
-        en: {
-          alt: "YouTube preview for project 1",
-          captionLabel: "Figure",
-          description: "Summary video of two different runs of the system.",
-        },
-        es: {
-          alt: "Vista previa de YouTube del proyecto 1",
-          captionLabel: "Figura",
-          description: "Video resumen de dos ejecuciones distintas del sistema.",
         },
       },
     },

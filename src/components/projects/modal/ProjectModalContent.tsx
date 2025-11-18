@@ -309,7 +309,7 @@ export function ProjectModalContent({
                   {tags.map((tag, idx) => (
                     <motion.span
                       key={`${project.id}-tag-${idx}`}
-                      className="cursor-pointer rounded-full border border-white/30 bg-slate-950/90 px-3.5 py-1 text-sm font-medium text-sky-100/80 shadow-[0_2px_2px_rgba(100,100,200,0.1)]"
+                      className="rounded-full border border-white/30 bg-slate-950/90 px-3.5 py-1 text-sm font-medium text-sky-100/80 shadow-[0_2px_2px_rgba(100,100,200,0.1)]"
                       whileHover={{ scale: 1.06 }}
                       transition={{ duration: 0.1 }}
                     >
