@@ -297,7 +297,7 @@ export function ProjectModalContent({
               animate={animationState}
             >
               <motion.div
-                className="rounded-[26px] border border-white/20 bg-gradient-to-br from-slate-950 via-slate-950/50 to-transparent p-6 shadow-[0_0px_10px_rgba(100,100,100,0.2)] md:flex-auto md:min-w-0"
+                className="rounded-[26px] border border-white/20  p-6 shadow-[0_0px_10px_rgba(100,100,100,0.2)] md:flex-auto md:min-w-0"
                 variants={modalItemVariants}
                 initial="hidden"
                 animate={animationState}
@@ -309,7 +309,7 @@ export function ProjectModalContent({
                   {tags.map((tag, idx) => (
                     <motion.span
                       key={`${project.id}-tag-${idx}`}
-                      className="rounded-full border border-white/30 bg-slate-950/90 px-3.5 py-1 text-sm font-medium text-sky-100/80 shadow-[0_2px_2px_rgba(100,100,200,0.1)]"
+                      className="rounded-full border border-white/30 bg-black/5 px-3.5 py-1 text-sm font-medium text-sky-100/80 shadow-[0_2px_2px_rgba(100,100,200,0.1)]"
                       whileHover={{ scale: 1.06 }}
                       transition={{ duration: 0.1 }}
                     >
