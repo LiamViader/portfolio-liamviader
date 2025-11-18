@@ -106,7 +106,7 @@ export function ProjectMediaGallery({
                     <div className="pointer-events-none absolute inset-0 bg-gradient-to-t from-slate-950/65 via-slate-950/15 to-transparent opacity-60" />
                     {isVideoMedia(item) && (
                       <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
-                        <span className="flex h-16 w-16 items-center justify-center rounded-full bg-slate-950  text-sky-200/90 shadow-[0_0px_30px_rgba(15,23,42,1)] backdrop-blur">
+                        <span className="flex h-16 w-16 items-center justify-center rounded-full bg-slate-950/70  text-sky-200/70 shadow-[0_0px_30px_rgba(15,23,42,1)] backdrop-blur">
                           <Play className="h-8 w-8" aria-hidden="true" />
                         </span>
                       </div>
