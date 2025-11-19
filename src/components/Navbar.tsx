@@ -48,7 +48,7 @@ export default function Navbar({
           ))}
         </div>
 
-        <div className="">
+        <div className="md:ml-6">
           <LanguageSwitcher />
         </div>
       </div>

@@ -113,7 +113,7 @@ export default function LanguageSwitcher() {
                   locale={code}
                   onClick={() => setOpen(false)}
                   role="menuitem"
-                  className={`flex items-center justify-between gap-2 px-2 py-2 text-xs hover:bg-white/10 transition-colors ${
+                  className={`flex items-center justify-between gap-1 px-2 py-2 text-xs hover:bg-white/10 transition-colors ${
                     isActive ? "bg-white/10" : ""
                   }`}
                 >
