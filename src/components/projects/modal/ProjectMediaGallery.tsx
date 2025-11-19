@@ -73,7 +73,6 @@ export function ProjectMediaGallery({
                 variants={modalItemVariants}
                 initial="hidden"
                 animate={animationState}
-                whileHover={{ y: -6 }}
                 transition={{ type: "spring", stiffness: 260, damping: 24 }}
               >
                 <motion.button
@@ -81,7 +80,7 @@ export function ProjectMediaGallery({
                   onClick={() => openMedia(idx)}
                   aria-label={buttonLabel}
                   className="relative block w-full cursor-pointer overflow-hidden text-left"
-                  whileHover={{scale: 1.04}}
+                  whileHover={{scale: 1.02}}
                   transition={{duration: 0.3, ease: "easeOut"}}
                 >
                   <div className="relative aspect-video overflow-hidden">

@@ -6,6 +6,7 @@ import { useLocale } from "next-intl";
 import { routing } from "@/i18n/routing";
 import ReactCountryFlag from "react-country-flag";
 import { motion, AnimatePresence } from "framer-motion";
+import { Globe } from "lucide-react";
 
 const labelByLocale: Record<string, string> = {
   en: "EN",
@@ -20,17 +21,23 @@ const countryCodeByLocale: Record<string, string> = {
 export default function LanguageSwitcher() {
   const pathname = usePathname();
   const locale = useLocale();
+
   const [open, setOpen] = useState(false);
+  const [pendingLocale, setPendingLocale] = useState<string | null>(null);
 
   const locales = routing.locales;
 
-  const currentLabel = labelByLocale[locale] ?? locale.toUpperCase();
-  const currentCountryCode = countryCodeByLocale[locale] ?? "UN";
+  // Locale "efectivo": si hay uno pendiente, usamos ese visualmente
+  const effectiveLocale = pendingLocale ?? locale;
+  const currentLabel =
+    labelByLocale[effectiveLocale] ?? effectiveLocale.toUpperCase();
 
   const dropdownRef = useRef<HTMLDivElement>(null);
 
+  // Cuando realmente cambian ruta/locale, asumimos que la navegación ha terminado
   useEffect(() => {
     setOpen(false);
+    setPendingLocale(null);
   }, [pathname, locale]);
 
   useEffect(() => {
@@ -71,18 +78,13 @@ export default function LanguageSwitcher() {
         onKeyDown={handleButtonKeyDown}
         aria-haspopup="menu"
         aria-expanded={open}
-        className="flex items-center gap-2 px-2 py-1 bg-white/10 backdrop-blur-xl hover:bg-white/20 border border-white/10 rounded text-xs focus:outline-none focus-visible:ring-2 focus-visible:ring-white/40 focus-visible:ring-offset-2 focus-visible:ring-offset-transparent"
+        className="flex items-center gap-1.5 px-1.5 py-1 bg-white/10 backdrop-blur-xl hover:bg-white/20 border border-white/10 rounded text-xs md:text-sm text-white/80 hover:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-white/40 focus-visible:ring-offset-2 focus-visible:ring-offset-transparent"
       >
-        <ReactCountryFlag
-          svg
-          countryCode={currentCountryCode}
-          className="text-base"
-          style={{ width: "1em", height: "1em" }}
-        />
+        <Globe className="w-4 h-4" />
         <span>{currentLabel}</span>
 
         <motion.span
-          className="text-xs opacity-70"
+          className="text-[0.6rem] md:text-xs opacity-70"
           animate={{ rotate: open ? 180 : 0 }}
           transition={{ duration: 0.15, ease: "easeOut" }}
         >
@@ -104,20 +106,24 @@ export default function LanguageSwitcher() {
             {locales.map((code) => {
               const countryCode = countryCodeByLocale[code] ?? "UN";
               const label = labelByLocale[code] ?? code.toUpperCase();
-              const isActive = code === locale;
+              const isActive = code === effectiveLocale; // usamos el "efectivo"
 
               return (
                 <Link
                   key={code}
                   href={pathname}
                   locale={code}
-                  onClick={() => setOpen(false)}
                   role="menuitem"
+                  onClick={() => {
+                    // Actualizamos inmediatamente el idioma "visual"
+                    setPendingLocale(code);
+                    setOpen(false);
+                  }}
                   className={`flex items-center justify-between gap-1 px-2 py-2 text-xs hover:bg-white/10 transition-colors ${
                     isActive ? "bg-white/10" : ""
                   }`}
                 >
-                  <span className="flex items-center gap-1">
+                  <span className="flex items-center gap-1.5">
                     <ReactCountryFlag
                       svg
                       countryCode={countryCode}
@@ -132,7 +138,7 @@ export default function LanguageSwitcher() {
                       initial={{ opacity: 0, scale: 0.8 }}
                       animate={{ opacity: 1, scale: 1 }}
                       exit={{ opacity: 0, scale: 0.8 }}
-                      className="text-xs opacity-80"
+                      className="text-[0.7rem] opacity-80"
                     >
                       ✓
                     </motion.span>

@@ -1,5 +1,6 @@
 "use client";
 
+import { useState, useEffect } from "react";
 import { Link, usePathname } from "@/i18n/navigation";
 import { useTranslations } from "next-intl";
 import { Menu, X } from "lucide-react";
@@ -16,6 +17,8 @@ export default function Navbar({
   const t = useTranslations("Navbar");
   const pathname = usePathname();
 
+  const [pendingPath, setPendingPath] = useState<string | null>(null);
+
   const navItems = [
     { href: "/", label: t("home"), exact: true },
     { href: "/about", label: t("about") },
@@ -23,10 +26,20 @@ export default function Navbar({
     { href: "/contact", label: t("contact") },
   ];
 
+  // Path "efectivo": si hay uno pendiente, usamos ese para el highlight
+  const effectivePath = pendingPath ?? pathname;
+
   const isActive = (href: string, exact?: boolean) => {
-    if (exact) return pathname === href;
-    return pathname === href || pathname.startsWith(href + "/");
+    if (exact) return effectivePath === href;
+    return (
+      effectivePath === href || effectivePath.startsWith(href + "/")
+    );
   };
+
+  // Cuando la ruta real cambie, damos por concluida la navegación
+  useEffect(() => {
+    setPendingPath(null);
+  }, [pathname]);
 
   return (
     <nav>
@@ -37,6 +50,7 @@ export default function Navbar({
             <Link
               key={item.href}
               href={item.href}
+              onClick={() => setPendingPath(item.href)}
               className={`text-base transition-colors ${
                 isActive(item.href, item.exact)
                   ? "text-white border-b border-sky-200/70"
