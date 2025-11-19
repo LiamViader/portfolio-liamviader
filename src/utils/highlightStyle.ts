@@ -6,7 +6,7 @@ export const HIGHLIGHT_STYLES: Record<string, string> = {
   soft: "text-white/75 italic",
 
   glow:
-    "text-sky-300 font-medium drop-shadow-[0_0_6px_rgba(56,189,248,0.35)]",
+    "text-sky-200/90 font-semibold drop-shadow-[0_0_6px_rgba(56,189,248,0.35)]",
 
   code:
     "font-mono text-[0.9em] px-1 rounded bg-white/5 border border-white/10 text-sky-200",

@@ -13,9 +13,9 @@ import { parseHighlights } from "@/utils/parseHighlights";
 import { HighlightedText } from "@/components/HighlightedText";
 
 const heroMediaVariants: Variants = {
-  hidden: { scale: 1.05, opacity: 0.6 },
+  hidden: { scale: 1.0, opacity: 0.6 },
   visible: { scale: 1, opacity: 1, transition: { duration: 0.6, ease: "easeOut" } },
-  exit: { scale: 1.02, opacity: 0.3, transition: { duration: 0.3, ease: "easeIn" } },
+  exit: { scale: 1.5, opacity: 0.3, transition: { duration: 0.3, ease: "easeIn" } },
 };
 
 interface ProjectModalContentProps {

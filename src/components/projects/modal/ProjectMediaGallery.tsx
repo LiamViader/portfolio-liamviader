@@ -90,7 +90,7 @@ export function ProjectMediaGallery({
                           idle: { scale: 1 },
                           hover: { 
                             scale: 1.05,
-                            transition: { duration: 0.5, ease: "easeOut" }
+                            transition: { duration: 0.2, ease: "easeOut" }
                           }
                         }}
                       />
