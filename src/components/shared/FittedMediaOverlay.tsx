@@ -143,24 +143,15 @@ function InnerFittedOverlay({
             type="button"
             aria-label={closeLabel}
             onClick={(e) => { e.stopPropagation(); onClose(); }}
-            className="group absolute cursor-pointer top-3 right-3 z-[1000001] inline-flex h-11 w-11 items-center justify-center rounded-full bg-gray-950/90 text-white shadow-[0_3px_14px_rgba(0,0,0,1)] backdrop-blur ring-3 ring-sky-200/40"
-            initial={{ opacity: 0, scale: 0.92, y: -6 }}
-            animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.92, y: -6 }}
-            whileHover={{ scale: 1.06, rotate: 3 }}
+            className="cursor-pointer group absolute top-6 right-6 z-[50] inline-flex h-12 w-12 items-center justify-center rounded-full bg-black/40 backdrop-blur-md border border-white/10 text-slate-200 transition-colors hover:bg-white/10 hover:text-white hover:border-white/20"
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.9 }}
+            whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
-            <svg
-              className="h-5 w-5 transition-transform duration-300 group-hover:rotate-90"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="1.8"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              viewBox="0 0 24 24"
-            >
-              <path d="M18 6 6 18" />
-              <path d="M6 6l12 12" />
+            <svg className="h-5 w-5 transition-transform duration-300 group-hover:rotate-90" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
+              <path d="M18 6 6 18" /><path d="M6 6l12 12" />
             </svg>
             <span className="sr-only">{closeLabel}</span>
           </motion.button>
@@ -175,12 +166,12 @@ function InnerFittedOverlay({
           >
             {/* ⬇️ Visible: SOLO title o buildMediaLabel, nunca alt */}
             {(buildMediaLabel(activeMedia) || title) && (
-              <p className="text-xs uppercase tracking-[0.35em] text-slate-100/80">
+              <p className="mb-1 text-[0.70rem] font-bold uppercase tracking-wider text-sky-400/90">
                 {buildMediaLabel(activeMedia) || title}
               </p>
             )}
             {activeMedia.description && (
-              <p className="text-sm leading-relaxed text-slate-100/80">
+              <p className="text-sm leading-relaxed text-slate-400">
                 {activeMedia.description}
               </p>
             )}

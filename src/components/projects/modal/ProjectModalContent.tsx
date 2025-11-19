@@ -58,11 +58,9 @@ export function ProjectModalContent({
     mass: 0.5,
   });
 
-  // ----------- OVERVIEW: texto truncado + "Ver más" ----------- //
   const [isExpanded, setIsExpanded] = useState(false);
   const [pendingScrollOnCollapse, setPendingScrollOnCollapse] = useState(false);
 
-  // ref solo para el botón "Ver más / Ver menos"
   const overviewToggleRef = useRef<HTMLButtonElement | null>(null);
 
   const fullDescription = project.full_description ?? "";
@@ -71,7 +69,7 @@ export function ProjectModalContent({
     [fullDescription]
   );
 
-  const MAX_WORDS = 90; // ajusta esto al gusto
+  const MAX_WORDS = 90;
 
   const { isTruncated, collapsedParagraphs } = useMemo(() => {
     const allWords = fullDescription.trim().split(/\s+/).filter(Boolean);
@@ -110,11 +108,9 @@ export function ProjectModalContent({
 
   const handleToggleExpand = () => {
     if (isExpanded) {
-      // Vamos a colapsar: después del render veremos si hay que recolocar el scroll
       setPendingScrollOnCollapse(true);
       setIsExpanded(false);
     } else {
-      // En "Ver más" NO tocamos el scroll
       setIsExpanded(true);
     }
   };
@@ -132,25 +128,22 @@ export function ProjectModalContent({
     const containerRect = container.getBoundingClientRect();
     const buttonRect = button.getBoundingClientRect();
 
-    // margen extra para que se vea algo por encima del "Ver más"
     const margin = 20; 
     const offset = buttonRect.top - containerRect.top;
 
-    // Solo corregimos si el botón ha quedado por encima del viewport del contenedor
     if (offset < margin) {
       container.scrollTop = container.scrollTop + offset - margin;
     }
 
     setPendingScrollOnCollapse(false);
   }, [pendingScrollOnCollapse]);
-  // ------------------------------------------------------------- //
 
   return (
     <motion.div
       variants={modalContentVariants}
       initial="hidden"
       animate={animationState}
-      className="flex h-full flex-col text-white"
+      className="flex h-full flex-col text-white bg-slate-950"
     >
       <motion.div
         aria-hidden
@@ -170,47 +163,29 @@ export function ProjectModalContent({
         type="button"
         onClick={onClose}
         aria-label={closeAriaLabel}
-        className="group absolute cursor-pointer top-3 right-3 z-[1000001] inline-flex h-11 w-11 items-center justify-center rounded-full bg-slate-950/90 backdrop-blur-xl text-white shadow-[0_3px_14px_rgba(0,0,0,1)] ring-3 ring-sky-200/40"
-        initial={{ opacity: 0, scale: 0.92, y: -6 }}
-        animate={{ opacity: 1, scale: 1, y: 0 }}
-        exit={{ opacity: 0, scale: 0.92, y: -6 }}
-        whileHover={{ scale: 1.06, rotate: 3 }}
+        className="cursor-pointer group absolute top-4 right-4 z-[50] inline-flex h-10 w-10 items-center justify-center rounded-full bg-black/40 backdrop-blur-md border border-white/10 text-slate-200 transition-colors hover:bg-white/10 hover:text-white hover:border-white/20"
+        initial={{ opacity: 0, scale: 0.9 }}
+        animate={{ opacity: 1, scale: 1 }}
+        exit={{ opacity: 0, scale: 0.9 }}
+        whileHover={{ scale: 1.05 }}
         whileTap={{ scale: 0.95 }}
       >
-        <svg
-          className="h-5 w-5 transition-transform duration-300 group-hover:rotate-90"
-          fill="none"
-          stroke="currentColor"
-          strokeWidth="1.8"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          viewBox="0 0 24 24"
-        >
-          <path d="M18 6 6 18" />
-          <path d="M6 6l12 12" />
+        <svg className="h-5 w-5 transition-transform duration-300 group-hover:rotate-90" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
+          <path d="M18 6 6 18" /><path d="M6 6l12 12" />
         </svg>
-        <span className="sr-only">{closeLabel}</span>
       </motion.button>
-      <div ref={scrollRef} className="relative flex-1 overflow-auto no-scrollbar">
+
+      <div ref={scrollRef} className="relative flex-1 overflow-auto no-scrollbar scroll-smooth">
         <motion.header
-          className="relative overflow-hidden h-35 md:h-40 border-b border-white/20"
+          className="relative h-48 md:h-64 lg:h-72 w-full overflow-hidden bg-slate-900"
           variants={modalItemVariants2}
           initial="hidden"
           animate={animationState}
         >
           {heroMedia && (
-            <motion.div
-              className="absolute inset-0 saturate-80"
-              variants={heroMediaVariants}
-              initial="hidden"
-              animate={animationState}
-            >
-              <motion.img
-                src={heroMedia}
-                alt={heroAlt}
-                className="h-full w-full object-cover opacity-80"
-              />
-              <div className="absolute inset-0 bg-gradient-to-br from-slate-950/10 via-transparent to-white/4" />
+            <motion.div className="absolute inset-0" variants={heroMediaVariants} initial="hidden" animate={animationState}>
+              <img src={heroMedia} alt={heroAlt} className="h-full w-full object-cover opacity-90" />
+              <div className="absolute inset-0 bg-gradient-to-b from-transparent via-slate-950/40 to-slate-950" />
             </motion.div>
           )}
         </motion.header>
@@ -296,30 +271,47 @@ export function ProjectModalContent({
               ) : null}
             </motion.article>
             
-            
-            <div className="border-t border-white/20 pt-8 mt-2">
+            <div className="mt-2 border-t border-white/10 pt-8">
               <motion.aside
-                className="flex flex-col gap-6 md:gap-8 md:flex-row md:items-stretch"
+                className="grid gap-6 md:grid-cols-2 items-stretch"
                 variants={modalItemVariants}
                 initial="hidden"
                 animate={animationState}
               >
+                
                 <motion.div
-                  className="rounded-[26px] border border-white/20  p-6 shadow-[0_0px_10px_rgba(100,100,100,0.2)] md:flex-auto md:min-w-0"
+                  className="flex flex-col rounded-2xl border border-white/10 bg-slate-900/40 p-6"
                   variants={modalItemVariants}
-                  initial="hidden"
-                  animate={animationState}
                 >
-                  <h3 className="text-xs text-center uppercase tracking-[0.38em] text-sky-200/95">
+                  <h3 className="mb-4 text-xs font-bold uppercase tracking-widest text-slate-500">
                     {t("technologiesTitle")}
                   </h3>
-                  <div className="mt-4 flex flex-wrap justify-center gap-2 md:justify-start">
+                  <div className="flex flex-wrap gap-2">
                     {tags.map((tag, idx) => (
                       <motion.span
                         key={`${project.id}-tag-${idx}`}
-                        className="rounded-full border border-white/30 bg-black/5 px-3.5 py-1 text-sm font-medium text-sky-100/80 shadow-[0_2px_2px_rgba(100,100,200,0.1)]"
-                        whileHover={{ scale: 1.06 }}
-                        transition={{ duration: 0.1 }}
+                        className="cursor-default rounded-md border px-3 py-1.5 text-xs font-medium"
+                        initial="idle"
+                        whileHover="hover"
+                        variants={{
+                          idle: {
+                            y: 0,
+                            scale: 1,
+                            backgroundColor: "rgba(30, 41, 59, 0.5)", 
+                            borderColor: "rgba(51, 65, 85, 1)",     
+                            color: "rgba(203, 213, 225, 1)",        
+                            boxShadow: "0 0 0 rgba(0,0,0,0)",
+                          },
+                          hover: {
+                            y: -2,
+                            scale: 1.05,
+                            backgroundColor: "rgba(14, 165, 233, 0.1)", 
+                            borderColor: "rgba(14, 165, 233, 0.5)",     
+                            color: "rgba(186, 230, 253, 1)",
+                            boxShadow: "0 4px 12px rgba(14, 165, 233, 0.15)", 
+                            transition: { type: "spring", stiffness: 300, damping: 20 }
+                          }
+                        }}
                       >
                         {tag}
                       </motion.span>
@@ -329,39 +321,110 @@ export function ProjectModalContent({
 
                 {(project.github_url || project.live_url) && (
                   <motion.div
-                    className="rounded-[26px] border border-white/20 bg-gradient-to-br from-sky-500/22 via-sky-400/13 to-transparent p-6 shadow-[0_0px_10px_rgba(8,47,73,0.2)] md:flex-auto md:min-w-[250px]"
+                    className="flex flex-col rounded-2xl border border-white/10 bg-slate-900/40 p-6"
                     variants={modalItemVariants}
-                    initial="hidden"
-                    animate={animationState}
                   >
-                    <h3 className="text-xs text-center uppercase tracking-[0.38em] text-sky-200/95">
+                    <h3 className="mb-4 text-xs font-bold uppercase tracking-widest text-slate-500">
                       {t("exploreMoreTitle")}
                     </h3>
-                    <div className="mt-4 flex flex-col gap-3">
+                    
+                    <div className="flex flex-1 flex-col justify-start gap-3">
                       {project.live_url && (
                         <motion.a
                           href={project.live_url}
                           target="_blank"
                           rel="noreferrer"
-                          className="flex items-center justify-between gap-3 rounded-2xl border border-sky-400/40 bg-gradient-to-r from-sky-500/28 via-sky-400/18 to-transparent px-4 py-3 text-sm font-semibold text-white shadow-[0_5px_14px_rgba(167,167,250,0.15)]"
-                          whileHover={{ scale: 1.02, y: -1 }}
-                          whileTap={{ scale: 0.95 }}
+                          className="relative flex w-full items-center justify-between overflow-hidden rounded-xl border bg-gradient-to-r from-sky-600/20 to-sky-600/10 px-4 py-3.5 text-sm font-bold"
+                          initial="idle"
+                          whileHover="hover"
+                          whileTap="tap"
+                          variants={{
+                            idle: {
+                              y: 0,
+                              scale: 1,
+                              borderColor: "rgba(14, 165, 233, 0.3)", 
+                              color: "rgba(224, 242, 254, 1)", 
+                              boxShadow: "0 10px 15px -3px rgba(12, 74, 110, 0.2)", 
+                            },
+                            hover: {
+                              y: -1,
+                              scale: 1.02,
+                              borderColor: "rgba(56, 189, 248, 0.6)", 
+                              color: "rgba(255, 255, 255, 1)",
+                              boxShadow: "0 10px 25px -5px rgba(14, 165, 233, 0.25)", 
+                              transition: { type: "spring", stiffness: 400, damping: 25 }
+                            },
+                            tap: { 
+                              scale: 0.98,
+                              y: 0,
+                              borderColor: "rgba(14, 165, 233, 0.5)",
+                            }
+                          }}
                         >
                           <span>{t("liveDemoCta")}</span>
-                          <ExternalLink className="h-5 w-5" aria-hidden="true" />
+                          
+                          <motion.span
+                            variants={{
+                              idle: { x: 0, y: 0, color: "rgba(186, 230, 253, 1)" },
+                              hover: { 
+                                x: 2, 
+                                y: -2, 
+                                color: "rgba(255, 255, 255, 1)", // white
+                                transition: { type: "spring", stiffness: 300 } 
+                              }
+                            }}
+                          >
+                            <ExternalLink className="h-4 w-4" aria-hidden="true" />
+                          </motion.span>
                         </motion.a>
                       )}
+
                       {project.github_url && (
                         <motion.a
                           href={project.github_url}
                           target="_blank"
                           rel="noreferrer"
-                          className="flex items-center justify-between gap-3 rounded-2xl border border-purple-400/40 bg-gradient-to-r from-purple-900/70 via-purple-900/40 to-transparent px-4 py-3 text-sm font-semibold text-white/85 shadow-[0_5px_14px_rgba(167,139,250,0.15)]"
-                          whileHover={{ scale: 1.02, y: -1 }}
-                          whileTap={{ scale: 0.96 }}
+                          className="relative flex w-full items-center justify-between overflow-hidden rounded-xl border bg-gradient-to-r from-purple-900/40 to-purple-900/20 px-4 py-3.5 text-sm font-bold"
+                          initial="idle"
+                          whileHover="hover"
+                          whileTap="tap"
+                          
+                          variants={{
+                            idle: {
+                              y: 0,
+                              scale: 1,
+                              borderColor: "rgba(168, 85, 247, 0.3)", 
+                              color: "rgba(243, 232, 255, 1)",        
+                              boxShadow: "0 10px 15px -3px rgba(88, 28, 135, 0.2)",
+                            },
+                            hover: {
+                              y: -1,
+                              scale: 1.02,
+                              borderColor: "rgba(192, 132, 252, 0.6)",
+                              color: "rgba(255, 255, 255, 1)",         
+                              boxShadow: "0 10px 25px -5px rgba(168, 85, 247, 0.25)",
+                              transition: { type: "spring", stiffness: 400, damping: 25 }
+                            },
+                            tap: { 
+                              scale: 0.98, 
+                              y: 0,
+                              borderColor: "rgba(168, 85, 247, 0.5)"
+                            }
+                          }}
                         >
                           <span>{t("viewOnGithubCta")}</span>
-                          <Github className="h-5 w-5" aria-hidden="true" />
+                          <motion.span
+                            variants={{
+                              idle: { rotate: 0, color: "rgba(233, 213, 255, 1)" },
+                              hover: { 
+                                rotate: 12, 
+                                color: "rgba(255, 255, 255, 1)", 
+                                transition: { type: "spring", stiffness: 300 } 
+                              }
+                            }}
+                          >
+                            <Github className="h-4 w-4" aria-hidden="true" />
+                          </motion.span>
                         </motion.a>
                       )}
                     </div>
