@@ -8,8 +8,8 @@ import ReactCountryFlag from "react-country-flag";
 import { motion, AnimatePresence } from "framer-motion";
 
 const labelByLocale: Record<string, string> = {
-  en: "English",
-  es: "Español",
+  en: "EN",
+  es: "ES",
 };
 
 const countryCodeByLocale: Record<string, string> = {
@@ -71,18 +71,18 @@ export default function LanguageSwitcher() {
         onKeyDown={handleButtonKeyDown}
         aria-haspopup="menu"
         aria-expanded={open}
-        className="flex items-center gap-2 px-3 py-1 bg-white/10 backdrop-blur-xl hover:bg-white/20 border border-white/10 rounded text-sm focus:outline-none focus-visible:ring-2 focus-visible:ring-white/40 focus-visible:ring-offset-2 focus-visible:ring-offset-transparent"
+        className="flex items-center gap-2 px-2 py-1 bg-white/10 backdrop-blur-xl hover:bg-white/20 border border-white/10 rounded text-xs focus:outline-none focus-visible:ring-2 focus-visible:ring-white/40 focus-visible:ring-offset-2 focus-visible:ring-offset-transparent"
       >
         <ReactCountryFlag
           svg
           countryCode={currentCountryCode}
-          className="text-xl"
+          className="text-base"
           style={{ width: "1em", height: "1em" }}
         />
         <span>{currentLabel}</span>
 
         <motion.span
-          className="ml-1 text-xs opacity-70"
+          className="text-xs opacity-70"
           animate={{ rotate: open ? 180 : 0 }}
           transition={{ duration: 0.15, ease: "easeOut" }}
         >
@@ -113,15 +113,15 @@ export default function LanguageSwitcher() {
                   locale={code}
                   onClick={() => setOpen(false)}
                   role="menuitem"
-                  className={`flex items-center justify-between gap-2 px-3 py-2 text-sm hover:bg-white/10 transition-colors ${
+                  className={`flex items-center justify-between gap-2 px-2 py-2 text-xs hover:bg-white/10 transition-colors ${
                     isActive ? "bg-white/10" : ""
                   }`}
                 >
-                  <span className="flex items-center gap-2">
+                  <span className="flex items-center gap-1">
                     <ReactCountryFlag
                       svg
                       countryCode={countryCode}
-                      className="text-xl"
+                      className="text-base"
                       style={{ width: "1em", height: "1em" }}
                     />
                     <span>{label}</span>
