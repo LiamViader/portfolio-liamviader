@@ -9,6 +9,8 @@ import { type TranslatedProject } from "@/data/projects/types";
 
 import { modalContentVariants, modalItemVariants, modalItemVariants2 } from "./animations";
 import { ProjectMediaGallery, getMediaPreviewSource } from "./ProjectMediaGallery";
+import { parseHighlights } from "@/utils/parseHighlights";
+import { HighlightedText } from "@/components/HighlightedText";
 
 const heroMediaVariants: Variants = {
   hidden: { scale: 1.05, opacity: 0.6 },
@@ -260,12 +262,16 @@ export function ProjectModalContent({
                   {t("overviewTitle")}
                 </h2>
 
-                <div className="space-y-3 text-base leading-relaxed text-white/65 text-justify">
-                  {paragraphsToRender.map((paragraph, i) => (
-                    <p className="" key={i}>
-                      {paragraph}
-                    </p>
-                  ))}
+                <div className="space-y-3 text-base leading-relaxed text-white/80 text-justify">
+                  {paragraphsToRender.map((paragraph, i) => {
+                    const nodes = parseHighlights(paragraph);
+
+                    return (
+                      <p key={i}>
+                        <HighlightedText nodes={nodes} />
+                      </p>
+                    );
+                  })}
                 </div>
 
                 {isTruncated && (
@@ -273,7 +279,7 @@ export function ProjectModalContent({
                     ref={overviewToggleRef}
                     type="button"
                     onClick={handleToggleExpand}
-                    className="cursor-pointer mt-1 text-sm font-semibold text-sky-300/85 hover:underline underline-offset-4 decoration-sky-300/80 drop-shadow-[0_4px_4px_rgba(0,0,0,1)]"
+                    className="cursor-pointer mt-1 text-sm font-semibold text-sky-300/90 hover:underline underline-offset-4 decoration-sky-300/80 drop-shadow-[0_4px_4px_rgba(0,0,0,1)]"
                   >
                     {isExpanded ? t("read_less") : t("read_more")}
                   </button>
@@ -304,7 +310,7 @@ export function ProjectModalContent({
                   initial="hidden"
                   animate={animationState}
                 >
-                  <h3 className="text-sm text-center uppercase tracking-[0.38em] text-sky-100/90">
+                  <h3 className="text-xs text-center uppercase tracking-[0.38em] text-sky-200/95">
                     {t("technologiesTitle")}
                   </h3>
                   <div className="mt-4 flex flex-wrap justify-center gap-2 md:justify-start">
@@ -328,7 +334,7 @@ export function ProjectModalContent({
                     initial="hidden"
                     animate={animationState}
                   >
-                    <h3 className="text-sm text-center uppercase tracking-[0.38em] text-sky-100/85">
+                    <h3 className="text-xs text-center uppercase tracking-[0.38em] text-sky-200/95">
                       {t("exploreMoreTitle")}
                     </h3>
                     <div className="mt-4 flex flex-col gap-3">

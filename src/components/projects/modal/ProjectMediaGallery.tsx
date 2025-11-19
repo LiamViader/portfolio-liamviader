@@ -116,7 +116,7 @@ export function ProjectMediaGallery({
 
                 {hasCaptionContent && (
                   <div className="relative z-10 px-0 pb-0">
-                    <figcaption className="relative space-y-1.5 bg-slate-950 border-t border-white/20 px-5 py-4 text-left shadow-[0_18px_38px_rgba(6,12,30,0.65)] backdrop-blur">
+                    <figcaption className="relative space-y-1.5 bg-slate-950/50 border-t border-white/20 px-5 py-4 text-left shadow-[0_18px_38px_rgba(6,12,30,0.65)] backdrop-blur">
                       {(figureLabel || item.alt) && (
                         <p className="text-[0.68rem] font-semibold uppercase tracking-[0.35em] text-sky-200/90">
                           {figureLabel || item.alt}

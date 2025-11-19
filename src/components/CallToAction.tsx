@@ -76,7 +76,7 @@ export default function CallToAction() {
           variants={cardVariants}
           className="overflow-hidden rounded-3xl border border-white/10 bg-white/5 py-8 px-6 text-center backdrop-blur-xl"
         >
-          <div className="relative z-10 space-y-6">
+          <div className="relative z-10 space-y-6 px-4 md:px-8 lg:px-12">
             <motion.h2 variants={contentVariants} className="text-2xl font-semibold text-white md:text-4xl drop-shadow-[0_4px_16px_rgba(0,0,0,1)]">
               {t.rich("cta_title", {
                 highlight: (chunks) => <span className="text-sky-300">{chunks}</span>,
