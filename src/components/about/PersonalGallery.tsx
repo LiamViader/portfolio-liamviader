@@ -11,8 +11,8 @@ import {
 
 type Photo = {
   src: string;
-  alt?: string;      // accesibilidad
-  caption?: string;  // título visible (si existe)
+  alt?: string;      
+  caption?: string;  
 };
 
 export default function PersonalGallery({
@@ -24,25 +24,22 @@ export default function PersonalGallery({
 }) {
   const [idx, setIdx] = useState<number | null>(null);
 
-  // Título visible SOLO si hay caption (si no, undefined)
   const displayTitle = useMemo(
     () => photos.map((p) => p.caption || undefined),
     [photos]
   );
 
-  // ALT solo para imágenes; no se usa como título
   const altText = useMemo(
     () => photos.map((p) => p.alt || ""),
     [photos]
   );
 
-  // Adaptación al overlay: mantenemos alt para el <img> grande (accesibilidad)
   const mediaItems: BaseMediaItem[] = useMemo(
     () =>
       photos.map((p, i) => ({
         type: "image",
         src: p.src,
-        alt: altText[i], // solo atributo alt, NO visible en el overlay
+        alt: altText[i],
       })),
     [photos, altText]
   );
@@ -76,20 +73,22 @@ export default function PersonalGallery({
             variants={gridItemVariants}
             whileHover={{
               y: -6,
-              rotateX: 2,
-              rotateY: -2,
               boxShadow: "0 0px 50px 2px rgba(56,189,248,0.60)",
               transition: { duration: 0.25, ease: "easeOut" },
               borderColor: "rgba(56,189,248,0.60)",
               backgroundColor: "rgba(56,189,248,0.06)",
             }}
+            whileTap={{
+              scale: 0.96,
+              transition: {duration: 0.1, ease: "easeOut"}
+            }}
             className="overflow-hidden rounded-2xl border border-white/10 bg-white/5 p-0 cursor-pointer"
-            aria-label={displayTitle[i] || altText[i] || undefined} // no “Foto N”
+            aria-label={displayTitle[i] || altText[i] || undefined}
           >
             <div className="relative h-36 w-full">
               <Image
                 src={p.src}
-                alt={altText[i]} // ALT real, no visible
+                alt={altText[i]}
                 fill
                 sizes="(min-width:1024px) 320px, (min-width: 768px) 220px, 150px"
                 className="object-cover"
@@ -107,7 +106,6 @@ export default function PersonalGallery({
       <FittedMediaOverlay
         isOpen={idx !== null}
         media={idx !== null ? mediaItems[idx] : null}
-        // Solo mostramos título si hay caption; si no, vacío (no se renderiza nada)
         title={idx !== null ? (displayTitle[idx] ?? "") : "Galería personal"}
         closeLabel="Cerrar"
         onClose={() => setIdx(null)}
