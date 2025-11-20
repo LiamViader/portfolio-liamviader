@@ -235,7 +235,7 @@ export default function ContactPage() {
           {highlightCards.map(({ key, icon: Icon, title, description }, index) => (
             <motion.article
               key={key}
-              className="relative overflow-hidden p-2 sm:p-4 h-full backdrop-blur-sm border border-white/10 bg-white/5 rounded-3xl"
+              className="relative overflow-hidden p-4 h-full backdrop-blur-sm border border-white/10 bg-white/5 rounded-3xl"
               aria-labelledby={`contact-highlight-${key}`}
               initial="hidden"
               animate="show"
