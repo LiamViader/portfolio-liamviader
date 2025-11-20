@@ -1,5 +1,5 @@
 import type { Target, Transition } from "framer-motion";
-import { cubicBezier, easeOut } from "framer-motion";
+import { cubicBezier } from "framer-motion";
 
 export type CarouselVariant =
   | "center"
@@ -91,10 +91,10 @@ export function getVariantAnimationFromTo(
       animate: {
         x: [from.x, to.x],
         scale: [from.scale, to.scale],
-        opacity: 1,
+        opacity: [from.opacity, to.opacity],
         zIndex: to.zIndex,
       },
-      transition: { duration: 1.2, ease: EASE_ENTER},
+      transition: { duration: 1.2, ease: EASE_ENTER, opacity: { duration: 0 } },
     };
   }
 
