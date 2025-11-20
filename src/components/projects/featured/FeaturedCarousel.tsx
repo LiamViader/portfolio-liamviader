@@ -356,7 +356,7 @@ export function FeaturedCarousel({
   );
 
   const controlButtonClassName = clsx(
-    "pointer-events-auto cursor-pointer inline-flex h-12 w-12 items-center justify-center rounded-full border border-white/40 bg-white/[0.07] text-white shadow-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-white/70",
+    "pointer-events-auto cursor-pointer inline-flex h-12 w-12 items-center justify-center rounded-full backdrop-blur-xl border border-white/40 bg-white/[0.07] text-white shadow-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-white/70",
     layout?.controlButtonClassName,
   );
 
