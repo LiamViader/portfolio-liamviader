@@ -36,7 +36,6 @@ const Asteroid = ({ position, rotation, scale, opacity }: any) => {
         transparent={true} 
         opacity={opacity} 
         flatShading={true}
-        // CLAVE para transiciones limpias
         depthWrite={false}
         roughness={0.6}
         metalness={0.4}

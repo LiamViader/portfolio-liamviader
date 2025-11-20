@@ -37,25 +37,19 @@ export default function ProjectSceneContent({ category }: ProjectSceneContentPro
     return () => window.removeEventListener("app-scroll", handleAppScroll as EventListener);
   }, []);
 
-  // --- LÓGICA DE VISIBILIDAD ESTRICTA ---
-  // Solo devuelve opacidad si la escena es EXACTAMENTE la de origen o destino.
-  // Cualquier otra escena recibe 0.
   const getOpacity = (sceneSlug: ClientCategorySlug) => {
     return progress.to(p => {
-      // Si ya terminó la transición (p=1) y somos la actual -> 1
       if (previousCategory === currentCategory && sceneSlug === currentCategory) return 1;
 
-      // Si somos la nueva -> p (va de 0 a 1)
       if (sceneSlug === currentCategory) return p;
-      
-      // Si somos la vieja -> 1-p (va de 1 a 0)
+
       if (sceneSlug === previousCategory) return 1 - p;
       
       return 0;
     });
   };
 
-  // Solo renderizamos si somos parte activa de la transición
+
   const isSceneActive = (sceneSlug: ClientCategorySlug) => {
     return sceneSlug === currentCategory || sceneSlug === previousCategory;
   };
@@ -63,26 +57,21 @@ export default function ProjectSceneContent({ category }: ProjectSceneContentPro
   useFrame(() => {
     const t = progress.get();
     
-    // Interpolación de color de fondo segura
     const fromIndex = CATEGORY_INDICES[previousCategory] ?? 0;
     const toIndex = CATEGORY_INDICES[currentCategory] ?? 0;
     
-    // Fallback a negro si falla el índice
     const fromColor = CATEGORY_COLORS[fromIndex] || new THREE.Color(0,0,0);
     const toColor = CATEGORY_COLORS[toIndex] || new THREE.Color(0,0,0);
 
-    // Scroll de cámara
     smoothScrollRef.current += (scrollTopRef.current - smoothScrollRef.current) * DAMPING;
     const targetY = smoothScrollRef.current * PX_TO_WORLD_Y;
     camera.position.lerp(new THREE.Vector3(0, targetY, TARGET_Z), 0.1);
 
-    // Lerp de color de fondo
     if (!scene.background || !(scene.background instanceof THREE.Color)) {
       scene.background = new THREE.Color();
     }
     (scene.background as THREE.Color).copy(fromColor).lerp(toColor, t);
 
-    // Lerp de niebla
     if (!scene.fog) {
       scene.fog = new THREE.Fog(scene.background, 5, 60);
     } else {
@@ -94,11 +83,6 @@ export default function ProjectSceneContent({ category }: ProjectSceneContentPro
     <>
       <ambientLight intensity={0.4} />
       <directionalLight position={[5, 10, 7]} intensity={1.5} />
-      
-      {/* IMPORTANTE: 
-         - Pasamos 'isVisible' solo si es la categoría de destino FINAL.
-         - Esto permite que la escena sepa si debe ejecutar su animación de "entrada" (como el zoom de SceneAll).
-      */}
 
       {isSceneActive('all') && (
         <SceneAll 
