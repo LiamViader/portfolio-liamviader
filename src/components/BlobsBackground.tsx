@@ -2,7 +2,8 @@
 "use client";
 
 import React from "react";
-import { motion, useAnimationFrame, useMotionValue, MotionStyle } from "framer-motion";
+import { motion, useAnimationFrame, useMotionValue } from "framer-motion";
+import type { MotionStyle, MotionValue } from "framer-motion";
 
 type BlobProps = {
   color: string;         // color rgb
@@ -15,6 +16,11 @@ type BlobProps = {
   ampY: number;          // amplitude y in %
   opacity?: number;
   blurPx?: number;       // blur in px
+};
+
+type BlobStyle = MotionStyle & {
+  "--px": MotionValue<number>;
+  "--py": MotionValue<number>;
 };
 
 function Blob({
@@ -41,18 +47,16 @@ function Blob({
     scale.set(1 + 0.08 * Math.sin(ang * 1.5));
   });
 
-  const style: MotionStyle = {
-
-    ["--px" as any]: px,
-    ["--py" as any]: py,
+  const style: BlobStyle = {
+    "--px": px,
+    "--py": py,
 
     position: "absolute",
     width: `${sizeVW}vw`,
     height: `${sizeVW}vw`,
 
-
     left: `calc(var(--px) * 1% - ${sizeVW / 2}vw)`,
-    top:  `calc(var(--py) * 1% - ${sizeVW / 2}vw)`,
+    top: `calc(var(--py) * 1% - ${sizeVW / 2}vw)`,
 
     borderRadius: "9999px",
     background: `radial-gradient(closest-side, ${color}, transparent)`,
@@ -60,7 +64,6 @@ function Blob({
     filter: `blur(${blurPx}px)`,
     willChange: "transform",
     pointerEvents: "none",
-
 
     scale,
   };

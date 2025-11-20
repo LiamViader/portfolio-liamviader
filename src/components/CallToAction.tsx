@@ -1,7 +1,6 @@
 "use client";
 
 import { motion, type Variants } from "framer-motion";
-import Link from "next/link";
 import { useTranslations } from "next-intl";
 import { SkyButton } from "./home/Buttons";
 
@@ -41,18 +40,6 @@ const contentVariants: Variants = {
     y: 0,
     transition: {
       duration: 0.5,
-      ease: "easeOut",
-    },
-  },
-};
-
-const linkVariants: Variants = {
-  hidden: { opacity: 0, y: 14 },
-  show: {
-    opacity: 1,
-    y: 0,
-    transition: {
-      duration: 0.45,
       ease: "easeOut",
     },
   },

@@ -92,7 +92,7 @@ export default function CustomScrollArea({
       );
     }
     onScroll?.({ scrollTop, scrollHeight, clientHeight });
-  }, [minThumbSize, onScroll]);
+  }, [minThumbSize, onScroll, fillViewport]);
 
   React.useEffect(() => {
     const el = viewportRef.current;
@@ -135,7 +135,7 @@ export default function CustomScrollArea({
       roTrack.disconnect();
       window.removeEventListener("resize", updateMetrics);
     };
-  }, [updateMetrics, showTemporarily]);
+  }, [updateMetrics, showTemporarily, fillViewport]);
 
   React.useEffect(() => {
     if (!autoHide) { setIsVisible(true); return; }
