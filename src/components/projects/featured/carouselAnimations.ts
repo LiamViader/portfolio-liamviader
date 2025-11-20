@@ -91,7 +91,7 @@ export function getVariantAnimationFromTo(
       animate: {
         x: [from.x, to.x],
         scale: [from.scale, to.scale],
-        opacity: [from.opacity, to.opacity],
+        opacity: 1,
         zIndex: to.zIndex,
       },
       transition: { duration: 1.2, ease: EASE_ENTER, opacity: { duration: 0 } },
