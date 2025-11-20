@@ -2,43 +2,48 @@ import { useEffect, useRef, useState } from 'react';
 import { useSpring } from '@react-spring/web';
 import { ClientCategorySlug } from '@/config/projectCategories';
 
-export const useSceneTransition = (nextCategory: ClientCategorySlug) => {
-  const [fromCategory, setFromCategory] = useState<ClientCategorySlug>(nextCategory);
-  const [currentCategory, setCurrentCategory] = useState<ClientCategorySlug>(nextCategory);
+export const useSceneTransition = (targetCategory: ClientCategorySlug) => {
+  const [prevCategory, setPrevCategory] = useState<ClientCategorySlug>(targetCategory);
+  const [currCategory, setCurrCategory] = useState<ClientCategorySlug>(targetCategory);
 
-  const categoryRef = useRef(nextCategory);
+  const progressRef = useRef(0);
 
   const [styles, api] = useSpring(() => ({ 
     progress: 1,
-    config: { duration: 800, tension: 120, friction: 14 }
+    config: { duration: 500, tension: 120, friction: 20 },
+    onChange: (result) => {
+      progressRef.current = result.value.progress;
+    }
   }));
 
   useEffect(() => {
-    if (categoryRef.current === nextCategory) return;
-    categoryRef.current = nextCategory;
+    if (targetCategory === currCategory) return;
 
-    const currentProgress = styles.progress.get();
-
-    let nextFrom = fromCategory;
+    const currentP = progressRef.current;
+    let nextPrev = prevCategory;
+    if (currentP > 0.5) {
+       nextPrev = currCategory;
+    } 
     
-    if (currentProgress > 0.5) {
-      nextFrom = currentCategory;
+    if (targetCategory === prevCategory) {
+       nextPrev = currCategory;
     }
 
-    setFromCategory(nextFrom);
-    setCurrentCategory(nextCategory);
+    setPrevCategory(nextPrev);
+    setCurrCategory(targetCategory);
+
+    api.set({ progress: 0 });
+    progressRef.current = 0;
 
     api.start({
-      from: { progress: 0 },
       to: { progress: 1 },
-      reset: true,
     });
 
-  }, [nextCategory, api, fromCategory, currentCategory, styles.progress]);
+  }, [targetCategory, currCategory, prevCategory, api]);
 
   return { 
     progress: styles.progress, 
-    previousCategory: fromCategory, 
-    currentCategory: currentCategory 
+    previousCategory: prevCategory, 
+    currentCategory: currCategory 
   };
 };

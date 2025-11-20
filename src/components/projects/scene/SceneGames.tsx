@@ -7,20 +7,19 @@ import * as THREE from 'three';
 import { SceneProps } from './SceneTypes';
 
 const AnimatedStandardMaterial = animated('meshStandardMaterial');
-const ASTEROID_COUNT = 60;
-const ASTEROID_FIELD_SIZE = 100;
+const ASTEROID_COUNT = 50;
+const ASTEROID_FIELD_SIZE = 90;
 
-// Componente individual de asteroide
-const Asteroid = ({ position, rotation, scale, opacity }: { position: THREE.Vector3, rotation: THREE.Euler, scale: number, opacity: any }) => {
+const Asteroid = ({ position, rotation, scale, opacity }: any) => {
   const meshRef = useRef<THREE.Mesh>(null);
-  const timeOffset = useMemo(() => Math.random() * 100, []);
+  const randomOffset = useMemo(() => Math.random() * 100, []);
   
   useFrame(({ clock }) => {
     if (meshRef.current) {
-      const time = clock.getElapsedTime() + timeOffset;
-      meshRef.current.rotation.x += 0.005;
-      meshRef.current.rotation.y += 0.003;
-      meshRef.current.position.y = position.y + Math.sin(time * 0.5) * 0.5;
+      const t = clock.getElapsedTime() + randomOffset;
+      meshRef.current.rotation.x = t * 0.1;
+      meshRef.current.rotation.y = t * 0.05;
+      meshRef.current.position.y = position.y + Math.sin(t * 0.5) * 1.5;
     }
   });
 
@@ -33,12 +32,14 @@ const Asteroid = ({ position, rotation, scale, opacity }: { position: THREE.Vect
     >
       <dodecahedronGeometry args={[1, 0]} /> 
       <AnimatedStandardMaterial 
-        color="#605063" 
+        color="#a855f7"
         transparent={true} 
         opacity={opacity} 
         flatShading={true}
-        // CLAVE: depthWrite false permite que se superpongan suavemente en la transición
-        depthWrite={false} 
+        // CLAVE para transiciones limpias
+        depthWrite={false}
+        roughness={0.6}
+        metalness={0.4}
       />
     </animated.mesh>
   );
@@ -52,20 +53,16 @@ export default function SceneGames({ opacity, transitionProgress }: SceneProps) 
       position: new THREE.Vector3(
         (Math.random() - 0.5) * ASTEROID_FIELD_SIZE,
         (Math.random() - 0.5) * ASTEROID_FIELD_SIZE,
-        -Math.random() * (ASTEROID_FIELD_SIZE/2)
+        -Math.random() * (ASTEROID_FIELD_SIZE * 0.4) 
       ),
-      rotation: new THREE.Euler(
-        Math.random() * Math.PI,
-        Math.random() * Math.PI,
-        Math.random() * Math.PI
-      ),
-      scale: 0.5 + Math.random() * 1.5,
+      rotation: new THREE.Euler(Math.random() * Math.PI, Math.random() * Math.PI, 0),
+      scale: 0.5 + Math.random() * 1.2,
     }));
   }, []);
 
-  useFrame(() => {
+  useFrame(({ clock }) => {
     if (groupRef.current) {
-      groupRef.current.rotation.z += 0.001;
+      groupRef.current.rotation.z = clock.getElapsedTime() * 0.05;
     }
   });
 

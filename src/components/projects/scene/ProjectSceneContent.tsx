@@ -18,13 +18,14 @@ interface ProjectSceneContentProps {
 
 export default function ProjectSceneContent({ category }: ProjectSceneContentProps) {
   const { progress, previousCategory, currentCategory } = useSceneTransition(category);
+  
   const { scene, camera } = useThree();
   const scrollTopRef = useRef(0);
   const smoothScrollRef = useRef(0);
 
   const PX_TO_WORLD_Y = -0.0025;
   const TARGET_Z = 5;
-  const DAMPING = 0.2;
+  const DAMPING = 0.15;
 
   useEffect(() => {
     const handleAppScroll = (e: Event) => {
@@ -36,52 +37,54 @@ export default function ProjectSceneContent({ category }: ProjectSceneContentPro
     return () => window.removeEventListener("app-scroll", handleAppScroll as EventListener);
   }, []);
 
-  // Lógica de Opacidad corregida para evitar saltos
-  const getOpacity = (targetCategorySlug: ClientCategorySlug) =>
-    progress.to((p) => {
-      // Si no hay transición activa (ya terminó), solo mostramos la actual
-      if (previousCategory === currentCategory) {
-        return targetCategorySlug === currentCategory ? 1 : 0;
-      }
+  // --- LÓGICA DE VISIBILIDAD ESTRICTA ---
+  // Solo devuelve opacidad si la escena es EXACTAMENTE la de origen o destino.
+  // Cualquier otra escena recibe 0.
+  const getOpacity = (sceneSlug: ClientCategorySlug) => {
+    return progress.to(p => {
+      // Si ya terminó la transición (p=1) y somos la actual -> 1
+      if (previousCategory === currentCategory && sceneSlug === currentCategory) return 1;
 
-      // Si somos la categoría "vieja", nos desvanecemos
-      if (targetCategorySlug === previousCategory) return 1 - p;
+      // Si somos la nueva -> p (va de 0 a 1)
+      if (sceneSlug === currentCategory) return p;
       
-      // Si somos la categoría "nueva", aparecemos
-      if (targetCategorySlug === currentCategory) return p;
+      // Si somos la vieja -> 1-p (va de 1 a 0)
+      if (sceneSlug === previousCategory) return 1 - p;
       
       return 0;
     });
+  };
 
-  const isSceneActive = (targetCategorySlug: ClientCategorySlug) => {
-    // Mantenemos la escena renderizada si es la previa o la actual
-    return targetCategorySlug === previousCategory || targetCategorySlug === currentCategory;
+  // Solo renderizamos si somos parte activa de la transición
+  const isSceneActive = (sceneSlug: ClientCategorySlug) => {
+    return sceneSlug === currentCategory || sceneSlug === previousCategory;
   };
 
   useFrame(() => {
     const t = progress.get();
+    
+    // Interpolación de color de fondo segura
+    const fromIndex = CATEGORY_INDICES[previousCategory] ?? 0;
+    const toIndex = CATEGORY_INDICES[currentCategory] ?? 0;
+    
+    // Fallback a negro si falla el índice
+    const fromColor = CATEGORY_COLORS[fromIndex] || new THREE.Color(0,0,0);
+    const toColor = CATEGORY_COLORS[toIndex] || new THREE.Color(0,0,0);
 
-    const fromIndex = CATEGORY_INDICES[previousCategory];
-    const toIndex = CATEGORY_INDICES[currentCategory];
-
-    // Aseguramos que existan colores por si acaso los índices fallan
-    const fromColor = CATEGORY_COLORS[fromIndex] || new THREE.Color('#000000');
-    const toColor = CATEGORY_COLORS[toIndex] || new THREE.Color('#000000');
-
+    // Scroll de cámara
     smoothScrollRef.current += (scrollTopRef.current - smoothScrollRef.current) * DAMPING;
-
     const targetY = smoothScrollRef.current * PX_TO_WORLD_Y;
-    camera.position.lerp(new THREE.Vector3(0, targetY, TARGET_Z), 0.9);
+    camera.position.lerp(new THREE.Vector3(0, targetY, TARGET_Z), 0.1);
 
+    // Lerp de color de fondo
     if (!scene.background || !(scene.background instanceof THREE.Color)) {
       scene.background = new THREE.Color();
     }
-
-    // Interpolación del color de fondo
     (scene.background as THREE.Color).copy(fromColor).lerp(toColor, t);
 
+    // Lerp de niebla
     if (!scene.fog) {
-      scene.fog = new THREE.Fog(scene.background, 1, 100);
+      scene.fog = new THREE.Fog(scene.background, 5, 60);
     } else {
       (scene.fog as THREE.Fog).color.copy(scene.background);
     }
@@ -89,11 +92,14 @@ export default function ProjectSceneContent({ category }: ProjectSceneContentPro
 
   return (
     <>
-      <ambientLight intensity={0.5} />
-      <directionalLight position={[5, 10, 7]} intensity={1} />
- 
-      {/* Pasamos isVisible explícitamente para que SceneAll sepa cuándo reiniciar su efecto */}
+      <ambientLight intensity={0.4} />
+      <directionalLight position={[5, 10, 7]} intensity={1.5} />
       
+      {/* IMPORTANTE: 
+         - Pasamos 'isVisible' solo si es la categoría de destino FINAL.
+         - Esto permite que la escena sepa si debe ejecutar su animación de "entrada" (como el zoom de SceneAll).
+      */}
+
       {isSceneActive('all') && (
         <SceneAll 
           opacity={getOpacity('all')} 

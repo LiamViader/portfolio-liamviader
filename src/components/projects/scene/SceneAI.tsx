@@ -7,45 +7,50 @@ import * as THREE from 'three';
 import { SceneProps } from './SceneTypes';
 
 export default function SceneAI({ opacity, transitionProgress, isVisible }: SceneProps) {
-  const meshRef = useRef<THREE.Mesh>(null);
   const lineRef = useRef<THREE.LineSegments>(null);
 
   const { edges } = useMemo(() => {
-    const geometry = new THREE.IcosahedronGeometry(5, 2);
+    const geometry = new THREE.IcosahedronGeometry(9, 2); 
     const edges = new THREE.EdgesGeometry(geometry);
     return { edges };
   }, []);
 
   useFrame(({ clock }) => {
     const t = clock.getElapsedTime();
-    const transitionFactor = transitionProgress.get();
     
-    // Efecto de escala al entrar/salir
-    let scale;
+    if (lineRef.current) {
+      lineRef.current.rotation.y = t * 0.08; 
+      lineRef.current.rotation.x = t * 0.02;
+      lineRef.current.position.y = -1; 
+    }
+
+    const progress = transitionProgress.get();
+    
+    let targetScale = 1;
     if (isVisible) {
-      scale = 1 + transitionFactor * 0.2; // Sutil zoom in
+       targetScale = 0.8 + (progress * 0.2);
     } else {
-      scale = 1.2 + (1 - transitionFactor) * 0.5; // Zoom out al irse
+
     }
 
     if (lineRef.current) {
-      lineRef.current.rotation.y = t * 0.05;
-      lineRef.current.rotation.x = t * 0.03;
-      lineRef.current.position.y = -2;
-      lineRef.current.scale.setScalar(scale);
+      lineRef.current.scale.setScalar(targetScale);
     }
   });
 
   return (
-    <animated.lineSegments ref={lineRef}>
-      <primitive object={edges} />
-      <animated.lineBasicMaterial 
-        color="cyan" 
-        linewidth={1} 
-        transparent={true}
-        opacity={opacity.to(o => o * 0.7)}
-        depthWrite={false} // CLAVE: Evita glitches al mezclarse con otras escenas
-      />
-    </animated.lineSegments>
+    <>
+      <animated.lineSegments ref={lineRef}>
+        <primitive object={edges} />
+        <animated.lineBasicMaterial 
+          color="#22d3ee"
+          linewidth={1} 
+          transparent={true}
+          opacity={opacity} 
+          depthWrite={false} 
+          toneMapped={false}
+        />
+      </animated.lineSegments>
+    </>
   );
 }
