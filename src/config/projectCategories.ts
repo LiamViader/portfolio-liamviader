@@ -29,7 +29,7 @@ export const CATEGORY_CONFIG = {
 		slug: 'games' as const, 
 		filterKey: 'Game', 
 		tKey: "games", 
-		color: new THREE.Color('#2c004b'),
+		color: new THREE.Color('#2c013d'),
 		colorButton: new THREE.Color('#b941ff'),
 		cssColor: 'text-fuchsia-300',
 	},

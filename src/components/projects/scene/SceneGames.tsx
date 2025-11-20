@@ -4,47 +4,27 @@ import { useRef, useMemo } from 'react';
 import { useFrame } from '@react-three/fiber';
 import { animated } from '@react-spring/three';
 import * as THREE from 'three';
-import { SceneProps } from './SceneTypes';
+import { SceneProps } from './SceneTypes'; // Importación corregida
+
 
 const AnimatedStandardMaterial = animated('meshStandardMaterial');
-const ASTEROID_COUNT = 30;
-const ASTEROID_FIELD_SIZE = 90;
+const ASTEROID_COUNT = 60;
+const ASTEROID_FIELD_SIZE = 100;
 
-const BASE_HUE = 276 / 360;
-const BASE_SAT = 0.89;
-const BASE_LIGHT = 0.65;
-
-const Asteroid = ({ position, rotation, scale, opacity }: any) => {
+const Asteroid = ({ position, rotation, scale, opacity }: { position: THREE.Vector3, rotation: THREE.Euler, scale: number, opacity: SceneProps['opacity'] }) => {
   const meshRef = useRef<THREE.Mesh>(null);
-  const randomOffset = useMemo(() => Math.random() * 100, []);
-  const color = useMemo(() => new THREE.Color(), []);
-
+  const timeOffset = useMemo(() => Math.random() * 100, []);
+  
   useFrame(({ clock }) => {
-    if (!meshRef.current) return;
-
-    const t = clock.getElapsedTime() + randomOffset;
-
-    // Movimiento original
-    meshRef.current.rotation.x = t * 0.1;
-    meshRef.current.rotation.y = t * 0.05;
-    meshRef.current.position.y = position.y + Math.sin(t * 0.5) * 1.5;
-
-    // Variación muy suave de color
-    const hueShift = Math.sin(t * 0.25) * 0.2;     // ±1.5% de hue
-    const lightShift = Math.sin(t * 1) * 1;     // ±3% de lightness
-
-    const hue = BASE_HUE + hueShift;
-    const light = BASE_LIGHT + lightShift;
-
-    color.setHSL(hue, BASE_SAT, light);
-
-    const material = meshRef.current.material as THREE.MeshStandardMaterial;
-    if (!material) return;
-
-    // Color base y emisión con esa ligera variación
-    material.color.copy(color);
-    material.emissive.copy(color);
-    // No tocamos emissiveIntensity → se queda "fuerte" como tenías
+    if (meshRef.current) {
+      const time = clock.getElapsedTime() + timeOffset;
+      // Rotación constante
+      meshRef.current.rotation.x += 0.005;
+      meshRef.current.rotation.y += 0.003;
+      
+      // Simular movimiento lento en el espacio
+      meshRef.current.position.y = position.y + Math.sin(time * 0.1) * 0.5;
+    }
   });
 
   return (
@@ -54,48 +34,56 @@ const Asteroid = ({ position, rotation, scale, opacity }: any) => {
       rotation={rotation}
       scale={[scale, scale, scale]}
     >
+      {/* Geometría de tetraedro low-poly */}
       <dodecahedronGeometry args={[1, 0]} /> 
       <AnimatedStandardMaterial 
-        color="#a855f7"
-        transparent 
+        color="#3e3241" // Azul violeta
+        transparent={true} 
         opacity={opacity} 
-        flatShading
+        flatShading={true} // Estilo Low-Poly
         depthWrite={false}
-        roughness={0.6}
-        metalness={0.4}
-        emissive="#a855f7"
-        // sin emissiveIntensity => se mantiene el brillo potente
       />
     </animated.mesh>
   );
 };
 
-export default function SceneGames({ opacity, transitionProgress }: SceneProps) {
+
+export default function SceneGames({ opacity, transitionProgress, isVisible }: SceneProps) {
   const groupRef = useRef<THREE.Group>(null);
 
+  // Generar las propiedades iniciales de los asteroides
   const asteroidProps = useMemo(() => {
     return Array(ASTEROID_COUNT).fill(0).map(() => ({
       position: new THREE.Vector3(
         (Math.random() - 0.5) * ASTEROID_FIELD_SIZE,
         (Math.random() - 0.5) * ASTEROID_FIELD_SIZE,
-        -Math.random() * (ASTEROID_FIELD_SIZE * 0.4) 
+        -Math.random() * (ASTEROID_FIELD_SIZE/2)
       ),
-      rotation: new THREE.Euler(Math.random() * Math.PI, Math.random() * Math.PI, 0),
-      scale: 0.1 + Math.random() * 0.7,
+      rotation: new THREE.Euler(
+        Math.random() * Math.PI,
+        Math.random() * Math.PI,
+        Math.random() * Math.PI
+      ),
+      scale: 0.5 + Math.random() * 1.5,
     }));
   }, []);
 
-  useFrame(({ clock }) => {
+  useFrame(() => {
+    
     if (groupRef.current) {
-      groupRef.current.rotation.z = clock.getElapsedTime() * 0.05;
+      groupRef.current.scale.setScalar(1);
+      groupRef.current.rotation.z += 0.0005;
     }
   });
 
+
   return (
-    <animated.group ref={groupRef}>
-      {asteroidProps.map((props, index) => (
-        <Asteroid key={index} {...props} opacity={opacity} />
-      ))}
-    </animated.group>
+    <>
+      <animated.group ref={groupRef}>
+        {asteroidProps.map((props, index) => (
+          <Asteroid key={index} {...props} opacity={opacity} />
+        ))}
+      </animated.group>
+    </>
   );
 }

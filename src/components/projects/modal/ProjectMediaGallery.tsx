@@ -118,16 +118,16 @@ export function ProjectMediaGallery({
                           variants={{
                             idle: { 
                               scale: 1, 
-                              backgroundColor: "rgba(255, 255, 255, 0.1)", 
+                              backgroundColor: "rgba(4, 0, 43, 0.9)", 
                               borderColor: "rgba(255, 255, 255, 0.2)",
-                              color: "rgba(255, 255, 255, 1)"
+                              color: "rgba(33, 201, 235, 1)",
                             },
                             hover: { 
                               scale: 1.15, 
-                              backgroundColor: "rgba(0, 0, 0, 0.9)", 
+                              backgroundColor: "rgba(33, 201, 235, 1)",  
                               borderColor: "rgba(14, 165, 233, 0)",
-                              color: "rgba(255, 255, 255, 1)",
-                              transition: { ease: "easeOut", duration: 0.2}
+                              color: "rgba(4, 0, 43, 0.9)",
+                              transition: { ease: "easeIn", duration: 0.1}
                             }
                           }}
                         >

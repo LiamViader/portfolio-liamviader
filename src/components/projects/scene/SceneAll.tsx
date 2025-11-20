@@ -8,12 +8,12 @@ import { SceneProps } from "./SceneTypes";
 
 const AnimatedStandardMaterial = animated("meshStandardMaterial");
 
-const PARTICLE_COUNT = 600;
+const PARTICLE_COUNT = 800;
 const PARTICLE_RANGE = 50;
 const Z_RESET_OFFSET = 15;
 const CYCLE_DURATION = 30;
 
-const START_SPEED = -20.0; 
+const START_SPEED = -10.0; 
 const END_SPEED = 0.7;
 const TRANSITION_DURATION = 3;
 
@@ -68,7 +68,7 @@ export default function SceneAll({ opacity, transitionProgress, isVisible }: Sce
     let currentSpeed = END_SPEED;
     if (localTime < TRANSITION_DURATION) {
       const progress = localTime / TRANSITION_DURATION;
-      const ease = 1 - Math.pow(1 - progress, 4);
+      const ease = 1 - Math.pow(1 - progress, 5);
       currentSpeed = THREE.MathUtils.lerp(START_SPEED, END_SPEED, ease);
     }
 

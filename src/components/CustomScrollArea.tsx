@@ -16,7 +16,7 @@ type ScrollAreaProps = {
   ariaLabel?: string;
   onScroll?: (info: { scrollTop: number; scrollHeight: number; clientHeight: number }) => void;
 
-  // 🔹 NUEVO: solo se aplican cuando NO es fillViewport
+  // 🔹 Solo se aplican cuando NO es fillViewport
   topOffset?: number;
   bottomOffset?: number;
 };
@@ -37,6 +37,8 @@ export default function CustomScrollArea({
   topOffset,
   bottomOffset,
 }: ScrollAreaProps) {
+  const viewportId = React.useId();
+
   const wrapperRef = React.useRef<HTMLDivElement | null>(null);
   const viewportRef = React.useRef<HTMLDivElement | null>(null);
   const contentRef = React.useRef<HTMLDivElement | null>(null);
@@ -48,6 +50,7 @@ export default function CustomScrollArea({
   const [isDragging, setIsDragging] = React.useState(false);
   const [isHovering, setIsHovering] = React.useState(false);
   const [isVisible, setIsVisible] = React.useState(!autoHide);
+  const [scrollPercent, setScrollPercent] = React.useState(0);
   const hideTimerRef = React.useRef<number | null>(null);
 
   const clearHideTimer = () => {
@@ -75,6 +78,7 @@ export default function CustomScrollArea({
     if (!needs) {
       setThumbSize(0);
       setThumbOffset(0);
+      setScrollPercent(0);
     } else {
       const trackH = trackRef.current?.getBoundingClientRect().height ?? clientHeight;
       const sizeRaw = trackH * (clientHeight / Math.max(1, scrollHeight));
@@ -82,13 +86,19 @@ export default function CustomScrollArea({
       const maxThumbOffset = Math.max(0, trackH - size);
       const maxScrollTop = Math.max(1, scrollHeight - clientHeight);
       const offset = Math.round((scrollTop / maxScrollTop) * maxThumbOffset);
+
       setThumbSize(size);
       setThumbOffset(offset);
+
+      const rawPercent = (scrollTop / maxScrollTop) * 100;
+      setScrollPercent(Math.max(0, Math.min(100, Math.round(rawPercent))));
     }
 
     if (fillViewport) {
       window.dispatchEvent(
-        new CustomEvent("app-scroll", { detail: { source: "full", scrollTop, scrollHeight, clientHeight } })
+        new CustomEvent("app-scroll", {
+          detail: { source: "full", scrollTop, scrollHeight, clientHeight },
+        })
       );
     }
     onScroll?.({ scrollTop, scrollHeight, clientHeight });
@@ -118,11 +128,18 @@ export default function CustomScrollArea({
     if (trackEl) roTrack.observe(trackEl);
 
     window.addEventListener("resize", updateMetrics);
-    
+
     if (fillViewport) {
-      window.dispatchEvent(new CustomEvent("app-scroll", {
-        detail: {source: "full", scrollTop: el.scrollTop, scrollHeight: el.scrollHeight, clientHeight: el.clientHeight },
-      }));
+      window.dispatchEvent(
+        new CustomEvent("app-scroll", {
+          detail: {
+            source: "full",
+            scrollTop: el.scrollTop,
+            scrollHeight: el.scrollHeight,
+            clientHeight: el.clientHeight,
+          },
+        })
+      );
     }
 
     updateMetrics();
@@ -138,7 +155,10 @@ export default function CustomScrollArea({
   }, [updateMetrics, showTemporarily, fillViewport]);
 
   React.useEffect(() => {
-    if (!autoHide) { setIsVisible(true); return; }
+    if (!autoHide) {
+      setIsVisible(true);
+      return;
+    }
     if (isDragging || isHovering) {
       setIsVisible(true);
       clearHideTimer();
@@ -158,7 +178,10 @@ export default function CustomScrollArea({
       const moveArea = Math.max(1, trackRect.height - thumbSize);
       const maxScrollTop = Math.max(1, scrollHeight - clientHeight);
       const scrollDelta = (deltaY / moveArea) * maxScrollTop;
-      viewportRef.current.scrollTop = Math.min(maxScrollTop, Math.max(0, startScrollTop + scrollDelta));
+      viewportRef.current.scrollTop = Math.min(
+        maxScrollTop,
+        Math.max(0, startScrollTop + scrollDelta)
+      );
     };
     const onMouseMove = (ev: MouseEvent) => onMove(ev.clientY);
     const onTouchMove = (ev: TouchEvent) => onMove(ev.touches[0].clientY);
@@ -182,6 +205,7 @@ export default function CustomScrollArea({
     if (!viewportRef.current) return;
     startDrag(e.clientY, viewportRef.current.scrollTop);
   };
+
   const onThumbTouchStart = (e: React.TouchEvent) => {
     if (!viewportRef.current) return;
     startDrag(e.touches[0].clientY, viewportRef.current.scrollTop);
@@ -192,7 +216,10 @@ export default function CustomScrollArea({
     if (!viewportRef.current || !trackRef.current) return;
     const trackRect = trackRef.current.getBoundingClientRect();
     const clickY = e.clientY - trackRect.top;
-    const targetThumbTop = Math.max(0, Math.min(clickY - thumbSize / 2, trackRect.height - thumbSize));
+    const targetThumbTop = Math.max(
+      0,
+      Math.min(clickY - thumbSize / 2, trackRect.height - thumbSize)
+    );
     const el = viewportRef.current;
     const { clientHeight, scrollHeight } = el;
     const maxScrollTop = Math.max(1, scrollHeight - clientHeight);
@@ -207,14 +234,11 @@ export default function CustomScrollArea({
 
   const trackVisible = isNeeded && (isVisible || isDragging || isHovering);
 
-  // 👉 Mantengo exactamente lo de antes para fullViewport
   const extraTop = 16;
   const extraBottom = 24;
 
   const wrapperStyle: React.CSSProperties = fillViewport ? { height: "100dvh" } : {};
 
-  // 👉 Si es fullViewport: usamos var(--header-h) + márgenes (como antes)
-  // 👉 Si NO es fullViewport: usamos topOffset/bottomOffset (nuevas props)
   const baseTrackStyle: React.CSSProperties = fillViewport
     ? { top: `calc(var(--header-h, 0px) + ${extraTop}px)`, bottom: `${extraBottom}px` }
     : { top: topOffset ?? 0, bottom: bottomOffset ?? 0 };
@@ -229,6 +253,7 @@ export default function CustomScrollArea({
     >
       <div
         ref={viewportRef}
+        id={viewportId}
         className={baseViewport}
         tabIndex={0}
         role="region"
@@ -251,12 +276,13 @@ export default function CustomScrollArea({
         ].join(" ")}
         style={{ ...baseTrackStyle, right: `${gap}px`, width: `${thickness}px` }}
       >
-        {/* eslint-disable-next-line jsx-a11y/role-has-required-aria-props */}
         <div
           role="scrollbar"
           aria-orientation="vertical"
+          aria-controls={viewportId}
           aria-valuemin={0}
           aria-valuemax={100}
+          aria-valuenow={scrollPercent}
           data-role="thumb"
           className={[
             baseThumb,

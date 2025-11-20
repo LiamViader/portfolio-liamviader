@@ -30,7 +30,7 @@ export function ProjectModalShell({
       style={{
         position: "fixed",
         zIndex: 99999,
-        boxShadow: "0 0px 100px rgba(8, 47, 73, 1)",
+        boxShadow: "0 0px 100px rgba(8, 47, 73, 0.5)",
         borderRadius: 26,
         boxSizing: "border-box",
         overflow: "hidden",

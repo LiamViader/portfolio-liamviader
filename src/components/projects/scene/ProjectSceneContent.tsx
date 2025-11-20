@@ -25,7 +25,7 @@ export default function ProjectSceneContent({ category }: ProjectSceneContentPro
 
   const PX_TO_WORLD_Y = -0.0025;
   const TARGET_Z = 5;
-  const DAMPING = 0.15;
+  const DAMPING = 0.9999;
 
   useEffect(() => {
     const handleAppScroll = (e: Event) => {
@@ -108,10 +108,11 @@ export default function ProjectSceneContent({ category }: ProjectSceneContentPro
         />
       )}
 
-      <EffectComposer>
-        <Bloom intensity={2} luminanceThreshold={0.1} luminanceSmoothing={0.1} />
-        <Noise opacity={0.03} />
-      </EffectComposer>
+			<EffectComposer>
+				{/*<DepthOfField focusDistance={0.01} focalLength={0.02} bokehScale={1}/> uncomment, tradeoff quality for performance*/}
+				<Bloom intensity={2} luminanceThreshold={0.1} luminanceSmoothing={0.1} />
+				<Noise opacity={0.03} />
+			</EffectComposer>
     </>
   );
 }
