@@ -16,7 +16,6 @@ type ScrollAreaProps = {
   ariaLabel?: string;
   onScroll?: (info: { scrollTop: number; scrollHeight: number; clientHeight: number }) => void;
 
-  // 🔹 Solo se aplican cuando NO es fillViewport
   topOffset?: number;
   bottomOffset?: number;
 };
@@ -229,7 +228,7 @@ export default function CustomScrollArea({
 
   const baseWrapper = "relative block";
   const baseViewport = "absolute inset-0 overflow-auto no-scrollbar outline-none";
-  const baseTrack = "absolute top-0 bottom-0 rounded-full transition-opacity duration-200 z-40";
+  const baseTrack = "hidden md:block absolute top-0 bottom-0 rounded-full transition-opacity duration-200 z-40";
   const baseThumb = "absolute left-0 right-0 rounded-full cursor-grab active:cursor-grabbing";
 
   const trackVisible = isNeeded && (isVisible || isDragging || isHovering);
