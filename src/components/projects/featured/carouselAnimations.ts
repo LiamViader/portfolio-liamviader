@@ -64,10 +64,10 @@ export function getVariantAnimationFromTo(
       animate: {
         x: ["-50%", to.x],
         scale: [1, to.scale],
-        opacity: [1, to.opacity],
+        opacity: 1,
         zIndex: to.zIndex,
       },
-      transition: { duration: DUR_OTHER_S, ease: EASE_LEAVE },
+      transition: { duration: DUR_OTHER_S, ease: EASE_LEAVE, opacity: { duration: 0 }},
     };
   }
 
