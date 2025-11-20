@@ -65,16 +65,6 @@ const leftButtonsRow: Variants = {
   },
 };
 
-const rightColGate: Variants = {
-  hidden: { opacity: 0, y: 12 },
-  show: {
-    opacity: 1,
-    y: 0,
-    transition: { duration: 0.5, ease: "easeOut", when: "beforeChildren" },
-  },
-};
-
-
 export function FeaturedProjectsHomeSection({
   title,
   description,

@@ -251,6 +251,7 @@ export default function CustomScrollArea({
         ].join(" ")}
         style={{ ...baseTrackStyle, right: `${gap}px`, width: `${thickness}px` }}
       >
+        {/* eslint-disable-next-line jsx-a11y/role-has-required-aria-props */}
         <div
           role="scrollbar"
           aria-orientation="vertical"

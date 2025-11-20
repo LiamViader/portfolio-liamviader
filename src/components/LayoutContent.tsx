@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from 'react';
+
 import Header from './Header';
 import { ModalProvider } from '@/providers/ModalContext';
 import CustomScrollArea from './CustomScrollArea';

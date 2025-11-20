@@ -3,20 +3,13 @@ import React, { useEffect, useMemo, useRef } from "react";
 import { useFrame, useThree } from "@react-three/fiber";
 import type { HexGridParams } from "./PulseHexGridOverlapLine";
 
-/**
- * HexGridStrata
- * --------------
- * Grid de hexágonos SOLO contorno (como tu look original) animados por "estratos":
- * por filas, por columnas, o en diagonal. Súper eficiente: Instanced + ShaderMaterial,
- * 1 draw call, nada de updates por-celda en CPU cada frame.
- */
 export type StrataMode = "rows" | "cols" | "diagA" | "diagB";
 export type StrataOptions = {
-  mode?: StrataMode;     // patrón de desplazamiento (default "rows")
-  amplitude?: number;    // px de desplazamiento máx (default 10)
-  speed?: number;        // ciclos/seg (default 0.3)
-  phaseStep?: number;    // desfase por estrato en rad (default 0.6)
-  jitter?: number;       // jitter per-instancia en fase (default 0.25)
+  mode?: StrataMode;     // (default "rows")
+  amplitude?: number;    // (default 10)
+  speed?: number;        // (default 0.3)
+  phaseStep?: number;    // (default 0.6)
+  jitter?: number;       // (default 0.25)
 };
 
 const DEFAULTS: Required<StrataOptions> = {
@@ -33,8 +26,8 @@ type HexInstance = {
   rot: number;
   hue: number;  // 0..1
   phase: number;
-  stripe: number; // índice de fila/col/diag según modo base (rows por defecto)
-  row: number; col: number; // guardamos ambos para cambiar de modo en runtime
+  stripe: number; 
+  row: number; col: number; 
 };
 
 export default function HexGridStrata({
@@ -50,7 +43,6 @@ export default function HexGridStrata({
   const width = size.width / dpr;
   const height = size.height / dpr;
 
-  // Cámara ortográfica en px
   useEffect(() => {
     if (camera instanceof THREE.OrthographicCamera) {
       camera.left = -width / 2;
@@ -61,7 +53,6 @@ export default function HexGridStrata({
     }
   }, [camera, width, height]);
 
-  // Construye instancias del grid
   const instances = useMemo<HexInstance[]>(() => {
     const radius = params.pixelsPerHex / Math.sqrt(3);
     const hexWidth = Math.sqrt(3) * radius;
@@ -76,7 +67,6 @@ export default function HexGridStrata({
 
 
     const list: HexInstance[] = [];
-    let idx = 0;
     for (let r = -1; r < rows; r++) {
       for (let c = -1; c < columns; c++) {
         const offsetX = r % 2 !== 0 ? hSpacing / 2 : 0;
@@ -89,16 +79,13 @@ export default function HexGridStrata({
         const phase = Math.random() * Math.PI * 2;
         const rot = (Math.random() - 0.5) * 0.08;
 
-        // stripe base: filas (r). Guardamos fila/col/diagonales para alternar modos sin recomputar
         const stripe = r;
         list.push({ x, y, z, scale, rot, hue, phase, stripe, row: r, col: c });
-        idx++;
       }
     }
     return list;
   }, [width, height, params.pixelsPerHex, params.hue, params.hueJitter]);
 
-  // Geometría base: contorno de hex (6 vértices) como LineSegments
   const baseGeom = useMemo(() => {
     const geom = new THREE.BufferGeometry();
     const pts: number[] = [];
@@ -113,7 +100,6 @@ export default function HexGridStrata({
     return geom;
   }, []);
 
-  // Instanced buffers
   const instanced = useMemo(() => {
     if (instances.length === 0) return null as unknown as {
       geom: THREE.InstancedBufferGeometry;
@@ -121,7 +107,6 @@ export default function HexGridStrata({
     };
     const geom = new THREE.InstancedBufferGeometry();
     geom.index = baseGeom.index!;
-    // @ts-ignore
     geom.attributes.position = baseGeom.attributes.position;
     geom.instanceCount = instances.length;
 
@@ -259,7 +244,6 @@ export default function HexGridStrata({
     return { geom, mat };
   }, [instances, baseGeom, opt.amplitude, opt.speed, opt.phaseStep, opt.mode, params.s, params.l]);
 
-  // Actualizamos uniforms si cambia el modo/opts en runtime
   useEffect(() => {
     if (!instanced) return;
     instanced.mat.uniforms.uAmplitude.value = opt.amplitude;
@@ -268,7 +252,6 @@ export default function HexGridStrata({
     instanced.mat.uniforms.uMode.value = modeToFloat(opt.mode);
   }, [instanced, opt.amplitude, opt.speed, opt.phaseStep, opt.mode]);
 
-  // Animación
   const groupRef = useRef<THREE.Group>(null);
   useFrame(({ clock }) => {
     if (!instanced) return;
@@ -293,13 +276,11 @@ export default function HexGridStrata({
 
   return (
     <group ref={groupRef} frustumCulled={false}>
-      {/* @ts-ignore */}
       <lineSegments geometry={instanced.geom} material={instanced.mat} frustumCulled={false} renderOrder={1} />
     </group>
   );
 }
 
-/* ===== utils ===== */
 function modeToFloat(m: StrataMode): number {
   return m === "rows" ? 0 : m === "cols" ? 1 : m === "diagA" ? 2 : 3;
 }

@@ -109,7 +109,7 @@ export default function Header() {
     return () => window.removeEventListener("app-scroll", onAppScroll);
   }, [lastScrollY, isMenuOpen, headerHeight, isModalOpen, yOffset]);
 
-  // 🔹 Mismo contenido y lógica que en desktop
+
   const navItems = [
     { href: "/", label: t("home"), exact: true },
     { href: "/about", label: t("about") },
@@ -133,7 +133,7 @@ export default function Header() {
         }}
       >
         <h1 className="font-bold text-lg md:text-xl">Liam Viader</h1>
-        <Navbar isOpen={isMenuOpen} setIsOpen={setIsMenuOpen as any} />
+        <Navbar isOpen={isMenuOpen} setIsOpen={setIsMenuOpen} />
       </header>
 
       {/* Mobile Menu and Overlay */}
