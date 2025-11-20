@@ -9,22 +9,25 @@ import { SceneProps } from './SceneTypes';
 const AnimatedStandardMaterial = animated('meshStandardMaterial');
 const ASTEROID_COUNT = 50;
 const ASTEROID_FIELD_SIZE = 90;
-const ASTEROID_COLORS = ['#f97316', '#fcd34d', '#a855f7', '#22d3ee', '#10b981'];
+const ASTEROID_COLORS = ['#9fa8b2', '#8a7f74', '#6f8294', '#7fa1a9', '#7c8d6f'];
 
 const createAsteroidGeometry = () => {
-  const geometry = new THREE.IcosahedronGeometry(1.2, 2);
+  const geometry = new THREE.IcosahedronGeometry(1.1, 1);
   const positionAttribute = geometry.getAttribute('position');
-
   const vertex = new THREE.Vector3();
+
   for (let i = 0; i < positionAttribute.count; i++) {
     vertex.fromBufferAttribute(positionAttribute, i);
-    const noise = 0.3 + Math.random() * 0.5;
-    const stretch = 0.9 + Math.random() * 0.3;
-    vertex.multiplyScalar(stretch + Math.sin(vertex.length() * 3) * noise * 0.25);
+    const radialNoise = 0.08 + Math.random() * 0.12;
+    const ridge = Math.sin(vertex.length() * 4) * 0.05;
+    const squash = 0.92 + Math.random() * 0.1;
+    vertex.multiplyScalar(1 + ridge + radialNoise);
+    vertex.set(vertex.x * squash, vertex.y, vertex.z * squash);
     positionAttribute.setXYZ(i, vertex.x, vertex.y, vertex.z);
   }
 
   geometry.computeVertexNormals();
+  geometry.normalizeNormals();
   return geometry;
 };
 
@@ -82,10 +85,10 @@ const Asteroid = ({
         opacity={opacity}
         flatShading
         depthWrite={false}
-        roughness={0.65}
-        metalness={0.25}
-        emissive={new THREE.Color(color).multiplyScalar(0.2)}
-        emissiveIntensity={0.9}
+        roughness={0.7}
+        metalness={0.15}
+        emissive={new THREE.Color(color).multiplyScalar(0.1)}
+        emissiveIntensity={0.35}
       />
     </animated.mesh>
   );
@@ -121,10 +124,13 @@ export default function SceneGames({ opacity }: SceneProps) {
   });
 
   return (
-    <animated.group ref={groupRef}>
-      {asteroidProps.map((props, index) => (
-        <Asteroid key={index} {...props} opacity={opacity} />
-      ))}
-    </animated.group>
+    <>
+      <fog attach="fog" args={[new THREE.Color('#04060d'), 35, 140]} />
+      <animated.group ref={groupRef}>
+        {asteroidProps.map((props, index) => (
+          <Asteroid key={index} {...props} opacity={opacity} />
+        ))}
+      </animated.group>
+    </>
   );
 }
