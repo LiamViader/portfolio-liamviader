@@ -41,7 +41,7 @@ export default function FeaturedProjectsSection({ projects, replaceUrl = true, a
   const t = useTranslations("ProjectsPage");
   const [cardsIntro, setCardsIntro] = useState(false);
   return (
-    <section className="relative px-4 pb-28 sm:px-6 lg:px-10 ">
+    <section className="relative px-4 pb-24 sm:px-6 lg:px-10 ">
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-gray-300/5 to-transparent" />
 
       <motion.div

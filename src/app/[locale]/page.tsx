@@ -110,7 +110,7 @@ export default function Home() {
           </motion.ul>
         </div>
       </section>
-      <section className="relative px-2 md:px-6 pt-10 sm:pt-20 lg:pt-22 xl:pt-28 pb-40 ">
+      <section className="relative px-2 md:px-6 pt-10 sm:pt-20 lg:pt-22 xl:pt-28 pb-24 ">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_left,_rgba(125,211,252,0.05),_transparent_85%)]" />
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_right,_rgba(125,211,252,0.05),_transparent_85%)]" />
 
