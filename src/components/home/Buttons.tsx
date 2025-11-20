@@ -3,7 +3,7 @@
 import { motion, type Variants } from "framer-motion";
 import { Link } from "@/i18n/navigation";
 
-const MotionLink = motion(Link);
+const MotionLink = motion.create(Link);
 
 const glintVariants: Variants = {
   rest:  { x: "-120%", opacity: 0 },
