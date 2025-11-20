@@ -9,21 +9,24 @@ import { SceneProps } from './SceneTypes';
 const AnimatedStandardMaterial = animated('meshStandardMaterial');
 const ASTEROID_COUNT = 50;
 const ASTEROID_FIELD_SIZE = 90;
-const ASTEROID_COLORS = ['#9fa8b2', '#8a7f74', '#6f8294', '#7fa1a9', '#7c8d6f'];
+const ASTEROID_COLORS = ['#8f96a0', '#7a746e', '#657080', '#738a90', '#6e7862'];
 
 const createAsteroidGeometry = () => {
-  const geometry = new THREE.IcosahedronGeometry(1.1, 1);
+  const geometry = new THREE.IcosahedronGeometry(1.05, 2);
   const positionAttribute = geometry.getAttribute('position');
   const vertex = new THREE.Vector3();
+  const normal = new THREE.Vector3();
 
   for (let i = 0; i < positionAttribute.count; i++) {
     vertex.fromBufferAttribute(positionAttribute, i);
-    const radialNoise = 0.08 + Math.random() * 0.12;
-    const ridge = Math.sin(vertex.length() * 4) * 0.05;
-    const squash = 0.92 + Math.random() * 0.1;
-    vertex.multiplyScalar(1 + ridge + radialNoise);
-    vertex.set(vertex.x * squash, vertex.y, vertex.z * squash);
-    positionAttribute.setXYZ(i, vertex.x, vertex.y, vertex.z);
+    normal.copy(vertex).normalize();
+
+    const surfaceNoise = 0.02 + Math.random() * 0.05;
+    const banding = Math.sin(vertex.y * 2.5) * 0.025;
+    const displacement = 1 + surfaceNoise + banding;
+
+    normal.multiplyScalar(displacement);
+    positionAttribute.setXYZ(i, normal.x, normal.y, normal.z);
   }
 
   geometry.computeVertexNormals();
@@ -82,13 +85,13 @@ const Asteroid = ({
       <AnimatedStandardMaterial
         color={color}
         transparent={true}
-        opacity={opacity}
+        opacity={opacity.to((value) => 0.25 + value * 0.35)}
         flatShading
         depthWrite={false}
-        roughness={0.7}
-        metalness={0.15}
-        emissive={new THREE.Color(color).multiplyScalar(0.1)}
-        emissiveIntensity={0.35}
+        roughness={0.82}
+        metalness={0.08}
+        emissive={new THREE.Color(color).multiplyScalar(0.05)}
+        emissiveIntensity={0.16}
       />
     </animated.mesh>
   );
@@ -103,10 +106,10 @@ export default function SceneGames({ opacity }: SceneProps) {
       .map(() => ({
         basePosition: new THREE.Vector3(
           (Math.random() - 0.5) * ASTEROID_FIELD_SIZE,
-          (Math.random() - 0.5) * ASTEROID_FIELD_SIZE,
-          -Math.random() * (ASTEROID_FIELD_SIZE * 0.4)
+          (Math.random() - 0.5) * (ASTEROID_FIELD_SIZE * 0.55),
+          -40 - Math.random() * (ASTEROID_FIELD_SIZE * 0.5)
         ),
-        scale: 0.5 + Math.random() * 1.2,
+        scale: 0.6 + Math.random() * 1.0,
         color: ASTEROID_COLORS[Math.floor(Math.random() * ASTEROID_COLORS.length)],
         orbitRadius: 2 + Math.random() * 8,
         orbitSpeed: 0.1 + Math.random() * 0.25,
@@ -125,7 +128,7 @@ export default function SceneGames({ opacity }: SceneProps) {
 
   return (
     <>
-      <fog attach="fog" args={[new THREE.Color('#04060d'), 35, 140]} />
+      <fogExp2 attach="fog" args={[new THREE.Color('#050910'), 0.018]} />
       <animated.group ref={groupRef}>
         {asteroidProps.map((props, index) => (
           <Asteroid key={index} {...props} opacity={opacity} />
