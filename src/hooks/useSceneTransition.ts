@@ -1,49 +1,45 @@
 import { useEffect, useRef, useState } from 'react';
-import { useSpring } from '@react-spring/web';
+import { easings, useSpringValue } from '@react-spring/web';
 import { ClientCategorySlug } from '@/config/projectCategories';
 
 export const useSceneTransition = (targetCategory: ClientCategorySlug) => {
   const [prevCategory, setPrevCategory] = useState<ClientCategorySlug>(targetCategory);
   const [currCategory, setCurrCategory] = useState<ClientCategorySlug>(targetCategory);
+  const transitionIdRef = useRef(0);
 
-  const progressRef = useRef(0);
-
-  const [styles, api] = useSpring(() => ({ 
-    progress: 1,
-    config: { duration: 500, tension: 120, friction: 20 },
-    onChange: (result) => {
-      progressRef.current = result.value.progress;
-    }
-  }));
+  const progress = useSpringValue(1, {
+    config: {
+      duration: 650,
+      easing: easings.easeInOutCubic,
+    },
+  });
 
   useEffect(() => {
     if (targetCategory === currCategory) return;
 
-    const currentP = progressRef.current;
-    let nextPrev = prevCategory;
-    if (currentP > 0.5) {
-       nextPrev = currCategory;
-    } 
-    
-    if (targetCategory === prevCategory) {
-       nextPrev = currCategory;
-    }
+    // Guardamos un identificador para ignorar finalizaciones de transiciones antiguas.
+    const transitionId = ++transitionIdRef.current;
 
-    setPrevCategory(nextPrev);
+    // Siempre usamos la categoría actual como "anterior" para evitar flashes
+    // al encadenar cambios de filtro rápidamente.
+    setPrevCategory(currCategory);
     setCurrCategory(targetCategory);
 
-    api.set({ progress: 0 });
-    progressRef.current = 0;
-
-    api.start({
-      to: { progress: 1 },
+    progress.stop(true);
+    progress.start(1, {
+      from: 0,
+      reset: true,
+      onRest: () => {
+        // Solo consolidamos cuando esta es la última transición iniciada.
+        if (transitionIdRef.current !== transitionId) return;
+        setPrevCategory(targetCategory);
+      },
     });
+  }, [targetCategory, currCategory, progress]);
 
-  }, [targetCategory, currCategory, prevCategory, api]);
-
-  return { 
-    progress: styles.progress, 
-    previousCategory: prevCategory, 
-    currentCategory: currCategory 
+  return {
+    progress,
+    previousCategory: prevCategory,
+    currentCategory: currCategory,
   };
 };
