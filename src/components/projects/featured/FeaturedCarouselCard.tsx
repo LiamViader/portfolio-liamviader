@@ -237,7 +237,7 @@ export function FeaturedCarouselCard({
         border border-white/10
         bg-white/5
         shadow-[0_0_10px_rgba(0,0,0,0.40)]
-        backdrop-blur-xl
+        backdrop-blur-[100px]
         transform-gpu will-change-[transform,opacity]
         ${
           shouldHide
