@@ -9,7 +9,7 @@ export const useSceneTransition = (targetCategory: ClientCategorySlug) => {
 
   const progress = useSpringValue(1, {
     config: {
-      duration: 650,
+      duration: 550,
       easing: easings.easeInOutCubic,
     },
   });
@@ -17,11 +17,8 @@ export const useSceneTransition = (targetCategory: ClientCategorySlug) => {
   useEffect(() => {
     if (targetCategory === currCategory) return;
 
-    // Guardamos un identificador para ignorar finalizaciones de transiciones antiguas.
     const transitionId = ++transitionIdRef.current;
 
-    // Siempre usamos la categoría actual como "anterior" para evitar flashes
-    // al encadenar cambios de filtro rápidamente.
     setPrevCategory(currCategory);
     setCurrCategory(targetCategory);
 
@@ -30,7 +27,6 @@ export const useSceneTransition = (targetCategory: ClientCategorySlug) => {
       from: 0,
       reset: true,
       onRest: () => {
-        // Solo consolidamos cuando esta es la última transición iniciada.
         if (transitionIdRef.current !== transitionId) return;
         setPrevCategory(targetCategory);
       },

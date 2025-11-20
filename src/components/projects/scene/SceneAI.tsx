@@ -26,15 +26,9 @@ export default function SceneAI({ opacity, transitionProgress, isVisible }: Scen
 
     const progress = transitionProgress.get();
     
-    let targetScale = 1;
-    if (isVisible) {
-       targetScale = 0.8 + (progress * 0.2);
-    } else {
-
-    }
 
     if (lineRef.current) {
-      lineRef.current.scale.setScalar(targetScale);
+      lineRef.current.scale.setScalar(1);
     }
   });
 
