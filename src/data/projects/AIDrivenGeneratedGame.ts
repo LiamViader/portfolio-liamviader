@@ -44,9 +44,9 @@ export const AIDrivenGeneratedGame: ProjectDefinition = {
       figureNumber: "1.2",
       translations: {
         en: {
-          alt: "Uncut video showing one run of the game",
+          alt: "Uncut video showcasing a single run of the game",
           captionLabel: "Figure",
-          description: "Uncut video showing one run of the game",
+          description: "Uncut video showcasing a single run of the game",
         },
         es: {
           alt: "Video sin cortes de una ejecución del videojuego",

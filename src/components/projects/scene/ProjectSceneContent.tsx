@@ -109,7 +109,6 @@ export default function ProjectSceneContent({ category }: ProjectSceneContentPro
       )}
 
 			<EffectComposer>
-				{/*<DepthOfField focusDistance={0.01} focalLength={0.02} bokehScale={1}/> uncomment, tradeoff quality for performance*/}
 				<Bloom intensity={2} luminanceThreshold={0.1} luminanceSmoothing={0.1} />
 				<Noise opacity={0.03} />
 			</EffectComposer>

@@ -48,7 +48,6 @@ export function HeroImage() {
           src="/images/profesional_liam.png"
           alt="Portrait"
           fill
-          quality={95}
           priority
           fetchPriority="high"
           decoding="async"

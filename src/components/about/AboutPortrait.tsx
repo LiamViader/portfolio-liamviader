@@ -44,7 +44,6 @@ export function AboutPortrait() {
           src="/images/personal_gallery/cala_arenys.jpg"
           alt="Retrato"
           fill
-          quality={100}
           priority
           fetchPriority="high"
           decoding="async"
