@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
-import { useSpring } from '@react-spring/web';
+import { easings, useSpringValue } from '@react-spring/web';
 import { ClientCategorySlug } from '@/config/projectCategories';
 
 export const useSceneTransition = (targetCategory: ClientCategorySlug) => {
@@ -8,42 +8,34 @@ export const useSceneTransition = (targetCategory: ClientCategorySlug) => {
 
   const progressRef = useRef(0);
 
-  const [styles, api] = useSpring(() => ({ 
-    progress: 1,
-    config: { duration: 500, tension: 120, friction: 20 },
-    onChange: (result) => {
-      progressRef.current = result.value.progress;
-    }
-  }));
+  const progress = useSpringValue(1, {
+    config: {
+      duration: 650,
+      easing: easings.easeInOutCubic,
+    },
+    onChange: (value) => {
+      progressRef.current = value;
+    },
+  });
 
   useEffect(() => {
     if (targetCategory === currCategory) return;
 
-    const currentP = progressRef.current;
-    let nextPrev = prevCategory;
-    if (currentP > 0.5) {
-       nextPrev = currCategory;
-    } 
-    
-    if (targetCategory === prevCategory) {
-       nextPrev = currCategory;
-    }
-
-    setPrevCategory(nextPrev);
+    // Siempre usamos la categoría actual como "anterior" para evitar flashes
+    // al encadenar cambios de filtro rápidamente.
+    setPrevCategory(currCategory);
     setCurrCategory(targetCategory);
 
-    api.set({ progress: 0 });
+    progress.stop(true);
     progressRef.current = 0;
+    progress.set(0);
+    progress.start(1);
 
-    api.start({
-      to: { progress: 1 },
-    });
+  }, [targetCategory, currCategory, progress]);
 
-  }, [targetCategory, currCategory, prevCategory, api]);
-
-  return { 
-    progress: styles.progress, 
-    previousCategory: prevCategory, 
-    currentCategory: currCategory 
+  return {
+    progress,
+    previousCategory: prevCategory,
+    currentCategory: currCategory
   };
 };
