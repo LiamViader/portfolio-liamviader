@@ -10,6 +10,7 @@ import {
 } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { createPortal } from "react-dom";
+import Image from "next/image";
 
 export type BaseMediaItem = {
   type: "image" | "video" | "externalVideo";
@@ -18,7 +19,7 @@ export type BaseMediaItem = {
   thumbnail?: string;
   poster?: string;
   embedUrl?: string;
-  aspectRatio?: number; 
+  aspectRatio?: number;
   captionLabel?: string;
   figureNumber?: string;
   description?: string;
@@ -42,10 +43,22 @@ export function FittedMediaOverlay<T extends BaseMediaItem>({
   footer,
 }: FittedMediaOverlayProps<T>) {
   const closeButtonRef = useRef<HTMLButtonElement | null>(null);
+  const [mediaReady, setMediaReady] = useState(false);
+
+  useEffect(() => {
+    // Cada vez que cambias de media o abres, reseteamos el "ready"
+    if (!isOpen || !media) {
+      setMediaReady(false);
+    }
+  }, [isOpen, media]);
 
   useEffect(() => {
     if (!isOpen) return;
-    const onKey = (e: KeyboardEvent) => { if (e.key === "Escape") onClose(); };
+
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key === "Escape") onClose();
+    };
+
     document.addEventListener("keydown", onKey);
 
     const prevOverflow = document.body.style.overflow;
@@ -69,6 +82,8 @@ export function FittedMediaOverlay<T extends BaseMediaItem>({
           onClose={onClose}
           closeButtonRef={closeButtonRef}
           footer={footer}
+          mediaReady={mediaReady}
+          onMediaReady={() => setMediaReady(true)}
         />
       )}
     </AnimatePresence>,
@@ -83,6 +98,8 @@ type InnerFittedOverlayProps = {
   onClose: () => void;
   closeButtonRef: React.MutableRefObject<HTMLButtonElement | null>;
   footer?: React.ReactNode;
+  mediaReady: boolean;
+  onMediaReady: () => void;
 };
 
 function InnerFittedOverlay({
@@ -92,27 +109,38 @@ function InnerFittedOverlay({
   onClose,
   closeButtonRef,
   footer,
+  mediaReady,
+  onMediaReady,
 }: InnerFittedOverlayProps) {
   const captionRef = useRef<HTMLDivElement | null>(null);
-  const [captionH, setCaptionH] = useState(0);
+  const [captionHeight, setCaptionHeight] = useState(0);
 
-  const recalc = useCallback(() => {
+  const recalcCaption = useCallback(() => {
     const h = captionRef.current ? captionRef.current.offsetHeight : 0;
-    setCaptionH(h);
+    setCaptionHeight(h);
   }, []);
-  useLayoutEffect(() => {
-    recalc();
-    const ro = new ResizeObserver(recalc);
-    if (captionRef.current) ro.observe(captionRef.current);
-    const onWin = () => recalc();
-    window.addEventListener("resize", onWin);
-    return () => {
-      ro.disconnect();
-      window.removeEventListener("resize", onWin);
-    };
-  }, [recalc]);
 
-  // ⬇️ SIN alt en la decisión de mostrar cabecera visible
+  useLayoutEffect(() => {
+    recalcCaption();
+
+    if (typeof ResizeObserver !== "undefined") {
+      const ro = new ResizeObserver(() => recalcCaption());
+      if (captionRef.current) ro.observe(captionRef.current);
+
+      const onWin = () => recalcCaption();
+      window.addEventListener("resize", onWin);
+
+      return () => {
+        ro.disconnect();
+        window.removeEventListener("resize", onWin);
+      };
+    }
+
+    const onWin = () => recalcCaption();
+    window.addEventListener("resize", onWin);
+    return () => window.removeEventListener("resize", onWin);
+  }, [recalcCaption]);
+
   const hasCaption =
     Boolean(buildMediaLabel(activeMedia) || activeMedia.description || title) ||
     Boolean(footer);
@@ -124,7 +152,11 @@ function InnerFittedOverlay({
       aria-modal="true"
       aria-label={buildMediaLabel(activeMedia) || activeMedia.alt || title}
       initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
+      animate={
+        mediaReady
+          ? { opacity: 1, pointerEvents: "auto" }
+          : { opacity: 0, pointerEvents: "none" }
+      }
       exit={{ opacity: 0, pointerEvents: "none" }}
       transition={{ duration: 0.15, ease: "easeOut" }}
       onClick={onClose}
@@ -132,8 +164,17 @@ function InnerFittedOverlay({
       <motion.div
         className="relative flex w-auto max-w-[100svw] max-h-[100svh] flex-col overflow-y-auto overflow-x-hidden rounded-[28px] border border-white/10 bg-white/5 shadow-[0_30px_120px_rgba(10,15,35,0.75)]"
         initial={{ opacity: 0, scale: 0.96, y: 18 }}
-        animate={{ opacity: 1, scale: 1, y: 0 }}
-        exit={{ opacity: 0, scale: 0.96, y: 18, transition: { duration: 0.1, ease: "easeIn" } }}
+        animate={
+          mediaReady
+            ? { opacity: 1, scale: 1, y: 0 }
+            : { opacity: 0, scale: 0.96, y: 18 }
+        }
+        exit={{
+          opacity: 0,
+          scale: 0.96,
+          y: 18,
+          transition: { duration: 0.1, ease: "easeIn" },
+        }}
         transition={{ duration: 0.4, ease: "easeOut" }}
         onClick={(e) => e.stopPropagation()}
       >
@@ -142,21 +183,38 @@ function InnerFittedOverlay({
             ref={closeButtonRef}
             type="button"
             aria-label={closeLabel}
-            onClick={(e) => { e.stopPropagation(); onClose(); }}
+            onClick={(e) => {
+              e.stopPropagation();
+              onClose();
+            }}
             className="cursor-pointer group absolute top-6 right-6 z-[50] inline-flex h-12 w-12 items-center justify-center rounded-full bg-black/40 backdrop-blur-md border border-white/10 text-slate-200 transition-colors hover:bg-white/10 hover:text-white hover:border-white/20"
             initial={{ opacity: 0, scale: 0.9 }}
-            animate={{ opacity: 1, scale: 1 }}
+            animate={mediaReady ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.9 }}
             exit={{ opacity: 0, scale: 0.9 }}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
           >
-            <svg className="h-5 w-5 transition-transform duration-300 group-hover:rotate-90" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
-              <path d="M18 6 6 18" /><path d="M6 6l12 12" />
+            <svg
+              className="h-5 w-5 transition-transform duration-300 group-hover:rotate-90"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1.5"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              viewBox="0 0 24 24"
+            >
+              <path d="M18 6 6 18" />
+              <path d="M6 6l12 12" />
             </svg>
             <span className="sr-only">{closeLabel}</span>
           </motion.button>
 
-          <MediaFittedContent media={activeMedia} title={title} />
+          <MediaFittedContent
+            media={activeMedia}
+            title={title}
+            captionHeight={captionHeight}
+            onReady={onMediaReady}
+          />
         </div>
 
         {hasCaption && (
@@ -164,7 +222,6 @@ function InnerFittedOverlay({
             ref={captionRef}
             className="shrink-0 space-y-2 border-t border-white/10 bg-slate-950/85 px-6 py-5"
           >
-            {/* ⬇️ Visible: SOLO title o buildMediaLabel, nunca alt */}
             {(buildMediaLabel(activeMedia) || title) && (
               <p className="mb-1 text-[0.70rem] font-bold uppercase tracking-wider text-sky-400/90">
                 {buildMediaLabel(activeMedia) || title}
@@ -186,27 +243,31 @@ function InnerFittedOverlay({
 function MediaFittedContent({
   media,
   title,
+  captionHeight,
+  onReady,
 }: {
   media: BaseMediaItem;
   title: string;
+  captionHeight: number;
+  onReady: () => void;
 }) {
   if (media.type === "image") {
     return (
-      <img
+      <FittedImage
         src={media.src}
         alt={media.alt ?? title}
-        style={{
-          maxWidth: "80svw",
-          maxHeight: "70svh",
-          width: "auto",
-          height: "auto",
-          display: "block",
-        }}
+        captionHeight={captionHeight}
+        onReady={onReady}
       />
     );
   }
 
   if (media.type === "video") {
+    // para vídeo nativo no necesitamos esperar nada especial
+    useEffect(() => {
+      onReady();
+    }, [onReady]);
+
     return (
       <video
         src={media.src}
@@ -216,7 +277,7 @@ function MediaFittedContent({
         playsInline
         style={{
           maxWidth: "80svw",
-          maxHeight: "70svh",
+          maxHeight: `calc(80svh - ${captionHeight}px)`,
           width: "auto",
           height: "auto",
           display: "block",
@@ -226,15 +287,113 @@ function MediaFittedContent({
     );
   }
 
-  return <ExternalVideoContained media={media} title={title} />;
+  // externalVideo
+  return (
+    <ExternalVideoContained
+      media={media}
+      title={title}
+      captionHeight={captionHeight}
+      onReady={onReady}
+    />
+  );
+}
+
+/**
+ * Imagen con `next/image` que:
+ * - usa la proporción real de la imagen (naturalWidth / naturalHeight)
+ * - calcula un tamaño máximo que cabe en:
+ *      80% del alto del viewport - altura del caption
+ * - mantiene "contain" como tu <img> original
+ * - al terminar el cálculo llama a onReady() para que el overlay se muestre
+ */
+function FittedImage({
+  src,
+  alt,
+  captionHeight,
+  onReady,
+}: {
+  src: string;
+  alt: string;
+  captionHeight: number;
+  onReady: () => void;
+}) {
+  const [box, setBox] = useState<{ w: number; h: number } | null>(null);
+  const [ratio, setRatio] = useState<number | null>(null);
+
+  const recomputeBox = useCallback(
+    (r: number) => {
+      if (typeof window === "undefined") return;
+
+      const maxW = window.innerWidth * 0.8;
+      const baseMaxH = window.innerHeight * 0.8;
+      const maxH = Math.max(0, baseMaxH - captionHeight);
+
+      const { w, h } = fitContain(r, maxW, maxH);
+      setBox({ w, h });
+    },
+    [captionHeight],
+  );
+
+  const handleLoadingComplete = useCallback(
+    (img: HTMLImageElement) => {
+      if (!img.naturalWidth || !img.naturalHeight) return;
+      const r = img.naturalWidth / img.naturalHeight;
+      setRatio(r);
+      recomputeBox(r);
+      // Cuando ya tenemos el box bien calculado, marcamos el media como listo
+      onReady();
+    },
+    [recomputeBox, onReady],
+  );
+
+  useEffect(() => {
+    if (ratio == null) return;
+    const onResize = () => recomputeBox(ratio);
+    window.addEventListener("resize", onResize);
+    return () => window.removeEventListener("resize", onResize);
+  }, [ratio, recomputeBox]);
+
+  // Mientras no tengamos box, el overlay está oculto (mediaReady = false),
+  // así que no nos preocupa el tamaño inicial.
+  const style: React.CSSProperties = box
+    ? {
+        width: `${box.w}px`,
+        height: `${box.h}px`,
+        position: "relative",
+      }
+    : {
+        width: 0,
+        height: 0,
+        position: "relative",
+      };
+
+  return (
+    <div style={style}>
+      <Image
+        src={src}
+        alt={alt}
+        fill
+        style={{
+          objectFit: "contain",
+          display: "block",
+        }}
+        sizes="80vw"
+        onLoadingComplete={handleLoadingComplete}
+      />
+    </div>
+  );
 }
 
 function ExternalVideoContained({
   media,
   title,
+  captionHeight,
+  onReady,
 }: {
   media: BaseMediaItem;
   title: string;
+  captionHeight: number;
+  onReady: () => void;
 }) {
   const wrapperRef = useRef<HTMLDivElement | null>(null);
   const [box, setBox] = useState({ w: 0, h: 0 });
@@ -250,7 +409,8 @@ function ExternalVideoContained({
 
     const update = () => {
       const maxW = roundToDpr(window.innerWidth * 0.8);
-      const maxH = roundToDpr(window.innerHeight * 0.8);
+      const baseMaxH = roundToDpr(window.innerHeight * 0.8);
+      const maxH = Math.max(0, baseMaxH - captionHeight);
       const { w, h } = fitContain(ratio, maxW, maxH);
       setBox({ w, h });
     };
@@ -258,7 +418,12 @@ function ExternalVideoContained({
     update();
     window.addEventListener("resize", update);
     return () => window.removeEventListener("resize", update);
-  }, [ratio]);
+  }, [ratio, captionHeight]);
+
+  // Para externalVideo podemos considerarlo "ready" en cuanto montamos
+  useEffect(() => {
+    onReady();
+  }, [onReady]);
 
   return (
     <div
@@ -278,8 +443,8 @@ function ExternalVideoContained({
 
 function fitContain(ar: number, maxW: number, maxH: number) {
   const hByW = maxW / ar;
-  if (hByW <= maxH) return { w: maxW, h: hByW }; 
-  return { w: maxH * ar, h: maxH };              
+  if (hByW <= maxH) return { w: maxW, h: hByW };
+  return { w: maxH * ar, h: maxH };
 }
 
 function buildMediaLabel(item: BaseMediaItem) {
