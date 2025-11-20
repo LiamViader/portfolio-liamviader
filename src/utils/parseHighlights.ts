@@ -1,4 +1,3 @@
-// utils/parseHighlights.ts
 
 export interface HighlightChunk {
   type: string | null;
@@ -11,7 +10,7 @@ export function parseHighlights(text: string): ParsedNode[] {
   const regex =
     /<highlight(?:\s+type="([^"]+)")?>([\s\S]*?)<\/highlight>/g;
 
-  let result: ParsedNode[] = [];
+  const result: ParsedNode[] = [];
   let lastIndex = 0;
 
   for (const match of text.matchAll(regex)) {

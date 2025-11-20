@@ -4,6 +4,7 @@ import { useRef, useState, useMemo, useEffect } from "react";
 import { motion, type Variants, useScroll, useTransform, useSpring } from "framer-motion";
 import { ExternalLink, Github, Sparkles } from "lucide-react";
 import { useTranslations } from "next-intl";
+import Image from "next/image";
 
 import { type TranslatedProject } from "@/data/projects/types";
 
@@ -183,8 +184,20 @@ export function ProjectModalContent({
           animate={animationState}
         >
           {heroMedia && (
-            <motion.div className="absolute inset-0" variants={heroMediaVariants} initial="hidden" animate={animationState}>
-              <img src={heroMedia} alt={heroAlt} className="h-full w-full object-cover opacity-90" />
+            <motion.div
+              className="absolute inset-0"
+              variants={heroMediaVariants}
+              initial="hidden"
+              animate={animationState}
+            >
+              <Image
+                src={heroMedia}
+                alt={heroAlt}
+                fill
+                className="object-cover"
+                sizes="(min-width: 1024px) 1024px, 100vw"
+                priority
+              />
               <div className="absolute inset-0 bg-gradient-to-b from-transparent via-slate-950/40 to-slate-950" />
             </motion.div>
           )}
@@ -264,7 +277,6 @@ export function ProjectModalContent({
               {project.detailed_media?.length ? (
                 <ProjectMediaGallery
                   project={project}
-                  galleryTitle={t("galleryTitle")}
                   closeLabel={closeLabel}
                   animationState={animationState}
                 />

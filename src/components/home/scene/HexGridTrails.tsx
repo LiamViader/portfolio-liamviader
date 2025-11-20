@@ -1,3 +1,5 @@
+"use client";
+
 import * as THREE from "three";
 import React, { useLayoutEffect, useMemo, useRef, useEffect } from "react";
 import { useFrame, useThree } from "@react-three/fiber";
@@ -101,10 +103,17 @@ export default function HexGridTrails({
     }
   }, [camera, width, height]);
 
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const { pixelsPerHex, hue, s, l } = params;
+
   const graph = useMemo(
-    () => buildHexGraph(width, height, params, opts.hueJitter),
-    [width, height, params.pixelsPerHex, params.hue, opts.hueJitter, params.s, params.l]
+    () =>
+      buildHexGraph(
+        width,
+        height,
+        { pixelsPerHex, hue, s, l } as HexGridParams,
+        opts.hueJitter
+      ),
+    [width, height, pixelsPerHex, hue, s, l, opts.hueJitter]
   );
 
   const lineMat = useMemo(() => makeTrailShaderMaterial(), []);

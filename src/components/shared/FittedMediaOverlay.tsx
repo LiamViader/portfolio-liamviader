@@ -46,7 +46,6 @@ export function FittedMediaOverlay<T extends BaseMediaItem>({
   const [mediaReady, setMediaReady] = useState(false);
 
   useEffect(() => {
-    // Cada vez que cambias de media o abres, reseteamos el "ready"
     if (!isOpen || !media) {
       setMediaReady(false);
     }
@@ -263,31 +262,15 @@ function MediaFittedContent({
   }
 
   if (media.type === "video") {
-    // para vídeo nativo no necesitamos esperar nada especial
-    useEffect(() => {
-      onReady();
-    }, [onReady]);
-
     return (
-      <video
-        src={media.src}
-        poster={media.poster ?? media.thumbnail}
-        controls
-        autoPlay
-        playsInline
-        style={{
-          maxWidth: "80svw",
-          maxHeight: `calc(80svh - ${captionHeight}px)`,
-          width: "auto",
-          height: "auto",
-          display: "block",
-          objectFit: "contain",
-        }}
+      <NativeVideoContent
+        media={media}
+        captionHeight={captionHeight}
+        onReady={onReady}
       />
     );
   }
 
-  // externalVideo
   return (
     <ExternalVideoContained
       media={media}
@@ -298,14 +281,6 @@ function MediaFittedContent({
   );
 }
 
-/**
- * Imagen con `next/image` que:
- * - usa la proporción real de la imagen (naturalWidth / naturalHeight)
- * - calcula un tamaño máximo que cabe en:
- *      80% del alto del viewport - altura del caption
- * - mantiene "contain" como tu <img> original
- * - al terminar el cálculo llama a onReady() para que el overlay se muestre
- */
 function FittedImage({
   src,
   alt,
@@ -340,7 +315,6 @@ function FittedImage({
       const r = img.naturalWidth / img.naturalHeight;
       setRatio(r);
       recomputeBox(r);
-      // Cuando ya tenemos el box bien calculado, marcamos el media como listo
       onReady();
     },
     [recomputeBox, onReady],
@@ -353,8 +327,6 @@ function FittedImage({
     return () => window.removeEventListener("resize", onResize);
   }, [ratio, recomputeBox]);
 
-  // Mientras no tengamos box, el overlay está oculto (mediaReady = false),
-  // así que no nos preocupa el tamaño inicial.
   const style: React.CSSProperties = box
     ? {
         width: `${box.w}px`,
@@ -381,6 +353,38 @@ function FittedImage({
         onLoadingComplete={handleLoadingComplete}
       />
     </div>
+  );
+}
+
+function NativeVideoContent({
+  media,
+  captionHeight,
+  onReady,
+}: {
+  media: BaseMediaItem;
+  captionHeight: number;
+  onReady: () => void;
+}) {
+  useEffect(() => {
+    onReady();
+  }, [onReady]);
+
+  return (
+    <video
+      src={media.src}
+      poster={media.poster ?? media.thumbnail}
+      controls
+      autoPlay
+      playsInline
+      style={{
+        maxWidth: "80svw",
+        maxHeight: `calc(80svh - ${captionHeight}px)`,
+        width: "auto",
+        height: "auto",
+        display: "block",
+        objectFit: "contain",
+      }}
+    />
   );
 }
 
@@ -420,7 +424,6 @@ function ExternalVideoContained({
     return () => window.removeEventListener("resize", update);
   }, [ratio, captionHeight]);
 
-  // Para externalVideo podemos considerarlo "ready" en cuanto montamos
   useEffect(() => {
     onReady();
   }, [onReady]);

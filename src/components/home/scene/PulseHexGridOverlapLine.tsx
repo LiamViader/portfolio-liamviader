@@ -1,8 +1,9 @@
+"use client";
+
 import * as THREE from "three";
 import React, { useLayoutEffect, useMemo, useRef, useEffect } from "react";
 import { useFrame, useThree } from "@react-three/fiber";
 
-/** Configurable parameters for the grid */
 export type HexGridParams = {
   pixelsPerHex: number; // width flat-to-flat in px
   hue: number;          // base hue (0..360)
@@ -28,7 +29,6 @@ export default function PulseHexGridOverlapLine({ params }: { params: HexGridPar
   const width = size.width / dpr;
   const height = size.height / dpr;
 
-  // Cámara ortográfica en espacio pixel antes del paint
   useLayoutEffect(() => {
     if (camera instanceof THREE.OrthographicCamera) {
       camera.left = -width / 2;
@@ -39,12 +39,14 @@ export default function PulseHexGridOverlapLine({ params }: { params: HexGridPar
     }
   }, [camera, width, height]);
 
+  const { pixelsPerHex, hue, s, l, hueJitter } = params;
+
   const hexes = useMemo(
-    () => generateHexGrid(Math.floor(width), Math.floor(height), params),
-    [width, height, params.pixelsPerHex, params.hue, params.hueJitter, params.s, params.l]
+    () =>
+      generateHexGrid(Math.floor(width), Math.floor(height), { pixelsPerHex, hue, s, l, hueJitter } as HexGridParams),
+    [width, height, pixelsPerHex, hue, s, l, hueJitter]
   );
 
-  // Geometría base del hex unitario (circunradio=1) como líneas con índices
   const baseGeom = useMemo(() => {
     const geom = new THREE.BufferGeometry();
     const pts: number[] = [];
@@ -66,16 +68,12 @@ export default function PulseHexGridOverlapLine({ params }: { params: HexGridPar
     };
 
     const geom = new THREE.InstancedBufferGeometry();
-    // Copiamos atributos/index del baseGeom
     geom.index = baseGeom.index!;
-    // @ts-ignore
     geom.attributes.position = baseGeom.attributes.position;
     geom.instanceCount = hexes.length;
 
     const n = hexes.length;
 
-    // Interleaved buffer para minimizar binds/lecturas de atributos
-    // Layout: [off.x, off.y, off.z, scale, hue, phase, depth, opacity, rotC, rotS]
     const STRIDE = 10;
     const data = new Float32Array(n * STRIDE);
     for (let i = 0; i < n; i++) {
@@ -108,8 +106,8 @@ export default function PulseHexGridOverlapLine({ params }: { params: HexGridPar
     const mat = new THREE.ShaderMaterial({
       uniforms: {
         uTime: { value: 0 },
-        uSPct01: { value: params.s / 100 }, // normalizado (misma salida)
-        uLPct: { value: params.l },         // se mantiene por compat, no afecta al color (igual que antes)
+        uSPct01: { value: params.s / 100 }, 
+        uLPct: { value: params.l },         
       },
       vertexShader: lineVertGLSL_Optimized,
       fragmentShader: lineFragGLSL_Optimized,
@@ -120,7 +118,6 @@ export default function PulseHexGridOverlapLine({ params }: { params: HexGridPar
       toneMapped: false,
     });
 
-    // Bounding sphere grande para evitar cómputo (frustumCulled=false de todos modos)
     geom.boundingSphere = new THREE.Sphere(new THREE.Vector3(0, 0, 0), Math.hypot(width, height));
 
     return { geom, mat };
@@ -139,11 +136,10 @@ export default function PulseHexGridOverlapLine({ params }: { params: HexGridPar
     }
   });
 
-  // Sync S/L (S normalizado para evitar dividir en shader)
   useEffect(() => {
     if (!instanced) return;
     instanced.mat.uniforms.uSPct01.value = params.s / 100;
-    instanced.mat.uniforms.uLPct.value = params.l; // (sin efecto, se preserva)
+    instanced.mat.uniforms.uLPct.value = params.l; 
   }, [instanced, params.s, params.l]);
 
   useEffect(() => () => {
@@ -158,19 +154,16 @@ export default function PulseHexGridOverlapLine({ params }: { params: HexGridPar
 
   return (
     <group ref={groupRef} frustumCulled={false}>
-      {/* @ts-ignore - ShaderMaterial en LineSegments es válido en three */}
       <lineSegments geometry={instanced.geom} material={instanced.mat} frustumCulled={false} renderOrder={1} />
     </group>
   );
 }
 
-// ========= Helpers =========
-
 function generateHexGrid(width: number, height: number, p: HexGridParams): HexData[] {
   if (width === 0 || height === 0) return [];
 
   const radius = p.pixelsPerHex / Math.sqrt(3);
-  const hexWidth = Math.sqrt(3) * radius; // == p.pixelsPerHex
+  const hexWidth = Math.sqrt(3) * radius;
   const vSpacing = (3 / 2) * radius;
   const hSpacing = hexWidth;
   const margin = Math.ceil((width / hSpacing) * 0.05);
@@ -209,10 +202,7 @@ function wrap01(n: number) {
   return (n % 1 + 1) % 1;
 }
 
-// ========= Shaders (optimizados, MISMO look) =========
 
-// - Cos/Sin de rotación vienen precomputados (aRotC/aRotS).
-// - Bright/alpha se calculan en VERTEX y se interpolan (constantes por primitiva).
 const lineVertGLSL_Optimized = /* glsl */`
   attribute vec3  aOffset;
   attribute float aScale;

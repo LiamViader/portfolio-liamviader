@@ -6,7 +6,8 @@ import { animated } from '@react-spring/three';
 import * as THREE from 'three';
 import { SceneProps } from './SceneTypes';
 
-export default function SceneAI({ opacity, transitionProgress, isVisible }: SceneProps) {
+export default function SceneAI(props: SceneProps) {
+  const { opacity } = props;
   const lineRef = useRef<THREE.LineSegments>(null);
 
   const { edges } = useMemo(() => {
@@ -23,8 +24,6 @@ export default function SceneAI({ opacity, transitionProgress, isVisible }: Scen
       lineRef.current.rotation.x = t * 0.02;
       lineRef.current.position.y = -1; 
     }
-
-    const progress = transitionProgress.get();
     
 
     if (lineRef.current) {

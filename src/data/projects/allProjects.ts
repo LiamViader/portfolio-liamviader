@@ -9,6 +9,11 @@ import { Locale, defaultLocale } from "@/i18n/routing";
 
 const projectDefinitions: ProjectDefinition[] = [
   AIDrivenGeneratedGame,
+  AIDrivenGeneratedGame,
+  AIDrivenGeneratedGame,
+  AIDrivenGeneratedGame,
+  AIDrivenGeneratedGame,
+  AIDrivenGeneratedGame,
 ];
 
 export const allProjects: ProjectData[] = projectDefinitions.map(

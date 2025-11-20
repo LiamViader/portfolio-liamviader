@@ -4,7 +4,7 @@ import { useRef, useMemo } from 'react';
 import { useFrame } from '@react-three/fiber';
 import { animated } from '@react-spring/three';
 import * as THREE from 'three';
-import { SceneProps } from './SceneTypes'; // Importación corregida
+import { SceneProps } from './SceneTypes';
 
 
 const AnimatedStandardMaterial = animated('meshStandardMaterial');
@@ -18,11 +18,9 @@ const Asteroid = ({ position, rotation, scale, opacity }: { position: THREE.Vect
   useFrame(({ clock }) => {
     if (meshRef.current) {
       const time = clock.getElapsedTime() + timeOffset;
-      // Rotación constante
       meshRef.current.rotation.x += 0.005;
       meshRef.current.rotation.y += 0.003;
       
-      // Simular movimiento lento en el espacio
       meshRef.current.position.y = position.y + Math.sin(time * 0.1) * 0.5;
     }
   });
@@ -34,13 +32,12 @@ const Asteroid = ({ position, rotation, scale, opacity }: { position: THREE.Vect
       rotation={rotation}
       scale={[scale, scale, scale]}
     >
-      {/* Geometría de tetraedro low-poly */}
       <dodecahedronGeometry args={[1, 0]} /> 
       <AnimatedStandardMaterial 
-        color="#3e3241" // Azul violeta
+        color="#3e3241" 
         transparent={true} 
         opacity={opacity} 
-        flatShading={true} // Estilo Low-Poly
+        flatShading={true} 
         depthWrite={false}
       />
     </animated.mesh>
@@ -48,10 +45,10 @@ const Asteroid = ({ position, rotation, scale, opacity }: { position: THREE.Vect
 };
 
 
-export default function SceneGames({ opacity, transitionProgress, isVisible }: SceneProps) {
+export default function SceneAI(props: SceneProps) {
+  const { opacity } = props;
   const groupRef = useRef<THREE.Group>(null);
 
-  // Generar las propiedades iniciales de los asteroides
   const asteroidProps = useMemo(() => {
     return Array(ASTEROID_COUNT).fill(0).map(() => ({
       position: new THREE.Vector3(

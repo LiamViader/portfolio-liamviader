@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { useCallback, useRef, useState, useEffect } from "react";
+import { useCallback, useRef, useState, useEffect, useMemo } from "react";
 import { motion, type Variants } from "framer-motion";
 
 import {type TranslatedProject} from "@/data/projects/types";
@@ -82,7 +82,7 @@ export default function ProjectCard({ project, onSelect, isHidden = false }: Pro
 
   const hasPreviewImage = Boolean(project.media_preview);
 
-  const allTags = project.tags ?? [];
+  const allTags = useMemo(() => project.tags ?? [], [project.tags]);
 
   // Estado para cuántos tags mostrar y cuántos se ocultan
   const [visibleCount, setVisibleCount] = useState<number>(allTags.length);

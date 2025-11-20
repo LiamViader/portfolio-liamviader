@@ -30,14 +30,12 @@ const isVideoMedia = (item: ProjectMediaItem) =>
 
 interface ProjectMediaGalleryProps {
   project: TranslatedProject;
-  galleryTitle: string;
   closeLabel: string;
   animationState: "hidden" | "visible" | "exit";
 }
 
 export function ProjectMediaGallery({
   project,
-  galleryTitle,
   closeLabel,
   animationState,
 }: ProjectMediaGalleryProps) {

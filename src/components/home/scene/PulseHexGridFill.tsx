@@ -1,3 +1,5 @@
+"use client";
+
 import { useEffect, useMemo, useRef } from "react";
 import { useFrame, useThree } from "@react-three/fiber";
 import * as THREE from "three";
@@ -47,21 +49,18 @@ type Cell = {
   col: number;
   cx: number;
   cy: number;
-  /** Each cell has its own random phase (0..2π) */
   phase: number;
-  /** Each cell has its own speed multiplier, e.g. 0.7..1.3 */
   speed: number;
   hue01: number; // 0..1
 };
 
 type Edge = {
-  a: THREE.Vector3; // endpoint A
-  b: THREE.Vector3; // endpoint B
+  a: THREE.Vector3; 
+  b: THREE.Vector3;
   cellA: number;
   cellB?: number;
 };
 
-/** Shared-edge line shader (supports per-vertex RGB + per-vertex alpha) */
 function makeLineShaderMaterial(): THREE.ShaderMaterial {
   const vertexShader = /* glsl */`
     attribute vec3 color;
@@ -96,7 +95,6 @@ function makeLineShaderMaterial(): THREE.ShaderMaterial {
   });
 }
 
-/** One shared-edge line mesh + per-cell inner fills (no columns sync, fully randomised) */
 export default function PulseHexGridFill({
   params,
   tuning: userTuning,
@@ -111,7 +109,6 @@ export default function PulseHexGridFill({
   const width = size.width / dpr;
   const height = size.height / dpr;
 
-  // Keep the orthographic camera aligned with canvas size
   useEffect(() => {
     if (camera instanceof THREE.OrthographicCamera) {
       camera.left = -width / 2;
@@ -122,20 +119,19 @@ export default function PulseHexGridFill({
     }
   }, [camera, width, height]);
 
-  // Build static grid (cells with random freq/phase, shared edges, and geometries)
+
   const {
     cells,
     edges,
     lineGeometry,
-    fillGeometry, // hex shape centered at (0,0)
+    fillGeometry, 
     radius,
   } = useMemo(
     () => buildSharedGrid(width, height, params, tuning),
-    // rebuild only on density/size changes; color-related params apply at runtime
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [width, height, params.pixelsPerHex]
   );
 
-  /** ===== Lines (shared edges) with per-vertex color + alpha ===== */
   const lineColorsRef = useRef<Float32Array | null>(null);
   const lineAlphasRef = useRef<Float32Array | null>(null);
   const lineColorAttrRef = useRef<THREE.BufferAttribute | null>(null);
@@ -154,19 +150,17 @@ export default function PulseHexGridFill({
 
   const lineMaterial = useMemo(() => makeLineShaderMaterial(), []);
 
-  /** ===== Inner fills (one mesh per cell, simple & clear) ===== */
   const fillGroupRef = useRef<THREE.Group>(null);
   const fillMeshesRef = useRef<THREE.Mesh[]>([]);
   const fillMatsRef = useRef<THREE.MeshBasicMaterial[]>([]);
   const pulsesRef = useRef<Float32Array | null>(null);
   const sNorm = params.s / 100;
-  const baseL = params.l / 100; // used as center for lightness modulation
+  const baseL = params.l / 100; 
 
   useEffect(() => {
     const group = fillGroupRef.current;
     if (!group) return;
 
-    // cleanup old meshes/materials
     group.clear();
     fillMeshesRef.current = [];
     fillMatsRef.current = [];
@@ -186,23 +180,21 @@ export default function PulseHexGridFill({
       });
 
       const mesh = new THREE.Mesh(fillGeometry, mat);
-      mesh.position.set(cell.cx, cell.cy, -0.5); // behind lines
+      mesh.position.set(cell.cx, cell.cy, -0.5); 
       mesh.scale.setScalar(tuning.fillScaleMin * radius);
       group.add(mesh);
 
       fillMeshesRef.current.push(mesh);
       fillMatsRef.current.push(mat);
     }
-  }, [cells, fillGeometry, radius, sNorm, baseL, tuning.fillScaleMin]);
+  }, [cells, fillGeometry, radius, sNorm, baseL, tuning.fillScaleMin, tuning.fillAlphaMin]);
 
-  /** ===== Animation loop ===== */
   const groupRef = useRef<THREE.Group>(null);
   const tempColor = useMemo(() => new THREE.Color(), []);
 
   useFrame(({ clock }) => {
     const t = clock.getElapsedTime();
 
-    // Small global motion just so it always feels alive (optional)
     const g = groupRef.current;
     if (g) {
       g.rotation.z = Math.sin(t * 0.18) * 0.04;
@@ -222,27 +214,22 @@ export default function PulseHexGridFill({
     const lineAlphaRange = tuning.lineAlphaMax - tuning.lineAlphaMin;
     const lightnessAmp = tuning.lightnessAmp;
 
-    /** 1) Per-cell pulse p in [0,1], with unique frequency & phase (no columns) */
     for (let i = 0; i < cells.length; i++) {
-      // Each cell: p = 0.5 + 0.5 * sin(2π * f_i * t + phase_i)
       pulses[i] = 0.5 + 0.5 * Math.sin((baseOmega * cells[i].speed) * t + cells[i].phase);
     }
 
-    /** 2) Update fills: scale + opacity + lightness (base L respected) */
     for (let i = 0; i < cells.length; i++) {
-      const p = invertAtMax ? 1.0 - pulses[i] : pulses[i]; // invert: bigger -> dimmer/fainter
+      const p = invertAtMax ? 1.0 - pulses[i] : pulses[i]; 
       const mesh = fillMeshesRef.current[i];
       const mat = fillMatsRef.current[i];
       if (!mesh || !mat) continue;
 
-      // scale stays inside the outline (<= 1.0 * radius)
+
       const scaleRel = fillScaleMin + fillScaleRange * (1.0 - p);
       mesh.scale.setScalar(scaleRel * radius);
 
-      // opacity never reaches 1 (clamped by tuning.fillAlphaMax)
       mat.opacity = fillAlphaMin + fillAlphaRange * (1.0 - p);
 
-      // lightness around baseL with amplitude (so L is not ignored)
       const L = THREE.MathUtils.clamp(
         baseL + (p - 0.5) * 2.0 * lightnessAmp,
         0.05,
@@ -251,7 +238,6 @@ export default function PulseHexGridFill({
       mat.color.setHSL(cells[i].hue01, sNorm, L);
     }
 
-    /** 3) Update shared lines' per-vertex color + alpha (match the fill intent) */
     const colors = lineColorsRef.current;
     const alphas = lineAlphasRef.current;
     if (!colors || !alphas) return;
@@ -262,7 +248,6 @@ export default function PulseHexGridFill({
     for (let e = 0; e < edges.length; e++) {
       const edge = edges[e];
 
-      // endpoint A uses cellA pulse/hue
       const pA = invertAtMax ? 1.0 - pulses[edge.cellA] : pulses[edge.cellA];
       const cA = cells[edge.cellA];
       const LA = THREE.MathUtils.clamp(
@@ -275,7 +260,6 @@ export default function PulseHexGridFill({
       colors[ci++] = color.r; colors[ci++] = color.g; colors[ci++] = color.b;
       alphas[ai++] = aA;
 
-      // endpoint B uses neighbor's pulse/hue (or A at boundary)
       const nb = edge.cellB != null ? edge.cellB : edge.cellA;
       const pB = invertAtMax ? 1.0 - pulses[nb] : pulses[nb];
       const cB = cells[nb];
@@ -296,15 +280,11 @@ export default function PulseHexGridFill({
 
   return (
     <group ref={groupRef}>
-      {/* inner fills */}
       <group ref={fillGroupRef} />
-      {/* shared edges */}
       <lineSegments geometry={lineGeometry} material={lineMaterial} />
     </group>
   );
 }
-
-/* ==================== builders ==================== */
 
 function buildSharedGrid(
   width: number,
@@ -312,7 +292,6 @@ function buildSharedGrid(
   p: HexGridParams,
   tuning: Required<FillTuning>
 ) {
-  // pointy-top hex layout with odd-row horizontal offset
   const radius = p.pixelsPerHex / Math.sqrt(3);
   const hexWidth = Math.sqrt(3) * radius;
   const vSpacing = (3 / 2) * radius;
@@ -329,17 +308,14 @@ function buildSharedGrid(
   const baseHue01 = (((p.hue % 360) + 360) % 360) / 360;
   const hueJitter01 = Math.abs(p.hueJitter) / 360;
 
-  // Build cells with fully randomised phase & frequency (no column sync)
   for (let r = 0; r < rows; r++) {
     for (let c = 0; c < columns; c++) {
       const offsetX = r % 2 !== 0 ? hSpacing / 2 : 0;
       const cx = -width / 2 + c * hSpacing + offsetX;
       const cy = -height / 2 + r * vSpacing - (margin * hexWidth * 0.5);
 
-      // random phase in [0, 2π) — not tied to row/column at all
       const phase = Math.random() * Math.PI * 2 + (Math.random() - 0.5) * tuning.phaseJitter;
 
-      // per-cell speed multiplier (e.g. 0.65 .. 1.35)
       const speed = 1 + (Math.random() * 2 - 1) * tuning.freqJitter;
 
       const hue01 = wrap01(baseHue01 + (Math.random() * 2 - 1) * hueJitter01);
@@ -357,13 +333,11 @@ function buildSharedGrid(
     }
   }
 
-  // Precompute 6 vertices per cell at fixed radius
   const angles = new Array(6).fill(0).map((_, i) => Math.PI / 6 + (i * Math.PI) / 3);
   const verts: THREE.Vector3[][] = cells.map(cell =>
     angles.map(a => new THREE.Vector3(cell.cx + radius * Math.cos(a), cell.cy + radius * Math.sin(a), 0))
   );
 
-  // Unique edges: E(5-0), NE(0-1), SE(4-5)
   const sidePairs: [number, number][] = [
     [5, 0],
     [0, 1],
@@ -390,7 +364,6 @@ function buildSharedGrid(
     }
   }
 
-  // Build LineSegments geometry with per-vertex color + alpha
   const positions = new Float32Array(edges.length * 2 * 3);
   const colors    = new Float32Array(edges.length * 2 * 3);
   const alphas    = new Float32Array(edges.length * 2);
@@ -401,7 +374,6 @@ function buildSharedGrid(
     positions[pi++] = e.b.x; positions[pi++] = e.b.y; positions[pi++] = e.b.z;
   }
 
-  // init (dim); runtime will overwrite every frame
   for (let i = 0; i < colors.length; i += 3) {
     colors[i + 0] = 0.25; colors[i + 1] = 0.30; colors[i + 2] = 0.35;
   }
@@ -415,7 +387,6 @@ function buildSharedGrid(
   lineGeometry.setAttribute("alpha",    new THREE.BufferAttribute(alphas, 1));
   lineGeometry.computeBoundingSphere();
 
-  // Single hex shape (radius=1) — we scale by `radius` at runtime
   const shape = new THREE.Shape();
   shape.moveTo(Math.cos(angles[0]), Math.sin(angles[0]));
   for (let i = 1; i < 6; i++) shape.lineTo(Math.cos(angles[i]), Math.sin(angles[i]));
@@ -425,7 +396,6 @@ function buildSharedGrid(
   return { cells, edges, lineGeometry, fillGeometry: unitFill, radius };
 }
 
-/* ==================== utils ==================== */
 
 function wrap01(n: number) {
   return (n % 1 + 1) % 1;

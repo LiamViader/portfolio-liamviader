@@ -1,3 +1,5 @@
+"use client";
+
 import { motion, type Variants } from "framer-motion";
 import { InfoCard } from "../home/InfoCard";
 import { ListChecks, Workflow, AlertTriangle, Rocket } from "lucide-react";

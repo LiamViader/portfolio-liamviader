@@ -3,7 +3,6 @@
 import { useCallback, useEffect, useMemo, useRef } from "react";
 
 import clsx from "clsx";
-import { useTranslations } from "next-intl";
 
 import { type TranslatedProject } from "@/data/projects/types";
 import { measureStableRect } from "@/utils/measureStableRect";
@@ -40,7 +39,6 @@ export default function FeaturedProjects({
   replaceUrl = true,
   allowUrlOpen = false,
 }: FeaturedProjectsProps) {
-  const t = useTranslations("ProjectsPage");
   const featuredProjects = useMemo(
     () => projects.filter((project) => project.is_featured),
     [projects],

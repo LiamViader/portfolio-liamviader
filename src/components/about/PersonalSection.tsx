@@ -1,3 +1,5 @@
+"use client";
+
 import PersonalGallery from "./PersonalGallery";
 import { motion, type Variants } from "framer-motion";
 import { useTranslations } from "next-intl";

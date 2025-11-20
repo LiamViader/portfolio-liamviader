@@ -1,3 +1,5 @@
+"use client";
+
 import Image from "next/image"; 
 import { easeInOut, easeOut, motion, type Variants } from "framer-motion";
 import { useState } from "react";

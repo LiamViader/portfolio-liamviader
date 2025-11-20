@@ -9,10 +9,12 @@ export type CarouselVariant =
   | "hiddenRight"
   | "hiddenCenter";
 
-export type VariantStyle = Partial<Record<keyof Target, any>> & {
-  x: string | string[];
-  scale: number | number[];
-  opacity: number | number[];
+type AnimScalar = string | number;
+
+export type VariantStyle = Target & {
+  x: AnimScalar;
+  scale: number;
+  opacity: number;
   zIndex: number;
 };
 
@@ -21,14 +23,12 @@ export interface VariantAnimation {
   transition: Transition;
 }
 
-/** Duraciones (s) y (ms) */
 export const DUR_ENTER_CENTER_S = 1;
 export const DUR_OTHER_S = 0.55;
 
 export const DUR_ENTER_CENTER_MS = Math.round(DUR_ENTER_CENTER_S * 1000);
 export const DUR_OTHER_MS = Math.round(DUR_OTHER_S * 1000);
 
-/** Easings */
 export const EASE_LEAVE = cubicBezier(0.22, 1, 0.36, 1);
 export const EASE_ENTER = cubicBezier(0.16, 1, 0.3, 1);
 
@@ -47,13 +47,6 @@ export const isHiddenVariant = (v: CarouselVariant) => hiddenVariants.includes(v
 export const isCenterVariant = (v: CarouselVariant) => v === "center";
 export const getInitialStyle = (v: CarouselVariant) => variantStyles[v];
 
-/**
- * Anima explícitamente de prev→next con keyframes.
- * - Salir de center usa EASE_LEAVE
- * - Entrar a center usa EASE_ENTER y no hace fade (opacity salta)
- * - Entrar desde hidden→lateral fuerza el from hidden correcto
- * - Resto usa EASE_LEAVE
- */
 export function getVariantAnimationFromTo(
   next: CarouselVariant,
   prev?: CarouselVariant,
@@ -83,7 +76,7 @@ export function getVariantAnimationFromTo(
       animate: {
         x: [from.x, "-50%"],
         scale: [from.scale, 1],
-        opacity: 1, // salto directo
+        opacity: 1,
         zIndex: to.zIndex,
       },
       transition: { duration: DUR_ENTER_CENTER_S, ease: EASE_ENTER, opacity: { duration: 0 } },

@@ -1,9 +1,9 @@
+"use client";
 import Image from "next/image";
-import { Sparkles } from "lucide-react";
 import clsx from "clsx";
 import { type TranslatedProject } from "@/data/projects/types";
 import { motion, Variants } from "framer-motion";
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useEffect, useMemo } from "react";
 
 const BASE_BG   = "rgba(255,255,255,0.05)";
 const BASE_BORD = "rgba(255,255,255,0.10)";
@@ -118,7 +118,7 @@ export function FeaturedCarouselCard({
   const [introDone, setIntroDone] = useState(false);
   const isIntro = introStart && !introDone;
 
-  const allTags = project.tags ?? [];
+  const allTags = useMemo(() => project.tags ?? [], [project.tags]);
 
   const cardRef = useRef<HTMLDivElement | null>(null);
 
