@@ -44,7 +44,7 @@ export default async function RootLayout({
 
 	const localePromise = Promise.resolve(locale);
 
-	let messages = (await getRequestConfig({ requestLocale: localePromise })).messages;
+	const messages = (await getRequestConfig({ requestLocale: localePromise })).messages;
 
 
 
