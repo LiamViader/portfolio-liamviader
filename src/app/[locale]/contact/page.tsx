@@ -208,7 +208,7 @@ export default function ContactPage() {
       backgroundLayers={CONTACT_BACKGROUND_LAYERS}
       overlays={CONTACT_OVERLAY}
     >
-      <div className="mx-auto w-full max-w-6xl px-4 pb-28 pt-30 sm:px-6 sm:pb-42 sm:pt-34 lg:px-8">
+      <div className="mx-auto w-full max-w-6xl px-4 pb-24 pt-28 lg:34 sm:px-6 sm:pb-42 lg:px-8">
         <div className="flex flex-col gap-6 max-w-4xl">
           <motion.h1
             className="text-center md:text-left text-4xl font-semibold tracking-tight text-white/95 sm:text-5xl md:text-6xl"
