@@ -49,8 +49,8 @@ export function useProjectModalTransition({
 
     const modalWidth = Math.min(window.innerWidth - 30, 960);
     const modalHeight = Math.min(window.innerHeight - 60, 850);
-    const targetLeft = Math.max(24, (window.innerWidth - modalWidth) / 2);
-    const targetTop = Math.max(48, (window.innerHeight - modalHeight) / 6);
+    const targetLeft = Math.max(15, (window.innerWidth - modalWidth) / 2);
+    const targetTop = Math.max(30, (window.innerHeight - modalHeight) / 6);
 
     controls.set({
       left: Math.round(originRect.left),
