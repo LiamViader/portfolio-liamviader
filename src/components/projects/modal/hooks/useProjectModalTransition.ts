@@ -47,8 +47,8 @@ export function useProjectModalTransition({
   useEffect(() => {
     isMountedRef.current = true;
 
-    const modalWidth = Math.min(window.innerWidth - 48, 960);
-    const modalHeight = Math.min(window.innerHeight - 100, 850);
+    const modalWidth = Math.min(window.innerWidth - 30, 960);
+    const modalHeight = Math.min(window.innerHeight - 60, 850);
     const targetLeft = Math.max(24, (window.innerWidth - modalWidth) / 2);
     const targetTop = Math.max(48, (window.innerHeight - modalHeight) / 6);
 
