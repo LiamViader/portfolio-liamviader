@@ -28,14 +28,7 @@ const BACKGROUND_LAYERS = [
     hueJitter: 5,
     l: 0,
   },
-  {
-    id: "default",
-    pixelsPerHex: 40,
-    hue: 240,
-    hueJitter: 30,
-    s: 60,
-    l: 0,
-  },
+
 ];
 
 const BACKGROUND_OVERLAY = (
@@ -108,7 +101,7 @@ export default function Home() {
           </motion.ul>
         </div>
       </section>
-      <section className="relative px-2 md:px-6 pt-10 sm:pt-20 lg:pt-22 xl:pt-28 pb-24 bg-gradient-to-b from-gray-950 via-gray-950/15 to-gray-950">
+      <section className="relative px-2 md:px-6 pt-6 sm:pt-10 md:pt-20 lg:pt-22 xl:pt-28 pb-24 bg-gradient-to-b from-gray-950 via-gray-950/15 to-gray-950">
 
         <FeaturedProjectsHomeSection title={t("projects.title")} description={t("projects.description")} contactButtonText={t("hero.ctaContact")} projectsButtonText={t("projects.viewAll")} projects={projects}/>
       </section>
