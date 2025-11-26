@@ -59,12 +59,10 @@ const ctrlRight: Variants = {
     }
   },
   tap: {
-    backgroundColor: "rgba(14,165,233,0.10)",
-    borderColor: "rgba(14,165,233,0.60)",
     scale: 0.95,
     transition: {
       type: "spring", 
-      stiffness: 920, 
+      stiffness: 420, 
       damping: 26
     }
   }
