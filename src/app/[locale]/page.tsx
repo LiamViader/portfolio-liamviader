@@ -57,10 +57,8 @@ export default function Home() {
       overlays={BACKGROUND_OVERLAY}
       backgroundLayers={BACKGROUND_LAYERS}
     >
-      <section className="relative overflow-hidden px-4 md:px-8 pb-14 pt-28 lg:py-34 shadow-[0_40px_50px_-40px_rgba(56,189,248,0.2)] mb-0 md:min-h-[900px]">
+      <section className="relative overflow-hidden px-4 md:px-8 pb-14 pt-28 lg:py-34 mb-0 md:min-h-[900px] bg-gradient-to-b from-gray-950/10 via-gray-950/70 to-gray-950">
 
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(125,211,252,0.1),_transparent_65%)]" />
-        <div className="absolute inset-0 bg-gradient-to-b from-gray-950/10 via-gray-950/70 to-gray-950" />
 
         <HeroSection 
           title={t.rich("hero.title", {
@@ -110,11 +108,7 @@ export default function Home() {
           </motion.ul>
         </div>
       </section>
-      <section className="relative px-2 md:px-6 pt-10 sm:pt-20 lg:pt-22 xl:pt-28 pb-24 ">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_left,_rgba(125,211,252,0.05),_transparent_85%)]" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_right,_rgba(125,211,252,0.05),_transparent_85%)]" />
-
-        <div className="absolute inset-0 bg-gradient-to-b from-gray-950 via-gray-950/15 to-gray-950" />
+      <section className="relative px-2 md:px-6 pt-10 sm:pt-20 lg:pt-22 xl:pt-28 pb-24 bg-gradient-to-b from-gray-950 via-gray-950/15 to-gray-950">
 
         <FeaturedProjectsHomeSection title={t("projects.title")} description={t("projects.description")} contactButtonText={t("hero.ctaContact")} projectsButtonText={t("projects.viewAll")} projects={projects}/>
       </section>
