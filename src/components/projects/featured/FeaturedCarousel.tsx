@@ -33,6 +33,9 @@ const ctrlLeft: Variants = {
   },
   tap: {
     scale: 0.95,
+    backgroundColor: "rgba(14,165,233,0.10)",
+    borderColor: "rgba(14,165,233,0.60)",
+    boxShadow: "0 10px 28px rgba(56,189,248,0.35)",
     transition: {
       type: "spring", 
       stiffness: 420, 
@@ -56,6 +59,9 @@ const ctrlRight: Variants = {
     }
   },
   tap: {
+    backgroundColor: "rgba(14,165,233,0.10)",
+    borderColor: "rgba(14,165,233,0.60)",
+    boxShadow: "0 10px 28px rgba(56,189,248,0.35)",
     scale: 0.95,
     transition: {
       type: "spring", 
