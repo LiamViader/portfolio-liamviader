@@ -29,8 +29,7 @@ const DEFAULT_OVERLAY = (
 function HexGridDebugBadge() {
   if (typeof window === "undefined") return null;
 
-  // Si quieres que también se muestre en producción, quita esta condición:
-  if (process.env.NODE_ENV === "production") return null;
+
 
   type DebugInfo = {
     width: number;
