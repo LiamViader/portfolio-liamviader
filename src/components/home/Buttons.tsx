@@ -47,6 +47,7 @@ const skyVariants: Variants = {
   tap: {
     scale: 0.97,
     y: 0,
+    backgroundColor: "rgb(56,189,248)",
     transition: { type: "spring", stiffness: 520, damping: 30 },
   },
 };
@@ -85,6 +86,9 @@ const whiteVariants: Variants = {
   tap: {
     scale: 0.97,
     y: 0,
+    backgroundColor: "rgba(14,165,233,0.10)",
+    borderColor: "rgba(14,165,233,0.60)",
+    color: "rgba(255,255,255,0.95)",
     transition: { type: "spring", stiffness: 520, damping: 30 },
   },
 };
