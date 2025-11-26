@@ -18,7 +18,25 @@ const icons = {
   Workflow,
 };
 
-
+const BACKGROUND_LAYERS = [
+  {
+    id: "fill",
+    gridType: "Fill" as const,
+    pixelsPerHex: 40,
+    s: 75,
+    hue: 240,
+    hueJitter: 5,
+    l: 0,
+  },
+  {
+    id: "default",
+    pixelsPerHex: 40,
+    hue: 240,
+    hueJitter: 30,
+    s: 60,
+    l: 0,
+  },
+];
 
 const BACKGROUND_OVERLAY = (
   <>
@@ -37,6 +55,7 @@ export default function Home() {
   return (
     <PageLayout
       overlays={BACKGROUND_OVERLAY}
+      backgroundLayers={BACKGROUND_LAYERS}
     >
       <section className="relative overflow-hidden px-4 md:px-8 pb-14 pt-28 lg:py-34 mb-0 md:min-h-[900px] bg-gradient-to-b from-gray-950/10 via-gray-950/70 to-gray-950">
 
