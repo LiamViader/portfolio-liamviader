@@ -19,28 +19,6 @@ interface PageLayoutProps {
   overlays?: ReactNode;
 }
 
-const DEFAULT_LAYERS: BackgroundLayer[] = [
-  {
-    id: "fill",
-    gridType: "Fill",
-    pixelsPerHex: 48,
-    hue: 230,
-    hueJitter: 8,
-    s: 75,
-    l: 1,
-    className: "opacity-80",
-  },
-  {
-    id: "strata",
-    gridType: "Strata",
-    pixelsPerHex: 48,
-    hue: 240,
-    hueJitter: 22,
-    s: 65,
-    l: 22,
-  },
-];
-
 const DEFAULT_OVERLAY = (
   <>
     <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(125,211,252,0.08),_transparent_60%)]" />
@@ -52,7 +30,7 @@ export function PageLayout({
   children,
   className,
   contentClassName,
-  backgroundLayers = DEFAULT_LAYERS,
+  backgroundLayers = [],
   overlays = DEFAULT_OVERLAY,
 }: PageLayoutProps) {
   return (

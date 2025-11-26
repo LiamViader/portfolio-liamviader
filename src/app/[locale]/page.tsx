@@ -18,18 +18,7 @@ const icons = {
   Workflow,
 };
 
-const BACKGROUND_LAYERS = [
-  {
-    id: "fill",
-    gridType: "Fill" as const,
-    pixelsPerHex: 40,
-    s: 75,
-    hue: 240,
-    hueJitter: 5,
-    l: 0,
-  },
 
-];
 
 const BACKGROUND_OVERLAY = (
   <>
@@ -48,7 +37,6 @@ export default function Home() {
   return (
     <PageLayout
       overlays={BACKGROUND_OVERLAY}
-      backgroundLayers={BACKGROUND_LAYERS}
     >
       <section className="relative overflow-hidden px-4 md:px-8 pb-14 pt-28 lg:py-34 mb-0 md:min-h-[900px] bg-gradient-to-b from-gray-950/10 via-gray-950/70 to-gray-950">
 
@@ -68,7 +56,7 @@ export default function Home() {
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 1.15, duration: 0.7 }}
-            className="z-10 text-lg font-medium uppercase tracking-[0.3em] text-white/70"
+            className="z-10 text-base md:text-lg font-medium uppercase tracking-[0.3em] text-white/70"
           >
             {t("work_section.title")}
           </motion.p>
@@ -101,7 +89,7 @@ export default function Home() {
           </motion.ul>
         </div>
       </section>
-      <section className="relative px-2 md:px-6 pt-6 sm:pt-10 md:pt-20 lg:pt-22 xl:pt-28 pb-24 bg-gradient-to-b from-gray-950 via-gray-950/15 to-gray-950">
+      <section className="relative px-2 md:px-6 pt-0 sm:pt-10 md:pt-20 lg:pt-22 xl:pt-28 pb-24 bg-gradient-to-b from-gray-950 via-gray-950/15 to-gray-950">
 
         <FeaturedProjectsHomeSection title={t("projects.title")} description={t("projects.description")} contactButtonText={t("hero.ctaContact")} projectsButtonText={t("projects.viewAll")} projects={projects}/>
       </section>
