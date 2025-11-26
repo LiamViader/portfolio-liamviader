@@ -54,16 +54,6 @@ const cardVariants: Variants = {
       ease: "easeOut",
     },
   }),
-  tap: {
-    backgroundColor: HOVER_BG,
-    borderColor: HOVER_BOR,
-    boxShadow: HOVER_SH,
-    transition: {
-      type: "spring",
-      stiffness: 420,
-      damping: 40,
-    },
-  },
 };
 
 const mediaVariants: Variants = {
