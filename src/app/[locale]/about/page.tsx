@@ -36,11 +36,6 @@ const BACKGROUND_LAYERS = [
   },
 ];
 
-const BACKGROUND_OVERLAY = (
-  <>
-    <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-gray-950/5 via-gray-950/15 to-gray-950/60" />
-  </>
-);
 
 const PERSONAL_INFO: PersonalInfo = {
   fullName: "Liam Viader Molina",
