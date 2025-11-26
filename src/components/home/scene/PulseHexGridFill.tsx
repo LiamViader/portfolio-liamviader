@@ -80,7 +80,6 @@ function makeLineShaderMaterial(): THREE.ShaderMaterial {
     uniform float uOpacity; // global multiplier
     void main() {
       gl_FragColor = vec4(vColor, vAlpha * uOpacity);
-      // if (gl_FragColor.a < 0.02) discard; // optional hard cutoff
     }
   `;
   return new THREE.ShaderMaterial({
@@ -118,7 +117,6 @@ export default function PulseHexGridFill({
       camera.updateProjectionMatrix();
     }
   }, [camera, width, height]);
-
 
   const {
     cells,
@@ -224,7 +222,6 @@ export default function PulseHexGridFill({
       const mat = fillMatsRef.current[i];
       if (!mesh || !mat) continue;
 
-
       const scaleRel = fillScaleMin + fillScaleRange * (1.0 - p);
       mesh.scale.setScalar(scaleRel * radius);
 
@@ -315,9 +312,7 @@ function buildSharedGrid(
       const cy = -height / 2 + r * vSpacing - (margin * hexWidth * 0.5);
 
       const phase = Math.random() * Math.PI * 2 + (Math.random() - 0.5) * tuning.phaseJitter;
-
       const speed = 1 + (Math.random() * 2 - 1) * tuning.freqJitter;
-
       const hue01 = wrap01(baseHue01 + (Math.random() * 2 - 1) * hueJitter01);
 
       cells.push({
@@ -393,9 +388,24 @@ function buildSharedGrid(
   shape.closePath();
   const unitFill = new THREE.ShapeGeometry(shape);
 
+  // --- DEBUG: export info a window + log ---
+  if (typeof window !== "undefined") {
+    const debugInfo = {
+      width,
+      height,
+      rows,
+      columns,
+      cellCount: cells.length,
+      edgeCount: edges.length,
+      pixelsPerHex: p.pixelsPerHex,
+    };
+    (window as any).__HEX_GRID_DEBUG__ = debugInfo;
+    // Para ver también en consola de escritorio:
+    console.log("[HEX_GRID_DEBUG]", debugInfo);
+  }
+
   return { cells, edges, lineGeometry, fillGeometry: unitFill, radius };
 }
-
 
 function wrap01(n: number) {
   return (n % 1 + 1) % 1;
