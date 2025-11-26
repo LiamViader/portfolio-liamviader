@@ -146,7 +146,7 @@ function InnerFittedOverlay({
 
   return (
     <motion.div
-      className="fixed inset-0 z-[1000000] flex items-center justify-center bg-slate-950/15 p-3 sm:p-6 backdrop-blur-xl overflow-hidden"
+      className="fixed inset-0 z-[1000000] flex items-center justify-center bg-slate-950 p-3 sm:p-6 overflow-hidden"
       role="dialog"
       aria-modal="true"
       aria-label={buildMediaLabel(activeMedia) || activeMedia.alt || title}
