@@ -119,7 +119,6 @@ export default function PulseHexGridFill({
     }
   }, [camera, width, height]);
 
-
   const {
     cells,
     edges,
@@ -223,7 +222,6 @@ export default function PulseHexGridFill({
       const mesh = fillMeshesRef.current[i];
       const mat = fillMatsRef.current[i];
       if (!mesh || !mat) continue;
-
 
       const scaleRel = fillScaleMin + fillScaleRange * (1.0 - p);
       mesh.scale.setScalar(scaleRel * radius);
@@ -393,9 +391,25 @@ function buildSharedGrid(
   shape.closePath();
   const unitFill = new THREE.ShapeGeometry(shape);
 
+  // --- DEBUG: export info a window para poder verlo en móvil ---
+  if (typeof window !== "undefined") {
+    (window as any).__HEX_GRID_DEBUG__ = {
+      width,
+      height,
+      rows,
+      columns,
+      cellCount: cells.length,
+      edgeCount: edges.length,
+      pixelsPerHex: p.pixelsPerHex,
+      hue: p.hue,
+      hueJitter: p.hueJitter,
+      s: p.s,
+      l: p.l,
+    };
+  }
+
   return { cells, edges, lineGeometry, fillGeometry: unitFill, radius };
 }
-
 
 function wrap01(n: number) {
   return (n % 1 + 1) % 1;
