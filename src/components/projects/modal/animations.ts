@@ -12,7 +12,7 @@ export const modalContentVariants: Variants = {
 
 export const modalItemVariants: Variants = {
   hidden: { opacity: 0, y: 0 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.2,  ease: "easeOut" } },
+  visible: { opacity: 1, y: 0, transition: { duration: 0 } },
   exit: { opacity: 0, y: 0, transition: { duration: 0.3,  ease: "easeIn" } },
 };
 
