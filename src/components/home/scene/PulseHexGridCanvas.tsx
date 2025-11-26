@@ -109,7 +109,7 @@ export default function PulseHexGridCanvas({
     <div ref={hostRef} className={mergedClassName}>
       <Canvas
         orthographic
-        dpr={[1, 2]}
+        dpr={[1, 1.5]}
         camera={{ position: [0, 0, 20], near: -1000, far: 1000 }}
         gl={{ antialias: true, alpha: true }}
         frameloop="always"
