@@ -100,7 +100,7 @@ export default function AboutPage() {
   const age = getAge(PERSONAL_INFO.birthdate);
 
   return (
-    <PageLayout backgroundLayers={BACKGROUND_LAYERS}>
+    <PageLayout >
       <HeroSection personalInfo={PERSONAL_INFO} age={age} />
       <TechStackSection techStack={TECH_STACK} />
       <TrajectorySection
