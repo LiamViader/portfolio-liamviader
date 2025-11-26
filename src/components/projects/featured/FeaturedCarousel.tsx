@@ -209,7 +209,7 @@ export function FeaturedCarousel({
 
     clearAutoplay();
     autoplayRef.current = setInterval(() => {
-      setScrollDir(1); // autoplay avanza
+      setScrollDir(1);
       setActiveIndex((idx) => (idx + 1) % totalProjects);
       startMaskForAnimation(DUR_ENTER_CENTER_MS);
     }, 5000);
@@ -248,7 +248,6 @@ export function FeaturedCarousel({
     };
   }, [scheduleAutoplay, clearAutoplay]);
 
-  /* ------------------- Handlers ------------------- */
   const handleManualNavigation = useCallback(
     (direction: 1 | -1) => {
       if (totalProjects <= 1) return;
@@ -295,29 +294,24 @@ export function FeaturedCarousel({
     [handleManualNavigation],
   );
 
-  /* --------- Cálculo de variantes (determinista) --------- */
   const computeVariant = useCallback(
     (index: number, activeIdx: number, n: number, dir: 1 | -1): CarouselVariant => {
       if (n <= 1) return "center";
 
-      const fd = (index - activeIdx + n) % n; // 0..n-1 hacia delante
-      const bd = (activeIdx - index + n) % n; // 0..n-1 hacia atrás
+      const fd = (index - activeIdx + n) % n;
+      const bd = (activeIdx - index + n) % n;
 
       if (fd === 0) return "center";
       if (bd === 1) return "left";
       if (fd === 1) return "right";
 
-      // n=4 → opuesta va a hiddenCenter
       if (n === 4 && fd === 2) return "hiddenCenter";
 
-      // Con >4: apilamos en el lado de ENTRADA según dir (para garantizar hidden→lateral correcto)
       const half = Math.floor(n / 2);
       if (dir === 1) {
-        // avanzando: cola por derecha; los que vienen por delante (fd >=2..half) se guardan en hiddenRight
         if (fd >= 2 && fd <= half) return "hiddenRight";
         return "hiddenLeft";
       } else {
-        // retrocediendo: cola por izquierda
         if (bd >= 2 && bd <= half) return "hiddenLeft";
         return "hiddenRight";
       }
@@ -325,7 +319,6 @@ export function FeaturedCarousel({
     [],
   );
 
-  // Guarda "frame anterior" (activeIndex + scrollDir) para animar prev→next
   const prevActive = prevActiveIndexRef.current;
   const prevDir = prevScrollDirRef.current;
 
@@ -334,7 +327,6 @@ export function FeaturedCarousel({
     prevScrollDirRef.current = scrollDir;
   }, [activeIndex, scrollDir]);
 
-  /* ------------------- Clases ------------------- */
   const cardClassName = clsx(
     "absolute top-0 h-full w-[47%] sm:w-[40%] md:w-[42%] lg:w-[45%] xl:w-[48%]",
     layout?.cardClassName,
@@ -404,7 +396,6 @@ export function FeaturedCarousel({
             pointerEvents: isHidden || shouldHideForModal ? "none" : "auto",
           }}
           data-visibility-bump={visibilityTick}
-          // IMPORTANTE: siempre initial={false} y forzamos keyframes prev→next
           initial={false}
           animate={animate}
           transition={transition}
@@ -484,7 +475,7 @@ export function FeaturedCarousel({
         <motion.div className={controlsContainerClassName}>
           <motion.button
             type="button"
-            onClick={() => handleManualNavigation(1)}
+            onClick={() => handleManualNavigation(-1)}
             className={controlButtonClassName}
             variants={ctrlLeft}
             initial="hidden"
@@ -499,7 +490,7 @@ export function FeaturedCarousel({
 
           <motion.button
             type="button"
-            onClick={() => handleManualNavigation(-1)}
+            onClick={() => handleManualNavigation(1)}
             className={controlButtonClassName}
             variants={ctrlRight}
             initial="hidden"

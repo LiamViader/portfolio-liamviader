@@ -37,8 +37,6 @@ export function useProjectModalTransition({
   const closeRafRef = useRef<number | null>(null);
   const followRafRef = useRef<number | null>(null);
 
-  // ⚠️ CLAVE: cada vez que “abrimos” de nuevo (nuevo originRect / originEl),
-  // arrancamos un ciclo nuevo de modal, así que reseteamos flags.
   useEffect(() => {
     setClosing(false);
     setPassThrough(false);
