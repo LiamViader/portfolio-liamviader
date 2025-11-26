@@ -9,7 +9,7 @@ import LanguageSwitcher from "./LanguageSwitcher";
 import { useModal } from "@/providers/ModalContext";
 
 const INITIAL_HEADER_HEIGHT = 73;
-const SCROLL_THRESHOLD = 25; 
+const SCROLL_THRESHOLD = 40; 
 
 export default function Header() {
   const t = useTranslations("Navbar");
@@ -88,10 +88,9 @@ export default function Header() {
           if (isStickyRef.current) {
             setYOffset(0);
             setTransitionDurationMs(0); 
-          } 
-          else {
+          } else {
             setYOffset(-currentScrollY);
-            setTransitionDurationMs(0);
+            setTransitionDurationMs(0); 
           }
 
           accumulatedScrollRef.current = 0; 
@@ -112,14 +111,15 @@ export default function Header() {
               if (yOffset !== -maxOffset) {
                 setYOffset(-maxOffset);
                 setTransitionDurationMs(300);
-                isStickyRef.current = false; 
+                isStickyRef.current = false;
+                accumulatedScrollRef.current = 0; 
               }
             } else {
               if (yOffset !== 0) {
                 setYOffset(0);
                 setTransitionDurationMs(300);
                 isStickyRef.current = true; 
-
+                accumulatedScrollRef.current = 0; 
               }
             }
           }
