@@ -20,7 +20,7 @@ const skyVariants: Variants = {
   rest: {
     scale: 1,
     y: 0,
-    backgroundColor: "rgba(14,165,233,0.9)",
+    backgroundColor: "rgba(14,165,233)",
     color: "#ffffff",
     boxShadow: "0 4px 16px rgba(56,189,248,0.30)",
     transition: {

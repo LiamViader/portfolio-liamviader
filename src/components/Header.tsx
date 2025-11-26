@@ -9,6 +9,7 @@ import LanguageSwitcher from "./LanguageSwitcher";
 import { useModal } from "@/providers/ModalContext";
 
 const INITIAL_HEADER_HEIGHT = 73;
+const SCROLL_THRESHOLD = 25; 
 
 export default function Header() {
   const t = useTranslations("Navbar");
@@ -21,6 +22,9 @@ export default function Header() {
   const [yOffset, setYOffset] = useState(0);
   const [lastScrollY, setLastScrollY] = useState(0);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const accumulatedScrollRef = useRef(0);
+  const isStickyRef = useRef(false);
 
   const { isModalOpen } = useModal();
 
@@ -67,36 +71,56 @@ export default function Header() {
       if (detail?.source !== "full") return;
       const currentScrollY = detail?.scrollTop ?? 0;
       const deltaY = currentScrollY - lastScrollY;
-
+      
       if (headerHeight !== 0) {
-        if (deltaY === 0) return;
 
-        if (deltaY > 0) {
-          // Scrolling down
-          if (currentScrollY > headerHeight) {
-            setYOffset(-maxOffset);
-            setTransitionDurationMs(200);
-          } else {
-            const wasAligned = Math.abs(yOffset + lastScrollY) < 5;
-            setYOffset(-currentScrollY);
-            if (wasAligned) {
-              setTransitionDurationMs(0);
-            } else {
-              setTransitionDurationMs(50);
-            }
-          }
-        } else {
-          // Scrolling up
-          if (currentScrollY > headerHeight) {
+        if (currentScrollY === 0) {
+           setYOffset(0);
+           setTransitionDurationMs(0);
+           isStickyRef.current = false;
+           accumulatedScrollRef.current = 0;
+           setLastScrollY(currentScrollY);
+           return;
+        }
+        
+        if (currentScrollY <= headerHeight) {
+          
+          if (isStickyRef.current) {
             setYOffset(0);
-            setTransitionDurationMs(200);
-          } else {
-            if (yOffset <= 10) {
-              setYOffset(0);
-              setTransitionDurationMs(200);
+            setTransitionDurationMs(0); 
+          } 
+          else {
+            setYOffset(-currentScrollY);
+            setTransitionDurationMs(0);
+          }
+
+          accumulatedScrollRef.current = 0; 
+        } 
+        
+        else {
+          if (deltaY === 0) return;
+
+          if ((deltaY > 0 && accumulatedScrollRef.current < 0) || (deltaY < 0 && accumulatedScrollRef.current > 0)) {
+            accumulatedScrollRef.current = 0;
+          }
+
+          accumulatedScrollRef.current += deltaY;
+
+          if (Math.abs(accumulatedScrollRef.current) > SCROLL_THRESHOLD) {
+            
+            if (accumulatedScrollRef.current > 0) {
+              if (yOffset !== -maxOffset) {
+                setYOffset(-maxOffset);
+                setTransitionDurationMs(300);
+                isStickyRef.current = false; 
+              }
             } else {
-              setYOffset(0);
-              setTransitionDurationMs(0);
+              if (yOffset !== 0) {
+                setYOffset(0);
+                setTransitionDurationMs(300);
+                isStickyRef.current = true; 
+
+              }
             }
           }
         }
@@ -108,7 +132,6 @@ export default function Header() {
     window.addEventListener("app-scroll", onAppScroll);
     return () => window.removeEventListener("app-scroll", onAppScroll);
   }, [lastScrollY, isMenuOpen, headerHeight, isModalOpen, yOffset]);
-
 
   const navItems = [
     { href: "/", label: t("home"), exact: true },
@@ -130,17 +153,16 @@ export default function Header() {
         style={{
           transform: `translateY(${yOffset}px)`,
           transitionDuration: `${transitionDurationMs}ms`,
+          transitionTimingFunction: transitionDurationMs > 0 ? "cubic-bezier(0.4, 0, 0.2, 1)" : "linear"
         }}
       >
         <h1 className="font-bold text-lg md:text-xl">Liam Viader</h1>
         <Navbar isOpen={isMenuOpen} setIsOpen={setIsMenuOpen} />
       </header>
 
-      {/* Mobile Menu and Overlay */}
       <AnimatePresence>
         {isMenuOpen && (
           <nav>
-            {/* Overlay */}
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 0.9 }}
@@ -150,7 +172,6 @@ export default function Header() {
               onClick={() => setIsMenuOpen(false)}
             />
 
-            {/* Menu */}
             <motion.div
               initial={{ scaleY: 0, opacity: 0 }}
               animate={{ scaleY: 1, opacity: 1 }}

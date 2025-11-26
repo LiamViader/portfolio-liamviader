@@ -111,20 +111,18 @@ export function ProjectMediaGallery({
                     {isVideoMedia(item) && (
                       <div className="absolute inset-0 flex items-center justify-center">
                         <motion.div 
-                          className="flex h-12 w-12 items-center justify-center rounded-full backdrop-blur-sm border shadow-lg"
+                          className="flex h-12 w-12 items-center justify-center rounded-full backdrop-blur-sm shadow-lg"
                           
                           variants={{
                             idle: { 
                               scale: 1, 
                               backgroundColor: "rgba(4, 0, 43, 0.9)", 
-                              borderColor: "rgba(255, 255, 255, 0.2)",
-                              color: "rgba(33, 201, 235, 1)",
+                              color: "rgba(14, 165, 233, 1)",
                             },
                             hover: { 
                               scale: 1.15, 
-                              backgroundColor: "rgba(33, 201, 235, 1)",  
-                              borderColor: "rgba(14, 165, 233, 0)",
-                              color: "rgba(4, 0, 43, 0.9)",
+                              backgroundColor: "rgba(14, 165, 233, 1)",  
+                              color: "rgba(225, 225, 225, 0.9)",
                               transition: { ease: "easeIn", duration: 0.1}
                             }
                           }}
