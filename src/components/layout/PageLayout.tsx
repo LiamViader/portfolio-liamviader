@@ -31,14 +31,18 @@ type HexGridDebugInfo = {
   pixelsPerHex: number;
 };
 
-// Badge muy simple: así al menos vemos si el componente se está renderizando.
+declare global {
+  interface Window {
+    __HEX_GRID_DEBUG__?: HexGridDebugInfo;
+  }
+}
+
 function HexGridDebugBadge() {
   const [info, setInfo] = useState<HexGridDebugInfo | null>(null);
 
   useEffect(() => {
-    // Esto solo se ejecuta en cliente, no en SSR
     const id = window.setInterval(() => {
-      const data = (window as any).__HEX_GRID_DEBUG__ as HexGridDebugInfo | undefined;
+      const data = window.__HEX_GRID_DEBUG__;
       if (data) {
         setInfo(data);
       }

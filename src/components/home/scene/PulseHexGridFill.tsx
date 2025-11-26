@@ -55,11 +55,27 @@ type Cell = {
 };
 
 type Edge = {
-  a: THREE.Vector3; 
+  a: THREE.Vector3;
   b: THREE.Vector3;
   cellA: number;
   cellB?: number;
 };
+
+type HexGridDebugInfo = {
+  width: number;
+  height: number;
+  rows: number;
+  columns: number;
+  cellCount: number;
+  edgeCount: number;
+  pixelsPerHex: number;
+};
+
+declare global {
+  interface Window {
+    __HEX_GRID_DEBUG__?: HexGridDebugInfo;
+  }
+}
 
 function makeLineShaderMaterial(): THREE.ShaderMaterial {
   const vertexShader = /* glsl */`
@@ -122,7 +138,7 @@ export default function PulseHexGridFill({
     cells,
     edges,
     lineGeometry,
-    fillGeometry, 
+    fillGeometry,
     radius,
   } = useMemo(
     () => buildSharedGrid(width, height, params, tuning),
@@ -153,7 +169,7 @@ export default function PulseHexGridFill({
   const fillMatsRef = useRef<THREE.MeshBasicMaterial[]>([]);
   const pulsesRef = useRef<Float32Array | null>(null);
   const sNorm = params.s / 100;
-  const baseL = params.l / 100; 
+  const baseL = params.l / 100;
 
   useEffect(() => {
     const group = fillGroupRef.current;
@@ -178,7 +194,7 @@ export default function PulseHexGridFill({
       });
 
       const mesh = new THREE.Mesh(fillGeometry, mat);
-      mesh.position.set(cell.cx, cell.cy, -0.5); 
+      mesh.position.set(cell.cx, cell.cy, -0.5);
       mesh.scale.setScalar(tuning.fillScaleMin * radius);
       group.add(mesh);
 
@@ -217,7 +233,7 @@ export default function PulseHexGridFill({
     }
 
     for (let i = 0; i < cells.length; i++) {
-      const p = invertAtMax ? 1.0 - pulses[i] : pulses[i]; 
+      const p = invertAtMax ? 1.0 - pulses[i] : pulses[i];
       const mesh = fillMeshesRef.current[i];
       const mat = fillMatsRef.current[i];
       if (!mesh || !mat) continue;
@@ -240,7 +256,8 @@ export default function PulseHexGridFill({
     if (!colors || !alphas) return;
 
     const color = tempColor;
-    let ci = 0, ai = 0;
+    let ci = 0;
+    let ai = 0;
 
     for (let e = 0; e < edges.length; e++) {
       const edge = edges[e];
@@ -257,7 +274,7 @@ export default function PulseHexGridFill({
       colors[ci++] = color.r; colors[ci++] = color.g; colors[ci++] = color.b;
       alphas[ai++] = aA;
 
-      const nb = edge.cellB != null ? edge.cellB : edge.cellA;
+      const nb = edge.cellB ?? edge.cellA;
       const pB = invertAtMax ? 1.0 - pulses[nb] : pulses[nb];
       const cB = cells[nb];
       const LB = THREE.MathUtils.clamp(
@@ -293,7 +310,7 @@ function buildSharedGrid(
   const hexWidth = Math.sqrt(3) * radius;
   const vSpacing = (3 / 2) * radius;
   const hSpacing = hexWidth;
-  
+
   const margin = Math.ceil((width / hSpacing) * 0.05);
 
   const columns = Math.ceil(width / hSpacing) + margin;
@@ -330,7 +347,11 @@ function buildSharedGrid(
 
   const angles = new Array(6).fill(0).map((_, i) => Math.PI / 6 + (i * Math.PI) / 3);
   const verts: THREE.Vector3[][] = cells.map(cell =>
-    angles.map(a => new THREE.Vector3(cell.cx + radius * Math.cos(a), cell.cy + radius * Math.sin(a), 0))
+    angles.map(a => new THREE.Vector3(
+      cell.cx + radius * Math.cos(a),
+      cell.cy + radius * Math.sin(a),
+      0,
+    ))
   );
 
   const sidePairs: [number, number][] = [
@@ -390,7 +411,7 @@ function buildSharedGrid(
 
   // --- DEBUG: export info a window + log ---
   if (typeof window !== "undefined") {
-    const debugInfo = {
+    const debugInfo: HexGridDebugInfo = {
       width,
       height,
       rows,
@@ -399,8 +420,7 @@ function buildSharedGrid(
       edgeCount: edges.length,
       pixelsPerHex: p.pixelsPerHex,
     };
-    (window as any).__HEX_GRID_DEBUG__ = debugInfo;
-    // Para ver también en consola de escritorio:
+    window.__HEX_GRID_DEBUG__ = debugInfo;
     console.log("[HEX_GRID_DEBUG]", debugInfo);
   }
 
