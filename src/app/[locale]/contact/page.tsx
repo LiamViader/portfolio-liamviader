@@ -75,7 +75,7 @@ const navLinkVariants: Variants = {
     scale: 1.03,
     y: -2,
     backgroundColor: "rgba(56,189,248,0.08)",
-    boxShadow: "0 12px 28px rgba(56,189,248,0.35), 0 0 0 1px rgba(56,189,248,0.60)",
+    boxShadow: "0 12px 28px rgba(56,189,248,0.15), 0 0 0 1px rgba(56,189,248,0.60)",
     transition: {
       type: "spring",
       stiffness: 420,
@@ -85,6 +85,7 @@ const navLinkVariants: Variants = {
     },
   },
   tap: {
+    backgroundColor: "rgba(56,189,248,0.08)",
     scale: 0.98,
     y: 0,
     transition: { duration: 0.12 },
@@ -202,7 +203,7 @@ export default function ContactPage() {
       className="bg-gradient-to-b from-transparent via-gray-950/20 to-gray-950"
     >
       <div>
-        <div className="mx-auto w-full max-w-6xl px-4 pb-14 pt-28 lg:34 sm:px-6 sm:pb-14 lg:px-8">
+        <div className="mx-auto w-full max-w-6xl px-4 pb-24 pt-28 lg:34 sm:px-6 lg:px-8">
           <div className="flex flex-col gap-6 max-w-4xl">
             <motion.h1
               className="text-center md:text-left text-4xl font-semibold tracking-tight text-white/95 sm:text-5xl md:text-6xl"
