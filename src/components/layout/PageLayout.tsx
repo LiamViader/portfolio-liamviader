@@ -21,8 +21,6 @@ interface PageLayoutProps {
 
 const DEFAULT_OVERLAY = (
   <>
-    <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,_rgba(125,211,252,0.08),_transparent_60%)]" />
-    <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-gray-950/40 via-gray-950/20 to-gray-950/80" />
   </>
 );
 

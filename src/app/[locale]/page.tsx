@@ -38,12 +38,6 @@ const BACKGROUND_LAYERS = [
   },
 ];
 
-const BACKGROUND_OVERLAY = (
-  <>
-
-  </>
-);
-
 export default function Home() {
   const t = useTranslations("HomePage");
   const locale = useLocale();
@@ -53,10 +47,9 @@ export default function Home() {
   const metricKeys: Array<"ai" | "videogames" | "system_design"> = ["ai", "videogames", "system_design"];
   return (
     <PageLayout
-      overlays={BACKGROUND_OVERLAY}
       backgroundLayers={BACKGROUND_LAYERS}
     >
-      <section className="relative overflow-hidden px-4 md:px-8 pb-6 md:pb-14 pt-28 lg:py-34 mb-0 md:min-h-[900px] bg-gradient-to-b from-gray-950/10 via-gray-950/70 to-gray-950">
+      <section className="relative overflow-hidden px-4 md:px-8 pb-6 md:pb-14 pt-28 lg:py-34 mb-0 md:min-h-[900px] bg-[linear-gradient(to_bottom,_rgba(3,7,18,0.1)_0%,_rgba(3,7,18,0.7)_70%,_rgb(3,7,18)_97%,_rgb(3,7,18)_100%)]">
 
 
         <HeroSection 
@@ -107,7 +100,7 @@ export default function Home() {
           </motion.ul>
         </div>
       </section>
-      <section className="relative px-2 md:px-6 pt-0 sm:pt-10 md:pt-20 lg:pt-22 xl:pt-28 pb-24 bg-gradient-to-b from-gray-950 via-gray-950/15 to-gray-950">
+      <section className="relative px-2 md:px-6 pt-0 sm:pt-10 md:pt-20 lg:pt-22 xl:pt-28 pb-24 bg-[linear-gradient(to_bottom,_rgb(3,7,18)_0%,_rgb(3,7,18)_3%,_rgba(3,7,18,0.15)_50%,_rgb(3,7,18)_100%)]">
 
         <FeaturedProjectsHomeSection title={t("projects.title")} description={t("projects.description")} contactButtonText={t("hero.ctaContact")} projectsButtonText={t("projects.viewAll")} projects={projects}/>
       </section>
