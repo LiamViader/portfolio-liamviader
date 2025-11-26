@@ -49,7 +49,7 @@ export default function Home() {
     <PageLayout
       backgroundLayers={BACKGROUND_LAYERS}
     >
-      <section className="relative overflow-hidden px-4 md:px-8 pb-6 md:pb-14 pt-28 lg:py-34 mb-0 md:min-h-[900px] bg-[linear-gradient(to_bottom,_rgba(3,7,18,0.1)_0%,_rgba(3,7,18,0.7)_50%,_rgb(3,7,18)_97%,_rgb(3,7,18)_100%)]">
+      <section className="relative overflow-hidden px-4 md:px-8 pb-6 md:pb-14 pt-28 lg:pt-34 lg:pb-24 bg-[linear-gradient(to_bottom,_rgba(3,7,18,0.1)_0%,_rgba(3,7,18,0.7)_50%,_rgb(3,7,18)_97%,_rgb(3,7,18)_100%)]">
 
 
         <HeroSection 

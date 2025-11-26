@@ -132,7 +132,7 @@ export function FeaturedProjectsHomeSection({
         </motion.div>
 
         <div
-          className="lg:col-start-2 lg:flex lg:justify-end will-change-transform"
+          className="lg:col-start-2 lg:flex lg:justify-end will-change-transform mt-4 lg:mt-0"
         >
           <FeaturedProjects
             projects={projects}
@@ -158,7 +158,7 @@ export function FeaturedProjectsHomeSection({
         </div>
 
         <div
-          className="lg:hidden pt-5 flex flex-wrap items-center justify-center gap-4 lg:justify-start will-change-transform"
+          className="lg:hidden pt-4 flex flex-wrap items-center justify-center gap-4 lg:justify-start will-change-transform"
         >
           <SkyButton href="/projects" text={projectsButtonText} />
           <WhiteButton href="/contact" text={contactButtonText} />
