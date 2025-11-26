@@ -42,7 +42,7 @@ export function PageLayout({
         <PulseHexGridCanvas key={id ?? JSON.stringify(layer)} {...layer} />
       ))}
       {overlays}
-      <div className={clsx("relative z-10 flex flex-col", contentClassName)}>
+      <div className={clsx("relative z-10 flex flex-col flex-1", contentClassName)}>
         {children}
       </div>
     </div>
