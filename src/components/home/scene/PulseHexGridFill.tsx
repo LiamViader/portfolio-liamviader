@@ -37,7 +37,7 @@ const DEFAULT_TUNING: Required<FillTuning> = {
   lineAlphaMin: 0.12,
   lineAlphaMax: 0.82,
   baseFreq: 0.2,
-  freqJitter: 0.25,
+  freqJitter: 0.9,
   phaseJitter: 0.01,
   lightnessAmp: 0.12,
   invertAtMax: true,
