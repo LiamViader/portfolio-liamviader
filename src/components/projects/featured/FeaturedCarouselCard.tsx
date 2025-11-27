@@ -5,9 +5,9 @@ import { type TranslatedProject } from "@/data/projects/types";
 import { motion, Variants } from "framer-motion";
 import { useState, useRef, useEffect, useMemo } from "react";
 
-const BASE_BG   = "rgba(255,255,255,0.05)";
+const TRANSPARENT_BASE_BG   = "rgba(255,255,255,0.05)";
 const BASE_BORD = "rgba(255,255,255,0.10)";
-const HOVER_BG  = "rgba(56,189,248,0.10)";
+const TRANSPARENT_HOVER_BG  = "rgba(56,189,248,0.10)";
 const HOVER_BOR = "rgba(56,189,248,0.60)";
 const HOVER_SH  = "0 0 30px rgba(56,189,248,0.50)";
 const BASE_SH   = "0 0 30px rgba(56,189,248,0.01)";
@@ -16,7 +16,7 @@ const cardVariants: Variants = {
   hidden: {
     opacity: 0,
     y: 30,
-    backgroundColor: BASE_BG,
+    backgroundColor: TRANSPARENT_BASE_BG,
     borderColor: BASE_BORD,
     boxShadow: BASE_SH,
   },
@@ -29,7 +29,7 @@ const cardVariants: Variants = {
   ) => ({
     opacity: 1,
     y: 0,
-    backgroundColor: BASE_BG,
+    backgroundColor: TRANSPARENT_BASE_BG,
     borderColor: BASE_BORD,
     boxShadow: BASE_SH,
     transition: {
@@ -46,7 +46,7 @@ const cardVariants: Variants = {
     }
   ) => ({
     y: c.translate ? -20 : 0,
-    backgroundColor: HOVER_BG,
+    backgroundColor: TRANSPARENT_HOVER_BG,
     borderColor: HOVER_BOR,
     boxShadow: HOVER_SH,
     transition: {
@@ -246,7 +246,7 @@ export function FeaturedCarouselCard({
         }
       `}
       style={{
-        backgroundColor: BASE_BG,
+        backgroundColor: TRANSPARENT_BASE_BG,
         borderColor: BASE_BORD,
         pointerEvents: introDone ? "auto" : "none",
       }}
