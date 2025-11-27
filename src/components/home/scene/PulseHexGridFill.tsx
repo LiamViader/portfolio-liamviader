@@ -33,13 +33,13 @@ const DEFAULT_TUNING: Required<FillTuning> = {
   fillScaleMin: 0.55,
   fillScaleMax: 0.95,
   fillAlphaMin: 0.10,
-  fillAlphaMax: 0.85,
+  fillAlphaMax: 0.75,
   lineAlphaMin: 0.12,
   lineAlphaMax: 0.82,
-  baseFreq: 0.2,
+  baseFreq: 0.15,
   freqJitter: 0.35,
   phaseJitter: Math.PI,
-  lightnessAmp: 0.25,
+  lightnessAmp: 0.12,
   invertAtMax: true,
 };
 
