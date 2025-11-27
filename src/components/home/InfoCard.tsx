@@ -41,7 +41,7 @@ const cardVariants: Variants = {
     } 
   },
   tap: { 
-    y: -2, 
+    scale: 0.96, 
     transition: { 
       duration: 0.08, 
       ease: "easeOut" 
