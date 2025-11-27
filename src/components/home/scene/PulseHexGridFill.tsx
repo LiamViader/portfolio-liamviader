@@ -43,57 +43,173 @@ const DEFAULT_TUNING: Required<FillTuning> = {
   invertAtMax: true,
 };
 
-type Cell = {
-  idx: number;
-  row: number;
-  col: number;
-  cx: number;
-  cy: number;
-  phase: number;
-  speed: number;
-  hue01: number; // 0..1
-};
+// --- SHADERS ---
 
-type Edge = {
-  a: THREE.Vector3; 
-  b: THREE.Vector3;
-  cellA: number;
-  cellB?: number;
-};
+// Helper function for HSL to RGB inside shader
+const hslChunk = /* glsl */`
+  vec3 hsl2rgb(vec3 c) {
+    vec3 rgb = clamp(abs(mod(c.x * 6.0 + vec3(0.0, 4.0, 2.0), 6.0) - 3.0) - 1.0, 0.0, 1.0);
+    return c.z + c.y * (rgb - 0.5) * (1.0 - abs(2.0 * c.z - 1.0));
+  }
+`;
 
-function makeLineShaderMaterial(): THREE.ShaderMaterial {
-  const vertexShader = /* glsl */`
-    attribute vec3 color;
-    attribute float alpha;
+/**
+ * Shader for the Instanced Hex Fills
+ * Handles pulsing size, color, and opacity entirely on GPU.
+ */
+const FillShaderMaterial = new THREE.ShaderMaterial({
+  uniforms: {
+    uTime: { value: 0 },
+    uBaseFreq: { value: 0.2 },
+    uFillScaleMin: { value: 0.55 },
+    uFillScaleMax: { value: 0.95 },
+    uFillAlphaMin: { value: 0.1 },
+    uFillAlphaMax: { value: 0.85 },
+    uBaseL: { value: 0.5 },
+    uLightnessAmp: { value: 0.25 },
+    uSaturation: { value: 0.5 },
+    uInvert: { value: 1.0 }, // 1.0 = true, 0.0 = false
+  },
+  vertexShader: /* glsl */`
+    precision mediump float;
+    
+    // Attributes provided by InstancedMesh logic
+    attribute float aPhase;
+    attribute float aSpeed;
+    attribute float aHue;
+    attribute vec3 aCenter; // The center position of the hex
+
     varying vec3 vColor;
     varying float vAlpha;
+
+    uniform float uTime;
+    uniform float uBaseFreq;
+    uniform float uFillScaleMin;
+    uniform float uFillScaleMax;
+    uniform float uFillAlphaMin;
+    uniform float uFillAlphaMax;
+    uniform float uBaseL;
+    uniform float uLightnessAmp;
+    uniform float uSaturation;
+    uniform float uInvert;
+
+    ${hslChunk}
+
     void main() {
-      vColor = color;
-      vAlpha = alpha;
-      gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+      // 1. Calculate Pulse (0.0 to 1.0)
+      float omega = 2.0 * 3.14159 * uBaseFreq * aSpeed;
+      float rawSine = sin(omega * uTime + aPhase); // -1 to 1
+      float pulse = 0.5 + 0.5 * rawSine; // 0 to 1
+
+      // 2. Inversion logic
+      float p = mix(pulse, 1.0 - pulse, uInvert);
+
+      // 3. Scale Logic
+      float scaleRel = mix(uFillScaleMin, uFillScaleMax, 1.0 - p);
+      
+      // Transform position: We scale the vertex relative to (0,0,0) then move it to aCenter
+      vec3 transformed = position * scaleRel + aCenter;
+
+      // 4. Color & Alpha Logic
+      vAlpha = mix(uFillAlphaMin, uFillAlphaMax, 1.0 - p);
+      
+      float L = clamp(uBaseL + (p - 0.5) * 2.0 * uLightnessAmp, 0.05, 0.95);
+      vColor = hsl2rgb(vec3(aHue, uSaturation, L));
+
+      gl_Position = projectionMatrix * modelViewMatrix * vec4(transformed, 1.0);
     }
-  `;
-  const fragmentShader = /* glsl */`
+  `,
+  fragmentShader: /* glsl */`
     precision mediump float;
     varying vec3 vColor;
     varying float vAlpha;
-    uniform float uOpacity; // global multiplier
+
     void main() {
-      gl_FragColor = vec4(vColor, vAlpha * uOpacity);
-      // if (gl_FragColor.a < 0.02) discard; // optional hard cutoff
+      gl_FragColor = vec4(vColor, vAlpha);
     }
-  `;
-  return new THREE.ShaderMaterial({
-    vertexShader,
-    fragmentShader,
-    uniforms: { uOpacity: { value: 1.0 } },
-    transparent: true,
-    depthWrite: false,
-    depthTest: false,
-    blending: THREE.AdditiveBlending,
-    toneMapped: false,
-  });
-}
+  `,
+  transparent: true,
+  depthWrite: false,
+  depthTest: false,
+  blending: THREE.AdditiveBlending,
+  toneMapped: false,
+});
+
+/**
+ * Shader for the Lines
+ * Interpolates pulse between two connected cells per vertex.
+ */
+const LineShaderMaterial = new THREE.ShaderMaterial({
+  uniforms: {
+    uTime: { value: 0 },
+    uBaseFreq: { value: 0.2 },
+    uLineAlphaMin: { value: 0.12 },
+    uLineAlphaMax: { value: 0.82 },
+    uBaseL: { value: 0.5 },
+    uLightnessAmp: { value: 0.25 },
+    uSaturation: { value: 0.5 },
+    uInvert: { value: 1.0 },
+    uGlobalOpacity: { value: 1.0 },
+  },
+  vertexShader: /* glsl */`
+    precision mediump float;
+
+    // Per-vertex attributes (each vertex of the line belongs to a specific cell logically)
+    attribute float aPhase;
+    attribute float aSpeed;
+    attribute float aHue;
+
+    varying vec3 vColor;
+    varying float vAlpha;
+
+    uniform float uTime;
+    uniform float uBaseFreq;
+    uniform float uLineAlphaMin;
+    uniform float uLineAlphaMax;
+    uniform float uBaseL;
+    uniform float uLightnessAmp;
+    uniform float uSaturation;
+    uniform float uInvert;
+
+    ${hslChunk}
+
+    void main() {
+      // Calculate Pulse for this specific vertex's cell
+      float omega = 2.0 * 3.14159 * uBaseFreq * aSpeed;
+      float rawSine = sin(omega * uTime + aPhase);
+      float pulse = 0.5 + 0.5 * rawSine;
+
+      float p = mix(pulse, 1.0 - pulse, uInvert);
+
+      // Alpha
+      vAlpha = mix(uLineAlphaMin, uLineAlphaMax, 1.0 - p);
+
+      // Lightness / Color
+      float L = clamp(uBaseL + (p - 0.5) * 2.0 * uLightnessAmp, 0.05, 0.95);
+      vColor = hsl2rgb(vec3(aHue, uSaturation, L));
+
+      gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+    }
+  `,
+  fragmentShader: /* glsl */`
+    precision mediump float;
+    varying vec3 vColor;
+    varying float vAlpha;
+    uniform float uGlobalOpacity;
+
+    void main() {
+      gl_FragColor = vec4(vColor, vAlpha * uGlobalOpacity);
+    }
+  `,
+  transparent: true,
+  depthWrite: false,
+  depthTest: false,
+  blending: THREE.AdditiveBlending,
+  toneMapped: false,
+});
+
+
+// --- COMPONENT ---
 
 export default function PulseHexGridFill({
   params,
@@ -103,12 +219,12 @@ export default function PulseHexGridFill({
   tuning?: FillTuning;
 }) {
   const tuning = { ...DEFAULT_TUNING, ...(userTuning ?? {}) };
-
   const { size, camera, gl } = useThree();
   const dpr = gl.getPixelRatio();
   const width = size.width / dpr;
   const height = size.height / dpr;
 
+  // Camera setup
   useEffect(() => {
     if (camera instanceof THREE.OrthographicCamera) {
       camera.left = -width / 2;
@@ -119,174 +235,93 @@ export default function PulseHexGridFill({
     }
   }, [camera, width, height]);
 
-
-  const {
-    cells,
-    edges,
-    lineGeometry,
-    fillGeometry, 
-    radius,
-  } = useMemo(
-    () => buildSharedGrid(width, height, params, tuning),
+  // Build Geometry Data once
+  const { fillData, lineData, fillGeometry, radius } = useMemo(
+    () => buildOptimizedGrid(width, height, params, tuning),
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [width, height, params.pixelsPerHex]
   );
 
-  const lineColorsRef = useRef<Float32Array | null>(null);
-  const lineAlphasRef = useRef<Float32Array | null>(null);
-  const lineColorAttrRef = useRef<THREE.BufferAttribute | null>(null);
-  const lineAlphaAttrRef = useRef<THREE.BufferAttribute | null>(null);
-
-  useEffect(() => {
-    const colorAttr = lineGeometry.getAttribute("color") as THREE.BufferAttribute;
-    const alphaAttr = lineGeometry.getAttribute("alpha") as THREE.BufferAttribute;
-    colorAttr.setUsage(THREE.DynamicDrawUsage);
-    alphaAttr.setUsage(THREE.DynamicDrawUsage);
-    lineColorsRef.current = colorAttr.array as Float32Array;
-    lineAlphasRef.current = alphaAttr.array as Float32Array;
-    lineColorAttrRef.current = colorAttr;
-    lineAlphaAttrRef.current = alphaAttr;
-  }, [lineGeometry]);
-
-  const lineMaterial = useMemo(() => makeLineShaderMaterial(), []);
-
-  const fillGroupRef = useRef<THREE.Group>(null);
-  const fillMeshesRef = useRef<THREE.Mesh[]>([]);
-  const fillMatsRef = useRef<THREE.MeshBasicMaterial[]>([]);
-  const pulsesRef = useRef<Float32Array | null>(null);
-  const sNorm = params.s / 100;
-  const baseL = params.l / 100; 
-
-  useEffect(() => {
-    const group = fillGroupRef.current;
-    if (!group) return;
-
-    group.clear();
-    fillMeshesRef.current = [];
-    fillMatsRef.current = [];
-
-    pulsesRef.current = new Float32Array(cells.length);
-
-    for (let i = 0; i < cells.length; i++) {
-      const cell = cells[i];
-      const mat = new THREE.MeshBasicMaterial({
-        color: new THREE.Color().setHSL(cell.hue01, sNorm, baseL),
-        transparent: true,
-        opacity: tuning.fillAlphaMin,
-        blending: THREE.AdditiveBlending,
-        depthWrite: false,
-        depthTest: false,
-        toneMapped: false,
-      });
-
-      const mesh = new THREE.Mesh(fillGeometry, mat);
-      mesh.position.set(cell.cx, cell.cy, -0.5); 
-      mesh.scale.setScalar(tuning.fillScaleMin * radius);
-      group.add(mesh);
-
-      fillMeshesRef.current.push(mesh);
-      fillMatsRef.current.push(mat);
-    }
-  }, [cells, fillGeometry, radius, sNorm, baseL, tuning.fillScaleMin, tuning.fillAlphaMin]);
-
+  // References to materials to update uniforms
+  const fillMatRef = useRef<THREE.ShaderMaterial>(null);
+  const lineMatRef = useRef<THREE.ShaderMaterial>(null);
   const groupRef = useRef<THREE.Group>(null);
-  const tempColor = useMemo(() => new THREE.Color(), []);
 
+  // Clone materials per instance to avoid conflicts if used multiple times
+  const activeFillMat = useMemo(() => FillShaderMaterial.clone(), []);
+  const activeLineMat = useMemo(() => LineShaderMaterial.clone(), []);
+
+  // Sync Uniforms
+  useEffect(() => {
+    activeFillMat.uniforms.uBaseFreq.value = tuning.baseFreq;
+    activeFillMat.uniforms.uFillScaleMin.value = tuning.fillScaleMin;
+    activeFillMat.uniforms.uFillScaleMax.value = tuning.fillScaleMax;
+    activeFillMat.uniforms.uFillAlphaMin.value = tuning.fillAlphaMin;
+    activeFillMat.uniforms.uFillAlphaMax.value = tuning.fillAlphaMax;
+    activeFillMat.uniforms.uBaseL.value = params.l / 100;
+    activeFillMat.uniforms.uLightnessAmp.value = tuning.lightnessAmp;
+    activeFillMat.uniforms.uSaturation.value = params.s / 100;
+    activeFillMat.uniforms.uInvert.value = tuning.invertAtMax ? 1.0 : 0.0;
+
+    activeLineMat.uniforms.uBaseFreq.value = tuning.baseFreq;
+    activeLineMat.uniforms.uLineAlphaMin.value = tuning.lineAlphaMin;
+    activeLineMat.uniforms.uLineAlphaMax.value = tuning.lineAlphaMax;
+    activeLineMat.uniforms.uBaseL.value = params.l / 100;
+    activeLineMat.uniforms.uLightnessAmp.value = tuning.lightnessAmp;
+    activeLineMat.uniforms.uSaturation.value = params.s / 100;
+    activeLineMat.uniforms.uInvert.value = tuning.invertAtMax ? 1.0 : 0.0;
+  }, [tuning, params, activeFillMat, activeLineMat]);
+
+  // Animation Loop (Zero CPU logic, just uniform update)
   useFrame(({ clock }) => {
     const t = clock.getElapsedTime();
 
-    const g = groupRef.current;
-    if (g) {
-      g.rotation.z = Math.sin(t * 0.18) * 0.04;
-      g.position.z = Math.sin(t * 0.22) * 2.5;
+    // Group movement
+    if (groupRef.current) {
+      groupRef.current.rotation.z = Math.sin(t * 0.18) * 0.04;
+      groupRef.current.position.z = Math.sin(t * 0.22) * 2.5;
     }
 
-    const pulses = pulsesRef.current;
-    if (!pulses) return;
-
-    const invertAtMax = tuning.invertAtMax;
-    const baseOmega = 2 * Math.PI * tuning.baseFreq;
-    const fillScaleMin = tuning.fillScaleMin;
-    const fillScaleRange = tuning.fillScaleMax - tuning.fillScaleMin;
-    const fillAlphaMin = tuning.fillAlphaMin;
-    const fillAlphaRange = tuning.fillAlphaMax - tuning.fillAlphaMin;
-    const lineAlphaMin = tuning.lineAlphaMin;
-    const lineAlphaRange = tuning.lineAlphaMax - tuning.lineAlphaMin;
-    const lightnessAmp = tuning.lightnessAmp;
-
-    for (let i = 0; i < cells.length; i++) {
-      pulses[i] = 0.5 + 0.5 * Math.sin((baseOmega * cells[i].speed) * t + cells[i].phase);
-    }
-
-    for (let i = 0; i < cells.length; i++) {
-      const p = invertAtMax ? 1.0 - pulses[i] : pulses[i]; 
-      const mesh = fillMeshesRef.current[i];
-      const mat = fillMatsRef.current[i];
-      if (!mesh || !mat) continue;
-
-
-      const scaleRel = fillScaleMin + fillScaleRange * (1.0 - p);
-      mesh.scale.setScalar(scaleRel * radius);
-
-      mat.opacity = fillAlphaMin + fillAlphaRange * (1.0 - p);
-
-      const L = THREE.MathUtils.clamp(
-        baseL + (p - 0.5) * 2.0 * lightnessAmp,
-        0.05,
-        0.95
-      );
-      mat.color.setHSL(cells[i].hue01, sNorm, L);
-    }
-
-    const colors = lineColorsRef.current;
-    const alphas = lineAlphasRef.current;
-    if (!colors || !alphas) return;
-
-    const color = tempColor;
-    let ci = 0, ai = 0;
-
-    for (let e = 0; e < edges.length; e++) {
-      const edge = edges[e];
-
-      const pA = invertAtMax ? 1.0 - pulses[edge.cellA] : pulses[edge.cellA];
-      const cA = cells[edge.cellA];
-      const LA = THREE.MathUtils.clamp(
-        baseL + (pA - 0.5) * 2.0 * lightnessAmp,
-        0.05,
-        0.95
-      );
-      const aA = lineAlphaMin + lineAlphaRange * (1.0 - pA);
-      color.setHSL(cA.hue01, sNorm, LA);
-      colors[ci++] = color.r; colors[ci++] = color.g; colors[ci++] = color.b;
-      alphas[ai++] = aA;
-
-      const nb = edge.cellB != null ? edge.cellB : edge.cellA;
-      const pB = invertAtMax ? 1.0 - pulses[nb] : pulses[nb];
-      const cB = cells[nb];
-      const LB = THREE.MathUtils.clamp(
-        baseL + (pB - 0.5) * 2.0 * lightnessAmp,
-        0.05,
-        0.95
-      );
-      const aB = lineAlphaMin + lineAlphaRange * (1.0 - pB);
-      color.setHSL(cB.hue01, sNorm, LB);
-      colors[ci++] = color.r; colors[ci++] = color.g; colors[ci++] = color.b;
-      alphas[ai++] = aB;
-    }
-
-    if (lineColorAttrRef.current) lineColorAttrRef.current.needsUpdate = true;
-    if (lineAlphaAttrRef.current) lineAlphaAttrRef.current.needsUpdate = true;
+    // Update time uniform
+    activeFillMat.uniforms.uTime.value = t;
+    activeLineMat.uniforms.uTime.value = t;
   });
 
   return (
     <group ref={groupRef}>
-      <group ref={fillGroupRef} />
-      <lineSegments geometry={lineGeometry} material={lineMaterial} />
+      {/* FILL MESHES (Instanced) */}
+      <instancedMesh 
+        args={[fillGeometry, activeFillMat, fillData.count]}
+        frustumCulled={false}
+      >
+        {/* NOTA: Usamos "geometry-attributes-nombre" porque el padre es la Mesh, 
+            pero queremos adjuntar el atributo a la geometría de esa Mesh.
+        */}
+        <instancedBufferAttribute attach="geometry-attributes-aCenter" args={[fillData.centers, 3]} />
+        <instancedBufferAttribute attach="geometry-attributes-aPhase" args={[fillData.phases, 1]} />
+        <instancedBufferAttribute attach="geometry-attributes-aSpeed" args={[fillData.speeds, 1]} />
+        <instancedBufferAttribute attach="geometry-attributes-aHue" args={[fillData.hues, 1]} />
+      </instancedMesh>
+
+      {/* LINE MESHES (Single LineSegments) */}
+      <lineSegments material={activeLineMat}>
+        <bufferGeometry>
+          {/* SOLUCIÓN DEL ERROR:
+             Usamos args={[array, itemSize]} en lugar de pasar las props sueltas.
+          */}
+          <bufferAttribute attach="attributes-position" args={[lineData.positions, 3]} />
+          <bufferAttribute attach="attributes-aPhase" args={[lineData.phases, 1]} />
+          <bufferAttribute attach="attributes-aSpeed" args={[lineData.speeds, 1]} />
+          <bufferAttribute attach="attributes-aHue" args={[lineData.hues, 1]} />
+        </bufferGeometry>
+      </lineSegments>
     </group>
   );
 }
 
-function buildSharedGrid(
+// --- DATA GENERATION (Run once) ---
+
+function buildOptimizedGrid(
   width: number,
   height: number,
   p: HexGridParams,
@@ -298,16 +333,31 @@ function buildSharedGrid(
   const hSpacing = hexWidth;
   
   const margin = Math.ceil((width / hSpacing) * 0.05);
-
   const columns = Math.ceil(width / hSpacing) + margin;
   const rows = Math.ceil(height / vSpacing) + margin;
 
-  const cells: Cell[] = [];
-  const indexOf = (r: number, c: number) => r * columns + c;
+  // Basic Cell Data container
+  type CellData = {
+    row: number;
+    col: number;
+    cx: number;
+    cy: number;
+    phase: number;
+    speed: number;
+    hue01: number;
+  };
+  
+  const cells: CellData[] = [];
+  // Mapping 'row,col' string to index for edge building
+  const cellMap = new Map<string, number>();
 
   const baseHue01 = (((p.hue % 360) + 360) % 360) / 360;
   const hueJitter01 = Math.abs(p.hueJitter) / 360;
 
+  // Wrapper to keep 0..1 range
+  const wrap01 = (n: number) => (n % 1 + 1) % 1;
+
+  let idx = 0;
   for (let r = 0; r < rows; r++) {
     for (let c = 0; c < columns; c++) {
       const offsetX = r % 2 !== 0 ? hSpacing / 2 : 0;
@@ -315,88 +365,109 @@ function buildSharedGrid(
       const cy = -height / 2 + r * vSpacing - (margin * hexWidth * 0.5);
 
       const phase = Math.random() * Math.PI * 2 + (Math.random() - 0.5) * tuning.phaseJitter;
-
       const speed = 1 + (Math.random() * 2 - 1) * tuning.freqJitter;
-
       const hue01 = wrap01(baseHue01 + (Math.random() * 2 - 1) * hueJitter01);
 
-      cells.push({
-        idx: indexOf(r, c),
-        row: r,
-        col: c,
-        cx,
-        cy,
-        phase,
-        speed,
-        hue01,
-      });
+      cells.push({ row: r, col: c, cx, cy, phase, speed, hue01 });
+      cellMap.set(`${r},${c}`, idx++);
     }
   }
 
+  // --- PREPARE FILL DATA (Instanced Arrays) ---
+  const count = cells.length;
+  const centers = new Float32Array(count * 3);
+  const phases = new Float32Array(count);
+  const speeds = new Float32Array(count);
+  const hues = new Float32Array(count);
+
+  for (let i = 0; i < count; i++) {
+    const c = cells[i];
+    centers[i * 3 + 0] = c.cx;
+    centers[i * 3 + 1] = c.cy;
+    centers[i * 3 + 2] = -0.5; // Z depth
+
+    phases[i] = c.phase;
+    speeds[i] = c.speed;
+    hues[i] = c.hue01;
+  }
+
+  // Define the Single Hex Geometry (Unit shape centered at 0,0)
   const angles = new Array(6).fill(0).map((_, i) => Math.PI / 6 + (i * Math.PI) / 3);
-  const verts: THREE.Vector3[][] = cells.map(cell =>
-    angles.map(a => new THREE.Vector3(cell.cx + radius * Math.cos(a), cell.cy + radius * Math.sin(a), 0))
-  );
+  const shape = new THREE.Shape();
+  shape.moveTo(Math.cos(angles[0]) * radius, Math.sin(angles[0]) * radius);
+  for (let i = 1; i < 6; i++) shape.lineTo(Math.cos(angles[i]) * radius, Math.sin(angles[i]) * radius);
+  shape.closePath();
+  const fillGeometry = new THREE.ShapeGeometry(shape);
 
-  const sidePairs: [number, number][] = [
-    [5, 0],
-    [0, 1],
-    [4, 5],
-  ];
 
-  const edges: Edge[] = [];
-  for (const cell of cells) {
+  // --- PREPARE LINE DATA ---
+  // We need to construct edges. Each edge connects two vertices.
+  // Vertex 1 gets params from Cell A, Vertex 2 gets params from Cell B.
+  
+  // Calculate vertices for a cell function
+  const getVerts = (cx: number, cy: number) => 
+    angles.map(a => ({ x: cx + radius * Math.cos(a), y: cy + radius * Math.sin(a) }));
+
+  // Connections logic (Right, TopRight, BottomRight) to avoid duplicates
+  const sidePairs = [[5, 0], [0, 1], [4, 5]]; // Indicies of the hex corners to draw
+  
+  const linePositions: number[] = [];
+  const linePhases: number[] = [];
+  const lineSpeeds: number[] = [];
+  const lineHues: number[] = [];
+
+  for (let i = 0; i < count; i++) {
+    const cell = cells[i];
+    const cVerts = getVerts(cell.cx, cell.cy);
+    
+    // Neighbors
     const nE  = { r: cell.row, c: cell.col + 1 };
     const nNE = cell.row % 2 === 0 ? { r: cell.row - 1, c: cell.col } : { r: cell.row - 1, c: cell.col + 1 };
     const nSE = cell.row % 2 === 0 ? { r: cell.row + 1, c: cell.col } : { r: cell.row + 1, c: cell.col + 1 };
     const neighbors = [nE, nNE, nSE];
 
     for (let s = 0; s < 3; s++) {
-      const [i0, i1] = sidePairs[s];
-      const a = verts[cell.idx][i0];
-      const b = verts[cell.idx][i1];
+      // Geometry coords
+      const [vIdx1, vIdx2] = sidePairs[s];
+      const p1 = cVerts[vIdx1];
+      const p2 = cVerts[vIdx2];
 
+      // Logic:
+      // Point 1 is part of the current cell.
+      // Point 2 is part of the current cell, but also connects to the neighbor.
+      // However, for gradients to work like the original, we want:
+      // Vertex A of the line to have props of Cell A.
+      // Vertex B of the line to have props of Cell B (if it exists, else Cell A).
+      
       const n = neighbors[s];
-      const neighborIdx =
-        n.r >= 0 && n.r < rows && n.c >= 0 && n.c < columns ? indexOf(n.r, n.c) : undefined;
+      const nKey = `${n.r},${n.c}`;
+      const hasNeighbor = cellMap.has(nKey);
+      const neighborIdx = hasNeighbor ? cellMap.get(nKey)! : i;
+      const neighborCell = cells[neighborIdx];
 
-      edges.push({ a: a.clone(), b: b.clone(), cellA: cell.idx, cellB: neighborIdx });
+      // Push Vertex A (Start of line) -> Bound to Current Cell
+      linePositions.push(p1.x, p1.y, 0);
+      linePhases.push(cell.phase);
+      lineSpeeds.push(cell.speed);
+      lineHues.push(cell.hue01);
+
+      // Push Vertex B (End of line) -> Bound to Neighbor Cell (or current if edge)
+      linePositions.push(p2.x, p2.y, 0);
+      linePhases.push(neighborCell.phase);
+      lineSpeeds.push(neighborCell.speed);
+      lineHues.push(neighborCell.hue01);
     }
   }
 
-  const positions = new Float32Array(edges.length * 2 * 3);
-  const colors    = new Float32Array(edges.length * 2 * 3);
-  const alphas    = new Float32Array(edges.length * 2);
-  let pi = 0;
-
-  for (const e of edges) {
-    positions[pi++] = e.a.x; positions[pi++] = e.a.y; positions[pi++] = e.a.z;
-    positions[pi++] = e.b.x; positions[pi++] = e.b.y; positions[pi++] = e.b.z;
-  }
-
-  for (let i = 0; i < colors.length; i += 3) {
-    colors[i + 0] = 0.25; colors[i + 1] = 0.30; colors[i + 2] = 0.35;
-  }
-  for (let i = 0; i < alphas.length; i++) {
-    alphas[i] = 0.4;
-  }
-
-  const lineGeometry = new THREE.BufferGeometry();
-  lineGeometry.setAttribute("position", new THREE.BufferAttribute(positions, 3));
-  lineGeometry.setAttribute("color",    new THREE.BufferAttribute(colors, 3));
-  lineGeometry.setAttribute("alpha",    new THREE.BufferAttribute(alphas, 1));
-  lineGeometry.computeBoundingSphere();
-
-  const shape = new THREE.Shape();
-  shape.moveTo(Math.cos(angles[0]), Math.sin(angles[0]));
-  for (let i = 1; i < 6; i++) shape.lineTo(Math.cos(angles[i]), Math.sin(angles[i]));
-  shape.closePath();
-  const unitFill = new THREE.ShapeGeometry(shape);
-
-  return { cells, edges, lineGeometry, fillGeometry: unitFill, radius };
-}
-
-
-function wrap01(n: number) {
-  return (n % 1 + 1) % 1;
+  return {
+    radius,
+    fillGeometry,
+    fillData: { count, centers, phases, speeds, hues },
+    lineData: { 
+      positions: new Float32Array(linePositions),
+      phases: new Float32Array(linePhases),
+      speeds: new Float32Array(lineSpeeds),
+      hues: new Float32Array(lineHues)
+    }
+  };
 }
