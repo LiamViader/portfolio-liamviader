@@ -23,7 +23,7 @@ const BACKGROUND_LAYERS = [
     hue: 240,
     hueJitter: 10,
     s: 50,
-    l: 35,
+    l: 28,
   },
   {
     id: "secondary",

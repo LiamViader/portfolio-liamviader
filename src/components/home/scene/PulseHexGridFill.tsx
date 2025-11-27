@@ -33,12 +33,12 @@ const DEFAULT_TUNING: Required<FillTuning> = {
   fillScaleMin: 0.55,
   fillScaleMax: 0.95,
   fillAlphaMin: 0.10,
-  fillAlphaMax: 0.6,
+  fillAlphaMax: 0.95,
   lineAlphaMin: 0.12,
   lineAlphaMax: 0.82,
   baseFreq: 0.2,
-  freqJitter: 1,
-  phaseJitter: Math.PI,
+  freqJitter: 0.25,
+  phaseJitter: 0.01,
   lightnessAmp: 0.12,
   invertAtMax: true,
 };
@@ -364,7 +364,7 @@ function buildOptimizedGrid(
       const cx = -width / 2 + c * hSpacing + offsetX;
       const cy = -height / 2 + r * vSpacing - (margin * hexWidth * 0.5);
 
-      const phase = Math.random() * Math.PI * 2 + (Math.random()) * tuning.phaseJitter;
+      const phase = Math.random() * Math.PI * 2 + (Math.random() - 0.5) * tuning.phaseJitter;
       const speed = 1 + (Math.random() * 2 - 1) * tuning.freqJitter;
       const hue01 = wrap01(baseHue01 + (Math.random() * 2 - 1) * hueJitter01);
 
