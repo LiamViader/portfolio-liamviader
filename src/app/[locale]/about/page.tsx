@@ -102,10 +102,7 @@ export default function AboutPage() {
   return (
     <PageLayout backgroundLayers={BACKGROUND_LAYERS}>
       <HeroSection personalInfo={PERSONAL_INFO} age={age} />
-      <TrajectorySection
-        academicPath={ACADEMIC_PATH}
-        experiencePath={EXPERIENCE_PATH}
-      />
+      <TechStackSection techStack={TECH_STACK} />
       <PersonalSection />
       <PhilosophySection />
     </PageLayout>

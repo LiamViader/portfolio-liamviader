@@ -109,7 +109,7 @@ export function TechStackSection({ techStack }: TechStackSectionProps) {
                 whileTap={{
                   scale: 0.97,
                 }}
-                className="group flex flex-col items-center gap-1 rounded-2xl border border-white/10 bg-white/5 px-1 py-2 backdrop-blur-sm"
+                className="group flex flex-col items-center gap-1 rounded-2xl border border-white/10 bg-white/5 px-1 py-2"
               >
                 <div className="flex h-20 w-20 items-center justify-center">
                   {tech.iconSrc ? (
