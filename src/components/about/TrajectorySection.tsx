@@ -308,7 +308,8 @@ export function TrajectorySection({
   const locale = useLocale() as Locale;
 
   return (
-    <section className="px-4 pb-20 pt-10 sm:px-6 lg:px-12 lg:pb-24 lg:pt-20 bg-[linear-gradient(to_bottom,_rgb(3,7,18)_0%,rgb(3,7,18)_3%,_rgba(3,7,18,0.2)_40%,_rgb(3,7,18)_97%,_rgb(3,7,18)_100%)]">
+    <section className="relative px-4 pb-20 pt-10 sm:px-6 lg:px-12 lg:pb-24 lg:pt-20 bg-[linear-gradient(to_bottom,_rgb(3,7,18)_0%,rgb(3,7,18)_3%,_rgba(3,7,18,0.3)_40%,_rgb(3,7,18)_97%,_rgb(3,7,18)_100%)]">
+      
       <motion.section
         className="relative"
         initial="hidden"

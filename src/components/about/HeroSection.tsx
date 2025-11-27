@@ -56,7 +56,7 @@ export function HeroSection({ personalInfo, age }: HeroSectionProps) {
   }, [controls]);
 
   return (
-    <section className="relative overflow-hidden px-4 pb-16 pt-28 sm:px-6 lg:px-12 lg:pb-20 lg:pt-34 md:min-h-[950px] bg-[linear-gradient(to_bottom,_rgba(3,7,18,0.05)_0%,_rgba(3,7,18,0.5)_50%,_rgb(3,7,18)_97%,_rgb(3,7,18)_100%)]">
+    <section className="relative overflow-hidden px-4 pb-16 pt-28 sm:px-6 lg:px-12 lg:pb-20 lg:pt-34 md:min-h-[950px] bg-[linear-gradient(to_bottom,_rgba(3,7,18,0.05)_0%,_rgba(3,7,18,0.7)_50%,_rgb(3,7,18)_97%,_rgb(3,7,18)_100%)]">
       <div className="relative mx-auto flex w-full max-w-6xl flex-col gap-10">
         <div className="flex flex-col-reverse gap-8 lg:flex-row items-center lg:gap-16">
           <div className="flex-1 space-y-8">

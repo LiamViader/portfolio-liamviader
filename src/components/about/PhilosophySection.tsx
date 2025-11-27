@@ -52,7 +52,7 @@ export function PhilosophySection() {
   const t = useTranslations("AboutPage");
 
   return (
-    <section className="px-4 pb-24 pt-10 sm:px-6 lg:px-12 lg:pb-32 lg:pt-20 bg-[linear-gradient(to_bottom,_rgb(3,7,18)_0%,rgb(3,7,18)_3%,_rgba(3,7,18,0.5)_40%,_rgba(3,7,18,0.85)_100%)]">
+    <section className="px-4 pb-24 pt-10 sm:px-6 lg:px-12 lg:pb-32 lg:pt-20 bg-[linear-gradient(to_bottom,_rgb(3,7,18)_0%,rgb(3,7,18)_3%,_rgba(3,7,18,0.7)_40%,_rgba(3,7,18,0.85)_100%)]">
       <motion.div
         className="relative"
         initial="hidden"
