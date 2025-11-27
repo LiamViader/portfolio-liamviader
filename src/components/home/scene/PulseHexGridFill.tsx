@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useRef } from "react";
+import { useEffect, useLayoutEffect, useMemo, useRef } from "react";
 import { useFrame, useThree } from "@react-three/fiber";
 import * as THREE from "three";
 import { HexGridParams } from "./PulseHexGridOverlapLine";
@@ -252,7 +252,7 @@ export default function PulseHexGridFill({
   const activeLineMat = useMemo(() => LineShaderMaterial.clone(), []);
 
   // Sync Uniforms
-  useEffect(() => {
+  useLayoutEffect(() => {
     activeFillMat.uniforms.uBaseFreq.value = tuning.baseFreq;
     activeFillMat.uniforms.uFillScaleMin.value = tuning.fillScaleMin;
     activeFillMat.uniforms.uFillScaleMax.value = tuning.fillScaleMax;
@@ -270,7 +270,7 @@ export default function PulseHexGridFill({
     activeLineMat.uniforms.uLightnessAmp.value = tuning.lightnessAmp;
     activeLineMat.uniforms.uSaturation.value = params.s / 100;
     activeLineMat.uniforms.uInvert.value = tuning.invertAtMax ? 1.0 : 0.0;
-  }, [tuning, params, activeFillMat, activeLineMat]);
+  }, [tuning, params.l, params.s, activeFillMat, activeLineMat]);
 
   // Animation Loop (Zero CPU logic, just uniform update)
   useFrame(({ clock }) => {
