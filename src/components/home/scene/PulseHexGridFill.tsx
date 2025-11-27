@@ -43,9 +43,7 @@ const DEFAULT_TUNING: Required<FillTuning> = {
   invertAtMax: true,
 };
 
-// --- SHADERS ---
 
-// Helper function for HSL to RGB inside shader
 const hslChunk = /* glsl */`
   vec3 hsl2rgb(vec3 c) {
     vec3 rgb = clamp(abs(mod(c.x * 6.0 + vec3(0.0, 4.0, 2.0), 6.0) - 3.0) - 1.0, 0.0, 1.0);
@@ -53,10 +51,7 @@ const hslChunk = /* glsl */`
   }
 `;
 
-/**
- * Shader for the Instanced Hex Fills
- * Handles pulsing size, color, and opacity entirely on GPU.
- */
+
 const FillShaderMaterial = new THREE.ShaderMaterial({
   uniforms: {
     uTime: { value: 0 },
@@ -135,10 +130,6 @@ const FillShaderMaterial = new THREE.ShaderMaterial({
   toneMapped: false,
 });
 
-/**
- * Shader for the Lines
- * Interpolates pulse between two connected cells per vertex.
- */
 const LineShaderMaterial = new THREE.ShaderMaterial({
   uniforms: {
     uTime: { value: 0 },
@@ -209,8 +200,6 @@ const LineShaderMaterial = new THREE.ShaderMaterial({
 });
 
 
-// --- COMPONENT ---
-
 export default function PulseHexGridFill({
   params,
   tuning: userTuning,
@@ -224,7 +213,6 @@ export default function PulseHexGridFill({
   const width = size.width / dpr;
   const height = size.height / dpr;
 
-  // Camera setup
   useEffect(() => {
     if (camera instanceof THREE.OrthographicCamera) {
       camera.left = -width / 2;
@@ -235,23 +223,18 @@ export default function PulseHexGridFill({
     }
   }, [camera, width, height]);
 
-  // Build Geometry Data once
   const { fillData, lineData, fillGeometry, radius } = useMemo(
     () => buildOptimizedGrid(width, height, params, tuning),
-    // eslint-disable-next-line react-hooks/exhaustive-deps
     [width, height, params.pixelsPerHex]
   );
 
-  // References to materials to update uniforms
   const fillMatRef = useRef<THREE.ShaderMaterial>(null);
   const lineMatRef = useRef<THREE.ShaderMaterial>(null);
   const groupRef = useRef<THREE.Group>(null);
 
-  // Clone materials per instance to avoid conflicts if used multiple times
   const activeFillMat = useMemo(() => FillShaderMaterial.clone(), []);
   const activeLineMat = useMemo(() => LineShaderMaterial.clone(), []);
 
-  // Sync Uniforms
   useLayoutEffect(() => {
     activeFillMat.uniforms.uBaseFreq.value = tuning.baseFreq;
     activeFillMat.uniforms.uFillScaleMin.value = tuning.fillScaleMin;
@@ -289,26 +272,18 @@ export default function PulseHexGridFill({
 
   return (
     <group ref={groupRef}>
-      {/* FILL MESHES (Instanced) */}
       <instancedMesh 
         args={[fillGeometry, activeFillMat, fillData.count]}
         frustumCulled={false}
       >
-        {/* NOTA: Usamos "geometry-attributes-nombre" porque el padre es la Mesh, 
-            pero queremos adjuntar el atributo a la geometría de esa Mesh.
-        */}
         <instancedBufferAttribute attach="geometry-attributes-aCenter" args={[fillData.centers, 3]} />
         <instancedBufferAttribute attach="geometry-attributes-aPhase" args={[fillData.phases, 1]} />
         <instancedBufferAttribute attach="geometry-attributes-aSpeed" args={[fillData.speeds, 1]} />
         <instancedBufferAttribute attach="geometry-attributes-aHue" args={[fillData.hues, 1]} />
       </instancedMesh>
 
-      {/* LINE MESHES (Single LineSegments) */}
       <lineSegments material={activeLineMat}>
         <bufferGeometry>
-          {/* SOLUCIÓN DEL ERROR:
-             Usamos args={[array, itemSize]} en lugar de pasar las props sueltas.
-          */}
           <bufferAttribute attach="attributes-position" args={[lineData.positions, 3]} />
           <bufferAttribute attach="attributes-aPhase" args={[lineData.phases, 1]} />
           <bufferAttribute attach="attributes-aSpeed" args={[lineData.speeds, 1]} />
@@ -319,7 +294,6 @@ export default function PulseHexGridFill({
   );
 }
 
-// --- DATA GENERATION (Run once) ---
 
 function buildOptimizedGrid(
   width: number,
@@ -336,7 +310,6 @@ function buildOptimizedGrid(
   const columns = Math.ceil(width / hSpacing) + margin;
   const rows = Math.ceil(height / vSpacing) + margin;
 
-  // Basic Cell Data container
   type CellData = {
     row: number;
     col: number;
@@ -348,13 +321,11 @@ function buildOptimizedGrid(
   };
   
   const cells: CellData[] = [];
-  // Mapping 'row,col' string to index for edge building
   const cellMap = new Map<string, number>();
 
   const baseHue01 = (((p.hue % 360) + 360) % 360) / 360;
   const hueJitter01 = Math.abs(p.hueJitter) / 360;
 
-  // Wrapper to keep 0..1 range
   const wrap01 = (n: number) => (n % 1 + 1) % 1;
 
   let idx = 0;
@@ -373,7 +344,6 @@ function buildOptimizedGrid(
     }
   }
 
-  // --- PREPARE FILL DATA (Instanced Arrays) ---
   const count = cells.length;
   const centers = new Float32Array(count * 3);
   const phases = new Float32Array(count);
@@ -384,14 +354,13 @@ function buildOptimizedGrid(
     const c = cells[i];
     centers[i * 3 + 0] = c.cx;
     centers[i * 3 + 1] = c.cy;
-    centers[i * 3 + 2] = -0.5; // Z depth
+    centers[i * 3 + 2] = -0.5;
 
     phases[i] = c.phase;
     speeds[i] = c.speed;
     hues[i] = c.hue01;
   }
 
-  // Define the Single Hex Geometry (Unit shape centered at 0,0)
   const angles = new Array(6).fill(0).map((_, i) => Math.PI / 6 + (i * Math.PI) / 3);
   const shape = new THREE.Shape();
   shape.moveTo(Math.cos(angles[0]) * radius, Math.sin(angles[0]) * radius);
@@ -400,16 +369,10 @@ function buildOptimizedGrid(
   const fillGeometry = new THREE.ShapeGeometry(shape);
 
 
-  // --- PREPARE LINE DATA ---
-  // We need to construct edges. Each edge connects two vertices.
-  // Vertex 1 gets params from Cell A, Vertex 2 gets params from Cell B.
-  
-  // Calculate vertices for a cell function
   const getVerts = (cx: number, cy: number) => 
     angles.map(a => ({ x: cx + radius * Math.cos(a), y: cy + radius * Math.sin(a) }));
 
-  // Connections logic (Right, TopRight, BottomRight) to avoid duplicates
-  const sidePairs = [[5, 0], [0, 1], [4, 5]]; // Indicies of the hex corners to draw
+  const sidePairs = [[5, 0], [0, 1], [4, 5]];
   
   const linePositions: number[] = [];
   const linePhases: number[] = [];
@@ -420,24 +383,16 @@ function buildOptimizedGrid(
     const cell = cells[i];
     const cVerts = getVerts(cell.cx, cell.cy);
     
-    // Neighbors
     const nE  = { r: cell.row, c: cell.col + 1 };
     const nNE = cell.row % 2 === 0 ? { r: cell.row - 1, c: cell.col } : { r: cell.row - 1, c: cell.col + 1 };
     const nSE = cell.row % 2 === 0 ? { r: cell.row + 1, c: cell.col } : { r: cell.row + 1, c: cell.col + 1 };
     const neighbors = [nE, nNE, nSE];
 
     for (let s = 0; s < 3; s++) {
-      // Geometry coords
       const [vIdx1, vIdx2] = sidePairs[s];
       const p1 = cVerts[vIdx1];
       const p2 = cVerts[vIdx2];
 
-      // Logic:
-      // Point 1 is part of the current cell.
-      // Point 2 is part of the current cell, but also connects to the neighbor.
-      // However, for gradients to work like the original, we want:
-      // Vertex A of the line to have props of Cell A.
-      // Vertex B of the line to have props of Cell B (if it exists, else Cell A).
       
       const n = neighbors[s];
       const nKey = `${n.r},${n.c}`;
@@ -445,13 +400,11 @@ function buildOptimizedGrid(
       const neighborIdx = hasNeighbor ? cellMap.get(nKey)! : i;
       const neighborCell = cells[neighborIdx];
 
-      // Push Vertex A (Start of line) -> Bound to Current Cell
       linePositions.push(p1.x, p1.y, 0);
       linePhases.push(cell.phase);
       lineSpeeds.push(cell.speed);
       lineHues.push(cell.hue01);
 
-      // Push Vertex B (End of line) -> Bound to Neighbor Cell (or current if edge)
       linePositions.push(p2.x, p2.y, 0);
       linePhases.push(neighborCell.phase);
       lineSpeeds.push(neighborCell.speed);

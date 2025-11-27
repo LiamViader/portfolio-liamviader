@@ -28,14 +28,6 @@ const BACKGROUND_LAYERS = [
     s: 50,
     l: 30,
   },
-  {
-    id: "default",
-    pixelsPerHex: 40,
-    hue: 240,
-    hueJitter: 30,
-    s: 60,
-    l: 0,
-  },
 ];
 
 export default function Home() {
