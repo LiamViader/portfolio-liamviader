@@ -52,44 +52,46 @@ export function PhilosophySection() {
   const t = useTranslations("AboutPage");
 
   return (
-    <motion.section
-      className="relative px-4 pb-24 pt-10 sm:px-6 lg:px-12 lg:pb-32 lg:pt-20 bg-[linear-gradient(to_bottom,_rgb(3,7,18)_0%,rgb(3,7,18)_3%,_rgba(3,7,18,0.5)_40%,_rgba(3,7,18,0.85)_100%)]"
-      initial="hidden"
-      whileInView="show"
-      viewport={{ once: true, amount: 0.25 }}
-      variants={sectionVariants}
-    >
+    <section className="px-4 pb-24 pt-10 sm:px-6 lg:px-12 lg:pb-32 lg:pt-20 bg-[linear-gradient(to_bottom,_rgb(3,7,18)_0%,rgb(3,7,18)_3%,_rgba(3,7,18,0.5)_40%,_rgba(3,7,18,0.85)_100%)]">
+      <motion.div
+        className="relative"
+        initial="hidden"
+        whileInView="show"
+        viewport={{ once: true, amount: 0.25 }}
+        variants={sectionVariants}
+      >
 
-      <div className="relative mx-auto max-w-6xl space-y-8">
-        <motion.div className="space-y-2 max-w-3xl" variants={headerGroup}>
-          <motion.h2
-            className="text-2xl font-semibold text-white sm:text-3xl"
-            variants={headerItem}
-          >
-            {t("philosophySection.title")}
-          </motion.h2>
-          <motion.p
-            className="text-sm text-white/70 sm:text-base leading-relaxed"
-            variants={headerItem}
-          >
-            {t("philosophySection.subtitle")}
-          </motion.p>
-        </motion.div>
+        <div className="relative mx-auto max-w-6xl space-y-8">
+          <motion.div className="space-y-2 max-w-3xl" variants={headerGroup}>
+            <motion.h2
+              className="text-2xl font-semibold text-white sm:text-3xl"
+              variants={headerItem}
+            >
+              {t("philosophySection.title")}
+            </motion.h2>
+            <motion.p
+              className="text-sm text-white/70 sm:text-base leading-relaxed"
+              variants={headerItem}
+            >
+              {t("philosophySection.subtitle")}
+            </motion.p>
+          </motion.div>
 
-        <motion.ul
-          className="grid gap-4 md:grid-cols-2 lg:grid-cols-4"
-          variants={listVariants}
-        >
-          {PHILOSOPHY_ITEMS.map((item) => (
-            <InfoCard
-              key={item.titleKey}
-              title={t(item.titleKey)}
-              info={t(item.descriptionKey)}
-              icon={item.icon}
-            />
-          ))}
-        </motion.ul>
-      </div>
-    </motion.section>
+          <motion.ul
+            className="grid gap-4 md:grid-cols-2 lg:grid-cols-4"
+            variants={listVariants}
+          >
+            {PHILOSOPHY_ITEMS.map((item) => (
+              <InfoCard
+                key={item.titleKey}
+                title={t(item.titleKey)}
+                info={t(item.descriptionKey)}
+                icon={item.icon}
+              />
+            ))}
+          </motion.ul>
+        </div>
+      </motion.div>
+    </section>
   );
 }

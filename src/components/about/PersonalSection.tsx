@@ -50,62 +50,63 @@ export function PersonalSection() {
   const t = useTranslations("AboutPage.personalSection");
 
   return (
-    <motion.section
-      className="relative px-4 pb-20 pt-10 sm:px-6 lg:px-12 lg:pb-24 lg:pt-20"
-      initial="hidden"
-      whileInView="show"
-      viewport={{ once: true, amount: 0.25 }}
-      variants={sectionVariants}
-    >
-      <div className="absolute inset-0 bg-gradient-to-b from-gray-950 via-gray-950 to-gray-950" />
+    <section className="bg-gray-950 px-4 pb-20 pt-10 sm:px-6 lg:px-12 lg:pb-24 lg:pt-20">
+      <motion.div
+        className="relative"
+        initial="hidden"
+        whileInView="show"
+        viewport={{ once: true, amount: 0.25 }}
+        variants={sectionVariants}
+      >
 
-      <div className="relative mx-auto max-w-[1400px] ">
-        <motion.h2
-          className="text-2xl font-semibold text-white sm:text-3xl"
-          variants={textItem}
-        >
-          {t("title")}
-        </motion.h2>
-        <div className="flex flex-col gap-10 lg:flex-row lg:items-center">
-          {/* Bloque de texto: entra con fade+stagger de cada elemento */}
-          <motion.div className="flex-1 space-y-4" variants={blockFadeUp}>
-            <motion.div variants={textGroup}>
-              {PARAGRAPH_KEYS.map((paragraphKey) => (
-                <motion.p
-                  key={paragraphKey}
-                  className="text-sm text-white/70 sm:text-base leading-relaxed pt-3 first:pt-3 [&:not(:first-child)]:pt-2"
-                  variants={textItem}
-                >
-                  {t(paragraphKey)}
-                </motion.p>
-              ))}
+        <div className="relative mx-auto max-w-[1400px] ">
+          <motion.h2
+            className="text-2xl font-semibold text-white sm:text-3xl"
+            variants={textItem}
+          >
+            {t("title")}
+          </motion.h2>
+          <div className="flex flex-col gap-10 lg:flex-row lg:items-center">
+            {/* Bloque de texto: entra con fade+stagger de cada elemento */}
+            <motion.div className="flex-1 space-y-4" variants={blockFadeUp}>
+              <motion.div variants={textGroup}>
+                {PARAGRAPH_KEYS.map((paragraphKey) => (
+                  <motion.p
+                    key={paragraphKey}
+                    className="text-sm text-white/70 sm:text-base leading-relaxed pt-3 first:pt-3 [&:not(:first-child)]:pt-2"
+                    variants={textItem}
+                  >
+                    {t(paragraphKey)}
+                  </motion.p>
+                ))}
+              </motion.div>
             </motion.div>
-          </motion.div>
 
-          <motion.div className="flex-1" variants={blockFadeUp}>
-            <PersonalGallery
-              photos={[
-                { src: "/images/personal_gallery/cala_arenys.jpg"},
-                { src: "/images/personal_gallery/neo_taula.jpg"},
-                { src: "/images/personal_gallery/llums_cel_alps.jpg"},
-                { src: "/images/personal_gallery/landscape_alps.jpg"},
-                { src: "/images/personal_gallery/posta_sol_pais_vasc.jpg"},
-                { src: "/images/personal_gallery/emporda_original.jpg"},
-                { src: "/images/personal_gallery/pineta_liam_croped.jpg"},
-                { src: "/images/personal_gallery/iris_camps.jpg"},
-                { src: "/images/personal_gallery/llibres.jpg"},
+            <motion.div className="flex-1" variants={blockFadeUp}>
+              <PersonalGallery
+                photos={[
+                  { src: "/images/personal_gallery/cala_arenys.jpg"},
+                  { src: "/images/personal_gallery/neo_taula.jpg"},
+                  { src: "/images/personal_gallery/llums_cel_alps.jpg"},
+                  { src: "/images/personal_gallery/landscape_alps.jpg"},
+                  { src: "/images/personal_gallery/posta_sol_pais_vasc.jpg"},
+                  { src: "/images/personal_gallery/emporda_original.jpg"},
+                  { src: "/images/personal_gallery/pineta_liam_croped.jpg"},
+                  { src: "/images/personal_gallery/iris_camps.jpg"},
+                  { src: "/images/personal_gallery/llibres.jpg"},
 
-              ]}
-            />
-            <motion.p
-              className="mt-3 text-xs text-white/50 text-center"
-              variants={textItem}
-            >
-              {t("galleryHint")}
-            </motion.p>
-          </motion.div>
+                ]}
+              />
+              <motion.p
+                className="mt-3 text-xs text-white/50 text-center"
+                variants={textItem}
+              >
+                {t("galleryHint")}
+              </motion.p>
+            </motion.div>
+          </div>
         </div>
-      </div>
-    </motion.section>
+      </motion.div>
+    </section>
   );
 }

@@ -308,61 +308,63 @@ export function TrajectorySection({
   const locale = useLocale() as Locale;
 
   return (
-    <motion.section
-      className="relative px-4 pb-20 pt-10 sm:px-6 lg:px-12 lg:pb-24 lg:pt-20 bg-[linear-gradient(to_bottom,_rgb(3,7,18)_0%,rgb(3,7,18)_3%,_rgba(3,7,18,0.2)_40%,_rgb(3,7,18)_97%,_rgb(3,7,18)_100%)]"
-      initial="hidden"
-      whileInView="show"
-      viewport={{ once: true, amount: 0.15 }}
-    >
-
-      <motion.div
-        className="relative mx-auto max-w-6xl space-y-10"
-        variants={pathSectionContainerVariants}
+    <section className="px-4 pb-20 pt-10 sm:px-6 lg:px-12 lg:pb-24 lg:pt-20 bg-[linear-gradient(to_bottom,_rgb(3,7,18)_0%,rgb(3,7,18)_3%,_rgba(3,7,18,0.2)_40%,_rgb(3,7,18)_97%,_rgb(3,7,18)_100%)]">
+      <motion.section
+        className="relative"
+        initial="hidden"
+        whileInView="show"
+        viewport={{ once: true, amount: 0.15 }}
       >
-        <motion.div className="space-y-3" variants={pathHeaderVariants}>
-          <h2 className="text-2xl font-semibold text-white sm:text-3xl">
-            {t("title")}
-          </h2>
-          <p className="text-sm max-w-4xl text-white/70 sm:text-base">
-            {t("description")}
-          </p>
-        </motion.div>
 
         <motion.div
-          className="grid gap-10 lg:grid-cols-2"
-          variants={pathColumnsWrapperVariants}
+          className="relative mx-auto max-w-6xl space-y-10"
+          variants={pathSectionContainerVariants}
         >
-          <motion.div className="space-y-4" variants={pathColumnVariants}>
-            <motion.div
-              className="flex items-center gap-2 text-[13px] font-medium uppercase tracking-[0.25em] text-white/60"
-              variants={pathColumnHeaderVariants}
-            >
-              <GraduationCap className="h-4 w-4 text-sky-300" />
-              <span>{t("academicTitle")}</span>
-            </motion.div>
-            <Timeline
-              items={academicPath}
-              icon={<GraduationCap className="h-3.5 w-3.5 text-sky-200" />}
-              locale={locale}
-            />
+          <motion.div className="space-y-3" variants={pathHeaderVariants}>
+            <h2 className="text-2xl font-semibold text-white sm:text-3xl">
+              {t("title")}
+            </h2>
+            <p className="text-sm max-w-4xl text-white/70 sm:text-base">
+              {t("description")}
+            </p>
           </motion.div>
 
-          <motion.div className="space-y-4" variants={pathColumnVariants}>
-            <motion.div
-              className="flex items-center gap-2 text-[13px] font-medium uppercase tracking-[0.25em] text-white/60"
-              variants={pathColumnHeaderVariants}
-            >
-              <Briefcase className="h-4 w-4 text-sky-300" />
-              <span>{t("experienceTitle")}</span>
+          <motion.div
+            className="grid gap-10 lg:grid-cols-2"
+            variants={pathColumnsWrapperVariants}
+          >
+            <motion.div className="space-y-4" variants={pathColumnVariants}>
+              <motion.div
+                className="flex items-center gap-2 text-[13px] font-medium uppercase tracking-[0.25em] text-white/60"
+                variants={pathColumnHeaderVariants}
+              >
+                <GraduationCap className="h-4 w-4 text-sky-300" />
+                <span>{t("academicTitle")}</span>
+              </motion.div>
+              <Timeline
+                items={academicPath}
+                icon={<GraduationCap className="h-3.5 w-3.5 text-sky-200" />}
+                locale={locale}
+              />
             </motion.div>
-            <Timeline
-              items={experiencePath}
-              icon={<Briefcase className="h-3.5 w-3.5 text-sky-200" />}
-              locale={locale}
-            />
+
+            <motion.div className="space-y-4" variants={pathColumnVariants}>
+              <motion.div
+                className="flex items-center gap-2 text-[13px] font-medium uppercase tracking-[0.25em] text-white/60"
+                variants={pathColumnHeaderVariants}
+              >
+                <Briefcase className="h-4 w-4 text-sky-300" />
+                <span>{t("experienceTitle")}</span>
+              </motion.div>
+              <Timeline
+                items={experiencePath}
+                icon={<Briefcase className="h-3.5 w-3.5 text-sky-200" />}
+                locale={locale}
+              />
+            </motion.div>
           </motion.div>
         </motion.div>
-      </motion.div>
-    </motion.section>
+      </motion.section>
+    </section>
   );
 }

@@ -220,7 +220,7 @@ export function FeaturedCarouselCard({
   const visibleTags = allTags.slice(0, visibleCount);
 
   return (
-    <motion.div
+    <motion.article
       ref={cardRef}
       variants={cardVariants}
       initial="hidden"
@@ -353,6 +353,6 @@ export function FeaturedCarouselCard({
           )}
         </div>
       </div>
-    </motion.div>
+    </motion.article>
   );
 }

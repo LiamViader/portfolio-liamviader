@@ -64,82 +64,83 @@ export function TechStackSection({ techStack }: TechStackSectionProps) {
   const t = useTranslations("AboutPage.techStack");
 
   return (
-    <motion.section
-      className="relative px-4 pb-20 pt-10 sm:px-6 lg:px-12 lg:pb-24 lg:pt-16 mx-0"
-      initial="hidden"
-      whileInView="show"
-      viewport={{ once: true, amount: 0.2 }}
-    >
-      <div className="absolute inset-0 bg-gradient-to-b from-gray-950 via-gray-950 to-gray-950" />
-
+    <section className="px-4 pb-20 pt-10 sm:px-6 lg:px-12 lg:pb-24 lg:pt-16 mx-0 bg-gray-950">
       <motion.div
-        className="relative mx-auto max-w-[1400px] space-y-8"
-        variants={techSectionContainerVariants}
+        className="relative "
+        initial="hidden"
+        whileInView="show"
+        viewport={{ once: true, amount: 0.2 }}
       >
-        {/* Título + subtítulo */}
-        <motion.div
-          className="flex flex-col gap-3 lg:flex-row lg:items-end lg:justify-between"
-          variants={techTextVariants}
-        >
-            <div>
-              <h2 className="text-2xl font-semibold text-white sm:text-3xl">
-                {t("title")}
-              </h2>
-              <p className="mt-2 max-w-5xl text-sm text-pretty text-white/70 sm:text-base">
-                {t("description")}
-              </p>
-            </div>
-          </motion.div>
 
         <motion.div
-          className="grid gap-4 grid-cols-[repeat(auto-fit,minmax(90px,1fr))]"
-          variants={techGridVariants}
+          className="relative mx-auto max-w-[1400px] space-y-8"
+          variants={techSectionContainerVariants}
         >
-          {techStack.map((tech) => (
-            <motion.div
-              key={tech.id}
-              variants={techItemVariants}
-              whileHover={{
-                y: -6,
-                boxShadow: "0 0px 30px 1px rgba(56,189,248,0.40)",
-                transition: { duration: 0.2, ease: "easeOut" },
-                borderColor: "rgba(56,189,248,0.60)",
-                backgroundColor: "rgba(56,189,248,0.10)",
-              }}
-              whileTap={{
-                scale: 0.97,
-              }}
-              className="group flex flex-col items-center gap-1 rounded-2xl border border-white/10 bg-white/5 px-1 py-2 backdrop-blur-sm"
-            >
-              <div className="flex h-20 w-20 items-center justify-center">
-                {tech.iconSrc ? (
-                  <Image
-                    src={tech.iconSrc}
-                    alt={tech.label}
-                    width={40}
-                    height={40}
-                    className="object-contain saturate-90"
-                  />
-                ) : null}
-              </div>
-              <p className="text-xs text-white/70 text-center">
-                {tech.label}
-              </p>
-            </motion.div>
-          ))}
-        </motion.div>
-
-          <motion.p
-            className="mt-3 text-xs text-white/55 sm:text-[13px] leading-relaxed"
+          {/* Título + subtítulo */}
+          <motion.div
+            className="flex flex-col gap-3 lg:flex-row lg:items-end lg:justify-between"
             variants={techTextVariants}
           >
-            {t.rich("note", {
-              highlight: (chunks) => (
-                <span className="font-medium text-sky-300/60">{chunks}</span>
-              ),
-            })}
-          </motion.p>
+              <div>
+                <h2 className="text-2xl font-semibold text-white sm:text-3xl">
+                  {t("title")}
+                </h2>
+                <p className="mt-2 max-w-5xl text-sm text-pretty text-white/70 sm:text-base">
+                  {t("description")}
+                </p>
+              </div>
+            </motion.div>
+
+          <motion.div
+            className="grid gap-4 grid-cols-[repeat(auto-fit,minmax(90px,1fr))]"
+            variants={techGridVariants}
+          >
+            {techStack.map((tech) => (
+              <motion.div
+                key={tech.id}
+                variants={techItemVariants}
+                whileHover={{
+                  y: -6,
+                  boxShadow: "0 0px 30px 1px rgba(56,189,248,0.40)",
+                  transition: { duration: 0.2, ease: "easeOut" },
+                  borderColor: "rgba(56,189,248,0.60)",
+                  backgroundColor: "rgba(56,189,248,0.10)",
+                }}
+                whileTap={{
+                  scale: 0.97,
+                }}
+                className="group flex flex-col items-center gap-1 rounded-2xl border border-white/10 bg-white/5 px-1 py-2 backdrop-blur-sm"
+              >
+                <div className="flex h-20 w-20 items-center justify-center">
+                  {tech.iconSrc ? (
+                    <Image
+                      src={tech.iconSrc}
+                      alt={tech.label}
+                      width={40}
+                      height={40}
+                      className="object-contain saturate-90"
+                    />
+                  ) : null}
+                </div>
+                <p className="text-xs text-white/70 text-center">
+                  {tech.label}
+                </p>
+              </motion.div>
+            ))}
+          </motion.div>
+
+            <motion.p
+              className="mt-3 text-xs text-white/55 sm:text-[13px] leading-relaxed"
+              variants={techTextVariants}
+            >
+              {t.rich("note", {
+                highlight: (chunks) => (
+                  <span className="font-medium text-sky-300/60">{chunks}</span>
+                ),
+              })}
+            </motion.p>
+          </motion.div>
         </motion.div>
-      </motion.section>
+      </section>
     );
   }

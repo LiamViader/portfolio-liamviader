@@ -161,7 +161,7 @@ export default function ProjectCard({ project, onSelect, isHidden = false }: Pro
   const visibleTags = allTags.slice(0, visibleCount);
 
   return (
-    <motion.div
+    <motion.article
       ref={cardRef}
       role="button"
       tabIndex={0}
@@ -255,6 +255,6 @@ export default function ProjectCard({ project, onSelect, isHidden = false }: Pro
           </div>
         </div>
       </motion.div>
-    </motion.div>
+    </motion.article>
   );
 }
