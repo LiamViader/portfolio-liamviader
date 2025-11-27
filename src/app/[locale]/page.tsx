@@ -20,13 +20,13 @@ const icons = {
 
 const BACKGROUND_LAYERS = [
   {
-    id: "fill",
+    id: "primary",
     gridType: "Fill" as const,
     pixelsPerHex: 40,
-    s: 75,
     hue: 240,
-    hueJitter: 5,
-    l: 0,
+    hueJitter: 10,
+    s: 50,
+    l: 32,
   },
   {
     id: "default",

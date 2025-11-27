@@ -94,7 +94,7 @@ export default function PulseHexGridCanvas({
     hue: hue ?? 200,                  // base hue (0..360)
     hueJitter: hueJitter ?? 8,        // random hue variation ±degrees
     s: s ?? 60,                       // saturation %
-    l: l ?? 58,                       // lightness %
+    l: l ?? 0,                       // lightness %
   };
 
   const trailParams = gridType === 'Trails' ? {

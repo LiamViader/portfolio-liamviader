@@ -119,7 +119,7 @@ const CONTACT_BACKGROUND_LAYERS = [
     pixelsPerHex: 30,
     hue: 250,
     s: 100,
-    l: 5,
+    l: 8,
     hueJitter: 0,
     fillTuning: { fillAlphaMax: 0.2, fillAlphaMin: 0, lineAlphaMax: 1, lineAlphaMin: 0.8 },
   },
