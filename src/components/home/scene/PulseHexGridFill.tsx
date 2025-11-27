@@ -36,8 +36,8 @@ const DEFAULT_TUNING: Required<FillTuning> = {
   fillAlphaMax: 0.95,
   lineAlphaMin: 0.12,
   lineAlphaMax: 0.82,
-  baseFreq: 0.2,
-  freqJitter: 0.9,
+  baseFreq: 0.25,
+  freqJitter: 0.3,
   phaseJitter: 0.01,
   lightnessAmp: 0.12,
   invertAtMax: true,
@@ -207,7 +207,11 @@ export default function PulseHexGridFill({
   params: HexGridParams;
   tuning?: FillTuning;
 }) {
-  const tuning = { ...DEFAULT_TUNING, ...(userTuning ?? {}) };
+  const tuning = useMemo<Required<FillTuning>>(
+    () => ({ ...DEFAULT_TUNING, ...(userTuning ?? {}) }),
+    [userTuning]
+  );
+
   const { size, camera, gl } = useThree();
   const dpr = gl.getPixelRatio();
   const width = size.width / dpr;
@@ -223,13 +227,11 @@ export default function PulseHexGridFill({
     }
   }, [camera, width, height]);
 
-  const { fillData, lineData, fillGeometry, radius } = useMemo(
+  const { fillData, lineData, fillGeometry } = useMemo(
     () => buildOptimizedGrid(width, height, params, tuning),
-    [width, height, params.pixelsPerHex]
+    [width, height, params.pixelsPerHex, tuning]
   );
 
-  const fillMatRef = useRef<THREE.ShaderMaterial>(null);
-  const lineMatRef = useRef<THREE.ShaderMaterial>(null);
   const groupRef = useRef<THREE.Group>(null);
 
   const activeFillMat = useMemo(() => FillShaderMaterial.clone(), []);
@@ -255,17 +257,14 @@ export default function PulseHexGridFill({
     activeLineMat.uniforms.uInvert.value = tuning.invertAtMax ? 1.0 : 0.0;
   }, [tuning, params.l, params.s, activeFillMat, activeLineMat]);
 
-  // Animation Loop (Zero CPU logic, just uniform update)
   useFrame(({ clock }) => {
     const t = clock.getElapsedTime();
 
-    // Group movement
     if (groupRef.current) {
       groupRef.current.rotation.z = Math.sin(t * 0.18) * 0.04;
       groupRef.current.position.z = Math.sin(t * 0.22) * 2.5;
     }
 
-    // Update time uniform
     activeFillMat.uniforms.uTime.value = t;
     activeLineMat.uniforms.uTime.value = t;
   });

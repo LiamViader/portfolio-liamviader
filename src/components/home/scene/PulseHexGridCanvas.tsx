@@ -54,10 +54,10 @@ function renderGrid(finalGridType: GridType, mergedParams: HexGridParams, trailP
         <HexGridStrata
           params={mergedParams}
           options={{
-            mode: "rows",      // "rows" | "cols" | "diagA" | "diagB"
+            mode: "diagA",      // "rows" | "cols" | "diagA" | "diagB"
             amplitude: 5,     // desplazamiento máximo en px
-            speed: 0.1,       // ciclos/seg
-            phaseStep: 0.2,    // desfase por estrato
+            speed: 0.25,       // ciclos/seg
+            phaseStep: 0,    // desfase por estrato
           }}
         />
       );
