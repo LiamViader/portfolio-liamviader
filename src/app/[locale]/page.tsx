@@ -10,7 +10,7 @@ import { HeroSection } from "@/components/home/HeroSection";
 import { FeaturedProjectsHomeSection } from "@/components/home/FeaturedProjectsHomeSection";
 import { BASE_DELAY_ENTRANCE } from "@/utils/constants";
 import PageLayout from "@/components/layout/PageLayout";
-
+import PulseHexGridCanvas from "@/components/home/scene/PulseHexGridCanvas";
 
 const icons = {
   BrainCircuit,
@@ -46,11 +46,12 @@ export default function Home() {
 
   const metricKeys: Array<"ai" | "videogames" | "system_design"> = ["ai", "videogames", "system_design"];
   return (
-    <PageLayout
-      backgroundLayers={BACKGROUND_LAYERS}
-    >
-      <section className="relative overflow-hidden px-4 md:px-8 pb-6 md:pb-14 pt-28 lg:pt-34 lg:pb-24 bg-[linear-gradient(to_bottom,_rgba(3,7,18,0.1)_0%,_rgba(3,7,18,0.7)_50%,_rgb(3,7,18)_97%,_rgb(3,7,18)_100%)]">
-
+    <PageLayout>
+      <section className="relative overflow-hidden px-4 md:px-8 pb-6 md:pb-14 pt-28 lg:pt-34 lg:pb-24">
+        <PulseHexGridCanvas  gridType="Fill" s={50} l={30} hue={240} hueJitter={10} pixelsPerHex={40}/>
+        <PulseHexGridCanvas  gridType="OverlapLine" s={60} l={0} hue={240} hueJitter={30} pixelsPerHex={40}/>
+        <div className="inset-0 absolute bg-[linear-gradient(to_bottom,_rgba(3,7,18,0.1)_0%,_rgba(3,7,18,0.7)_50%,_rgb(3,7,18)_97%,_rgb(3,7,18)_100%)]"/>
+        
         <HeroSection 
           title={t.rich("hero.title", {
             highlight: (chunks) => <span className="text-sky-300">{chunks}</span>,
@@ -99,7 +100,7 @@ export default function Home() {
           </motion.ul>
         </div>
       </section>
-      <section className="relative px-2 md:px-6 pt-0 sm:pt-10 md:pt-20 lg:pt-22 xl:pt-28 pb-24 bg-[linear-gradient(to_bottom,_rgb(3,7,18)_0%,_rgb(3,7,18)_10%,_rgba(3,7,18,0.15)_50%,_rgb(3,7,18)_100%)]">
+      <section className="relative px-2 md:px-6 pt-0 sm:pt-10 md:pt-20 lg:pt-22 xl:pt-28 pb-24 bg-[linear-gradient(to_bottom,_rgb(3,7,18)_0%,_rgb(3,7,18)_3%,_rgba(3,7,18,0.3)_50%,_rgb(3,7,18)_100%)]">
 
         <FeaturedProjectsHomeSection title={t("projects.title")} description={t("projects.description")} contactButtonText={t("hero.ctaContact")} projectsButtonText={t("projects.viewAll")} projects={projects}/>
       </section>
