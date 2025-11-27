@@ -8,6 +8,8 @@ import { useLocale, useTranslations } from "next-intl";
 import { type Locale } from "@/i18n/routing";
 import { type TimelineItem } from "./types";
 
+import PulseHexGridCanvas from "../home/scene/PulseHexGridCanvas";
+
 const pathSectionContainerVariants: Variants = {
   hidden: { y: 30 },
   show: {
@@ -309,7 +311,8 @@ export function TrajectorySection({
 
   return (
     <section className="relative px-4 pb-20 pt-10 sm:px-6 lg:px-12 lg:pb-24 lg:pt-20 bg-[linear-gradient(to_bottom,_rgb(3,7,18)_0%,rgb(3,7,18)_3%,_rgba(3,7,18,0.3)_40%,_rgb(3,7,18)_97%,_rgb(3,7,18)_100%)]">
-      
+      <PulseHexGridCanvas  gridType="Fill" s={50} l={30} hue={240} hueJitter={10} pixelsPerHex={45}/>
+      <PulseHexGridCanvas  gridType="Strata" s={60} l={25} hue={240} hueJitter={30} pixelsPerHex={45}/>
       <motion.section
         className="relative"
         initial="hidden"

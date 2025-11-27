@@ -15,26 +15,7 @@ import {
   EXPERIENCE_PATH,
 } from "@/components/about/trajectoryContent";
 
-const BACKGROUND_LAYERS = [
-  {
-    id: "primary",
-    gridType: "Fill" as const,
-    pixelsPerHex: 45,
-    hue: 240,
-    hueJitter: 10,
-    s: 50,
-    l: 30,
-  },
-  {
-    id: "secondary",
-    gridType: "Strata" as const,
-    pixelsPerHex: 45,
-    hue: 240,
-    hueJitter: 30,
-    s: 60,
-    l: 25,
-  },
-];
+
 
 
 const PERSONAL_INFO: PersonalInfo = {
@@ -100,7 +81,7 @@ export default function AboutPage() {
   const age = getAge(PERSONAL_INFO.birthdate);
 
   return (
-    <PageLayout backgroundLayers={BACKGROUND_LAYERS}>
+    <PageLayout>
       <HeroSection personalInfo={PERSONAL_INFO} age={age} />
       <TechStackSection techStack={TECH_STACK} />
       <TrajectorySection

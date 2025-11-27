@@ -5,6 +5,8 @@ import { InfoCard } from "../home/InfoCard";
 import { ListChecks, Workflow, AlertTriangle, Rocket } from "lucide-react";
 import { useTranslations } from "next-intl";
 
+import PulseHexGridCanvas from "../home/scene/PulseHexGridCanvas";
+
 const sectionVariants: Variants = {
   hidden: {},
   show: { transition: { staggerChildren: 0.10, delayChildren: 0.05 } },
@@ -52,7 +54,9 @@ export function PhilosophySection() {
   const t = useTranslations("AboutPage");
 
   return (
-    <section className="px-4 pb-24 pt-10 sm:px-6 lg:px-12 lg:pb-32 lg:pt-20 bg-[linear-gradient(to_bottom,_rgb(3,7,18)_0%,rgb(3,7,18)_3%,_rgba(3,7,18,0.7)_40%,_rgba(3,7,18,0.85)_100%)]">
+    <section className="relative px-4 pb-24 pt-10 sm:px-6 lg:px-12 lg:pb-32 lg:pt-20 bg-[linear-gradient(to_bottom,_rgb(3,7,18)_0%,rgb(3,7,18)_3%,_rgba(3,7,18,0.7)_40%,_rgba(3,7,18,0.85)_100%)]">
+      <PulseHexGridCanvas  gridType="Fill" s={50} l={30} hue={240} hueJitter={10} pixelsPerHex={45}/>
+      <PulseHexGridCanvas  gridType="Strata" s={60} l={25} hue={240} hueJitter={30} pixelsPerHex={45}/>
       <motion.div
         className="relative"
         initial="hidden"
