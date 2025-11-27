@@ -21,7 +21,7 @@ const BACKGROUND_LAYERS = [
     gridType: "Fill" as const,
     pixelsPerHex: 45,
     hue: 240,
-    hueJitter: 5,
+    hueJitter: 10,
     s: 50,
     l: 35,
   },
