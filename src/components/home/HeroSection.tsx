@@ -46,7 +46,7 @@ export function HeroSection({
 
   useEffect(() => {
     controls.start("animate", {
-      delay: entranceAnimationEnabled ? BASE_DELAY_ENTRANCE + 0.1 : BASE_DELAY_ENTRANCE,
+      delay: entranceAnimationEnabled ? BASE_DELAY_ENTRANCE + 0.1 : 0,
       duration: entranceAnimationEnabled ? 0.7 : 0,
     });
   }, [controls, entranceAnimationEnabled]);
@@ -78,7 +78,7 @@ export function HeroSection({
           initial={{ opacity: 0, y: entranceAnimationEnabled ? 20 : 0 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{
-            delay: entranceAnimationEnabled ? BASE_DELAY_ENTRANCE + 0.2 : BASE_DELAY_ENTRANCE,
+            delay: entranceAnimationEnabled ? BASE_DELAY_ENTRANCE + 0.2 : 0,
             duration: entranceAnimationEnabled ? 0.7 : 0,
           }}
           className="max-w-2xl text-pretty text-lg text-white/70 sm:text-xl"
@@ -90,7 +90,7 @@ export function HeroSection({
           initial={{ opacity: 0, y: entranceAnimationEnabled ? 20 : 0 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{
-            delay: entranceAnimationEnabled ? BASE_DELAY_ENTRANCE + 0.3 : BASE_DELAY_ENTRANCE,
+            delay: entranceAnimationEnabled ? BASE_DELAY_ENTRANCE + 0.3 : 0,
             duration: entranceAnimationEnabled ? 0.7 : 0,
           }}
           className="flex w-full flex-wrap justify-center gap-4 lg:justify-start"

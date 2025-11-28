@@ -24,7 +24,7 @@ const createImageVariants = (animated: boolean): Variants => ({
     transition: {
       duration: animated ? 0.7 : 0,
       ease: animated ? easeOut : undefined,
-      delay: animated ? BASE_DELAY_ENTRANCE + 0.3 : BASE_DELAY_ENTRANCE,
+      delay: animated ? BASE_DELAY_ENTRANCE + 0.3 : 0,
     },
   },
   show: {

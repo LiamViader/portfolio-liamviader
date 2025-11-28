@@ -26,7 +26,7 @@ const createTitleInfoCardsAnimation = (animated: boolean): Variants => ({
     y: 0,
     transition: animated
       ? { delay: BASE_DELAY_ENTRANCE + 0.45, duration: 0.7, ease: "easeOut" }
-      : { delay: BASE_DELAY_ENTRANCE, duration: 0 },
+      : { delay: 0, duration: 0 },
   },
 });
 
@@ -41,7 +41,7 @@ const createInfoCardsAnimation = (animated: boolean): Variants => ({
           when: "beforeChildren",
         }
       : {
-          delayChildren: BASE_DELAY_ENTRANCE,
+          delayChildren: 0,
           staggerChildren: 0,
           when: "beforeChildren",
         },
