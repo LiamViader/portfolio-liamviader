@@ -45,7 +45,7 @@
     },
     "techStack": {
       "title": "Technologies and tools",
-      "description": "A quick look at the technologies I feel comfortable working with.",
+      "description": "A quick look at some of the technologies I feel comfortable working with.",
       "note": "I've mostly used tools like <highlight>TensorFlow</highlight> and <highlight>Scikit-Learn</highlight> in learning-oriented projects: an image classifier built with convolutional networks, small supervised and unsupervised machine-learning experiments, and a few optimization projects. I wouldn't call myself an expert, but I do have a solid hands-on foundation and I'm continuing to go deeper."
     },
     "trajectory": {

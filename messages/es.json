@@ -45,7 +45,7 @@
     },
     "techStack": {
       "title": "Tecnologías y herramientas",
-      "description": "Un vistazo rápido a las tecnologías con las que me siento cómodo trabajando.",
+      "description": "Un vistazo rápido a algunas de las tecnologías con las que me siento cómodo trabajando.",
       "note": "Algunas herramientas como <highlight>TensorFlow</highlight> y <highlight>Scikit-Learn</highlight> las he usado sobre todo en proyectos de aprendizaje: un clasificador de imágenes con redes convolucionales, pequeños experimentos de machine learning supervisado y no supervisado y algún proyecto de optimización. No me considero experto, pero sí tengo una base práctica sólida y sigo profundizando."
     },
     "trajectory": {

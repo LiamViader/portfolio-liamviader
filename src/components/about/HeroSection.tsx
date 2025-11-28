@@ -14,13 +14,16 @@ import { AboutPortrait } from "./AboutPortrait";
 import { type PersonalInfo } from "./types";
 import { type Locale } from "@/i18n/routing";
 import PulseHexGridCanvas from "../home/scene/PulseHexGridCanvas";
+import { usePerfTier } from "@/hooks/usePerfTier";
+
 
 type HeroSectionProps = {
   personalInfo: PersonalInfo;
   age: number;
+  entranceAnimationsEnabled: boolean
 };
 
-const titleVariants = {
+const titleVariantsWithHover = {
   initial: {
     opacity: 0,
     y: 20,
@@ -36,11 +39,24 @@ const titleVariants = {
   hover: {
     scale: 1.02,
     y: -2,
-    filter: "drop-shadow(0 0 12px rgba(56,189,248,0.35))",
+    filter: "drop-shadow(0 0 12px rgba(56,189,248,0.55))",
   },
 };
 
-export function HeroSection({ personalInfo, age }: HeroSectionProps) {
+const titleVariantsWithoutHover = {
+  initial: {
+    opacity: 0,
+    y: 20,
+    scale: 1,
+  },
+  animate: {
+    opacity: 1,
+    y: 0,
+    scale: 1,
+  },
+};
+
+export function HeroSection({ personalInfo, age, entranceAnimationsEnabled }: HeroSectionProps) {
   const controls = useAnimationControls();
   const [ready, setReady] = useState(false);
   const t = useTranslations("AboutPage");
@@ -49,33 +65,75 @@ export function HeroSection({ personalInfo, age }: HeroSectionProps) {
   const localizedLanguages = personalInfo.languages[locale] ?? [];
   const localizedCity = personalInfo.city[locale] ?? personalInfo.city.en;
 
+  const { canHover } = usePerfTier();
+
   useEffect(() => {
     controls.start("animate", {
-      delay: BASE_DELAY_ENTRANCE + 0.1,
-      duration: 0.7,
+      delay: entranceAnimationsEnabled
+        ? BASE_DELAY_ENTRANCE + 0.1
+        : 0,
+      duration: entranceAnimationsEnabled ? 0.7 : 0,
     });
-  }, [controls]);
+  }, [controls, entranceAnimationsEnabled]);
+
+  const infoListVariants = entranceAnimationsEnabled
+    ? {
+        hidden: { opacity: 1 },
+        show: {
+          opacity: 1,
+          transition: {
+            delayChildren: BASE_DELAY_ENTRANCE + 0.3,
+            staggerChildren: 0.15,
+            when: "beforeChildren",
+          },
+        },
+      }
+    : {
+        hidden: { opacity: 1 },
+        show: {
+          opacity: 1,
+          transition: {
+            delayChildren: 0,
+            staggerChildren: 0,
+            when: "beforeChildren",
+          },
+        },
+      };
 
   return (
     <section className="relative overflow-hidden px-4 pb-16 pt-28 sm:px-6 lg:px-12 lg:pb-20 lg:pt-34 md:min-h-[950px] ">
-      <PulseHexGridCanvas  gridType="Fill" s={50} l={30} hue={240} hueJitter={10} pixelsPerHex={45}/>
-      <PulseHexGridCanvas  gridType="Strata" s={60} l={25} hue={240} hueJitter={30} pixelsPerHex={45}/>
-      <div className="inset-0 absolute bg-[linear-gradient(to_bottom,_rgba(3,7,18,0.05)_0%,_rgba(3,7,18,0.7)_50%,_rgb(3,7,18)_97%,_rgb(3,7,18)_100%)]"/>
+      <PulseHexGridCanvas
+        gridType="Fill"
+        s={50}
+        l={30}
+        hue={240}
+        hueJitter={10}
+        pixelsPerHex={45}
+      />
+      <PulseHexGridCanvas
+        gridType="Strata"
+        s={60}
+        l={25}
+        hue={240}
+        hueJitter={30}
+        pixelsPerHex={45}
+      />
+      <div className="inset-0 absolute bg-[linear-gradient(to_bottom,_rgba(3,7,18,0.05)_0%,_rgba(3,7,18,0.7)_50%,_rgb(3,7,18)_97%,_rgb(3,7,18)_100%)]" />
       <div className="relative mx-auto flex w-full max-w-6xl flex-col gap-10">
         <div className="flex flex-col-reverse gap-8 lg:flex-row items-center lg:gap-16">
           <div className="flex-1 space-y-8">
             <motion.h1
-              variants={titleVariants}
+              variants={canHover ? titleVariantsWithHover : titleVariantsWithoutHover}
               initial="initial"
               animate={controls}
               onAnimationComplete={() => setReady(true)}
               onHoverStart={() => {
                 if (!ready) return;
-                controls.start("hover", { duration: 0.25 });
+                controls.start("hover", { duration: 0.35 });
               }}
               onHoverEnd={() => {
                 if (!ready) return;
-                controls.start("animate", { duration: 0.2 });
+                controls.start("animate", { duration: 0.35 });
               }}
               className="text-pretty text-4xl font-semibold tracking-tight text-white/95 sm:text-5xl md:text-6xl text-center lg:text-left"
             >
@@ -87,12 +145,17 @@ export function HeroSection({ personalInfo, age }: HeroSectionProps) {
             </motion.h1>
 
             <motion.p
-              initial={{ opacity: 0, y: 18 }}
+              initial={{
+                opacity: 0,
+                y: entranceAnimationsEnabled ? 18 : 0,
+              }}
               animate={{ opacity: 1, y: 0 }}
               transition={{
-                duration: 0.7,
+                duration: entranceAnimationsEnabled ? 0.7 : 0,
                 ease: "easeOut",
-                delay: BASE_DELAY_ENTRANCE + 0.2,
+                delay: entranceAnimationsEnabled
+                  ? BASE_DELAY_ENTRANCE + 0.2
+                  : 0,
               }}
               className="lg:max-w-2xl text-pretty text-lg text-white/70 sm:text-xl text-center lg:text-left"
             >
@@ -100,12 +163,17 @@ export function HeroSection({ personalInfo, age }: HeroSectionProps) {
             </motion.p>
 
             <motion.div
-              initial={{ opacity: 0, y: 18 }}
+              initial={{
+                opacity: 0,
+                y: entranceAnimationsEnabled ? 18 : 0,
+              }}
               animate={{ opacity: 1, y: 0 }}
               transition={{
-                duration: 0.7,
+                duration: entranceAnimationsEnabled ? 0.7 : 0,
                 ease: "easeOut",
-                delay: BASE_DELAY_ENTRANCE + 0.3,
+                delay: entranceAnimationsEnabled
+                  ? BASE_DELAY_ENTRANCE + 0.3
+                  : 0,
               }}
               className="flex w-full flex-wrap justify-center gap-4 lg:justify-start"
             >
@@ -118,22 +186,12 @@ export function HeroSection({ personalInfo, age }: HeroSectionProps) {
           </div>
 
           <div className="flex w-full justify-center lg:w-auto lg:justify-end">
-            <AboutPortrait />
+            <AboutPortrait entranceAnimationEnabled={entranceAnimationsEnabled}/>
           </div>
         </div>
 
         <motion.ul
-          variants={{
-            hidden: { opacity: 1 },
-            show: {
-              opacity: 1,
-              transition: {
-                delayChildren: BASE_DELAY_ENTRANCE + 0.3,
-                staggerChildren: 0.15,
-                when: "beforeChildren",
-              },
-            },
-          }}
+          variants={infoListVariants}
           initial="hidden"
           animate="show"
           className="grid gap-4 sm:grid-cols-2"
@@ -142,28 +200,28 @@ export function HeroSection({ personalInfo, age }: HeroSectionProps) {
             title={personalInfo.fullName}
             info={t("hero.birthInfo", { age })}
             icon={<User2 className="h-6 w-6 text-sky-300" />}
-            entranceAnimationEnabled={true}
+            entranceAnimationEnabled={entranceAnimationsEnabled}
           />
 
           <InfoCard
             title={localizedCity}
             info={t("hero.locationInfo")}
             icon={<MapPin className="h-6 w-6 text-sky-300" />}
-            entranceAnimationEnabled={true}
+            entranceAnimationEnabled={entranceAnimationsEnabled}
           />
 
           <InfoCard
             title={t("hero.languagesTitle")}
             info={localizedLanguages.join(" · ")}
             icon={<Languages className="h-6 w-6 text-sky-300" />}
-            entranceAnimationEnabled={true}
+            entranceAnimationEnabled={entranceAnimationsEnabled}
           />
 
           <InfoCard
             title={t("hero.whatIDoTitle")}
             info={t("hero.whatIDoInfo")}
             icon={<Sparkles className="h-6 w-6 text-sky-300" />}
-            entranceAnimationEnabled={true}
+            entranceAnimationEnabled={entranceAnimationsEnabled}
           />
         </motion.ul>
       </div>

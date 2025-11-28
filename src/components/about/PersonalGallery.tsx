@@ -49,7 +49,6 @@ export default function PersonalGallery({
     show: {
       opacity: 1,
       y: 0,
-      boxShadow: "0 0px 50px 2px rgba(56,189,248,0.01)",
       borderColor: "rgba(255,255,255,0.1)",
       transition: { duration: 0.6, ease: "easeOut" },
     },
@@ -72,11 +71,8 @@ export default function PersonalGallery({
             onClick={() => setIdx(i)}
             variants={gridItemVariants}
             whileHover={{
-              y: -6,
-              boxShadow: "0 0px 50px 2px rgba(56,189,248,0.60)",
-              transition: { duration: 0.25, ease: "easeOut" },
-              borderColor: "rgba(56,189,248,0.60)",
-              backgroundColor: "rgba(56,189,248,0.06)",
+              scale: 1.05,
+              transition: {duration: 0.3, ease: "easeOut"}
             }}
             whileTap={{
               scale: 0.96,

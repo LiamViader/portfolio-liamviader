@@ -14,7 +14,7 @@ import {
   ACADEMIC_PATH,
   EXPERIENCE_PATH,
 } from "@/components/about/trajectoryContent";
-
+import { usePerformanceConfig } from "@/hooks/usePerformanceConfig";
 
 
 
@@ -79,17 +79,19 @@ function getAge(dateString: string): number {
 
 export default function AboutPage() {
   const age = getAge(PERSONAL_INFO.birthdate);
+  const { entranceAnimationsEnabled } = usePerformanceConfig();
 
   return (
     <PageLayout>
-      <HeroSection personalInfo={PERSONAL_INFO} age={age} />
-      <TechStackSection techStack={TECH_STACK} />
+      <HeroSection personalInfo={PERSONAL_INFO} age={age} entranceAnimationsEnabled={entranceAnimationsEnabled}/>
+      <TechStackSection techStack={TECH_STACK} entranceAnimationsEnabled={entranceAnimationsEnabled}/>
       <TrajectorySection
         academicPath={ACADEMIC_PATH}
         experiencePath={EXPERIENCE_PATH}
+        entranceAnimationsEnabled={entranceAnimationsEnabled}
       />
-      <PersonalSection />
-      <PhilosophySection />
+      <PersonalSection entranceAnimationsEnabled={entranceAnimationsEnabled}/>
+      <PhilosophySection entranceAnimationsEnabled={entranceAnimationsEnabled}/>
     </PageLayout>
   );
 }

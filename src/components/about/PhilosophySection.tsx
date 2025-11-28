@@ -7,25 +7,43 @@ import { useTranslations } from "next-intl";
 
 import PulseHexGridCanvas from "../home/scene/PulseHexGridCanvas";
 
-const sectionVariants: Variants = {
-  hidden: {},
-  show: { transition: { staggerChildren: 0.10, delayChildren: 0.05 } },
-};
 
-const headerGroup: Variants = {
+const createSectionAnimation = (animated: boolean): Variants => ({
   hidden: {},
-  show: { transition: { staggerChildren: 0.06 } },
-};
+  show: { transition: animated ? 
+    { staggerChildren: 0.10, delayChildren: 0.05 } 
+    :
+    { staggerChildren: 0, delayChildren: 0}
+  },
+});
 
-const headerItem: Variants = {
+const createHeaderGroupAnimation = (animated: boolean): Variants => ({
+  hidden: {},
+  show: { transition: animated ? 
+    { staggerChildren: 0.06 } 
+    :
+    { staggerChildren: 0}
+  },
+});
+
+const createHeaderItemAnimation = (animated: boolean): Variants => ({
   hidden: { opacity: 0, y: 12 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.55, ease: "easeOut" } },
-};
+  show: { opacity: 1, y: 0, transition: animated ? 
+    { duration: 0.55, ease: "easeOut" } 
+    :
+    { duration: 0}
+  },
+});
 
-const listVariants: Variants = {
+
+const createInfoCardsAnimation = (animated: boolean): Variants => ({
   hidden: {},
-  show: { transition: { staggerChildren: 0.08, delayChildren: 0.05 } },
-};
+  show: { transition: animated ? 
+    { staggerChildren: 0.08, delayChildren: 0.05 } 
+    :
+    { staggerChildren: 0, delayChildren: 0 }
+  },
+});
 
 const PHILOSOPHY_ITEMS = [
   {
@@ -50,22 +68,45 @@ const PHILOSOPHY_ITEMS = [
   },
 ];
 
-export function PhilosophySection() {
+type PhilosophySectionProps = {
+  entranceAnimationsEnabled: boolean;
+};
+
+export function PhilosophySection({ entranceAnimationsEnabled }: PhilosophySectionProps) {
   const t = useTranslations("AboutPage");
+  const listVariants = createInfoCardsAnimation(entranceAnimationsEnabled);
+  const headerItem = createHeaderItemAnimation(entranceAnimationsEnabled);
+  const headerGroup = createHeaderGroupAnimation(entranceAnimationsEnabled);
+  const sectionVariants = createSectionAnimation(entranceAnimationsEnabled);
 
   return (
     <section className="relative px-4 pb-24 pt-10 sm:px-6 lg:px-12 lg:pb-32 lg:pt-20 ">
-      <PulseHexGridCanvas  gridType="Fill" s={50} l={30} hue={240} hueJitter={10} pixelsPerHex={45}/>
-      <PulseHexGridCanvas  gridType="Strata" s={60} l={25} hue={240} hueJitter={30} pixelsPerHex={45}/>
-      <div className="inset-0 absolute bg-[linear-gradient(to_bottom,_rgb(3,7,18)_0%,rgb(3,7,18)_3%,_rgba(3,7,18,0.7)_40%,_rgba(3,7,18,0.85)_100%)]"/>
+      <PulseHexGridCanvas
+        gridType="Fill"
+        s={50}
+        l={30}
+        hue={240}
+        hueJitter={10}
+        pixelsPerHex={45}
+      />
+      <PulseHexGridCanvas
+        gridType="Strata"
+        s={60}
+        l={25}
+        hue={240}
+        hueJitter={30}
+        pixelsPerHex={45}
+      />
+      <div className="inset-0 absolute bg-[linear-gradient(to_bottom,_rgb(3,7,18)_0%,rgb(3,7,18)_3%,_rgba(3,7,18,0.7)_40%,_rgba(3,7,18,0.85)_100%)]" />
+
       <motion.div
         className="relative"
         initial="hidden"
-        whileInView="show"
-        viewport={{ once: true, amount: 0.25 }}
+        whileInView={entranceAnimationsEnabled ? "show" : undefined}
+        animate={entranceAnimationsEnabled ? undefined : "show"}
+        viewport={entranceAnimationsEnabled ? { once: true, amount: 0.25 } : undefined}
         variants={sectionVariants}
       >
-
         <div className="relative mx-auto max-w-6xl space-y-8">
           <motion.div className="space-y-2 max-w-3xl" variants={headerGroup}>
             <motion.h2
@@ -92,7 +133,7 @@ export function PhilosophySection() {
                 title={t(item.titleKey)}
                 info={t(item.descriptionKey)}
                 icon={item.icon}
-                entranceAnimationEnabled={true}
+                entranceAnimationEnabled={entranceAnimationsEnabled}
               />
             ))}
           </motion.ul>

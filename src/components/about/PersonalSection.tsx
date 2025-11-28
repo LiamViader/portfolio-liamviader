@@ -35,7 +35,11 @@ const textGroup: Variants = {
 
 const textItem: Variants = {
   hidden: { opacity: 0, y: 16 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.55, ease: "easeOut" } },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.55, ease: "easeOut" },
+  },
 };
 
 const PARAGRAPH_KEYS = [
@@ -46,19 +50,23 @@ const PARAGRAPH_KEYS = [
   "paragraphs.fifth",
 ];
 
-export function PersonalSection() {
+type PersonalSectionProps = {
+  entranceAnimationsEnabled: boolean;
+};
+
+export function PersonalSection({ entranceAnimationsEnabled }: PersonalSectionProps) {
   const t = useTranslations("AboutPage.personalSection");
 
   return (
     <section className="bg-gray-950 px-4 pb-20 pt-10 sm:px-6 lg:px-12 lg:pb-24 lg:pt-20">
       <motion.div
         className="relative"
-        initial="hidden"
-        whileInView="show"
-        viewport={{ once: true, amount: 0.25 }}
+        initial={entranceAnimationsEnabled ? "hidden" : "show"}
+        whileInView={entranceAnimationsEnabled ? "show" : undefined}
+        animate={entranceAnimationsEnabled ? undefined : "show"}
+        viewport={entranceAnimationsEnabled ? { once: true, amount: 0.25 } : undefined}
         variants={sectionVariants}
       >
-
         <div className="relative mx-auto max-w-[1400px] ">
           <motion.h2
             className="text-2xl font-semibold text-white sm:text-3xl"
@@ -66,8 +74,8 @@ export function PersonalSection() {
           >
             {t("title")}
           </motion.h2>
+
           <div className="flex flex-col gap-10 lg:flex-row lg:items-center">
-            {/* Bloque de texto: entra con fade+stagger de cada elemento */}
             <motion.div className="flex-1 space-y-4" variants={blockFadeUp}>
               <motion.div variants={textGroup}>
                 {PARAGRAPH_KEYS.map((paragraphKey) => (
@@ -85,16 +93,15 @@ export function PersonalSection() {
             <motion.div className="flex-1" variants={blockFadeUp}>
               <PersonalGallery
                 photos={[
-                  { src: "/images/personal_gallery/cala_arenys.jpg"},
-                  { src: "/images/personal_gallery/neo_taula.jpg"},
-                  { src: "/images/personal_gallery/llums_cel_alps.jpg"},
-                  { src: "/images/personal_gallery/landscape_alps.jpg"},
-                  { src: "/images/personal_gallery/posta_sol_pais_vasc.jpg"},
-                  { src: "/images/personal_gallery/emporda_original.jpg"},
-                  { src: "/images/personal_gallery/pineta_liam_croped.jpg"},
-                  { src: "/images/personal_gallery/iris_camps.jpg"},
-                  { src: "/images/personal_gallery/llibres.jpg"},
-
+                  { src: "/images/personal_gallery/cala_arenys.jpg" },
+                  { src: "/images/personal_gallery/neo_taula.jpg" },
+                  { src: "/images/personal_gallery/llums_cel_alps.jpg" },
+                  { src: "/images/personal_gallery/landscape_alps.jpg" },
+                  { src: "/images/personal_gallery/posta_sol_pais_vasc.jpg" },
+                  { src: "/images/personal_gallery/emporda_original.jpg" },
+                  { src: "/images/personal_gallery/pineta_liam_croped.jpg" },
+                  { src: "/images/personal_gallery/iris_camps.jpg" },
+                  { src: "/images/personal_gallery/llibres.jpg" },
                 ]}
               />
               <motion.p

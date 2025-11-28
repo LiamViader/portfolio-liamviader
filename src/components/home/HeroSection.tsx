@@ -31,7 +31,7 @@ const titleVariantsWithHover = {
   hover: {
     scale: 1.02,
     y: -2,
-    filter: "drop-shadow(0 0 12px rgba(56,189,248,0.35))",
+    filter: "drop-shadow(0 0 12px rgba(56,189,248,0.55))",
   },
 };
 
@@ -79,11 +79,11 @@ export function HeroSection({
           animate={controls}
           onHoverStart={() => {
             if (!ready) return;
-            controls.start("hover", { duration: 0.25, delay: 0 });
+            controls.start("hover", { duration: 0.35, delay: 0 });
           }}
           onHoverEnd={() => {
             if (!ready) return;
-            controls.start("animate", { duration: 0.2, delay: 0 });
+            controls.start("animate", { duration: 0.35, delay: 0 });
           }}
           className="whitespace-pre-line text-balance text-4xl sm:text-5xl md:text-6xl font-semibold tracking-tight text-white/95 "
         >

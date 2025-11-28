@@ -9,6 +9,7 @@ import { type Locale } from "@/i18n/routing";
 import { type TimelineItem } from "./types";
 
 import PulseHexGridCanvas from "../home/scene/PulseHexGridCanvas";
+import { usePerfTier } from "@/hooks/usePerfTier";
 
 const pathSectionContainerVariants: Variants = {
   hidden: { y: 30 },
@@ -84,12 +85,26 @@ const pathItemShellVariants: Variants = {
   show: {},
 };
 
-const pathCardVariants: Variants = {
+const pathCardVariantsWithHover: Variants = {
   hidden: { opacity: 0, y: 14 },
   show: {
     opacity: 1,
     y: 0,
     boxShadow: "0 0px 30px 1px rgba(56,189,248,0.01)",
+    borderColor: "rgba(255,255,255,0.10)",
+    transition: {
+      duration: 0.8,
+      ease: "easeOut",
+      staggerChildren: 0.04,
+    },
+  },
+};
+
+const pathCardVariantsWhithoutHover: Variants = {
+  hidden: { opacity: 0, y: 14 },
+  show: {
+    opacity: 1,
+    y: 0,
     borderColor: "rgba(255,255,255,0.10)",
     transition: {
       duration: 0.8,
@@ -213,6 +228,7 @@ type TimelineProps = {
 };
 
 function Timeline({ items, icon, locale }: TimelineProps) {
+  const { canHover } = usePerfTier();
   return (
     <div className="relative pl-0">
       <motion.span
@@ -244,16 +260,16 @@ function Timeline({ items, icon, locale }: TimelineProps) {
             </motion.span>
 
             <motion.div
-              variants={pathCardVariants}
-              whileHover={{
+              variants={canHover ? pathCardVariantsWithHover : pathCardVariantsWhithoutHover}
+              whileHover={canHover ? {
                 y: -6,
                 rotateX: 2,
                 rotateY: -2,
                 boxShadow: "0 0px 30px 1px rgba(56,189,248,0.30)",
-                transition: { duration: 0.2, ease: "easeOut" },
+                transition: { duration: 0.25, ease: "easeOut" },
                 borderColor: "rgba(56,189,248,0.60)",
                 backgroundColor: "rgba(56,189,248,0.10)",
-              }}
+              } : undefined}
               whileTap={{
                 scale: 0.97,
               }}
@@ -300,27 +316,44 @@ function Timeline({ items, icon, locale }: TimelineProps) {
 type TrajectorySectionProps = {
   academicPath: TimelineItem[];
   experiencePath: TimelineItem[];
+  entranceAnimationsEnabled: boolean;
 };
 
 export function TrajectorySection({
   academicPath,
   experiencePath,
+  entranceAnimationsEnabled,
 }: TrajectorySectionProps) {
   const t = useTranslations("AboutPage.trajectory");
   const locale = useLocale() as Locale;
 
   return (
     <section className="relative px-4 pb-20 pt-10 sm:px-6 lg:px-12 lg:pb-24 lg:pt-20">
-      <PulseHexGridCanvas  gridType="Fill" s={50} l={30} hue={240} hueJitter={10} pixelsPerHex={45}/>
-      <PulseHexGridCanvas  gridType="Strata" s={60} l={25} hue={240} hueJitter={30} pixelsPerHex={45}/>
-      <div className="inset-0 absolute bg-[linear-gradient(to_bottom,_rgb(3,7,18)_0%,rgb(3,7,18)_3%,_rgba(3,7,18,0.3)_40%,_rgb(3,7,18)_97%,_rgb(3,7,18)_100%)]"/>
+      <PulseHexGridCanvas
+        gridType="Fill"
+        s={50}
+        l={30}
+        hue={240}
+        hueJitter={10}
+        pixelsPerHex={45}
+      />
+      <PulseHexGridCanvas
+        gridType="Strata"
+        s={60}
+        l={25}
+        hue={240}
+        hueJitter={30}
+        pixelsPerHex={45}
+      />
+      <div className="inset-0 absolute bg-[linear-gradient(to_bottom,_rgb(3,7,18)_0%,rgb(3,7,18)_3%,_rgba(3,7,18,0.3)_40%,_rgb(3,7,18)_97%,_rgb(3,7,18)_100%)]" />
+
       <motion.section
         className="relative"
-        initial="hidden"
-        whileInView="show"
-        viewport={{ once: true, amount: 0.15 }}
+        initial={entranceAnimationsEnabled ? "hidden" : "show"}
+        whileInView={entranceAnimationsEnabled ? "show" : undefined}
+        animate={entranceAnimationsEnabled ? undefined : "show"}
+        viewport={entranceAnimationsEnabled ? { once: true, amount: 0.15 } : undefined}
       >
-
         <motion.div
           className="relative mx-auto max-w-6xl space-y-10"
           variants={pathSectionContainerVariants}
