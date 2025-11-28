@@ -19,7 +19,14 @@ import { FeaturedCarouselCard } from "./FeaturedCarouselCard";
 
 const ctrlLeft: Variants = {
   hidden: { opacity: 0, x: 40 },
-  show:   { opacity: 1, x: 0, transition: { duration: 0.8, ease: "easeOut", delay: 0.5 } },
+  show:   { 
+    opacity: 1, 
+    x: 0, 
+    transition: { 
+      opacity: { duration: 0.8, ease: "easeOut", delay: 0.5 },
+      x: { duration: 0.8, ease: "easeOut", delay: 0.5 } 
+    } 
+  },
   hover: {
     scale: 1.1,
     backgroundColor: "rgba(14,165,233,0.10)",
@@ -45,7 +52,14 @@ const ctrlLeft: Variants = {
 
 const ctrlRight: Variants = {
   hidden: { opacity: 0, x: -40 },
-  show:   { opacity: 1, x: 0, transition: { duration: 0.8, ease: "easeOut", delay: 0.7 } },
+  show:   { 
+    opacity: 1, 
+    x: 0, 
+    transition: { 
+      opacity: { duration: 0.8, ease: "easeOut", delay: 0.5 },
+      x: { duration: 0.8, ease: "easeOut", delay: 0.5 } 
+    } 
+  },
   hover: {
     scale: 1.1,
     backgroundColor: "rgba(14,165,233,0.10)",
@@ -92,6 +106,7 @@ interface FeaturedCarouselProps {
   layout?: FeaturedCarouselLayoutOptions;
   typography?: FeaturedCarouselTypographyOptions;
   introStart?: boolean;
+  introAnimationEnabled?: boolean;
 }
 
 function getIntroOrder(nextVariant: CarouselVariant): number {
@@ -115,6 +130,7 @@ export function FeaturedCarousel({
   layout,
   typography,
   introStart,
+  introAnimationEnabled = true,
 }: FeaturedCarouselProps) {
   const [activeIndex, setActiveIndex] = useState(0);
   const [scrollDir, setScrollDir] = useState<1 | -1>(1);
@@ -419,6 +435,7 @@ export function FeaturedCarousel({
             tagClassName={typography?.tagClassName}
             introStart={introStart}
             introOrder={introOrder}
+            introAnimationEnabled={introAnimationEnabled}
           />
         </motion.article>
       );
@@ -482,8 +499,8 @@ export function FeaturedCarousel({
             onClick={() => handleManualNavigation(-1)}
             className={controlButtonClassName}
             variants={ctrlLeft}
-            initial="hidden"
-            animate={introStart ? "show" : "hidden"}
+            initial={introAnimationEnabled ? "hidden" : "show"}
+            animate={introAnimationEnabled && !introStart ? "hidden" : "show"}
             whileHover="hover"
             whileTap="tap"
             aria-label="View previous project"
@@ -497,8 +514,8 @@ export function FeaturedCarousel({
             onClick={() => handleManualNavigation(1)}
             className={controlButtonClassName}
             variants={ctrlRight}
-            initial="hidden"
-            animate={introStart ? "show" : "hidden"}
+            initial={introAnimationEnabled ? "hidden" : "show"}
+            animate={introAnimationEnabled && !introStart ? "hidden" : "show"}
             whileHover="hover"
             whileTap="tap"
             aria-label="View next project"

@@ -11,7 +11,7 @@ import { FeaturedProjectsHomeSection } from "@/components/home/FeaturedProjectsH
 import { BASE_DELAY_ENTRANCE } from "@/utils/constants";
 import PageLayout from "@/components/layout/PageLayout";
 import PulseHexGridCanvas from "@/components/home/scene/PulseHexGridCanvas";
-import { usePerfTier } from "@/hooks/usePerfTier";
+import { usePerformanceConfig } from "@/hooks/usePerformanceConfig";
 
 const icons = {
   BrainCircuit,
@@ -50,11 +50,7 @@ const createInfoCardsAnimation = (animated: boolean): Variants => ({
 
 export default function Home() {
 
-  const { canHover, isHigh, isLow, isMedium, isSmallScreen } = usePerfTier();
-
-  const fullEntranceAnimation = isHigh || (isMedium && !isSmallScreen);
-  const shouldAnimateOnScroll = isHigh || (isMedium && !isSmallScreen);
-  const shouldDisplaySecondAnimatedBackground = isHigh || (isMedium && !isSmallScreen);
+  const {entranceAnimationsEnabled, backgroundsOptimization} = usePerformanceConfig();
 
   const t = useTranslations("HomePage");
   const locale = useLocale();
@@ -63,8 +59,8 @@ export default function Home() {
 
   const metricKeys: Array<"ai" | "videogames" | "system_design"> = ["ai", "videogames", "system_design"];
 
-  const titleInfoCardsAnimation = createTitleInfoCardsAnimation(fullEntranceAnimation);
-  const infoCardsAnimation = createInfoCardsAnimation(fullEntranceAnimation);
+  const titleInfoCardsAnimation = createTitleInfoCardsAnimation(entranceAnimationsEnabled);
+  const infoCardsAnimation = createInfoCardsAnimation(entranceAnimationsEnabled);
 
   return (
     <PageLayout>
@@ -80,7 +76,7 @@ export default function Home() {
           subtitle={t("hero.subtitle")} 
           contactButtonText={t("hero.ctaContact")} 
           projectsButtonText={t("hero.ctaProjects")}
-          entranceAnimationEnabled={fullEntranceAnimation}
+          entranceAnimationEnabled={entranceAnimationsEnabled}
         />
 
 
@@ -110,7 +106,7 @@ export default function Home() {
                   title={t(`work_section.${metricKey}.value`)}
                   info={t(`work_section.${metricKey}.label`)}
                   icon={<IconComponent className="h-7 w-7 text-sky-300" />}
-                  entranceAnimationEnabled={fullEntranceAnimation}
+                  entranceAnimationEnabled={entranceAnimationsEnabled}
                 />
               )
             })}
@@ -120,7 +116,7 @@ export default function Home() {
       <section className="relative px-2 md:px-6 pt-0 sm:pt-10 md:pt-20 lg:pt-22 xl:pt-28 pb-24 ">
 
         {
-          shouldDisplaySecondAnimatedBackground ?
+          (backgroundsOptimization === "normal") ?
           <>
             <PulseHexGridCanvas  gridType="Fill" s={50} l={30} hue={240} hueJitter={10} pixelsPerHex={40}/>
             <PulseHexGridCanvas  gridType="OverlapLine" s={60} l={0} hue={240} hueJitter={30} pixelsPerHex={40}/>
@@ -131,7 +127,16 @@ export default function Home() {
 
 
         <div className="absolute inset-0 bg-[linear-gradient(to_bottom,_rgb(3,7,18)_0%,_rgb(3,7,18)_3%,_rgba(3,7,18,0.3)_50%,_rgb(3,7,18)_100%)]"/>
-        <FeaturedProjectsHomeSection title={t("projects.title")} description={t("projects.description")} contactButtonText={t("hero.ctaContact")} projectsButtonText={t("projects.viewAll")} projects={projects}/>
+
+        <FeaturedProjectsHomeSection 
+          title={t("projects.title")} 
+          description={t("projects.description")} 
+          contactButtonText={t("hero.ctaContact")} 
+          projectsButtonText={t("projects.viewAll")} 
+          projects={projects}
+          entranceAnimationEnabled={entranceAnimationsEnabled}
+        />
+
       </section>
     </PageLayout>
   );

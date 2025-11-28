@@ -99,6 +99,7 @@ interface FeaturedCarouselCardProps {
   tagClassName?: string;         // default: "text-xs"
   introStart?: boolean;
   introOrder?: number;
+  introAnimationEnabled: boolean;
 }
 
 export function FeaturedCarouselCard({
@@ -110,12 +111,13 @@ export function FeaturedCarouselCard({
   tagClassName,
   introStart = false,
   introOrder = 0,
+  introAnimationEnabled
 }: FeaturedCarouselCardProps) {
   const titleSize = titleClassName ?? "text-2xl md:text-3xl";
   const descSize = descriptionClassName ?? "text-sm md:text-base";
   const tagSize = tagClassName ?? "text-xs";
 
-  const [introDone, setIntroDone] = useState(false);
+  const [introDone, setIntroDone] = useState(!introAnimationEnabled);
   const isIntro = introStart && !introDone;
 
   const allTags = useMemo(() => project.tags ?? [], [project.tags]);
@@ -128,6 +130,12 @@ export function FeaturedCarouselCard({
   const [hiddenCount, setHiddenCount] = useState<number>(0);
 
   const tagsMeasureRef = useRef<HTMLDivElement | null>(null);
+
+  useEffect(() => {
+    if (!introAnimationEnabled) {
+      setIntroDone(true);
+    }
+  }, [introAnimationEnabled]);
 
   useEffect(() => {
     const el = cardRef.current;
@@ -223,8 +231,8 @@ export function FeaturedCarouselCard({
     <motion.article
       ref={cardRef}
       variants={cardVariants}
-      initial="hidden"
-      animate={introStart ? "show" : "hidden"}
+      initial={introAnimationEnabled ? "hidden" : "show"}
+      animate={introAnimationEnabled && !introStart ? "hidden" : "show"}
       custom={{ order: introOrder, isIntro, translate: !shouldHide }}
       onAnimationComplete={() => {
         if (isIntro) {

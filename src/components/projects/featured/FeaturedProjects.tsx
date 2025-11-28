@@ -24,6 +24,7 @@ interface FeaturedProjectsProps {
   introStart?: boolean;
   replaceUrl?: boolean;
   allowUrlOpen?: boolean;
+  carouselIntroEnabled?: boolean;
 }
 
 type CardRegistry = Map<number, HTMLElement>;
@@ -38,6 +39,7 @@ export default function FeaturedProjects({
   introStart,
   replaceUrl = true,
   allowUrlOpen = false,
+  carouselIntroEnabled = true,
 }: FeaturedProjectsProps) {
   const featuredProjects = useMemo(
     () => projects.filter((project) => project.is_featured),
@@ -136,6 +138,7 @@ export default function FeaturedProjects({
           layout={carouselLayout}
           typography={carouselTypography}
           introStart={introStart}
+          introAnimationEnabled={carouselIntroEnabled}
         />
       </div>
 

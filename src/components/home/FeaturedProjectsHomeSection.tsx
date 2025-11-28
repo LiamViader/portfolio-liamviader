@@ -15,6 +15,7 @@ interface FeaturedProjectsHomeSectionProps {
   projects: TranslatedProject[];
   replaceUrl?: boolean;
   allowUrlOpen?: boolean;
+  entranceAnimationEnabled: boolean;
 }
 
 
@@ -73,6 +74,7 @@ export function FeaturedProjectsHomeSection({
   projects,
   replaceUrl = true,
   allowUrlOpen = true,
+  entranceAnimationEnabled,
 }: FeaturedProjectsHomeSectionProps) {
   const leftControls = useAnimationControls();
   const rightControls = useAnimationControls();
@@ -83,16 +85,16 @@ export function FeaturedProjectsHomeSection({
   return (
     <motion.div
       variants={page}
-      initial="hidden"
-      whileInView="show"
-      viewport={{ once: true, amount: 0.35, margin: "0px 0px -15% 0px" }}
+      initial={entranceAnimationEnabled ? "hidden" : "show" }
+      whileInView={entranceAnimationEnabled ? "show" : undefined }
+      viewport={entranceAnimationEnabled ? { once: true, amount: 0.35, margin: "0px 0px -15% 0px" } : undefined}
       className="relative mx-auto max-w-[1400px]"
     >
       <div className="flex flex-col gap-6 lg:grid lg:grid-cols-[minmax(0,0.55fr)_minmax(0,1fr)] xl:grid-cols-[minmax(0,0.75fr)_minmax(0,1fr)] lg:items-start lg:gap-10">
         <motion.div
           variants={leftCol}
-          initial="hidden"
-          animate={leftControls}
+          initial={entranceAnimationEnabled ? "hidden" : "show" }
+          animate={entranceAnimationEnabled ? leftControls : "show"}
           viewport={{ once: true, amount: 0.35, margin: "0px 0px -15% 0px" }}
           onViewportEnter={() => {
             leftControls.start("show");
@@ -154,6 +156,7 @@ export function FeaturedProjectsHomeSection({
             }}
             replaceUrl={replaceUrl}
             allowUrlOpen={allowUrlOpen}
+            carouselIntroEnabled={entranceAnimationEnabled}
           />
         </div>
 
