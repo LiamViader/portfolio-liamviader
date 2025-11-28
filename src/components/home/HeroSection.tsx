@@ -5,6 +5,7 @@ import { HeroImage } from "@/components/home/HeroImage";
 import { motion, useAnimationControls } from "framer-motion";
 import { SkyButton, WhiteButton } from "./Buttons";
 import { BASE_DELAY_ENTRANCE } from "@/utils/constants";
+import { usePerfTier } from "@/hooks/usePerfTier";
 
 interface HeroSectionProps {
   title: ReactNode;
@@ -14,7 +15,7 @@ interface HeroSectionProps {
   entranceAnimationEnabled: boolean;
 }
 
-const titleVariants = {
+const titleVariantsWithHover = {
   initial: {
     opacity: 0,
     y: 20,
@@ -34,6 +35,19 @@ const titleVariants = {
   },
 };
 
+const titleVariantsWithoutHover = {
+  initial: {
+    opacity: 0,
+    y: 20,
+    scale: 1,
+  },
+  animate: {
+    opacity: 1,
+    y: 0,
+    scale: 1,
+  },
+};
+
 export function HeroSection({
   title,
   subtitle,
@@ -43,6 +57,8 @@ export function HeroSection({
 }: HeroSectionProps) {
   const controls = useAnimationControls();
   const [ready, setReady] = useState(false);
+
+  const { canHover } = usePerfTier();
 
   useEffect(() => {
     controls.start("animate", {
@@ -57,7 +73,7 @@ export function HeroSection({
 
       <div className="flex max-w-2xl flex-col items-center gap-8 lg:items-start">
         <motion.h1
-          variants={titleVariants}
+          variants={canHover ? titleVariantsWithHover : titleVariantsWithoutHover}
           onAnimationComplete={() => setReady(true)}
           initial="initial"
           animate={controls}

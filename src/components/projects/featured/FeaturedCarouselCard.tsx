@@ -4,6 +4,7 @@ import clsx from "clsx";
 import { type TranslatedProject } from "@/data/projects/types";
 import { motion, Variants } from "framer-motion";
 import { useState, useRef, useEffect, useMemo } from "react";
+import { usePerfTier } from "@/hooks/usePerfTier";
 
 const TRANSPARENT_BASE_BG   = "rgba(255,255,255,0.05)";
 const BASE_BORD = "rgba(255,255,255,0.10)";
@@ -18,20 +19,20 @@ const cardVariants: Variants = {
     y: 30,
     backgroundColor: TRANSPARENT_BASE_BG,
     borderColor: BASE_BORD,
-    boxShadow: BASE_SH,
   },
   show: (
-    c: { translate: boolean; order: number; isIntro: boolean } = {
+    c: { translate: boolean; order: number; isIntro: boolean, canHover: boolean } = {
       order: 0,
       isIntro: false,
       translate: true,
+      canHover: true,
     }
   ) => ({
     opacity: 1,
     y: 0,
     backgroundColor: TRANSPARENT_BASE_BG,
     borderColor: BASE_BORD,
-    boxShadow: BASE_SH,
+    boxShadow: c.canHover ? BASE_SH : undefined,
     transition: {
       duration: c.isIntro ? 0.65 : 0.5,
       delay: c.isIntro ? c.order * 0.15 : 0,
@@ -39,10 +40,11 @@ const cardVariants: Variants = {
     },
   }),
   hover: (
-    c: { translate: boolean; order: number; isIntro: boolean } = {
+    c: { translate: boolean; order: number; isIntro: boolean, canHover: boolean } = {
       order: 0,
       isIntro: false,
       translate: true,
+      canHover: true,
     }
   ) => ({
     y: c.translate ? -20 : 0,
@@ -116,6 +118,8 @@ export function FeaturedCarouselCard({
   const titleSize = titleClassName ?? "text-2xl md:text-3xl";
   const descSize = descriptionClassName ?? "text-sm md:text-base";
   const tagSize = tagClassName ?? "text-xs";
+
+  const {canHover} = usePerfTier();
 
   const [introDone, setIntroDone] = useState(!introAnimationEnabled);
   const isIntro = introStart && !introDone;
@@ -233,7 +237,7 @@ export function FeaturedCarouselCard({
       variants={cardVariants}
       initial={introAnimationEnabled ? "hidden" : "show"}
       animate={introAnimationEnabled && !introStart ? "hidden" : "show"}
-      custom={{ order: introOrder, isIntro, translate: !shouldHide }}
+      custom={{ order: introOrder, isIntro, translate: !shouldHide , canHover: canHover}}
       onAnimationComplete={() => {
         if (isIntro) {
           setIntroDone(true);
