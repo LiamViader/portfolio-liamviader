@@ -1,48 +1,85 @@
 "use client";
 
-import Image from "next/image"; 
+import Image from "next/image";
 import { easeInOut, easeOut, motion, type Variants } from "framer-motion";
 import { useState } from "react";
 import { BASE_DELAY_ENTRANCE } from "@/utils/constants";
 
-const RING = "0 0 0 2px rgba(255, 255, 255, 0.4)";             
-const BASE_GLOW  = "0 25px 60px -40px rgba(250,189,248,0.8)";
+const RING = "0 0 0 2px rgba(255, 255, 255, 0.4)";
+const BASE_GLOW = "0 25px 60px -40px rgba(250,189,248,0.8)";
 const HOVER_GLOW = "0 25px 80px -40px rgba(56,189,248,1)";
 
-const imageVariants: Variants = {
-  hidden: { y: 0, opacity: 0, scale: 0.9, boxShadow: `${RING}, ${BASE_GLOW}` },
+const createImageVariants = (animated: boolean): Variants => ({
+  hidden: {
+    y: 0,
+    opacity: 0,
+    scale: animated ? 0.9 : 1,
+    boxShadow: `${RING}, ${BASE_GLOW}`,
+  },
   intro: {
-    y: 0, opacity: 1, scale: 1, boxShadow: `${RING}, ${BASE_GLOW}`,
-    transition: { duration: 0.7, ease: easeOut, delay: BASE_DELAY_ENTRANCE+0.3},
+    y: 0,
+    opacity: 1,
+    scale: 1,
+    boxShadow: `${RING}, ${BASE_GLOW}`,
+    transition: {
+      duration: animated ? 0.7 : 0,
+      ease: animated ? easeOut : undefined,
+      delay: animated ? BASE_DELAY_ENTRANCE + 0.3 : BASE_DELAY_ENTRANCE,
+    },
   },
   show: {
-    y: 0, opacity: 1, scale: 1, boxShadow: `${RING}, ${BASE_GLOW}`,
-    transition: { duration: 0.55, ease: easeInOut },
+    y: 0,
+    opacity: 1,
+    scale: 1,
+    boxShadow: `${RING}, ${BASE_GLOW}`,
+    transition: {
+      duration: 0.55,
+      ease: easeInOut,
+    },
   },
   hover: {
-    y: -10, boxShadow: `${RING}, ${HOVER_GLOW}`,
+    y: -10,
+    boxShadow: `${RING}, ${HOVER_GLOW}`,
     transition: { duration: 0.25, ease: easeOut },
   },
-  tap: { scale: 0.98, transition: { duration: 0.08, ease: easeOut } },
-};
+  tap: {
+    scale: 0.98,
+    transition: { duration: 0.08, ease: easeOut },
+  },
+});
 
-export function HeroImage() {
+export function HeroImage({
+  entranceAnimationEnabled,
+}: {
+  entranceAnimationEnabled: boolean;
+}) {
   const [phase, setPhase] = useState<"intro" | "show">("intro");
   const [ready, setReady] = useState(false);
+
+  const imageVariants = createImageVariants(entranceAnimationEnabled);
 
   return (
     <motion.div
       variants={imageVariants}
       initial="hidden"
       animate={phase}
-      onAnimationComplete={(def) => { setReady(true); if (def === "intro") setPhase("show"); }}
+      onAnimationComplete={(def) => {
+        setReady(true);
+        if (def === "intro") setPhase("show");
+      }}
       whileHover={ready ? "hover" : undefined}
       whileTap={ready ? "tap" : undefined}
       className="relative lg:ml-auto flex h-50 w-34 md:h-70 md:w-50 lg:h-90 lg:w-70 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-transparent via-sky-500/20 to-transparent p-[3px] transform-gpu transition-none will-change-[transform, opacity]"
       style={{ pointerEvents: ready ? "auto" : "none" }}
     >
-      <div className="absolute -inset-5 -z-12 rounded-full bg-sky-500/10 blur-3xl" aria-hidden />
-      <div className="absolute -inset-5 z-11 rounded-full bg-sky-400/5 blur-3xl" aria-hidden />
+      <div
+        className="absolute -inset-5 -z-12 rounded-full bg-sky-500/10 blur-3xl"
+        aria-hidden
+      />
+      <div
+        className="absolute -inset-5 z-11 rounded-full bg-sky-400/5 blur-3xl"
+        aria-hidden
+      />
       <div className="relative h-full w-full overflow-hidden rounded-full border border-white/20">
         <Image
           src="/images/profesional_liam.png"
