@@ -92,6 +92,7 @@ export function PhilosophySection() {
                 title={t(item.titleKey)}
                 info={t(item.descriptionKey)}
                 icon={item.icon}
+                entranceAnimationEnabled={true}
               />
             ))}
           </motion.ul>

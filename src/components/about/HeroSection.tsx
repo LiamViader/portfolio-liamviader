@@ -142,24 +142,28 @@ export function HeroSection({ personalInfo, age }: HeroSectionProps) {
             title={personalInfo.fullName}
             info={t("hero.birthInfo", { age })}
             icon={<User2 className="h-6 w-6 text-sky-300" />}
+            entranceAnimationEnabled={true}
           />
 
           <InfoCard
             title={localizedCity}
             info={t("hero.locationInfo")}
             icon={<MapPin className="h-6 w-6 text-sky-300" />}
+            entranceAnimationEnabled={true}
           />
 
           <InfoCard
             title={t("hero.languagesTitle")}
             info={localizedLanguages.join(" · ")}
             icon={<Languages className="h-6 w-6 text-sky-300" />}
+            entranceAnimationEnabled={true}
           />
 
           <InfoCard
             title={t("hero.whatIDoTitle")}
             info={t("hero.whatIDoInfo")}
             icon={<Sparkles className="h-6 w-6 text-sky-300" />}
+            entranceAnimationEnabled={true}
           />
         </motion.ul>
       </div>
