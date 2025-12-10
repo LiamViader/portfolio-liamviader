@@ -66,7 +66,7 @@ const createCardVariantsWithHover = (animated: boolean): Variants => ({
     },
   },
   hover: {
-    y: -10,
+    y: -4,
     backgroundColor: HOVER_BG,
     borderColor: HOVER_BOR,
     boxShadow: HOVER_SH,
@@ -76,7 +76,7 @@ const createCardVariantsWithHover = (animated: boolean): Variants => ({
     },
   },
   tap: {
-    scale: 0.96,
+    scale: 0.98,
     transition: {
       duration: 0.08,
       ease: "easeOut",

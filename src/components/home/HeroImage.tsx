@@ -69,7 +69,7 @@ export function HeroImage({
       }}
       whileHover={ready ? "hover" : undefined}
       whileTap={ready ? "tap" : undefined}
-      className="relative lg:ml-auto flex h-50 w-34 md:h-70 md:w-50 lg:h-90 lg:w-70 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-transparent via-sky-500/20 to-transparent p-[3px] transform-gpu transition-none will-change-[transform, opacity]"
+      className="relative lg:ml-auto flex h-65 w-45 md:h-70 md:w-50 lg:h-90 lg:w-70 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-transparent via-sky-500/20 to-transparent p-[3px] transform-gpu transition-none will-change-[transform, opacity]"
       style={{ pointerEvents: ready ? "auto" : "none" }}
     >
       <div

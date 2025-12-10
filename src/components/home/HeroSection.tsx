@@ -68,7 +68,7 @@ export function HeroSection({
   }, [controls, entranceAnimationEnabled]);
 
   return (
-    <div className="relative z-10 mx-auto flex w-full max-w-6xl flex-col items-center gap-8 lg:gap-16 px-2 text-center lg:flex-row lg:items-center lg:justify-between lg:text-left">
+    <div className="relative z-10 mx-auto flex w-full max-w-6xl flex-col items-center gap-8 lg:gap-16 text-center lg:flex-row lg:items-center lg:justify-between lg:text-left">
       <HeroImage entranceAnimationEnabled={entranceAnimationEnabled}/>
 
       <div className="flex max-w-2xl flex-col items-center gap-8 lg:items-start">
