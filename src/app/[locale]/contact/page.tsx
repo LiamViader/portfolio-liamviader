@@ -64,7 +64,7 @@ const createContactContainerVariant = (animated: boolean): Variants => ({
   },
 });
 
-// Definimos el tipo de datos que recibirá 'custom'
+
 type NavLinkCustom = {
   bg: string;
   border: string;
@@ -77,18 +77,15 @@ const createNavLinkVariants = (animated: boolean): Variants => ({
     opacity: 0,
     y: animated ? 20 : 0,
   },
-  // 'c' recibe el objeto combinado (colores + isIntro)
   show: (c: NavLinkCustom) => ({
     opacity: 1,
     y: 0,
     transition: { 
-      duration: animated ? 0.7 : 0,
-      // Solo aplicamos delay si es la intro Y está animado
+      duration: (c.isIntro && animated) ? 0.7 : 0,
       delay: (c.isIntro && animated) ? BASE_DELAY_ENTRANCE + 0.5 : 0, 
       ease: "easeOut" 
     },
   }),
-  // 'c' sigue teniendo los colores aquí
   hover: (c: NavLinkCustom) => ({
     scale: 1.03,
     y: -2,
