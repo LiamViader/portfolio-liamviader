@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, type Variants } from "framer-motion";
-import { useState, type ComponentType } from "react";
+import { useState, useMemo, type ComponentType } from "react";
 import { useTranslations } from "next-intl";
 import { Mail, Building2, MessageSquare, Hammer, ArrowUpRight } from "lucide-react";
 import { FaGithub, FaLinkedin } from "react-icons/fa";
@@ -94,35 +94,34 @@ const arrowHoverVariants: Variants = {
 };
 
 
-const CONTACT_BACKGROUND_LAYERS = [
-  {
-    id: "fill",
-    gridType: "Fill" as const,
-    pixelsPerHex: 30,
-    hue: 250,
-    s: 100,
-    l: 8,
-    hueJitter: 0,
-    fillTuning: { fillAlphaMax: 0.2, fillAlphaMin: 0, lineAlphaMax: 1, lineAlphaMin: 0.8 },
-  },
-  {
-    id: "trails",
-    gridType: "Trails" as const,
-    pixelsPerHex: 30,
-    hue: 240,
-    s: 60,
-    l: 37,
-    hueJitter: 20,
-    trailCount: 15,
-    stepsPerSecond: 20,
-  },
-];
-
-
 export default function ContactPage() {
   const t = useTranslations("ContactPage");
   const [introDone, setIntroDone] = useState(false);
-  const { entranceAnimationsEnabled } = usePerformanceConfig();
+  const { entranceAnimationsEnabled, isSmallScreen } = usePerformanceConfig();
+
+  const backgroundLayers = useMemo(() => [
+    {
+      id: "fill",
+      gridType: "Fill" as const,
+      pixelsPerHex: 30,
+      hue: 250,
+      s: 100,
+      l: 8,
+      hueJitter: 0,
+      fillTuning: { fillAlphaMax: 0.2, fillAlphaMin: 0, lineAlphaMax: 1, lineAlphaMin: 0.8 },
+    },
+    {
+      id: "trails",
+      gridType: "Trails" as const,
+      pixelsPerHex: 30,
+      hue: 240,
+      s: 60,
+      l: 37,
+      hueJitter: 20,
+      trailCount: isSmallScreen ? 7 : 15,
+      stepsPerSecond: 20,
+    },
+  ], [isSmallScreen]);
 
   const contactContainerVariant = createContactContainerVariant(entranceAnimationsEnabled);
   const linkCardVariant = linkCardVariants(entranceAnimationsEnabled);
@@ -189,7 +188,7 @@ export default function ContactPage() {
 
   return (
     <PageLayout
-      backgroundLayers={CONTACT_BACKGROUND_LAYERS}
+      backgroundLayers={backgroundLayers}
       overlays={<div className="absolute inset-0 bg-gradient-to-b from-slate-950/10 via-slate-950/30 to-slate-950"></div>}
       className=" px-4 sm:px-6 lg:px-12"
     >

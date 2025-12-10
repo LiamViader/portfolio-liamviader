@@ -7,6 +7,7 @@ export type BackgroundsType = "normal" | "semioptimized" | "optimized";
 export type PerformanceConfig = {
   entranceAnimationsEnabled: boolean;
   backgroundsOptimization: BackgroundsType;
+  isSmallScreen: boolean;
 };
 
 export function usePerformanceConfig(): PerformanceConfig {
@@ -23,5 +24,6 @@ export function usePerformanceConfig(): PerformanceConfig {
   return {
     entranceAnimationsEnabled,
     backgroundsOptimization,
+    isSmallScreen
   };
 }

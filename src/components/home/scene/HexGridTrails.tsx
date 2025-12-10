@@ -22,7 +22,7 @@ type Graph = {
   edgesByVertex: number[][];
   positions: Float32Array;
   colors: Float32Array;
-  tLit: Float32Array;               
+  tLit: Float32Array;              
   geometry: THREE.BufferGeometry;
   radius: number;
 };
@@ -145,21 +145,34 @@ export default function HexGridTrails({
   }, [graph, opts.trailCount]);
 
   const groupRef = useRef<THREE.Group>(null);
-  useFrame((state, dt) => {
-    const t = state.clock.getElapsedTime();
-    (lineMat.uniforms.uTime as THREE.IUniform<number>).value = t;
+  
+  // Referencia para el tiempo simulado (pausable)
+  const simTimeRef = useRef(0);
 
+  useFrame((state, dt) => {
+    // 1. TIEMPO REAL: Para la rotación (sigue corriendo en background)
+    const realTime = state.clock.getElapsedTime();
     const g = groupRef.current;
     if (g) {
-      g.rotation.z = Math.sin(t * 0.18) * 0.04;
-      g.position.z = Math.sin(t * 0.18) * 3.0;
+      g.rotation.z = Math.sin(realTime * 0.18) * 0.04;
+      g.position.z = Math.sin(realTime * 0.18) * 3.0;
     }
+
+    // 2. TIEMPO SIMULADO: Para trails y shader (se pausa si dt es muy grande)
+    // Si ha pasado más de 0.1s (lag o tab inactivo), asumimos 0 avance.
+    const safeDt = dt > 0.1 ? 0 : dt;
+    simTimeRef.current += safeDt;
+    const simTime = simTimeRef.current;
+
+    // Actualizamos el shader con el tiempo simulado
+    (lineMat.uniforms.uTime as THREE.IUniform<number>).value = simTime;
 
     const stepDt = 1 / Math.max(1e-4, opts.stepsPerSecond);
     let anyLit = false;
 
+    // Usamos safeDt para el cálculo de pasos
     for (const tr of trailsRef.current) {
-      tr.tAccum += dt;
+      tr.tAccum += safeDt; 
       if (tr.tAccum >= stepDt) {
         tr.tAccum -= stepDt;
         const next = pickNextEdgeFast(graph, tr.edge, tr.at, opts.avoidBacktrack);
@@ -173,8 +186,9 @@ export default function HexGridTrails({
         if (tLitAttrRef.current) {
           const arr = tLitAttrRef.current.array as Float32Array;
           const i = tr.edge * 2;
-          arr[i + 0] = t;
-          arr[i + 1] = t;
+          // Guardamos el momento exacto usando simTime
+          arr[i + 0] = simTime;
+          arr[i + 1] = simTime;
           anyLit = true;
         }
       }
