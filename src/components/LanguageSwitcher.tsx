@@ -131,6 +131,16 @@ export default function LanguageSwitcher() {
                     <span>{label}</span>
                   </span>
 
+                  {isActive && (
+                    <motion.span
+                      initial={{ opacity: 0, scale: 0.8 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      exit={{ opacity: 0, scale: 0.8 }}
+                      className="text-[0.5rem] opacity-80"
+                    >
+                      ✓
+                    </motion.span>
+                  )}
                 </Link>
               );
             })}
