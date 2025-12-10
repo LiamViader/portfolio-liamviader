@@ -13,7 +13,7 @@ import { usePerformanceConfig } from "@/hooks/usePerformanceConfig";
 
 type AnyIcon = ComponentType<{ className?: string }>;
 
-const BASE_BG = "rgba(255,255,255,0.05)";
+const BASE_BG = "rgba(255,255,255,0.02)";
 const BASE_BORD = "rgba(255,255,255,0.10)";
 const HOVER_BG = "rgba(56,189,248,0.10)";
 const HOVER_BOR = "rgba(56,189,248,0.60)";
@@ -183,32 +183,32 @@ export default function ContactPage() {
 
   const contactLinks = [
     {
-      key: "email",
-      icon: Mail as unknown as AnyIcon,
-      href: `mailto:${t("links.items.email.value")}`,
-      label: t("links.items.email.label"),
-      value: t("links.items.email.value"),
-      theme: {
-        baseClass: "bg-rose-400/8 border-rose-400/25",
-        iconClass: "text-rose-200",
-        hoverData: {
-          bg: "rgba(244, 63, 94, 0.25)",
-          border: "rgba(244, 63, 94, 0.8)",
-        }
-      }
-    },
-    {
       key: "linkedin",
       icon: FaLinkedin,
       href: t("links.items.linkedin.href"),
       label: t("links.items.linkedin.label"),
       value: t("links.items.linkedin.value"),
       theme: {
-        baseClass: "bg-sky-400/8 border-sky-400/25",
+        baseClass: "bg-sky-400/10 border-sky-400/50",
         iconClass: "text-sky-200",
         hoverData: {
           bg: "rgba(56, 189, 248, 0.25)",
           border: "rgba(56, 189, 248, 0.8)",
+        }
+      }
+    },
+    {
+      key: "email",
+      icon: Mail as unknown as AnyIcon,
+      href: `mailto:${t("links.items.email.value")}`,
+      label: t("links.items.email.label"),
+      value: t("links.items.email.value"),
+      theme: {
+        baseClass: "bg-rose-400/10 border-rose-400/50",
+        iconClass: "text-rose-200",
+        hoverData: {
+          bg: "rgba(244, 63, 94, 0.25)",
+          border: "rgba(244, 63, 94, 0.8)",
         }
       }
     },
@@ -219,7 +219,7 @@ export default function ContactPage() {
       label: t("links.items.github.label"),
       value: t("links.items.github.value"),
       theme: {
-        baseClass: "bg-violet-400/8 border-violet-400/25",
+        baseClass: "bg-violet-400/10 border-violet-400/50",
         iconClass: "text-violet-200",
         hoverData: {
           bg: "rgba(139, 92, 246, 0.25)",
