@@ -24,8 +24,8 @@ const BASE_SH = "0 0 30px rgba(56,189,248,0.01)";
 
 const createContactContainerVariant = (animated: boolean): Variants => ({
   hidden: {
-    opacity: 0, // Siempre empieza invisible para forzar el ciclo de montaje (refresh visual)
-    x: animated ? 20 : 0, // Si no hay animación, ya está en su sitio (x:0)
+    opacity: 0,
+    x: animated ? 20 : 0,
     y: 0,
     backgroundColor: BASE_BG,
     borderColor: BASE_BORD,
@@ -39,10 +39,6 @@ const createContactContainerVariant = (animated: boolean): Variants => ({
     borderColor: BASE_BORD,
     boxShadow: BASE_SH,
     transition: {
-      // Lógica de duración crucial:
-      // 1. Si es la intro Y está animado: duración normal (0.6s).
-      // 2. Si es la intro Y NO está animado: duración 0 (aparición instantánea).
-      // 3. Si NO es la intro (es un estado posterior): duración estándar (0.5s).
       duration: (c.isIntro && animated) ? 0.6 : (c.isIntro ? 0 : 0.5),
       delay: (c.isIntro && animated) ? c.order * 0.2 + BASE_DELAY_ENTRANCE + 0.2 : 0,
       ease: "easeOut",
@@ -71,7 +67,7 @@ const createContactContainerVariant = (animated: boolean): Variants => ({
 
 const createNavLinkVariants = (animated: boolean): Variants => ({
   hidden: { 
-    opacity: 0, // Siempre 0 al inicio para refresh visual
+    opacity: 0,
     y: animated ? 20 : 0,
     filter: animated ? "blur(2px)" : "blur(0px)" 
   },
@@ -80,7 +76,7 @@ const createNavLinkVariants = (animated: boolean): Variants => ({
     y: 0,
     filter: "blur(0px)",
     transition: { 
-      duration: animated ? 0.7 : 0, // Duración 0 si no está animado
+      duration: animated ? 0.7 : 0,
       delay: animated ? BASE_DELAY_ENTRANCE + 0.5 : 0, 
       ease: "easeOut" 
     },
@@ -156,7 +152,6 @@ export default function ContactPage() {
   const [introDone, setIntroDone] = useState(false);
   const { entranceAnimationsEnabled } = usePerformanceConfig();
 
-  // Generamos variantes basadas en la configuración
   const contactContainerVariant = createContactContainerVariant(entranceAnimationsEnabled);
   const navLinkVariants = createNavLinkVariants(entranceAnimationsEnabled);
 
@@ -228,7 +223,7 @@ export default function ContactPage() {
               className="text-center md:text-left text-4xl font-semibold tracking-tight text-white/95 sm:text-5xl md:text-6xl"
               initial={{ 
                 y: entranceAnimationsEnabled ? 20 : 0, 
-                opacity: 0, // Opacidad 0 inicial para refresh visual
+                opacity: 0, 
                 scale: 1, 
                 filter: "drop-shadow(0 0 12px rgba(56,189,248,0.01))" 
               }}
@@ -236,16 +231,14 @@ export default function ContactPage() {
               whileHover={introDone ? {scale: 1.02, y: -2, filter: "drop-shadow(0 0 12px rgba(56,189,248,0.35))", transition: {duration: 0.3}} : undefined}
               transition={
                 introDone 
-                  ? { duration: 0.5, delay: 0 } // Transiciones post-intro
+                  ? { duration: 0.5, delay: 0 }
                   : { 
-                      // Transición de entrada: duración 0 si está desactivada
                       duration: entranceAnimationsEnabled ? 0.7 : 0, 
                       delay: entranceAnimationsEnabled ? BASE_DELAY_ENTRANCE : 0, 
                       ease: "easeOut" 
                     }
               }
               onAnimationComplete={() => {
-                // Importante: Si la duración es 0, esto se dispara inmediatamente, habilitando el hover
                 if (!introDone) setIntroDone(true);
               }}
             >
@@ -257,11 +250,10 @@ export default function ContactPage() {
               className="text-center md:text-left text-pretty text-lg text-white/75 sm:text-xl"
               initial={{ 
                 y: entranceAnimationsEnabled ? 20 : 0, 
-                opacity: 0 // Opacidad 0 inicial
+                opacity: 0
               }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ 
-                // Duración 0 si está desactivada
                 duration: entranceAnimationsEnabled ? 0.7 : 0, 
                 delay: entranceAnimationsEnabled ? BASE_DELAY_ENTRANCE + 0.1 : 0, 
                 ease: "easeOut" 
@@ -271,11 +263,11 @@ export default function ContactPage() {
             </motion.p>
           </div>
 
-          <div className="space-y-6 mt-5 gap-5 grid py-4 sm:py-6 overflow-hidden">
+          <div className="mt-5 flex flex-col gap-5 py-6">
             {highlightCards.map(({ key, icon: Icon, title, description }, index) => (
               <motion.article
                 key={key}
-                className="relative overflow-hidden p-4 h-full backdrop-blur-sm border border-white/10 bg-white/5 rounded-3xl"
+                className="relative w-full overflow-hidden rounded-3xl border border-white/10 bg-white/5 p-4 md:p-5 backdrop-blur-sm"
                 aria-labelledby={`contact-highlight-${key}`}
                 initial="hidden"
                 animate="show"
@@ -284,22 +276,25 @@ export default function ContactPage() {
                 custom={{ order: index, isIntro: !introDone }}
                 variants={contactContainerVariant}
                 onAnimationComplete={() => {
-                  // Si la duración en variantes es 0, esto se dispara al instante
                   if (!introDone) {
                     setIntroDone(true);
                   }
                 }}
               >
                 <div className="absolute inset-0 bg-gradient-to-b from-transparent via-sky-500/5 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" aria-hidden />
-                <div className="relative z-10 flex h-full flex-row items-center justify-left gap-6">
-                  <div className="flex shrink-0 h-12 w-12 items-center justify-center text-sky-300/95">
+                
+                <div className="relative z-10 flex flex-row items-center gap-6">
+                  <div className="flex h-12 w-12 shrink-0 items-center justify-center text-sky-300/95">
                     <Icon className="h-8 w-8" />
                   </div>
-                  <div className="flex flex-col gap-1">
+                  
+                  <div className="flex min-w-0 flex-1 flex-col gap-1">
                     <h3 id={`contact-highlight-${key}`} className="text-lg font-semibold text-sky-300/95">
                       {title}
                     </h3>
-                    <p className="text-sm text-white/70 text-pretty">{description}</p>
+                    <p className="text-sm text-white/70 text-pretty break-words">
+                        {description}
+                    </p>
                   </div>
                 </div>
               </motion.article>
@@ -320,7 +315,7 @@ export default function ContactPage() {
                       animate="show"
                       whileHover="hover"
                       whileTap="tap"
-                      className="relative overflow-hidden inline-flex items-center gap-4 rounded-full px-4 py-2 sm:px-5 sm:py-2.5 text-sm sm:text-lg bg-white/0 ring-1 ring-white/15 text-white/85 backdrop-blur-sm shadow-md transform-gpu will-change-[transform,opacity] transition-none"
+                      className="relative overflow-hidden inline-flex items-center gap-4 rounded-full px-4 py-2 sm:px-5 sm:py-2.5 text-lg bg-white/0 ring-1 ring-white/15 text-white/85 backdrop-blur-sm shadow-md transform-gpu will-change-[transform,opacity] transition-none"
                     >
                       <motion.span
                         aria-hidden
