@@ -190,7 +190,7 @@ export default function ContactPage() {
   return (
     <PageLayout
       backgroundLayers={backgroundLayers}
-      overlays={<div className="absolute inset-0 bg-gradient-to-b from-slate-950/10 via-slate-950/30 to-slate-950"></div>}
+      overlays={<div className="absolute inset-0 bg-gradient-to-b from-slate-950/30 via-slate-950/50 to-slate-950"></div>}
       className=" px-4 sm:px-6 lg:px-12"
     >
       <div>
