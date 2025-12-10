@@ -270,7 +270,7 @@ export default function ContactPage() {
           </div>
 
           <div className="mt-6">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mx-auto max-w-5xl">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mx-auto max-w-[90%]">
               {contactLinks.map(({ key, icon: Icon, href, value, label, styles }, index) => (
                 <motion.a
                   key={key}
