@@ -27,14 +27,13 @@ export default function LanguageSwitcher() {
 
   const locales = routing.locales;
 
-  // Locale "efectivo": si hay uno pendiente, usamos ese visualmente
   const effectiveLocale = pendingLocale ?? locale;
   const currentLabel =
     labelByLocale[effectiveLocale] ?? effectiveLocale.toUpperCase();
 
   const dropdownRef = useRef<HTMLDivElement>(null);
 
-  // Cuando realmente cambian ruta/locale, asumimos que la navegación ha terminado
+
   useEffect(() => {
     setOpen(false);
     setPendingLocale(null);
@@ -106,7 +105,7 @@ export default function LanguageSwitcher() {
             {locales.map((code) => {
               const countryCode = countryCodeByLocale[code] ?? "UN";
               const label = labelByLocale[code] ?? code.toUpperCase();
-              const isActive = code === effectiveLocale; // usamos el "efectivo"
+              const isActive = code === effectiveLocale;
 
               return (
                 <Link
@@ -115,7 +114,6 @@ export default function LanguageSwitcher() {
                   locale={code}
                   role="menuitem"
                   onClick={() => {
-                    // Actualizamos inmediatamente el idioma "visual"
                     setPendingLocale(code);
                     setOpen(false);
                   }}
@@ -133,16 +131,6 @@ export default function LanguageSwitcher() {
                     <span>{label}</span>
                   </span>
 
-                  {isActive && (
-                    <motion.span
-                      initial={{ opacity: 0, scale: 0.8 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      exit={{ opacity: 0, scale: 0.8 }}
-                      className="text-[0.7rem] opacity-80"
-                    >
-                      ✓
-                    </motion.span>
-                  )}
                 </Link>
               );
             })}
