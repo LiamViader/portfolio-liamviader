@@ -9,7 +9,7 @@ import { FaGithub, FaLinkedin } from "react-icons/fa";
 
 import PageLayout from "@/components/layout/PageLayout";
 import { BASE_DELAY_ENTRANCE } from "@/utils/constants";
-
+import { usePerformanceConfig } from "@/hooks/usePerformanceConfig";
 
 type AnyIcon = ComponentType<{ className?: string }>;
 
@@ -20,10 +20,12 @@ const HOVER_BOR = "rgba(56,189,248,0.60)";
 const HOVER_SH = "0 0 30px rgba(56,189,248,0.30)";
 const BASE_SH = "0 0 30px rgba(56,189,248,0.01)";
 
-const contactContainerVariant: Variants = {
+// --- Factory Functions para variantes condicionales ---
+
+const createContactContainerVariant = (animated: boolean): Variants => ({
   hidden: {
-    opacity: 0,
-    x: 20,
+    opacity: 0, // Siempre empieza invisible para forzar el ciclo de montaje (refresh visual)
+    x: animated ? 20 : 0, // Si no hay animación, ya está en su sitio (x:0)
     y: 0,
     backgroundColor: BASE_BG,
     borderColor: BASE_BORD,
@@ -37,8 +39,12 @@ const contactContainerVariant: Variants = {
     borderColor: BASE_BORD,
     boxShadow: BASE_SH,
     transition: {
-      duration: c.isIntro ? 0.6 : 0.5,
-      delay: c.isIntro ? c.order * 0.2 + BASE_DELAY_ENTRANCE+0.2 : 0,
+      // Lógica de duración crucial:
+      // 1. Si es la intro Y está animado: duración normal (0.6s).
+      // 2. Si es la intro Y NO está animado: duración 0 (aparición instantánea).
+      // 3. Si NO es la intro (es un estado posterior): duración estándar (0.5s).
+      duration: (c.isIntro && animated) ? 0.6 : (c.isIntro ? 0 : 0.5),
+      delay: (c.isIntro && animated) ? c.order * 0.2 + BASE_DELAY_ENTRANCE + 0.2 : 0,
       ease: "easeOut",
     },
   }),
@@ -61,15 +67,23 @@ const contactContainerVariant: Variants = {
       ease: "easeOut",
     },
   },
-};
+});
 
-const navLinkVariants: Variants = {
-  hidden: { opacity: 0, y: 20, filter: "blur(2px)" },
+const createNavLinkVariants = (animated: boolean): Variants => ({
+  hidden: { 
+    opacity: 0, // Siempre 0 al inicio para refresh visual
+    y: animated ? 20 : 0,
+    filter: animated ? "blur(2px)" : "blur(0px)" 
+  },
   show: {
     opacity: 1,
     y: 0,
     filter: "blur(0px)",
-    transition: { duration: 0.7, delay: BASE_DELAY_ENTRANCE+0.5, ease: "easeOut" },
+    transition: { 
+      duration: animated ? 0.7 : 0, // Duración 0 si no está animado
+      delay: animated ? BASE_DELAY_ENTRANCE + 0.5 : 0, 
+      ease: "easeOut" 
+    },
   },
   hover: {
     scale: 1.03,
@@ -90,7 +104,7 @@ const navLinkVariants: Variants = {
     y: 0,
     transition: { duration: 0.12 },
   },
-};
+});
 
 const glintVariants: Variants = {
   show: { x: "-120%", opacity: 0 },
@@ -140,6 +154,11 @@ const CONTACT_BACKGROUND_LAYERS = [
 export default function ContactPage() {
   const t = useTranslations("ContactPage");
   const [introDone, setIntroDone] = useState(false);
+  const { entranceAnimationsEnabled } = usePerformanceConfig();
+
+  // Generamos variantes basadas en la configuración
+  const contactContainerVariant = createContactContainerVariant(entranceAnimationsEnabled);
+  const navLinkVariants = createNavLinkVariants(entranceAnimationsEnabled);
 
   const highlightCards = [
     {
@@ -207,10 +226,28 @@ export default function ContactPage() {
           <div className="flex flex-col gap-6 max-w-4xl">
             <motion.h1
               className="text-center md:text-left text-4xl font-semibold tracking-tight text-white/95 sm:text-5xl md:text-6xl"
-              initial={{ y: 20, opacity: 0, scale: 1, filter: "drop-shadow(0 0 12px rgba(56,189,248,0.01))" }}
+              initial={{ 
+                y: entranceAnimationsEnabled ? 20 : 0, 
+                opacity: 0, // Opacidad 0 inicial para refresh visual
+                scale: 1, 
+                filter: "drop-shadow(0 0 12px rgba(56,189,248,0.01))" 
+              }}
               animate={{ y: 0, opacity: 1, scale: 1, filter: "drop-shadow(0 0 12px rgba(56,189,248,0.01))" }}
               whileHover={introDone ? {scale: 1.02, y: -2, filter: "drop-shadow(0 0 12px rgba(56,189,248,0.35))", transition: {duration: 0.3}} : undefined}
-              transition={introDone ? {duration: 0.5, delay:0}: { duration: 0.7, delay: BASE_DELAY_ENTRANCE, ease: "easeOut" }}
+              transition={
+                introDone 
+                  ? { duration: 0.5, delay: 0 } // Transiciones post-intro
+                  : { 
+                      // Transición de entrada: duración 0 si está desactivada
+                      duration: entranceAnimationsEnabled ? 0.7 : 0, 
+                      delay: entranceAnimationsEnabled ? BASE_DELAY_ENTRANCE : 0, 
+                      ease: "easeOut" 
+                    }
+              }
+              onAnimationComplete={() => {
+                // Importante: Si la duración es 0, esto se dispara inmediatamente, habilitando el hover
+                if (!introDone) setIntroDone(true);
+              }}
             >
               {t.rich("hero.title", {
                 highlight: (chunks) => <span className="text-sky-300">{chunks}</span>,
@@ -218,9 +255,17 @@ export default function ContactPage() {
             </motion.h1>
             <motion.p
               className="text-center md:text-left text-pretty text-lg text-white/75 sm:text-xl"
-              initial={{ y: 20, opacity: 0 }}
+              initial={{ 
+                y: entranceAnimationsEnabled ? 20 : 0, 
+                opacity: 0 // Opacidad 0 inicial
+              }}
               animate={{ y: 0, opacity: 1 }}
-              transition={{ duration: 0.7, delay: BASE_DELAY_ENTRANCE+0.1, ease: "easeOut" }}
+              transition={{ 
+                // Duración 0 si está desactivada
+                duration: entranceAnimationsEnabled ? 0.7 : 0, 
+                delay: entranceAnimationsEnabled ? BASE_DELAY_ENTRANCE + 0.1 : 0, 
+                ease: "easeOut" 
+              }}
             >
               {t("hero.description")}
             </motion.p>
@@ -239,6 +284,7 @@ export default function ContactPage() {
                 custom={{ order: index, isIntro: !introDone }}
                 variants={contactContainerVariant}
                 onAnimationComplete={() => {
+                  // Si la duración en variantes es 0, esto se dispara al instante
                   if (!introDone) {
                     setIntroDone(true);
                   }
