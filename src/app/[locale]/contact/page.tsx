@@ -103,7 +103,7 @@ export default function ContactPage() {
     {
       id: "fill",
       gridType: "Fill" as const,
-      pixelsPerHex: isSmallScreen ? 20 : 30,
+      pixelsPerHex: isSmallScreen ? 25 : 30,
       hue: 250,
       s: 100,
       l: 8,
@@ -113,7 +113,7 @@ export default function ContactPage() {
     {
       id: "trails",
       gridType: "Trails" as const,
-      pixelsPerHex: isSmallScreen ? 20 : 30,
+      pixelsPerHex: isSmallScreen ? 25 : 30,
       hue: 240,
       s: 60,
       l: 37,
