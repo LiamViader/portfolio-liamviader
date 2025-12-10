@@ -120,7 +120,7 @@ export default function ContactPage() {
       hueJitter: 20,
       trailCount: isSmallScreen ? 7 : 15,
       stepsPerSecond: 20,
-      fadeSeconds: isSmallScreen ? 3: 7,
+      fadeSeconds: isSmallScreen ? 4: 7,
     },
   ], [isSmallScreen]);
 
