@@ -64,28 +64,37 @@ const createContactContainerVariant = (animated: boolean): Variants => ({
   },
 });
 
-// MODIFICADO: Ahora 'hover' acepta parámetros personalizados (colors)
+// Definimos el tipo de datos que recibirá 'custom'
+type NavLinkCustom = {
+  bg: string;
+  border: string;
+  shadow: string;
+  isIntro: boolean;
+};
+
 const createNavLinkVariants = (animated: boolean): Variants => ({
   hidden: { 
     opacity: 0,
     y: animated ? 20 : 0,
   },
-  show: {
+  // 'c' recibe el objeto combinado (colores + isIntro)
+  show: (c: NavLinkCustom) => ({
     opacity: 1,
     y: 0,
     transition: { 
       duration: animated ? 0.7 : 0,
-      delay: animated ? BASE_DELAY_ENTRANCE + 0.5 : 0, 
+      // Solo aplicamos delay si es la intro Y está animado
+      delay: (c.isIntro && animated) ? BASE_DELAY_ENTRANCE + 0.5 : 0, 
       ease: "easeOut" 
     },
-  },
-  hover: (colors: { bg: string; border: string; shadow: string }) => ({
+  }),
+  // 'c' sigue teniendo los colores aquí
+  hover: (c: NavLinkCustom) => ({
     scale: 1.03,
     y: -2,
-    // Usamos los colores pasados por 'custom'
-    backgroundColor: colors.bg,
-    borderColor: colors.border,
-    boxShadow: colors.shadow,
+    backgroundColor: c.bg,
+    borderColor: c.border,
+    boxShadow: c.shadow,
     transition: {
       type: "spring",
       stiffness: 420,
@@ -183,21 +192,6 @@ export default function ContactPage() {
 
   const contactLinks = [
     {
-      key: "linkedin",
-      icon: FaLinkedin,
-      href: t("links.items.linkedin.href"),
-      label: t("links.items.linkedin.label"),
-      value: t("links.items.linkedin.value"),
-      theme: {
-        baseClass: "bg-sky-400/10 border-sky-400/40",
-        iconClass: "text-sky-200",
-        hoverData: {
-          bg: "rgba(56, 189, 248, 0.25)",
-          border: "rgba(56, 189, 248, 0.8)",
-        }
-      }
-    },
-    {
       key: "email",
       icon: Mail as unknown as AnyIcon,
       href: `mailto:${t("links.items.email.value")}`,
@@ -209,6 +203,23 @@ export default function ContactPage() {
         hoverData: {
           bg: "rgba(244, 63, 94, 0.25)",
           border: "rgba(244, 63, 94, 0.8)",
+          shadow: "0 0 25px rgba(244, 63, 94, 0.4)", // Agregué shadow que faltaba en tu snippet
+        }
+      }
+    },
+    {
+      key: "linkedin",
+      icon: FaLinkedin,
+      href: t("links.items.linkedin.href"),
+      label: t("links.items.linkedin.label"),
+      value: t("links.items.linkedin.value"),
+      theme: {
+        baseClass: "bg-sky-400/10 border-sky-400/40",
+        iconClass: "text-sky-200",
+        hoverData: {
+          bg: "rgba(56, 189, 248, 0.25)",
+          border: "rgba(56, 189, 248, 0.8)",
+          shadow: "0 0 25px rgba(56, 189, 248, 0.4)",
         }
       }
     },
@@ -224,6 +235,7 @@ export default function ContactPage() {
         hoverData: {
           bg: "rgba(139, 92, 246, 0.25)",
           border: "rgba(139, 92, 246, 0.8)",
+          shadow: "0 0 25px rgba(139, 92, 246, 0.4)",
         }
       }
     },
@@ -336,10 +348,10 @@ export default function ContactPage() {
                       variants={navLinkVariants}
                       initial="hidden"
                       animate="show"
-                      whileHover="hover"
+                      whileHover={introDone ? "hover" : undefined}
                       whileTap="tap"
-                      custom={theme.hoverData}
-                      className={`relative overflow-hidden inline-flex items-center gap-4 rounded-full px-4 py-2 sm:px-5 sm:py-2.5 text-lg border backdrop-blur-sm transform-gpu will-change-[transform,opacity] transition-none ${theme.baseClass}`}
+                      custom={{ ...theme.hoverData, isIntro: !introDone }}
+                      className={`relative overflow-hidden inline-flex items-center justify-center gap-2 sm:gap-4 rounded-full p-3 sm:px-5 sm:py-2.5 text-lg border backdrop-blur-sm transform-gpu will-change-[transform,opacity] transition-none ${theme.baseClass}`}
                     >
                       <motion.span
                         aria-hidden
@@ -352,12 +364,14 @@ export default function ContactPage() {
                         variants={glintVariants}
                       />
                       <motion.span variants={leftIconVariants} className="flex">
-                        <Icon className={`size-5 shrink-0 ${theme.iconClass}`} />
+                        <Icon className={`size-6 sm:size-5 shrink-0 ${theme.iconClass}`} />
                       </motion.span>
-                      <motion.span variants={textVariants} className="font-medium">
+                      
+                      <motion.span variants={textVariants} className="hidden sm:block font-medium">
                         {value}
                       </motion.span>
-                      <motion.span variants={arrowVariants} className="flex">
+                      
+                      <motion.span variants={arrowVariants} className="hidden sm:flex">
                         <ArrowUpRight className="size-4 shrink-0 text-white/80" />
                       </motion.span>
                     </motion.a>

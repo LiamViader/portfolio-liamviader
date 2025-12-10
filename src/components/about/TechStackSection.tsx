@@ -43,7 +43,7 @@ const techItemVariantsWithHover: Variants = {
     borderColor: "rgba(255,255,255,0.10)",
     backgroundColor: "rgba(255,255,255,0.05)",
     transition: {
-      duration: 0.7,
+      duration: 1,
       ease: "easeOut",
     },
   },
@@ -57,7 +57,7 @@ const techItemVariantsWithoutHover: Variants = {
     borderColor: "rgba(255,255,255,0.10)",
     backgroundColor: "rgba(255,255,255,0.05)",
     transition: {
-      duration: 0.7,
+      duration: 1,
       ease: "easeOut",
     },
   },
@@ -67,7 +67,7 @@ const techGridVariants: Variants = {
   hidden: {},
   show: {
     transition: {
-      staggerChildren: 0.02,
+      staggerChildren: 0.025,
     },
   },
 };
