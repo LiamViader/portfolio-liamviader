@@ -64,27 +64,28 @@ const createContactContainerVariant = (animated: boolean): Variants => ({
   },
 });
 
+// MODIFICADO: Ahora 'hover' acepta parámetros personalizados (colors)
 const createNavLinkVariants = (animated: boolean): Variants => ({
   hidden: { 
     opacity: 0,
     y: animated ? 20 : 0,
-    filter: animated ? "blur(2px)" : "blur(0px)" 
   },
   show: {
     opacity: 1,
     y: 0,
-    filter: "blur(0px)",
     transition: { 
       duration: animated ? 0.7 : 0,
       delay: animated ? BASE_DELAY_ENTRANCE + 0.5 : 0, 
       ease: "easeOut" 
     },
   },
-  hover: {
+  hover: (colors: { bg: string; border: string; shadow: string }) => ({
     scale: 1.03,
     y: -2,
-    backgroundColor: "rgba(56,189,248,0.08)",
-    boxShadow: "0 12px 28px rgba(56,189,248,0.15), 0 0 0 1px rgba(56,189,248,0.60)",
+    // Usamos los colores pasados por 'custom'
+    backgroundColor: colors.bg,
+    borderColor: colors.border,
+    boxShadow: colors.shadow,
     transition: {
       type: "spring",
       stiffness: 420,
@@ -92,9 +93,8 @@ const createNavLinkVariants = (animated: boolean): Variants => ({
       backgroundColor: { duration: 0.25 },
       boxShadow: { duration: 0.25 },
     },
-  },
+  }),
   tap: {
-    backgroundColor: "rgba(56,189,248,0.08)",
     scale: 0.98,
     y: 0,
     transition: { duration: 0.12 },
@@ -112,7 +112,7 @@ const leftIconVariants: Variants = {
 };
 
 const textVariants: Variants = {
-  show: { x: 0, color: "rgba(255,255,255,0.90)" },
+  show: { x: 0, color: "rgba(255,255,255,0.95)" },
   hover: { x: 2, color: "rgba(255,255,255,1)", transition: { duration: 0.2 } },
 };
 
@@ -180,19 +180,22 @@ export default function ContactPage() {
     description: string;
   }[];
 
-  const contactLinks: Array<{
-    key: "email" | "linkedin" | "github";
-    icon: AnyIcon;
-    href: string;
-    label: string;
-    value: string;
-  }> = [
+
+  const contactLinks = [
     {
       key: "email",
       icon: Mail as unknown as AnyIcon,
       href: `mailto:${t("links.items.email.value")}`,
       label: t("links.items.email.label"),
       value: t("links.items.email.value"),
+      theme: {
+        baseClass: "bg-rose-400/8 border-rose-400/25",
+        iconClass: "text-rose-200",
+        hoverData: {
+          bg: "rgba(244, 63, 94, 0.25)",
+          border: "rgba(244, 63, 94, 0.8)",
+        }
+      }
     },
     {
       key: "linkedin",
@@ -200,6 +203,14 @@ export default function ContactPage() {
       href: t("links.items.linkedin.href"),
       label: t("links.items.linkedin.label"),
       value: t("links.items.linkedin.value"),
+      theme: {
+        baseClass: "bg-sky-400/8 border-sky-400/25",
+        iconClass: "text-sky-200",
+        hoverData: {
+          bg: "rgba(56, 189, 248, 0.25)",
+          border: "rgba(56, 189, 248, 0.8)",
+        }
+      }
     },
     {
       key: "github",
@@ -207,6 +218,14 @@ export default function ContactPage() {
       href: t("links.items.github.href"),
       label: t("links.items.github.label"),
       value: t("links.items.github.value"),
+      theme: {
+        baseClass: "bg-violet-400/8 border-violet-400/25",
+        iconClass: "text-violet-200",
+        hoverData: {
+          bg: "rgba(139, 92, 246, 0.25)",
+          border: "rgba(139, 92, 246, 0.8)",
+        }
+      }
     },
   ];
 
@@ -281,9 +300,8 @@ export default function ContactPage() {
                 }}
               >
                 <div className="absolute inset-0 bg-gradient-to-b from-transparent via-sky-500/5 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" aria-hidden />
-              
+                
                 <div className="relative z-10 flex flex-col gap-2 md:flex-row md:items-center md:gap-6">
-                  
                   <div className="flex items-center gap-2 md:gap-4">
                     <div className="flex h-12 w-12 shrink-0 items-center justify-center text-sky-300/95">
                       <Icon className="h-8 w-8" />
@@ -309,7 +327,7 @@ export default function ContactPage() {
           <div className="mt-6">
             <nav aria-label="Contact" className="mx-auto max-w-4xl">
               <ul className="flex flex-wrap justify-center gap-3 sm:gap-4">
-                {contactLinks.map(({ key, icon: Icon, href, value }) => (
+                {contactLinks.map(({ key, icon: Icon, href, value, theme }) => (
                   <li key={key}>
                     <motion.a
                       href={href}
@@ -320,8 +338,8 @@ export default function ContactPage() {
                       animate="show"
                       whileHover="hover"
                       whileTap="tap"
-                      // BOTONES RESTAURADOS AL ORIGINAL
-                      className="relative overflow-hidden inline-flex items-center gap-4 rounded-full px-4 py-2 sm:px-5 sm:py-2.5 text-lg bg-white/0 ring-1 ring-white/15 text-white/85 backdrop-blur-sm shadow-md transform-gpu will-change-[transform,opacity] transition-none"
+                      custom={theme.hoverData}
+                      className={`relative overflow-hidden inline-flex items-center gap-4 rounded-full px-4 py-2 sm:px-5 sm:py-2.5 text-lg border backdrop-blur-sm transform-gpu will-change-[transform,opacity] transition-none ${theme.baseClass}`}
                     >
                       <motion.span
                         aria-hidden
@@ -334,7 +352,7 @@ export default function ContactPage() {
                         variants={glintVariants}
                       />
                       <motion.span variants={leftIconVariants} className="flex">
-                        <Icon className="size-5 shrink-0 text-sky-200" />
+                        <Icon className={`size-5 shrink-0 ${theme.iconClass}`} />
                       </motion.span>
                       <motion.span variants={textVariants} className="font-medium">
                         {value}
