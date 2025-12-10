@@ -20,7 +20,6 @@ const HOVER_BOR = "rgba(56,189,248,0.60)";
 const HOVER_SH = "0 0 30px rgba(56,189,248,0.30)";
 const BASE_SH = "0 0 30px rgba(56,189,248,0.01)";
 
-// --- Factory Functions para variantes condicionales ---
 
 const createContactContainerVariant = (animated: boolean): Variants => ({
   hidden: {
@@ -217,7 +216,7 @@ export default function ContactPage() {
       className="bg-gradient-to-b from-transparent via-gray-950/20 to-gray-950"
     >
       <div>
-        <div className="mx-auto w-full max-w-6xl px-4 pb-24 pt-28 lg:34 sm:px-6 lg:px-8">
+        <div className="mx-auto w-full max-w-6xl px-4 pb-24 pt-28 lg:pt-34 sm:px-6 lg:px-8">
           <div className="flex flex-col gap-6 max-w-4xl">
             <motion.h1
               className="text-center md:text-left text-4xl font-semibold tracking-tight text-white/95 sm:text-5xl md:text-6xl"
@@ -282,14 +281,20 @@ export default function ContactPage() {
                 }}
               >
                 <div className="absolute inset-0 bg-gradient-to-b from-transparent via-sky-500/5 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" aria-hidden />
-                
-                <div className="relative z-10 flex flex-row items-center gap-6">
-                  <div className="flex h-12 w-12 shrink-0 items-center justify-center text-sky-300/95">
-                    <Icon className="h-8 w-8" />
+              
+                <div className="relative z-10 flex flex-col gap-2 md:flex-row md:items-center md:gap-6">
+                  
+                  <div className="flex items-center gap-2 md:gap-4">
+                    <div className="flex h-12 w-12 shrink-0 items-center justify-center text-sky-300/95">
+                      <Icon className="h-8 w-8" />
+                    </div>
+                    <h3 className="text-lg font-semibold text-sky-300/95 md:hidden">
+                      {title}
+                    </h3>
                   </div>
                   
                   <div className="flex min-w-0 flex-1 flex-col gap-1">
-                    <h3 id={`contact-highlight-${key}`} className="text-lg font-semibold text-sky-300/95">
+                    <h3 id={`contact-highlight-${key}`} className="hidden text-lg font-semibold text-sky-300/95 md:block">
                       {title}
                     </h3>
                     <p className="text-sm text-white/70 text-pretty break-words">
@@ -315,6 +320,7 @@ export default function ContactPage() {
                       animate="show"
                       whileHover="hover"
                       whileTap="tap"
+                      // BOTONES RESTAURADOS AL ORIGINAL
                       className="relative overflow-hidden inline-flex items-center gap-4 rounded-full px-4 py-2 sm:px-5 sm:py-2.5 text-lg bg-white/0 ring-1 ring-white/15 text-white/85 backdrop-blur-sm shadow-md transform-gpu will-change-[transform,opacity] transition-none"
                     >
                       <motion.span
