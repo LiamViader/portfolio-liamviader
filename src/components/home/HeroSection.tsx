@@ -10,7 +10,7 @@ import { usePerfTier } from "@/hooks/usePerfTier";
 interface HeroSectionProps {
   title: ReactNode;
   subtitle: string;
-  projectsButtonText: string;
+  aboutButtonText: string;
   contactButtonText: string;
   entranceAnimationEnabled: boolean;
 }
@@ -51,7 +51,7 @@ const titleVariantsWithoutHover = {
 export function HeroSection({
   title,
   subtitle,
-  projectsButtonText,
+  aboutButtonText,
   contactButtonText,
   entranceAnimationEnabled,
 }: HeroSectionProps) {
@@ -111,7 +111,7 @@ export function HeroSection({
           }}
           className="flex w-full flex-wrap justify-center gap-4 lg:justify-start"
         >
-          <SkyButton href="/projects" text={projectsButtonText} />
+          <SkyButton href="/about" text={aboutButtonText} />
           <WhiteButton href="/contact" text={contactButtonText} />
         </motion.div>
       </div>

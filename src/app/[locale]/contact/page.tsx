@@ -82,7 +82,7 @@ const linkCardVariants = (animated: boolean): Variants => ({
     scale: 1.02,
     transition: { type: "spring", stiffness: 400, damping: 25 }
   },
-  tap: { scale: 0.98 }
+  tap: { scale: 0.95 }
 });
 
 const iconHoverVariants: Variants = {
@@ -156,8 +156,10 @@ export default function ContactPage() {
       label: t("links.items.email.label"),
       value: t("links.items.email.value"),
       styles: {
-        container: "hover:bg-rose-500/10 hover:border-rose-500/50 hover:shadow-[0_0_30px_-5px_rgba(244,63,94,0.3)]",
-        iconBox: "text-rose-300 group-hover:text-rose-100 group-hover:bg-rose-500/20",
+        containerHover: "md:hover:bg-rose-500/10 md:hover:border-rose-500/50 md:hover:shadow-[0_0_30px_-5px_rgba(244,63,94,0.3)]",
+        iconColors: "text-rose-300 group-hover:text-rose-100 group-hover:bg-rose-500/40",
+        iconMobile: "bg-rose-500/30 border border-rose-500/50",
+        iconDesktop: "md:bg-white/5 md:border-transparent",
         text: "group-hover:text-rose-200"
       }
     },
@@ -168,8 +170,10 @@ export default function ContactPage() {
       label: t("links.items.linkedin.label"),
       value: t("links.items.linkedin.value"),
       styles: {
-        container: "hover:bg-sky-500/10 hover:border-sky-500/50 hover:shadow-[0_0_30px_-5px_rgba(56,189,248,0.3)]",
-        iconBox: "text-sky-300 group-hover:text-sky-100 group-hover:bg-sky-500/20",
+        containerHover: "md:hover:bg-sky-500/10 md:hover:border-sky-500/50 md:hover:shadow-[0_0_30px_-5px_rgba(56,189,248,0.3)]",
+        iconColors: "text-sky-300 group-hover:text-sky-100 group-hover:bg-sky-500/40",
+        iconMobile: "bg-sky-500/30 border border-sky-500/50",
+        iconDesktop: "md:bg-white/5 md:border-transparent",
         text: "group-hover:text-sky-200"
       }
     },
@@ -180,8 +184,10 @@ export default function ContactPage() {
       label: t("links.items.github.label"),
       value: t("links.items.github.value"),
       styles: {
-        container: "hover:bg-violet-500/10 hover:border-violet-500/50 hover:shadow-[0_0_30px_-5px_rgba(139,92,246,0.3)]",
-        iconBox: "text-violet-300 group-hover:text-violet-100 group-hover:bg-violet-500/20",
+        containerHover: "md:hover:bg-violet-500/10 md:hover:border-violet-500/50 md:hover:shadow-[0_0_30px_-5px_rgba(139,92,246,0.3)]",
+        iconColors: "text-violet-300 group-hover:text-violet-100 group-hover:bg-violet-500/40",
+        iconMobile: "bg-violet-500/30 border border-violet-500/50",
+        iconDesktop: "md:bg-white/5 md:border-transparent",
         text: "group-hover:text-violet-200"
       }
     },
@@ -190,13 +196,13 @@ export default function ContactPage() {
   return (
     <PageLayout
       backgroundLayers={backgroundLayers}
-      overlays={<div className="absolute inset-0 bg-gradient-to-b from-slate-950/30 via-slate-950/50 to-slate-950"></div>}
+      overlays={<div className="absolute inset-0 bg-gradient-to-b from-slate-950/10 via-slate-950/30 to-slate-950"></div>}
       className=" px-4 sm:px-6 lg:px-12"
     >
       <div>
         <div className="mx-auto w-full max-w-6xl pb-24 pt-28 lg:pt-34">
 
-          <div className="flex flex-col gap-6 max-w-4xl">
+          <div className="flex flex-col gap-8 max-w-4xl">
             <motion.h1
               className="text-center lg:text-left text-4xl font-semibold tracking-tight text-white/95 sm:text-5xl md:text-6xl"
               initial={{ 
@@ -219,7 +225,7 @@ export default function ContactPage() {
               })}
             </motion.h1>
             <motion.p
-              className="text-center lg:text-left text-pretty text-lg text-white/75 sm:text-xl"
+              className="text-center lg:text-left text-balance md:text-pretty text-lg text-white/75 sm:text-xl"
               initial={{ y: entranceAnimationsEnabled ? 20 : 0, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ 
@@ -232,7 +238,7 @@ export default function ContactPage() {
             </motion.p>
           </div>
 
-          <div className="mt-5 flex flex-col gap-5 py-6">
+          <div className="flex flex-col gap-4 py-8">
             {highlightCards.map(({ key, icon: Icon, title, description }, index) => (
               <motion.article
                 key={key}
@@ -251,13 +257,13 @@ export default function ContactPage() {
                     <div className="flex h-12 w-12 shrink-0 items-center justify-center text-sky-300/95">
                       <Icon className="h-8 w-8" />
                     </div>
-                    <h3 className="text-lg font-semibold text-sky-300/95 md:hidden">
+                    <h3 className="text-base md:text-lg font-semibold text-sky-300/95 md:hidden">
                       {title}
                     </h3>
                   </div>
                   
                   <div className="flex min-w-0 flex-1 flex-col gap-1">
-                    <h3 id={`contact-highlight-${key}`} className="hidden text-lg font-semibold text-sky-300/95 md:block">
+                    <h3 id={`contact-highlight-${key}`} className="hidden text-base md:text-lg font-semibold text-sky-300/95 md:block">
                       {title}
                     </h3>
                     <p className="text-sm text-white/70 text-pretty break-words">
@@ -269,12 +275,13 @@ export default function ContactPage() {
             ))}
           </div>
 
-          <div className="mt-6">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mx-auto max-w-[90%]">
+          <div>
+            <div className="flex flex-row justify-center gap-4 md:grid md:grid-cols-3 md:gap-4 mx-auto max-w-5xl">
               {contactLinks.map(({ key, icon: Icon, href, value, label, styles }, index) => (
                 <motion.a
                   key={key}
                   href={href}
+                  title={value} 
                   target={key === "email" ? undefined : "_blank"}
                   rel={key === "email" ? undefined : "noreferrer"}
                   variants={linkCardVariant}
@@ -285,19 +292,25 @@ export default function ContactPage() {
                   whileTap="tap"
                   
                   className={`
-                    group relative flex items-center gap-3 overflow-hidden rounded-xl border border-white/10 
-                    bg-white/[0.03] backdrop-blur-md p-3 px-4
-                    ${styles.container}
+                    group relative flex items-center rounded-xl 
+                    p-0 w-auto justify-center
+                    md:border md:border-white/10 md:bg-white/[0.03] md:backdrop-blur-md md:w-full md:p-3 md:justify-start md:gap-3 md:px-4 md:overflow-hidden
+                    ${styles.containerHover}
                   `}
                 >
                   <motion.div 
                     variants={iconHoverVariants}
-                    className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-lg bg-white/5 ${styles.iconBox}`}
+                    className={`
+                      flex h-12 w-12 md:h-10 md:w-10 shrink-0 items-center justify-center rounded-lg transition-colors
+                      ${styles.iconColors} 
+                      ${styles.iconMobile}
+                      ${styles.iconDesktop}
+                    `}
                   >
-                    <Icon className="h-5 w-5" />
+                    <Icon className="h-6 w-6 md:h-5 md:w-5" />
                   </motion.div>
 
-                  <div className="flex-1 min-w-0 flex flex-col justify-center">
+                  <div className="hidden md:flex flex-1 min-w-0 flex-col justify-center">
                     <p className="text-[10px] font-bold uppercase tracking-wider text-white/40 leading-tight">
                       {label}
                     </p>
@@ -305,8 +318,9 @@ export default function ContactPage() {
                       {value}
                     </p>
                   </div>
-                  <motion.div variants={arrowHoverVariants} className="shrink-0 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-                     <ArrowUpRight className="h-4 w-4 text-white/70" />
+
+                  <motion.div variants={arrowHoverVariants} className="hidden md:block shrink-0 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                      <ArrowUpRight className="h-4 w-4 text-white/70" />
                   </motion.div>
                 </motion.a>
               ))}

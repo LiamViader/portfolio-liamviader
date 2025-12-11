@@ -163,12 +163,12 @@ export function InfoCard({
             {icon}
           </motion.div>
         )}
-        <p className="text-xl font-semibold">{title}</p>
+        <p className="text-base md:text-lg lg:text-xl font-semibold">{title}</p>
       </motion.div>
 
       <motion.p
         variants={textVariants}
-        className="text-sm text-white/60 leading-relaxed"
+        className="text-sm md:text-[15.3px] text-white/60 leading-relaxed"
       >
         {info}
       </motion.p>

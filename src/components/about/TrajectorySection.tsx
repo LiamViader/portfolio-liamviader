@@ -285,14 +285,14 @@ function Timeline({ items, icon, locale }: TimelineProps) {
 
               <motion.p
                 variants={pathCardInnerVariants}
-                className="text-[17px] font-semibold text-white"
+                className="text-base md:text-lg font-semibold text-white"
               >
                 {getLocalizedValue(item.title, locale)}
               </motion.p>
 
               <motion.p
                 variants={pathCardInnerVariants}
-                className="text-[13px] text-white/60"
+                className="text-xs text-sky-200/80 mt-1"
               >
                 {getLocalizedValue(item.place, locale)}
               </motion.p>
@@ -300,7 +300,7 @@ function Timeline({ items, icon, locale }: TimelineProps) {
               {getLocalizedValue(item.description, locale) ? (
                 <motion.p
                   variants={pathCardInnerVariants}
-                  className="mt-2 text-[15px] text-white/60 leading-relaxed"
+                  className="mt-2 text-sm md:text-[15.3px] text-white/60 leading-relaxed"
                 >
                   <RichText text={getLocalizedValue(item.description, locale)!} />
                 </motion.p>

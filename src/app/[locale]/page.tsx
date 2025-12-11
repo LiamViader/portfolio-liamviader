@@ -75,7 +75,7 @@ export default function Home() {
           })}
           subtitle={t("hero.subtitle")} 
           contactButtonText={t("hero.ctaContact")} 
-          projectsButtonText={t("hero.ctaProjects")}
+          aboutButtonText={t("hero.ctaAbout")}
           entranceAnimationEnabled={entranceAnimationsEnabled}
         />
 
@@ -113,7 +113,7 @@ export default function Home() {
           </motion.ul>
         </div>
       </section>
-      <section className="relative px-2 md:px-6 pt-0 sm:pt-10 md:pt-20 lg:pt-22 xl:pt-28 pb-24 ">
+      <section className="relative px-2 md:px-6 pt-10 lg:pt-16 pb-24 ">
 
         {
           (backgroundsOptimization === "normal") ?

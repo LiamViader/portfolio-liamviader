@@ -102,12 +102,12 @@ export function FeaturedProjectsHomeSection({
           }}
           className="flex flex-col gap-6 text-center lg:text-left pl-3 will-change-transform"
         >
-          <div className="space-y-4 mt-10">
-            <motion.h2 variants={leftItem} className="font-semibold text-white text-3xl md:text-4xl xl:text-4xl whitespace-nowrap">
+          <div className="space-y-4 mt-10 sm:mb-2 md:mb-8 lg:mb-0">
+            <motion.h2 variants={leftItem} className="text-left font-semibold text-white text-2xl sm:text-3xl whitespace-nowrap">
               {title}
             </motion.h2>
 
-            <motion.p variants={leftItem} className="text-base text-white/65 lg:max-w-xl">
+            <motion.p variants={leftItem} className="text-left text-sm sm:text-base text-white/65 lg:max-w-xl">
               {description}
             </motion.p>
           </div>
