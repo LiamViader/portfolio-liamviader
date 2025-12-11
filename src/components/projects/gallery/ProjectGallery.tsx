@@ -2,6 +2,7 @@
 
 import { motion, type Variants } from "framer-motion";
 import { useTranslations } from "next-intl";
+import { useState } from "react";
 
 import { ClientCategorySlug } from "@/config/projectCategories";
 import { type TranslatedProject } from "@/data/projects/types";
@@ -50,6 +51,7 @@ interface ProjectGalleryProps {
 
 export default function ProjectGallery({ category, filteredProjects, onCategoryChange, entranceAnimationEnabled }: ProjectGalleryProps) {
   const t = useTranslations("ProjectsPage");
+  const [gridVisible, setGridVisible] = useState(false);
 
   const containerVariants = createContainerVariants(entranceAnimationEnabled);
   const itemVariants = createItemVariants(entranceAnimationEnabled);
@@ -61,6 +63,7 @@ export default function ProjectGallery({ category, filteredProjects, onCategoryC
         initial="hidden"
         whileInView="show"
         viewport={{ once: true, amount: 0.01, margin: "0px 0px -15% 0px" }}
+        onViewportEnter={() => setGridVisible(true)} // Detectamos cuando entra en pantalla
         variants={containerVariants}
         className="relative mx-auto flex max-w-6xl flex-col items-center gap-12 text-center"
       >
@@ -75,8 +78,17 @@ export default function ProjectGallery({ category, filteredProjects, onCategoryC
           <CategorySwitcher currentCategory={category} onCategoryChange={onCategoryChange} />
         </motion.div>
 
+        {/* Ya no dependemos solo de la herencia de variantes para el grid,
+            pasamos explícitamente la señal 'shouldAnimate' 
+        */}
         <motion.div variants={itemVariants} className="w-full">
-          <ProjectsGrid projects={filteredProjects} replaceUrl={true} allowUrlOpen={true} />
+          <ProjectsGrid 
+            projects={filteredProjects} 
+            replaceUrl={true} 
+            allowUrlOpen={true} 
+            entranceAnimation={entranceAnimationEnabled}
+            shouldAnimate={gridVisible} 
+          />
         </motion.div>
       </motion.div>
     </section>

@@ -105,7 +105,7 @@ export function useProjectModalTransition({
       scaleY: 1,
     });
 
-    const duration = 300;
+    const duration = 350;
     const startTime = performance.now();
 
     await new Promise<void>((resolve) => {

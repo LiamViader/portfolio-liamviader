@@ -1,7 +1,6 @@
 "use client";
 
 import { AnimatePresence, LayoutGroup, Variants, motion } from "framer-motion";
-
 import { type TranslatedProject } from "@/data/projects/types";
 import { useEffect, useRef } from "react";
 import { measureStableRect } from "@/utils/measureStableRect";
@@ -14,27 +13,44 @@ interface ProjectsGridProps {
   projects: TranslatedProject[];
   replaceUrl?: boolean;
   allowUrlOpen?: boolean;
+  entranceAnimation: boolean;
+  shouldAnimate?: boolean; 
 }
 
 type CardRegistry = Map<number, HTMLElement>;
 
-const itemVariants: Variants = {
-  hidden: { opacity: 0, y: 20, scale: 0.98 },
-  visible: {
+const createItemVariants = (animated: boolean): Variants => ({
+  hidden: { 
+    opacity: 0, 
+    y: animated ? 20 : 0, 
+    scale: animated ? 0.98 : 1 
+  },
+  show: (i: number) => ({
     opacity: 1,
     y: 0,
     scale: 1,
-    transition: { duration: 0.5, ease: "easeIn" },
-  },
+    transition: { 
+      delay: animated ? i * 0.15 : 0, 
+      duration: animated ? 0.8 : 0, 
+      ease: "easeOut" 
+    },
+  }),
   exit: {
     opacity: 0,
     y: 20,
     scale: 0.98,
     transition: { duration: 0.25, ease: "easeIn" },
   },
-};
+});
 
-export default function ProjectsGrid({ projects, replaceUrl = true, allowUrlOpen = true }: ProjectsGridProps) {
+export default function ProjectsGrid({ 
+  projects, 
+  replaceUrl = true, 
+  allowUrlOpen = true, 
+  entranceAnimation, 
+  shouldAnimate = true
+}: ProjectsGridProps) {
+  
   const { selected, revealOrigin, selectProject, closeProject, markOriginRevealed, projectFromUrl } =
     useProjectSelection(projects, { replaceUrl: replaceUrl, allowUrlOpen: allowUrlOpen, deferUrlTrigger: true });
   const cardRefs = useRef<CardRegistry>(new Map());
@@ -53,25 +69,19 @@ export default function ProjectsGrid({ projects, replaceUrl = true, allowUrlOpen
 
       if (element) {
         timeoutId = setTimeout(() => {
-          
           element.scrollIntoView({ behavior: "smooth", block: "center" });
-
           let lastScrollY = window.scrollY;
-          
           intervalId = setInterval(() => {
             if (Math.abs(window.scrollY - lastScrollY) < 1) {
               clearInterval(intervalId);
-
               requestAnimationFrame(() => {
                 const rect = measureStableRect(element);
                 selectProject(projectFromUrl, rect, element);
               });
-              
             } else {
               lastScrollY = window.scrollY;
             }
           }, 400);
-
         }, 200); 
       }
     }
@@ -82,29 +92,30 @@ export default function ProjectsGrid({ projects, replaceUrl = true, allowUrlOpen
     };
   }, [projectFromUrl, selected, allowUrlOpen, selectProject]);
   
+  const itemVariants = createItemVariants(entranceAnimation);
+
   return (
     <>
       <LayoutGroup id="projects">
-        <motion.div
-          layoutRoot
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 p-4"
-        >
-          <AnimatePresence initial={false} mode="popLayout">
-            {projects.map((project) => (
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 p-4">
+          <AnimatePresence mode="popLayout" initial={true}>
+            {projects.map((project, index) => (
               <motion.div
                 key={project.id}
                 layout="position"
+                
+                custom={index}
                 variants={itemVariants}
                 initial="hidden"
-                animate="visible"
+                animate={shouldAnimate ? "show" : "hidden"}
                 exit="exit"
+
                 transition={{ layout: { duration: 0.25, ease: "easeInOut" } }}
               >
                 <div ref={setCardRef(project.id)} className="h-full w-full"> 
                   <ProjectCard
                     project={project}
                     onSelect={(p) => {
-                        // Manual click handling: medimos el elemento actual
                         const el = cardRefs.current.get(p.id);
                         if(el) {
                             const rect = measureStableRect(el);
@@ -117,7 +128,7 @@ export default function ProjectsGrid({ projects, replaceUrl = true, allowUrlOpen
               </motion.div>
             ))}
           </AnimatePresence>
-        </motion.div>
+        </div>
       </LayoutGroup>
 
       {selected && (
