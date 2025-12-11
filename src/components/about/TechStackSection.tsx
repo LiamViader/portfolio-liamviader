@@ -85,7 +85,7 @@ export function TechStackSection({
   const { canHover } = usePerfTier();
 
   return (
-    <section className="px-4 pb-20 pt-10 sm:px-6 lg:px-12 lg:pb-24 lg:pt-16 mx-0 bg-gray-950">
+    <section className="px-4 pb-16 pt-10 sm:px-6 lg:px-12 lg:pb-20 lg:pt-20 mx-0 bg-gray-950">
       <motion.div
         className="relative"
         initial={entranceAnimationsEnabled ? "hidden" : "show"}

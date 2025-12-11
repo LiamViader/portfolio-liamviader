@@ -107,7 +107,7 @@ export default function ClientProjectsPage({ projectsData }: ClientProjectsPageP
       overlays={overlays}
       contentClassName="flex flex-col"
     >
-      <section className="relative overflow-hidden px-4 pb-20 pt-28 md:py-34 sm:px-6 lg:px-10">
+      <section className="relative overflow-hidden px-4 pb-16 pt-28 lg:pt-34 lg:pb-20 sm:px-6 lg:px-10">
         <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_30%,rgba(125,211,252,0.05),transparent_45%)]" />
         <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-gray-950/80 via-gray-950/50 to-transparent" />
         <div className="pointer-events-none absolute inset-0 backdrop-blur-[1.5px]" />

@@ -59,11 +59,11 @@ export default function FeaturedProjectsSection({
   const leftItem = createLeftItemVariants(entranceAnimationEnabled);
 
   return (
-    <section className="relative px-4 pb-24 sm:px-6 lg:px-10 ">
+    <section className="relative px-4 pb-16 lg:pb-20 sm:px-6 lg:px-10 ">
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-gray-300/5 to-transparent" />
 
       <motion.div
-        className="relative mx-auto flex max-w-6xl flex-col items-center gap-12 text-center pt-15 border-t border-white/10"
+        className="relative mx-auto flex max-w-6xl flex-col items-center gap-12 text-center pt-10 lg:pt-20 border-t border-white/10"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ 

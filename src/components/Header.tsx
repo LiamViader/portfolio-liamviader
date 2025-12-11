@@ -60,21 +60,14 @@ export default function Header() {
       return;
     }
 
-    const onAppScroll = (e: Event) => {
-      const detail = (e as CustomEvent).detail as {
-        source?: "full" | "local";
-        scrollTop: number;
-        clientHeight?: number;
-        scrollHeight?: number;
-      };
-
-      if (detail?.source !== "full") return;
-      const currentScrollY = detail?.scrollTop ?? 0;
+    const onScroll = () => {
+      const currentScrollY = window.scrollY;
+      
       const deltaY = currentScrollY - lastScrollY;
       
       if (headerHeight !== 0) {
 
-        if (currentScrollY === 0) {
+        if (currentScrollY <= 0) { 
            setYOffset(0);
            setTransitionDurationMs(0);
            isStickyRef.current = false;
@@ -84,7 +77,6 @@ export default function Header() {
         }
         
         if (currentScrollY <= headerHeight) {
-          
           if (isStickyRef.current) {
             setYOffset(0);
             setTransitionDurationMs(0); 
@@ -92,10 +84,8 @@ export default function Header() {
             setYOffset(-currentScrollY);
             setTransitionDurationMs(0); 
           }
-
           accumulatedScrollRef.current = 0; 
         } 
-        
         else {
           if (deltaY === 0) return;
 
@@ -106,7 +96,6 @@ export default function Header() {
           accumulatedScrollRef.current += deltaY;
 
           if (Math.abs(accumulatedScrollRef.current) > SCROLL_THRESHOLD) {
-            
             if (accumulatedScrollRef.current > 0) {
               if (yOffset !== -maxOffset) {
                 setYOffset(-maxOffset);
@@ -129,8 +118,8 @@ export default function Header() {
       setLastScrollY(currentScrollY);
     };
 
-    window.addEventListener("app-scroll", onAppScroll);
-    return () => window.removeEventListener("app-scroll", onAppScroll);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => window.removeEventListener("scroll", onScroll);
   }, [lastScrollY, isMenuOpen, headerHeight, isModalOpen, yOffset]);
 
   const navItems = [

@@ -64,7 +64,7 @@ export default function Home() {
 
   return (
     <PageLayout>
-      <section className="relative overflow-hidden px-4 sm:px-6 lg:px-12 pb-6 md:pb-14 pt-28 lg:pt-34 lg:pb-24">
+      <section className="relative overflow-hidden px-4 sm:px-6 lg:px-12 pb-16 pt-28 lg:pt-34 lg:pb-20">
         <PulseHexGridCanvas  gridType="Fill" s={50} l={30} hue={240} hueJitter={10} pixelsPerHex={40}/>
         <PulseHexGridCanvas  gridType="OverlapLine" s={60} l={0} hue={240} hueJitter={30} pixelsPerHex={40}/>
         <div className="inset-0 absolute bg-[linear-gradient(to_bottom,_rgba(3,7,18,0.1)_0%,_rgba(3,7,18,0.7)_50%,_rgb(3,7,18)_97%,_rgb(3,7,18)_100%)]"/>
@@ -113,7 +113,7 @@ export default function Home() {
           </motion.ul>
         </div>
       </section>
-      <section className="relative px-2 md:px-6 pt-10 lg:pt-16 pb-24 ">
+      <section className="relative px-2 md:px-6 pt-10 lg:pt-20 pb-24 ">
 
         {
           (backgroundsOptimization === "normal") ?

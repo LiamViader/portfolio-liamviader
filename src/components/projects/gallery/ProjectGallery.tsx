@@ -57,13 +57,13 @@ export default function ProjectGallery({ category, filteredProjects, onCategoryC
   const itemVariants = createItemVariants(entranceAnimationEnabled);
 
   return (
-    <section className="relative px-4 pb-10 sm:px-6 lg:px-10 border-t border-white/10 pt-18">
+    <section className="relative px-4 pb-16 lg:pb-20 sm:px-6 lg:px-10 border-t border-white/10 pt-10 lg:pt-20">
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-gray-950/40 to-gray-950/60" />
       <motion.div
         initial="hidden"
         whileInView="show"
         viewport={{ once: true, amount: 0.01, margin: "0px 0px -15% 0px" }}
-        onViewportEnter={() => setGridVisible(true)} // Detectamos cuando entra en pantalla
+        onViewportEnter={() => setGridVisible(true)} 
         variants={containerVariants}
         className="relative mx-auto flex max-w-6xl flex-col items-center gap-12 text-center"
       >
@@ -78,9 +78,6 @@ export default function ProjectGallery({ category, filteredProjects, onCategoryC
           <CategorySwitcher currentCategory={category} onCategoryChange={onCategoryChange} />
         </motion.div>
 
-        {/* Ya no dependemos solo de la herencia de variantes para el grid,
-            pasamos explícitamente la señal 'shouldAnimate' 
-        */}
         <motion.div variants={itemVariants} className="w-full">
           <ProjectsGrid 
             projects={filteredProjects} 

@@ -63,7 +63,7 @@ export default function CallToAction({ entranceAnimationEnabled }: { entranceAni
   const contentVariants = createContentVariants(entranceAnimationEnabled);
 
   return (
-    <section className="relative px-8 pb-24 md:pt-6">
+    <section className="relative px-8 pb-24 lg:pt-6">
       
       <div className="absolute inset-0 bg-gradient-to-b from-gray-950/60 via-gray-950/90 to-gray-950" />
       <motion.div

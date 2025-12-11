@@ -25,16 +25,15 @@ export default function ProjectSceneContent({ category }: ProjectSceneContentPro
 
   const PX_TO_WORLD_Y = -0.0025;
   const TARGET_Z = 5;
-  const DAMPING = 0.9999;
+  const DAMPING = 0.2;
 
   useEffect(() => {
-    const handleAppScroll = (e: Event) => {
-      const detail = (e as CustomEvent).detail as { scrollTop: number } | undefined;
-      if (!detail) return;
-      scrollTopRef.current = detail.scrollTop;
+    const handleScroll = () => {
+      scrollTopRef.current = window.scrollY;
     };
-    window.addEventListener("app-scroll", handleAppScroll as EventListener);
-    return () => window.removeEventListener("app-scroll", handleAppScroll as EventListener);
+    handleScroll();
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   const getOpacity = (sceneSlug: ClientCategorySlug) => {

@@ -58,7 +58,7 @@ export function PersonalSection({ entranceAnimationsEnabled }: PersonalSectionPr
   const t = useTranslations("AboutPage.personalSection");
 
   return (
-    <section className="bg-gray-950 px-4 pb-20 pt-10 sm:px-6 lg:px-12 lg:pb-24 lg:pt-20">
+    <section className="bg-gray-950 px-4 pb-16 pt-10 sm:px-6 lg:px-12 lg:pb-20 lg:pt-20">
       <motion.div
         className="relative"
         initial={entranceAnimationsEnabled ? "hidden" : "show"}
