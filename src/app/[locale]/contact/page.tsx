@@ -225,7 +225,7 @@ export default function ContactPage() {
               })}
             </motion.h1>
             <motion.p
-              className="text-center lg:text-left text-balance md:text-pretty text-lg text-white/75 sm:text-xl"
+              className="text-center lg:text-left text-balance md:text-pretty text-base sm:text-lg text-white/75"
               initial={{ y: entranceAnimationsEnabled ? 20 : 0, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ 
