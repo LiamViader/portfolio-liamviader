@@ -209,7 +209,7 @@ function RichText({ text }: RichTextProps) {
       {segments.map((segment, index) => {
         if (segment.type === "highlight") {
           return (
-            <span key={`highlight-${index}`} className="font-semibold text-sky-300/90">
+            <span key={`highlight-${index}`} className="font-semibold text-sky-200/90">
               {segment.content}
             </span>
           );
@@ -373,7 +373,7 @@ export function TrajectorySection({
           >
             <motion.div className="space-y-4" variants={pathColumnVariants}>
               <motion.div
-                className="flex items-center gap-2 text-[13px] font-medium uppercase tracking-[0.25em] text-white/60"
+                className="flex items-center gap-2 text-sm font-medium uppercase tracking-[0.25em] text-sky-300"
                 variants={pathColumnHeaderVariants}
               >
                 <GraduationCap className="h-4 w-4 text-sky-300" />
@@ -388,7 +388,7 @@ export function TrajectorySection({
 
             <motion.div className="space-y-4" variants={pathColumnVariants}>
               <motion.div
-                className="flex items-center gap-2 text-[13px] font-medium uppercase tracking-[0.25em] text-white/60"
+                className="flex items-center gap-2 text-sm font-medium uppercase tracking-[0.25em] text-sky-300"
                 variants={pathColumnHeaderVariants}
               >
                 <Briefcase className="h-4 w-4 text-sky-300" />
