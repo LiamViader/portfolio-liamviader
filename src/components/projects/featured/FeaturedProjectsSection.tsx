@@ -88,7 +88,7 @@ export default function FeaturedProjectsSection({
           >
             {t("featured_title")}
           </motion.h2>
-          <motion.p variants={leftItem} className="mx-auto max-w-2xl text-pretty text-sm sm:text-base text-white/65">
+          <motion.p variants={leftItem} className="mx-auto max-w-2xl text-pretty text-base sm:text-lg text-white/65">
             {t("featured_description")}
           </motion.p>
         </motion.div>

@@ -116,7 +116,7 @@ export function PhilosophySection({ entranceAnimationsEnabled }: PhilosophySecti
               {t("philosophySection.title")}
             </motion.h2>
             <motion.p
-              className="text-sm text-white/70 sm:text-base leading-relaxed"
+              className="text-base sm:text-lg text-white/70 leading-relaxed"
               variants={headerItem}
             >
               {t("philosophySection.subtitle")}

@@ -63,30 +63,30 @@ export default function CallToAction({ entranceAnimationEnabled }: { entranceAni
   const contentVariants = createContentVariants(entranceAnimationEnabled);
 
   return (
-    <section className="relative px-8 pb-24 lg:pt-6">
+    <section className="relative px-2 pt-10">
       
-      <div className="absolute inset-0 bg-gradient-to-b from-gray-950/60 via-gray-950/90 to-gray-950" />
+      <div className="absolute inset-0 bg-gray-950" />
       <motion.div
         initial="hidden"
         whileInView="show"
-        viewport={{ once: true, amount: 0.01, margin: "0px 0px -15% 0px" }}
+        viewport={{ once: true, amount: 0.01, margin: "0px 0px -5% 0px" }}
         variants={sectionVariants}
-        className="relative mx-auto max-w-5xl"
+        className="relative mx-auto max-w-5xl "
       >
         <motion.div
           variants={cardVariants}
-          className="overflow-hidden rounded-3xl border border-white/10 bg-white/5 py-8 px-6 text-center backdrop-blur-xl"
+          className="overflow-hidden rounded-3xl text-center"
         >
-          <div className="relative z-10 space-y-6 px-4 md:px-8 lg:px-12">
-            <motion.h2 variants={contentVariants} className="text-2xl font-semibold text-white md:text-4xl drop-shadow-[0_4px_16px_rgba(0,0,0,1)]">
+          <div className="relative z-10 space-y-6">
+            <motion.h2 variants={contentVariants} className="text-3xl md:text-4xl xl:text-[40px] font-semibold text-white">
               {t.rich("cta_title", {
                 highlight: (chunks) => <span className="text-sky-300">{chunks}</span>,
               })}
             </motion.h2>
-            <motion.p variants={contentVariants} className="text-pretty text-sm md:text-base text-white/70 lg:text-lg drop-shadow-[0_4px_8px_rgba(0,0,0,1)]">
+            <motion.p variants={contentVariants} className="text-pretty text-base sm:text-lg text-white/70">
               {t("cta_text")}
             </motion.p>
-            <motion.div variants={contentVariants} className="flex flex-wrap justify-center gap-4">
+            <motion.div variants={contentVariants} className="flex flex-wrap justify-center gap-4 pb-22 lg:pb-28">
               <SkyButton text={t("cta_button_contact")} href="/contact"/>
             </motion.div>
           </div>

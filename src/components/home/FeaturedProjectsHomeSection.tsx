@@ -107,7 +107,7 @@ export function FeaturedProjectsHomeSection({
               {title}
             </motion.h2>
 
-            <motion.p variants={leftItem} className="text-left text-sm sm:text-base text-white/65 lg:max-w-xl">
+            <motion.p variants={leftItem} className="text-left text-base sm:text-lg text-white/65 lg:max-w-xl">
               {description}
             </motion.p>
           </div>

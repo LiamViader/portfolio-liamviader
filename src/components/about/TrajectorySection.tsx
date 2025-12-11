@@ -362,7 +362,7 @@ export function TrajectorySection({
             <h2 className="text-2xl font-semibold text-white sm:text-3xl">
               {t("title")}
             </h2>
-            <p className="text-sm max-w-4xl text-white/70 sm:text-base">
+            <p className="max-w-4xl text-white/70 text-base sm:text-lg">
               {t("description")}
             </p>
           </motion.div>

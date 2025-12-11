@@ -105,7 +105,7 @@ export function TechStackSection({
               <h2 className="text-2xl font-semibold text-white sm:text-3xl">
                 {t("title")}
               </h2>
-              <p className="mt-2 max-w-5xl text-sm text-pretty text-white/70 sm:text-base">
+              <p className="mt-2 max-w-5xl text-base sm:text-lg text-pretty text-white/70">
                 {t("description")}
               </p>
             </div>

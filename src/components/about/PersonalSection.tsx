@@ -81,7 +81,7 @@ export function PersonalSection({ entranceAnimationsEnabled }: PersonalSectionPr
                 {PARAGRAPH_KEYS.map((paragraphKey) => (
                   <motion.p
                     key={paragraphKey}
-                    className="text-sm text-white/70 sm:text-base leading-relaxed pt-3 first:pt-3 [&:not(:first-child)]:pt-2"
+                    className="text-white/70 text-base sm:text-lg leading-relaxed pt-3 first:pt-3 [&:not(:first-child)]:pt-2"
                     variants={textItem}
                   >
                     {t(paragraphKey)}
