@@ -134,7 +134,7 @@ export function FeaturedProjectsHomeSection({
         </motion.div>
 
         <div
-          className="lg:col-start-2 lg:flex lg:justify-end will-change-transform mt-4 lg:mt-0"
+          className="lg:col-start-2 lg:flex lg:justify-end will-change-transform mt-2 lg:mt-0"
         >
           <FeaturedProjects
             projects={projects}

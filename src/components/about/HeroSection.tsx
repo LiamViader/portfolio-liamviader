@@ -101,7 +101,7 @@ export function HeroSection({ personalInfo, age, entranceAnimationsEnabled }: He
       };
 
   return (
-    <section className="relative overflow-hidden px-4 pb-16 pt-28 sm:px-6 lg:px-12 lg:pb-20 lg:pt-34 ">
+    <section className="relative overflow-hidden px-4 pb-10 pt-28 sm:px-6 lg:px-12 lg:pb-20 lg:pt-34 ">
       <PulseHexGridCanvas
         gridType="Fill"
         s={50}

@@ -57,7 +57,7 @@ export default function ProjectGallery({ category, filteredProjects, onCategoryC
   const itemVariants = createItemVariants(entranceAnimationEnabled);
 
   return (
-    <section className="relative px-4 pb-16 lg:pb-20 sm:px-6 lg:px-10 border-t border-white/10 pt-10 lg:pt-20">
+    <section className="relative px-4 pb-10 lg:pb-20 sm:px-6 lg:px-10 lg:border-t lg:border-white/10 pt-10 lg:pt-20">
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-gray-950/40 to-gray-950/60" />
       <motion.div
         initial="hidden"
@@ -69,7 +69,7 @@ export default function ProjectGallery({ category, filteredProjects, onCategoryC
       >
         <motion.div variants={itemVariants} className="space-y-4">
           <h2 className="text-3xl md:text-4xl xl:text-[40px] font-semibold text-white">{t("project_gallery_title")}</h2>
-          <p className="mx-auto max-w-2xl text-balance text-base text-white/65">
+          <p className="mx-auto max-w-2xl text-balance text-sm sm:text-base text-white/65">
             {t("project_gallery_description")}
           </p>
         </motion.div>

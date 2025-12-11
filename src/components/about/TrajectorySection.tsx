@@ -328,7 +328,7 @@ export function TrajectorySection({
   const locale = useLocale() as Locale;
 
   return (
-    <section className="relative px-4 pb-16 pt-10 sm:px-6 lg:px-12 lg:pb-20 lg:pt-20">
+    <section className="relative px-4 pb-10 pt-10 sm:px-6 lg:px-12 lg:pb-20 lg:pt-20">
       <PulseHexGridCanvas
         gridType="Fill"
         s={50}

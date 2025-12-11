@@ -58,7 +58,7 @@ export function PersonalSection({ entranceAnimationsEnabled }: PersonalSectionPr
   const t = useTranslations("AboutPage.personalSection");
 
   return (
-    <section className="bg-gray-950 px-4 pb-16 pt-10 sm:px-6 lg:px-12 lg:pb-20 lg:pt-20">
+    <section className="bg-gray-950 px-4 pb-10 pt-10 sm:px-6 lg:px-12 lg:pb-20 lg:pt-20">
       <motion.div
         className="relative"
         initial={entranceAnimationsEnabled ? "hidden" : "show"}
@@ -105,7 +105,7 @@ export function PersonalSection({ entranceAnimationsEnabled }: PersonalSectionPr
                 ]}
               />
               <motion.p
-                className="mt-3 text-xs text-white/50 text-center"
+                className="mt-3 hidden lg:block text-xs text-white/50 text-center"
                 variants={textItem}
               >
                 {t("galleryHint")}

@@ -119,7 +119,6 @@ export default function ProjectCard({ project, onSelect, isHidden = false }: Pro
     spans.forEach((span, idx) => {
       const top = span.offsetTop;
 
-      // Determinar en qué "línea" está este span según su offsetTop
       let lineIndex = lineTops.findIndex((t) => Math.abs(t - top) < 2);
       if (lineIndex === -1) {
         lineTops.push(top);
@@ -220,7 +219,7 @@ export default function ProjectCard({ project, onSelect, isHidden = false }: Pro
         variants={contentVariants}
         className={`flex flex-1 flex-col px-4 pb-4 pt-4`}
       >
-        <h3 className="text-xl font-semibold text-white/80 text-left text-pretty drop-shadow-[0_4px_12px_rgba(0,0,0,1)]">
+        <h3 className="text-base sm:text-lg lg:text-xl font-semibold text-white/80 text-left text-pretty drop-shadow-[0_4px_12px_rgba(0,0,0,1)]">
           {project.title}
         </h3>
         <div className="pt-3 flex flex-1 flex-col gap-6 justify-between">
@@ -228,7 +227,7 @@ export default function ProjectCard({ project, onSelect, isHidden = false }: Pro
             {project.short_description}
           </p>
 
-          <div className="mt-auto flex flex-wrap gap-2 text-xs text-white/70">
+          <div className="mt-auto flex flex-wrap gap-2 text-[11px] sm:text-xs text-white/70">
             {visibleTags.map((tag, idx) => (
               <motion.span
                 key={`${project.id}-tag-${idx}-${tag}`}

@@ -59,11 +59,11 @@ export default function FeaturedProjectsSection({
   const leftItem = createLeftItemVariants(entranceAnimationEnabled);
 
   return (
-    <section className="relative px-4 pb-16 lg:pb-20 sm:px-6 lg:px-10 ">
+    <section className="relative px-4 pb-10 lg:pb-20 sm:px-6 lg:px-10 ">
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-gray-300/5 to-transparent" />
 
       <motion.div
-        className="relative mx-auto flex max-w-6xl flex-col items-center gap-12 text-center pt-10 lg:pt-20 border-t border-white/10"
+        className="relative mx-auto flex max-w-6xl flex-col items-center gap-12 text-center pt-10 lg:pt-20 lg:border-t lg:border-white/10"
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ 
@@ -88,12 +88,12 @@ export default function FeaturedProjectsSection({
           >
             {t("featured_title")}
           </motion.h2>
-          <motion.p variants={leftItem} className="mx-auto max-w-2xl text-pretty text-base text-white/65">
+          <motion.p variants={leftItem} className="mx-auto max-w-2xl text-pretty text-sm sm:text-base text-white/65">
             {t("featured_description")}
           </motion.p>
         </motion.div>
 
-        <div className="w-full mt-3">
+        <div className="w-full">
           <FeaturedProjects
             projects={projects} 
             introStart={cardsIntro}
