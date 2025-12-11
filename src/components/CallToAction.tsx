@@ -4,8 +4,11 @@ import { motion, type Variants } from "framer-motion";
 import { useTranslations } from "next-intl";
 import { SkyButton } from "./home/Buttons";
 
-const sectionVariants: Variants = {
-  hidden: { opacity: 0, y: 64 },
+const createSectionVariants = (animated: boolean): Variants => ({
+  hidden: { 
+    opacity: animated ? 0 : 1, 
+    y: animated ? 64 : 0 
+  },
   show: {
     opacity: 1,
     y: 0,
@@ -13,40 +16,51 @@ const sectionVariants: Variants = {
       duration: 0,
       ease: "easeOut",
       when: "beforeChildren",
-      staggerChildren: 0.16,
+      staggerChildren: animated ? 0.16 : 0,
     },
   },
-};
+});
 
-const cardVariants: Variants = {
-  hidden: { opacity: 0, y: 32, scale: 0.96 },
+const createCardVariants = (animated: boolean): Variants => ({
+  hidden: { 
+    opacity: animated ? 0 : 1, 
+    y: animated ? 32 : 0, 
+    scale: animated ? 0.96 : 1 
+  },
   show: {
     opacity: 1,
     y: 0,
     scale: 1,
     transition: {
-      duration: 0.4,
+      duration: animated ? 0.4 : 0,
       ease: "easeOut",
       when: "beforeChildren",
-      staggerChildren: 0.12,
+      staggerChildren: animated ? 0.12 : 0,
     },
   },
-};
+});
 
-const contentVariants: Variants = {
-  hidden: { opacity: 0, y: 18 },
+const createContentVariants = (animated: boolean): Variants => ({
+  hidden: { 
+    opacity: animated ? 0 : 1, 
+    y: animated ? 18 : 0 
+  },
   show: {
     opacity: 1,
     y: 0,
     transition: {
-      duration: 0.5,
+      duration: animated ? 0.5 : 0,
       ease: "easeOut",
     },
   },
-};
+});
 
-export default function CallToAction() {
+export default function CallToAction({ entranceAnimationEnabled }: { entranceAnimationEnabled: boolean }) {
   const t = useTranslations("ProjectsPage");
+
+  const sectionVariants = createSectionVariants(entranceAnimationEnabled);
+  const cardVariants = createCardVariants(entranceAnimationEnabled);
+  const contentVariants = createContentVariants(entranceAnimationEnabled);
 
   return (
     <section className="relative px-8 pb-24 md:pt-6">
@@ -81,4 +95,3 @@ export default function CallToAction() {
     </section>
   );
 }
-

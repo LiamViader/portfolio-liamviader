@@ -11,44 +11,59 @@ import { CATEGORY_CONFIG, ClientCategorySlug } from "@/config/projectCategories"
 import { type TranslatedProject } from "@/data/projects/types";
 import FeaturedProjectsSection from "@/components/projects/featured/FeaturedProjectsSection";
 import ProjectGallery from "@/components/projects/gallery/ProjectGallery";
+import { usePerformanceConfig } from "@/hooks/usePerformanceConfig";
 
 interface ClientProjectsPageProps {
   projectsData: TranslatedProject[];
 }
 
-const heroContainerVariants: Variants = {
+const createHeroContainerVariants = (animated: boolean): Variants => ({
   hidden: {
     opacity: 0,
-    y: 48,
-    filter: "blur(8px)",
+    y: animated ? 48 : 0,
+    filter: animated ? "blur(8px)" : "blur(0px)",
   },
   show: {
     opacity: 1,
     y: 0,
     filter: "blur(0px)",
-    transition: {
-      duration: 0.6,
-      ease: "easeOut",
-      when: "beforeChildren",
-      staggerChildren: 0.18,
-    },
+    transition: animated
+      ? {
+          duration: 0.6,
+          ease: "easeOut",
+          when: "beforeChildren",
+          staggerChildren: 0.18,
+        }
+      : {
+          duration: 0,
+          when: "beforeChildren",
+          staggerChildren: 0,
+        },
   },
-};
+});
 
-const heroChildVariants: Variants = {
-  hidden: { opacity: 0, y: 26 },
+const createHeroChildVariants = (animated: boolean): Variants => ({
+  hidden: { 
+    opacity: 0, 
+    y: animated ? 26 : 0 
+  },
   show: {
     opacity: 1,
     y: 0,
-    transition: {
-      duration: 0.6,
-      ease: "easeOut",
-    },
+    transition: animated
+      ? {
+          duration: 0.6,
+          ease: "easeOut",
+        }
+      : {
+          duration: 0,
+        },
   },
-};
+});
 
 export default function ClientProjectsPage({ projectsData }: ClientProjectsPageProps) {
   const t = useTranslations("ProjectsPage");
+  const { entranceAnimationsEnabled } = usePerformanceConfig();
 
   const router = useRouter();
   const pathname = usePathname();
@@ -74,6 +89,9 @@ export default function ClientProjectsPage({ projectsData }: ClientProjectsPageP
 
     return project.categories.includes(currentFilter);
   });
+
+  const heroContainerVariants = createHeroContainerVariants(entranceAnimationsEnabled);
+  const heroChildVariants = createHeroChildVariants(entranceAnimationsEnabled);
 
   const overlays = (
     <>
@@ -116,15 +134,16 @@ export default function ClientProjectsPage({ projectsData }: ClientProjectsPageP
         </motion.div>
       </section>
 
-      <FeaturedProjectsSection projects={projectsData} replaceUrl={true} allowUrlOpen={false}/>
+      <FeaturedProjectsSection projects={projectsData} replaceUrl={true} allowUrlOpen={false} entranceAnimationEnabled={entranceAnimationsEnabled}/>
 
       <ProjectGallery
         category={category}
         filteredProjects={filteredProjects}
         onCategoryChange={setCategory}
+        entranceAnimationEnabled={entranceAnimationsEnabled}
       />
 
-      <CallToAction />
+      <CallToAction entranceAnimationEnabled={entranceAnimationsEnabled}/>
     </PageLayout>
   );
 }

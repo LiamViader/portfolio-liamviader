@@ -68,7 +68,7 @@ const mediaVariants: Variants = {
     }
   ) => ({
     scale: c.translate ? 1.03 : 1,
-    y: c.translate ? -8 : 0,
+    y: c.translate ? 2 : 0,
     transition: { duration: 0.3 },
   }),
 };

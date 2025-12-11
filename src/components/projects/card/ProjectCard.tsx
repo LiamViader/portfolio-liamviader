@@ -23,13 +23,15 @@ interface ProjectCardProps {
 const containerVariants: Variants = {
   rest: {
     y: 0,
+    scale: 1,
     backgroundColor: BASE_BG,
     borderColor: BASE_BORD,
     boxShadow: BASE_SH,
-    transition: { duration: 0.6, ease: "easeOut" },
+    transition: { duration: 0.4, ease: "easeOut" },
   },
   hover: {
-    y: -10,
+    y: 0,
+    scale: 1.02,
     backgroundColor: HOVER_BG,
     borderColor: HOVER_BOR,
     boxShadow: HOVER_SH,
@@ -43,7 +45,7 @@ const containerVariants: Variants = {
 
 const mediaVariants: Variants = {
   rest: { scale: 1, y: 0 },
-  hover: { scale: 1.05, y: -8, transition: { duration: 0.3 } },
+  hover: { scale: 1.05, y: 2, transition: { duration: 0.2 } },
 };
 
 const overlayVariants: Variants = {
@@ -53,7 +55,7 @@ const overlayVariants: Variants = {
 
 const contentVariants: Variants = {
   rest: { y: 0, opacity: 1 },
-  hover: { y: -2, opacity: 1 },
+  hover: { y: 0, opacity: 1 },
 };
 
 const tagVariants: Variants = {
@@ -84,11 +86,9 @@ export default function ProjectCard({ project, onSelect, isHidden = false }: Pro
 
   const allTags = useMemo(() => project.tags ?? [], [project.tags]);
 
-  // Estado para cuántos tags mostrar y cuántos se ocultan
   const [visibleCount, setVisibleCount] = useState<number>(allTags.length);
   const [hiddenCount, setHiddenCount] = useState<number>(0);
 
-  // Contenedor fantasma para medir cómo se rompen las líneas
   const tagsMeasureRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
@@ -134,7 +134,6 @@ export default function ProjectCard({ project, onSelect, isHidden = false }: Pro
     });
 
     if (lastAllowedIndex === -1) {
-      // Nada cabe dentro de las líneas permitidas
       setVisibleCount(0);
       setHiddenCount(allTags.length);
       return;
@@ -144,13 +143,11 @@ export default function ProjectCard({ project, onSelect, isHidden = false }: Pro
     const total = allTags.length;
 
     if (numberThatFit >= total) {
-      // Todos caben dentro de las 2 líneas
       setVisibleCount(total);
       setHiddenCount(0);
       return;
     }
 
-    // Si hay overflow, reservamos el último hueco para el "+N"
     const visible = Math.max(numberThatFit - 1, 0);
     const hidden = total - visible;
 
@@ -176,7 +173,6 @@ export default function ProjectCard({ project, onSelect, isHidden = false }: Pro
       whileHover="hover"
       transition={{ duration: 0.6, ease: "easeOut" }}
     >
-      {/* Contenedor fantasma para medir cómo se distribuyen los tags en líneas */}
       <div
         ref={tagsMeasureRef}
         className="pointer-events-none absolute left-0 top-0 -z-10 opacity-0"
