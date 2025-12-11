@@ -119,7 +119,7 @@ export default function ClientProjectsPage({ projectsData }: ClientProjectsPageP
         >
           <motion.h1
             variants={heroChildVariants}
-            className="text-balance text-4xl sm:text-5xl md:text-6xl font-semibold tracking-tight text-white/95"
+            className="text-4xl sm:text-5xl md:text-6xl font-semibold tracking-tight text-white/95"
           >
             {t.rich("title", {
               highlight: (chunks) => <span className="text-sky-300">{chunks}</span>,

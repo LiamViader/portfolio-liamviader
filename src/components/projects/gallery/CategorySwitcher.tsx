@@ -49,7 +49,7 @@ export default function CategorySwitcher({ currentCategory, onCategoryChange }: 
             whileTap={{ scale: 0.95, backgroundColor: "rgba(0,0,0,0.1)" }}
             transition={{ type: "spring", stiffness: 200, damping: 20 }}
             className={`
-              relative z-10 px-6 py-2 cursor-pointer text-sm font-semibold rounded-full min-h-[56px]
+              relative z-10 px-4 sm:px-6 py-4 sm:py-5 cursor-pointer text-xs sm:text-sm font-semibold rounded-full
               transition-colors duration-300 ease-out
               ${isActive ? "text-black" : "text-gray-200 hover:text-white"}
             `}
