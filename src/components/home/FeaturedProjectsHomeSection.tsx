@@ -100,7 +100,7 @@ export function FeaturedProjectsHomeSection({
             leftControls.start("show");
             setTimeout(() => setCardsIntro(true), 300);
           }}
-          className="flex flex-col gap-6 text-center lg:text-left pl-3 will-change-transform"
+          className="flex flex-col gap-6 text-center lg:text-left lg:pl-3 will-change-transform"
         >
           <div className="space-y-4 mt-10 sm:mb-2 md:mb-8 lg:mb-0">
             <motion.h2 variants={leftItem} className="text-left font-semibold text-white text-2xl sm:text-3xl whitespace-nowrap">

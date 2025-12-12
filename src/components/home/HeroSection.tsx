@@ -68,10 +68,16 @@ export function HeroSection({
   }, [controls, entranceAnimationEnabled]);
 
   return (
-    <div className="relative z-10 mx-auto flex w-full max-w-6xl flex-col items-center gap-8 lg:gap-16 text-center lg:flex-row lg:items-center lg:justify-between lg:text-left">
-      <HeroImage entranceAnimationEnabled={entranceAnimationEnabled}/>
+    <div 
+      className="relative z-10 mx-auto flex w-full max-w-6xl flex-col items-center 
+        gap-8 sm:gap-10 lg:flex-row lg:items-center lg:justify-between 
+        lg:gap-16 text-center lg:text-left"
+    >
 
-      <div className="flex max-w-2xl flex-col items-center gap-8 lg:items-start">
+      <HeroImage entranceAnimationEnabled={entranceAnimationEnabled} />
+
+      <div className="flex max-w-2xl flex-col items-center gap-8 sm:gap-10 lg:items-start">
+
         <motion.h1
           variants={canHover ? titleVariantsWithHover : titleVariantsWithoutHover}
           onAnimationComplete={() => setReady(true)}
@@ -85,7 +91,9 @@ export function HeroSection({
             if (!ready) return;
             controls.start("animate", { duration: 0.35, delay: 0 });
           }}
-          className="whitespace-pre-line text-balance text-4xl sm:text-5xl md:text-6xl font-semibold tracking-tight text-white/95 "
+          className="whitespace-pre-line text-balance 
+            text-4xl sm:text-5xl lg:text-6xl
+            font-semibold tracking-tight text-white/95"
         >
           {title}
         </motion.h1>
@@ -97,7 +105,9 @@ export function HeroSection({
             delay: entranceAnimationEnabled ? BASE_DELAY_ENTRANCE + 0.2 : 0,
             duration: entranceAnimationEnabled ? 0.7 : 0,
           }}
-          className="max-w-2xl text-pretty text-lg text-white/70 sm:text-xl"
+          className="max-w-2xl text-pretty 
+            text-lg sm:text-xl 
+            text-white/70"
         >
           {subtitle}
         </motion.p>
@@ -114,6 +124,7 @@ export function HeroSection({
           <SkyButton href="/about" text={aboutButtonText} />
           <WhiteButton href="/contact" text={contactButtonText} />
         </motion.div>
+
       </div>
     </div>
   );

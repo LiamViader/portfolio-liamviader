@@ -12,6 +12,7 @@ import { BASE_DELAY_ENTRANCE } from "@/utils/constants";
 import PageLayout from "@/components/layout/PageLayout";
 import PulseHexGridCanvas from "@/components/home/scene/PulseHexGridCanvas";
 import { usePerformanceConfig } from "@/hooks/usePerformanceConfig";
+import { HeroStats } from "@/components/home/HeroStats";
 
 const icons = {
   BrainCircuit,
@@ -79,41 +80,10 @@ export default function Home() {
           entranceAnimationEnabled={entranceAnimationsEnabled}
         />
 
+        <HeroStats entranceAnimationsEnabled={entranceAnimationsEnabled} />
 
-        <div className="relative z-10 mx-auto max-w-6xl w-full pt-15 text-center">
-          <motion.p
-            variants={titleInfoCardsAnimation}
-            initial="hidden"
-            animate="show"
-            className="z-10 text-base md:text-lg font-medium uppercase tracking-[0.3em] text-white/70"
-          >
-            {t("work_section.title")}
-          </motion.p>
-        
-
-          <motion.ul
-            variants={infoCardsAnimation}
-            initial="hidden" 
-            animate="show"
-            className="mx-auto grid w-full max-w-6xl gap-4 pt-8 text-left sm:grid-cols-3"
-          >
-            {metricKeys.map((metricKey,index) => {
-              const iconName = t(`work_section.${metricKey}.icon`);
-              const IconComponent = icons[iconName as keyof typeof icons];
-              return (
-                <InfoCard
-                  key={index}
-                  title={t(`work_section.${metricKey}.value`)}
-                  info={t(`work_section.${metricKey}.label`)}
-                  icon={<IconComponent className="h-7 w-7 text-sky-300" />}
-                  entranceAnimationEnabled={entranceAnimationsEnabled}
-                />
-              )
-            })}
-          </motion.ul>
-        </div>
       </section>
-      <section className="relative px-2 md:px-6 pt-10 lg:pt-20 pb-24 ">
+      <section className="relative px-4 sm:px-6 lg:px-12 pt-10 lg:pt-20 pb-24 ">
 
         {
           (backgroundsOptimization === "normal") ?
