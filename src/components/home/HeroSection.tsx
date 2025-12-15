@@ -6,6 +6,7 @@ import { motion, useAnimationControls } from "framer-motion";
 import { SkyButton, WhiteButton } from "./Buttons";
 import { BASE_DELAY_ENTRANCE } from "@/utils/constants";
 import { usePerfTier } from "@/hooks/usePerfTier";
+import { Stack } from "../layout/Stack";
 
 interface HeroSectionProps {
   title: ReactNode;
@@ -69,14 +70,12 @@ export function HeroSection({
 
   return (
     <div 
-      className="relative z-10 mx-auto flex w-full max-w-6xl flex-col items-center 
-        gap-8 sm:gap-10 lg:flex-row lg:items-center lg:justify-between 
-        lg:gap-16 text-center lg:text-left"
+      className="relative z-10 flex w-full flex-col items-center gap-12 lg:flex-row lg:justify-between text-center lg:text-left"
     >
 
       <HeroImage entranceAnimationEnabled={entranceAnimationEnabled} />
 
-      <div className="flex max-w-2xl flex-col items-center gap-8 sm:gap-10 lg:items-start">
+      <Stack size="lg" className="max-w-2xl items-center lg:items-start">
 
         <motion.h1
           variants={canHover ? titleVariantsWithHover : titleVariantsWithoutHover}
@@ -125,7 +124,7 @@ export function HeroSection({
           <WhiteButton href="/contact" text={contactButtonText} />
         </motion.div>
 
-      </div>
+      </Stack>
     </div>
   );
 }

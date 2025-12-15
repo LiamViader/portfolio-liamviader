@@ -5,6 +5,8 @@ import { BrainCircuit, Gamepad2, Workflow } from "lucide-react";
 import { InfoCard } from "@/components/home/InfoCard";
 import { BASE_DELAY_ENTRANCE } from "@/utils/constants";
 import { useTranslations } from "next-intl";
+import { Stack } from "../layout/Stack";
+import { Eyebrow } from "../layout/Eyebrow";
 
 const icons = {
   BrainCircuit,
@@ -12,7 +14,6 @@ const icons = {
   Workflow,
 };
 
-// Variantes movidas aquí para limpiar Home.tsx
 const createTitleInfoCardsAnimation = (animated: boolean): Variants => ({
   hidden: { opacity: 0, y: animated ? 10 : 0 },
   show: {
@@ -42,6 +43,8 @@ const createInfoCardsAnimation = (animated: boolean): Variants => ({
   },
 });
 
+const MotionEyebrow = motion(Eyebrow);
+
 interface HeroStatsProps {
   entranceAnimationsEnabled: boolean;
 }
@@ -49,28 +52,28 @@ interface HeroStatsProps {
 export function HeroStats({ entranceAnimationsEnabled }: HeroStatsProps) {
   const t = useTranslations("HomePage");
   
-  // Definimos las claves aquí dentro
   const metricKeys: Array<"ai" | "videogames" | "system_design"> = ["ai", "videogames", "system_design"];
   
   const titleInfoCardsAnimation = createTitleInfoCardsAnimation(entranceAnimationsEnabled);
   const infoCardsAnimation = createInfoCardsAnimation(entranceAnimationsEnabled);
 
   return (
-    <div className="relative z-10 mx-auto max-w-6xl w-full pt-15 text-center">
-      <motion.p
+    <Stack size="lg" className="relative z-10 w-full text-center">
+      <MotionEyebrow
+        align="center"
         variants={titleInfoCardsAnimation}
         initial="hidden"
         animate="show"
-        className="z-10 text-base md:text-lg font-medium uppercase tracking-[0.3em] text-white/70"
+        className="opacity-0"
       >
         {t("work_section.title")}
-      </motion.p>
+      </MotionEyebrow>
 
       <motion.ul
         variants={infoCardsAnimation}
         initial="hidden"
         animate="show"
-        className="mx-auto grid w-full max-w-6xl gap-4 pt-8 text-left sm:grid-cols-3"
+        className="grid w-full gap-4 text-left sm:grid-cols-3"
       >
         {metricKeys.map((metricKey, index) => {
           const iconName = t(`work_section.${metricKey}.icon`);
@@ -86,6 +89,6 @@ export function HeroStats({ entranceAnimationsEnabled }: HeroStatsProps) {
           );
         })}
       </motion.ul>
-    </div>
+    </Stack>
   );
 }

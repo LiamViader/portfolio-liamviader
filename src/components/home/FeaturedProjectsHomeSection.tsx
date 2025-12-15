@@ -88,7 +88,7 @@ export function FeaturedProjectsHomeSection({
       initial={entranceAnimationEnabled ? "hidden" : "show" }
       whileInView={entranceAnimationEnabled ? "show" : undefined }
       viewport={entranceAnimationEnabled ? { once: true, amount: 0.35, margin: "0px 0px -15% 0px" } : undefined}
-      className="relative mx-auto max-w-[1400px]"
+      className="relative mx-auto w-full"
     >
       <div className="flex flex-col gap-6 lg:grid lg:grid-cols-[minmax(0,0.55fr)_minmax(0,1fr)] xl:grid-cols-[minmax(0,0.75fr)_minmax(0,1fr)] lg:items-start lg:gap-10">
         <motion.div

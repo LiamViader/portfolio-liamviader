@@ -12,7 +12,7 @@ import PulseHexGridCanvas from "@/components/home/scene/PulseHexGridCanvas";
 import { usePerformanceConfig } from "@/hooks/usePerformanceConfig";
 import { HeroStats } from "@/components/home/HeroStats";
 import { Container } from "@/components/layout/Container";
-import { Section } from "@/components/layout/Section";
+import { Stack } from "@/components/layout/Stack";
 import { LastSection } from "@/components/layout/LastSection";
 import { ContentBlock } from "@/components/layout/ContentBlock";
 import { ShowcaseBlock } from "@/components/layout/ShowcaseBlock";
@@ -69,19 +69,21 @@ export default function Home() {
       <div className="inset-0 absolute bg-[linear-gradient(to_bottom,_rgba(3,7,18,0.1)_0%,_rgba(3,7,18,0.7)_50%,_rgb(3,7,18)_97%,_rgb(3,7,18)_100%)]"/>
         <Container>
           <ContentBlock>
-            <HeroSection
-              title={t.rich("hero.title", {
-                highlight: (chunks) => (
-                  <span className="text-sky-300">{chunks}</span>
-                ),
-              })}
-              subtitle={t("hero.subtitle")}
-              contactButtonText={t("hero.ctaContact")}
-              aboutButtonText={t("hero.ctaAbout")}
-              entranceAnimationEnabled={entranceAnimationsEnabled}
-            />
+            <Stack size="lg">
+              <HeroSection
+                title={t.rich("hero.title", {
+                  highlight: (chunks) => (
+                    <span className="text-sky-300">{chunks}</span>
+                  ),
+                })}
+                subtitle={t("hero.subtitle")}
+                contactButtonText={t("hero.ctaContact")}
+                aboutButtonText={t("hero.ctaAbout")}
+                entranceAnimationEnabled={entranceAnimationsEnabled}
+              />
 
-            <HeroStats entranceAnimationsEnabled={entranceAnimationsEnabled} />
+              <HeroStats entranceAnimationsEnabled={entranceAnimationsEnabled} />
+            </Stack>
           </ContentBlock>
         </Container>
       </HeroSectionWrapper>

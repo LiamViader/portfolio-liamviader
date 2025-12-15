@@ -9,7 +9,7 @@ export function ShowcaseBlock({
   className?: string;
 }) {
   return (
-    <div className={clsx("mx-auto max-w-8xl", className)}>
+    <div className={clsx("mx-auto max-w-[1400px]", className)}>
       {children}
     </div>
   );
