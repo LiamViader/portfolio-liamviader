@@ -80,7 +80,6 @@ export function PhilosophySection({ entranceAnimationsEnabled }: PhilosophySecti
   const t = useTranslations("AboutPage");
   const listVariants = createInfoCardsAnimation(entranceAnimationsEnabled);
   const headerItem = createHeaderItemAnimation(entranceAnimationsEnabled);
-  const headerGroup = createHeaderGroupAnimation(entranceAnimationsEnabled);
   const sectionVariants = createSectionAnimation(entranceAnimationsEnabled);
 
   return (
@@ -110,12 +109,12 @@ export function PhilosophySection({ entranceAnimationsEnabled }: PhilosophySecti
             initial="hidden"
             whileInView={entranceAnimationsEnabled ? "show" : undefined}
             animate={entranceAnimationsEnabled ? undefined : "show"}
-            viewport={entranceAnimationsEnabled ? { once: true, amount: 0.25 } : undefined}
+            viewport={entranceAnimationsEnabled ? { once: true, amount: 0.2 } : undefined}
             variants={sectionVariants}
           >
             <Stack className="relative mx-auto" size="lg">
 
-              <motion.div variants={headerGroup}>
+              <motion.div variants={headerItem}>
                 <SectionHeader
                   title={t("philosophySection.title")}
                   description={t("philosophySection.subtitle")}
