@@ -115,7 +115,10 @@ export function HeroSection({
         <motion.div
           initial={{ opacity: 0, y: entranceAnimationEnabled ? 20 : 0 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: entranceAnimationEnabled ? BASE_DELAY_ENTRANCE + 0.3 : 0 }}
+          transition={{
+            delay: entranceAnimationEnabled ? BASE_DELAY_ENTRANCE + 0.3 : 0,
+            duration: entranceAnimationEnabled ? 0.7 : 0,
+          }}
           className="flex w-full flex-wrap justify-center gap-4 lg:justify-start"
         >
           <SkyButton href="/about" text={aboutButtonText} />
