@@ -13,9 +13,9 @@ export const grid_types = ['OverlapLine', 'Fill', 'Trails', 'Strata'] as const;
 export type GridType = typeof grid_types[number]; 
 
 export type CanvasSceneProps = {
-  /** Tailwind extra para el wrapper; se fusiona con las clases por defecto */
+
   className?: string;
-  /** Parámetros del grid (ver abajo) con defaults sensatos */
+
   pixelsPerHex?: number;
   hue?: number;
   hueJitter?: number;
@@ -55,9 +55,9 @@ function renderGrid(finalGridType: GridType, mergedParams: HexGridParams, trailP
           params={mergedParams}
           options={{
             mode: "diagA",      // "rows" | "cols" | "diagA" | "diagB"
-            amplitude: 5,     // desplazamiento máximo en px
-            speed: 0.25,       // ciclos/seg
-            phaseStep: 0,    // desfase por estrato
+            amplitude: 5,    
+            speed: 0.25,       
+            phaseStep: 0,    
           }}
         />
       );

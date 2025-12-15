@@ -6,7 +6,7 @@ import { useState } from "react";
 import { BASE_DELAY_ENTRANCE } from "@/utils/constants";
 
 const RING = "0 0 0 2px rgba(255, 255, 255, 0.4)";
-const BASE_GLOW = "0 25px 60px -40px rgba(250,189,248,0.8)";
+const BASE_GLOW = "0 25px 80px -40px rgba(250,189,248,0.8)";
 const HOVER_GLOW = "0 25px 80px -40px rgba(56,189,248,1)";
 
 const createImageVariants = (animated: boolean): Variants => ({

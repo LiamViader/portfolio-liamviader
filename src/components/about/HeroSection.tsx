@@ -15,7 +15,12 @@ import { type PersonalInfo } from "./types";
 import { type Locale } from "@/i18n/routing";
 import PulseHexGridCanvas from "../home/scene/PulseHexGridCanvas";
 import { usePerfTier } from "@/hooks/usePerfTier";
-
+import { HeroSectionWrapper } from "../layout/HeroSectionWrapper";
+import { Stack } from "../layout/Stack";
+import { Container } from "../layout/Container";
+import { ContentBlock } from "../layout/ContentBlock";
+import { Content } from "next/font/google";
+import { ButtonGroup } from "../layout/ButtonGroup";
 
 type HeroSectionProps = {
   personalInfo: PersonalInfo;
@@ -101,7 +106,7 @@ export function HeroSection({ personalInfo, age, entranceAnimationsEnabled }: He
       };
 
   return (
-    <section className="relative overflow-hidden px-4 sm:px-6 lg:px-12 pb-10 pt-28 lg:pb-20 lg:pt-34 ">
+    <HeroSectionWrapper className="relative overflow-hidden">
       <PulseHexGridCanvas
         gridType="Fill"
         s={50}
@@ -119,112 +124,115 @@ export function HeroSection({ personalInfo, age, entranceAnimationsEnabled }: He
         pixelsPerHex={45}
       />
       <div className="inset-0 absolute bg-[linear-gradient(to_bottom,_rgba(3,7,18,0.05)_0%,_rgba(3,7,18,0.7)_50%,_rgb(3,7,18)_97%,_rgb(3,7,18)_100%)]" />
-      <div className="relative mx-auto flex w-full max-w-6xl flex-col gap-10">
-        <div className="flex flex-col-reverse gap-8 lg:flex-row items-center lg:gap-16">
-          <div className="flex-1 space-y-8">
-            <motion.h1
-              variants={canHover ? titleVariantsWithHover : titleVariantsWithoutHover}
-              initial="initial"
-              animate={controls}
-              onAnimationComplete={() => setReady(true)}
-              onHoverStart={() => {
-                if (!ready) return;
-                controls.start("hover", { duration: 0.35 });
-              }}
-              onHoverEnd={() => {
-                if (!ready) return;
-                controls.start("animate", { duration: 0.35 });
-              }}
-              className="text-pretty text-4xl font-semibold tracking-tight text-white/95 sm:text-5xl md:text-6xl text-center lg:text-left"
-            >
-              {t.rich("hero.title", {
-                highlight: (chunks) => (
-                  <span className="text-sky-300">{chunks}</span>
-                ),
-              })}
-            </motion.h1>
+      <Container>
+        <ContentBlock>
+          <Stack size="lg">
+            <div className="flex flex-col-reverse gap-8 lg:gap-12 lg:flex-row items-center">
+              <Stack size="lg" className="max-w-2xl lg:max-w-full z-10">
+                <motion.h1
+                  variants={canHover ? titleVariantsWithHover : titleVariantsWithoutHover}
+                  initial="initial"
+                  animate={controls}
+                  onAnimationComplete={() => setReady(true)}
+                  onHoverStart={() => {
+                    if (!ready) return;
+                    controls.start("hover", { duration: 0.35 });
+                  }}
+                  onHoverEnd={() => {
+                    if (!ready) return;
+                    controls.start("animate", { duration: 0.35 });
+                  }}
+                  className="text-pretty text-4xl sm:text-5xl lg:text-6xl font-semibold tracking-tight text-white/95 text-center lg:text-left"
+                >
+                  {t.rich("hero.title", {
+                    highlight: (chunks) => (
+                      <span className="text-sky-300">{chunks}</span>
+                    ),
+                  })}
+                </motion.h1>
 
-            <motion.p
-              initial={{
-                opacity: 0,
-                y: entranceAnimationsEnabled ? 18 : 0,
-              }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{
-                duration: entranceAnimationsEnabled ? 0.7 : 0,
-                ease: "easeOut",
-                delay: entranceAnimationsEnabled
-                  ? BASE_DELAY_ENTRANCE + 0.2
-                  : 0,
-              }}
-              className="lg:max-w-2xl text-pretty text-lg text-white/70 sm:text-xl text-center lg:text-left"
-            >
-              {t("hero.subtitle")}
-            </motion.p>
+                <motion.p
+                  initial={{
+                    opacity: 0,
+                    y: entranceAnimationsEnabled ? 18 : 0,
+                  }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{
+                    duration: entranceAnimationsEnabled ? 0.7 : 0,
+                    ease: "easeOut",
+                    delay: entranceAnimationsEnabled
+                      ? BASE_DELAY_ENTRANCE + 0.2
+                      : 0,
+                  }}
+                  className="lg:max-w-2xl text-pretty text-lg sm:text-xl text-white/70 text-center lg:text-left"
+                >
+                  {t("hero.subtitle")}
+                </motion.p>
 
-            <motion.div
-              initial={{
-                opacity: 0,
-                y: entranceAnimationsEnabled ? 18 : 0,
-              }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{
-                duration: entranceAnimationsEnabled ? 0.7 : 0,
-                ease: "easeOut",
-                delay: entranceAnimationsEnabled
-                  ? BASE_DELAY_ENTRANCE + 0.3
-                  : 0,
-              }}
-              className="flex w-full flex-wrap justify-center gap-4 lg:justify-start"
+                <motion.div
+                  initial={{
+                    opacity: 0,
+                    y: entranceAnimationsEnabled ? 18 : 0,
+                  }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{
+                    duration: entranceAnimationsEnabled ? 0.7 : 0,
+                    ease: "easeOut",
+                    delay: entranceAnimationsEnabled
+                      ? BASE_DELAY_ENTRANCE + 0.3
+                      : 0,
+                  }}
+                  className="w-full"
+                >
+                  <ButtonGroup align={{ base: "center", lg: "left" }}>
+                    <SkyButton href="/projects" text={t("hero.ctaProjects")} />
+                    <WhiteButton href="/contact" text={t("hero.ctaContact")} />
+                  </ButtonGroup>
+                </motion.div>
+              </Stack>
+
+              <div className="flex w-full justify-center lg:w-auto lg:justify-end">
+                <AboutPortrait entranceAnimationEnabled={entranceAnimationsEnabled}/>
+              </div>
+            </div>
+
+            <motion.ul
+              variants={infoListVariants}
+              initial="hidden"
+              animate="show"
+              className="grid gap-4 md:grid-cols-2"
             >
-              <SkyButton
-                href="/projects"
-                text={t("hero.ctaProjects")}
+              <InfoCard
+                title={personalInfo.fullName}
+                info={t("hero.birthInfo", { age })}
+                icon={<User2 className="h-6 w-6 text-sky-300" />}
+                entranceAnimationEnabled={entranceAnimationsEnabled}
               />
-              <WhiteButton href="/contact" text={t("hero.ctaContact")} />
-            </motion.div>
-          </div>
 
-          <div className="flex w-full justify-center lg:w-auto lg:justify-end">
-            <AboutPortrait entranceAnimationEnabled={entranceAnimationsEnabled}/>
-          </div>
-        </div>
+              <InfoCard
+                title={localizedCity}
+                info={t("hero.locationInfo")}
+                icon={<MapPin className="h-6 w-6 text-sky-300" />}
+                entranceAnimationEnabled={entranceAnimationsEnabled}
+              />
 
-        <motion.ul
-          variants={infoListVariants}
-          initial="hidden"
-          animate="show"
-          className="grid gap-4 sm:grid-cols-2"
-        >
-          <InfoCard
-            title={personalInfo.fullName}
-            info={t("hero.birthInfo", { age })}
-            icon={<User2 className="h-6 w-6 text-sky-300" />}
-            entranceAnimationEnabled={entranceAnimationsEnabled}
-          />
+              <InfoCard
+                title={t("hero.languagesTitle")}
+                info={localizedLanguages.join(" · ")}
+                icon={<Languages className="h-6 w-6 text-sky-300" />}
+                entranceAnimationEnabled={entranceAnimationsEnabled}
+              />
 
-          <InfoCard
-            title={localizedCity}
-            info={t("hero.locationInfo")}
-            icon={<MapPin className="h-6 w-6 text-sky-300" />}
-            entranceAnimationEnabled={entranceAnimationsEnabled}
-          />
-
-          <InfoCard
-            title={t("hero.languagesTitle")}
-            info={localizedLanguages.join(" · ")}
-            icon={<Languages className="h-6 w-6 text-sky-300" />}
-            entranceAnimationEnabled={entranceAnimationsEnabled}
-          />
-
-          <InfoCard
-            title={t("hero.whatIDoTitle")}
-            info={t("hero.whatIDoInfo")}
-            icon={<Sparkles className="h-6 w-6 text-sky-300" />}
-            entranceAnimationEnabled={entranceAnimationsEnabled}
-          />
-        </motion.ul>
-      </div>
-    </section>
+              <InfoCard
+                title={t("hero.whatIDoTitle")}
+                info={t("hero.whatIDoInfo")}
+                icon={<Sparkles className="h-6 w-6 text-sky-300" />}
+                entranceAnimationEnabled={entranceAnimationsEnabled}
+              />
+            </motion.ul>
+          </Stack>
+        </ContentBlock>
+      </Container>
+    </HeroSectionWrapper>
   );
 }

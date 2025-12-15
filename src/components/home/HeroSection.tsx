@@ -7,6 +7,7 @@ import { SkyButton, WhiteButton } from "./Buttons";
 import { BASE_DELAY_ENTRANCE } from "@/utils/constants";
 import { usePerfTier } from "@/hooks/usePerfTier";
 import { Stack } from "../layout/Stack";
+import { ButtonGroup } from "../layout/ButtonGroup";
 
 interface HeroSectionProps {
   title: ReactNode;
@@ -70,7 +71,7 @@ export function HeroSection({
 
   return (
     <div 
-      className="relative z-10 flex w-full flex-col items-center gap-12 lg:flex-row lg:justify-between text-center lg:text-left"
+      className="relative z-10 flex w-full flex-col items-center gap-8 lg:gap-12 lg:flex-row lg:justify-between text-center lg:text-left"
     >
 
       <HeroImage entranceAnimationEnabled={entranceAnimationEnabled} />
@@ -118,10 +119,12 @@ export function HeroSection({
             delay: entranceAnimationEnabled ? BASE_DELAY_ENTRANCE + 0.3 : 0,
             duration: entranceAnimationEnabled ? 0.7 : 0,
           }}
-          className="flex w-full flex-wrap justify-center gap-4 lg:justify-start"
+          className="w-full"
         >
-          <SkyButton href="/about" text={aboutButtonText} />
-          <WhiteButton href="/contact" text={contactButtonText} />
+          <ButtonGroup align={{ base: "center", lg: "left" }}>
+            <SkyButton href="/about" text={aboutButtonText} />
+            <WhiteButton href="/contact" text={contactButtonText} />
+          </ButtonGroup>
         </motion.div>
 
       </Stack>

@@ -73,7 +73,7 @@ export function HeroStats({ entranceAnimationsEnabled }: HeroStatsProps) {
         variants={infoCardsAnimation}
         initial="hidden"
         animate="show"
-        className="grid w-full gap-4 text-left sm:grid-cols-3"
+        className="grid w-full gap-4 text-left md:grid-cols-3"
       >
         {metricKeys.map((metricKey, index) => {
           const iconName = t(`work_section.${metricKey}.icon`);
