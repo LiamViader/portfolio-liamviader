@@ -115,16 +115,11 @@ export function HeroSection({
         <motion.div
           initial={{ opacity: 0, y: entranceAnimationEnabled ? 20 : 0 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{
-            delay: entranceAnimationEnabled ? BASE_DELAY_ENTRANCE + 0.3 : 0,
-            duration: entranceAnimationEnabled ? 0.7 : 0,
-          }}
-          className="w-full"
+          transition={{ delay: entranceAnimationEnabled ? BASE_DELAY_ENTRANCE + 0.3 : 0 }}
+          className="flex w-full flex-wrap justify-center gap-4 lg:justify-start"
         >
-          <ButtonGroup align={{ base: "center", lg: "left" }}>
-            <SkyButton href="/about" text={aboutButtonText} />
-            <WhiteButton href="/contact" text={contactButtonText} />
-          </ButtonGroup>
+          <SkyButton href="/about" text={aboutButtonText} />
+          <WhiteButton href="/contact" text={contactButtonText} />
         </motion.div>
 
       </Stack>

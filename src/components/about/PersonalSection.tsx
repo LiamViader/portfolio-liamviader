@@ -3,6 +3,10 @@
 import PersonalGallery from "./PersonalGallery";
 import { motion, type Variants } from "framer-motion";
 import { useTranslations } from "next-intl";
+import { Section } from "../layout/Section";
+import { Container } from "../layout/Container";
+import { ShowcaseBlock } from "../layout/ShowcaseBlock";
+import { Stack } from "../layout/Stack";
 
 const sectionVariants: Variants = {
   hidden: {},
@@ -50,6 +54,8 @@ const PARAGRAPH_KEYS = [
   "paragraphs.fifth",
 ];
 
+const MotionStack = motion(Stack);
+
 type PersonalSectionProps = {
   entranceAnimationsEnabled: boolean;
 };
@@ -58,62 +64,66 @@ export function PersonalSection({ entranceAnimationsEnabled }: PersonalSectionPr
   const t = useTranslations("AboutPage.personalSection");
 
   return (
-    <section className="bg-gray-950 px-4 pb-10 pt-10 sm:px-6 lg:px-12 lg:pb-20 lg:pt-20">
-      <motion.div
-        className="relative"
-        initial={entranceAnimationsEnabled ? "hidden" : "show"}
-        whileInView={entranceAnimationsEnabled ? "show" : undefined}
-        animate={entranceAnimationsEnabled ? undefined : "show"}
-        viewport={entranceAnimationsEnabled ? { once: true, amount: 0.25 } : undefined}
-        variants={sectionVariants}
-      >
-        <div className="relative mx-auto max-w-[1400px] ">
-          <motion.h2
-            className="text-2xl font-semibold text-white sm:text-3xl"
-            variants={textItem}
+    <Section className="bg-gray-950">
+      <Container>
+        <ShowcaseBlock>
+          <motion.div
+            className="relative"
+            initial={entranceAnimationsEnabled ? "hidden" : "show"}
+            whileInView={entranceAnimationsEnabled ? "show" : undefined}
+            animate={entranceAnimationsEnabled ? undefined : "show"}
+            viewport={entranceAnimationsEnabled ? { once: true, amount: 0.25 } : undefined}
+            variants={sectionVariants}
           >
-            {t("title")}
-          </motion.h2>
-
-          <div className="flex flex-col gap-10 lg:flex-row lg:items-center">
-            <motion.div className="flex-1 space-y-4" variants={blockFadeUp}>
-              <motion.div variants={textGroup}>
-                {PARAGRAPH_KEYS.map((paragraphKey) => (
-                  <motion.p
-                    key={paragraphKey}
-                    className="text-white/70 text-base sm:text-lg leading-relaxed pt-3 first:pt-3 [&:not(:first-child)]:pt-2"
-                    variants={textItem}
-                  >
-                    {t(paragraphKey)}
-                  </motion.p>
-                ))}
-              </motion.div>
-            </motion.div>
-
-            <motion.div className="flex-1" variants={blockFadeUp}>
-              <PersonalGallery
-                photos={[
-                  { src: "/images/personal_gallery/cala_arenys.jpg" },
-                  { src: "/images/personal_gallery/neo_taula.jpg" },
-                  { src: "/images/personal_gallery/llums_cel_alps.jpg" },
-                  { src: "/images/personal_gallery/landscape_alps.jpg" },
-                  { src: "/images/personal_gallery/posta_sol_pais_vasc.jpg" },
-                  { src: "/images/personal_gallery/emporda_original.jpg" },
-                  { src: "/images/personal_gallery/pineta_liam_croped.jpg" },
-                  { src: "/images/personal_gallery/iris_camps.jpg" },
-                  { src: "/images/personal_gallery/llibres.jpg" },
-                ]}
-              />
-              <motion.p
-                className="mt-3 hidden lg:block text-xs text-white/50 text-center"
+            <Stack size="md" className="relative mx-auto ">
+              <motion.h2
+                className="text-2xl sm:text-3xl font-semibold text-white whitespace-nowrap"
                 variants={textItem}
               >
-                {t("galleryHint")}
-              </motion.p>
-            </motion.div>
-          </div>
-        </div>
-      </motion.div>
-    </section>
+                {t("title")}
+              </motion.h2>
+
+              <div className="flex flex-col gap-8 lg:gap-12 lg:flex-row lg:items-center">
+                <motion.div className="flex-1 space-y-4" variants={blockFadeUp}>
+                  <MotionStack size="sm" variants={textGroup}>
+                    {PARAGRAPH_KEYS.map((paragraphKey) => (
+                      <motion.p
+                        key={paragraphKey}
+                        className="text-base sm:text-lg text-white/65"
+                        variants={textItem}
+                      >
+                        {t(paragraphKey)}
+                      </motion.p>
+                    ))}
+                  </MotionStack>
+                </motion.div>
+
+                <motion.div className="flex-1" variants={blockFadeUp}>
+                  <PersonalGallery
+                    photos={[
+                      { src: "/images/personal_gallery/cala_arenys.jpg" },
+                      { src: "/images/personal_gallery/neo_taula.jpg" },
+                      { src: "/images/personal_gallery/llums_cel_alps.jpg" },
+                      { src: "/images/personal_gallery/landscape_alps.jpg" },
+                      { src: "/images/personal_gallery/posta_sol_pais_vasc.jpg" },
+                      { src: "/images/personal_gallery/emporda_original.jpg" },
+                      { src: "/images/personal_gallery/pineta_liam_croped.jpg" },
+                      { src: "/images/personal_gallery/iris_camps.jpg" },
+                      { src: "/images/personal_gallery/llibres.jpg" },
+                    ]}
+                  />
+                  <motion.p
+                    className="mt-3 hidden lg:block text-xs text-white/50 text-center"
+                    variants={textItem}
+                  >
+                    {t("galleryHint")}
+                  </motion.p>
+                </motion.div>
+              </div>
+            </Stack>
+          </motion.div>
+        </ShowcaseBlock>
+      </Container>
+    </Section>
   );
 }

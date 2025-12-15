@@ -182,12 +182,13 @@ export function HeroSection({ personalInfo, age, entranceAnimationsEnabled }: He
                       ? BASE_DELAY_ENTRANCE + 0.3
                       : 0,
                   }}
-                  className="w-full"
+                  className="flex w-full flex-wrap justify-center gap-4 lg:justify-start"
                 >
-                  <ButtonGroup align={{ base: "center", lg: "left" }}>
-                    <SkyButton href="/projects" text={t("hero.ctaProjects")} />
-                    <WhiteButton href="/contact" text={t("hero.ctaContact")} />
-                  </ButtonGroup>
+                  <SkyButton
+                    href="/projects"
+                    text={t("hero.ctaProjects")}
+                  />
+                  <WhiteButton href="/contact" text={t("hero.ctaContact")} />
                 </motion.div>
               </Stack>
 

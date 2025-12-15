@@ -6,7 +6,11 @@ import { ListChecks, Workflow, AlertTriangle, Rocket } from "lucide-react";
 import { useTranslations } from "next-intl";
 
 import PulseHexGridCanvas from "../home/scene/PulseHexGridCanvas";
-
+import { Stack } from "../layout/Stack";
+import { SectionHeader } from "../layout/SectionHeader";
+import { LastSection } from "../layout/LastSection";
+import { Container } from "../layout/Container";
+import { ContentBlock } from "../layout/ContentBlock";
 
 const createSectionAnimation = (animated: boolean): Variants => ({
   hidden: {},
@@ -80,7 +84,7 @@ export function PhilosophySection({ entranceAnimationsEnabled }: PhilosophySecti
   const sectionVariants = createSectionAnimation(entranceAnimationsEnabled);
 
   return (
-    <section className="relative px-4 pb-24 pt-10 sm:px-6 lg:px-12 lg:pb-32 lg:pt-20 ">
+    <LastSection className="relative">
       <PulseHexGridCanvas
         gridType="Fill"
         s={50}
@@ -99,46 +103,44 @@ export function PhilosophySection({ entranceAnimationsEnabled }: PhilosophySecti
       />
       <div className="inset-0 absolute bg-[linear-gradient(to_bottom,_rgb(3,7,18)_0%,rgb(3,7,18)_3%,_rgba(3,7,18,0.7)_40%,_rgba(3,7,18,0.85)_100%)]" />
 
-      <motion.div
-        className="relative"
-        initial="hidden"
-        whileInView={entranceAnimationsEnabled ? "show" : undefined}
-        animate={entranceAnimationsEnabled ? undefined : "show"}
-        viewport={entranceAnimationsEnabled ? { once: true, amount: 0.25 } : undefined}
-        variants={sectionVariants}
-      >
-        <div className="relative mx-auto max-w-6xl space-y-8">
-          <motion.div className="space-y-2 max-w-3xl" variants={headerGroup}>
-            <motion.h2
-              className="text-2xl font-semibold text-white sm:text-3xl"
-              variants={headerItem}
-            >
-              {t("philosophySection.title")}
-            </motion.h2>
-            <motion.p
-              className="text-base sm:text-lg text-white/70 leading-relaxed"
-              variants={headerItem}
-            >
-              {t("philosophySection.subtitle")}
-            </motion.p>
-          </motion.div>
-
-          <motion.ul
-            className="grid gap-4 md:grid-cols-2 lg:grid-cols-4"
-            variants={listVariants}
+      <Container>
+        <ContentBlock>
+          <motion.div
+            className="relative"
+            initial="hidden"
+            whileInView={entranceAnimationsEnabled ? "show" : undefined}
+            animate={entranceAnimationsEnabled ? undefined : "show"}
+            viewport={entranceAnimationsEnabled ? { once: true, amount: 0.25 } : undefined}
+            variants={sectionVariants}
           >
-            {PHILOSOPHY_ITEMS.map((item) => (
-              <InfoCard
-                key={item.titleKey}
-                title={t(item.titleKey)}
-                info={t(item.descriptionKey)}
-                icon={item.icon}
-                entranceAnimationEnabled={entranceAnimationsEnabled}
-              />
-            ))}
-          </motion.ul>
-        </div>
-      </motion.div>
-    </section>
+            <Stack className="relative mx-auto" size="lg">
+
+              <motion.div variants={headerGroup}>
+                <SectionHeader
+                  title={t("philosophySection.title")}
+                  description={t("philosophySection.subtitle")}
+                  align="left"
+                />
+              </motion.div>
+
+              <motion.ul
+                className="grid gap-4 sm:grid-cols-2 xl:grid-cols-4"
+                variants={listVariants}
+              >
+                {PHILOSOPHY_ITEMS.map((item) => (
+                  <InfoCard
+                    key={item.titleKey}
+                    title={t(item.titleKey)}
+                    info={t(item.descriptionKey)}
+                    icon={item.icon}
+                    entranceAnimationEnabled={entranceAnimationsEnabled}
+                  />
+                ))}
+              </motion.ul>
+            </Stack>
+          </motion.div>
+        </ContentBlock>
+      </Container>
+    </LastSection>
   );
 }
