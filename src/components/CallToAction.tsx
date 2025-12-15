@@ -78,7 +78,7 @@ export default function CallToAction({ entranceAnimationEnabled }: { entranceAni
           <motion.div
             initial="hidden"
             whileInView="show"
-            viewport={{ once: true, amount: 0.01, margin: "0px 0px -5% 0px" }}
+            viewport={{ once: true, amount: 0.1 }}
             variants={sectionVariants}
             className="relative mx-auto"
           >
@@ -86,7 +86,7 @@ export default function CallToAction({ entranceAnimationEnabled }: { entranceAni
               variants={cardVariants}
               className="overflow-hidden text-center"
             >
-              <Stack className="relative z-10" size="lg">
+              <Stack className="relative z-10 max-w-4xl mx-auto" size="lg">
                 <motion.h2 variants={contentVariants} className="text-3xl md:text-4xl xl:text-[40px] font-semibold text-white">
                   {t.rich("cta_title", {
                     highlight: (chunks) => <span className="text-sky-300">{chunks}</span>,

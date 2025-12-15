@@ -142,7 +142,7 @@ export default function ClientProjectsPage({ projectsData }: ClientProjectsPageP
                 variants={heroChildVariants}
                 className="
                   max-w-3xl mx-auto text-pretty 
-                  text-lg sm:text-xl 
+                  text-xl sm:text-2xl 
                   text-white/70
                 "
               >

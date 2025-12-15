@@ -6,7 +6,7 @@ import { useState } from "react";
 import { type TranslatedProject } from "@/data/projects/types";
 import { Section } from "@/components/layout/Section";
 import { ShowcaseBlock } from "@/components/layout/ShowcaseBlock";
-import { SectionHeader } from "@/components/layout/SectionHeader";
+import { SectionHeaderBig } from "@/components/layout/SectionHeaderBig";
 import { Stack } from "@/components/layout/Stack";
 import { Container } from "@/components/layout/Container";
 import { ContentBlock } from "@/components/layout/ContentBlock";
@@ -90,7 +90,7 @@ export default function FeaturedProjectsSection({
                 }
               }} 
             >
-              <SectionHeader
+              <SectionHeaderBig
                 title={t("featured_title")}
                 description={t("featured_description")}
                 align="center"
