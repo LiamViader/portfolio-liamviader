@@ -3,10 +3,13 @@
 import { motion, type Variants } from "framer-motion";
 import Image from "next/image";
 import { useTranslations } from "next-intl";
-
+import { Section } from "../layout/Section";
 import { type TechIcon } from "./types";
 import { usePerfTier } from "@/hooks/usePerfTier";
-
+import { ShowcaseBlock } from "../layout/ShowcaseBlock";
+import { Container } from "../layout/Container";
+import { SectionHeader } from "../layout/SectionHeader";
+import { Stack } from "../layout/Stack";
 
 const techSectionContainerVariants: Variants = {
   hidden: { opacity: 0, y: 30 },
@@ -34,6 +37,19 @@ const techTextVariants: Variants = {
   },
 };
 
+const techHintVariants: Variants = {
+  hidden: { opacity: 0, y: 24 },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.8,
+      ease: "easeOut",
+      delay: 0.5
+    },
+  },
+};
+
 const techItemVariantsWithHover: Variants = {
   hidden: { opacity: 0, y: 24 },
   show: {
@@ -45,6 +61,7 @@ const techItemVariantsWithHover: Variants = {
     transition: {
       duration: 1,
       ease: "easeOut",
+      y: { duration: 0.5, ease: "easeOut" },
     },
   },
 };
@@ -72,6 +89,8 @@ const techGridVariants: Variants = {
   },
 };
 
+const MotionStack = motion(Stack);
+
 type TechStackSectionProps = {
   techStack: TechIcon[];
   entranceAnimationsEnabled: boolean;
@@ -85,82 +104,84 @@ export function TechStackSection({
   const { canHover } = usePerfTier();
 
   return (
-    <section className="px-4 pb-10 pt-10 sm:px-6 lg:px-12 lg:pb-20 lg:pt-20 mx-0 bg-gray-950">
-      <motion.div
-        className="relative"
-        initial={entranceAnimationsEnabled ? "hidden" : "show"}
-        whileInView={entranceAnimationsEnabled ? "show" : undefined}
-        animate={entranceAnimationsEnabled ? undefined : "show"}
-        viewport={entranceAnimationsEnabled ? { once: true, amount: 0.2 } : undefined}
-      >
-        <motion.div
-          className="relative mx-auto max-w-[1400px] space-y-8"
-          variants={techSectionContainerVariants}
-        >
+    <Section className="bg-gray-950">
+      <Container>
+        <ShowcaseBlock>
+      
           <motion.div
-            className="flex flex-col gap-3 lg:flex-row lg:items-end lg:justify-between"
-            variants={techTextVariants}
+            className="relative"
+            initial={entranceAnimationsEnabled ? "hidden" : "show"}
+            whileInView={entranceAnimationsEnabled ? "show" : undefined}
+            animate={entranceAnimationsEnabled ? undefined : "show"}
+            viewport={entranceAnimationsEnabled ? { once: true, amount: 0.2 } : undefined}
           >
-            <div>
-              <h2 className="text-2xl font-semibold text-white sm:text-3xl">
-                {t("title")}
-              </h2>
-              <p className="mt-2 max-w-5xl text-base sm:text-lg text-pretty text-white/70">
-                {t("description")}
-              </p>
-            </div>
-          </motion.div>
-
-          <motion.div
-            className="grid gap-4 grid-cols-[repeat(auto-fit,minmax(90px,1fr))]"
-            variants={techGridVariants}
-          >
-            {techStack.map((tech) => (
+            <MotionStack
+              size="lg"
+              variants={techSectionContainerVariants}
+            >
               <motion.div
-                key={tech.id}
-                variants={canHover ? techItemVariantsWithHover : techItemVariantsWithoutHover}
-                whileHover={canHover ? {
-                  y: -6,
-                  boxShadow: "0 0px 30px 1px rgba(56,189,248,0.40)",
-                  transition: { duration: 0.2, ease: "easeOut" },
-                  borderColor: "rgba(56,189,248,0.60)",
-                  backgroundColor: "rgba(56,189,248,0.10)",
-                } : undefined}
-                whileTap={{
-                  scale: 0.97,
-                }}
-                className="group flex flex-col items-center gap-1 rounded-2xl border border-white/10 bg-white/5 px-1 py-2"
+                className="flex flex-col gap-3 lg:flex-row lg:items-end lg:justify-between"
+                variants={techTextVariants}
               >
-                <div className="flex h-20 w-20 items-center justify-center">
-                  {tech.iconSrc ? (
-                    <Image
-                      src={tech.iconSrc}
-                      alt={tech.label}
-                      width={40}
-                      height={40}
-                      className="object-contain saturate-90"
-                    />
-                  ) : null}
-                </div>
-                <p className="text-xs text-white/70 text-center">
-                  {tech.label}
-                </p>
+                <SectionHeader
+                  title={t("title")}
+                  description={t("description")}
+                  align="left"
+                />
               </motion.div>
-            ))}
-          </motion.div>
 
-          <motion.p
-            className="mt-3 text-xs text-white/55 sm:text-[13px] leading-relaxed"
-            variants={techTextVariants}
-          >
-            {t.rich("note", {
-              highlight: (chunks) => (
-                <span className="font-medium text-sky-300/60">{chunks}</span>
-              ),
-            })}
-          </motion.p>
-        </motion.div>
-      </motion.div>
-    </section>
+              <motion.div
+                className="grid gap-4 grid-cols-[repeat(auto-fit,minmax(90px,1fr))]"
+                variants={techGridVariants}
+              >
+                {techStack.map((tech) => (
+                  <motion.div
+                    key={tech.id}
+                    variants={canHover ? techItemVariantsWithHover : techItemVariantsWithoutHover}
+                    whileHover={canHover ? {
+                      y: -6,
+                      boxShadow: "0 0px 30px 1px rgba(56,189,248,0.40)",
+                      transition: { duration: 0.2, ease: "easeOut" },
+                      borderColor: "rgba(56,189,248,0.60)",
+                      backgroundColor: "rgba(56,189,248,0.10)",
+                    } : undefined}
+                    whileTap={{
+                      scale: 0.97,
+                    }}
+                    className="group flex flex-col items-center gap-1 rounded-2xl border border-white/10 bg-white/5 px-1 py-2"
+                  >
+                    <div className="flex h-20 w-20 items-center justify-center">
+                      {tech.iconSrc ? (
+                        <Image
+                          src={tech.iconSrc}
+                          alt={tech.label}
+                          width={40}
+                          height={40}
+                          className="object-contain saturate-90"
+                        />
+                      ) : null}
+                    </div>
+                    <p className="text-xs text-white/70 text-center">
+                      {tech.label}
+                    </p>
+                  </motion.div>
+                ))}
+              </motion.div>
+
+              <motion.p
+                className="text-xs text-white/55 sm:text-[13px] leading-relaxed"
+                variants={techHintVariants}
+              >
+                {t.rich("note", {
+                  highlight: (chunks) => (
+                    <span className="font-medium text-sky-300/60">{chunks}</span>
+                  ),
+                })}
+              </motion.p>
+            </MotionStack>
+          </motion.div>
+        </ShowcaseBlock>
+      </Container>
+    </Section>
   );
 }

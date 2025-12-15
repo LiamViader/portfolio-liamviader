@@ -11,6 +11,12 @@ import { type TimelineItem } from "./types";
 import PulseHexGridCanvas from "../home/scene/PulseHexGridCanvas";
 import { usePerfTier } from "@/hooks/usePerfTier";
 
+import { Section } from "../layout/Section";
+import { Stack } from "../layout/Stack";
+import { Container } from "../layout/Container";
+import { ContentBlock } from "../layout/ContentBlock";
+import { SectionHeader } from "../layout/SectionHeader";
+
 const pathSectionContainerVariants: Variants = {
   hidden: { y: 30 },
   show: {
@@ -161,6 +167,8 @@ const pathCardInnerVariants: Variants = {
   },
 };
 
+const MotionStack = motion(Stack);
+
 const getLocalizedValue = <T,>(
   value: Record<Locale, T> | undefined,
   locale: Locale,
@@ -243,7 +251,7 @@ function Timeline({ items, icon, locale }: TimelineProps) {
         variants={pathLineVariants}
       />
 
-      <motion.ul className="space-y-6" variants={pathListVariants}>
+      <motion.ul className="flex flex-col gap-6 lg:gap-8" variants={pathListVariants}>
         {items.map((item, index) => (
           <motion.li
             key={`${item.period}-${index}`}
@@ -259,7 +267,8 @@ function Timeline({ items, icon, locale }: TimelineProps) {
               </span>
             </motion.span>
 
-            <motion.div
+            <MotionStack
+              size="xs"
               variants={canHover ? pathCardVariantsWithHover : pathCardVariantsWhithoutHover}
               whileHover={canHover ? {
                 y: -6,
@@ -277,7 +286,7 @@ function Timeline({ items, icon, locale }: TimelineProps) {
             >
               <motion.div
                 variants={pathCardInnerVariants}
-                className="mb-1 flex items-center gap-2 text-[12px] font-medium uppercase tracking-[0.2em] text-sky-200/80"
+                className="flex items-center gap-2 text-[12px] font-medium uppercase tracking-[0.2em] text-sky-200/80"
               >
                 {icon}
                 <span>{item.period}</span>
@@ -292,7 +301,7 @@ function Timeline({ items, icon, locale }: TimelineProps) {
 
               <motion.p
                 variants={pathCardInnerVariants}
-                className="text-xs text-sky-200/80 mt-1"
+                className="text-xs text-sky-200/80"
               >
                 {getLocalizedValue(item.place, locale)}
               </motion.p>
@@ -300,12 +309,12 @@ function Timeline({ items, icon, locale }: TimelineProps) {
               {getLocalizedValue(item.description, locale) ? (
                 <motion.p
                   variants={pathCardInnerVariants}
-                  className="mt-2 text-sm md:text-[15.3px] text-white/60 leading-relaxed"
+                  className="text-sm md:text-[15.3px] text-white/60 leading-relaxed"
                 >
                   <RichText text={getLocalizedValue(item.description, locale)!} />
                 </motion.p>
               ) : null}
-            </motion.div>
+            </MotionStack>
           </motion.li>
         ))}
       </motion.ul>
@@ -328,7 +337,7 @@ export function TrajectorySection({
   const locale = useLocale() as Locale;
 
   return (
-    <section className="relative px-4 pb-10 pt-10 sm:px-6 lg:px-12 lg:pb-20 lg:pt-20">
+    <Section className="relative">
       <PulseHexGridCanvas
         gridType="Fill"
         s={50}
@@ -346,63 +355,65 @@ export function TrajectorySection({
         pixelsPerHex={45}
       />
       <div className="inset-0 absolute bg-[linear-gradient(to_bottom,_rgb(3,7,18)_0%,rgb(3,7,18)_3%,_rgba(3,7,18,0.3)_40%,_rgb(3,7,18)_97%,_rgb(3,7,18)_100%)]" />
-
-      <motion.section
-        className="relative"
-        initial={entranceAnimationsEnabled ? "hidden" : "show"}
-        whileInView={entranceAnimationsEnabled ? "show" : undefined}
-        animate={entranceAnimationsEnabled ? undefined : "show"}
-        viewport={entranceAnimationsEnabled ? { once: true, amount: 0.15 } : undefined}
-      >
-        <motion.div
-          className="relative mx-auto max-w-6xl space-y-10"
-          variants={pathSectionContainerVariants}
-        >
-          <motion.div className="space-y-3" variants={pathHeaderVariants}>
-            <h2 className="text-2xl font-semibold text-white sm:text-3xl">
-              {t("title")}
-            </h2>
-            <p className="max-w-4xl text-white/70 text-base sm:text-lg">
-              {t("description")}
-            </p>
-          </motion.div>
-
+      <Container>
+        <ContentBlock>
           <motion.div
-            className="grid gap-10 lg:grid-cols-2"
-            variants={pathColumnsWrapperVariants}
+            className="relative"
+            initial={entranceAnimationsEnabled ? "hidden" : "show"}
+            whileInView={entranceAnimationsEnabled ? "show" : undefined}
+            animate={entranceAnimationsEnabled ? undefined : "show"}
+            viewport={entranceAnimationsEnabled ? { once: true, amount: 0.15 } : undefined}
           >
-            <motion.div className="space-y-4" variants={pathColumnVariants}>
-              <motion.div
-                className="flex items-center gap-2 text-sm font-medium uppercase tracking-[0.25em] text-sky-300"
-                variants={pathColumnHeaderVariants}
-              >
-                <GraduationCap className="h-4 w-4 text-sky-300" />
-                <span>{t("academicTitle")}</span>
+            <MotionStack
+              size="lg"
+              variants={pathSectionContainerVariants}
+            >
+              <motion.div variants={pathHeaderVariants}>
+                <SectionHeader
+                  title={t("title")}
+                  description={t("description")}
+                  align="left"
+                />
               </motion.div>
-              <Timeline
-                items={academicPath}
-                icon={<GraduationCap className="h-3.5 w-3.5 text-sky-200" />}
-                locale={locale}
-              />
-            </motion.div>
 
-            <motion.div className="space-y-4" variants={pathColumnVariants}>
               <motion.div
-                className="flex items-center gap-2 text-sm font-medium uppercase tracking-[0.25em] text-sky-300"
-                variants={pathColumnHeaderVariants}
+                className="grid gap-8 lg:gap-12 lg:grid-cols-2"
+                variants={pathColumnsWrapperVariants}
               >
-                <Briefcase className="h-4 w-4 text-sky-300" />
-                <span>{t("experienceTitle")}</span>
+                <MotionStack size="md" variants={pathColumnVariants}>
+                  <motion.div
+                    className="flex items-center gap-2 lg:gap-4 text-sm lg:text-base font-medium uppercase tracking-[0.25em] text-sky-300"
+                    variants={pathColumnHeaderVariants}
+                  >
+                    <GraduationCap className="h-4 w-4 lg:h-5 lg:w-5 text-sky-300" />
+                    <span>{t("academicTitle")}</span>
+                  </motion.div>
+                  <Timeline
+                    items={academicPath}
+                    icon={<GraduationCap className="h-3.5 w-3.5 text-sky-200" />}
+                    locale={locale}
+                  />
+                </MotionStack>
+
+                <MotionStack size="md" variants={pathColumnVariants}>
+                  <motion.div
+                    className="flex items-center gap-2 lg:gap-4 text-sm lg:text-base font-medium uppercase tracking-[0.25em] text-sky-300"
+                    variants={pathColumnHeaderVariants}
+                  >
+                    <Briefcase className="h-4 w-4 lg:h-5 lg:w-5 text-sky-300" />
+                    <span>{t("experienceTitle")}</span>
+                  </motion.div>
+                  <Timeline
+                    items={experiencePath}
+                    icon={<Briefcase className="h-3.5 w-3.5 text-sky-200" />}
+                    locale={locale}
+                  />
+                </MotionStack>
               </motion.div>
-              <Timeline
-                items={experiencePath}
-                icon={<Briefcase className="h-3.5 w-3.5 text-sky-200" />}
-                locale={locale}
-              />
-            </motion.div>
+            </MotionStack>
           </motion.div>
-        </motion.div>
-      </motion.section>
-    </section>
+        </ContentBlock>
+      </Container>
+    </Section>
   );
 }

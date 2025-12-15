@@ -34,4 +34,34 @@ export const EXPERIENCE_PATH: TimelineItem[] = [
       en: "A solo Python project: designed and implemented from scratch, it’s a simulator for energy communities. It includes modeling households with configurable assets and usage patterns, generating consumption and production profiles, and implementing algorithms to distribute energy and calculate costs within the community.",
     },
   },
+    {
+    period: "Jun 2024 - Sep 2024",
+    title: {
+      es: "Desarrollador de software (prácticas)",
+      en: "Software developer (internship)",
+    },
+    place: {
+      es: "Grup de recerca eXiT · Universitat de Girona",
+      en: "eXiT Research Group · Universitat de Girona",
+    },
+    description: {
+      es: "Proyecto en Python desarrollado en solitario: diseño e implementación desde cero de un simulador de comunidades energéticas. Modelado de hogares con distintos activos y patrones de uso configurables, generación de perfiles de consumo y producción y algoritmos para repartir energía y calcular costes dentro de la comunidad.",
+      en: "A solo Python project: designed and implemented from scratch, it’s a simulator for energy communities. It includes modeling households with configurable assets and usage patterns, generating consumption and production profiles, and implementing algorithms to distribute energy and calculate costs within the community.",
+    },
+  },
+    {
+    period: "Jun 2024 - Sep 2024",
+    title: {
+      es: "Desarrollador de software (prácticas)",
+      en: "Software developer (internship)",
+    },
+    place: {
+      es: "Grup de recerca eXiT · Universitat de Girona",
+      en: "eXiT Research Group · Universitat de Girona",
+    },
+    description: {
+      es: "Proyecto en Python desarrollado en solitario: diseño e implementación desde cero de un simulador de comunidades energéticas. Modelado de hogares con distintos activos y patrones de uso configurables, generación de perfiles de consumo y producción y algoritmos para repartir energía y calcular costes dentro de la comunidad.",
+      en: "A solo Python project: designed and implemented from scratch, it’s a simulator for energy communities. It includes modeling households with configurable assets and usage patterns, generating consumption and production profiles, and implementing algorithms to distribute energy and calculate costs within the community.",
+    },
+  },
 ];

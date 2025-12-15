@@ -1,30 +1,34 @@
 import clsx from "clsx";
-import { ReactNode } from "react";
+import { forwardRef, ReactNode, HTMLAttributes } from "react";
 
-type StackSize = "sm" | "md" | "lg";
+type StackSize = "xs" | "sm" | "md" | "lg";
 
-export function Stack({
-  children,
-  size = "md",
-  className = "",
-}: {
+interface EyebrowProps extends HTMLAttributes<HTMLParagraphElement> {
   children: ReactNode;
   size?: StackSize;
   className?: string;
-}) {
-  return (
-    <div
-      className={clsx(
-        "flex flex-col",
-        {
-          sm: "gap-3 sm:gap-4",
-          md: "gap-5 sm:gap-6",
-          lg: "gap-8 sm:gap-10",
-        }[size],
-        className
-      )}
-    >
-      {children}
-    </div>
-  );
 }
+
+export const Stack = forwardRef<HTMLParagraphElement, EyebrowProps>(
+  ({ children, size = "md", className = "" }, ref) => {
+    return (
+      <div
+        ref={ref}
+        className={clsx(
+          "flex flex-col",
+          {
+            xs: "gap-2 sm:gap-3",
+            sm: "gap-3 sm:gap-4",
+            md: "gap-5 sm:gap-6",
+            lg: "gap-8 sm:gap-10",
+          }[size],
+          className
+        )}
+      >
+        {children}
+      </div>
+    );
+  }
+);
+
+Stack.displayName = "Stack";
