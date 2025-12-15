@@ -1,34 +1,50 @@
+"use client";
+
 import clsx from "clsx";
 import { ReactNode } from "react";
 import { Stack } from "./Stack";
+import { motion, type Variants } from "framer-motion";
 
 type Align = "left" | "center";
+
+interface SectionHeaderProps {
+  title: ReactNode;
+  description?: ReactNode;
+  align?: Align;
+  variants?: Variants; // Nueva prop para recibir la animación
+  className?: string;
+}
 
 export function SectionHeader({
   title,
   description,
   align = "left",
-}: {
-  title: ReactNode;
-  description?: ReactNode;
-  align?: Align;
-}) {
+  variants,
+  className,
+}: SectionHeaderProps) {
   return (
     <div
       className={clsx(
         "max-w-2xl",
-        align === "center" ? "mx-auto text-center" : "text-left"
+        align === "center" ? "mx-auto text-center" : "text-left",
+        className
       )}
     >
       <Stack size="md">
-        <h2 className="text-2xl sm:text-3xl font-semibold text-white">
+        <motion.h2
+          variants={variants}
+          className="text-2xl sm:text-3xl font-semibold text-white whitespace-nowrap"
+        >
           {title}
-        </h2>
+        </motion.h2>
 
         {description && (
-          <p className="text-base sm:text-lg text-white/65">
+          <motion.p
+            variants={variants}
+            className="text-base sm:text-lg text-white/65"
+          >
             {description}
-          </p>
+          </motion.p>
         )}
       </Stack>
     </div>

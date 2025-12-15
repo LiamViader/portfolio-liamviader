@@ -6,6 +6,9 @@ import { motion, type Variants, useAnimationControls } from "framer-motion";
 import { WhiteButton, SkyButton } from "./Buttons";
 import FeaturedProjects from "../projects/featured/FeaturedProjects";
 import { type TranslatedProject } from "@/data/projects/types";
+import { SectionHeader } from "../layout/SectionHeader";
+import { Stack } from "../layout/Stack";
+import { ButtonGroup } from "../layout/ButtonGroup";
 
 interface FeaturedProjectsHomeSectionProps {
   title: string;
@@ -90,7 +93,7 @@ export function FeaturedProjectsHomeSection({
       viewport={entranceAnimationEnabled ? { once: true, amount: 0.35, margin: "0px 0px -15% 0px" } : undefined}
       className="relative mx-auto w-full"
     >
-      <div className="flex flex-col gap-6 lg:grid lg:grid-cols-[minmax(0,0.55fr)_minmax(0,1fr)] xl:grid-cols-[minmax(0,0.75fr)_minmax(0,1fr)] lg:items-start lg:gap-10">
+      <div className="flex flex-col gap-8 sm:gap-10 xl:grid xl:grid-cols-[minmax(0,0.75fr)_minmax(0,1fr)]">
         <motion.div
           variants={leftCol}
           initial={entranceAnimationEnabled ? "hidden" : "show" }
@@ -100,46 +103,41 @@ export function FeaturedProjectsHomeSection({
             leftControls.start("show");
             setTimeout(() => setCardsIntro(true), 300);
           }}
-          className="flex flex-col gap-6 text-center lg:text-left lg:pl-3 will-change-transform"
+          className="flex flex-col text-center lg:text-left will-change-transform"
         >
-          <div className="space-y-4 mt-10 sm:mb-2 md:mb-8 lg:mb-0">
-            <motion.h2 variants={leftItem} className="text-left font-semibold text-white text-2xl sm:text-3xl whitespace-nowrap">
-              {title}
-            </motion.h2>
+          <Stack size="lg">
+            <SectionHeader
+              title={title}
+              description={description}
+              align="left"
+              variants={leftItem} 
+            />
+            <motion.div variants={leftButtonsRow} className="hidden xl:block">
+              <ButtonGroup>
+                <motion.div variants={leftItem}>
+                  <SkyButton href="/projects" text={projectsButtonText} />
+                </motion.div>
 
-            <motion.p variants={leftItem} className="text-left text-base sm:text-lg text-white/65 lg:max-w-xl">
-              {description}
-            </motion.p>
-          </div>
-
-          <motion.div
-            variants={leftButtonsRow}
-            className="hidden lg:flex flex-wrap items-center justify-center gap-4 lg:justify-start"
-          >
-            <motion.div variants={leftItem}>
-              <SkyButton href="/projects" text={projectsButtonText} />
+                <motion.div
+                  variants={leftItem}
+                  onAnimationStart={() => {
+                    if (firedRightOnceRef.current) return;
+                    firedRightOnceRef.current = true;
+                    rightControls.start("show", { delay: 0.1 });
+                  }}
+                >
+                  <WhiteButton href="/contact" text={contactButtonText} />
+                </motion.div>
+              </ButtonGroup>
             </motion.div>
-
-            <motion.div
-              variants={leftItem}
-              onAnimationStart={() => {
-                if (firedRightOnceRef.current) return;
-                firedRightOnceRef.current = true;
-                rightControls.start("show",  { delay: 0.1 });
-              }}
-            >
-              <WhiteButton href="/contact" text={contactButtonText} />
-            </motion.div>
-          </motion.div>
+          </Stack>
         </motion.div>
 
-        <div
-          className="lg:col-start-2 lg:flex lg:justify-end will-change-transform mt-2 lg:mt-0"
-        >
+        <Stack size="md">
           <FeaturedProjects
             projects={projects}
             introStart={cardsIntro}
-            className="max-w-full"
+            className="w-full md:max-w-3xl xl:w-full mx-auto"
             contentClassName="justify-center"
             carouselLayout={{
               containerClassName: "!w-full",
@@ -158,14 +156,18 @@ export function FeaturedProjectsHomeSection({
             allowUrlOpen={allowUrlOpen}
             carouselIntroEnabled={entranceAnimationEnabled}
           />
-        </div>
+          <ButtonGroup className="xl:hidden" align="center">
+            <motion.div variants={leftItem}>
+              <SkyButton href="/projects" text={projectsButtonText} />
+            </motion.div>
 
-        <div
-          className="lg:hidden pt-4 flex flex-wrap items-center justify-center gap-4 lg:justify-start will-change-transform"
-        >
-          <SkyButton href="/projects" text={projectsButtonText} />
-          <WhiteButton href="/contact" text={contactButtonText} />
-        </div>
+            <motion.div
+              variants={leftItem}
+            >
+              <WhiteButton href="/contact" text={contactButtonText} />
+            </motion.div>
+          </ButtonGroup>
+        </Stack>
       </div>
     </motion.div>
   );

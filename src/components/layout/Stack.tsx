@@ -15,10 +15,11 @@ export function Stack({
   return (
     <div
       className={clsx(
+        "flex flex-col",
         {
-          sm: "space-y-3 sm:space-y-4",
-          md: "space-y-5 sm:space-y-6",
-          lg: "space-y-8 sm:space-y-10",
+          sm: "gap-3 sm:gap-4",
+          md: "gap-5 sm:gap-6",
+          lg: "gap-8 sm:gap-10",
         }[size],
         className
       )}

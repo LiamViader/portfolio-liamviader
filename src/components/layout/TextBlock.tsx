@@ -5,15 +5,18 @@ export function TextBlock({
   children,
   className = "",
   center = false,
+  big = false,
 }: {
   children: ReactNode;
   className?: string;
   center?: boolean;
+  big?: boolean;
 }) {
   return (
     <div
       className={clsx(
-        "max-w-2xl",
+        big && "max-w-4xl",
+        !big && "max-w-3xl",
         center && "mx-auto text-center",
         !center && "text-left",
         className
