@@ -56,7 +56,7 @@ const whiteVariants: Variants = {
   rest: {
     scale: 1,
     y: 0,
-    backgroundColor: "rgba(23,27,55,1)",
+    backgroundColor: "rgba(23,27,45,1)",
     borderColor: "rgba(255,255,255,0.20)",
     color: "rgba(255,255,255,0.85)",
     boxShadow: "0 4px 16px rgba(56,189,248,0.18)",
@@ -69,7 +69,7 @@ const whiteVariants: Variants = {
   hover: {
     scale: 1.03,
     y: -1,
-    backgroundColor: "rgba(43,47,85,1)",
+    backgroundColor: "rgba(43,47,65,1)",
     borderColor: "rgba(255,255,255,0.40)",
     color: "rgba(255,255,255,0.95)",
     boxShadow: "0 14px 34px rgba(56,189,248,0.35)",
@@ -86,7 +86,7 @@ const whiteVariants: Variants = {
   tap: {
     scale: 0.97,
     y: 0,
-    backgroundColor: "rgba(13,17,35,1)",
+    backgroundColor: "rgba(13,17,30,1)",
     color: "rgba(255,255,255,0.95)",
     transition: { type: "spring", stiffness: 520, damping: 30 },
   },
