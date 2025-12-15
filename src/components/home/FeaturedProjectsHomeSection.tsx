@@ -103,7 +103,7 @@ export function FeaturedProjectsHomeSection({
             leftControls.start("show");
             setTimeout(() => setCardsIntro(true), 300);
           }}
-          className="flex flex-col text-center lg:text-left will-change-transform"
+          className="flex flex-col will-change-transform"
         >
           <Stack size="lg">
             <SectionHeader

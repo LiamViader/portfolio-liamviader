@@ -4,6 +4,12 @@ import { motion, type Variants } from "framer-motion";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { type TranslatedProject } from "@/data/projects/types";
+import { Section } from "@/components/layout/Section";
+import { ShowcaseBlock } from "@/components/layout/ShowcaseBlock";
+import { SectionHeader } from "@/components/layout/SectionHeader";
+import { Stack } from "@/components/layout/Stack";
+import { Container } from "@/components/layout/Container";
+import { ContentBlock } from "@/components/layout/ContentBlock";
 
 import FeaturedProjects from "./FeaturedProjects";
 
@@ -24,7 +30,7 @@ const createLeftColVariants = (animated: boolean): Variants => ({
     transition: {
       when: "beforeChildren",
       staggerChildren: animated ? LEFT_STAGGER : 0,
-      delayChildren: animated ? 1.4 : 0,
+      delayChildren: animated ? 1.0 : 0,
     },
   },
 });
@@ -44,6 +50,8 @@ const createLeftItemVariants = (animated: boolean): Variants => ({
   },
 });
 
+const MotionStack = motion(Stack);
+
 export default function FeaturedProjectsSection({ 
   projects, 
   replaceUrl = true, 
@@ -52,62 +60,61 @@ export default function FeaturedProjectsSection({
 }: FeaturedProjectsProps) {
   const t = useTranslations("ProjectsPage");
   
-  // Si las animaciones están desactivadas, mostramos las cartas inmediatamente
   const [cardsIntro, setCardsIntro] = useState(!entranceAnimationEnabled);
 
   const leftCol = createLeftColVariants(entranceAnimationEnabled);
   const leftItem = createLeftItemVariants(entranceAnimationEnabled);
 
   return (
-    <section className="relative px-2 pb-10 lg:pb-20 sm:px-4 lg:px-12 ">
+    <Section className="relative">
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-gray-300/5 to-transparent" />
-
-      <motion.div
-        className="relative mx-auto flex max-w-6xl flex-col items-center gap-6 sm:gap-8 text-center pt-10 lg:pt-20 lg:border-t lg:border-white/10"
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ 
-          delay: entranceAnimationEnabled ? 0.4 : 0, 
-          duration: entranceAnimationEnabled ? 0.2 : 0 
-        }}
-      >
-        <motion.div 
-          variants={leftCol}
-          initial="hidden"
-          animate="show"
-          className="space-y-4"
-        >
-          <motion.h2 
-            variants={leftItem} 
-            onAnimationStart={() => {
-              if (entranceAnimationEnabled) {
-                setTimeout(() => setCardsIntro(true), 1000);
-              }
-            }} 
-            className="text-3xl md:text-4xl xl:text-[40px] font-semibold text-white"
-          >
-            {t("featured_title")}
-          </motion.h2>
-          <motion.p variants={leftItem} className="mx-auto max-w-2xl text-pretty text-base sm:text-lg text-white/65">
-            {t("featured_description")}
-          </motion.p>
-        </motion.div>
-
-        <div className="w-full sm:pt-2">
-          <FeaturedProjects
-            projects={projects} 
-            introStart={cardsIntro}
-            carouselTypography={{
-              titleClassName: "text-md sm:text-lg md:text-xl lg:text-2xl xl:text-3xl",
-              descriptionClassName: "text-xs md:text-sm xl:text-base",
-              tagClassName: "text-[10px] lg:text-xs",
+      <Container>
+        <ContentBlock>
+          <MotionStack
+            size="lg"
+            className="relative"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ 
+              delay: entranceAnimationEnabled ? 0.4 : 0, 
+              duration: entranceAnimationEnabled ? 0.2 : 0 
             }}
-            replaceUrl={replaceUrl}
-            allowUrlOpen={allowUrlOpen}
-            carouselIntroEnabled={entranceAnimationEnabled}
-          />
-        </div>
-      </motion.div>
-    </section>
+          >
+            <motion.div 
+              variants={leftCol}
+              initial="hidden"
+              animate="show"
+              onAnimationStart={() => {
+                if (entranceAnimationEnabled) {
+                  setTimeout(() => setCardsIntro(true), 1000);
+                }
+              }} 
+            >
+              <SectionHeader
+                title={t("featured_title")}
+                description={t("featured_description")}
+                align="center"
+                variants={leftItem} 
+              />
+            </motion.div>
+
+
+            <FeaturedProjects
+              projects={projects} 
+              introStart={cardsIntro}
+              carouselTypography={{
+                titleClassName: "text-md sm:text-lg lg:text-xl",
+                descriptionClassName: "text-xs sm:text-sm lg:text-base",
+                tagClassName: "text-[10px] lg:text-xs",
+              }}
+              replaceUrl={replaceUrl}
+              allowUrlOpen={allowUrlOpen}
+              carouselIntroEnabled={entranceAnimationEnabled}
+            />
+
+          </MotionStack>
+        </ContentBlock>
+      </Container>
+    </Section>
   );
 }

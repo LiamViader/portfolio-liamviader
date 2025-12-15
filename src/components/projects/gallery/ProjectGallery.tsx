@@ -10,6 +10,13 @@ import { type TranslatedProject } from "@/data/projects/types";
 import CategorySwitcher from "./CategorySwitcher";
 import ProjectsGrid from "../grid/ProjectsGrid";
 
+import { Section } from "@/components/layout/Section";
+import { Container } from "@/components/layout/Container";
+import { ShowcaseBlock } from "@/components/layout/ShowcaseBlock";
+import { SectionHeader } from "@/components/layout/SectionHeader";
+import { Stack } from "@/components/layout/Stack";
+import { ContentBlock } from "@/components/layout/ContentBlock";
+
 const createContainerVariants = (animated: boolean): Variants => ({
   hidden: { 
     opacity: animated ? 0 : 1, 
@@ -42,6 +49,8 @@ const createItemVariants = (animated: boolean): Variants => ({
   },
 });
 
+const MotionStack = motion(Stack);
+
 interface ProjectGalleryProps {
   category: ClientCategorySlug;
   filteredProjects: TranslatedProject[];
@@ -57,37 +66,45 @@ export default function ProjectGallery({ category, filteredProjects, onCategoryC
   const itemVariants = createItemVariants(entranceAnimationEnabled);
 
   return (
-    <section className="relative px-4 pb-10 lg:pb-20 sm:px-6 lg:px-12 lg:border-t lg:border-white/10 pt-10 lg:pt-20">
+    <Section className="relative">
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-gray-950/40 to-gray-950" />
-      <motion.div
-        initial="hidden"
-        whileInView="show"
-        viewport={{ once: true, amount: 0.01, margin: "0px 0px -15% 0px" }}
-        onViewportEnter={() => setGridVisible(true)} 
-        variants={containerVariants}
-        className="relative mx-auto flex max-w-6xl flex-col items-center gap-6 sm:gap-8 text-center"
-      >
-        <motion.div variants={itemVariants} className="space-y-4">
-          <h2 className="text-3xl md:text-4xl xl:text-[40px] font-semibold text-white">{t("project_gallery_title")}</h2>
-          <p className="mx-auto max-w-2xl text-pretty text-base sm:text-lg text-white/65">
-            {t("project_gallery_description")}
-          </p>
-        </motion.div>
+      <Container>
+        <ContentBlock>
 
-        <motion.div variants={itemVariants} className="w-full sm:pt-2">
-          <CategorySwitcher currentCategory={category} onCategoryChange={onCategoryChange} />
-        </motion.div>
 
-        <motion.div variants={itemVariants} className="w-full">
-          <ProjectsGrid 
-            projects={filteredProjects} 
-            replaceUrl={true} 
-            allowUrlOpen={true} 
-            entranceAnimation={entranceAnimationEnabled}
-            shouldAnimate={gridVisible} 
-          />
-        </motion.div>
-      </motion.div>
-    </section>
+          <MotionStack
+            size="lg"
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true, amount: 0.01, margin: "0px 0px -15% 0px" }}
+            onViewportEnter={() => setGridVisible(true)} 
+            variants={containerVariants}
+            className="relative text-center"
+          >
+            <SectionHeader
+              title={t("project_gallery_title")}
+              description={t("project_gallery_description")}
+              align="center"
+              variants={itemVariants} 
+            />
+
+
+            <motion.div variants={itemVariants} className="w-full">
+              <CategorySwitcher currentCategory={category} onCategoryChange={onCategoryChange} />
+            </motion.div>
+
+            <motion.div variants={itemVariants} className="w-full">
+              <ProjectsGrid 
+                projects={filteredProjects} 
+                replaceUrl={true} 
+                allowUrlOpen={true} 
+                entranceAnimation={entranceAnimationEnabled}
+                shouldAnimate={gridVisible} 
+              />
+            </motion.div>
+          </MotionStack>
+        </ContentBlock>
+      </Container>
+    </Section>
   );
 }

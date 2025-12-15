@@ -11,7 +11,7 @@ interface SectionHeaderProps {
   title: ReactNode;
   description?: ReactNode;
   align?: Align;
-  variants?: Variants; // Nueva prop para recibir la animación
+  variants?: Variants;
   className?: string;
 }
 
