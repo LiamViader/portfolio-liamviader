@@ -90,9 +90,9 @@ export default function ContactPage() {
       pixelsPerHex: 30,
       hue: 240,
       s: 60,
-      l: 2,
-      hueJitter: 0,
-      fillTuning: { fillAlphaMax: 0.5, fillAlphaMin: 0.4, lineAlphaMax: 1, lineAlphaMin: 0.8 },
+      l: 5,
+      hueJitter: 10,
+      fillTuning: { fillAlphaMax: 0.9, fillAlphaMin: 0.1, lineAlphaMax: 1, lineAlphaMin: 0.8 },
     },
     {
       id: "trails",
