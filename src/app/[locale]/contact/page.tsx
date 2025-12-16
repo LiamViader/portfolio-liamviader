@@ -303,7 +303,7 @@ export default function ContactPage() {
                 </Stack>
               </div>
 
-              <div className="lg:hidden mt-2">
+              <div className="lg:hidden mt-4">
                 <Stack size="lg">
                   <MotionEyebrow 
                     className="opacity-0 text-white/70 mx-auto"
