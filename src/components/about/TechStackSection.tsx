@@ -158,7 +158,7 @@ export function TechStackSection({
                           width={40}
                           height={40}
                           className="object-contain saturate-90"
-                          style={{ width: "auto", height: "auto" }}
+                          style={{ width: 40, height: 40 }}
                         />
                       ) : null}
                     </div>
