@@ -72,10 +72,6 @@ export function HeroImage({
       className="relative lg:ml-auto flex h-65 w-47 sm:h-85 sm:w-63 lg:h-100 lg:w-75 shrink-0 items-center justify-center rounded-full p-[3px] transform-gpu transition-none will-change-[transform, opacity]"
       style={{ pointerEvents: ready ? "auto" : "none" }}
     >
-      <div
-        className="absolute -inset-5 z-11 rounded-full bg-sky-400/7 blur-3xl"
-        aria-hidden
-      />
       <div className="relative h-full w-full overflow-hidden rounded-full">
         <Image
           src="/images/profesional_liam.png"
