@@ -234,8 +234,8 @@ const lineVertGLSL_Optimized = /* glsl */`
     float z = aOffset.z + sin(uTime * 1.4 + aPhase) * aDepth;
 
     // mismos valores que antes, pero ya listos para el fragment
-    vBright = clamp(0.47 + 0.18 * sin(uTime * 1.7 + aPhase), 0.3, 0.7);
-    vAlpha  = clamp(aOpacity + 0.25 * sin(uTime * 1.9 + aPhase), 0.15, 0.55);
+    vBright = clamp(0.47 + 0.18 * sin(uTime * 1.7 + aPhase), 0.0, 0.7);
+    vAlpha  = clamp(aOpacity + 0.25 * sin(uTime * 1.9 + aPhase), 0.0, 0.55);
     vHue    = aHue;
 
     vec3 world = vec3(aOffset.xy + p, z);
