@@ -3,7 +3,26 @@
 import * as THREE from "three";
 import React, { useLayoutEffect, useMemo, useRef, useEffect } from "react";
 import { useFrame, useThree } from "@react-three/fiber";
-import { HexGridParams } from "./PulseHexGridOverlapLine"; // Asumo que importas tipos de aquí
+import { HexGridParams } from "./PulseHexGridOverlapLine";
+
+// --- CACHÉ GLOBAL (Sin cambios, esto estaba bien) ---
+const GLOBAL_HEX_GEOM_CACHE = new Map<number, THREE.ShapeGeometry>();
+
+function getGlobalHexGeometry(radius: number) {
+  // Redondeamos para evitar claves infinitas por decimales flotantes
+  const safeRadius = Number(radius.toFixed(2));
+  const key = Math.round(safeRadius * 1000); 
+
+  if (!GLOBAL_HEX_GEOM_CACHE.has(key)) {
+    const angles = new Array(6).fill(0).map((_, i) => Math.PI / 6 + (i * Math.PI) / 3);
+    const shape = new THREE.Shape();
+    shape.moveTo(Math.cos(angles[0]) * safeRadius, Math.sin(angles[0]) * safeRadius);
+    for (let i = 1; i < 6; i++) shape.lineTo(Math.cos(angles[i]) * safeRadius, Math.sin(angles[i]) * safeRadius);
+    shape.closePath();
+    GLOBAL_HEX_GEOM_CACHE.set(key, new THREE.ShapeGeometry(shape));
+  }
+  return GLOBAL_HEX_GEOM_CACHE.get(key)!;
+}
 
 export type FillTuning = {
   fillScaleMin?: number;
@@ -29,7 +48,7 @@ const DEFAULT_TUNING: Required<FillTuning> = {
   invertAtMax: true,
 };
 
-
+// --- SHADERS (Sin cambios importantes) ---
 const hslChunk = /* glsl */`
   vec3 hsl2rgb(vec3 c) {
     vec3 rgb = clamp(abs(mod(c.x * 6.0 + vec3(0.0, 4.0, 2.0), 6.0) - 3.0) - 1.0, 0.0, 1.0);
@@ -40,7 +59,6 @@ const hslChunk = /* glsl */`
 const fillVertGLSL = /* glsl */`
   precision mediump float;
   
-  // Atributos manuales que pasaremos en el buffer intercalado
   attribute vec3 aCenter;
   attribute float aPhase;
   attribute float aSpeed;
@@ -68,11 +86,9 @@ const fillVertGLSL = /* glsl */`
     float pulse = 0.5 + 0.5 * rawSine;
 
     float p = mix(pulse, 1.0 - pulse, uInvert);
-    
-    // Escala relativa al centro
+    // Interpolación suave para evitar parpadeos
     float scaleRel = mix(uFillScaleMin, uFillScaleMax, 1.0 - p);
     
-    // Posición final: Escalar la forma base y moverla al centro (aCenter)
     vec3 transformed = position * scaleRel + aCenter;
 
     vAlpha = mix(uFillAlphaMin, uFillAlphaMax, 1.0 - p);
@@ -94,7 +110,6 @@ const fillFragGLSL = /* glsl */`
   }
 `;
 
-
 export default function PulseHexGridFill({
   params,
   tuning: userTuning,
@@ -102,50 +117,100 @@ export default function PulseHexGridFill({
   params: HexGridParams;
   tuning?: FillTuning;
 }) {
-  const tuning = useMemo<Required<FillTuning>>(
-    () => ({ ...DEFAULT_TUNING, ...(userTuning ?? {}) }),
-    [userTuning]
-  );
-
+  const { pixelsPerHex, hue, s, l, hueJitter } = params;
   const { size, camera, gl } = useThree();
-  const dpr = gl.getPixelRatio();
-  const width = size.width / dpr;
-  const height = size.height / dpr;
+  
+  // Extraemos primitivos para dependencias
+  const tBaseFreq = userTuning?.baseFreq ?? DEFAULT_TUNING.baseFreq;
+  const tFillScaleMin = userTuning?.fillScaleMin ?? DEFAULT_TUNING.fillScaleMin;
+  const tFillScaleMax = userTuning?.fillScaleMax ?? DEFAULT_TUNING.fillScaleMax;
+  const tFillAlphaMin = userTuning?.fillAlphaMin ?? DEFAULT_TUNING.fillAlphaMin;
+  const tFillAlphaMax = userTuning?.fillAlphaMax ?? DEFAULT_TUNING.fillAlphaMax;
+  const tFreqJitter = userTuning?.freqJitter ?? DEFAULT_TUNING.freqJitter;
+  const tPhaseJitter = userTuning?.phaseJitter ?? DEFAULT_TUNING.phaseJitter;
+  const tLightnessAmp = userTuning?.lightnessAmp ?? DEFAULT_TUNING.lightnessAmp;
+  const tInvertAtMax = userTuning?.invertAtMax ?? DEFAULT_TUNING.invertAtMax;
 
+  // IMPORTANTE: No usamos setPixelRatio aquí dentro.
+  // El DPR debe controlarse en el <Canvas dpr={[1, 1.5]}> padre.
+  
+  const dpr = gl.getPixelRatio();
+  const width = size.width; // En R3F v8+ size.width ya suele estar ajustado, pero mantenemos tu lógica
+  const height = size.height;
+
+  // Ajuste de cámara ortográfica
   useLayoutEffect(() => {
     if (camera instanceof THREE.OrthographicCamera) {
-      camera.left = -width / 2;
-      camera.right = width / 2;
-      camera.top = height / 2;
-      camera.bottom = -height / 2;
+      // Calculamos los límites basados en el viewport actual
+      const w = size.width;
+      const h = size.height;
+      camera.left = -w / 2;
+      camera.right = w / 2;
+      camera.top = h / 2;
+      camera.bottom = -h / 2;
       camera.updateProjectionMatrix();
     }
-  }, [camera, width, height]);
+  }, [camera, size.width, size.height]);
 
-  const baseGeom = useMemo(() => {
-    const radius = params.pixelsPerHex / Math.sqrt(3);
-    const angles = new Array(6).fill(0).map((_, i) => Math.PI / 6 + (i * Math.PI) / 3);
-    const shape = new THREE.Shape();
-    shape.moveTo(Math.cos(angles[0]) * radius, Math.sin(angles[0]) * radius);
-    for (let i = 1; i < 6; i++) shape.lineTo(Math.cos(angles[i]) * radius, Math.sin(angles[i]) * radius);
-    shape.closePath();
-    return new THREE.ShapeGeometry(shape);
-  }, [params.pixelsPerHex]);
+  // 1. MATERIAL ESTABLE: Se crea UNA vez y sus referencias no cambian
+  const material = useMemo(() => {
+    return new THREE.ShaderMaterial({
+      uniforms: {
+        uTime: { value: 0 },
+        uBaseFreq: { value: DEFAULT_TUNING.baseFreq },
+        uFillScaleMin: { value: DEFAULT_TUNING.fillScaleMin },
+        uFillScaleMax: { value: DEFAULT_TUNING.fillScaleMax },
+        uFillAlphaMin: { value: DEFAULT_TUNING.fillAlphaMin },
+        uFillAlphaMax: { value: DEFAULT_TUNING.fillAlphaMax },
+        uBaseL: { value: 0.5 },
+        uLightnessAmp: { value: DEFAULT_TUNING.lightnessAmp },
+        uSaturation: { value: 0.5 },
+        uInvert: { value: 1.0 },
+      },
+      vertexShader: fillVertGLSL,
+      fragmentShader: fillFragGLSL,
+      transparent: true,
+      depthWrite: false,
+      depthTest: false,
+      blending: THREE.AdditiveBlending,
+      toneMapped: false,
+    });
+  }, []); // Dependencias vacías: el material es eterno
 
+  // 2. ACTUALIZACIÓN DE UNIFORMS: Esto es muy barato (CPU casi 0)
+  // Se ejecuta cuando cambian los sliders/props, pero NO reconstruye la geometría
+  useEffect(() => {
+    material.uniforms.uBaseFreq.value = tBaseFreq;
+    material.uniforms.uFillScaleMin.value = tFillScaleMin;
+    material.uniforms.uFillScaleMax.value = tFillScaleMax;
+    material.uniforms.uFillAlphaMin.value = tFillAlphaMin;
+    material.uniforms.uFillAlphaMax.value = tFillAlphaMax;
+    material.uniforms.uBaseL.value = l / 100;
+    material.uniforms.uLightnessAmp.value = tLightnessAmp;
+    material.uniforms.uSaturation.value = s / 100;
+    material.uniforms.uInvert.value = tInvertAtMax ? 1.0 : 0.0;
+  }, [
+    material, 
+    tBaseFreq, tFillScaleMin, tFillScaleMax, tFillAlphaMin, tFillAlphaMax, 
+    l, tLightnessAmp, s, tInvertAtMax
+  ]);
 
-
-  const instanced = useMemo(() => {
-    const radius = params.pixelsPerHex / Math.sqrt(3);
+  // 3. GEOMETRÍA (PESADO): Solo depende de dimensiones y densidad (pixelsPerHex)
+  // Hemos quitado todos los "tunings" de aquí, excepto los Jitters que afectan atributos.
+  const geometry = useMemo(() => {
+    const radius = pixelsPerHex / Math.sqrt(3);
     const hexWidth = Math.sqrt(3) * radius;
     const vSpacing = (3 / 2) * radius;
     const hSpacing = hexWidth;
+    
+    // Usamos size.width/height directamente para cálculos
     const margin = Math.ceil((width / hSpacing) * 0.05);
     const columns = Math.ceil(width / hSpacing) + margin;
     const rows = Math.ceil(height / vSpacing) + margin;
 
     const cells = [];
-    const baseHue01 = (((params.hue % 360) + 360) % 360) / 360;
-    const hueJitter01 = Math.abs(params.hueJitter) / 360;
+    const baseHue01 = (((hue % 360) + 360) % 360) / 360;
+    const hueJitter01 = Math.abs(hueJitter) / 360;
     const wrap01 = (n: number) => (n % 1 + 1) % 1;
 
     for (let r = 0; r < rows; r++) {
@@ -154,18 +219,22 @@ export default function PulseHexGridFill({
         const cx = -width / 2 + c * hSpacing + offsetX;
         const cy = -height / 2 + r * vSpacing - (margin * hexWidth * 0.5);
         
-        const phase = Math.random() * Math.PI * 2 + (Math.random() - 0.5) * tuning.phaseJitter;
-        const speed = 1 + (Math.random() * 2 - 1) * tuning.freqJitter;
-        const hue = wrap01(baseHue01 + (Math.random() * 2 - 1) * hueJitter01);
+        // Estos valores se "queman" en el buffer. Si cambian, hay que reconstruir.
+        const phase = Math.random() * Math.PI * 2 + (Math.random() - 0.5) * tPhaseJitter;
+        const speed = 1 + (Math.random() * 2 - 1) * tFreqJitter;
+        const hVal = wrap01(baseHue01 + (Math.random() * 2 - 1) * hueJitter01);
         
-        cells.push({ cx, cy, phase, speed, hue });
+        cells.push({ cx, cy, phase, speed, hVal });
       }
     }
 
     const n = cells.length;
     if (n === 0) return null;
 
+    const baseGeom = getGlobalHexGeometry(radius);
     const geom = new THREE.InstancedBufferGeometry();
+    
+    // Copiamos la referencia a index y position (no clonamos los datos, es rápido)
     geom.index = baseGeom.index;
     geom.attributes.position = baseGeom.attributes.position;
     geom.instanceCount = n;
@@ -181,7 +250,7 @@ export default function PulseHexGridFill({
       data[base + 2] = 0; 
       data[base + 3] = cell.phase;
       data[base + 4] = cell.speed;
-      data[base + 5] = cell.hue;
+      data[base + 5] = cell.hVal;
     }
 
     const ib = new THREE.InstancedInterleavedBuffer(data, STRIDE).setUsage(THREE.StaticDrawUsage);
@@ -191,40 +260,21 @@ export default function PulseHexGridFill({
     geom.setAttribute("aSpeed",  new THREE.InterleavedBufferAttribute(ib, 1, 4));
     geom.setAttribute("aHue",    new THREE.InterleavedBufferAttribute(ib, 1, 5));
 
-    const mat = new THREE.ShaderMaterial({
-      uniforms: {
-        uTime: { value: 0 },
-        uBaseFreq: { value: tuning.baseFreq },
-        uFillScaleMin: { value: tuning.fillScaleMin },
-        uFillScaleMax: { value: tuning.fillScaleMax },
-        uFillAlphaMin: { value: tuning.fillAlphaMin },
-        uFillAlphaMax: { value: tuning.fillAlphaMax },
-        uBaseL: { value: params.l / 100 },
-        uLightnessAmp: { value: tuning.lightnessAmp },
-        uSaturation: { value: params.s / 100 },
-        uInvert: { value: tuning.invertAtMax ? 1.0 : 0.0 },
-      },
-      vertexShader: fillVertGLSL,
-      fragmentShader: fillFragGLSL,
-      transparent: true,
-      depthWrite: false,
-      depthTest: false,
-      blending: THREE.AdditiveBlending,
-      toneMapped: false,
-    });
+    return geom;
 
-    return { geom, mat };
+  // DEPENDENCIAS REDUCIDAS:
+  // Si cambias 'fillScaleMin' NO entramos aquí. Solo si cambias el tamaño de celda o ventana.
+  }, [
+    width, height, 
+    pixelsPerHex, hue, hueJitter, 
+    tFreqJitter, tPhaseJitter 
+  ]);
 
-  }, [width, height, params.s, params.l, params.hueJitter, params.hue, params.pixelsPerHex, tuning, baseGeom]); // Dependencias estables
-
-
+  // 4. ANIMACIÓN
   const groupRef = useRef<THREE.Group>(null);
-
   useFrame(({ clock }) => {
-    if (!instanced) return;
     const t = clock.getElapsedTime();
-    
-    instanced.mat.uniforms.uTime.value = t;
+    material.uniforms.uTime.value = t;
 
     if (groupRef.current) {
       groupRef.current.rotation.z = Math.sin(t * 0.18) * 0.04;
@@ -232,29 +282,25 @@ export default function PulseHexGridFill({
     }
   });
 
+  // 5. CLEANUP
   useEffect(() => {
     return () => {
-      if (instanced) {
-        instanced.geom.dispose();
-        instanced.mat.dispose();
+      // Solo limpiamos la geometría instanciada, no el material (que es compartido/memoizado)
+      if (geometry) {
+        geometry.dispose();
       }
+      // Material cleanup opcional si el componente muere definitivamente
+      // material.dispose(); 
     };
-  }, [instanced]);
+  }, [geometry]);
 
-  useEffect(() => {
-    return () => {
-        baseGeom.dispose();
-    };
-  }, [baseGeom]);
-
-
-  if (!instanced) return null;
+  if (!geometry) return null;
 
   return (
     <group ref={groupRef} frustumCulled={false}>
       <mesh 
-        geometry={instanced.geom} 
-        material={instanced.mat} 
+        geometry={geometry} 
+        material={material} 
         frustumCulled={false} 
         renderOrder={0}
       />
