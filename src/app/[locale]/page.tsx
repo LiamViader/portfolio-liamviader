@@ -95,7 +95,7 @@ export default function Home() {
           <PulseHexGridCanvas  gridType="OverlapLine" s={60} l={0} hue={240} hueJitter={30} pixelsPerHex={40}/>
         </>
         :
-        <div className="absolute inset-0 bg-slate-950"/>
+        <div className="inset-0 absolute bg-[rgb(14,17,51)]"/>
       }
       <div className="absolute inset-0 bg-[linear-gradient(to_bottom,_rgb(3,7,18)_0%,_rgb(3,7,18)_3%,_rgba(3,7,18,0.3)_50%,_rgb(3,7,18)_100%)]"/>
         <Container>
