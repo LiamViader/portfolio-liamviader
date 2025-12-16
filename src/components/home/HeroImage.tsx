@@ -4,6 +4,7 @@ import Image from "next/image";
 import { easeInOut, easeOut, motion, type Variants } from "framer-motion";
 import { useState } from "react";
 import { BASE_DELAY_ENTRANCE } from "@/utils/constants";
+import portraitImg from "../../../public/images/profesional_liam.png";
 
 const RING = "0 0 0 2px rgba(255, 255, 255, 0.4)";
 const BASE_GLOW = "0 25px 80px -40px rgba(190,190,248,0.8)";
@@ -74,12 +75,13 @@ export function HeroImage({
     >
       <div className="relative h-full w-full overflow-hidden rounded-full">
         <Image
-          src="/images/profesional_liam.png"
+          src={portraitImg}
           alt="Portrait"
           fill
           priority
           fetchPriority="high"
-          decoding="async"
+          decoding="sync"
+          placeholder="blur"
           quality={95}
           sizes="(min-width: 1024px) 300px, (min-width: 640px) 260px, 200px"
           className="object-cover"

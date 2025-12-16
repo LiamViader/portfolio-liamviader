@@ -4,6 +4,8 @@ import { useState } from "react";
 import { motion, type Variants } from "framer-motion";
 import Image from "next/image";
 import { BASE_DELAY_ENTRANCE } from "@/utils/constants";
+import portraitImg from "../../../public/images/personal_gallery/cala_arenys.jpg";
+
 
 const createPortraitVariants = (animated: boolean): Variants => ({
   hidden: {
@@ -78,12 +80,14 @@ export function AboutPortrait({
 
       <div className="relative h-full w-full">
         <Image
-          src="/images/personal_gallery/cala_arenys.jpg"
-          alt="Retrato"
+          src={portraitImg}
+          alt="Portrait"
           fill
-          priority
+          priority={true}
           fetchPriority="high"
-          decoding="async"
+          decoding="sync"
+          placeholder="blur"
+          quality={95}
           sizes="(min-width: 768px) 540px, (min-width: 640px) 440px, 400px"
           className="object-cover"
         />
