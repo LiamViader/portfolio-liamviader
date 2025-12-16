@@ -339,6 +339,8 @@ export default function ContactPage() {
                           className={`
                             flex h-10 w-10 shrink-0 items-center justify-center rounded-lg transition-colors
                             ${styles.iconColors} 
+                            ${styles.iconMobile}
+                            ${styles.iconDesktop}
                           `}
                         >
                           <Icon className="h-5 w-5" />
