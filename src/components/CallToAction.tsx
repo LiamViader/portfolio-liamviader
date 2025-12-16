@@ -70,7 +70,7 @@ export default function CallToAction({ entranceAnimationEnabled }: { entranceAni
   const contentVariants = createContentVariants(entranceAnimationEnabled);
 
   return (
-    <LastSection className="relative">
+    <section className="relative pt-4 lg:pt-6">
       
       <div className="absolute inset-0 bg-gray-950" />
       <Container>
@@ -78,7 +78,7 @@ export default function CallToAction({ entranceAnimationEnabled }: { entranceAni
           <motion.div
             initial="hidden"
             whileInView="show"
-            viewport={{ once: true, amount: 0.1 }}
+            viewport={{ once: true, amount: 0.2 }}
             variants={sectionVariants}
             className="relative mx-auto"
           >
@@ -87,7 +87,7 @@ export default function CallToAction({ entranceAnimationEnabled }: { entranceAni
               className="overflow-hidden text-center"
             >
               <Stack className="relative z-10 max-w-4xl mx-auto" size="md">
-                <motion.h2 variants={contentVariants} className="text-3xl md:text-4xl xl:text-[40px] font-semibold text-white">
+                <motion.h2 variants={contentVariants} className="text-3xl sm:text-4xl font-semibold text-white">
                   {t.rich("cta_title", {
                     highlight: (chunks) => <span className="text-sky-300">{chunks}</span>,
                   })}
@@ -95,7 +95,7 @@ export default function CallToAction({ entranceAnimationEnabled }: { entranceAni
                 <motion.p variants={contentVariants} className="text-pretty text-base sm:text-lg text-white/70">
                   {t("cta_text")}
                 </motion.p>
-                <motion.div variants={contentVariants} className="flex flex-wrap justify-center mt-2">
+                <motion.div variants={contentVariants} className="flex flex-wrap justify-center mt-2 pb-24 sm:pb-32 lg:pb-40">
                   <SkyButton text={t("cta_button_contact")} href="/contact"/>
                 </motion.div>
               </Stack>
@@ -103,6 +103,6 @@ export default function CallToAction({ entranceAnimationEnabled }: { entranceAni
           </motion.div>
         </ContentBlock>
       </Container>
-    </LastSection>
+    </section>
   );
 }

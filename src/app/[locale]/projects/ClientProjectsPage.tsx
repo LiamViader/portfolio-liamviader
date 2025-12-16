@@ -129,7 +129,7 @@ export default function ClientProjectsPage({ projectsData }: ClientProjectsPageP
               <motion.h1
                 variants={heroChildVariants}
                 className="
-                  whitespace-pre-line text-balance 
+                  whitespace-pre-line text-pretty 
                   text-4xl sm:text-5xl lg:text-6xl
                   font-semibold tracking-tight text-white/95
                 "
@@ -148,13 +148,15 @@ export default function ClientProjectsPage({ projectsData }: ClientProjectsPageP
               >
                 {t("intro_paragraph")}
               </motion.p>
+
             </MotionStack>
           </ShowcaseBlock>
         </Container>
 
       </HeroSectionWrapper>
-
-
+      
+      <div className="hidden lg:block h-1 border-t border-white/20 w-5xl mx-auto"></div>
+      
       <FeaturedProjectsSection projects={projectsData} replaceUrl={true} allowUrlOpen={false} entranceAnimationEnabled={entranceAnimationsEnabled}/>
 
       <ProjectGallery

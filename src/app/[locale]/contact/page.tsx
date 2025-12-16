@@ -10,6 +10,14 @@ import PageLayout from "@/components/layout/PageLayout";
 import { BASE_DELAY_ENTRANCE } from "@/utils/constants";
 import { usePerformanceConfig } from "@/hooks/usePerformanceConfig";
 
+import { OneSectionPageSection } from "@/components/layout/OneSectionPageSection";
+import { Container } from "@/components/layout/Container";
+import { ContentBlock } from "@/components/layout/ContentBlock";
+import { ShowcaseBlock } from "@/components/layout/ShowcaseBlock";
+import { Stack } from "@/components/layout/Stack";
+import { Content } from "next/font/google";
+
+
 type AnyIcon = ComponentType<{ className?: string }>;
 
 const BASE_BG = "rgba(255,255,255,0.05)";
@@ -156,10 +164,10 @@ export default function ContactPage() {
       label: t("links.items.email.label"),
       value: t("links.items.email.value"),
       styles: {
-        containerHover: "md:hover:bg-rose-500/10 md:hover:border-rose-500/50 md:hover:shadow-[0_0_30px_-5px_rgba(244,63,94,0.3)]",
-        iconColors: "text-rose-300 group-hover:text-rose-100 group-hover:bg-rose-500/40",
-        iconMobile: "bg-rose-500/30 border border-rose-500/50",
-        iconDesktop: "md:bg-white/5 md:border-transparent",
+        containerHover: "hover:bg-rose-500/10 hover:border-rose-500/50 hover:shadow-[0_0_30px_-5px_rgba(244,63,94,0.3)]",
+        iconColors: "text-rose-400 group-hover:text-rose-100 group-hover:bg-rose-500/40",
+        iconMobile: "bg-rose-500/30 border border-white/15",
+        iconDesktop: "bg-white/5 sm:border-transparent",
         text: "group-hover:text-rose-200"
       }
     },
@@ -170,10 +178,10 @@ export default function ContactPage() {
       label: t("links.items.linkedin.label"),
       value: t("links.items.linkedin.value"),
       styles: {
-        containerHover: "md:hover:bg-sky-500/10 md:hover:border-sky-500/50 md:hover:shadow-[0_0_30px_-5px_rgba(56,189,248,0.3)]",
-        iconColors: "text-sky-300 group-hover:text-sky-100 group-hover:bg-sky-500/40",
-        iconMobile: "bg-sky-500/30 border border-sky-500/50",
-        iconDesktop: "md:bg-white/5 md:border-transparent",
+        containerHover: "hover:bg-sky-500/10 hover:border-sky-500/50 hover:shadow-[0_0_30px_-5px_rgba(56,189,248,0.3)]",
+        iconColors: "text-sky-400 group-hover:text-sky-100 group-hover:bg-sky-500/40",
+        iconMobile: "bg-sky-500/30 border border-white/15",
+        iconDesktop: "bg-white/5 sm:border-transparent",
         text: "group-hover:text-sky-200"
       }
     },
@@ -184,10 +192,10 @@ export default function ContactPage() {
       label: t("links.items.github.label"),
       value: t("links.items.github.value"),
       styles: {
-        containerHover: "md:hover:bg-violet-500/10 md:hover:border-violet-500/50 md:hover:shadow-[0_0_30px_-5px_rgba(139,92,246,0.3)]",
-        iconColors: "text-violet-300 group-hover:text-violet-100 group-hover:bg-violet-500/40",
-        iconMobile: "bg-violet-500/30 border border-violet-500/50",
-        iconDesktop: "md:bg-white/5 md:border-transparent",
+        containerHover: "hover:bg-violet-500/10 hover:border-violet-500/50 hover:shadow-[0_0_30px_-5px_rgba(139,92,246,0.3)]",
+        iconColors: "text-violet-400 group-hover:text-violet-100 group-hover:bg-violet-500/40",
+        iconMobile: "bg-violet-500/30 border border-white/15",
+        iconDesktop: "bg-white/5 sm:border-transparent",
         text: "group-hover:text-violet-200"
       }
     },
@@ -197,138 +205,140 @@ export default function ContactPage() {
     <PageLayout
       backgroundLayers={backgroundLayers}
       overlays={<div className="absolute inset-0 bg-gradient-to-b from-slate-950/10 via-slate-950/30 to-slate-950"></div>}
-      className=" px-4 sm:px-6 lg:px-12"
     >
-      <div>
-        <div className="mx-auto w-full max-w-6xl pb-24 pt-28 lg:pt-34">
-
-          <div className="flex flex-col gap-8 max-w-4xl">
-            <motion.h1
-              className="text-center lg:text-left text-4xl font-semibold tracking-tight text-white/95 sm:text-5xl md:text-6xl"
-              initial={{ 
-                y: entranceAnimationsEnabled ? 20 : 0, 
-                opacity: 0, 
-                scale: 1, 
-                filter: "drop-shadow(0 0 12px rgba(56,189,248,0.01))" 
-              }}
-              animate={{ y: 0, opacity: 1, scale: 1, filter: "drop-shadow(0 0 12px rgba(56,189,248,0.01))" }}
-              whileHover={introDone ? {scale: 1.02, y: -2, filter: "drop-shadow(0 0 12px rgba(56,189,248,0.35))", transition: {duration: 0.3}} : undefined}
-              transition={{
-                  duration: introDone ? 0.5 : (entranceAnimationsEnabled ? 0.7 : 0),
-                  delay: introDone ? 0 : (entranceAnimationsEnabled ? BASE_DELAY_ENTRANCE : 0),
-                  ease: "easeOut"
-              }}
-              onAnimationComplete={() => { if (!introDone) setIntroDone(true); }}
-            >
-              {t.rich("hero.title", {
-                highlight: (chunks) => <span className="text-sky-300">{chunks}</span>,
-              })}
-            </motion.h1>
-            <motion.p
-              className="text-center lg:text-left text-balance md:text-pretty text-base sm:text-lg text-white/75"
-              initial={{ y: entranceAnimationsEnabled ? 20 : 0, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              transition={{ 
-                duration: entranceAnimationsEnabled ? 0.7 : 0, 
-                delay: entranceAnimationsEnabled ? BASE_DELAY_ENTRANCE + 0.1 : 0, 
-                ease: "easeOut" 
-              }}
-            >
-              {t("hero.description")}
-            </motion.p>
-          </div>
-
-          <div className="flex flex-col gap-4 py-8">
-            {highlightCards.map(({ key, icon: Icon, title, description }, index) => (
-              <motion.article
-                key={key}
-                className="relative w-full overflow-hidden rounded-2xl border border-white/10 bg-white/5 p-4 md:p-5 backdrop-blur-sm"
-                aria-labelledby={`contact-highlight-${key}`}
-                initial="hidden"
-                animate="show"
-                whileHover={introDone ? "hover" : undefined}
-                whileTap={introDone ? "tap" : undefined}
-                custom={{ order: index, isIntro: !introDone }}
-                variants={contactContainerVariant}
-                onAnimationComplete={() => { if (!introDone) setIntroDone(true); }}
-              >
-                <div className="relative z-10 flex flex-col gap-2 md:flex-row md:items-center md:gap-6">
-                  <div className="flex items-center gap-2 md:gap-4">
-                    <div className="flex h-12 w-12 shrink-0 items-center justify-center text-sky-300/95">
-                      <Icon className="h-8 w-8" />
-                    </div>
-                    <h3 className="text-base md:text-lg font-semibold text-sky-300/95 md:hidden">
-                      {title}
-                    </h3>
-                  </div>
-                  
-                  <div className="flex min-w-0 flex-1 flex-col gap-1">
-                    <h3 id={`contact-highlight-${key}`} className="hidden text-base md:text-lg font-semibold text-sky-300/95 md:block">
-                      {title}
-                    </h3>
-                    <p className="text-sm text-white/70 text-pretty break-words">
-                        {description}
-                    </p>
-                  </div>
-                </div>
-              </motion.article>
-            ))}
-          </div>
-
-          <div>
-            <div className="flex flex-row justify-center gap-4 md:grid md:grid-cols-3 md:gap-4 mx-auto max-w-5xl">
-              {contactLinks.map(({ key, icon: Icon, href, value, label, styles }, index) => (
-                <motion.a
-                  key={key}
-                  href={href}
-                  title={value} 
-                  target={key === "email" ? undefined : "_blank"}
-                  rel={key === "email" ? undefined : "noreferrer"}
-                  variants={linkCardVariant}
-                  custom={{ i: index, isIntro: !introDone }}
-                  initial="hidden"
-                  animate="show"
-                  whileHover="hover"
-                  whileTap="tap"
-                  
-                  className={`
-                    group relative flex items-center rounded-xl 
-                    p-0 w-auto justify-center
-                    md:border md:border-white/10 md:bg-white/[0.03] md:backdrop-blur-md md:w-full md:p-3 md:justify-start md:gap-3 md:px-4 md:overflow-hidden
-                    ${styles.containerHover}
-                  `}
+      <OneSectionPageSection>
+        <Container>
+          <ContentBlock>
+            <Stack size="lg">
+              <Stack size="md">
+                <motion.h1
+                  className="text-left text-4xl sm:text-5xl lg:text-6xl font-semibold tracking-tight text-white/95"
+                  initial={{ 
+                    y: entranceAnimationsEnabled ? 20 : 0, 
+                    opacity: 0, 
+                    scale: 1, 
+                    filter: "drop-shadow(0 0 12px rgba(56,189,248,0.01))" 
+                  }}
+                  animate={{ y: 0, opacity: 1, scale: 1, filter: "drop-shadow(0 0 12px rgba(56,189,248,0.01))" }}
+                  whileHover={introDone ? {scale: 1.02, y: -2, filter: "drop-shadow(0 0 12px rgba(56,189,248,0.35))", transition: {duration: 0.3}} : undefined}
+                  transition={{
+                      duration: introDone ? 0.5 : (entranceAnimationsEnabled ? 0.7 : 0),
+                      delay: introDone ? 0 : (entranceAnimationsEnabled ? BASE_DELAY_ENTRANCE : 0),
+                      ease: "easeOut"
+                  }}
+                  onAnimationComplete={() => { if (!introDone) setIntroDone(true); }}
                 >
-                  <motion.div 
-                    variants={iconHoverVariants}
-                    className={`
-                      flex h-12 w-12 md:h-10 md:w-10 shrink-0 items-center justify-center rounded-lg transition-colors
-                      ${styles.iconColors} 
-                      ${styles.iconMobile}
-                      ${styles.iconDesktop}
-                    `}
+                  {t.rich("hero.title", {
+                    highlight: (chunks) => <span className="text-sky-300">{chunks}</span>,
+                  })}
+                </motion.h1>
+                <motion.p
+                  className="text-left text-pretty text-lg sm:text-xl text-white/75 max-w-3xl"
+                  initial={{ y: entranceAnimationsEnabled ? 20 : 0, opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  transition={{ 
+                    duration: entranceAnimationsEnabled ? 0.7 : 0, 
+                    delay: entranceAnimationsEnabled ? BASE_DELAY_ENTRANCE + 0.1 : 0, 
+                    ease: "easeOut" 
+                  }}
+                >
+                  {t("hero.description")}
+                </motion.p>
+              </Stack>
+
+              <Stack size="md">
+                {highlightCards.map(({ key, icon: Icon, title, description }, index) => (
+                  <motion.article
+                    key={key}
+                    className="relative w-full overflow-hidden rounded-2xl border border-white/10 bg-white/5 p-4 sm:p-5 backdrop-blur-sm"
+                    aria-labelledby={`contact-highlight-${key}`}
+                    initial="hidden"
+                    animate="show"
+                    whileHover={introDone ? "hover" : undefined}
+                    whileTap={introDone ? "tap" : undefined}
+                    custom={{ order: index, isIntro: !introDone }}
+                    variants={contactContainerVariant}
+                    onAnimationComplete={() => { if (!introDone) setIntroDone(true); }}
                   >
-                    <Icon className="h-6 w-6 md:h-5 md:w-5" />
-                  </motion.div>
+                    <div className="relative z-10 flex flex-col gap-2 sm:flex-row sm:items-center sm:gap-5">
+                      <div className="flex items-center gap-2 sm:gap-4">
+                        <div className="flex h-12 w-12 shrink-0 items-center justify-center text-sky-300/95">
+                          <Icon className="h-8 w-8" />
+                        </div>
+                        <h3 className="text-base lg:text-lg font-semibold text-sky-300/95 sm:hidden">
+                          {title}
+                        </h3>
+                      </div>
+                      
+                      <div className="flex min-w-0 flex-1 flex-col gap-2">
+                        <h3 id={`contact-highlight-${key}`} className="hidden text-base lg:text-lg font-semibold text-sky-300/95 sm:block">
+                          {title}
+                        </h3>
+                        <p className="text-sm lg:text-base text-white/70 text-pretty break-words">
+                            {description}
+                        </p>
+                      </div>
+                    </div>
+                  </motion.article>
+                ))}
+              </Stack>
 
-                  <div className="hidden md:flex flex-1 min-w-0 flex-col justify-center">
-                    <p className="text-[10px] font-bold uppercase tracking-wider text-white/40 leading-tight">
-                      {label}
-                    </p>
-                    <p className={`text-sm font-semibold text-white/90 truncate ${styles.text}`}>
-                      {value}
-                    </p>
-                  </div>
+              <div>
+                <div className="flex flex-row justify-center gap-4 md:grid md:grid-cols-3 md:gap-4 mx-auto">
+                  {contactLinks.map(({ key, icon: Icon, href, value, label, styles }, index) => (
+                    <motion.a
+                      key={key}
+                      href={href}
+                      title={value} 
+                      target={key === "email" ? undefined : "_blank"}
+                      rel={key === "email" ? undefined : "noreferrer"}
+                      variants={linkCardVariant}
+                      custom={{ i: index, isIntro: !introDone }}
+                      initial="hidden"
+                      animate="show"
+                      whileHover="hover"
+                      whileTap="tap"
+                      
+                      className={`
+                        group relative flex items-center rounded-xl 
+                        p-0 w-auto justify-center
+                        sm:border sm:border-white/10 bg-white/[0.03] backdrop-blur-sm sm:w-full sm:p-3 sm:justify-start sm:gap-3 sm:px-4 sm:overflow-hidden
+                        ${styles.containerHover}
+                      `}
+                    >
+                      <motion.div 
+                        variants={iconHoverVariants}
+                        className={`
+                          flex h-12 w-12 sm:h-10 sm:w-10 shrink-0 items-center justify-center rounded-lg transition-colors
+                          ${styles.iconColors} 
+                          ${styles.iconMobile}
+                          ${styles.iconDesktop}
+                        `}
+                      >
+                        <Icon className="h-6 w-6 sm:h-5 sm:w-5" />
+                      </motion.div>
 
-                  <motion.div variants={arrowHoverVariants} className="hidden md:block shrink-0 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-                      <ArrowUpRight className="h-4 w-4 text-white/70" />
-                  </motion.div>
-                </motion.a>
-              ))}
-            </div>
-          </div>
+                      <div className="hidden sm:flex flex-1 min-w-0 flex-col justify-center">
+                        <p className="text-[10px] font-bold uppercase tracking-wider text-white/40 leading-tight">
+                          {label}
+                        </p>
+                        <p className={`text-sm font-semibold text-white/90 truncate ${styles.text}`}>
+                          {value}
+                        </p>
+                      </div>
+
+                      <motion.div variants={arrowHoverVariants} className="hidden sm:block shrink-0 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                          <ArrowUpRight className="h-4 w-4 text-white/70" />
+                      </motion.div>
+                    </motion.a>
+                  ))}
+                </div>
+              </div>
+            </Stack>
+          </ContentBlock>
           
-        </div>
-      </div>
+        </Container>
+      </OneSectionPageSection>
     </PageLayout>
   );
 }
