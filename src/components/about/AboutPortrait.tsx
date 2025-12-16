@@ -69,15 +69,14 @@ export function AboutPortrait({
       whileTap={ready ? "tap" : undefined}
       className="
         relative
-        w-[200px] sm:w-[220px] md:w-[270px]
+        w-[210px] sm:w-[270px] lg:w-[290px]
         aspect-square
         rounded-2xl border border-white/20 overflow-hidden
-        bg-gradient-to-br from-sky-500/30 via-sky-500/10 to-indigo-500/30
       "
       style={{ pointerEvents: ready ? "auto" : "none" }}
     >
       <div
-        className="pointer-events-none absolute -inset-10 rounded-[2rem] bg-sky-500/25 blur-3xl"
+        className="pointer-events-none absolute -inset-10 rounded-[2rem] blur-3xl"
         aria-hidden
       />
 

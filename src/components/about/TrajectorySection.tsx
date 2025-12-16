@@ -16,6 +16,8 @@ import { Stack } from "../layout/Stack";
 import { Container } from "../layout/Container";
 import { ContentBlock } from "../layout/ContentBlock";
 import { SectionHeader } from "../layout/SectionHeader";
+import { usePerformanceConfig } from "@/hooks/usePerformanceConfig";
+
 
 const pathSectionContainerVariants: Variants = {
   hidden: { y: 30 },
@@ -335,26 +337,31 @@ export function TrajectorySection({
 }: TrajectorySectionProps) {
   const t = useTranslations("AboutPage.trajectory");
   const locale = useLocale() as Locale;
-
+  const {backgroundsOptimization} = usePerformanceConfig();
   return (
     <Section className="relative">
-      <PulseHexGridCanvas
-        gridType="Fill"
-        s={50}
-        l={30}
-        hue={240}
-        hueJitter={10}
-        pixelsPerHex={45}
-      />
-      <PulseHexGridCanvas
-        gridType="Strata"
-        s={60}
-        l={25}
-        hue={240}
-        hueJitter={30}
-        pixelsPerHex={45}
-      />
-      <div className="inset-0 absolute bg-[linear-gradient(to_bottom,_rgb(3,7,18)_0%,rgb(3,7,18)_3%,_rgba(3,7,18,0.3)_40%,_rgb(3,7,18)_97%,_rgb(3,7,18)_100%)]" />
+      {backgroundsOptimization === "normal" ?
+        <>
+          <PulseHexGridCanvas
+            gridType="Fill"
+            s={50}
+            l={30}
+            hue={240}
+            hueJitter={10}
+            pixelsPerHex={45}
+          />
+          <PulseHexGridCanvas
+            gridType="Strata"
+            s={60}
+            l={25}
+            hue={240}
+            hueJitter={30}
+            pixelsPerHex={45}
+          />
+        </>
+        : <div className="inset-0 absolute bg-[rgb(14,17,51)]"/>
+      }
+      <div className="inset-0 absolute bg-[linear-gradient(to_bottom,_rgb(3,7,18)_0%,rgb(3,7,18)_3%,_rgba(3,7,18,0.35)_40%,_rgba(3,7,18,0.45)_50%,_rgb(3,7,18)_97%,_rgb(3,7,18)_100%)]" />
       <Container>
         <ContentBlock>
           <motion.div

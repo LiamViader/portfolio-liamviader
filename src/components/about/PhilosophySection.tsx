@@ -11,6 +11,7 @@ import { SectionHeader } from "../layout/SectionHeader";
 import { LastSection } from "../layout/LastSection";
 import { Container } from "../layout/Container";
 import { ContentBlock } from "../layout/ContentBlock";
+import { usePerformanceConfig } from "@/hooks/usePerformanceConfig";
 
 const createSectionAnimation = (animated: boolean): Variants => ({
   hidden: {},
@@ -81,26 +82,33 @@ export function PhilosophySection({ entranceAnimationsEnabled }: PhilosophySecti
   const listVariants = createInfoCardsAnimation(entranceAnimationsEnabled);
   const headerItem = createHeaderItemAnimation(entranceAnimationsEnabled);
   const sectionVariants = createSectionAnimation(entranceAnimationsEnabled);
+  const {backgroundsOptimization} = usePerformanceConfig();
 
   return (
     <LastSection className="relative">
-      <PulseHexGridCanvas
-        gridType="Fill"
-        s={50}
-        l={30}
-        hue={240}
-        hueJitter={10}
-        pixelsPerHex={45}
-      />
-      <PulseHexGridCanvas
-        gridType="Strata"
-        s={60}
-        l={25}
-        hue={240}
-        hueJitter={30}
-        pixelsPerHex={45}
-      />
-      <div className="inset-0 absolute bg-[linear-gradient(to_bottom,_rgb(3,7,18)_0%,rgb(3,7,18)_3%,_rgba(3,7,18,0.7)_40%,_rgba(3,7,18,0.85)_100%)]" />
+      {backgroundsOptimization === "normal" ?
+        <>
+          <PulseHexGridCanvas
+            gridType="Fill"
+            s={50}
+            l={30}
+            hue={240}
+            hueJitter={10}
+            pixelsPerHex={45}
+          />
+          <PulseHexGridCanvas
+            gridType="Strata"
+            s={60}
+            l={25}
+            hue={240}
+            hueJitter={30}
+            pixelsPerHex={45}
+          /> 
+        </>
+        :
+        <div className="inset-0 absolute bg-[rgb(14,17,51)]"/>
+      }
+      <div className="inset-0 absolute bg-[linear-gradient(to_bottom,_rgb(3,7,18)_0%,rgb(3,7,18)_3%,_rgba(3,7,18,0.6)_40%,_rgba(3,7,18,0.7)_60%,_rgba(3,7,18,0.85)_100%)]" />
 
       <Container>
         <ContentBlock>

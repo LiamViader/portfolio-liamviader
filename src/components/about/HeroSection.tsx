@@ -128,7 +128,7 @@ export function HeroSection({ personalInfo, age, entranceAnimationsEnabled }: He
         <ContentBlock>
           <Stack size="lg">
             <div className="flex flex-col-reverse gap-8 lg:gap-12 lg:flex-row items-center">
-              <Stack size="lg" className="max-w-2xl lg:max-w-full z-10">
+              <Stack size="lg" className="max-w-3xl lg:max-w-full z-10">
                 <motion.h1
                   variants={canHover ? titleVariantsWithHover : titleVariantsWithoutHover}
                   initial="initial"
@@ -142,7 +142,7 @@ export function HeroSection({ personalInfo, age, entranceAnimationsEnabled }: He
                     if (!ready) return;
                     controls.start("animate", { duration: 0.35 });
                   }}
-                  className="text-pretty text-4xl sm:text-5xl lg:text-6xl font-semibold tracking-tight text-white/95 text-center lg:text-left"
+                  className="text-pretty text-4xl sm:text-5xl lg:text-6xl font-semibold tracking-tight text-white/95 text-center lg:text-left "
                 >
                   {t.rich("hero.title", {
                     highlight: (chunks) => (
@@ -164,7 +164,7 @@ export function HeroSection({ personalInfo, age, entranceAnimationsEnabled }: He
                       ? BASE_DELAY_ENTRANCE + 0.2
                       : 0,
                   }}
-                  className="lg:max-w-2xl text-pretty text-lg sm:text-xl text-white/70 text-center lg:text-left"
+                  className="max-w-full text-pretty text-lg sm:text-xl text-white/70 text-center lg:text-left"
                 >
                   {t("hero.subtitle")}
                 </motion.p>
