@@ -26,7 +26,6 @@ export default function Navbar({
     { href: "/contact", label: t("contact") },
   ];
 
-  // Path "efectivo": si hay uno pendiente, usamos ese para el highlight
   const effectivePath = pendingPath ?? pathname;
 
   const isActive = (href: string, exact?: boolean) => {
@@ -36,7 +35,6 @@ export default function Navbar({
     );
   };
 
-  // Cuando la ruta real cambie, damos por concluida la navegación
   useEffect(() => {
     setPendingPath(null);
   }, [pathname]);
