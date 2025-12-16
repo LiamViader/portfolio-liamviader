@@ -284,7 +284,7 @@ function Timeline({ items, icon, locale }: TimelineProps) {
               whileTap={{
                 scale: 0.97,
               }}
-              className="rounded-2xl border border-white/10 bg-white/5 px-4 py-3.5 backdrop-blur-xl"
+              className="rounded-2xl border border-white/10 bg-white/5 px-4 py-3.5 backdrop-blur-md"
             >
               <motion.div
                 variants={pathCardInnerVariants}

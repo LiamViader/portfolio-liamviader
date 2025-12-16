@@ -250,7 +250,7 @@ export default function ContactPage() {
                 {highlightCards.map(({ key, icon: Icon, title, description }, index) => (
                   <motion.article
                     key={key}
-                    className="relative w-full overflow-hidden rounded-2xl border border-white/10 bg-white/5 p-4 sm:p-5 backdrop-blur-sm"
+                    className="relative w-full overflow-hidden rounded-2xl border border-white/10 bg-white/5 p-4 sm:p-5 backdrop-blur-md"
                     aria-labelledby={`contact-highlight-${key}`}
                     initial="hidden"
                     animate="show"
@@ -302,7 +302,7 @@ export default function ContactPage() {
                       className={`
                         group relative flex items-center rounded-xl 
                         p-0 w-auto justify-center
-                        sm:border sm:border-white/10 bg-white/[0.03] backdrop-blur-sm sm:w-full sm:p-3 sm:justify-start sm:gap-3 sm:px-4 sm:overflow-hidden
+                        sm:border sm:border-white/10 bg-white/[0.03] backdrop-blur-md sm:w-full sm:p-3 sm:justify-start sm:gap-3 sm:px-4 sm:overflow-hidden
                         ${styles.containerHover}
                       `}
                     >

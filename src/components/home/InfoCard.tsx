@@ -143,7 +143,7 @@ export function InfoCard({
       onAnimationComplete={() => setReady(true)}
       whileHover={ready && canHover ? "hover" : undefined}
       whileTap={ready ? "tap" : undefined}
-      className="rounded-2xl border p-5 backdrop-blur-sm transform-gpu will-change-[transform,opacity] transition-none flex flex-col gap-3"
+      className="rounded-2xl border p-5 backdrop-blur-md transform-gpu will-change-[transform,opacity] transition-none flex flex-col gap-3"
       style={{
         backgroundColor: BASE_BG,
         borderColor: BASE_BORD,
