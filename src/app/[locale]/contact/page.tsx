@@ -92,7 +92,7 @@ export default function ContactPage() {
       s: 60,
       l: 37,
       hueJitter: 20,
-      trailCount: isSmallScreen ? 9 : 22,
+      trailCount: isSmallScreen ? 7 : 22,
       stepsPerSecond: 20,
       fadeSeconds: isSmallScreen ? 4: 7,
     },
@@ -172,7 +172,7 @@ export default function ContactPage() {
   return (
     <PageLayout
       backgroundLayers={backgroundLayers}
-      overlays={<div className="absolute inset-0 bg-[linear-gradient(to_bottom,_rgb(3,7,18)_0%,_rgb(3,7,18)_15%,_rgba(3,7,18,0.3)_50%,_rgb(3,7,18)_100%)] "></div>}
+      overlays={<div className="absolute inset-0 bg-[linear-gradient(to_bottom,_rgb(3,7,18)_0%,_rgb(3,7,18)_15%,_rgba(3,7,18,0.2)_50%,_rgb(3,7,18)_85%,_rgb(3,7,18)_100%)] "></div>}
     >
       <OneSectionPageSection>
         <Container>
