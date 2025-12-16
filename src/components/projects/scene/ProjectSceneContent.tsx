@@ -12,12 +12,16 @@ import SceneGames from './SceneGames';
 
 import { EffectComposer, Bloom, Noise } from "@react-three/postprocessing";
 
+import { usePerformanceConfig } from '@/hooks/usePerformanceConfig';
+
 interface ProjectSceneContentProps {
   category: ClientCategorySlug;
 }
 
 export default function ProjectSceneContent({ category }: ProjectSceneContentProps) {
   const { progress, previousCategory, currentCategory } = useSceneTransition(category);
+  // Obtenemos la configuración de optimización
+  const { backgroundsOptimization } = usePerformanceConfig();
   
   const { scene, camera } = useThree();
   const scrollTopRef = useRef(0);
@@ -28,26 +32,27 @@ export default function ProjectSceneContent({ category }: ProjectSceneContentPro
   const DAMPING = 0.2;
 
   useEffect(() => {
+    if (backgroundsOptimization !== "normal") return;
+
     const handleScroll = () => {
       scrollTopRef.current = window.scrollY;
     };
+    
     handleScroll();
+    
     window.addEventListener("scroll", handleScroll, { passive: true });
+    
     return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  }, [backgroundsOptimization]);
 
   const getOpacity = (sceneSlug: ClientCategorySlug) => {
     return progress.to(p => {
       if (previousCategory === currentCategory && sceneSlug === currentCategory) return 1;
-
       if (sceneSlug === currentCategory) return p;
-
       if (sceneSlug === previousCategory) return 1 - p;
-      
       return 0;
     });
   };
-
 
   const isSceneActive = (sceneSlug: ClientCategorySlug) => {
     return sceneSlug === currentCategory || sceneSlug === previousCategory;
@@ -62,9 +67,11 @@ export default function ProjectSceneContent({ category }: ProjectSceneContentPro
     const fromColor = CATEGORY_COLORS[fromIndex] || new THREE.Color(0,0,0);
     const toColor = CATEGORY_COLORS[toIndex] || new THREE.Color(0,0,0);
 
-    smoothScrollRef.current += (scrollTopRef.current - smoothScrollRef.current) * DAMPING;
-    const targetY = smoothScrollRef.current * PX_TO_WORLD_Y;
-    camera.position.lerp(new THREE.Vector3(0, targetY, TARGET_Z), 0.1);
+    if (backgroundsOptimization === "normal") {
+      smoothScrollRef.current += (scrollTopRef.current - smoothScrollRef.current) * DAMPING;
+      const targetY = smoothScrollRef.current * PX_TO_WORLD_Y;
+      camera.position.lerp(new THREE.Vector3(0, targetY, TARGET_Z), 0.1);
+    } 
 
     if (!scene.background || !(scene.background instanceof THREE.Color)) {
       scene.background = new THREE.Color();
@@ -107,10 +114,10 @@ export default function ProjectSceneContent({ category }: ProjectSceneContentPro
         />
       )}
 
-			<EffectComposer>
-				<Bloom intensity={2} luminanceThreshold={0.1} luminanceSmoothing={0.1} />
-				<Noise opacity={0.03} />
-			</EffectComposer>
+      <EffectComposer>
+        <Bloom intensity={2} luminanceThreshold={0.1} luminanceSmoothing={0.1} />
+        {backgroundsOptimization === "normal" ? <Noise opacity={0.03} /> : <> </>}
+      </EffectComposer>
     </>
   );
 }
