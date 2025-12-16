@@ -52,7 +52,7 @@ export default function Navbar({
               className={`text-base transition-colors ${
                 isActive(item.href, item.exact)
                   ? "text-white border-b border-sky-200/70"
-                  : "text-white hover:text-sky-300 hover:border-b border-sky-200/70"
+                  : "text-white hover:text-sky-200 hover:border-b border-sky-200/70"
               }`}
             >
               {item.label}

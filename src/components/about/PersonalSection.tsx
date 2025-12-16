@@ -83,7 +83,7 @@ export function PersonalSection({ entranceAnimationsEnabled }: PersonalSectionPr
                 {t("title")}
               </motion.h2>
 
-              <div className="flex flex-col gap-8 lg:gap-12 lg:flex-row lg:items-center">
+              <div className="flex flex-col gap-8 xl:gap-12 xl:flex-row xl:items-center">
                 <motion.div className="flex-1 space-y-4" variants={blockFadeUp}>
                   <MotionStack size="sm" variants={textGroup}>
                     {PARAGRAPH_KEYS.map((paragraphKey) => (
