@@ -3,7 +3,7 @@
 import * as THREE from "three";
 import React, { useLayoutEffect, useMemo, useRef, useEffect } from "react";
 import { useFrame, useThree } from "@react-three/fiber";
-import { HexGridParams } from "./PulseHexGridOverlapLine";
+import { HexGridParams } from "./PulseHexGridOverlapLine"; // Asumo que importas tipos de aquí
 
 export type FillTuning = {
   fillScaleMin?: number;
@@ -29,6 +29,7 @@ const DEFAULT_TUNING: Required<FillTuning> = {
   invertAtMax: true,
 };
 
+
 const hslChunk = /* glsl */`
   vec3 hsl2rgb(vec3 c) {
     vec3 rgb = clamp(abs(mod(c.x * 6.0 + vec3(0.0, 4.0, 2.0), 6.0) - 3.0) - 1.0, 0.0, 1.0);
@@ -39,6 +40,7 @@ const hslChunk = /* glsl */`
 const fillVertGLSL = /* glsl */`
   precision mediump float;
   
+  // Atributos manuales que pasaremos en el buffer intercalado
   attribute vec3 aCenter;
   attribute float aPhase;
   attribute float aSpeed;
@@ -67,9 +69,10 @@ const fillVertGLSL = /* glsl */`
 
     float p = mix(pulse, 1.0 - pulse, uInvert);
     
+    // Escala relativa al centro
     float scaleRel = mix(uFillScaleMin, uFillScaleMax, 1.0 - p);
     
-    // Position viene de la geometría (CircleGeometry)
+    // Posición final: Escalar la forma base y moverla al centro (aCenter)
     vec3 transformed = position * scaleRel + aCenter;
 
     vAlpha = mix(uFillAlphaMin, uFillAlphaMax, 1.0 - p);
@@ -91,6 +94,7 @@ const fillFragGLSL = /* glsl */`
   }
 `;
 
+
 export default function PulseHexGridFill({
   params,
   tuning: userTuning,
@@ -98,17 +102,10 @@ export default function PulseHexGridFill({
   params: HexGridParams;
   tuning?: FillTuning;
 }) {
-  // 1. APLANAMOS LOS VALORES
-  // Extraemos primitivos para que useMemo no se rompa por cambios de referencia en objetos
-  const tBaseFreq = userTuning?.baseFreq ?? DEFAULT_TUNING.baseFreq;
-  const tFillScaleMin = userTuning?.fillScaleMin ?? DEFAULT_TUNING.fillScaleMin;
-  const tFillScaleMax = userTuning?.fillScaleMax ?? DEFAULT_TUNING.fillScaleMax;
-  const tFillAlphaMin = userTuning?.fillAlphaMin ?? DEFAULT_TUNING.fillAlphaMin;
-  const tFillAlphaMax = userTuning?.fillAlphaMax ?? DEFAULT_TUNING.fillAlphaMax;
-  const tFreqJitter = userTuning?.freqJitter ?? DEFAULT_TUNING.freqJitter;
-  const tPhaseJitter = userTuning?.phaseJitter ?? DEFAULT_TUNING.phaseJitter;
-  const tLightnessAmp = userTuning?.lightnessAmp ?? DEFAULT_TUNING.lightnessAmp;
-  const tInvertAtMax = userTuning?.invertAtMax ?? DEFAULT_TUNING.invertAtMax;
+  const tuning = useMemo<Required<FillTuning>>(
+    () => ({ ...DEFAULT_TUNING, ...(userTuning ?? {}) }),
+    [userTuning]
+  );
 
   const { size, camera, gl } = useThree();
   const dpr = gl.getPixelRatio();
@@ -125,16 +122,17 @@ export default function PulseHexGridFill({
     }
   }, [camera, width, height]);
 
-  // 2. GEOMETRÍA OPTIMIZADA (CircleGeometry vs ShapeGeometry)
-  // CircleGeometry con 6 lados es matemáticamente un hexágono, pero mucho más ligero para la GPU.
   const baseGeom = useMemo(() => {
     const radius = params.pixelsPerHex / Math.sqrt(3);
-    // 6 segmentos crean un hexágono.
-    const geom = new THREE.CircleGeometry(radius, 6);
-    // Rotamos 90 grados (PI/2) para que las puntas coincidan con tu diseño original si es necesario
-    geom.rotateZ(Math.PI / 2); 
-    return geom;
+    const angles = new Array(6).fill(0).map((_, i) => Math.PI / 6 + (i * Math.PI) / 3);
+    const shape = new THREE.Shape();
+    shape.moveTo(Math.cos(angles[0]) * radius, Math.sin(angles[0]) * radius);
+    for (let i = 1; i < 6; i++) shape.lineTo(Math.cos(angles[i]) * radius, Math.sin(angles[i]) * radius);
+    shape.closePath();
+    return new THREE.ShapeGeometry(shape);
   }, [params.pixelsPerHex]);
+
+
 
   const instanced = useMemo(() => {
     const radius = params.pixelsPerHex / Math.sqrt(3);
@@ -156,9 +154,8 @@ export default function PulseHexGridFill({
         const cx = -width / 2 + c * hSpacing + offsetX;
         const cy = -height / 2 + r * vSpacing - (margin * hexWidth * 0.5);
         
-        // Usamos las variables primitivas extraídas arriba
-        const phase = Math.random() * Math.PI * 2 + (Math.random() - 0.5) * tPhaseJitter;
-        const speed = 1 + (Math.random() * 2 - 1) * tFreqJitter;
+        const phase = Math.random() * Math.PI * 2 + (Math.random() - 0.5) * tuning.phaseJitter;
+        const speed = 1 + (Math.random() * 2 - 1) * tuning.freqJitter;
         const hue = wrap01(baseHue01 + (Math.random() * 2 - 1) * hueJitter01);
         
         cells.push({ cx, cy, phase, speed, hue });
@@ -171,8 +168,6 @@ export default function PulseHexGridFill({
     const geom = new THREE.InstancedBufferGeometry();
     geom.index = baseGeom.index;
     geom.attributes.position = baseGeom.attributes.position;
-    // CircleGeometry tiene UVs automáticos, Shape no siempre. Esto es más seguro.
-    geom.attributes.uv = baseGeom.attributes.uv; 
     geom.instanceCount = n;
 
     const STRIDE = 6;
@@ -199,16 +194,15 @@ export default function PulseHexGridFill({
     const mat = new THREE.ShaderMaterial({
       uniforms: {
         uTime: { value: 0 },
-        // Pasamos primitivos
-        uBaseFreq: { value: tBaseFreq },
-        uFillScaleMin: { value: tFillScaleMin },
-        uFillScaleMax: { value: tFillScaleMax },
-        uFillAlphaMin: { value: tFillAlphaMin },
-        uFillAlphaMax: { value: tFillAlphaMax },
+        uBaseFreq: { value: tuning.baseFreq },
+        uFillScaleMin: { value: tuning.fillScaleMin },
+        uFillScaleMax: { value: tuning.fillScaleMax },
+        uFillAlphaMin: { value: tuning.fillAlphaMin },
+        uFillAlphaMax: { value: tuning.fillAlphaMax },
         uBaseL: { value: params.l / 100 },
-        uLightnessAmp: { value: tLightnessAmp },
+        uLightnessAmp: { value: tuning.lightnessAmp },
         uSaturation: { value: params.s / 100 },
-        uInvert: { value: tInvertAtMax ? 1.0 : 0.0 },
+        uInvert: { value: tuning.invertAtMax ? 1.0 : 0.0 },
       },
       vertexShader: fillVertGLSL,
       fragmentShader: fillFragGLSL,
@@ -221,15 +215,8 @@ export default function PulseHexGridFill({
 
     return { geom, mat };
 
-  // DEPENDENCIAS DEL MEMO:
-  // Usamos primitivos para evitar recálculos por objetos nuevos ({})
-  }, [
-    width, height, 
-    params.s, params.l, params.hueJitter, params.hue, params.pixelsPerHex, 
-    baseGeom,
-    tBaseFreq, tFillScaleMin, tFillScaleMax, tFillAlphaMin, tFillAlphaMax, 
-    tFreqJitter, tPhaseJitter, tLightnessAmp, tInvertAtMax
-  ]);
+  }, [width, height, params.s, params.l, params.hueJitter, params.hue, params.pixelsPerHex, tuning, baseGeom]); // Dependencias estables
+
 
   const groupRef = useRef<THREE.Group>(null);
 
@@ -259,6 +246,7 @@ export default function PulseHexGridFill({
         baseGeom.dispose();
     };
   }, [baseGeom]);
+
 
   if (!instanced) return null;
 

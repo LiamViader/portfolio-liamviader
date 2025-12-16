@@ -85,24 +85,14 @@ export default function ContactPage() {
 
   const backgroundLayers = useMemo(() => [
     {
-      id: "fill",
-      gridType: "Fill" as const,
-      pixelsPerHex: 30,
-      hue: 240,
-      s: 60,
-      l: 3,
-      hueJitter: 10,
-      fillTuning: { fillAlphaMax: 0.9, fillAlphaMin: 0.1, lineAlphaMax: 1, lineAlphaMin: 0.8 },
-    },
-    {
       id: "trails",
       gridType: "Trails" as const,
-      pixelsPerHex: 30,
+      pixelsPerHex: 22,
       hue: 240,
       s: 60,
-      l: 37,
+      l: 27,
       hueJitter: 20,
-      trailCount: isSmallScreen ? 7 : 15,
+      trailCount: isSmallScreen ? 12 : 25,
       stepsPerSecond: 20,
       fadeSeconds: isSmallScreen ? 4: 7,
     },

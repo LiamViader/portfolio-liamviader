@@ -111,7 +111,7 @@ export default function PulseHexGridCanvas({
         orthographic
         dpr={[1, 1.5]}
         camera={{ position: [0, 0, 20], near: -1000, far: 1000 }}
-        gl={{ antialias: true, alpha: true }}
+        gl={{ antialias: true, alpha: true, depth: false, stencil: false, powerPreference: "high-performance" }}
         frameloop="always"
       >
         <fog attach="fog" args={["#04060c", 0.0018]} />
