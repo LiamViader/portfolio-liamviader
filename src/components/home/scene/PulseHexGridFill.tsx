@@ -1,41 +1,27 @@
 "use client";
 
-import { useEffect, useLayoutEffect, useMemo, useRef } from "react";
-import { useFrame, useThree } from "@react-three/fiber";
 import * as THREE from "three";
-import { HexGridParams } from "./PulseHexGridOverlapLine";
+import React, { useLayoutEffect, useMemo, useRef, useEffect } from "react";
+import { useFrame, useThree } from "@react-three/fiber";
+import { HexGridParams } from "./PulseHexGridOverlapLine"; // Asumo que importas tipos de aquí
 
-/** Optional fine-tuning (all fields optional). Pass as <PulseHexGridFill tuning={{ ... }} /> */
 export type FillTuning = {
-  /** Inner fill min/max scale (<= 1 keeps it inside the border) */
-  fillScaleMin?: number;   // default 0.55
-  fillScaleMax?: number;   // default 0.95
-  /** Inner fill opacity range (never reaches 1 if max < 1) */
-  fillAlphaMin?: number;   // default 0.10
-  fillAlphaMax?: number;   // default 0.85
-  /** Line (edge) opacity range */
-  lineAlphaMin?: number;   // default 0.12
-  lineAlphaMax?: number;   // default 0.82
-  /** Base pulse frequency in Hz-ish (visual). Each cell jitters this value */
-  baseFreq?: number;       // default 0.9
-  /** Per-cell frequency jitter factor: 0 = same speed; 0.5 = ±50% */
-  freqJitter?: number;     // default 0.35
-  /** Extra phase randomness in radians added per cell */
-  phaseJitter?: number;    // default Math.PI
-  /** Lightness modulation amplitude around params.l (0..1 scale). 0.25 = ±25% */
-  lightnessAmp?: number;   // default 0.25
-  /** Map size->brightness/opacity inverted so max size = dimmer/fainter */
-  invertAtMax?: boolean;   // default true
+  fillScaleMin?: number;
+  fillScaleMax?: number;
+  fillAlphaMin?: number;
+  fillAlphaMax?: number;
+  baseFreq?: number;
+  freqJitter?: number;
+  phaseJitter?: number;
+  lightnessAmp?: number;
+  invertAtMax?: boolean;
 };
 
-/** Defaults for tuning */
 const DEFAULT_TUNING: Required<FillTuning> = {
   fillScaleMin: 0.55,
   fillScaleMax: 0.95,
   fillAlphaMin: 0.10,
   fillAlphaMax: 0.95,
-  lineAlphaMin: 0.12,
-  lineAlphaMax: 0.82,
   baseFreq: 0.25,
   freqJitter: 0.3,
   phaseJitter: 0.01,
@@ -43,6 +29,7 @@ const DEFAULT_TUNING: Required<FillTuning> = {
   invertAtMax: true,
 };
 
+// --- SHADERS (Idénticos, solo aseguramos mediump) ---
 
 const hslChunk = /* glsl */`
   vec3 hsl2rgb(vec3 c) {
@@ -51,153 +38,62 @@ const hslChunk = /* glsl */`
   }
 `;
 
+const fillVertGLSL = /* glsl */`
+  precision mediump float;
+  
+  // Atributos manuales que pasaremos en el buffer intercalado
+  attribute vec3 aCenter;
+  attribute float aPhase;
+  attribute float aSpeed;
+  attribute float aHue;
 
-const FillShaderMaterial = new THREE.ShaderMaterial({
-  uniforms: {
-    uTime: { value: 0 },
-    uBaseFreq: { value: 0.2 },
-    uFillScaleMin: { value: 0.55 },
-    uFillScaleMax: { value: 0.95 },
-    uFillAlphaMin: { value: 0.1 },
-    uFillAlphaMax: { value: 0.85 },
-    uBaseL: { value: 0.5 },
-    uLightnessAmp: { value: 0.25 },
-    uSaturation: { value: 0.5 },
-    uInvert: { value: 1.0 }, // 1.0 = true, 0.0 = false
-  },
-  vertexShader: /* glsl */`
-    precision mediump float;
+  varying vec3 vColor;
+  varying float vAlpha;
+
+  uniform float uTime;
+  uniform float uBaseFreq;
+  uniform float uFillScaleMin;
+  uniform float uFillScaleMax;
+  uniform float uFillAlphaMin;
+  uniform float uFillAlphaMax;
+  uniform float uBaseL;
+  uniform float uLightnessAmp;
+  uniform float uSaturation;
+  uniform float uInvert;
+
+  ${hslChunk}
+
+  void main() {
+    float omega = 2.0 * 3.14159 * uBaseFreq * aSpeed;
+    float rawSine = sin(omega * uTime + aPhase);
+    float pulse = 0.5 + 0.5 * rawSine;
+
+    float p = mix(pulse, 1.0 - pulse, uInvert);
     
-    // Attributes provided by InstancedMesh logic
-    attribute float aPhase;
-    attribute float aSpeed;
-    attribute float aHue;
-    attribute vec3 aCenter; // The center position of the hex
+    // Escala relativa al centro
+    float scaleRel = mix(uFillScaleMin, uFillScaleMax, 1.0 - p);
+    
+    // Posición final: Escalar la forma base y moverla al centro (aCenter)
+    vec3 transformed = position * scaleRel + aCenter;
 
-    varying vec3 vColor;
-    varying float vAlpha;
+    vAlpha = mix(uFillAlphaMin, uFillAlphaMax, 1.0 - p);
+    
+    float L = clamp(uBaseL + (p - 0.5) * 2.0 * uLightnessAmp, 0.05, 0.95);
+    vColor = hsl2rgb(vec3(aHue, uSaturation, L));
 
-    uniform float uTime;
-    uniform float uBaseFreq;
-    uniform float uFillScaleMin;
-    uniform float uFillScaleMax;
-    uniform float uFillAlphaMin;
-    uniform float uFillAlphaMax;
-    uniform float uBaseL;
-    uniform float uLightnessAmp;
-    uniform float uSaturation;
-    uniform float uInvert;
+    gl_Position = projectionMatrix * modelViewMatrix * vec4(transformed, 1.0);
+  }
+`;
 
-    ${hslChunk}
+const fillFragGLSL = /* glsl */`
+  precision mediump float;
+  varying vec3 vColor;
+  varying float vAlpha;
 
-    void main() {
-      // 1. Calculate Pulse (0.0 to 1.0)
-      float omega = 2.0 * 3.14159 * uBaseFreq * aSpeed;
-      float rawSine = sin(omega * uTime + aPhase); // -1 to 1
-      float pulse = 0.5 + 0.5 * rawSine; // 0 to 1
-
-      // 2. Inversion logic
-      float p = mix(pulse, 1.0 - pulse, uInvert);
-
-      // 3. Scale Logic
-      float scaleRel = mix(uFillScaleMin, uFillScaleMax, 1.0 - p);
-      
-      // Transform position: We scale the vertex relative to (0,0,0) then move it to aCenter
-      vec3 transformed = position * scaleRel + aCenter;
-
-      // 4. Color & Alpha Logic
-      vAlpha = mix(uFillAlphaMin, uFillAlphaMax, 1.0 - p);
-      
-      float L = clamp(uBaseL + (p - 0.5) * 2.0 * uLightnessAmp, 0.05, 0.95);
-      vColor = hsl2rgb(vec3(aHue, uSaturation, L));
-
-      gl_Position = projectionMatrix * modelViewMatrix * vec4(transformed, 1.0);
-    }
-  `,
-  fragmentShader: /* glsl */`
-    precision mediump float;
-    varying vec3 vColor;
-    varying float vAlpha;
-
-    void main() {
-      gl_FragColor = vec4(vColor, vAlpha);
-    }
-  `,
-  transparent: true,
-  depthWrite: false,
-  depthTest: false,
-  blending: THREE.AdditiveBlending,
-  toneMapped: false,
-});
-
-const LineShaderMaterial = new THREE.ShaderMaterial({
-  uniforms: {
-    uTime: { value: 0 },
-    uBaseFreq: { value: 0.2 },
-    uLineAlphaMin: { value: 0.12 },
-    uLineAlphaMax: { value: 0.82 },
-    uBaseL: { value: 0.5 },
-    uLightnessAmp: { value: 0.25 },
-    uSaturation: { value: 0.5 },
-    uInvert: { value: 1.0 },
-    uGlobalOpacity: { value: 1.0 },
-  },
-  vertexShader: /* glsl */`
-    precision mediump float;
-
-    // Per-vertex attributes (each vertex of the line belongs to a specific cell logically)
-    attribute float aPhase;
-    attribute float aSpeed;
-    attribute float aHue;
-
-    varying vec3 vColor;
-    varying float vAlpha;
-
-    uniform float uTime;
-    uniform float uBaseFreq;
-    uniform float uLineAlphaMin;
-    uniform float uLineAlphaMax;
-    uniform float uBaseL;
-    uniform float uLightnessAmp;
-    uniform float uSaturation;
-    uniform float uInvert;
-
-    ${hslChunk}
-
-    void main() {
-      // Calculate Pulse for this specific vertex's cell
-      float omega = 2.0 * 3.14159 * uBaseFreq * aSpeed;
-      float rawSine = sin(omega * uTime + aPhase);
-      float pulse = 0.5 + 0.5 * rawSine;
-
-      float p = mix(pulse, 1.0 - pulse, uInvert);
-
-      // Alpha
-      vAlpha = mix(uLineAlphaMin, uLineAlphaMax, 1.0 - p);
-
-      // Lightness / Color
-      float L = clamp(uBaseL + (p - 0.5) * 2.0 * uLightnessAmp, 0.05, 0.95);
-      vColor = hsl2rgb(vec3(aHue, uSaturation, L));
-
-      gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
-    }
-  `,
-  fragmentShader: /* glsl */`
-    precision mediump float;
-    varying vec3 vColor;
-    varying float vAlpha;
-    uniform float uGlobalOpacity;
-
-    void main() {
-      gl_FragColor = vec4(vColor, vAlpha * uGlobalOpacity);
-    }
-  `,
-  transparent: true,
-  depthWrite: false,
-  depthTest: false,
-  blending: THREE.AdditiveBlending,
-  toneMapped: false,
-});
+  void main() {
+    gl_FragColor = vec4(vColor, vAlpha);
+  }
+`;
 
 
 export default function PulseHexGridFill({
@@ -217,7 +113,8 @@ export default function PulseHexGridFill({
   const width = size.width / dpr;
   const height = size.height / dpr;
 
-  useEffect(() => {
+  // 1. Configuración de Cámara (Igual que en tu código original)
+  useLayoutEffect(() => {
     if (camera instanceof THREE.OrthographicCamera) {
       camera.left = -width / 2;
       camera.right = width / 2;
@@ -227,218 +124,157 @@ export default function PulseHexGridFill({
     }
   }, [camera, width, height]);
 
-  const { fillData, lineData, fillGeometry } = useMemo(
-    () => buildOptimizedGrid(width, height, params, tuning),
-    [width, height, params.pixelsPerHex, tuning]
-  );
+  // 2. Geometría Base (El hexágono unitario)
+  // Lo creamos una vez. Igual que en tu componente OverlapLine.
+  const baseGeom = useMemo(() => {
+    const radius = params.pixelsPerHex / Math.sqrt(3);
+    const angles = new Array(6).fill(0).map((_, i) => Math.PI / 6 + (i * Math.PI) / 3);
+    const shape = new THREE.Shape();
+    shape.moveTo(Math.cos(angles[0]) * radius, Math.sin(angles[0]) * radius);
+    for (let i = 1; i < 6; i++) shape.lineTo(Math.cos(angles[i]) * radius, Math.sin(angles[i]) * radius);
+    shape.closePath();
+    return new THREE.ShapeGeometry(shape);
+  }, [params.pixelsPerHex]);
 
-  useEffect(() => {
-    return () => {
-      fillGeometry.dispose();
-    };
-  }, [fillGeometry]);
 
+  // 3. Generación MANUAL de la Instancia (ESTA ES LA CLAVE)
+  // Replicamos la lógica de "OverlapLine": Creamos un buffer gigante con todo junto.
+  const instanced = useMemo(() => {
+    // Calculamos posiciones (lógica copiada de tu generador original)
+    const radius = params.pixelsPerHex / Math.sqrt(3);
+    const hexWidth = Math.sqrt(3) * radius;
+    const vSpacing = (3 / 2) * radius;
+    const hSpacing = hexWidth;
+    const margin = Math.ceil((width / hSpacing) * 0.05);
+    const columns = Math.ceil(width / hSpacing) + margin;
+    const rows = Math.ceil(height / vSpacing) + margin;
+
+    const cells = [];
+    const baseHue01 = (((params.hue % 360) + 360) % 360) / 360;
+    const hueJitter01 = Math.abs(params.hueJitter) / 360;
+    const wrap01 = (n: number) => (n % 1 + 1) % 1;
+
+    for (let r = 0; r < rows; r++) {
+      for (let c = 0; c < columns; c++) {
+        const offsetX = r % 2 !== 0 ? hSpacing / 2 : 0;
+        const cx = -width / 2 + c * hSpacing + offsetX;
+        const cy = -height / 2 + r * vSpacing - (margin * hexWidth * 0.5);
+        
+        const phase = Math.random() * Math.PI * 2 + (Math.random() - 0.5) * tuning.phaseJitter;
+        const speed = 1 + (Math.random() * 2 - 1) * tuning.freqJitter;
+        const hue = wrap01(baseHue01 + (Math.random() * 2 - 1) * hueJitter01);
+        
+        cells.push({ cx, cy, phase, speed, hue });
+      }
+    }
+
+    const n = cells.length;
+    if (n === 0) return null;
+
+    // --- CONSTRUCCIÓN DEL BUFFER DE BAJO NIVEL ---
+    const geom = new THREE.InstancedBufferGeometry();
+    geom.index = baseGeom.index;
+    geom.attributes.position = baseGeom.attributes.position;
+    geom.instanceCount = n;
+
+    // STRIDE = 6 floats por instancia:
+    // cx, cy, cz (3) + phase (1) + speed (1) + hue (1) = 6
+    const STRIDE = 6;
+    const data = new Float32Array(n * STRIDE);
+
+    for (let i = 0; i < n; i++) {
+      const cell = cells[i];
+      const base = i * STRIDE;
+      data[base + 0] = cell.cx;
+      data[base + 1] = cell.cy;
+      data[base + 2] = 0; // z (plano)
+      data[base + 3] = cell.phase;
+      data[base + 4] = cell.speed;
+      data[base + 5] = cell.hue;
+    }
+
+    const ib = new THREE.InstancedInterleavedBuffer(data, STRIDE).setUsage(THREE.StaticDrawUsage);
+
+    // Mapeamos los atributos al shader manualmente
+    geom.setAttribute("aCenter", new THREE.InterleavedBufferAttribute(ib, 3, 0));
+    geom.setAttribute("aPhase",  new THREE.InterleavedBufferAttribute(ib, 1, 3));
+    geom.setAttribute("aSpeed",  new THREE.InterleavedBufferAttribute(ib, 1, 4));
+    geom.setAttribute("aHue",    new THREE.InterleavedBufferAttribute(ib, 1, 5));
+
+    const mat = new THREE.ShaderMaterial({
+      uniforms: {
+        uTime: { value: 0 },
+        uBaseFreq: { value: tuning.baseFreq },
+        uFillScaleMin: { value: tuning.fillScaleMin },
+        uFillScaleMax: { value: tuning.fillScaleMax },
+        uFillAlphaMin: { value: tuning.fillAlphaMin },
+        uFillAlphaMax: { value: tuning.fillAlphaMax },
+        uBaseL: { value: params.l / 100 },
+        uLightnessAmp: { value: tuning.lightnessAmp },
+        uSaturation: { value: params.s / 100 },
+        uInvert: { value: tuning.invertAtMax ? 1.0 : 0.0 },
+      },
+      vertexShader: fillVertGLSL,
+      fragmentShader: fillFragGLSL,
+      transparent: true,
+      depthWrite: false,
+      depthTest: false,
+      blending: THREE.AdditiveBlending,
+      toneMapped: false,
+    });
+
+    return { geom, mat };
+
+  }, [width, height, params.s, params.l, params.hueJitter, params.hue, params.pixelsPerHex, tuning, baseGeom]); // Dependencias estables
+
+
+  // 4. Ciclo de Vida y Animación
   const groupRef = useRef<THREE.Group>(null);
 
-  const fillMatRef = useRef<THREE.ShaderMaterial>(null);
-  const lineMatRef = useRef<THREE.ShaderMaterial>(null);
-
-  if (!fillMatRef.current) fillMatRef.current = FillShaderMaterial.clone();
-  if (!lineMatRef.current) lineMatRef.current = LineShaderMaterial.clone();
-
-  useEffect(() => {
-    return () => {
-      fillMatRef.current?.dispose();
-      lineMatRef.current?.dispose();
-    };
-  }, []);
-
-  useLayoutEffect(() => {
-    const fm = fillMatRef.current!;
-    const lm = lineMatRef.current!;
-
-    fm.uniforms.uBaseFreq.value = tuning.baseFreq;
-    fm.uniforms.uFillScaleMin.value = tuning.fillScaleMin;
-    fm.uniforms.uFillScaleMax.value = tuning.fillScaleMax;
-    fm.uniforms.uFillAlphaMin.value = tuning.fillAlphaMin;
-    fm.uniforms.uFillAlphaMax.value = tuning.fillAlphaMax;
-    fm.uniforms.uBaseL.value = params.l / 100;
-    fm.uniforms.uLightnessAmp.value = tuning.lightnessAmp;
-    fm.uniforms.uSaturation.value = params.s / 100;
-    fm.uniforms.uInvert.value = tuning.invertAtMax ? 1.0 : 0.0;
-
-    lm.uniforms.uBaseFreq.value = tuning.baseFreq;
-    lm.uniforms.uLineAlphaMin.value = tuning.lineAlphaMin;
-    lm.uniforms.uLineAlphaMax.value = tuning.lineAlphaMax;
-    lm.uniforms.uBaseL.value = params.l / 100;
-    lm.uniforms.uLightnessAmp.value = tuning.lightnessAmp;
-    lm.uniforms.uSaturation.value = params.s / 100;
-    lm.uniforms.uInvert.value = tuning.invertAtMax ? 1.0 : 0.0;
-  }, [tuning, params.l, params.s]);
-
   useFrame(({ clock }) => {
+    if (!instanced) return;
     const t = clock.getElapsedTime();
+    
+    // Actualizamos solo el uniform, cero basura generada
+    instanced.mat.uniforms.uTime.value = t;
 
     if (groupRef.current) {
       groupRef.current.rotation.z = Math.sin(t * 0.18) * 0.04;
       groupRef.current.position.z = Math.sin(t * 0.22) * 2.5;
     }
-
-    if (fillMatRef.current) fillMatRef.current.uniforms.uTime.value = t;
-    if (lineMatRef.current) lineMatRef.current.uniforms.uTime.value = t;
   });
 
-  return (
-    <group ref={groupRef}>
-      <instancedMesh 
-        args={[fillGeometry, fillMatRef.current, fillData.count]}
-        frustumCulled={false}
-      >
-        <instancedBufferAttribute attach="geometry-attributes-aCenter" args={[fillData.centers, 3]} />
-        <instancedBufferAttribute attach="geometry-attributes-aPhase" args={[fillData.phases, 1]} />
-        <instancedBufferAttribute attach="geometry-attributes-aSpeed" args={[fillData.speeds, 1]} />
-        <instancedBufferAttribute attach="geometry-attributes-aHue" args={[fillData.hues, 1]} />
-      </instancedMesh>
+  // Limpieza Estricta (Como en tu código que funciona)
+  useEffect(() => {
+    return () => {
+      if (instanced) {
+        instanced.geom.dispose();
+        instanced.mat.dispose();
+      }
+    };
+  }, [instanced]);
 
-      <lineSegments material={lineMatRef.current}>
-        <bufferGeometry>
-          <bufferAttribute attach="attributes-position" args={[lineData.positions, 3]} />
-          <bufferAttribute attach="attributes-aPhase" args={[lineData.phases, 1]} />
-          <bufferAttribute attach="attributes-aSpeed" args={[lineData.speeds, 1]} />
-          <bufferAttribute attach="attributes-aHue" args={[lineData.hues, 1]} />
-        </bufferGeometry>
-      </lineSegments>
+  // Limpieza de la forma base
+  useEffect(() => {
+    return () => {
+        baseGeom.dispose();
+    };
+  }, [baseGeom]);
+
+
+  if (!instanced) return null;
+
+  // 5. Renderizado como Mesh simple (No InstancedMesh de R3F)
+  // Usamos <mesh> estándar porque la geometría ya es 'InstancedBufferGeometry'.
+  // Esto salta toda la lógica interna de R3F para instancias.
+  return (
+    <group ref={groupRef} frustumCulled={false}>
+      <mesh 
+        geometry={instanced.geom} 
+        material={instanced.mat} 
+        frustumCulled={false} 
+        renderOrder={0} // Fondo detrás de las líneas
+      />
     </group>
   );
-}
-
-
-function buildOptimizedGrid(
-  width: number,
-  height: number,
-  p: HexGridParams,
-  tuning: Required<FillTuning>
-) {
-  const radius = p.pixelsPerHex / Math.sqrt(3);
-  const hexWidth = Math.sqrt(3) * radius;
-  const vSpacing = (3 / 2) * radius;
-  const hSpacing = hexWidth;
-  
-  const margin = Math.ceil((width / hSpacing) * 0.05);
-  const columns = Math.ceil(width / hSpacing) + margin;
-  const rows = Math.ceil(height / vSpacing) + margin;
-
-  type CellData = {
-    row: number;
-    col: number;
-    cx: number;
-    cy: number;
-    phase: number;
-    speed: number;
-    hue01: number;
-  };
-  
-  const cells: CellData[] = [];
-  const cellMap = new Map<string, number>();
-
-  const baseHue01 = (((p.hue % 360) + 360) % 360) / 360;
-  const hueJitter01 = Math.abs(p.hueJitter) / 360;
-
-  const wrap01 = (n: number) => (n % 1 + 1) % 1;
-
-  let idx = 0;
-  for (let r = 0; r < rows; r++) {
-    for (let c = 0; c < columns; c++) {
-      const offsetX = r % 2 !== 0 ? hSpacing / 2 : 0;
-      const cx = -width / 2 + c * hSpacing + offsetX;
-      const cy = -height / 2 + r * vSpacing - (margin * hexWidth * 0.5);
-
-      const phase = Math.random() * Math.PI * 2 + (Math.random() - 0.5) * tuning.phaseJitter;
-      const speed = 1 + (Math.random() * 2 - 1) * tuning.freqJitter;
-      const hue01 = wrap01(baseHue01 + (Math.random() * 2 - 1) * hueJitter01);
-
-      cells.push({ row: r, col: c, cx, cy, phase, speed, hue01 });
-      cellMap.set(`${r},${c}`, idx++);
-    }
-  }
-
-  const count = cells.length;
-  const centers = new Float32Array(count * 3);
-  const phases = new Float32Array(count);
-  const speeds = new Float32Array(count);
-  const hues = new Float32Array(count);
-
-  for (let i = 0; i < count; i++) {
-    const c = cells[i];
-    centers[i * 3 + 0] = c.cx;
-    centers[i * 3 + 1] = c.cy;
-    centers[i * 3 + 2] = -0.5;
-
-    phases[i] = c.phase;
-    speeds[i] = c.speed;
-    hues[i] = c.hue01;
-  }
-
-  const angles = new Array(6).fill(0).map((_, i) => Math.PI / 6 + (i * Math.PI) / 3);
-  const shape = new THREE.Shape();
-  shape.moveTo(Math.cos(angles[0]) * radius, Math.sin(angles[0]) * radius);
-  for (let i = 1; i < 6; i++) shape.lineTo(Math.cos(angles[i]) * radius, Math.sin(angles[i]) * radius);
-  shape.closePath();
-  const fillGeometry = new THREE.ShapeGeometry(shape);
-
-
-  const getVerts = (cx: number, cy: number) => 
-    angles.map(a => ({ x: cx + radius * Math.cos(a), y: cy + radius * Math.sin(a) }));
-
-  const sidePairs = [[5, 0], [0, 1], [4, 5]];
-  
-  const linePositions: number[] = [];
-  const linePhases: number[] = [];
-  const lineSpeeds: number[] = [];
-  const lineHues: number[] = [];
-
-  for (let i = 0; i < count; i++) {
-    const cell = cells[i];
-    const cVerts = getVerts(cell.cx, cell.cy);
-    
-    const nE  = { r: cell.row, c: cell.col + 1 };
-    const nNE = cell.row % 2 === 0 ? { r: cell.row - 1, c: cell.col } : { r: cell.row - 1, c: cell.col + 1 };
-    const nSE = cell.row % 2 === 0 ? { r: cell.row + 1, c: cell.col } : { r: cell.row + 1, c: cell.col + 1 };
-    const neighbors = [nE, nNE, nSE];
-
-    for (let s = 0; s < 3; s++) {
-      const [vIdx1, vIdx2] = sidePairs[s];
-      const p1 = cVerts[vIdx1];
-      const p2 = cVerts[vIdx2];
-
-      
-      const n = neighbors[s];
-      const nKey = `${n.r},${n.c}`;
-      const hasNeighbor = cellMap.has(nKey);
-      const neighborIdx = hasNeighbor ? cellMap.get(nKey)! : i;
-      const neighborCell = cells[neighborIdx];
-
-      linePositions.push(p1.x, p1.y, 0);
-      linePhases.push(cell.phase);
-      lineSpeeds.push(cell.speed);
-      lineHues.push(cell.hue01);
-
-      linePositions.push(p2.x, p2.y, 0);
-      linePhases.push(neighborCell.phase);
-      lineSpeeds.push(neighborCell.speed);
-      lineHues.push(neighborCell.hue01);
-    }
-  }
-
-  return {
-    radius,
-    fillGeometry,
-    fillData: { count, centers, phases, speeds, hues },
-    lineData: { 
-      positions: new Float32Array(linePositions),
-      phases: new Float32Array(linePhases),
-      speeds: new Float32Array(lineSpeeds),
-      hues: new Float32Array(lineHues)
-    }
-  };
 }
