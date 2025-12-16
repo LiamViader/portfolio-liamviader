@@ -135,6 +135,7 @@
       }
     },
     "links": {
+      "eyebrow": "Dónde encontrarme",
       "items": {
         "email": {
           "label": "Correo",

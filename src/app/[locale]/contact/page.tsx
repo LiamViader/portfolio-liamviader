@@ -13,61 +13,25 @@ import { usePerformanceConfig } from "@/hooks/usePerformanceConfig";
 import { OneSectionPageSection } from "@/components/layout/OneSectionPageSection";
 import { Container } from "@/components/layout/Container";
 import { ContentBlock } from "@/components/layout/ContentBlock";
-import { ShowcaseBlock } from "@/components/layout/ShowcaseBlock";
+import { InfoCard } from "@/components/home/InfoCard"; 
 import { Stack } from "@/components/layout/Stack";
-import { Content } from "next/font/google";
-
+import { Eyebrow } from "@/components/layout/Eyebrow";
 
 type AnyIcon = ComponentType<{ className?: string }>;
 
-const BASE_BG = "rgba(255,255,255,0.05)";
-const BASE_BORD = "rgba(255,255,255,0.10)";
-const HOVER_BG = "rgba(56,189,248,0.10)";
-const HOVER_BOR = "rgba(56,189,248,0.60)";
-const HOVER_SH = "0 0 30px rgba(56,189,248,0.30)";
-const BASE_SH = "0 0 30px rgba(56,189,248,0.01)";
-
-
-const createContactContainerVariant = (animated: boolean): Variants => ({
-  hidden: {
-    opacity: 0,
-    x: animated ? 20 : 0,
-    y: 0,
-    backgroundColor: BASE_BG,
-    borderColor: BASE_BORD,
-    boxShadow: BASE_SH,
-  },
-  show: (c: { order: number; isIntro: boolean } = { order: 0, isIntro: false }) => ({
+const cardsContainerVariants = (animated: boolean): Variants => ({
+  hidden: { opacity: 0 },
+  show: {
     opacity: 1,
-    x: 0,
-    y: 0,
-    backgroundColor: BASE_BG,
-    borderColor: BASE_BORD,
-    boxShadow: BASE_SH,
-    transition: {
-      duration: (c.isIntro && animated) ? 0.6 : 0.3,
-      delay: (c.isIntro && animated) ? c.order * 0.2 + BASE_DELAY_ENTRANCE + 0.2 : 0,
-      ease: "easeOut",
-    },
-  }),
-  hover: {
-    opacity: 1,
-    x: 0,
-    y: -4,
-    backgroundColor: HOVER_BG,
-    borderColor: HOVER_BOR,
-    boxShadow: HOVER_SH,
-    transition: {
-      duration: 0.25,
-      ease: "easeOut",
-    },
-  },
-  tap: {
-    scale: 0.98,
-    transition: {
-      duration: 0.08,
-      ease: "easeOut",
-    },
+    transition: animated
+      ? {
+          delayChildren: BASE_DELAY_ENTRANCE + 0.3, 
+          staggerChildren: 0.15,
+        }
+      : {
+          delayChildren: 0,
+          staggerChildren: 0,
+        },
   },
 });
 
@@ -101,6 +65,18 @@ const arrowHoverVariants: Variants = {
   hover: { x: 3, y: -3, opacity: 1, transition: { duration: 0.2 } }
 };
 
+const createTitleInfoCardsAnimation = (animated: boolean): Variants => ({
+  hidden: { opacity: 0, y: animated ? 10 : 0 },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: animated
+      ? { delay: BASE_DELAY_ENTRANCE + 0.15, duration: 0.7, ease: "easeOut" }
+      : { delay: 0, duration: 0 },
+  },
+});
+
+const MotionEyebrow = motion(Eyebrow);
 
 export default function ContactPage() {
   const t = useTranslations("ContactPage");
@@ -132,8 +108,8 @@ export default function ContactPage() {
     },
   ], [isSmallScreen]);
 
-  const contactContainerVariant = createContactContainerVariant(entranceAnimationsEnabled);
   const linkCardVariant = linkCardVariants(entranceAnimationsEnabled);
+  const cardsContainerVariant = cardsContainerVariants(entranceAnimationsEnabled);
 
   const highlightCards = [
     {
@@ -165,9 +141,9 @@ export default function ContactPage() {
       value: t("links.items.email.value"),
       styles: {
         containerHover: "hover:bg-rose-500/10 hover:border-rose-500/50 hover:shadow-[0_0_30px_-5px_rgba(244,63,94,0.3)]",
-        iconColors: "text-rose-400 group-hover:text-rose-100 group-hover:bg-rose-500/40",
-        iconMobile: "bg-rose-500/30 border border-white/15",
-        iconDesktop: "bg-white/5 sm:border-transparent",
+        iconColors: "text-rose-300 group-hover:text-rose-100 group-hover:bg-rose-500/40",
+        iconMobile: "",
+        iconDesktop: "bg-white/5",
         text: "group-hover:text-rose-200"
       }
     },
@@ -179,9 +155,9 @@ export default function ContactPage() {
       value: t("links.items.linkedin.value"),
       styles: {
         containerHover: "hover:bg-sky-500/10 hover:border-sky-500/50 hover:shadow-[0_0_30px_-5px_rgba(56,189,248,0.3)]",
-        iconColors: "text-sky-400 group-hover:text-sky-100 group-hover:bg-sky-500/40",
-        iconMobile: "bg-sky-500/30 border border-white/15",
-        iconDesktop: "bg-white/5 sm:border-transparent",
+        iconColors: "text-sky-300 group-hover:text-sky-100 group-hover:bg-sky-500/40",
+        iconMobile: "",
+        iconDesktop: "bg-white/5",
         text: "group-hover:text-sky-200"
       }
     },
@@ -193,13 +169,15 @@ export default function ContactPage() {
       value: t("links.items.github.value"),
       styles: {
         containerHover: "hover:bg-violet-500/10 hover:border-violet-500/50 hover:shadow-[0_0_30px_-5px_rgba(139,92,246,0.3)]",
-        iconColors: "text-violet-400 group-hover:text-violet-100 group-hover:bg-violet-500/40",
-        iconMobile: "bg-violet-500/30 border border-white/15",
-        iconDesktop: "bg-white/5 sm:border-transparent",
+        iconColors: "text-violet-300 group-hover:text-violet-100 group-hover:bg-violet-500/40",
+        iconMobile: "",
+        iconDesktop: "bg-white/5",
         text: "group-hover:text-violet-200"
       }
     },
   ];
+
+  const titleInfoCardsAnimation = createTitleInfoCardsAnimation(entranceAnimationsEnabled);
 
   return (
     <PageLayout
@@ -212,7 +190,7 @@ export default function ContactPage() {
             <Stack size="lg">
               <Stack size="md">
                 <motion.h1
-                  className="text-left text-4xl sm:text-5xl lg:text-6xl font-semibold tracking-tight text-white/95"
+                  className="text-center lg:text-left text-4xl sm:text-5xl lg:text-6xl font-semibold tracking-tight text-white/95"
                   initial={{ 
                     y: entranceAnimationsEnabled ? 20 : 0, 
                     opacity: 0, 
@@ -233,7 +211,7 @@ export default function ContactPage() {
                   })}
                 </motion.h1>
                 <motion.p
-                  className="text-left text-pretty text-lg sm:text-xl text-white/75 max-w-3xl"
+                  className="text-center lg:text-left mx-auto lg:mx-0 text-pretty lg:text-balance text-lg sm:text-xl text-white/75 max-w-3xl"
                   initial={{ y: entranceAnimationsEnabled ? 20 : 0, opacity: 0 }}
                   animate={{ y: 0, opacity: 1 }}
                   transition={{ 
@@ -245,98 +223,144 @@ export default function ContactPage() {
                   {t("hero.description")}
                 </motion.p>
               </Stack>
-
-              <Stack size="md">
-                {highlightCards.map(({ key, icon: Icon, title, description }, index) => (
-                  <motion.article
-                    key={key}
-                    className="relative w-full overflow-hidden rounded-2xl border border-white/10 bg-white/5 p-4 sm:p-5 backdrop-blur-md"
-                    aria-labelledby={`contact-highlight-${key}`}
+              
+              <div className="flex flex-col lg:flex-row gap-10 lg:items-start">
+                <motion.ul 
+                    className="flex flex-col gap-4 w-full"
+                    variants={cardsContainerVariant}
                     initial="hidden"
                     animate="show"
-                    whileHover={introDone ? "hover" : undefined}
-                    whileTap={introDone ? "tap" : undefined}
-                    custom={{ order: index, isIntro: !introDone }}
-                    variants={contactContainerVariant}
-                    onAnimationComplete={() => { if (!introDone) setIntroDone(true); }}
-                  >
-                    <div className="relative z-10 flex flex-col gap-2 sm:flex-row sm:items-center sm:gap-5">
-                      <div className="flex items-center gap-2 sm:gap-4">
-                        <div className="flex h-12 w-12 shrink-0 items-center justify-center text-sky-300/95">
-                          <Icon className="h-8 w-8" />
-                        </div>
-                        <h3 className="text-base lg:text-lg font-semibold text-sky-300/95 sm:hidden">
-                          {title}
-                        </h3>
-                      </div>
-                      
-                      <div className="flex min-w-0 flex-1 flex-col gap-2">
-                        <h3 id={`contact-highlight-${key}`} className="hidden text-base lg:text-lg font-semibold text-sky-300/95 sm:block">
-                          {title}
-                        </h3>
-                        <p className="text-sm lg:text-base text-white/70 text-pretty break-words">
-                            {description}
-                        </p>
-                      </div>
-                    </div>
-                  </motion.article>
-                ))}
-              </Stack>
-
-              <div>
-                <div className="flex flex-row justify-center gap-4 md:grid md:grid-cols-3 md:gap-4 mx-auto">
-                  {contactLinks.map(({ key, icon: Icon, href, value, label, styles }, index) => (
-                    <motion.a
+                >
+                  {highlightCards.map(({ key, icon: Icon, title, description }) => (
+                    <InfoCard
                       key={key}
-                      href={href}
-                      title={value} 
-                      target={key === "email" ? undefined : "_blank"}
-                      rel={key === "email" ? undefined : "noreferrer"}
-                      variants={linkCardVariant}
-                      custom={{ i: index, isIntro: !introDone }}
-                      initial="hidden"
-                      animate="show"
-                      whileHover="hover"
-                      whileTap="tap"
-                      
-                      className={`
-                        group relative flex items-center rounded-xl 
-                        p-0 w-auto justify-center
-                        sm:border sm:border-white/10 bg-white/[0.03] backdrop-blur-md sm:w-full sm:p-3 sm:justify-start sm:gap-3 sm:px-4 sm:overflow-hidden
-                        ${styles.containerHover}
-                      `}
-                    >
-                      <motion.div 
-                        variants={iconHoverVariants}
+                      title={title}
+                      info={description}
+                      icon={<Icon className="h-7 w-7 text-sky-300" />}
+                      entranceAnimationEnabled={entranceAnimationsEnabled}
+                    />
+                  ))}
+                </motion.ul>
+
+                <Stack size="md" className="hidden lg:flex lg:w-full lg:max-w-[280px] shrink-0">
+                  <MotionEyebrow 
+                    className="opacity-0 text-white mx-auto lg:mx-0"
+                    variants={titleInfoCardsAnimation}
+                    initial="hidden"
+                    animate="show"
+                    align="left"
+                  >
+                    {t("links.eyebrow")}
+                  </MotionEyebrow>
+                  <div className="flex flex-col justify-center gap-4 sm:gap-4 mx-auto w-full">
+                    {contactLinks.map(({ key, icon: Icon, href, value, label, styles }, index) => (
+                      <motion.a
+                        key={key}
+                        href={href}
+                        title={value} 
+                        target={key === "email" ? undefined : "_blank"}
+                        rel={key === "email" ? undefined : "noreferrer"}
+                        variants={linkCardVariant}
+                        custom={{ i: index, isIntro: !introDone }}
+                        initial="hidden"
+                        animate="show"
+                        whileHover="hover"
+                        whileTap="tap"
+                        
                         className={`
-                          flex h-12 w-12 sm:h-10 sm:w-10 shrink-0 items-center justify-center rounded-lg transition-colors
-                          ${styles.iconColors} 
-                          ${styles.iconMobile}
-                          ${styles.iconDesktop}
+                          group relative flex items-center rounded-xl 
+                          border border-white/10 bg-white/[0.03] backdrop-blur-md w-full p-3 justify-start gap-3 px-4 overflow-hidden
+                          ${styles.containerHover}
                         `}
                       >
-                        <Icon className="h-6 w-6 sm:h-5 sm:w-5" />
-                      </motion.div>
+                        <motion.div 
+                          variants={iconHoverVariants}
+                          className={`
+                            flex h-10 w-10 shrink-0 items-center justify-center rounded-lg transition-colors
+                            ${styles.iconColors} 
+                            ${styles.iconMobile}
+                            ${styles.iconDesktop}
+                          `}
+                        >
+                          <Icon className="h-5 w-5" />
+                        </motion.div>
 
-                      <div className="hidden sm:flex flex-1 min-w-0 flex-col justify-center">
-                        <p className="text-[10px] font-bold uppercase tracking-wider text-white/40 leading-tight">
-                          {label}
-                        </p>
-                        <p className={`text-sm font-semibold text-white/90 truncate ${styles.text}`}>
-                          {value}
-                        </p>
-                      </div>
+                        <div className="flex flex-1 min-w-0 flex-col justify-center">
+                          <p className="text-[10px] font-bold uppercase tracking-wider text-white/40 leading-tight">
+                            {label}
+                          </p>
+                          <p className={`text-sm font-semibold text-white/90 truncate ${styles.text}`}>
+                            {value}
+                          </p>
+                        </div>
 
-                      <motion.div variants={arrowHoverVariants} className="hidden sm:block shrink-0 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-                          <ArrowUpRight className="h-4 w-4 text-white/70" />
-                      </motion.div>
-                    </motion.a>
-                  ))}
-                </div>
+                        <motion.div variants={arrowHoverVariants} className="block shrink-0 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                            <ArrowUpRight className="h-4 w-4 text-white/70" />
+                        </motion.div>
+                      </motion.a>
+                    ))}
+                  </div>
+                </Stack>
+              </div>
+
+              <div className="lg:hidden mt-2">
+                <Stack size="lg">
+                  <MotionEyebrow 
+                    className="opacity-0 text-white/70 mx-auto"
+                    variants={titleInfoCardsAnimation}
+                    initial="hidden"
+                    animate="show"
+                    align="center"
+                  >
+                    {t("links.eyebrow")}
+                  </MotionEyebrow>
+                  <div className="flex flex-col lgflex-row justify-center gap-4 sm:gap-4 mx-auto w-full">
+                    {contactLinks.map(({ key, icon: Icon, href, value, label, styles }, index) => (
+                      <motion.a
+                        key={key}
+                        href={href}
+                        title={value} 
+                        target={key === "email" ? undefined : "_blank"}
+                        rel={key === "email" ? undefined : "noreferrer"}
+                        variants={linkCardVariant}
+                        custom={{ i: index, isIntro: !introDone }}
+                        initial="hidden"
+                        animate="show"
+                        whileHover="hover"
+                        whileTap="tap"
+                        className={`
+                          group relative flex items-center rounded-xl 
+                          border border-white/10 bg-white/[0.03] backdrop-blur-md w-full p-3 justify-start gap-3 px-4 overflow-hidden
+                          ${styles.containerHover}
+                        `}
+                      >
+                         <motion.div 
+                          variants={iconHoverVariants}
+                          className={`
+                            flex h-10 w-10 shrink-0 items-center justify-center rounded-lg transition-colors
+                            ${styles.iconColors} 
+                          `}
+                        >
+                          <Icon className="h-5 w-5" />
+                        </motion.div>
+                        <div className="flex flex-1 min-w-0 flex-col justify-center">
+                          <p className="text-[10px] font-bold uppercase tracking-wider text-white/40 leading-tight">
+                            {label}
+                          </p>
+                          <p className={`text-sm font-semibold text-white/90 truncate ${styles.text}`}>
+                            {value}
+                          </p>
+                        </div>
+                         <motion.div variants={arrowHoverVariants} className="block shrink-0 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                            <ArrowUpRight className="h-4 w-4 text-white/70" />
+                        </motion.div>
+                      </motion.a>
+                    ))}
+                  </div>
+                </Stack>
               </div>
             </Stack>
           </ContentBlock>
-          
         </Container>
       </OneSectionPageSection>
     </PageLayout>

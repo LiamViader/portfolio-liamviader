@@ -11,7 +11,7 @@ export function OneSectionPageSection({
   return (
     <section
       className={clsx(
-        "pt-24 sm:pt-28 lg:pt-36 pb-24 sm:pb-32 lg:pb-40",
+        "pt-24 sm:pt-28 lg:pt-36 pb-24 sm:pb-26 lg:pb-32",
         className
       )}
     >

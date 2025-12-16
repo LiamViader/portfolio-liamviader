@@ -11,7 +11,7 @@ export function LastSection({
   return (
     <section
       className={clsx(
-        "py-16 sm:py-20 lg:py-28 pb-24 sm:pb-32 lg:pb-40",
+        "py-16 sm:py-20 lg:py-28 pb-24 sm:pb-26 lg:pb-32",
         className
       )}
     >
