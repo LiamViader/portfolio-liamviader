@@ -29,7 +29,6 @@ const DEFAULT_TUNING: Required<FillTuning> = {
   invertAtMax: true,
 };
 
-// --- SHADERS (Idénticos, solo aseguramos mediump) ---
 
 const hslChunk = /* glsl */`
   vec3 hsl2rgb(vec3 c) {
@@ -113,7 +112,6 @@ export default function PulseHexGridFill({
   const width = size.width / dpr;
   const height = size.height / dpr;
 
-  // 1. Configuración de Cámara (Igual que en tu código original)
   useLayoutEffect(() => {
     if (camera instanceof THREE.OrthographicCamera) {
       camera.left = -width / 2;
@@ -124,8 +122,6 @@ export default function PulseHexGridFill({
     }
   }, [camera, width, height]);
 
-  // 2. Geometría Base (El hexágono unitario)
-  // Lo creamos una vez. Igual que en tu componente OverlapLine.
   const baseGeom = useMemo(() => {
     const radius = params.pixelsPerHex / Math.sqrt(3);
     const angles = new Array(6).fill(0).map((_, i) => Math.PI / 6 + (i * Math.PI) / 3);
@@ -137,10 +133,8 @@ export default function PulseHexGridFill({
   }, [params.pixelsPerHex]);
 
 
-  // 3. Generación MANUAL de la Instancia (ESTA ES LA CLAVE)
-  // Replicamos la lógica de "OverlapLine": Creamos un buffer gigante con todo junto.
+
   const instanced = useMemo(() => {
-    // Calculamos posiciones (lógica copiada de tu generador original)
     const radius = params.pixelsPerHex / Math.sqrt(3);
     const hexWidth = Math.sqrt(3) * radius;
     const vSpacing = (3 / 2) * radius;
@@ -171,14 +165,11 @@ export default function PulseHexGridFill({
     const n = cells.length;
     if (n === 0) return null;
 
-    // --- CONSTRUCCIÓN DEL BUFFER DE BAJO NIVEL ---
     const geom = new THREE.InstancedBufferGeometry();
     geom.index = baseGeom.index;
     geom.attributes.position = baseGeom.attributes.position;
     geom.instanceCount = n;
 
-    // STRIDE = 6 floats por instancia:
-    // cx, cy, cz (3) + phase (1) + speed (1) + hue (1) = 6
     const STRIDE = 6;
     const data = new Float32Array(n * STRIDE);
 
@@ -187,7 +178,7 @@ export default function PulseHexGridFill({
       const base = i * STRIDE;
       data[base + 0] = cell.cx;
       data[base + 1] = cell.cy;
-      data[base + 2] = 0; // z (plano)
+      data[base + 2] = 0; 
       data[base + 3] = cell.phase;
       data[base + 4] = cell.speed;
       data[base + 5] = cell.hue;
@@ -195,7 +186,6 @@ export default function PulseHexGridFill({
 
     const ib = new THREE.InstancedInterleavedBuffer(data, STRIDE).setUsage(THREE.StaticDrawUsage);
 
-    // Mapeamos los atributos al shader manualmente
     geom.setAttribute("aCenter", new THREE.InterleavedBufferAttribute(ib, 3, 0));
     geom.setAttribute("aPhase",  new THREE.InterleavedBufferAttribute(ib, 1, 3));
     geom.setAttribute("aSpeed",  new THREE.InterleavedBufferAttribute(ib, 1, 4));
@@ -228,14 +218,12 @@ export default function PulseHexGridFill({
   }, [width, height, params.s, params.l, params.hueJitter, params.hue, params.pixelsPerHex, tuning, baseGeom]); // Dependencias estables
 
 
-  // 4. Ciclo de Vida y Animación
   const groupRef = useRef<THREE.Group>(null);
 
   useFrame(({ clock }) => {
     if (!instanced) return;
     const t = clock.getElapsedTime();
     
-    // Actualizamos solo el uniform, cero basura generada
     instanced.mat.uniforms.uTime.value = t;
 
     if (groupRef.current) {
@@ -244,7 +232,6 @@ export default function PulseHexGridFill({
     }
   });
 
-  // Limpieza Estricta (Como en tu código que funciona)
   useEffect(() => {
     return () => {
       if (instanced) {
@@ -254,7 +241,6 @@ export default function PulseHexGridFill({
     };
   }, [instanced]);
 
-  // Limpieza de la forma base
   useEffect(() => {
     return () => {
         baseGeom.dispose();
@@ -264,16 +250,13 @@ export default function PulseHexGridFill({
 
   if (!instanced) return null;
 
-  // 5. Renderizado como Mesh simple (No InstancedMesh de R3F)
-  // Usamos <mesh> estándar porque la geometría ya es 'InstancedBufferGeometry'.
-  // Esto salta toda la lógica interna de R3F para instancias.
   return (
     <group ref={groupRef} frustumCulled={false}>
       <mesh 
         geometry={instanced.geom} 
         material={instanced.mat} 
         frustumCulled={false} 
-        renderOrder={0} // Fondo detrás de las líneas
+        renderOrder={0}
       />
     </group>
   );
