@@ -6,7 +6,7 @@ import { useState } from "react";
 import { BASE_DELAY_ENTRANCE } from "@/utils/constants";
 
 const RING = "0 0 0 2px rgba(255, 255, 255, 0.4)";
-const BASE_GLOW = "0 25px 80px -40px rgba(250,189,248,0.8)";
+const BASE_GLOW = "0 25px 80px -40px rgba(190,190,248,0.8)";
 const HOVER_GLOW = "0 25px 80px -40px rgba(56,189,248,1)";
 
 const createImageVariants = (animated: boolean): Variants => ({
@@ -69,18 +69,14 @@ export function HeroImage({
       }}
       whileHover={ready ? "hover" : undefined}
       whileTap={ready ? "tap" : undefined}
-      className="relative lg:ml-auto flex h-65 w-47 sm:h-85 sm:w-63 lg:h-100 lg:w-75 shrink-0 items-center justify-center rounded-full bg-gradient-to-br from-transparent via-sky-500/20 to-transparent p-[3px] transform-gpu transition-none will-change-[transform, opacity]"
+      className="relative lg:ml-auto flex h-65 w-47 sm:h-85 sm:w-63 lg:h-100 lg:w-75 shrink-0 items-center justify-center rounded-full p-[3px] transform-gpu transition-none will-change-[transform, opacity]"
       style={{ pointerEvents: ready ? "auto" : "none" }}
     >
       <div
-        className="absolute -inset-5 -z-12 rounded-full bg-sky-500/10 blur-3xl"
+        className="absolute -inset-5 z-11 rounded-full bg-sky-400/7 blur-3xl"
         aria-hidden
       />
-      <div
-        className="absolute -inset-5 z-11 rounded-full bg-sky-400/5 blur-3xl"
-        aria-hidden
-      />
-      <div className="relative h-full w-full overflow-hidden rounded-full border border-white/20">
+      <div className="relative h-full w-full overflow-hidden rounded-full">
         <Image
           src="/images/profesional_liam.png"
           alt="Portrait"

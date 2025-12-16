@@ -75,10 +75,6 @@ export function AboutPortrait({
       "
       style={{ pointerEvents: ready ? "auto" : "none" }}
     >
-      <div
-        className="pointer-events-none absolute -inset-10 rounded-[2rem] blur-3xl"
-        aria-hidden
-      />
 
       <div className="relative h-full w-full">
         <Image
