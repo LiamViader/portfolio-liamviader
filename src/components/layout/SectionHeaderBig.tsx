@@ -33,7 +33,7 @@ export function SectionHeaderBig({
       <Stack size="md">
         <motion.h2
           variants={variants}
-          className="text-3xl sm:text-4xl font-semibold text-white whitespace-nowrap"
+          className="text-3xl sm:text-4xl font-semibold text-white"
         >
           {title}
         </motion.h2>
