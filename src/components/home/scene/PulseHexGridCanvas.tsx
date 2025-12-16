@@ -8,7 +8,6 @@ import PulseHexGridFill from "./PulseHexGridFill";
 import HexGridTrails from "./HexGridTrails";
 import HexGridStrata from "./HexGridStrata";
 import { FillTuning } from "./PulseHexGridFill";
-import { usePerformanceConfig } from "@/hooks/usePerformanceConfig";
 
 export const grid_types = ['OverlapLine', 'Fill', 'Trails', 'Strata'] as const; 
 
@@ -83,7 +82,6 @@ export default function PulseHexGridCanvas({
   fillTuning,
 }: CanvasSceneProps) {
   const hostRef = useRef<HTMLDivElement>(null);
-  const { backgroundsOptimization } = usePerformanceConfig();
   // Default wrapper classes + any extra from props
   const mergedClassName = clsx(
     "pointer-events-none absolute inset-0 h-full w-full z-0",
@@ -113,7 +111,7 @@ export default function PulseHexGridCanvas({
         orthographic
         dpr={[1, 1.5]}
         camera={{ position: [0, 0, 20], near: -1000, far: 1000 }}
-        gl={{ antialias: backgroundsOptimization == "normal", alpha: true, depth: false, stencil: false, powerPreference: "high-performance" }}
+        gl={{ antialias: true, alpha: true, depth: false, stencil: false, powerPreference: "high-performance" }}
         frameloop="always"
       >
         <fog attach="fog" args={["#04060c", 0.0018]} />
