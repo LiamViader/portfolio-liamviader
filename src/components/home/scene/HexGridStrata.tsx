@@ -211,7 +211,7 @@ export default function HexGridStrata({
         }
       `,
       fragmentShader: /* glsl */`
-        precision highp float;
+        precision mediump float;
         uniform float uSPct;
         uniform float uLPct;
         varying float vHue;

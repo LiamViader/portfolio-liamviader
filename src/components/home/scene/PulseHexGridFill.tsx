@@ -232,30 +232,49 @@ export default function PulseHexGridFill({
     [width, height, params.pixelsPerHex, tuning]
   );
 
+  useEffect(() => {
+    return () => {
+      fillGeometry.dispose();
+    };
+  }, [fillGeometry]);
+
   const groupRef = useRef<THREE.Group>(null);
 
-  const activeFillMat = useMemo(() => FillShaderMaterial.clone(), []);
-  const activeLineMat = useMemo(() => LineShaderMaterial.clone(), []);
+  const fillMatRef = useRef<THREE.ShaderMaterial>(null);
+  const lineMatRef = useRef<THREE.ShaderMaterial>(null);
+
+  if (!fillMatRef.current) fillMatRef.current = FillShaderMaterial.clone();
+  if (!lineMatRef.current) lineMatRef.current = LineShaderMaterial.clone();
+
+  useEffect(() => {
+    return () => {
+      fillMatRef.current?.dispose();
+      lineMatRef.current?.dispose();
+    };
+  }, []);
 
   useLayoutEffect(() => {
-    activeFillMat.uniforms.uBaseFreq.value = tuning.baseFreq;
-    activeFillMat.uniforms.uFillScaleMin.value = tuning.fillScaleMin;
-    activeFillMat.uniforms.uFillScaleMax.value = tuning.fillScaleMax;
-    activeFillMat.uniforms.uFillAlphaMin.value = tuning.fillAlphaMin;
-    activeFillMat.uniforms.uFillAlphaMax.value = tuning.fillAlphaMax;
-    activeFillMat.uniforms.uBaseL.value = params.l / 100;
-    activeFillMat.uniforms.uLightnessAmp.value = tuning.lightnessAmp;
-    activeFillMat.uniforms.uSaturation.value = params.s / 100;
-    activeFillMat.uniforms.uInvert.value = tuning.invertAtMax ? 1.0 : 0.0;
+    const fm = fillMatRef.current!;
+    const lm = lineMatRef.current!;
 
-    activeLineMat.uniforms.uBaseFreq.value = tuning.baseFreq;
-    activeLineMat.uniforms.uLineAlphaMin.value = tuning.lineAlphaMin;
-    activeLineMat.uniforms.uLineAlphaMax.value = tuning.lineAlphaMax;
-    activeLineMat.uniforms.uBaseL.value = params.l / 100;
-    activeLineMat.uniforms.uLightnessAmp.value = tuning.lightnessAmp;
-    activeLineMat.uniforms.uSaturation.value = params.s / 100;
-    activeLineMat.uniforms.uInvert.value = tuning.invertAtMax ? 1.0 : 0.0;
-  }, [tuning, params.l, params.s, activeFillMat, activeLineMat]);
+    fm.uniforms.uBaseFreq.value = tuning.baseFreq;
+    fm.uniforms.uFillScaleMin.value = tuning.fillScaleMin;
+    fm.uniforms.uFillScaleMax.value = tuning.fillScaleMax;
+    fm.uniforms.uFillAlphaMin.value = tuning.fillAlphaMin;
+    fm.uniforms.uFillAlphaMax.value = tuning.fillAlphaMax;
+    fm.uniforms.uBaseL.value = params.l / 100;
+    fm.uniforms.uLightnessAmp.value = tuning.lightnessAmp;
+    fm.uniforms.uSaturation.value = params.s / 100;
+    fm.uniforms.uInvert.value = tuning.invertAtMax ? 1.0 : 0.0;
+
+    lm.uniforms.uBaseFreq.value = tuning.baseFreq;
+    lm.uniforms.uLineAlphaMin.value = tuning.lineAlphaMin;
+    lm.uniforms.uLineAlphaMax.value = tuning.lineAlphaMax;
+    lm.uniforms.uBaseL.value = params.l / 100;
+    lm.uniforms.uLightnessAmp.value = tuning.lightnessAmp;
+    lm.uniforms.uSaturation.value = params.s / 100;
+    lm.uniforms.uInvert.value = tuning.invertAtMax ? 1.0 : 0.0;
+  }, [tuning, params.l, params.s]);
 
   useFrame(({ clock }) => {
     const t = clock.getElapsedTime();
@@ -265,14 +284,14 @@ export default function PulseHexGridFill({
       groupRef.current.position.z = Math.sin(t * 0.22) * 2.5;
     }
 
-    activeFillMat.uniforms.uTime.value = t;
-    activeLineMat.uniforms.uTime.value = t;
+    if (fillMatRef.current) fillMatRef.current.uniforms.uTime.value = t;
+    if (lineMatRef.current) lineMatRef.current.uniforms.uTime.value = t;
   });
 
   return (
     <group ref={groupRef}>
       <instancedMesh 
-        args={[fillGeometry, activeFillMat, fillData.count]}
+        args={[fillGeometry, fillMatRef.current, fillData.count]}
         frustumCulled={false}
       >
         <instancedBufferAttribute attach="geometry-attributes-aCenter" args={[fillData.centers, 3]} />
@@ -281,7 +300,7 @@ export default function PulseHexGridFill({
         <instancedBufferAttribute attach="geometry-attributes-aHue" args={[fillData.hues, 1]} />
       </instancedMesh>
 
-      <lineSegments material={activeLineMat}>
+      <lineSegments material={lineMatRef.current}>
         <bufferGeometry>
           <bufferAttribute attach="attributes-position" args={[lineData.positions, 3]} />
           <bufferAttribute attach="attributes-aPhase" args={[lineData.phases, 1]} />

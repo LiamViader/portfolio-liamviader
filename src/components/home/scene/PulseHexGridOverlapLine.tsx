@@ -142,13 +142,18 @@ export default function PulseHexGridOverlapLine({ params }: { params: HexGridPar
     instanced.mat.uniforms.uLPct.value = params.l; 
   }, [instanced, params.s, params.l]);
 
-  useEffect(() => () => {
-    if (instanced) {
-      instanced.geom.dispose();
-      instanced.mat.dispose();
-    }
-    baseGeom.dispose();
-  }, [instanced, baseGeom]);
+  useEffect(() => {
+    return () => baseGeom.dispose();
+  }, [baseGeom]);
+
+  useEffect(() => {
+    return () => {
+      if (instanced) {
+        instanced.geom.dispose();
+        instanced.mat.dispose();
+      }
+    };
+  }, [instanced]);
 
   if (!instanced) return null;
 
@@ -239,7 +244,7 @@ const lineVertGLSL_Optimized = /* glsl */`
 `;
 
 const lineFragGLSL_Optimized = /* glsl */`
-  precision highp float;
+  precision mediump float;
 
   varying float vHue;
   varying float vAlpha;
