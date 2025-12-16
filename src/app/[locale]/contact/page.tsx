@@ -92,7 +92,7 @@ export default function ContactPage() {
       s: 60,
       l: 37,
       hueJitter: 20,
-      trailCount: isSmallScreen ? 12 : 22,
+      trailCount: isSmallScreen ? 9 : 22,
       stepsPerSecond: 20,
       fadeSeconds: isSmallScreen ? 4: 7,
     },
