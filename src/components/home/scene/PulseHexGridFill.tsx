@@ -3,7 +3,7 @@
 import * as THREE from "three";
 import React, { useLayoutEffect, useMemo, useRef, useEffect } from "react";
 import { useFrame, useThree } from "@react-three/fiber";
-import { HexGridParams } from "./PulseHexGridOverlapLine"; // Asumo que importas tipos de aquí
+import { HexGridParams } from "./PulseHexGridOverlapLine";
 
 export type FillTuning = {
   fillScaleMin?: number;
