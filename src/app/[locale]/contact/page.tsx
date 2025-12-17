@@ -230,9 +230,9 @@ export default function ContactPage() {
                       entranceAnimationEnabled={entranceAnimationsEnabled}
                     />
                   ))}
-                  <div className="hidden lg:flex gap-4 w-full flex-row items-center pt-6">
+                  <div className="hidden lg:flex gap-4 w-full flex-row items-center pt-1">
                     <MotionEyebrow 
-                      className="opacity-0 text-white/90 flex-shrink-0 mr-4"
+                      className="opacity-0 text-white/70 flex-shrink-0 mr-4"
                       variants={titleInfoCardsAnimation}
                       initial="hidden"
                       animate="show"
@@ -290,7 +290,7 @@ export default function ContactPage() {
 
               <div className="lg:hidden flex flex-col gap-4 w-full lg:flex-row items-center">
                 <MotionEyebrow 
-                  className="opacity-0 text-white/90 flex-shrink-0 mr-3"
+                  className="opacity-0 text-white/70 flex-shrink-0 mr-3"
                   variants={titleInfoCardsAnimation}
                   initial="hidden"
                   animate="show"
