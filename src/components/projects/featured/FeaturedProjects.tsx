@@ -1,14 +1,15 @@
 "use client";
 
 import { useCallback, useEffect, useMemo, useRef } from "react";
-
+import { motion, type Variants } from "framer-motion";
 import clsx from "clsx";
 
 import { type TranslatedProject } from "@/data/projects/types";
 import { measureStableRect } from "@/utils/measureStableRect";
-
+import { useTranslations } from "next-intl";
 import { ProjectModalPortal } from "../modal/ProjectModalPortal";
 import { useProjectSelection } from "../grid/hooks/useProjectSelection";
+import { Stack } from "@/components/layout/Stack";
 import {
   FeaturedCarousel,
   type FeaturedCarouselLayoutOptions,
@@ -60,6 +61,7 @@ export default function FeaturedProjects({
   });
 
   const cardRefs = useRef<CardRegistry>(new Map());
+  const t = useTranslations("ProjectCarousel");
 
   const registerCardRef = useCallback<CardRefRegister>(
     (projectId: number) =>
@@ -123,12 +125,7 @@ export default function FeaturedProjects({
 
   return (
     <section className={clsx("relative w-full", className)}>
-      <div
-        className={clsx(
-          "relative flex w-full items-center justify-center",
-          contentClassName,
-        )}
-      >
+      <Stack size="sm" className={clsx("relative flex w-full items-center justify-center", contentClassName)}>
         <FeaturedCarousel
           projects={featuredProjects}
           onSelectProject={openProjectDetails}
@@ -140,7 +137,22 @@ export default function FeaturedProjects({
           introStart={introStart}
           introAnimationEnabled={carouselIntroEnabled}
         />
-      </div>
+        <motion.p 
+          className="text-center text-xs text-white/40 font-extralight"
+          initial={{ opacity: 0 }}
+          animate={{ 
+            opacity: (!carouselIntroEnabled || introStart) ? 1 : 0 
+          }}
+          transition={{ 
+            duration: carouselIntroEnabled ? 0.5 : 0,
+            delay: carouselIntroEnabled ? 0.5 : 0,
+            ease: "easeOut" 
+          }}
+        >
+          {t("hint")}
+        </motion.p>
+      </Stack>
+
 
       {selected && (
         <ProjectModalPortal

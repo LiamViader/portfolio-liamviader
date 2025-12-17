@@ -113,6 +113,9 @@
     "cta_text": "Si alguno de mis proyectos te ha despertado interés, estaré encantado de conversar. Escríbeme si quieres colaborar, necesitas más información o simplemente deseas saludar.",
     "cta_button_contact": "Contactar"
   },
+  "ProjectCarousel": {
+    "hint": "Haz clic en un proyecto para ver más detalles"
+  },
   "ContactPage": {
     "hero": {
       "title": "Ponte en <highlight>contacto</highlight>",

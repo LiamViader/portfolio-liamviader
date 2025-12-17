@@ -113,6 +113,9 @@
     "cta_text": "If any of my projects caught your interest, I'd be happy to chat. Get in touch if you'd like to collaborate, need more details, or simply want to say hello.",
     "cta_button_contact": "Get in touch"
   },
+  "ProjectCarousel": {
+    "hint": "Click on a project to see more details"
+  },
   "ContactPage": {
     "hero": {
       "title": "Get in <highlight>touch</highlight>",

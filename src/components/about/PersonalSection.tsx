@@ -113,7 +113,7 @@ export function PersonalSection({ entranceAnimationsEnabled }: PersonalSectionPr
                     ]}
                   />
                   <motion.p
-                    className="mt-3 hidden lg:block text-xs text-white/50 text-center"
+                    className="mt-3 hidden lg:block text-xs text-white/40 text-center font-extralight"
                     variants={textItem}
                   >
                     {t("galleryHint")}
