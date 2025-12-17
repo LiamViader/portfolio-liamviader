@@ -214,9 +214,9 @@ export default function ContactPage() {
                 </motion.p>
               </Stack>
               
-              <div className="flex flex-col lg:flex-row gap-10 lg:items-start mt-3 sm:mt-4 lg:mt-0">
+              <div className="flex flex-col lg:flex-row gap-10 lg:items-start mt-1 sm:mt-2 lg:mt-0">
                 <motion.ul 
-                    className="flex flex-col gap-4 w-full"
+                    className="flex flex-col gap-3 sm:gap-4 w-full"
                     variants={cardsContainerVariant}
                     initial="hidden"
                     animate="show"
@@ -232,7 +232,7 @@ export default function ContactPage() {
                   ))}
                 </motion.ul>
 
-                <Stack size="md" className="hidden lg:flex lg:w-full lg:max-w-[280px] shrink-0">
+                <Stack size="sm" className="hidden lg:flex lg:w-full lg:max-w-[280px] shrink-0">
                   <MotionEyebrow 
                     className="opacity-0 text-white mx-auto lg:mx-0"
                     variants={titleInfoCardsAnimation}
@@ -242,7 +242,7 @@ export default function ContactPage() {
                   >
                     {t("links.eyebrow")}
                   </MotionEyebrow>
-                  <div className="flex flex-col justify-center gap-4 sm:gap-4 mx-auto w-full">
+                  <Stack className="justify-center mx-auto w-full" size="sm">
                     {contactLinks.map(({ key, icon: Icon, href, value, label, styles }, index) => (
                       <motion.a
                         key={key}
@@ -289,12 +289,12 @@ export default function ContactPage() {
                         </motion.div>
                       </motion.a>
                     ))}
-                  </div>
+                  </Stack>
                 </Stack>
               </div>
 
-              <div className="lg:hidden mt-3 sm:mt-4 lg:mt-0">
-                <Stack size="lg">
+              <div className="lg:hidden mt-1 sm:mt-2 lg:mt-0">
+                <Stack size="md">
                   <MotionEyebrow 
                     className="opacity-0 text-white/70 mx-auto"
                     variants={titleInfoCardsAnimation}
@@ -304,7 +304,7 @@ export default function ContactPage() {
                   >
                     {t("links.eyebrow")}
                   </MotionEyebrow>
-                  <div className="flex flex-col lgflex-row justify-center gap-4 sm:gap-4 mx-auto w-full">
+                  <Stack className="justify-center mx-auto w-full" size="sm">
                     {contactLinks.map(({ key, icon: Icon, href, value, label, styles }, index) => (
                       <motion.a
                         key={key}
@@ -348,7 +348,7 @@ export default function ContactPage() {
                         </motion.div>
                       </motion.a>
                     ))}
-                  </div>
+                  </Stack>
                 </Stack>
               </div>
             </Stack>
