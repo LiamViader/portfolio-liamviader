@@ -214,7 +214,7 @@ export default function ContactPage() {
                 </motion.p>
               </Stack>
               
-              <div className="flex flex-col lg:flex-row gap-10 lg:items-start mt-1 sm:mt-2 lg:mt-0">
+              <div className="flex flex-col lg:flex-row gap-10 lg:items-start mt-2 sm:mt-3 lg:mt-0">
                 <motion.ul 
                     className="flex flex-col gap-3 sm:gap-4 w-full"
                     variants={cardsContainerVariant}
@@ -293,7 +293,7 @@ export default function ContactPage() {
                 </Stack>
               </div>
 
-              <div className="lg:hidden mt-1 sm:mt-2 lg:mt-0">
+              <div className="lg:hidden mt-2 sm:mt-3 lg:mt-0">
                 <Stack size="md">
                   <MotionEyebrow 
                     className="opacity-0 text-white/70 mx-auto"
