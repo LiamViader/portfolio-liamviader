@@ -142,7 +142,7 @@ export default function ClientProjectsPage({ projectsData }: ClientProjectsPageP
                 <motion.p
                   variants={heroChildVariants}
                   className="
-                    max-w-3xl mx-auto text-balance
+                    max-w-3xl mx-auto text-pretty
                     text-xl sm:text-2xl 
                     text-white/70
                   "

@@ -13,6 +13,8 @@ interface SectionHeaderBigProps {
   align?: Align;
   variants?: Variants;
   className?: string;
+  subtitleClassName?: string;
+  titleClassName?: string;
 }
 
 export function SectionHeaderBig({
@@ -21,6 +23,8 @@ export function SectionHeaderBig({
   align = "left",
   variants,
   className,
+  subtitleClassName,
+  titleClassName,
 }: SectionHeaderBigProps) {
   return (
     <div
@@ -33,7 +37,7 @@ export function SectionHeaderBig({
       <Stack size="md">
         <motion.h2
           variants={variants}
-          className="text-3xl sm:text-4xl font-semibold text-white"
+          className={clsx("text-3xl sm:text-4xl font-semibold text-white", titleClassName)}
         >
           {title}
         </motion.h2>
@@ -41,7 +45,7 @@ export function SectionHeaderBig({
         {description && (
           <motion.p
             variants={variants}
-            className="text-lg sm:text-xl text-white/65"
+            className={clsx("text-lg sm:text-xl text-white/65", subtitleClassName)}
           >
             {description}
           </motion.p>

@@ -92,7 +92,7 @@ export default function CallToAction({ entranceAnimationEnabled }: { entranceAni
                     highlight: (chunks) => <span className="text-sky-300">{chunks}</span>,
                   })}
                 </motion.h2>
-                <motion.p variants={contentVariants} className="text-balance text-base sm:text-lg text-white/70">
+                <motion.p variants={contentVariants} className="text-pretty text-base sm:text-lg text-white/70">
                   {t("cta_text")}
                 </motion.p>
                 <motion.div variants={contentVariants} className="flex flex-wrap justify-center mt-2 pb-24 sm:pb-32 lg:pb-40">

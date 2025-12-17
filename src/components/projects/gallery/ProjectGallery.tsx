@@ -13,7 +13,7 @@ import ProjectsGrid from "../grid/ProjectsGrid";
 import { Section } from "@/components/layout/Section";
 import { Container } from "@/components/layout/Container";
 import { ShowcaseBlock } from "@/components/layout/ShowcaseBlock";
-import { SectionHeader } from "@/components/layout/SectionHeader";
+import { SectionHeaderBig } from "@/components/layout/SectionHeaderBig";
 import { Stack } from "@/components/layout/Stack";
 import { ContentBlock } from "@/components/layout/ContentBlock";
 
@@ -81,12 +81,12 @@ export default function ProjectGallery({ category, filteredProjects, onCategoryC
             variants={containerVariants}
             className="relative text-center"
           >
-            <SectionHeader
+            <SectionHeaderBig
               title={t("project_gallery_title")}
               description={t("project_gallery_description")}
               align="center"
               variants={itemVariants} 
-              subtitleClassName="text-balance"
+              subtitleClassName="text-pretty"
             />
 
 
