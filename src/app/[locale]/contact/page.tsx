@@ -38,13 +38,13 @@ const cardsContainerVariants = (animated: boolean): Variants => ({
 const linkCardVariants = (animated: boolean): Variants => ({
   hidden: { 
     opacity: 0, 
-    y: animated ? 20 : 0 
+    x: animated ? 20 : 0 
   },
   show: (c: { i: number; isIntro: boolean }) => ({
     opacity: 1, 
-    y: 0,
+    x: 0,
     transition: { 
-      delay: (animated && c.isIntro) ? BASE_DELAY_ENTRANCE + 0.4 + (c.i * 0.1) : 0,
+      delay: (animated && c.isIntro) ? BASE_DELAY_ENTRANCE + 0.6 + (c.i * 0.1) : 0,
       duration: animated ? 0.5 : 0,
       ease: "easeOut"
     }
@@ -71,7 +71,7 @@ const createTitleInfoCardsAnimation = (animated: boolean): Variants => ({
     opacity: 1,
     y: 0,
     transition: animated
-      ? { delay: BASE_DELAY_ENTRANCE + 0.15, duration: 0.7, ease: "easeOut" }
+      ? { delay: BASE_DELAY_ENTRANCE + 0.55, duration: 0.7, ease: "easeOut" }
       : { delay: 0, duration: 0 },
   },
 });
@@ -180,7 +180,7 @@ export default function ContactPage() {
             <Stack size="lg">
               <Stack size="md">
                 <motion.h1
-                  className="text-center lg:text-left text-4xl sm:text-5xl lg:text-6xl font-semibold tracking-tight text-white/95"
+                  className="text-center mx-auto lg:mx-0 lg:text-left text-4xl sm:text-5xl lg:text-6xl font-semibold tracking-tight text-white/95 max-w-xl"
                   initial={{ 
                     y: entranceAnimationsEnabled ? 20 : 0, 
                     opacity: 0, 
@@ -216,7 +216,7 @@ export default function ContactPage() {
               
               <div className="flex flex-col lg:flex-row gap-10 lg:items-start mt-2 sm:mt-3 lg:mt-0">
                 <motion.ul 
-                    className="flex flex-col gap-3 sm:gap-4 w-full"
+                    className="flex flex-col gap-4 w-full"
                     variants={cardsContainerVariant}
                     initial="hidden"
                     animate="show"
@@ -230,19 +230,16 @@ export default function ContactPage() {
                       entranceAnimationEnabled={entranceAnimationsEnabled}
                     />
                   ))}
-                </motion.ul>
-
-                <Stack size="sm" className="hidden lg:flex lg:w-full lg:max-w-[280px] shrink-0">
-                  <MotionEyebrow 
-                    className="opacity-0 text-white mx-auto lg:mx-0"
-                    variants={titleInfoCardsAnimation}
-                    initial="hidden"
-                    animate="show"
-                    align="left"
-                  >
-                    {t("links.eyebrow")}
-                  </MotionEyebrow>
-                  <Stack className="justify-center mx-auto w-full" size="sm">
+                  <div className="hidden lg:flex gap-4 w-full flex-row items-center pt-6">
+                    <MotionEyebrow 
+                      className="opacity-0 text-white/90 flex-shrink-0 mr-4"
+                      variants={titleInfoCardsAnimation}
+                      initial="hidden"
+                      animate="show"
+                      align="left"
+                    >
+                      {t("links.eyebrow")}
+                    </MotionEyebrow>
                     {contactLinks.map(({ key, icon: Icon, href, value, label, styles }, index) => (
                       <motion.a
                         key={key}
@@ -256,14 +253,13 @@ export default function ContactPage() {
                         animate="show"
                         whileHover="hover"
                         whileTap="tap"
-                        
                         className={`
                           group relative flex items-center rounded-xl 
-                          border border-white/10 bg-white/[0.03] backdrop-blur-md w-full p-3 justify-start gap-3 px-4 overflow-hidden
+                          border border-white/10 bg-white/5 backdrop-blur-md w-full p-3 justify-start gap-3 px-4 overflow-hidden
                           ${styles.containerHover}
                         `}
                       >
-                        <motion.div 
+                          <motion.div 
                           variants={iconHoverVariants}
                           className={`
                             flex h-10 w-10 shrink-0 items-center justify-center rounded-lg transition-colors
@@ -274,7 +270,6 @@ export default function ContactPage() {
                         >
                           <Icon className="h-5 w-5" />
                         </motion.div>
-
                         <div className="flex flex-1 min-w-0 flex-col justify-center">
                           <p className="text-[10px] font-bold uppercase tracking-wider text-white/40 leading-tight">
                             {label}
@@ -283,73 +278,69 @@ export default function ContactPage() {
                             {value}
                           </p>
                         </div>
-
-                        <motion.div variants={arrowHoverVariants} className="block shrink-0 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                          <motion.div variants={arrowHoverVariants} className="block shrink-0 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
                             <ArrowUpRight className="h-4 w-4 text-white/70" />
                         </motion.div>
                       </motion.a>
                     ))}
-                  </Stack>
-                </Stack>
+                  </div>
+                </motion.ul>
               </div>
 
-              <div className="lg:hidden mt-2 sm:mt-3 lg:mt-0">
-                <Stack size="md">
-                  <MotionEyebrow 
-                    className="opacity-0 text-white/70 mx-auto"
-                    variants={titleInfoCardsAnimation}
+
+              <div className="lg:hidden flex flex-col gap-4 w-full lg:flex-row items-center">
+                <MotionEyebrow 
+                  className="opacity-0 text-white/90 flex-shrink-0 mr-3"
+                  variants={titleInfoCardsAnimation}
+                  initial="hidden"
+                  animate="show"
+                  align="left"
+                >
+                  {t("links.eyebrow")}
+                </MotionEyebrow>
+                {contactLinks.map(({ key, icon: Icon, href, value, label, styles }, index) => (
+                  <motion.a
+                    key={key}
+                    href={href}
+                    title={value} 
+                    target={key === "email" ? undefined : "_blank"}
+                    rel={key === "email" ? undefined : "noreferrer"}
+                    variants={linkCardVariant}
+                    custom={{ i: index, isIntro: !introDone }}
                     initial="hidden"
                     animate="show"
-                    align="center"
+                    whileHover="hover"
+                    whileTap="tap"
+                    className={`
+                      group relative flex items-center rounded-xl 
+                      border border-white/10 bg-white/[0.03] backdrop-blur-md w-full p-3 justify-start gap-3 px-4 overflow-hidden
+                      ${styles.containerHover}
+                    `}
                   >
-                    {t("links.eyebrow")}
-                  </MotionEyebrow>
-                  <Stack className="justify-center mx-auto w-full" size="sm">
-                    {contactLinks.map(({ key, icon: Icon, href, value, label, styles }, index) => (
-                      <motion.a
-                        key={key}
-                        href={href}
-                        title={value} 
-                        target={key === "email" ? undefined : "_blank"}
-                        rel={key === "email" ? undefined : "noreferrer"}
-                        variants={linkCardVariant}
-                        custom={{ i: index, isIntro: !introDone }}
-                        initial="hidden"
-                        animate="show"
-                        whileHover="hover"
-                        whileTap="tap"
-                        className={`
-                          group relative flex items-center rounded-xl 
-                          border border-white/10 bg-white/[0.03] backdrop-blur-md w-full p-3 justify-start gap-3 px-4 overflow-hidden
-                          ${styles.containerHover}
-                        `}
-                      >
-                         <motion.div 
-                          variants={iconHoverVariants}
-                          className={`
-                            flex h-10 w-10 shrink-0 items-center justify-center rounded-lg transition-colors
-                            ${styles.iconColors} 
-                            ${styles.iconMobile}
-                            ${styles.iconDesktop}
-                          `}
-                        >
-                          <Icon className="h-5 w-5" />
-                        </motion.div>
-                        <div className="flex flex-1 min-w-0 flex-col justify-center">
-                          <p className="text-[10px] font-bold uppercase tracking-wider text-white/40 leading-tight">
-                            {label}
-                          </p>
-                          <p className={`text-sm font-semibold text-white/90 truncate ${styles.text}`}>
-                            {value}
-                          </p>
-                        </div>
-                         <motion.div variants={arrowHoverVariants} className="block shrink-0 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-                            <ArrowUpRight className="h-4 w-4 text-white/70" />
-                        </motion.div>
-                      </motion.a>
-                    ))}
-                  </Stack>
-                </Stack>
+                      <motion.div 
+                      variants={iconHoverVariants}
+                      className={`
+                        flex h-10 w-10 shrink-0 items-center justify-center rounded-lg transition-colors
+                        ${styles.iconColors} 
+                        ${styles.iconMobile}
+                        ${styles.iconDesktop}
+                      `}
+                    >
+                      <Icon className="h-5 w-5" />
+                    </motion.div>
+                    <div className="flex flex-1 min-w-0 flex-col justify-center">
+                      <p className="text-[10px] font-bold uppercase tracking-wider text-white/40 leading-tight">
+                        {label}
+                      </p>
+                      <p className={`text-sm font-semibold text-white/90 truncate ${styles.text}`}>
+                        {value}
+                      </p>
+                    </div>
+                      <motion.div variants={arrowHoverVariants} className="block shrink-0 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                        <ArrowUpRight className="h-4 w-4 text-white/70" />
+                    </motion.div>
+                  </motion.a>
+                ))}
               </div>
             </Stack>
           </ContentBlock>

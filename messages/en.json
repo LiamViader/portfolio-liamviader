@@ -138,7 +138,7 @@
       }
     },
     "links": {
-      "eyebrow": "Channels",
+      "eyebrow": "Channels:",
       "items": {
         "email": {
           "label": "Email",

@@ -14,7 +14,7 @@ export const Eyebrow = forwardRef<HTMLParagraphElement, EyebrowProps>(
         ref={ref}
         {...props} 
         className={cn(
-          "uppercase tracking-[0.3em] text-white/70",
+          "uppercase tracking-[0.3em] ",
           align === "center" && "text-center",
           className
         )}
