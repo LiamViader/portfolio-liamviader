@@ -216,7 +216,7 @@ export default function ContactPage() {
               
               <div className="flex flex-col lg:flex-row gap-10 lg:items-start mt-2 sm:mt-3 lg:mt-0">
                 <motion.ul 
-                    className="flex flex-col gap-5 sm:gap-6 w-full"
+                    className="flex flex-col gap-3 sm:gap-4 w-full"
                     variants={cardsContainerVariant}
                     initial="hidden"
                     animate="show"
