@@ -86,6 +86,7 @@ export default function ProjectGallery({ category, filteredProjects, onCategoryC
               description={t("project_gallery_description")}
               align="center"
               variants={itemVariants} 
+              subtitleClassName="text-balance"
             />
 
 

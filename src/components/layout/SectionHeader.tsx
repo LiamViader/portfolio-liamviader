@@ -13,6 +13,8 @@ interface SectionHeaderProps {
   align?: Align;
   variants?: Variants;
   className?: string;
+  titleClassName?: string;
+  subtitleClassName?: string;
 }
 
 export function SectionHeader({
@@ -21,6 +23,8 @@ export function SectionHeader({
   align = "left",
   variants,
   className,
+  subtitleClassName,
+  titleClassName,
 }: SectionHeaderProps) {
   return (
     <div
@@ -33,7 +37,7 @@ export function SectionHeader({
       <Stack size="md">
         <motion.h2
           variants={variants}
-          className="text-2xl sm:text-3xl font-semibold text-white"
+          className={clsx("text-2xl sm:text-3xl font-semibold text-white", titleClassName)}
         >
           {title}
         </motion.h2>
@@ -41,7 +45,7 @@ export function SectionHeader({
         {description && (
           <motion.p
             variants={variants}
-            className="text-base sm:text-lg text-white/65"
+            className={clsx("text-base sm:text-lg text-white/65", subtitleClassName)}
           >
             {description}
           </motion.p>

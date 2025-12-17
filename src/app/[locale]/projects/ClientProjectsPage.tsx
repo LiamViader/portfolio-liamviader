@@ -117,47 +117,51 @@ export default function ClientProjectsPage({ projectsData }: ClientProjectsPageP
       <HeroSectionWrapper className="relative overflow-hidden">
         <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_50%_0%,rgba(125,211,252,0.05),transparent_45%)]" />
         <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-gray-950/80 via-gray-950/50 to-transparent" />
-        <Container>
-          <ShowcaseBlock>
-            <MotionStack
-              size="lg"
-              initial="hidden"
-              animate="show"
-              variants={heroContainerVariants}
-              className="relative text-center"
-            >
-              <motion.h1
-                variants={heroChildVariants}
-                className="
-                  whitespace-pre-line text-pretty 
-                  text-4xl sm:text-5xl lg:text-6xl
-                  font-semibold tracking-tight text-white/95
-                "
+        <Stack size="lg">
+          <Container>
+            <ShowcaseBlock>
+              <MotionStack
+                size="lg"
+                initial="hidden"
+                animate="show"
+                variants={heroContainerVariants}
+                className="relative text-center"
               >
-                {t.rich("title", {
-                  highlight: (chunks) => <span className="text-sky-300">{chunks}</span>,
-                })}
-              </motion.h1>
-              <motion.p
-                variants={heroChildVariants}
-                className="
-                  max-w-3xl mx-auto text-pretty 
-                  text-xl sm:text-2xl 
-                  text-white/70
-                "
-              >
-                {t("intro_paragraph")}
-              </motion.p>
+                <motion.h1
+                  variants={heroChildVariants}
+                  className="
+                    whitespace-pre-line text-pretty 
+                    text-4xl sm:text-5xl lg:text-6xl
+                    font-semibold tracking-tight text-white/95
+                  "
+                >
+                  {t.rich("title", {
+                    highlight: (chunks) => <span className="text-sky-300">{chunks}</span>,
+                  })}
+                </motion.h1>
+                <motion.p
+                  variants={heroChildVariants}
+                  className="
+                    max-w-3xl mx-auto text-balance
+                    text-xl sm:text-2xl 
+                    text-white/70
+                  "
+                >
+                  {t("intro_paragraph")}
+                </motion.p>
 
-            </MotionStack>
-          </ShowcaseBlock>
-        </Container>
+              </MotionStack>
+            </ShowcaseBlock>
+          </Container>
+          <div className="hidden xl:block h-1 border-t border-white/20 w-5xl mx-auto"></div>
+          <FeaturedProjectsSection projects={projectsData} replaceUrl={true} allowUrlOpen={false} entranceAnimationEnabled={entranceAnimationsEnabled} className="mt-2 sm:mt-4"/>
+        </Stack>
 
       </HeroSectionWrapper>
-      
-      <div className="hidden lg:block h-1 border-t border-white/20 w-5xl mx-auto"></div>
-      
-      <FeaturedProjectsSection projects={projectsData} replaceUrl={true} allowUrlOpen={false} entranceAnimationEnabled={entranceAnimationsEnabled}/>
+
+
+
+
 
       <ProjectGallery
         category={category}

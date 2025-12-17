@@ -4,6 +4,7 @@ import { motion, type Variants } from "framer-motion";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { type TranslatedProject } from "@/data/projects/types";
+import clsx from "clsx";
 import { Section } from "@/components/layout/Section";
 import { ShowcaseBlock } from "@/components/layout/ShowcaseBlock";
 import { SectionHeader } from "@/components/layout/SectionHeader";
@@ -21,6 +22,7 @@ interface FeaturedProjectsProps {
   replaceUrl?: boolean;
   allowUrlOpen?: boolean;
   entranceAnimationEnabled: boolean;
+  className?: string;
 }
 
 const createLeftColVariants = (animated: boolean): Variants => ({
@@ -57,6 +59,7 @@ export default function FeaturedProjectsSection({
   replaceUrl = true, 
   allowUrlOpen = false,   
   entranceAnimationEnabled,
+  className = "",
 }: FeaturedProjectsProps) {
   const t = useTranslations("ProjectsPage");
   
@@ -66,7 +69,7 @@ export default function FeaturedProjectsSection({
   const leftItem = createLeftItemVariants(entranceAnimationEnabled);
 
   return (
-    <Section className="relative">
+    <div className={clsx("relative",className)}>
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-gray-300/5 to-transparent" />
       <Container>
         <ContentBlock>
@@ -79,26 +82,12 @@ export default function FeaturedProjectsSection({
               delay: entranceAnimationEnabled ? 0.4 : 0, 
               duration: entranceAnimationEnabled ? 0.2 : 0 
             }}
+            onAnimationStart={() => {
+              if (entranceAnimationEnabled) {
+                setTimeout(() => setCardsIntro(true), 1000);
+              }
+            }} 
           >
-            <motion.div 
-              variants={leftCol}
-              initial="hidden"
-              animate="show"
-              onAnimationStart={() => {
-                if (entranceAnimationEnabled) {
-                  setTimeout(() => setCardsIntro(true), 1000);
-                }
-              }} 
-            >
-              <SectionHeader
-                title={t("featured_title")}
-                description={t("featured_description")}
-                align="center"
-                variants={leftItem} 
-              />
-            </motion.div>
-
-
             <FeaturedProjects
               projects={projects} 
               introStart={cardsIntro}
@@ -115,6 +104,6 @@ export default function FeaturedProjectsSection({
           </MotionStack>
         </ContentBlock>
       </Container>
-    </Section>
+    </div>
   );
 }
