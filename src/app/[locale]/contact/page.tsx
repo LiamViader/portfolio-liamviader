@@ -271,7 +271,7 @@ export default function ContactPage() {
 
               <div className="lg:hidden mx-auto">
                 <Stack size="sm">
-                  <div className="justify-center mx-auto w-full flex flex-col md:flex-row gap-4 md:gap-6">
+                  <div className="justify-center items-center mx-auto w-full flex flex-col md:flex-row gap-4 md:gap-6">
                     {contactLinks.map(({ key, icon: Icon, href, value, label, styles }, index) => (
                       <motion.a
                         key={key}
