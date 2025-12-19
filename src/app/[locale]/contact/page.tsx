@@ -49,16 +49,11 @@ const linkCardVariants = (animated: boolean): Variants => ({
       ease: "easeOut"
     }
   }),
-  hover: {
-    y: -3,
-    scale: 1.02,
-    transition: { type: "spring", stiffness: 400, damping: 25 }
-  },
-  tap: { scale: 0.95 }
+  tap: { scale: 0.98 }
 });
 
 const iconHoverVariants: Variants = {
-  hover: { rotate: -10, scale: 1.1, transition: { type: "spring", stiffness: 300, damping: 20 } }
+  hover: { scale: 1.15, transition: { type: "spring", stiffness: 300, damping: 20 } }
 };
 
 const arrowHoverVariants: Variants = {
@@ -130,11 +125,11 @@ export default function ContactPage() {
       label: t("links.items.email.label"),
       value: t("links.items.email.value"),
       styles: {
-        containerHover: "hover:bg-rose-500/10 hover:border-rose-500/50 hover:shadow-[0_0_30px_-5px_rgba(244,63,94,0.3)]",
-        iconColors: "text-rose-300 group-hover:text-rose-100 group-hover:bg-rose-500/40",
+        containerHover: "",
+        iconColors: "text-rose-300/90 group-hover:text-rose-400/90",
         iconMobile: "",
         iconDesktop: "",
-        text: "group-hover:text-rose-200"
+        text: "group-hover:underline"
       }
     },
     {
@@ -144,11 +139,11 @@ export default function ContactPage() {
       label: t("links.items.linkedin.label"),
       value: t("links.items.linkedin.value"),
       styles: {
-        containerHover: "hover:bg-sky-500/10 hover:border-sky-500/50 hover:shadow-[0_0_30px_-5px_rgba(56,189,248,0.3)]",
-        iconColors: "text-sky-300 group-hover:text-sky-100 group-hover:bg-sky-500/40",
+        containerHover: "",
+        iconColors: "text-sky-300/90 group-hover:text-sky-400/90",
         iconMobile: "",
         iconDesktop: "",
-        text: "group-hover:text-sky-200"
+        text: "group-hover:underline"
       }
     },
     {
@@ -158,11 +153,11 @@ export default function ContactPage() {
       label: t("links.items.github.label"),
       value: t("links.items.github.value"),
       styles: {
-        containerHover: "hover:bg-violet-500/10 hover:border-violet-500/50 hover:shadow-[0_0_30px_-5px_rgba(139,92,246,0.3)]",
-        iconColors: "text-violet-300 group-hover:text-violet-100 group-hover:bg-violet-500/40",
+        containerHover: "",
+        iconColors: "text-violet-300/90 group-hover:text-violet-400/90",
         iconMobile: "",
         iconDesktop: "",
-        text: "group-hover:text-violet-200"
+        text: "group-hover:underline"
       }
     },
   ];
@@ -188,7 +183,6 @@ export default function ContactPage() {
                     filter: "drop-shadow(0 0 12px rgba(56,189,248,0.01))" 
                   }}
                   animate={{ y: 0, opacity: 1, scale: 1, filter: "drop-shadow(0 0 12px rgba(56,189,248,0.01))" }}
-                  whileHover={introDone ? {scale: 1.02, y: -2, filter: "drop-shadow(0 0 12px rgba(56,189,248,0.35))", transition: {duration: 0.3}} : undefined}
                   transition={{
                       duration: introDone ? 0.5 : (entranceAnimationsEnabled ? 0.7 : 0),
                       delay: introDone ? 0 : (entranceAnimationsEnabled ? BASE_DELAY_ENTRANCE : 0),
@@ -235,7 +229,7 @@ export default function ContactPage() {
 
                 <Stack size="sm" className="hidden lg:flex lg:w-full lg:max-w-[280px] shrink-0">
                   <motion.p 
-                    className="text-sm font-semibold tracking-[0.1em] uppercase text-white/80 text-left mb-1"
+                    className="text-sm font-semibold tracking-[0.1em] uppercase text-sky-300/90 text-left mb-1"
                     variants={titleInfoCardsAnimation}
                     initial="hidden"
                     animate="show"
@@ -259,7 +253,7 @@ export default function ContactPage() {
                         
                         className={`
                           group relative flex items-center rounded-xl 
-                          border border-white/10 bg-sky-300/3  backdrop-blur-md w-full p-3 justify-start gap-3 px-4 overflow-hidden
+                          w-full justify-start gap-2 overflow-hidden
                           ${styles.containerHover}
                         `}
                       >
@@ -268,25 +262,19 @@ export default function ContactPage() {
                           className={`
                             flex h-10 w-10 shrink-0 items-center justify-center rounded-lg transition-colors
                             ${styles.iconColors} 
-                            ${styles.iconMobile}
-                            ${styles.iconDesktop}
                           `}
                         >
-                          <Icon className="h-6 w-6" />
+                          <Icon className="h-7 w-7" />
                         </motion.div>
 
-                        <div className="flex flex-1 min-w-0 flex-col justify-center">
-                          <p className="text-[10px] font-bold uppercase tracking-wider text-sky-300/80 leading-tight">
+                        <div className="flex flex-1 flex-col justify-center">
+                          <p className="text-[10px] font-bold uppercase tracking-wider text-sky-300/90 leading-tight">
                             {label}
                           </p>
-                          <p className={`text-sm font-semibold text-white/80 truncate ${styles.text}`}>
+                          <p className={`text-sm font-semibold text-white/80 truncate group-hover:underline`}>
                             {value}
                           </p>
                         </div>
-
-                        <motion.div variants={arrowHoverVariants} className="block shrink-0 opacity-90 group-hover:opacity-100 transition-opacity duration-200">
-                            <ArrowUpRight className="h-4 w-4 text-white" />
-                        </motion.div>
                       </motion.a>
                     ))}
                   </div>
