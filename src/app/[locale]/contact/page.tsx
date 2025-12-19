@@ -110,7 +110,7 @@ export default function ContactPage() {
       value: t("links.items.email.value"),
       styles: {
         containerHover: "",
-        iconColors: "text-rose-300/60",
+        iconColors: "text-rose-300/70",
         iconMobile: "",
         iconDesktop: "",
         text: "group-hover:underline"
@@ -124,7 +124,7 @@ export default function ContactPage() {
       value: t("links.items.linkedin.value"),
       styles: {
         containerHover: "",
-        iconColors: "text-sky-300/60",
+        iconColors: "text-sky-300/70",
         iconMobile: "",
         iconDesktop: "",
         text: "group-hover:underline"
@@ -138,7 +138,7 @@ export default function ContactPage() {
       value: t("links.items.github.value"),
       styles: {
         containerHover: "",
-        iconColors: "text-violet-300/60",
+        iconColors: "text-violet-300/70",
         iconMobile: "",
         iconDesktop: "",
         text: "group-hover:underline"
@@ -295,7 +295,7 @@ export default function ContactPage() {
                         </motion.div>
 
                         <div className="flex flex-col justify-center">
-                          <p className="text-[10px] font-bold uppercase tracking-wider text-sky-200/70 leading-tight">
+                          <p className="text-[10px] font-bold uppercase tracking-wider text-sky-300/70 leading-tight">
                             {label}
                           </p>
                           <p className={`text-sm font-semibold text-white/70 truncate group-hover:underline`}>
