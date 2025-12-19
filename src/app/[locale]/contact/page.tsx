@@ -110,7 +110,7 @@ export default function ContactPage() {
       value: t("links.items.email.value"),
       styles: {
         containerHover: "",
-        iconColors: "text-rose-300/90",
+        iconColors: "text-rose-300/70",
         iconMobile: "",
         iconDesktop: "",
         text: "group-hover:underline"
@@ -124,7 +124,7 @@ export default function ContactPage() {
       value: t("links.items.linkedin.value"),
       styles: {
         containerHover: "",
-        iconColors: "text-sky-300/90",
+        iconColors: "text-sky-300/70",
         iconMobile: "",
         iconDesktop: "",
         text: "group-hover:underline"
@@ -138,7 +138,7 @@ export default function ContactPage() {
       value: t("links.items.github.value"),
       styles: {
         containerHover: "",
-        iconColors: "text-violet-300/90",
+        iconColors: "text-violet-300/70",
         iconMobile: "",
         iconDesktop: "",
         text: "group-hover:underline"
@@ -213,7 +213,7 @@ export default function ContactPage() {
 
                 <Stack size="sm" className="hidden lg:flex lg:w-fit shrink-0">
                   <motion.p 
-                    className="text-xs font-semibold tracking-[0.1em] uppercase text-sky-300/90 text-left"
+                    className="text-xs font-semibold tracking-[0.1em] uppercase text-sky-300/80 text-left"
                     variants={titleInfoCardsAnimation}
                     initial="hidden"
                     animate="show"
@@ -252,15 +252,15 @@ export default function ContactPage() {
                         </motion.div>
 
                         <div className="flex flex-col justify-center">
-                          <p className="text-[10px] font-bold uppercase tracking-wider text-sky-300/90 leading-tight">
+                          <p className="text-[10px] font-bold uppercase tracking-wider text-sky-300/70 leading-tight">
                             {label}
                           </p>
-                          <p className={`text-sm font-semibold text-white/80 truncate group-hover:underline`}>
+                          <p className={`text-sm font-semibold text-white/70 truncate group-hover:underline`}>
                             {value}
                           </p>
                         </div>
                         <motion.div className="flex">
-                            <ArrowUpRight className="h-3 w-3 text-white/80" />
+                            <ArrowUpRight className="h-3 w-3 text-white/70" />
                         </motion.div>
                       </motion.a>
                       
@@ -303,15 +303,15 @@ export default function ContactPage() {
                         </motion.div>
 
                         <div className="flex flex-col justify-center">
-                          <p className="text-[10px] font-bold uppercase tracking-wider text-sky-300/90 leading-tight">
+                          <p className="text-[10px] font-bold uppercase tracking-wider text-sky-300/70 leading-tight">
                             {label}
                           </p>
-                          <p className={`text-sm font-semibold text-white/80 truncate group-hover:underline`}>
+                          <p className={`text-sm font-semibold text-white/70 truncate group-hover:underline`}>
                             {value}
                           </p>
                         </div>
                         <motion.div className="flex md:hidden">
-                            <ArrowUpRight className="h-3 w-3 text-white/80" />
+                            <ArrowUpRight className="h-3 w-3 text-white/70" />
                         </motion.div>
                       </motion.a>
                       
