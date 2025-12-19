@@ -64,7 +64,7 @@ export function HeroStats({ entranceAnimationsEnabled }: HeroStatsProps) {
         variants={titleInfoCardsAnimation}
         initial="hidden"
         animate="show"
-        className="opacity-0"
+        className="opacity-0 text-white/70"
       >
         {t("work_section.title")}
       </MotionEyebrow>

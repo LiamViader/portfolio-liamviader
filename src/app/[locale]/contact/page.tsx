@@ -133,7 +133,7 @@ export default function ContactPage() {
         containerHover: "hover:bg-rose-500/10 hover:border-rose-500/50 hover:shadow-[0_0_30px_-5px_rgba(244,63,94,0.3)]",
         iconColors: "text-rose-300 group-hover:text-rose-100 group-hover:bg-rose-500/40",
         iconMobile: "",
-        iconDesktop: "bg-white/5",
+        iconDesktop: "",
         text: "group-hover:text-rose-200"
       }
     },
@@ -147,7 +147,7 @@ export default function ContactPage() {
         containerHover: "hover:bg-sky-500/10 hover:border-sky-500/50 hover:shadow-[0_0_30px_-5px_rgba(56,189,248,0.3)]",
         iconColors: "text-sky-300 group-hover:text-sky-100 group-hover:bg-sky-500/40",
         iconMobile: "",
-        iconDesktop: "bg-white/5",
+        iconDesktop: "",
         text: "group-hover:text-sky-200"
       }
     },
@@ -161,7 +161,7 @@ export default function ContactPage() {
         containerHover: "hover:bg-violet-500/10 hover:border-violet-500/50 hover:shadow-[0_0_30px_-5px_rgba(139,92,246,0.3)]",
         iconColors: "text-violet-300 group-hover:text-violet-100 group-hover:bg-violet-500/40",
         iconMobile: "",
-        iconDesktop: "bg-white/5",
+        iconDesktop: "",
         text: "group-hover:text-violet-200"
       }
     },
@@ -216,7 +216,7 @@ export default function ContactPage() {
               
               <div className="flex flex-col lg:flex-row gap-10 lg:items-start mt-2 sm:mt-3 lg:mt-0">
                 <motion.ul 
-                    className="flex flex-col gap-3 sm:gap-4 w-full"
+                    className="flex flex-col gap-4 w-full"
                     variants={cardsContainerVariant}
                     initial="hidden"
                     animate="show"
@@ -232,17 +232,17 @@ export default function ContactPage() {
                   ))}
                 </motion.ul>
 
+
                 <Stack size="sm" className="hidden lg:flex lg:w-full lg:max-w-[280px] shrink-0">
-                  <MotionEyebrow 
-                    className="opacity-0 text-white mx-auto lg:mx-0"
+                  <motion.p 
+                    className="text-sm font-semibold tracking-[0.1em] uppercase text-white/80 text-left mb-1"
                     variants={titleInfoCardsAnimation}
                     initial="hidden"
                     animate="show"
-                    align="left"
                   >
                     {t("links.eyebrow")}
-                  </MotionEyebrow>
-                  <Stack className="justify-center mx-auto w-full" size="sm">
+                  </motion.p>
+                  <div className="justify-center mx-auto w-full flex flex-col gap-4">
                     {contactLinks.map(({ key, icon: Icon, href, value, label, styles }, index) => (
                       <motion.a
                         key={key}
@@ -259,7 +259,7 @@ export default function ContactPage() {
                         
                         className={`
                           group relative flex items-center rounded-xl 
-                          border border-white/10 bg-white/[0.03] backdrop-blur-md w-full p-3 justify-start gap-3 px-4 overflow-hidden
+                          border border-white/10 bg-sky-300/3  backdrop-blur-md w-full p-3 justify-start gap-3 px-4 overflow-hidden
                           ${styles.containerHover}
                         `}
                       >
@@ -272,39 +272,38 @@ export default function ContactPage() {
                             ${styles.iconDesktop}
                           `}
                         >
-                          <Icon className="h-5 w-5" />
+                          <Icon className="h-6 w-6" />
                         </motion.div>
 
                         <div className="flex flex-1 min-w-0 flex-col justify-center">
-                          <p className="text-[10px] font-bold uppercase tracking-wider text-white/40 leading-tight">
+                          <p className="text-[10px] font-bold uppercase tracking-wider text-sky-300/80 leading-tight">
                             {label}
                           </p>
-                          <p className={`text-sm font-semibold text-white/90 truncate ${styles.text}`}>
+                          <p className={`text-sm font-semibold text-white/80 truncate ${styles.text}`}>
                             {value}
                           </p>
                         </div>
 
-                        <motion.div variants={arrowHoverVariants} className="block shrink-0 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-                            <ArrowUpRight className="h-4 w-4 text-white/70" />
+                        <motion.div variants={arrowHoverVariants} className="block shrink-0 opacity-90 group-hover:opacity-100 transition-opacity duration-200">
+                            <ArrowUpRight className="h-4 w-4 text-white" />
                         </motion.div>
                       </motion.a>
                     ))}
-                  </Stack>
+                  </div>
                 </Stack>
               </div>
 
-              <div className="lg:hidden mt-2 sm:mt-3 lg:mt-0">
+              <div className="lg:hidden mt-2 sm:mt-3 lg:mt-0 sm:max-w-xl mx-auto">
                 <Stack size="md">
-                  <MotionEyebrow 
-                    className="opacity-0 text-white/70 mx-auto"
+                  <motion.p 
+                    className="text-sm font-bold tracking-[0.2em] uppercase text-white/80 mb-1 text-center"
                     variants={titleInfoCardsAnimation}
                     initial="hidden"
                     animate="show"
-                    align="center"
                   >
                     {t("links.eyebrow")}
-                  </MotionEyebrow>
-                  <Stack className="justify-center mx-auto w-full" size="sm">
+                  </motion.p>
+                  <div className="justify-center mx-auto w-full flex flex-col gap-4">
                     {contactLinks.map(({ key, icon: Icon, href, value, label, styles }, index) => (
                       <motion.a
                         key={key}
@@ -320,7 +319,7 @@ export default function ContactPage() {
                         whileTap="tap"
                         className={`
                           group relative flex items-center rounded-xl 
-                          border border-white/10 bg-white/[0.03] backdrop-blur-md w-full p-3 justify-start gap-3 px-4 overflow-hidden
+                          border border-white/10 bg-white/[0.02] backdrop-blur-md w-full p-3 justify-start gap-3 px-4 overflow-hidden
                           ${styles.containerHover}
                         `}
                       >
@@ -343,12 +342,12 @@ export default function ContactPage() {
                             {value}
                           </p>
                         </div>
-                         <motion.div variants={arrowHoverVariants} className="block shrink-0 opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                         <motion.div variants={arrowHoverVariants} className="block shrink-0 opacity-70 transition-opacity duration-200">
                             <ArrowUpRight className="h-4 w-4 text-white/70" />
                         </motion.div>
                       </motion.a>
                     ))}
-                  </Stack>
+                  </div>
                 </Stack>
               </div>
             </Stack>
