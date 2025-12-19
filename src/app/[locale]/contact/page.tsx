@@ -244,7 +244,7 @@ export default function ContactPage() {
                         </motion.div>
 
                         <div className="flex flex-col justify-center">
-                          <p className="text-[10px] font-bold uppercase tracking-wider text-sky-300/70 leading-tight">
+                          <p className="text-[10px] font-bold uppercase tracking-wider text-sky-200/70 leading-tight">
                             {label}
                           </p>
                           <p className={`text-sm font-semibold text-white/70 truncate group-hover:underline`}>
@@ -295,7 +295,7 @@ export default function ContactPage() {
                         </motion.div>
 
                         <div className="flex flex-col justify-center">
-                          <p className="text-[10px] font-bold uppercase tracking-wider text-sky-300/70 leading-tight">
+                          <p className="text-[10px] font-bold uppercase tracking-wider text-sky-200/70 leading-tight">
                             {label}
                           </p>
                           <p className={`text-sm font-semibold text-white/70 truncate group-hover:underline`}>
