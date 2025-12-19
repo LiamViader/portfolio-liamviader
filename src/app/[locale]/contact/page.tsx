@@ -212,14 +212,6 @@ export default function ContactPage() {
 
 
                 <Stack size="sm" className="hidden lg:flex lg:w-fit shrink-0">
-                  <motion.p 
-                    className="text-xs font-semibold tracking-[0.1em] uppercase text-white/80 text-left"
-                    variants={titleInfoCardsAnimation}
-                    initial="hidden"
-                    animate="show"
-                  >
-                    {t("links.eyebrow")}
-                  </motion.p>
                   <div className="justify-center mx-auto w-full flex flex-col gap-4">
                     {contactLinks.map(({ key, icon: Icon, href, value, label, styles }, index) => (
                       <motion.a
