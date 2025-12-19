@@ -110,7 +110,6 @@ export default function ClientProjectsPage({ projectsData }: ClientProjectsPageP
   return (
     <PageLayout
       className="isolate"
-      backgroundLayers={[]}
       overlays={overlays}
       contentClassName="flex flex-col"
     >

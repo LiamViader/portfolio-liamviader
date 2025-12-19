@@ -16,6 +16,7 @@ import { ContentBlock } from "@/components/layout/ContentBlock";
 import { InfoCard } from "@/components/home/InfoCard"; 
 import { Stack } from "@/components/layout/Stack";
 import { Eyebrow } from "@/components/layout/Eyebrow";
+import PulseHexGridCanvas from "@/components/home/scene/PulseHexGridCanvas";
 
 type AnyIcon = ComponentType<{ className?: string }>;
 
@@ -56,9 +57,6 @@ const iconHoverVariants: Variants = {
   hover: { scale: 1.15, transition: { type: "spring", stiffness: 300, damping: 20 } }
 };
 
-const arrowHoverVariants: Variants = {
-  hover: { x: 3, y: -3, opacity: 1, transition: { duration: 0.2 } }
-};
 
 const createTitleInfoCardsAnimation = (animated: boolean): Variants => ({
   hidden: { opacity: 0, y: animated ? 10 : 0 },
@@ -71,27 +69,13 @@ const createTitleInfoCardsAnimation = (animated: boolean): Variants => ({
   },
 });
 
-const MotionEyebrow = motion(Eyebrow);
 
 export default function ContactPage() {
   const t = useTranslations("ContactPage");
   const [introDone, setIntroDone] = useState(false);
   const { entranceAnimationsEnabled, isSmallScreen } = usePerformanceConfig();
 
-  const backgroundLayers = useMemo(() => [
-    {
-      id: "trails",
-      gridType: "Trails" as const,
-      pixelsPerHex: 27,
-      hue: 240,
-      s: 60,
-      l: 37,
-      hueJitter: 20,
-      trailCount: isSmallScreen ? 7 : 22,
-      stepsPerSecond: isSmallScreen ? 15 : 20,
-      fadeSeconds: isSmallScreen ? 4: 7,
-    },
-  ], [isSmallScreen]);
+
 
   const linkCardVariant = linkCardVariants(entranceAnimationsEnabled);
   const cardsContainerVariant = cardsContainerVariants(entranceAnimationsEnabled);
@@ -126,7 +110,7 @@ export default function ContactPage() {
       value: t("links.items.email.value"),
       styles: {
         containerHover: "",
-        iconColors: "text-rose-300/90 group-hover:text-rose-400/90",
+        iconColors: "text-rose-300/90",
         iconMobile: "",
         iconDesktop: "",
         text: "group-hover:underline"
@@ -140,7 +124,7 @@ export default function ContactPage() {
       value: t("links.items.linkedin.value"),
       styles: {
         containerHover: "",
-        iconColors: "text-sky-300/90 group-hover:text-sky-400/90",
+        iconColors: "text-sky-300/90",
         iconMobile: "",
         iconDesktop: "",
         text: "group-hover:underline"
@@ -154,22 +138,22 @@ export default function ContactPage() {
       value: t("links.items.github.value"),
       styles: {
         containerHover: "",
-        iconColors: "text-violet-300/90 group-hover:text-violet-400/90",
+        iconColors: "text-violet-300/90",
         iconMobile: "",
         iconDesktop: "",
         text: "group-hover:underline"
       }
     },
-  ];
+  ]; 
 
   const titleInfoCardsAnimation = createTitleInfoCardsAnimation(entranceAnimationsEnabled);
 
   return (
     <PageLayout
-      backgroundLayers={backgroundLayers}
-      overlays={<div className="absolute inset-0 bg-[linear-gradient(to_bottom,_rgb(3,7,18)_0%,_rgb(3,7,18)_15%,_rgba(3,7,18,0.3)_50%,_rgb(3,7,18)_85%,_rgb(3,7,18)_100%)] "></div>}
     >
-      <OneSectionPageSection>
+      <OneSectionPageSection className="relative overflow-hidden">
+        <PulseHexGridCanvas  gridType="Trails" s={60} l={37} hue={240} hueJitter={20} pixelsPerHex={27} trailCount={isSmallScreen ? 7 : 22} stepsPerSecond={isSmallScreen ? 15 : 20} fadeSeconds={isSmallScreen ? 4: 7} />
+        <div className="absolute inset-0 bg-[linear-gradient(to_bottom,_rgb(3,7,18)_0%,_rgb(3,7,18)_15%,_rgba(3,7,18,0.3)_50%,_rgb(3,7,18)_85%,_rgb(3,7,18)_100%)] "/>
         <Container>
           <ContentBlock>
             <Stack size="lg">
@@ -208,7 +192,7 @@ export default function ContactPage() {
                 </motion.p>
               </Stack>
               
-              <div className="flex flex-col lg:flex-row gap-10 lg:items-start mt-2 sm:mt-3 lg:mt-0">
+              <div className="flex flex-col lg:flex-row gap-6 lg:items-start mt-2 sm:mt-3 lg:mt-0">
                 <motion.ul 
                     className="flex flex-col gap-4 w-full"
                     variants={cardsContainerVariant}
@@ -227,9 +211,9 @@ export default function ContactPage() {
                 </motion.ul>
 
 
-                <Stack size="sm" className="hidden lg:flex lg:w-full lg:max-w-[280px] shrink-0">
+                <Stack size="sm" className="hidden lg:flex lg:w-fit shrink-0">
                   <motion.p 
-                    className="text-sm font-semibold tracking-[0.1em] uppercase text-sky-300/90 text-left mb-1"
+                    className="text-xs font-semibold tracking-[0.1em] uppercase text-sky-300/90 text-left"
                     variants={titleInfoCardsAnimation}
                     initial="hidden"
                     animate="show"
@@ -264,10 +248,10 @@ export default function ContactPage() {
                             ${styles.iconColors} 
                           `}
                         >
-                          <Icon className="h-7 w-7" />
+                          <Icon className="h-6 w-6" />
                         </motion.div>
 
-                        <div className="flex flex-1 flex-col justify-center">
+                        <div className="flex flex-col justify-center">
                           <p className="text-[10px] font-bold uppercase tracking-wider text-sky-300/90 leading-tight">
                             {label}
                           </p>
@@ -275,23 +259,19 @@ export default function ContactPage() {
                             {value}
                           </p>
                         </div>
+                        <motion.div className="flex">
+                            <ArrowUpRight className="h-3 w-3 text-white/80" />
+                        </motion.div>
                       </motion.a>
+                      
                     ))}
                   </div>
                 </Stack>
               </div>
 
-              <div className="lg:hidden mt-2 sm:mt-3 lg:mt-0 sm:max-w-xl mx-auto">
-                <Stack size="md">
-                  <motion.p 
-                    className="text-sm font-bold tracking-[0.2em] uppercase text-white/80 mb-1 text-center"
-                    variants={titleInfoCardsAnimation}
-                    initial="hidden"
-                    animate="show"
-                  >
-                    {t("links.eyebrow")}
-                  </motion.p>
-                  <div className="justify-center mx-auto w-full flex flex-col gap-4">
+              <div className="lg:hidden mx-auto">
+                <Stack size="sm">
+                  <div className="justify-center mx-auto w-full flex flex-col md:flex-row gap-4 md:gap-6">
                     {contactLinks.map(({ key, icon: Icon, href, value, label, styles }, index) => (
                       <motion.a
                         key={key}
@@ -305,35 +285,36 @@ export default function ContactPage() {
                         animate="show"
                         whileHover="hover"
                         whileTap="tap"
+                        
                         className={`
                           group relative flex items-center rounded-xl 
-                          border border-white/10 bg-white/[0.02] backdrop-blur-md w-full p-3 justify-start gap-3 px-4 overflow-hidden
+                          w-fit justify-start gap-2 overflow-hidden
                           ${styles.containerHover}
                         `}
                       >
-                         <motion.div 
+                        <motion.div 
                           variants={iconHoverVariants}
                           className={`
                             flex h-10 w-10 shrink-0 items-center justify-center rounded-lg transition-colors
                             ${styles.iconColors} 
-                            ${styles.iconMobile}
-                            ${styles.iconDesktop}
                           `}
                         >
-                          <Icon className="h-5 w-5" />
+                          <Icon className="h-6 w-6" />
                         </motion.div>
-                        <div className="flex flex-1 min-w-0 flex-col justify-center">
-                          <p className="text-[10px] font-bold uppercase tracking-wider text-white/40 leading-tight">
+
+                        <div className="flex flex-col justify-center">
+                          <p className="text-[10px] font-bold uppercase tracking-wider text-sky-300/90 leading-tight">
                             {label}
                           </p>
-                          <p className={`text-sm font-semibold text-white/90 truncate ${styles.text}`}>
+                          <p className={`text-sm font-semibold text-white/80 truncate group-hover:underline`}>
                             {value}
                           </p>
                         </div>
-                         <motion.div variants={arrowHoverVariants} className="block shrink-0 opacity-70 transition-opacity duration-200">
-                            <ArrowUpRight className="h-4 w-4 text-white/70" />
+                        <motion.div className="flex md:hidden">
+                            <ArrowUpRight className="h-3 w-3 text-white/80" />
                         </motion.div>
                       </motion.a>
+                      
                     ))}
                   </div>
                 </Stack>

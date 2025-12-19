@@ -9,7 +9,7 @@ export function ContentBlock({
   className?: string;
 }) {
   return (
-    <div className={clsx("mx-auto max-w-6xl z-10", className)}>
+    <div className={clsx("mx-auto max-w-6xl z-10 relative", className)}>
       {children}
     </div>
   );
