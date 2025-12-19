@@ -192,7 +192,7 @@ export default function ContactPage() {
                 </motion.p>
               </Stack>
               
-              <div className="flex flex-col lg:flex-row gap-6 lg:items-start mt-2 sm:mt-3 lg:mt-0">
+              <div className="flex flex-col lg:flex-row gap-6 lg:items-start">
                 <motion.ul 
                     className="flex flex-col gap-4 w-full"
                     variants={cardsContainerVariant}
