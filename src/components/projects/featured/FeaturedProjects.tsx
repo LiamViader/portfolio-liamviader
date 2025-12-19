@@ -138,7 +138,7 @@ export default function FeaturedProjects({
           introAnimationEnabled={carouselIntroEnabled}
         />
         <motion.p 
-          className="text-center text-xs text-white/40 font-light max-w-2xl tracking-[0.02em] "
+          className="text-center text-xs text-white/40 font-light max-w-2xl"
           initial={{ opacity: 0 }}
           animate={{ 
             opacity: (!carouselIntroEnabled || introStart) ? 1 : 0 
