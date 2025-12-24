@@ -29,7 +29,7 @@ export const DUR_OTHER_S = 0.55;
 export const DUR_ENTER_CENTER_MS = Math.round(DUR_ENTER_CENTER_S * 1000);
 export const DUR_OTHER_MS = Math.round(DUR_OTHER_S * 1000);
 
-export const EASE_LEAVE = cubicBezier(0.22, 1, 0.36, 1);
+export const EASE_LEAVE = cubicBezier(0.16, 1, 0.3, 1);
 export const EASE_ENTER = cubicBezier(0.16, 1, 0.3, 1);
 
 const variantStyles: Record<CarouselVariant, VariantStyle> = {
@@ -43,8 +43,8 @@ const variantStyles: Record<CarouselVariant, VariantStyle> = {
 
 const peekVariantStyles: Record<CarouselVariant, VariantStyle> = {
   center: { x: "-50%", scale: 1, opacity: 1, zIndex: 30 },
-  left: { x: "-155%", scale: 0.9, opacity: 1, zIndex: 20 },
-  right: { x: "55%", scale: 0.9, opacity: 1, zIndex: 20 },
+  left: { x: "-155%", scale: 0.95, opacity: 1, zIndex: 20 },
+  right: { x: "55%", scale: 0.95, opacity: 1, zIndex: 20 },
   hiddenLeft: { x: "-260%", scale: 0.5, opacity: 0, zIndex: 10 },
   hiddenRight: { x: "160%", scale: 0.5, opacity: 0, zIndex: 10 },
   hiddenCenter: { x: "-50%", scale: 0.5, opacity: 0, zIndex: 10 },
