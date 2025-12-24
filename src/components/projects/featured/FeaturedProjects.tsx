@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useEffect, useMemo, useRef } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { motion, type Variants } from "framer-motion";
 import clsx from "clsx";
 
@@ -26,6 +26,7 @@ interface FeaturedProjectsProps {
   replaceUrl?: boolean;
   allowUrlOpen?: boolean;
   carouselIntroEnabled?: boolean;
+  carouselVariant?: "stack" | "peek";
 }
 
 type CardRegistry = Map<number, HTMLElement>;
@@ -41,23 +42,40 @@ export default function FeaturedProjects({
   replaceUrl = true,
   allowUrlOpen = false,
   carouselIntroEnabled = true,
+  carouselVariant,
 }: FeaturedProjectsProps) {
   const featuredProjects = useMemo(
     () => projects.filter((project) => project.is_featured),
     [projects],
   );
 
-  const { 
-    selected, 
-    revealOrigin, 
-    selectProject, 
-    closeProject, 
+  // If carouselVariant is provided, use it. Otherwise, compute responsive default.
+  const [responsiveVariant, setResponsiveVariant] = useState<"stack" | "peek">("stack");
+
+  useEffect(() => {
+    if (carouselVariant) return; // Controlled mode
+    const media = window.matchMedia("(max-width: 639px)"); // sm breakpoint
+    const handler = (e: MediaQueryListEvent | MediaQueryList) => {
+      setResponsiveVariant(e.matches ? "peek" : "stack");
+    };
+    handler(media);
+    media.addEventListener("change", handler);
+    return () => media.removeEventListener("change", handler);
+  }, [carouselVariant]);
+
+  const activeVariant = carouselVariant ?? responsiveVariant;
+
+  const {
+    selected,
+    revealOrigin,
+    selectProject,
+    closeProject,
     markOriginRevealed,
-    projectFromUrl 
-  } = useProjectSelection(projects, { 
-      replaceUrl: replaceUrl, 
-      allowUrlOpen: allowUrlOpen,
-      deferUrlTrigger: true 
+    projectFromUrl
+  } = useProjectSelection(projects, {
+    replaceUrl: replaceUrl,
+    allowUrlOpen: allowUrlOpen,
+    deferUrlTrigger: true
   });
 
   const cardRefs = useRef<CardRegistry>(new Map());
@@ -87,7 +105,7 @@ export default function FeaturedProjects({
           element.scrollIntoView({ behavior: "smooth", block: "center" });
 
           let lastScrollY = window.scrollY;
-          
+
           intervalId = setInterval(() => {
             if (Math.abs(window.scrollY - lastScrollY) < 1) {
               clearInterval(intervalId);
@@ -136,17 +154,18 @@ export default function FeaturedProjects({
           typography={carouselTypography}
           introStart={introStart}
           introAnimationEnabled={carouselIntroEnabled}
+          variant={activeVariant}
         />
-        <motion.p 
+        <motion.p
           className="text-center text-xs text-white/40 font-light max-w-2xl"
           initial={{ opacity: 0 }}
-          animate={{ 
-            opacity: (!carouselIntroEnabled || introStart) ? 1 : 0 
+          animate={{
+            opacity: (!carouselIntroEnabled || introStart) ? 1 : 0
           }}
-          transition={{ 
+          transition={{
             duration: carouselIntroEnabled ? 0.5 : 0,
             delay: carouselIntroEnabled ? 0.5 : 0,
-            ease: "easeOut" 
+            ease: "easeOut"
           }}
         >
           {t("hint")}

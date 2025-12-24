@@ -18,9 +18,9 @@ import { Stack } from "@/components/layout/Stack";
 import { ContentBlock } from "@/components/layout/ContentBlock";
 
 const createContainerVariants = (animated: boolean): Variants => ({
-  hidden: { 
-    opacity: animated ? 0 : 1, 
-    y: animated ? 60 : 0 
+  hidden: {
+    opacity: animated ? 0 : 1,
+    y: animated ? 60 : 0
   },
   show: {
     opacity: 1,
@@ -35,9 +35,9 @@ const createContainerVariants = (animated: boolean): Variants => ({
 });
 
 const createItemVariants = (animated: boolean): Variants => ({
-  hidden: { 
-    opacity: animated ? 0 : 1, 
-    y: animated ? 28 : 0 
+  hidden: {
+    opacity: animated ? 0 : 1,
+    y: animated ? 28 : 0
   },
   show: {
     opacity: 1,
@@ -77,7 +77,7 @@ export default function ProjectGallery({ category, filteredProjects, onCategoryC
             initial="hidden"
             whileInView="show"
             viewport={{ once: true, amount: 0.01, margin: "0px 0px -15% 0px" }}
-            onViewportEnter={() => setGridVisible(true)} 
+            onViewportEnter={() => setGridVisible(true)}
             variants={containerVariants}
             className="relative text-center"
           >
@@ -85,7 +85,7 @@ export default function ProjectGallery({ category, filteredProjects, onCategoryC
               title={t("project_gallery_title")}
               description={t("project_gallery_description")}
               align="center"
-              variants={itemVariants} 
+              variants={itemVariants}
               subtitleClassName="text-pretty"
             />
 
@@ -95,12 +95,12 @@ export default function ProjectGallery({ category, filteredProjects, onCategoryC
             </motion.div>
 
             <motion.div variants={itemVariants} className="w-full">
-              <ProjectsGrid 
-                projects={filteredProjects} 
-                replaceUrl={true} 
-                allowUrlOpen={true} 
+              <ProjectsGrid
+                projects={filteredProjects}
+                replaceUrl={true}
+                allowUrlOpen={true}
                 entranceAnimation={entranceAnimationEnabled}
-                shouldAnimate={gridVisible} 
+                shouldAnimate={gridVisible}
               />
             </motion.div>
           </MotionStack>

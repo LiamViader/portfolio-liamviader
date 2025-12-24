@@ -35,21 +35,21 @@ const createInfoCardsAnimation = (animated: boolean): Variants => ({
     opacity: 1,
     transition: animated
       ? {
-          delayChildren: BASE_DELAY_ENTRANCE + 0.4,
-          staggerChildren: 0.15,
-          when: "beforeChildren",
-        }
+        delayChildren: BASE_DELAY_ENTRANCE + 0.4,
+        staggerChildren: 0.15,
+        when: "beforeChildren",
+      }
       : {
-          delayChildren: 0,
-          staggerChildren: 0,
-          when: "beforeChildren",
-        },
+        delayChildren: 0,
+        staggerChildren: 0,
+        when: "beforeChildren",
+      },
   },
 });
 
 export default function Home() {
 
-  const {entranceAnimationsEnabled, backgroundsOptimization} = usePerformanceConfig();
+  const { entranceAnimationsEnabled, backgroundsOptimization } = usePerformanceConfig();
 
   const t = useTranslations("HomePage");
   const locale = useLocale();
@@ -64,9 +64,9 @@ export default function Home() {
   return (
     <PageLayout>
       <HeroSectionWrapper className="relative overflow-hidden">
-      <PulseHexGridCanvas  gridType="Fill" s={50} l={30} hue={240} hueJitter={10} pixelsPerHex={40}/>
-      <PulseHexGridCanvas  gridType="OverlapLine" s={60} l={0} hue={240} hueJitter={30} pixelsPerHex={40}/>
-      <div className="inset-0 absolute bg-[linear-gradient(to_bottom,_rgba(3,7,18,0.1)_0%,_rgba(3,7,18,0.7)_50%,_rgb(3,7,18)_97%,_rgb(3,7,18)_100%)]"/>
+        <PulseHexGridCanvas gridType="Fill" s={50} l={30} hue={240} hueJitter={10} pixelsPerHex={40} />
+        <PulseHexGridCanvas gridType="OverlapLine" s={60} l={0} hue={240} hueJitter={30} pixelsPerHex={40} />
+        <div className="inset-0 absolute bg-[linear-gradient(to_bottom,_rgba(3,7,18,0.1)_0%,_rgba(3,7,18,0.7)_50%,_rgb(3,7,18)_97%,_rgb(3,7,18)_100%)]" />
         <Container>
           <ContentBlock>
             <Stack size="lg">
@@ -88,16 +88,16 @@ export default function Home() {
         </Container>
       </HeroSectionWrapper>
       <LastSection className="relative">
-      {
-        (backgroundsOptimization === "normal") ?
-        <>
-          <PulseHexGridCanvas  gridType="Fill" s={50} l={30} hue={240} hueJitter={10} pixelsPerHex={40}/>
-          <PulseHexGridCanvas  gridType="OverlapLine" s={60} l={0} hue={240} hueJitter={30} pixelsPerHex={40}/>
-        </>
-        :
-        <div className="inset-0 absolute bg-[rgb(14,17,51)]"/>
-      }
-      <div className="absolute inset-0 bg-[linear-gradient(to_bottom,_rgb(3,7,18)_0%,_rgb(3,7,18)_3%,_rgba(3,7,18,0.3)_50%,_rgb(3,7,18)_100%)]"/>
+        {
+          (backgroundsOptimization === "normal") ?
+            <>
+              <PulseHexGridCanvas gridType="Fill" s={50} l={30} hue={240} hueJitter={10} pixelsPerHex={40} />
+              <PulseHexGridCanvas gridType="OverlapLine" s={60} l={0} hue={240} hueJitter={30} pixelsPerHex={40} />
+            </>
+            :
+            <div className="inset-0 absolute bg-[rgb(14,17,51)]" />
+        }
+        <div className="absolute inset-0 bg-[linear-gradient(to_bottom,_rgb(3,7,18)_0%,_rgb(3,7,18)_3%,_rgba(3,7,18,0.3)_50%,_rgb(3,7,18)_100%)]" />
         <Container>
           <ShowcaseBlock>
             <FeaturedProjectsHomeSection
