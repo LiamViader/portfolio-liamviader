@@ -29,7 +29,7 @@ export const DUR_OTHER_S = 0.55;
 export const DUR_ENTER_CENTER_MS = Math.round(DUR_ENTER_CENTER_S * 1000);
 export const DUR_OTHER_MS = Math.round(DUR_OTHER_S * 1000);
 
-export const EASE_LEAVE = cubicBezier(0.16, 1, 0.3, 1);
+export const EASE_LEAVE = cubicBezier(0.22, 1, 0.36, 1);
 export const EASE_ENTER = cubicBezier(0.16, 1, 0.3, 1);
 
 const variantStyles: Record<CarouselVariant, VariantStyle> = {
