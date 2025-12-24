@@ -14,8 +14,8 @@ import { ContentBlock } from "@/components/layout/ContentBlock";
 
 import FeaturedProjects from "./FeaturedProjects";
 
-const LEFT_STAGGER = 0.1; 
-const ITEM_DURATION = 0.6; 
+const LEFT_STAGGER = 0.1;
+const ITEM_DURATION = 0.6;
 
 interface FeaturedProjectsProps {
   projects: TranslatedProject[];
@@ -38,38 +38,38 @@ const createLeftColVariants = (animated: boolean): Variants => ({
 });
 
 const createLeftItemVariants = (animated: boolean): Variants => ({
-  hidden: { 
-    opacity: 0, 
-    y: animated ? 16 : 0 
+  hidden: {
+    opacity: 0,
+    y: animated ? 16 : 0
   },
   show: {
     opacity: 1,
     y: 0,
-    transition: { 
-      duration: animated ? ITEM_DURATION : 0, 
-      ease: "easeOut" 
+    transition: {
+      duration: animated ? ITEM_DURATION : 0,
+      ease: "easeOut"
     },
   },
 });
 
 const MotionStack = motion(Stack);
 
-export default function FeaturedProjectsSection({ 
-  projects, 
-  replaceUrl = true, 
-  allowUrlOpen = false,   
+export default function FeaturedProjectsSection({
+  projects,
+  replaceUrl = true,
+  allowUrlOpen = false,
   entranceAnimationEnabled,
   className = "",
 }: FeaturedProjectsProps) {
   const t = useTranslations("ProjectsPage");
-  
+
   const [cardsIntro, setCardsIntro] = useState(!entranceAnimationEnabled);
 
   const leftCol = createLeftColVariants(entranceAnimationEnabled);
   const leftItem = createLeftItemVariants(entranceAnimationEnabled);
 
   return (
-    <div className={clsx("relative",className)}>
+    <div className={clsx("relative pt-5 sm:pt-0", className)}>
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-gray-300/5 to-transparent" />
       <Container>
         <ContentBlock>
@@ -78,18 +78,18 @@ export default function FeaturedProjectsSection({
             className="relative"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ 
-              delay: entranceAnimationEnabled ? 0.4 : 0, 
-              duration: entranceAnimationEnabled ? 0.2 : 0 
+            transition={{
+              delay: entranceAnimationEnabled ? 0.4 : 0,
+              duration: entranceAnimationEnabled ? 0.2 : 0
             }}
             onAnimationStart={() => {
               if (entranceAnimationEnabled) {
                 setTimeout(() => setCardsIntro(true), 1000);
               }
-            }} 
+            }}
           >
             <FeaturedProjects
-              projects={projects} 
+              projects={projects}
               introStart={cardsIntro}
               carouselTypography={{
                 titleClassName: "text-md sm:text-lg lg:text-xl",

@@ -22,9 +22,9 @@ interface FeaturedProjectsHomeSectionProps {
 }
 
 
-const PAGE_STAGGER = 0.1;   
-const LEFT_STAGGER = 0.1; 
-const ITEM_DURATION = 0.6; 
+const PAGE_STAGGER = 0.1;
+const LEFT_STAGGER = 0.1;
+const ITEM_DURATION = 0.6;
 
 const page: Variants = {
   hidden: { opacity: 1 },
@@ -42,7 +42,7 @@ const leftCol: Variants = {
   show: {
     opacity: 1,
     transition: {
-      when: "beforeChildren", 
+      when: "beforeChildren",
       staggerChildren: LEFT_STAGGER,
       delayChildren: 0,
     },
@@ -88,15 +88,15 @@ export function FeaturedProjectsHomeSection({
   return (
     <motion.div
       variants={page}
-      initial={entranceAnimationEnabled ? "hidden" : "show" }
-      whileInView={entranceAnimationEnabled ? "show" : undefined }
+      initial={entranceAnimationEnabled ? "hidden" : "show"}
+      whileInView={entranceAnimationEnabled ? "show" : undefined}
       viewport={entranceAnimationEnabled ? { once: true, amount: 0.35, margin: "0px 0px -15% 0px" } : undefined}
       className="relative mx-auto w-full"
     >
-      <div className="flex flex-col gap-8 sm:gap-10 xl:grid xl:grid-cols-[minmax(0,0.75fr)_minmax(0,1fr)]">
+      <div className="flex flex-col gap-8 sm:gap-10 xl:grid xl:grid-cols-[minmax(0,0.70fr)_minmax(0,1fr)]">
         <motion.div
           variants={leftCol}
-          initial={entranceAnimationEnabled ? "hidden" : "show" }
+          initial={entranceAnimationEnabled ? "hidden" : "show"}
           animate={entranceAnimationEnabled ? leftControls : "show"}
           viewport={{ once: true, amount: 0.35, margin: "0px 0px -15% 0px" }}
           onViewportEnter={() => {
@@ -105,12 +105,12 @@ export function FeaturedProjectsHomeSection({
           }}
           className="flex flex-col will-change-transform"
         >
-          <Stack size="lg">
+          <Stack size="lg" className="xl:mt-12">
             <SectionHeader
               title={title}
               description={description}
               align="left"
-              variants={leftItem} 
+              variants={leftItem}
             />
             <motion.div variants={leftButtonsRow} className="hidden xl:block">
               <ButtonGroup>
@@ -137,15 +137,11 @@ export function FeaturedProjectsHomeSection({
           <FeaturedProjects
             projects={projects}
             introStart={cardsIntro}
-            className="w-full md:max-w-3xl xl:w-full mx-auto"
-            contentClassName="justify-center"
             carouselLayout={{
-              containerClassName: "!w-full",
               viewportClassName:
-                "!h-[310px] md:!h-[390px] lg:!h-[390px] xl:!h-[410px] !w-full",
+                "xl:!h-[380px]",
               cardClassName:
-                "!w-[47%] sm:!w-[40%] md:!w-[39%] lg:!w-[37%] xl:!w-[38%]",
-              controlsContainerClassName: "",
+                "xl:!w-[44%]",
             }}
             carouselTypography={{
               titleClassName: "text-base sm:text-lg md:text-xl",

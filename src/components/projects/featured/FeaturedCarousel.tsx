@@ -19,13 +19,13 @@ import { FeaturedCarouselCard } from "./FeaturedCarouselCard";
 
 const ctrlLeft: Variants = {
   hidden: { opacity: 0, x: 40 },
-  show:   { 
-    opacity: 1, 
-    x: 0, 
-    transition: { 
+  show: {
+    opacity: 1,
+    x: 0,
+    transition: {
       opacity: { duration: 0.8, ease: "easeOut", delay: 0.5 },
-      x: { duration: 0.8, ease: "easeOut", delay: 0.5 } 
-    } 
+      x: { duration: 0.8, ease: "easeOut", delay: 0.5 }
+    }
   },
   hover: {
     scale: 1.1,
@@ -33,8 +33,8 @@ const ctrlLeft: Variants = {
     borderColor: "rgba(14,165,233,0.60)",
     boxShadow: "0 10px 28px rgba(56,189,248,0.35)",
     transition: {
-      type: "spring", 
-      stiffness: 420, 
+      type: "spring",
+      stiffness: 420,
       damping: 26
     }
   },
@@ -43,8 +43,8 @@ const ctrlLeft: Variants = {
     borderColor: "rgba(14,165,233,0.60)",
     scale: 0.95,
     transition: {
-      type: "spring", 
-      stiffness: 420, 
+      type: "spring",
+      stiffness: 420,
       damping: 26
     }
   }
@@ -52,13 +52,13 @@ const ctrlLeft: Variants = {
 
 const ctrlRight: Variants = {
   hidden: { opacity: 0, x: -40 },
-  show:   { 
-    opacity: 1, 
-    x: 0, 
-    transition: { 
+  show: {
+    opacity: 1,
+    x: 0,
+    transition: {
       opacity: { duration: 0.8, ease: "easeOut", delay: 0.5 },
-      x: { duration: 0.8, ease: "easeOut", delay: 0.5 } 
-    } 
+      x: { duration: 0.8, ease: "easeOut", delay: 0.5 }
+    }
   },
   hover: {
     scale: 1.1,
@@ -66,8 +66,8 @@ const ctrlRight: Variants = {
     borderColor: "rgba(14,165,233,0.60)",
     boxShadow: "0 10px 28px rgba(56,189,248,0.35)",
     transition: {
-      type: "spring", 
-      stiffness: 420, 
+      type: "spring",
+      stiffness: 420,
       damping: 26
     }
   },
@@ -76,8 +76,8 @@ const ctrlRight: Variants = {
     borderColor: "rgba(14,165,233,0.60)",
     scale: 0.95,
     transition: {
-      type: "spring", 
-      stiffness: 420, 
+      type: "spring",
+      stiffness: 420,
       damping: 26
     }
   }
@@ -107,16 +107,17 @@ interface FeaturedCarouselProps {
   typography?: FeaturedCarouselTypographyOptions;
   introStart?: boolean;
   introAnimationEnabled?: boolean;
+  variant?: "stack" | "peek";
 }
 
 function getIntroOrder(nextVariant: CarouselVariant): number {
   switch (nextVariant) {
     case "center": return 0;
-    case "right":  return 1;
-    case "left":   return 2;
+    case "right": return 1;
+    case "left": return 2;
     case "hiddenRight": return 3;
-    case "hiddenLeft":  return 4;
-    case "hiddenCenter":return 5;
+    case "hiddenLeft": return 4;
+    case "hiddenCenter": return 5;
     default: return 6;
   }
 }
@@ -131,6 +132,7 @@ export function FeaturedCarousel({
   typography,
   introStart,
   introAnimationEnabled = true,
+  variant = 'stack',
 }: FeaturedCarouselProps) {
   const [activeIndex, setActiveIndex] = useState(0);
   const [scrollDir, setScrollDir] = useState<1 | -1>(1);
@@ -140,6 +142,8 @@ export function FeaturedCarousel({
 
   const containerRef = useRef<HTMLDivElement | null>(null);
   const autoplayRef = useRef<ReturnType<typeof setInterval> | null>(null);
+
+  const isDraggingRef = useRef(false);
 
   const totalProjects = projects.length;
   const hasSelectedProject = selectedProjectId !== undefined;
@@ -348,12 +352,12 @@ export function FeaturedCarousel({
   }, [activeIndex, scrollDir]);
 
   const cardClassName = clsx(
-    "absolute top-0 h-full w-[47%] sm:w-[40%] md:w-[42%] lg:w-[45%] xl:w-[48%]",
+    "absolute top-0 h-full w-[80%] sm:w-[40%] md:w-[42%] lg:w-[45%] xl:w-[48%]",
     layout?.cardClassName,
   );
 
   const containerClassName = clsx(
-    "relative flex w-full justify-center overflow-visible",
+    "relative flex w-full justify-center overflow-visible touch-pan-y",
     layout?.containerClassName,
   );
 
@@ -372,6 +376,8 @@ export function FeaturedCarousel({
     layout?.controlButtonClassName,
   );
 
+  const isPeekVariant = variant === 'peek';
+
   const cardItems = useMemo(() => {
     const n = totalProjects;
 
@@ -382,8 +388,8 @@ export function FeaturedCarousel({
       const nextVariant = computeVariant(index, activeIndex, n, scrollDir);
 
       const { animate, transition } = suppressParentIntro
-        ? { animate: getInitialStyle(nextVariant), transition: { duration: 0 } }
-        : getVariantAnimationFromTo(nextVariant, prevVariant);
+        ? { animate: getInitialStyle(nextVariant, isPeekVariant), transition: { duration: 0 } }
+        : getVariantAnimationFromTo(nextVariant, prevVariant, isPeekVariant);
 
       const introOrder = getIntroOrder(nextVariant);
       const isHidden = isHiddenVariant(nextVariant);
@@ -392,6 +398,7 @@ export function FeaturedCarousel({
       const shouldHideForModal = Boolean(isSelectedCard && !revealOrigin);
 
       const handleClick = () => {
+        if (isDraggingRef.current) return;
         if (nextVariant === "left") handleManualNavigation(-1);
         else if (nextVariant === "right") handleManualNavigation(1);
         else if (nextVariant === "center") {
@@ -460,6 +467,7 @@ export function FeaturedCarousel({
     onSelectProject,
     visibilityTick,
     computeVariant,
+    isPeekVariant,
   ]);
 
   const hasMultipleProjects = totalProjects > 1;
@@ -467,7 +475,7 @@ export function FeaturedCarousel({
   if (totalProjects === 0) return null;
 
   return (
-    <div
+    <motion.div
       ref={containerRef}
       className={containerClassName}
       onMouseEnter={handleInteractionStart}
@@ -479,6 +487,24 @@ export function FeaturedCarousel({
       aria-roledescription="carousel"
       aria-live="polite"
       tabIndex={-1}
+      onPanStart={() => {
+        isDraggingRef.current = true;
+      }}
+      onPanEnd={(e, info) => {
+        // Simple threshold for swipe
+        const SWIPE_THRESHOLD = 50;
+        if (Math.abs(info.offset.x) > SWIPE_THRESHOLD) {
+          if (info.offset.x > 0) {
+            handleManualNavigation(-1);
+          } else {
+            handleManualNavigation(1);
+          }
+        }
+        // Small delay to prevent click from firing immediately after drag
+        setTimeout(() => {
+          isDraggingRef.current = false;
+        }, 50);
+      }}
     >
       <div className={viewportClassName}>
         {showHoverMask && (
@@ -491,8 +517,8 @@ export function FeaturedCarousel({
         )}
         {cardItems}
       </div>
-      
-      {hasMultipleProjects && (
+
+      {hasMultipleProjects && !isPeekVariant && (
         <motion.div className={controlsContainerClassName}>
           <motion.button
             type="button"
@@ -525,6 +551,6 @@ export function FeaturedCarousel({
           </motion.button>
         </motion.div>
       )}
-    </div>
+    </motion.div>
   );
 }

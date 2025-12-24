@@ -33,31 +33,45 @@ export const EASE_LEAVE = cubicBezier(0.22, 1, 0.36, 1);
 export const EASE_ENTER = cubicBezier(0.16, 1, 0.3, 1);
 
 const variantStyles: Record<CarouselVariant, VariantStyle> = {
-  center:       { x: "-50%", scale: 1,   opacity: 1,   zIndex: 30 },
-  left:         { x: "-108%", scale: 0.9, opacity: 1, zIndex: 20 },
-  right:        { x: "8%",    scale: 0.9, opacity: 1, zIndex: 20 },
-  hiddenLeft:   { x: "-120%", scale: 0.5, opacity: 0,   zIndex: 10 },
-  hiddenRight:  { x: "20%",   scale: 0.5, opacity: 0,   zIndex: 10 },
-  hiddenCenter: { x: "-50%",  scale: 0.5, opacity: 0,   zIndex: 10 },
+  center: { x: "-50%", scale: 1, opacity: 1, zIndex: 30 },
+  left: { x: "-108%", scale: 0.9, opacity: 1, zIndex: 20 },
+  right: { x: "8%", scale: 0.9, opacity: 1, zIndex: 20 },
+  hiddenLeft: { x: "-120%", scale: 0.5, opacity: 0, zIndex: 10 },
+  hiddenRight: { x: "20%", scale: 0.5, opacity: 0, zIndex: 10 },
+  hiddenCenter: { x: "-50%", scale: 0.5, opacity: 0, zIndex: 10 },
+};
+
+const peekVariantStyles: Record<CarouselVariant, VariantStyle> = {
+  center: { x: "-50%", scale: 1, opacity: 1, zIndex: 30 },
+  left: { x: "-155%", scale: 0.9, opacity: 1, zIndex: 20 },
+  right: { x: "55%", scale: 0.9, opacity: 1, zIndex: 20 },
+  hiddenLeft: { x: "-260%", scale: 0.5, opacity: 0, zIndex: 10 },
+  hiddenRight: { x: "160%", scale: 0.5, opacity: 0, zIndex: 10 },
+  hiddenCenter: { x: "-50%", scale: 0.5, opacity: 0, zIndex: 10 },
 };
 
 const hiddenVariants: CarouselVariant[] = ["hiddenLeft", "hiddenRight", "hiddenCenter"];
 
 export const isHiddenVariant = (v: CarouselVariant) => hiddenVariants.includes(v);
 export const isCenterVariant = (v: CarouselVariant) => v === "center";
-export const getInitialStyle = (v: CarouselVariant) => variantStyles[v];
+
+export const getInitialStyle = (v: CarouselVariant, usePeekVariant = false) => {
+  return usePeekVariant ? peekVariantStyles[v] : variantStyles[v];
+};
 
 export function getVariantAnimationFromTo(
   next: CarouselVariant,
   prev?: CarouselVariant,
+  usePeekVariant = false
 ): VariantAnimation {
-  const to = variantStyles[next];
+  const styles = usePeekVariant ? peekVariantStyles : variantStyles;
+  const to = styles[next];
 
   if (!prev || prev === next) {
     return { animate: to, transition: { duration: DUR_OTHER_S, ease: EASE_LEAVE } };
   }
 
-  const from = variantStyles[prev];
+  const from = styles[prev];
 
   if (prev === "center" && next !== "center") {
     return {
@@ -67,7 +81,7 @@ export function getVariantAnimationFromTo(
         opacity: 1,
         zIndex: to.zIndex,
       },
-      transition: { duration: DUR_OTHER_S, ease: EASE_LEAVE, opacity: { duration: 0 }},
+      transition: { duration: DUR_OTHER_S, ease: EASE_LEAVE, opacity: { duration: 0 } },
     };
   }
 
@@ -84,7 +98,7 @@ export function getVariantAnimationFromTo(
   }
 
   const enterRightFromHidden = next === "right" && (prev === "hiddenRight" || prev === "hiddenCenter");
-  const enterLeftFromHidden  = next === "left"  && (prev === "hiddenLeft"  || prev === "hiddenCenter");
+  const enterLeftFromHidden = next === "left" && (prev === "hiddenLeft" || prev === "hiddenCenter");
 
   if (enterRightFromHidden || enterLeftFromHidden) {
     return {
