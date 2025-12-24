@@ -30,7 +30,7 @@ export const DUR_ENTER_CENTER_MS = Math.round(DUR_ENTER_CENTER_S * 1000);
 export const DUR_OTHER_MS = Math.round(DUR_OTHER_S * 1000);
 
 export const EASE_LEAVE = cubicBezier(0.22, 1, 0.36, 1);
-export const EASE_ENTER = cubicBezier(0.2, 1, 0.3, 1);
+export const EASE_ENTER = cubicBezier(0.2, 1, 0.32, 1);
 
 const variantStyles: Record<CarouselVariant, VariantStyle> = {
   center: { x: "-50%", scale: 1, opacity: 1, zIndex: 30 },
