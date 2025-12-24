@@ -43,8 +43,8 @@ const variantStyles: Record<CarouselVariant, VariantStyle> = {
 
 const peekVariantStyles: Record<CarouselVariant, VariantStyle> = {
   center: { x: "-50%", scale: 1, opacity: 1, zIndex: 30 },
-  left: { x: "-155%", scale: 0.95, opacity: 1, zIndex: 20 },
-  right: { x: "55%", scale: 0.95, opacity: 1, zIndex: 20 },
+  left: { x: "-155%", scale: 0.9, opacity: 1, zIndex: 20 },
+  right: { x: "55%", scale: 0.9, opacity: 1, zIndex: 20 },
   hiddenLeft: { x: "-260%", scale: 0.5, opacity: 0, zIndex: 10 },
   hiddenRight: { x: "160%", scale: 0.5, opacity: 0, zIndex: 10 },
   hiddenCenter: { x: "-50%", scale: 0.5, opacity: 0, zIndex: 10 },
