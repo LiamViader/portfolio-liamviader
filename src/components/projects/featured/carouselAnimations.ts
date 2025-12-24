@@ -68,7 +68,7 @@ export function getVariantAnimationFromTo(
   const to = styles[next];
 
   if (!prev || prev === next) {
-    return { animate: to, transition: { duration: DUR_OTHER_S, ease: EASE_LEAVE } };
+    return { animate: to, transition: { duration: DUR_ENTER_CENTER_S, ease: EASE_LEAVE } };
   }
 
   const from = styles[prev];
@@ -81,7 +81,7 @@ export function getVariantAnimationFromTo(
         opacity: 1,
         zIndex: to.zIndex,
       },
-      transition: { duration: DUR_OTHER_S, ease: EASE_LEAVE, opacity: { duration: 0 } },
+      transition: { duration: DUR_ENTER_CENTER_S, ease: EASE_LEAVE, opacity: { duration: 0 } },
     };
   }
 
@@ -108,7 +108,7 @@ export function getVariantAnimationFromTo(
         opacity: 1,
         zIndex: to.zIndex,
       },
-      transition: { duration: 1.2, ease: EASE_ENTER, opacity: { duration: 0 } },
+      transition: { duration: DUR_ENTER_CENTER_S, ease: EASE_ENTER, opacity: { duration: 0 } },
     };
   }
 
@@ -119,6 +119,6 @@ export function getVariantAnimationFromTo(
       opacity: [from.opacity, to.opacity],
       zIndex: to.zIndex,
     },
-    transition: { duration: DUR_OTHER_S, ease: EASE_LEAVE },
+    transition: { duration: DUR_ENTER_CENTER_S, ease: EASE_LEAVE },
   };
 }
