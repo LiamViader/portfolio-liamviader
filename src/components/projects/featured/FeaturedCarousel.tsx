@@ -22,6 +22,8 @@ const ctrlLeft: Variants = {
   show: {
     opacity: 1,
     x: 0,
+    backgroundColor: "rgba(255,255,255,0.05)",
+    borderColor: "rgba(255,255,255,0.10)",
     transition: {
       opacity: { duration: 0.8, ease: "easeOut", delay: 0.5 },
       x: { duration: 0.8, ease: "easeOut", delay: 0.5 }
@@ -31,7 +33,6 @@ const ctrlLeft: Variants = {
     scale: 1.1,
     backgroundColor: "rgba(14,165,233,0.10)",
     borderColor: "rgba(14,165,233,0.60)",
-    boxShadow: "0 10px 28px rgba(56,189,248,0.35)",
     transition: {
       type: "spring",
       stiffness: 420,
@@ -55,6 +56,8 @@ const ctrlRight: Variants = {
   show: {
     opacity: 1,
     x: 0,
+    backgroundColor: "rgba(255,255,255,0.05)",
+    borderColor: "rgba(255,255,255,0.10)",
     transition: {
       opacity: { duration: 0.8, ease: "easeOut", delay: 0.5 },
       x: { duration: 0.8, ease: "easeOut", delay: 0.5 }
@@ -64,7 +67,6 @@ const ctrlRight: Variants = {
     scale: 1.1,
     backgroundColor: "rgba(14,165,233,0.10)",
     borderColor: "rgba(14,165,233,0.60)",
-    boxShadow: "0 10px 28px rgba(56,189,248,0.35)",
     transition: {
       type: "spring",
       stiffness: 420,
@@ -79,6 +81,19 @@ const ctrlRight: Variants = {
       type: "spring",
       stiffness: 420,
       damping: 26
+    }
+  }
+};
+
+const dotsVariants: Variants = {
+  hidden: { opacity: 0, y: 10 },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: {
+      duration: 0.8,
+      ease: "easeOut",
+      delay: 0.2
     }
   }
 };
@@ -372,7 +387,7 @@ export function FeaturedCarousel({
   );
 
   const controlButtonClassName = clsx(
-    "pointer-events-auto cursor-pointer inline-flex h-12 w-12 items-center justify-center rounded-full backdrop-blur-xl border border-white/40 bg-white/[0.07] text-white shadow-lg focus:outline-none focus-visible:ring-2 focus-visible:ring-white/70",
+    "pointer-events-auto cursor-pointer inline-flex h-12 w-12 items-center justify-center rounded-full backdrop-blur-xl border border-white/10 bg-white/5 text-white",
     layout?.controlButtonClassName,
   );
 
@@ -477,7 +492,7 @@ export function FeaturedCarousel({
   return (
     <motion.div
       ref={containerRef}
-      className={containerClassName}
+      className={clsx(containerClassName, "flex-col")}
       onMouseEnter={handleInteractionStart}
       onMouseLeave={handleInteractionEnd}
       onFocusCapture={handleInteractionStart}
@@ -506,49 +521,77 @@ export function FeaturedCarousel({
         }, 50);
       }}
     >
-      <div className={viewportClassName}>
-        {showHoverMask && (
-          <div
-            aria-hidden
-            role="presentation"
-            className="absolute inset-0 z-[70] bg-transparent"
-            style={{ pointerEvents: "auto", cursor: "auto" }}
-          />
+      <div className="relative flex w-full justify-center">
+        <div className={viewportClassName}>
+          {showHoverMask && (
+            <div
+              aria-hidden
+              role="presentation"
+              className="absolute inset-0 z-[70] bg-transparent"
+              style={{ pointerEvents: "auto", cursor: "auto" }}
+            />
+          )}
+          {cardItems}
+        </div>
+
+        {hasMultipleProjects && !isPeekVariant && (
+          <motion.div className={controlsContainerClassName}>
+            <motion.button
+              type="button"
+              onClick={() => handleManualNavigation(-1)}
+              className={controlButtonClassName}
+              variants={ctrlLeft}
+              initial={introAnimationEnabled ? "hidden" : "show"}
+              animate={introAnimationEnabled && !introStart ? "hidden" : "show"}
+              whileHover="hover"
+              whileTap="tap"
+              aria-label="View previous project"
+            >
+              <ChevronLeft className="h-5 w-5" />
+              <span className="sr-only">View previous project</span>
+            </motion.button>
+
+            <motion.button
+              type="button"
+              onClick={() => handleManualNavigation(1)}
+              className={controlButtonClassName}
+              variants={ctrlRight}
+              initial={introAnimationEnabled ? "hidden" : "show"}
+              animate={introAnimationEnabled && !introStart ? "hidden" : "show"}
+              whileHover="hover"
+              whileTap="tap"
+              aria-label="View next project"
+            >
+              <ChevronRight className="h-5 w-5" />
+              <span className="sr-only">View next project</span>
+            </motion.button>
+          </motion.div>
         )}
-        {cardItems}
       </div>
 
-      {hasMultipleProjects && !isPeekVariant && (
-        <motion.div className={controlsContainerClassName}>
-          <motion.button
-            type="button"
-            onClick={() => handleManualNavigation(-1)}
-            className={controlButtonClassName}
-            variants={ctrlLeft}
-            initial={introAnimationEnabled ? "hidden" : "show"}
-            animate={introAnimationEnabled && !introStart ? "hidden" : "show"}
-            whileHover="hover"
-            whileTap="tap"
-            aria-label="View previous project"
-          >
-            <ChevronLeft className="h-5 w-5" />
-            <span className="sr-only">View previous project</span>
-          </motion.button>
-
-          <motion.button
-            type="button"
-            onClick={() => handleManualNavigation(1)}
-            className={controlButtonClassName}
-            variants={ctrlRight}
-            initial={introAnimationEnabled ? "hidden" : "show"}
-            animate={introAnimationEnabled && !introStart ? "hidden" : "show"}
-            whileHover="hover"
-            whileTap="tap"
-            aria-label="View next project"
-          >
-            <ChevronRight className="h-5 w-5" />
-            <span className="sr-only">View next project</span>
-          </motion.button>
+      {/* Navigation Dots */}
+      {hasMultipleProjects && (
+        <motion.div
+          className="mt-8 flex justify-center gap-2 z-[90]"
+          variants={dotsVariants}
+          initial={introAnimationEnabled ? "hidden" : "show"}
+          animate={introAnimationEnabled && !introStart ? "hidden" : "show"}
+        >
+          {projects.map((_, idx) => (
+            <div
+              key={idx}
+              className="group relative h-2 w-2 rounded-full bg-white/20 p-0"
+              aria-hidden="true"
+            >
+              {idx === activeIndex && (
+                <motion.div
+                  layoutId="activeDot"
+                  className="absolute inset-0 rounded-full bg-white"
+                  transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                />
+              )}
+            </div>
+          ))}
         </motion.div>
       )}
     </motion.div>

@@ -6,12 +6,12 @@ import { motion, Variants } from "framer-motion";
 import { useState, useRef, useEffect, useMemo } from "react";
 import { usePerfTier } from "@/hooks/usePerfTier";
 
-const TRANSPARENT_BASE_BG   = "rgba(255,255,255,0.05)";
+const TRANSPARENT_BASE_BG = "rgba(255,255,255,0.05)";
 const BASE_BORD = "rgba(255,255,255,0.10)";
-const TRANSPARENT_HOVER_BG  = "rgba(56,189,248,0.10)";
+const TRANSPARENT_HOVER_BG = "rgba(56,189,248,0.10)";
 const HOVER_BOR = "rgba(56,189,248,0.60)";
-const HOVER_SH  = "0 0 30px rgba(56,189,248,0.50)";
-const BASE_SH   = "0 0 30px rgba(56,189,248,0.01)";
+const HOVER_SH = "0 0 30px rgba(56,189,248,0.50)";
+const BASE_SH = "0 0 30px rgba(56,189,248,0.01)";
 
 const cardVariants: Variants = {
   hidden: {
@@ -119,7 +119,7 @@ export function FeaturedCarouselCard({
   const descSize = descriptionClassName ?? "text-sm md:text-base";
   const tagSize = tagClassName ?? "text-xs";
 
-  const {canHover} = usePerfTier();
+  const { canHover } = usePerfTier();
 
   const [introDone, setIntroDone] = useState(!introAnimationEnabled);
   const isIntro = introStart && !introDone;
@@ -237,7 +237,7 @@ export function FeaturedCarouselCard({
       variants={cardVariants}
       initial={introAnimationEnabled ? "hidden" : "show"}
       animate={introAnimationEnabled && !introStart ? "hidden" : "show"}
-      custom={{ order: introOrder, isIntro, translate: !shouldHide , canHover: canHover}}
+      custom={{ order: introOrder, isIntro, translate: !shouldHide, canHover: canHover }}
       onAnimationComplete={() => {
         if (isIntro) {
           setIntroDone(true);
@@ -251,10 +251,9 @@ export function FeaturedCarouselCard({
         shadow-[0_0_10px_rgba(0,0,0,0.40)]
         backdrop-blur-xl
         transform-gpu will-change-[transform,opacity]
-        ${
-          shouldHide
-            ? "pointer-events-none select-none !opacity-0"
-            : ""
+        ${shouldHide
+          ? "pointer-events-none select-none !opacity-0"
+          : ""
         }
       `}
       style={{
