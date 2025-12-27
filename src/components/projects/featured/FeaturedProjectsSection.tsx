@@ -69,7 +69,7 @@ export default function FeaturedProjectsSection({
   const leftItem = createLeftItemVariants(entranceAnimationEnabled);
 
   return (
-    <div className={clsx("relative pt-4 sm:pt-2", className)}>
+    <div className={clsx("relative", className)}>
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-gray-300/5 to-transparent" />
       <Container>
         <ContentBlock>
