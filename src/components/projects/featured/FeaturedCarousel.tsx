@@ -582,7 +582,7 @@ export function FeaturedCarousel({
       {/* Navigation Dots */}
       {hasMultipleProjects && (
         <motion.div
-          className="mt-8 flex justify-center gap-2 z-[90]"
+          className="mt-6 flex justify-center gap-2 z-[90]"
           variants={dotsVariants}
           initial={introAnimationEnabled ? "hidden" : "show"}
           animate={introAnimationEnabled && !introStart ? "hidden" : "show"}
