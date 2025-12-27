@@ -110,7 +110,7 @@ export default function ContactPage() {
       value: t("links.items.email.value"),
       styles: {
         containerHover: "",
-        iconColors: "text-rose-400/80",
+        iconColors: "text-rose-400/70",
         iconMobile: "",
         iconDesktop: "",
         text: "group-hover:underline"
@@ -124,7 +124,7 @@ export default function ContactPage() {
       value: t("links.items.linkedin.value"),
       styles: {
         containerHover: "",
-        iconColors: "text-sky-400/80",
+        iconColors: "text-sky-400/75",
         iconMobile: "",
         iconDesktop: "",
         text: "group-hover:underline"
@@ -138,7 +138,7 @@ export default function ContactPage() {
       value: t("links.items.github.value"),
       styles: {
         containerHover: "",
-        iconColors: "text-violet-400/80",
+        iconColors: "text-violet-400/70",
         iconMobile: "",
         iconDesktop: "",
         text: "group-hover:underline"
