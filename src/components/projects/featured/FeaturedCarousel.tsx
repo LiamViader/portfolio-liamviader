@@ -18,69 +18,79 @@ import { FeaturedCarouselCard } from "./FeaturedCarouselCard";
 
 
 const ctrlLeft: Variants = {
-  hidden: { opacity: 0, x: 40 },
+  hidden: { opacity: 0, x: 20 },
   show: {
     opacity: 1,
     x: 0,
-    backgroundColor: "rgba(255,255,255,0.05)",
-    borderColor: "rgba(255,255,255,0.10)",
+    backgroundColor: "rgba(255,255,255,0.03)",
+    borderColor: "rgba(255,255,255,0.05)",
+    color: "rgba(255,255,255,0.7)",
     transition: {
       opacity: { duration: 0.8, ease: "easeOut", delay: 0.5 },
-      x: { duration: 0.8, ease: "easeOut", delay: 0.5 }
+      x: { duration: 0.8, ease: "easeOut", delay: 0.5 },
+      backgroundColor: { duration: 0.3 },
+      borderColor: { duration: 0.3 },
+      color: { duration: 0.3 }
     }
   },
   hover: {
-    scale: 1.1,
-    backgroundColor: "rgba(14,165,233,0.10)",
-    borderColor: "rgba(14,165,233,0.60)",
+    scale: 1.05,
+    backgroundColor: "rgba(255,255,255,0.15)",
+    borderColor: "rgba(255,255,255,0.3)",
+    color: "rgba(255,255,255,1)",
     transition: {
       type: "spring",
-      stiffness: 420,
-      damping: 26
+      stiffness: 400,
+      damping: 25
     }
   },
   tap: {
-    backgroundColor: "rgba(14,165,233,0.10)",
-    borderColor: "rgba(14,165,233,0.60)",
+    backgroundColor: "rgba(255,255,255,0.1)",
+    borderColor: "rgba(255,255,255,0.2)",
     scale: 0.95,
     transition: {
       type: "spring",
-      stiffness: 420,
-      damping: 26
+      stiffness: 400,
+      damping: 25
     }
   }
 };
 
 const ctrlRight: Variants = {
-  hidden: { opacity: 0, x: -40 },
+  hidden: { opacity: 0, x: -20 },
   show: {
     opacity: 1,
     x: 0,
-    backgroundColor: "rgba(255,255,255,0.05)",
-    borderColor: "rgba(255,255,255,0.10)",
+    backgroundColor: "rgba(255,255,255,0.03)",
+    borderColor: "rgba(255,255,255,0.05)",
+    color: "rgba(255,255,255,0.7)",
     transition: {
       opacity: { duration: 0.8, ease: "easeOut", delay: 0.5 },
-      x: { duration: 0.8, ease: "easeOut", delay: 0.5 }
+      x: { duration: 0.8, ease: "easeOut", delay: 0.5 },
+      backgroundColor: { duration: 0.3 },
+      borderColor: { duration: 0.3 },
+      color: { duration: 0.3 }
     }
   },
   hover: {
-    scale: 1.1,
-    backgroundColor: "rgba(14,165,233,0.10)",
-    borderColor: "rgba(14,165,233,0.60)",
+    scale: 1.05,
+    backgroundColor: "rgba(255,255,255,0.15)",
+    borderColor: "rgba(255,255,255,0.3)",
+    color: "rgba(255,255,255,1)",
     transition: {
       type: "spring",
-      stiffness: 420,
-      damping: 26
+      stiffness: 400,
+      damping: 25
     }
   },
   tap: {
-    backgroundColor: "rgba(14,165,233,0.10)",
-    borderColor: "rgba(14,165,233,0.60)",
+    backgroundColor: "rgba(255,255,255,0.1)",
+    borderColor: "rgba(255,255,255,0.2)",
     scale: 0.95,
     transition: {
       type: "spring",
-      stiffness: 420,
-      damping: 26
+      stiffness: 400,
+      damping: 25
     }
   }
 };
@@ -387,7 +397,7 @@ export function FeaturedCarousel({
   );
 
   const controlButtonClassName = clsx(
-    "pointer-events-auto cursor-pointer inline-flex h-12 w-12 items-center justify-center rounded-full backdrop-blur-xl border border-white/10 bg-white/5 text-white",
+    "pointer-events-auto cursor-pointer inline-flex h-10 w-10 items-center justify-center rounded-full backdrop-blur-sm border border-transparent shadow-sm",
     layout?.controlButtonClassName,
   );
 
