@@ -133,7 +133,7 @@ export function FeaturedProjectsHomeSection({
           </Stack>
         </motion.div>
 
-        <Stack size="md">
+        <Stack size="md" className="pt-2 sm:pt-0">
           <FeaturedProjects
             projects={projects}
             introStart={cardsIntro}
