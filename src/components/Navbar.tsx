@@ -49,11 +49,10 @@ export default function Navbar({
               key={item.href}
               href={item.href}
               onClick={() => setPendingPath(item.href)}
-              className={`text-base transition-colors ${
-                isActive(item.href, item.exact)
-                  ? "text-white border-b border-sky-200/70"
-                  : "text-white hover:text-sky-200 hover:border-b border-sky-200/70"
-              }`}
+              className={`text-base transition-colors ${isActive(item.href, item.exact)
+                ? "text-white border-b border-sky-200/70"
+                : "text-white hover:text-sky-200 hover:border-b border-sky-200/70"
+                }`}
             >
               {item.label}
             </Link>
@@ -69,7 +68,7 @@ export default function Navbar({
       <div className="md:hidden">
         <button
           onClick={() => setIsOpen(!isOpen)}
-          className="p-2 rounded bg-white/8 hover:bg-white/15 relative z-50"
+          className="p-2 rounded bg-white/10 hover:bg-white/15 relative z-50 border border-white/10"
         >
           {isOpen ? <X size={24} /> : <Menu size={24} />}
         </button>
