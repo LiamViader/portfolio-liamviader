@@ -117,9 +117,8 @@ export default function LanguageSwitcher() {
                     setPendingLocale(code);
                     setOpen(false);
                   }}
-                  className={`flex items-center justify-between gap-1 px-2 py-2 text-xs hover:bg-white/10 transition-colors ${
-                    isActive ? "bg-white/10" : ""
-                  }`}
+                  className={`flex items-center justify-between gap-1 px-2 py-2 text-xs hover:bg-white/10 transition-colors ${isActive ? "bg-white/10" : ""
+                    }`}
                 >
                   <span className="flex items-center gap-1.5">
                     <ReactCountryFlag
@@ -130,17 +129,6 @@ export default function LanguageSwitcher() {
                     />
                     <span>{label}</span>
                   </span>
-
-                  {isActive && (
-                    <motion.span
-                      initial={{ opacity: 0, scale: 0.8 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      exit={{ opacity: 0, scale: 0.8 }}
-                      className="text-[0.5rem] opacity-80"
-                    >
-                      ✓
-                    </motion.span>
-                  )}
                 </Link>
               );
             })}
