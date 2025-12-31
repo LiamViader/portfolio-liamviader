@@ -152,7 +152,7 @@ export function FeaturedProjectsHomeSection({
             allowUrlOpen={allowUrlOpen}
             carouselIntroEnabled={entranceAnimationEnabled}
             debugTransparent={false}
-            backgroundColor="rgb(24, 28, 57)"
+            backgroundColor="rgb(26, 30, 51)"
           />
           <ButtonGroup className="xl:hidden" align="center">
             <motion.div variants={leftItem}>

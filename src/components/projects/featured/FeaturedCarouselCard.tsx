@@ -11,7 +11,7 @@ const BASE_BORD = "rgba(255,255,255,0.10)";
 const TRANSPARENT_HOVER_BG = "rgba(56,189,248,0.10)";
 const HOVER_BOR = "rgba(56,189,248,0.60)";
 const HOVER_SH = "0 0 30px rgba(56,189,248,0.50)";
-const BASE_SH = "0 0 30px rgba(56,189,248,0.01)";
+const BASE_SH = "0 0 30px rgba(0, 0, 0, 0.5)";
 
 const cardVariants: Variants = {
   hidden: (
@@ -370,8 +370,8 @@ export function FeaturedCarouselCard({
       <motion.div
         className="pointer-events-none absolute inset-0 z-30 bg-black"
         initial={false}
-        animate={{ opacity: isCenter ? 0 : 0.1 }}
-        transition={{ duration: 0.3 }}
+        animate={{ opacity: isCenter ? 0 : 0.02 }}
+        transition={{ duration: 0.2 }}
       />
     </motion.article>
   );
