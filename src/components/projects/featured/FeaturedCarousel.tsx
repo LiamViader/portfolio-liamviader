@@ -22,7 +22,7 @@ const ctrlLeft: Variants = {
   show: {
     opacity: 1,
     x: 0,
-    backgroundColor: "rgba(255,255,255,0.03)",
+    backgroundColor: "rgba(255,255,255,0.05)",
     borderColor: "rgba(255,255,255,0.05)",
     color: "rgba(255,255,255,0.7)",
     transition: {
@@ -61,7 +61,7 @@ const ctrlRight: Variants = {
   show: {
     opacity: 1,
     x: 0,
-    backgroundColor: "rgba(255,255,255,0.03)",
+    backgroundColor: "rgba(255,255,255,0.05)",
     borderColor: "rgba(255,255,255,0.05)",
     color: "rgba(255,255,255,0.7)",
     transition: {
