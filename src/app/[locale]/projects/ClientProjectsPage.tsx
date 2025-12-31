@@ -79,7 +79,7 @@ export default function ClientProjectsPage({ projectsData }: ClientProjectsPageP
   const currentSlug = (searchParams.get("filter") as ClientCategorySlug) || "all";
   const category: ClientCategorySlug = CATEGORY_CONFIG[currentSlug] ? currentSlug : "all";
   const getBackgroundColor = (cat: ClientCategorySlug) => {
-    if (cat === "ai") return "rgb(32, 63, 92)";
+    if (cat === "ai") return "rgb(14, 56, 96)";
     if (cat === "games") return "rgb(47, 22, 61)";
     return "rgb(29, 30, 35)";
   };
