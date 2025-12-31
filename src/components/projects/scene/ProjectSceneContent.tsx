@@ -120,7 +120,6 @@ export default function ProjectSceneContent({ category }: ProjectSceneContentPro
         ) : (
           <Bloom key="optimized-bloom" intensity={1.5} luminanceThreshold={0.2} luminanceSmoothing={0.1} mipmapBlur />
         )}
-        {backgroundsOptimization === "normal" ? <Noise opacity={0.03} /> : <></>}
       </EffectComposer>
     </>
   );
