@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useMemo, useEffect } from "react";
+import { useRef, useMemo, useEffect, useState } from "react";
 import { useFrame, useThree } from "@react-three/fiber";
 import { animated } from "@react-spring/three";
 import * as THREE from "three";
@@ -29,6 +29,16 @@ export default function SceneAll({ opacity, transitionProgress, isVisible }: Sce
   const accumulatedDistance = useRef(0);
   const sceneStartTime = useRef<number | null>(null);
 
+  // Initial stable width
+  const [stableWidth, setStableWidth] = useState(size.width);
+
+  // Update stableWidth only if difference > 10px to avoid frequent re-calculation of particleCount
+  useEffect(() => {
+    if (Math.abs(size.width - stableWidth) > 10) {
+      setStableWidth(size.width);
+    }
+  }, [size.width, stableWidth]);
+
   // Calculate particle count based on optimization and screen width
   const particleCount = useMemo(() => {
     let optimizationMult = 0.25;
@@ -36,10 +46,10 @@ export default function SceneAll({ opacity, transitionProgress, isVisible }: Sce
     else if (backgroundsOptimization === "semioptimized") optimizationMult = 0.5;
 
     // Scale count by width, capped at 1
-    const widthMult = Math.min(1, size.width / DESKTOP_BASELINE);
+    const widthMult = Math.min(1, stableWidth / DESKTOP_BASELINE);
 
     return Math.floor(PARTICLE_BASE_COUNT * optimizationMult * widthMult);
-  }, [backgroundsOptimization, size.width]);
+  }, [backgroundsOptimization, stableWidth]);
 
   // Responsive scale factor based on window width, capped at 1.0 for desktop
   const scaleFactor = Math.min(1, size.width / DESKTOP_BASELINE);
