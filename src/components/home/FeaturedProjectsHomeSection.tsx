@@ -109,7 +109,7 @@ export function FeaturedProjectsHomeSection({
           }}
           className="flex flex-col will-change-transform"
         >
-          <Stack size="lg" className="xl:mt-12">
+          <Stack size="lg" className="xl:mt-18">
             <SectionHeader
               title={title}
               description={description}
