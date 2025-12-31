@@ -8,7 +8,9 @@ import { SceneProps } from "./SceneTypes";
 
 const AnimatedStandardMaterial = animated("meshStandardMaterial");
 
-const PARTICLE_COUNT = 800;
+import { usePerformanceConfig } from "@/hooks/usePerformanceConfig";
+
+const PARTICLE_BASE_COUNT = 800;
 const PARTICLE_RANGE = 50;
 const Z_RESET_OFFSET = 15;
 const CYCLE_DURATION = 30;
@@ -17,13 +19,33 @@ const START_SPEED = -10.0;
 const END_SPEED = 0.7;
 const TRANSITION_DURATION = 3;
 
-const DESKTOP_BASELINE = 1980;
+const DESKTOP_BASELINE = 1440;
 
 export default function SceneAll({ opacity, transitionProgress, isVisible }: SceneProps) {
   const meshRef = useRef<THREE.InstancedMesh>(null);
+  const { size } = useThree();
+  const { backgroundsOptimization } = usePerformanceConfig();
 
   const accumulatedDistance = useRef(0);
   const sceneStartTime = useRef<number | null>(null);
+
+  // Calculate particle count based on optimization and screen width
+  const particleCount = useMemo(() => {
+    let optimizationMult = 0.25;
+    if (backgroundsOptimization === "normal") optimizationMult = 1;
+    else if (backgroundsOptimization === "semioptimized") optimizationMult = 0.5;
+
+    // Scale count by width, capped at 1
+    const widthMult = Math.min(1, size.width / DESKTOP_BASELINE);
+
+    return Math.floor(PARTICLE_BASE_COUNT * optimizationMult * widthMult);
+  }, [backgroundsOptimization, size.width]);
+
+  // Responsive scale factor based on window width, capped at 1.0 for desktop
+  const scaleFactor = Math.min(1, size.width / DESKTOP_BASELINE);
+
+  // Adjust X range based on viewport and scale factor to keep density consistent or contained
+  const effectiveRangeX = PARTICLE_RANGE * scaleFactor;
 
   useEffect(() => {
     if (isVisible) {
@@ -37,7 +59,7 @@ export default function SceneAll({ opacity, transitionProgress, isVisible }: Sce
     const initialZ: number[] = [];
     const initialPos: THREE.Vector3[] = [];
 
-    for (let i = 0; i < PARTICLE_COUNT; i++) {
+    for (let i = 0; i < particleCount; i++) {
 
       const pos = new THREE.Vector3(
         (Math.random() - 0.5) * PARTICLE_RANGE * 2,
@@ -50,7 +72,7 @@ export default function SceneAll({ opacity, transitionProgress, isVisible }: Sce
       initialZ.push(pos.z);
     }
     return { positions, rotations, initialZ, initialPos };
-  }, []);
+  }, [particleCount]);
 
   const tempObject = useMemo(() => new THREE.Object3D(), []);
   const color = useMemo(() => new THREE.Color(), []);
@@ -86,7 +108,7 @@ export default function SceneAll({ opacity, transitionProgress, isVisible }: Sce
     const baseBrightness = THREE.MathUtils.lerp(0.5, 1.0, t);
     const hueBase = (globalTime * 10) % 360;
 
-    for (let i = 0; i < PARTICLE_COUNT; i++) {
+    for (let i = 0; i < particleCount; i++) {
       const pos = positions[i];
       const init = initialPos[i];
 
@@ -121,7 +143,7 @@ export default function SceneAll({ opacity, transitionProgress, isVisible }: Sce
   return (
     <animated.instancedMesh
       ref={meshRef}
-      args={[undefined, undefined, PARTICLE_COUNT]}
+      args={[undefined, undefined, particleCount]}
       frustumCulled={false}
     >
       <sphereGeometry args={[0.08, 8, 8]} />
