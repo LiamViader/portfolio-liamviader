@@ -83,27 +83,27 @@ export function HeroSection({ personalInfo, age, entranceAnimationsEnabled }: He
 
   const infoListVariants = entranceAnimationsEnabled
     ? {
-        hidden: { opacity: 1 },
-        show: {
-          opacity: 1,
-          transition: {
-            delayChildren: BASE_DELAY_ENTRANCE + 0.3,
-            staggerChildren: 0.15,
-            when: "beforeChildren",
-          },
+      hidden: { opacity: 1 },
+      show: {
+        opacity: 1,
+        transition: {
+          delayChildren: BASE_DELAY_ENTRANCE + 0.3,
+          staggerChildren: 0.15,
+          when: "beforeChildren",
         },
-      }
+      },
+    }
     : {
-        hidden: { opacity: 1 },
-        show: {
-          opacity: 1,
-          transition: {
-            delayChildren: 0,
-            staggerChildren: 0,
-            when: "beforeChildren",
-          },
+      hidden: { opacity: 1 },
+      show: {
+        opacity: 1,
+        transition: {
+          delayChildren: 0,
+          staggerChildren: 0,
+          when: "beforeChildren",
         },
-      };
+      },
+    };
 
   return (
     <HeroSectionWrapper className="relative overflow-hidden">
@@ -193,7 +193,7 @@ export function HeroSection({ personalInfo, age, entranceAnimationsEnabled }: He
               </Stack>
 
               <div className="flex w-full justify-center lg:w-auto lg:justify-end">
-                <AboutPortrait entranceAnimationEnabled={entranceAnimationsEnabled}/>
+                <AboutPortrait entranceAnimationEnabled={entranceAnimationsEnabled} />
               </div>
             </div>
 

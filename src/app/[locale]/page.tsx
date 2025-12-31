@@ -56,11 +56,6 @@ export default function Home() {
   const projects = getProjectsByLocale(locale)
     .filter((project) => project.is_featured) satisfies TranslatedProject[];
 
-  const metricKeys: Array<"ai" | "videogames" | "system_design"> = ["ai", "videogames", "system_design"];
-
-  const titleInfoCardsAnimation = createTitleInfoCardsAnimation(entranceAnimationsEnabled);
-  const infoCardsAnimation = createInfoCardsAnimation(entranceAnimationsEnabled);
-
   return (
     <PageLayout>
       <HeroSectionWrapper className="relative overflow-hidden">

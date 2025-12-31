@@ -22,7 +22,7 @@ export default function ProjectSceneContent({ category }: ProjectSceneContentPro
   const { progress, previousCategory, currentCategory } = useSceneTransition(category);
   // Obtenemos la configuración de optimización
   const { backgroundsOptimization } = usePerformanceConfig();
-  
+
   const { scene, camera } = useThree();
   const scrollTopRef = useRef(0);
   const smoothScrollRef = useRef(0);
@@ -37,11 +37,11 @@ export default function ProjectSceneContent({ category }: ProjectSceneContentPro
     const handleScroll = () => {
       scrollTopRef.current = window.scrollY;
     };
-    
+
     handleScroll();
-    
+
     window.addEventListener("scroll", handleScroll, { passive: true });
-    
+
     return () => window.removeEventListener("scroll", handleScroll);
   }, [backgroundsOptimization]);
 
@@ -60,18 +60,18 @@ export default function ProjectSceneContent({ category }: ProjectSceneContentPro
 
   useFrame(() => {
     const t = progress.get();
-    
+
     const fromIndex = CATEGORY_INDICES[previousCategory] ?? 0;
     const toIndex = CATEGORY_INDICES[currentCategory] ?? 0;
-    
-    const fromColor = CATEGORY_COLORS[fromIndex] || new THREE.Color(0,0,0);
-    const toColor = CATEGORY_COLORS[toIndex] || new THREE.Color(0,0,0);
+
+    const fromColor = CATEGORY_COLORS[fromIndex] || new THREE.Color(0, 0, 0);
+    const toColor = CATEGORY_COLORS[toIndex] || new THREE.Color(0, 0, 0);
 
     if (backgroundsOptimization === "normal") {
       smoothScrollRef.current += (scrollTopRef.current - smoothScrollRef.current) * DAMPING;
       const targetY = smoothScrollRef.current * PX_TO_WORLD_Y;
       camera.position.lerp(new THREE.Vector3(0, targetY, TARGET_Z), 0.1);
-    } 
+    }
 
     if (!scene.background || !(scene.background instanceof THREE.Color)) {
       scene.background = new THREE.Color();
@@ -91,32 +91,36 @@ export default function ProjectSceneContent({ category }: ProjectSceneContentPro
       <directionalLight position={[5, 10, 7]} intensity={1.5} />
 
       {isSceneActive('all') && (
-        <SceneAll 
-          opacity={getOpacity('all')} 
+        <SceneAll
+          opacity={getOpacity('all')}
           transitionProgress={progress}
-          isVisible={currentCategory === 'all'} 
+          isVisible={currentCategory === 'all'}
         />
       )}
 
       {isSceneActive('ai') && (
-        <SceneAI 
-          opacity={getOpacity('ai')} 
+        <SceneAI
+          opacity={getOpacity('ai')}
           transitionProgress={progress}
           isVisible={currentCategory === 'ai'}
         />
       )}
 
       {isSceneActive('games') && (
-        <SceneGames 
-          opacity={getOpacity('games')} 
+        <SceneGames
+          opacity={getOpacity('games')}
           transitionProgress={progress}
           isVisible={currentCategory === 'games'}
         />
       )}
 
-      <EffectComposer>
-        <Bloom intensity={2} luminanceThreshold={0.1} luminanceSmoothing={0.1} />
-        {backgroundsOptimization === "normal" ? <Noise opacity={0.03} /> : <> </>}
+      <EffectComposer multisampling={backgroundsOptimization === "normal" ? 8 : 0}>
+        {backgroundsOptimization === "normal" ? (
+          <Bloom key="normal-bloom" intensity={2} luminanceThreshold={0.1} luminanceSmoothing={0.1} />
+        ) : (
+          <Bloom key="optimized-bloom" intensity={1.5} luminanceThreshold={0.2} luminanceSmoothing={0.1} mipmapBlur />
+        )}
+        {backgroundsOptimization === "normal" ? <Noise opacity={0.03} /> : <></>}
       </EffectComposer>
     </>
   );
