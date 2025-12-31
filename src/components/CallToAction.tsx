@@ -10,9 +10,9 @@ import { Stack } from "./layout/Stack";
 
 
 const createSectionVariants = (animated: boolean): Variants => ({
-  hidden: { 
-    opacity: animated ? 0 : 1, 
-    y: animated ? 64 : 0 
+  hidden: {
+    opacity: animated ? 0 : 1,
+    y: animated ? 64 : 0
   },
   show: {
     opacity: 1,
@@ -27,10 +27,10 @@ const createSectionVariants = (animated: boolean): Variants => ({
 });
 
 const createCardVariants = (animated: boolean): Variants => ({
-  hidden: { 
-    opacity: animated ? 0 : 1, 
-    y: animated ? 32 : 0, 
-    scale: animated ? 0.96 : 1 
+  hidden: {
+    opacity: animated ? 0 : 1,
+    y: animated ? 32 : 0,
+    scale: animated ? 0.96 : 1
   },
   show: {
     opacity: 1,
@@ -46,9 +46,9 @@ const createCardVariants = (animated: boolean): Variants => ({
 });
 
 const createContentVariants = (animated: boolean): Variants => ({
-  hidden: { 
-    opacity: animated ? 0 : 1, 
-    y: animated ? 18 : 0 
+  hidden: {
+    opacity: animated ? 0 : 1,
+    y: animated ? 18 : 0
   },
   show: {
     opacity: 1,
@@ -71,8 +71,8 @@ export default function CallToAction({ entranceAnimationEnabled }: { entranceAni
 
   return (
     <section className="relative pt-4 lg:pt-6">
-      
-      <div className="absolute inset-0 bg-gray-950" />
+
+      <div className="absolute inset-0 bg-gradient-to-b from-transparent to-gray-950 " />
       <Container>
         <ContentBlock>
           <motion.div
@@ -96,7 +96,7 @@ export default function CallToAction({ entranceAnimationEnabled }: { entranceAni
                   {t("cta_text")}
                 </motion.p>
                 <motion.div variants={contentVariants} className="flex flex-wrap justify-center mt-2 pb-24 sm:pb-32 lg:pb-40">
-                  <SkyButton text={t("cta_button_contact")} href="/contact"/>
+                  <SkyButton text={t("cta_button_contact")} href="/contact" />
                 </motion.div>
               </Stack>
             </motion.div>

@@ -76,7 +76,6 @@ export default function ProjectGallery({
 
   return (
     <Section className="relative">
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-gray-950/40 to-gray-950" />
       <Container>
         <ContentBlock>
 
