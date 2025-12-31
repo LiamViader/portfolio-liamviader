@@ -43,7 +43,7 @@ export default function SceneAll({ opacity, transitionProgress, isVisible }: Sce
   const particleCount = useMemo(() => {
     let optimizationMult = 0.25;
     if (backgroundsOptimization === "normal") optimizationMult = 1;
-    else if (backgroundsOptimization === "semioptimized") optimizationMult = 0.5;
+    else if (backgroundsOptimization === "semioptimized") optimizationMult = 0.8;
 
     // Scale count by width, capped at 1
     const widthMult = Math.min(1, stableWidth / DESKTOP_BASELINE);
