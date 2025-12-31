@@ -34,7 +34,7 @@ const cardVariants: Variants = {
       duration: c.isIntro ? 0.65 : 0.5,
       delay: c.isIntro ? c.order * 0.15 : 0,
       ease: "easeOut",
-      backgroundColor: { duration: 0.3 }
+      backgroundColor: { duration: 0.6 }
     },
   }),
   hover: (

@@ -27,7 +27,7 @@ const containerVariants: Variants = {
     backgroundColor: c.useTransparent ? BASE_BG : c.backgroundColor,
     borderColor: BASE_BORD,
     boxShadow: BASE_SH,
-    transition: { duration: 0.4, ease: "easeOut" },
+    transition: { duration: 0.6, ease: "easeOut" },
   }),
   hover: (c: { useTransparent: boolean; backgroundColor: string }) => ({
     y: 0,
