@@ -64,7 +64,7 @@ export default function Home() {
   return (
     <PageLayout>
       <HeroSectionWrapper className="relative overflow-hidden">
-        <PulseHexGridCanvas gridType="Fill" s={50} l={30} hue={235} hueJitter={10} pixelsPerHex={40} />
+        <PulseHexGridCanvas gridType="Fill" s={50} l={30} hue={240} hueJitter={10} pixelsPerHex={40} />
         <PulseHexGridCanvas gridType="OverlapLine" s={60} l={0} hue={240} hueJitter={30} pixelsPerHex={40} />
         <div className="inset-0 absolute bg-[linear-gradient(to_bottom,_rgba(3,7,18,0.1)_0%,_rgba(3,7,18,0.7)_50%,_rgb(3,7,18)_97%,_rgb(3,7,18)_100%)]" />
         <Container>
@@ -91,7 +91,7 @@ export default function Home() {
         {
           (backgroundsOptimization === "normal") ?
             <>
-              <PulseHexGridCanvas gridType="Fill" s={50} l={30} hue={235} hueJitter={10} pixelsPerHex={40} />
+              <PulseHexGridCanvas gridType="Fill" s={50} l={30} hue={240} hueJitter={10} pixelsPerHex={40} />
               <PulseHexGridCanvas gridType="OverlapLine" s={60} l={0} hue={240} hueJitter={30} pixelsPerHex={40} />
             </>
             :
