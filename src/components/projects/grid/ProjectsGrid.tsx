@@ -101,7 +101,7 @@ export default function ProjectsGrid({
   return (
     <>
       <LayoutGroup id="projects">
-        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 px-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 px-2 md:px-4">
           <AnimatePresence mode="popLayout" initial={true}>
             {projects.map((project, index) => (
               <motion.div
