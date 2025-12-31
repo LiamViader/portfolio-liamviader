@@ -56,9 +56,18 @@ interface ProjectGalleryProps {
   filteredProjects: TranslatedProject[];
   onCategoryChange: (category: ClientCategorySlug) => void;
   entranceAnimationEnabled: boolean;
+  debugTransparent?: boolean;
+  backgroundColor?: string;
 }
 
-export default function ProjectGallery({ category, filteredProjects, onCategoryChange, entranceAnimationEnabled }: ProjectGalleryProps) {
+export default function ProjectGallery({
+  category,
+  filteredProjects,
+  onCategoryChange,
+  entranceAnimationEnabled,
+  debugTransparent,
+  backgroundColor
+}: ProjectGalleryProps) {
   const t = useTranslations("ProjectsPage");
   const [gridVisible, setGridVisible] = useState(false);
 
@@ -101,6 +110,8 @@ export default function ProjectGallery({ category, filteredProjects, onCategoryC
                 allowUrlOpen={true}
                 entranceAnimation={entranceAnimationEnabled}
                 shouldAnimate={gridVisible}
+                debugTransparent={debugTransparent}
+                backgroundColor={backgroundColor}
               />
             </motion.div>
           </MotionStack>

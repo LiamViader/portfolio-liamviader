@@ -14,25 +14,27 @@ interface ProjectsGridProps {
   replaceUrl?: boolean;
   allowUrlOpen?: boolean;
   entranceAnimation: boolean;
-  shouldAnimate?: boolean; 
+  shouldAnimate?: boolean;
+  debugTransparent?: boolean;
+  backgroundColor?: string;
 }
 
 type CardRegistry = Map<number, HTMLElement>;
 
 const createItemVariants = (animated: boolean): Variants => ({
-  hidden: { 
-    opacity: 0, 
-    y: animated ? 20 : 0, 
-    scale: animated ? 0.98 : 1 
+  hidden: {
+    opacity: 0,
+    y: animated ? 20 : 0,
+    scale: animated ? 0.98 : 1
   },
   show: (i: number) => ({
     opacity: 1,
     y: 0,
     scale: 1,
-    transition: { 
-      delay: animated ? i * 0.15 : 0, 
-      duration: animated ? 0.8 : 0, 
-      ease: "easeOut" 
+    transition: {
+      delay: animated ? i * 0.15 : 0,
+      duration: animated ? 0.8 : 0,
+      ease: "easeOut"
     },
   }),
   exit: {
@@ -43,14 +45,16 @@ const createItemVariants = (animated: boolean): Variants => ({
   },
 });
 
-export default function ProjectsGrid({ 
-  projects, 
-  replaceUrl = true, 
-  allowUrlOpen = true, 
-  entranceAnimation, 
-  shouldAnimate = true
+export default function ProjectsGrid({
+  projects,
+  replaceUrl = true,
+  allowUrlOpen = true,
+  entranceAnimation,
+  shouldAnimate = true,
+  debugTransparent,
+  backgroundColor
 }: ProjectsGridProps) {
-  
+
   const { selected, revealOrigin, selectProject, closeProject, markOriginRevealed, projectFromUrl } =
     useProjectSelection(projects, { replaceUrl: replaceUrl, allowUrlOpen: allowUrlOpen, deferUrlTrigger: true });
   const cardRefs = useRef<CardRegistry>(new Map());
@@ -82,7 +86,7 @@ export default function ProjectsGrid({
               lastScrollY = window.scrollY;
             }
           }, 400);
-        }, 200); 
+        }, 200);
       }
     }
 
@@ -91,7 +95,7 @@ export default function ProjectsGrid({
       clearInterval(intervalId);
     };
   }, [projectFromUrl, selected, allowUrlOpen, selectProject]);
-  
+
   const itemVariants = createItemVariants(entranceAnimation);
 
   return (
@@ -103,7 +107,7 @@ export default function ProjectsGrid({
               <motion.div
                 key={project.id}
                 layout="position"
-                
+
                 custom={index}
                 variants={itemVariants}
                 initial="hidden"
@@ -112,17 +116,19 @@ export default function ProjectsGrid({
 
                 transition={{ layout: { duration: 0.25, ease: "easeInOut" } }}
               >
-                <div ref={setCardRef(project.id)} className="h-full w-full"> 
+                <div ref={setCardRef(project.id)} className="h-full w-full">
                   <ProjectCard
                     project={project}
                     onSelect={(p) => {
-                        const el = cardRefs.current.get(p.id);
-                        if(el) {
-                            const rect = measureStableRect(el);
-                            selectProject(p, rect, el);
-                        }
+                      const el = cardRefs.current.get(p.id);
+                      if (el) {
+                        const rect = measureStableRect(el);
+                        selectProject(p, rect, el);
+                      }
                     }}
                     isHidden={Boolean(selected?.project.id === project.id && !revealOrigin)}
+                    debugTransparent={debugTransparent}
+                    backgroundColor={backgroundColor}
                   />
                 </div>
               </motion.div>

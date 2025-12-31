@@ -133,6 +133,8 @@ interface FeaturedCarouselProps {
   introStart?: boolean;
   introAnimationEnabled?: boolean;
   variant?: "stack" | "peek";
+  debugTransparent?: boolean;
+  backgroundColor?: string;
 }
 
 function getIntroOrder(nextVariant: CarouselVariant): number {
@@ -158,6 +160,8 @@ export function FeaturedCarousel({
   introStart,
   introAnimationEnabled = true,
   variant = 'stack',
+  debugTransparent,
+  backgroundColor,
 }: FeaturedCarouselProps) {
   const [activeIndex, setActiveIndex] = useState(0);
   const [scrollDir, setScrollDir] = useState<1 | -1>(1);
@@ -468,6 +472,8 @@ export function FeaturedCarousel({
             introStart={introStart}
             introOrder={introOrder}
             introAnimationEnabled={introAnimationEnabled}
+            debugTransparent={debugTransparent}
+            backgroundColor={backgroundColor}
           />
         </motion.article>
       );
@@ -493,6 +499,9 @@ export function FeaturedCarousel({
     visibilityTick,
     computeVariant,
     isPeekVariant,
+    debugTransparent,
+    backgroundColor,
+    introAnimationEnabled,
   ]);
 
   const hasMultipleProjects = totalProjects > 1;

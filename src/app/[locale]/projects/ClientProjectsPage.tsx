@@ -34,35 +34,35 @@ const createHeroContainerVariants = (animated: boolean): Variants => ({
     filter: "blur(0px)",
     transition: animated
       ? {
-          duration: 0.6,
-          ease: "easeOut",
-          when: "beforeChildren",
-          staggerChildren: 0.18,
-        }
+        duration: 0.6,
+        ease: "easeOut",
+        when: "beforeChildren",
+        staggerChildren: 0.18,
+      }
       : {
-          duration: 0,
-          when: "beforeChildren",
-          staggerChildren: 0,
-        },
+        duration: 0,
+        when: "beforeChildren",
+        staggerChildren: 0,
+      },
   },
 });
 
 const createHeroChildVariants = (animated: boolean): Variants => ({
-  hidden: { 
-    opacity: 0, 
-    y: animated ? 26 : 0 
+  hidden: {
+    opacity: 0,
+    y: animated ? 26 : 0
   },
   show: {
     opacity: 1,
     y: 0,
     transition: animated
       ? {
-          duration: 0.6,
-          ease: "easeOut",
-        }
+        duration: 0.6,
+        ease: "easeOut",
+      }
       : {
-          duration: 0,
-        },
+        duration: 0,
+      },
   },
 });
 
@@ -153,7 +153,7 @@ export default function ClientProjectsPage({ projectsData }: ClientProjectsPageP
             </ShowcaseBlock>
           </Container>
           <div className="hidden xl:block h-1 border-t border-white/20 w-5xl mx-auto"></div>
-          <FeaturedProjectsSection projects={projectsData} replaceUrl={true} allowUrlOpen={false} entranceAnimationEnabled={entranceAnimationsEnabled} className="mt-2 sm:mt-4"/>
+          <FeaturedProjectsSection projects={projectsData} replaceUrl={true} allowUrlOpen={false} entranceAnimationEnabled={entranceAnimationsEnabled} className="mt-2 sm:mt-4" />
         </Stack>
 
       </HeroSectionWrapper>
@@ -167,9 +167,10 @@ export default function ClientProjectsPage({ projectsData }: ClientProjectsPageP
         filteredProjects={filteredProjects}
         onCategoryChange={setCategory}
         entranceAnimationEnabled={entranceAnimationsEnabled}
+        debugTransparent={true}
       />
 
-      <CallToAction entranceAnimationEnabled={entranceAnimationsEnabled}/>
+      <CallToAction entranceAnimationEnabled={entranceAnimationsEnabled} />
     </PageLayout>
   );
 }

@@ -99,6 +99,7 @@ export default function FeaturedProjectsSection({
               replaceUrl={replaceUrl}
               allowUrlOpen={allowUrlOpen}
               carouselIntroEnabled={entranceAnimationEnabled}
+              debugTransparent={true}
             />
 
           </MotionStack>

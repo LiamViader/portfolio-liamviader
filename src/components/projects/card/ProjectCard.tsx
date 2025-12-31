@@ -4,15 +4,15 @@ import Image from "next/image";
 import { useCallback, useRef, useState, useEffect, useMemo } from "react";
 import { motion, type Variants } from "framer-motion";
 
-import {type TranslatedProject} from "@/data/projects/types";
+import { type TranslatedProject } from "@/data/projects/types";
 import { measureStableRect } from "@/utils/measureStableRect";
 
-const BASE_BG   = "rgba(255,255,255,0.05)";
+const BASE_BG = "rgba(255,255,255,0.05)";
 const BASE_BORD = "rgba(255,255,255,0.10)";
-const HOVER_BG  = "rgba(56,189,248,0.10)";
+const HOVER_BG = "rgba(56,189,248,0.10)";
 const HOVER_BOR = "rgba(56,189,248,0.60)";
-const HOVER_SH  = "0 0 20px rgba(56,189,248,0.50)";
-const BASE_SH   = "0 0 30px rgba(56,189,248,0.08)";
+const HOVER_SH = "0 0 20px rgba(56,189,248,0.50)";
+const BASE_SH = "0 0 30px rgba(56,189,248,0.08)";
 
 interface ProjectCardProps {
   project: TranslatedProject;
@@ -21,22 +21,22 @@ interface ProjectCardProps {
 }
 
 const containerVariants: Variants = {
-  rest: {
+  rest: (c: { debugTransparent: boolean; backgroundColor: string }) => ({
     y: 0,
     scale: 1,
-    backgroundColor: BASE_BG,
+    backgroundColor: c.debugTransparent ? BASE_BG : c.backgroundColor,
     borderColor: BASE_BORD,
     boxShadow: BASE_SH,
     transition: { duration: 0.4, ease: "easeOut" },
-  },
-  hover: {
+  }),
+  hover: (c: { debugTransparent: boolean; backgroundColor: string }) => ({
     y: 0,
     scale: 1.02,
-    backgroundColor: HOVER_BG,
+    backgroundColor: c.debugTransparent ? HOVER_BG : c.backgroundColor,
     borderColor: HOVER_BOR,
     boxShadow: HOVER_SH,
     transition: { duration: 0.15, ease: "easeOut" },
-  },
+  }),
   tap: {
     scale: 0.98,
     transition: { duration: 0.3, ease: "easeOut" },
@@ -72,7 +72,21 @@ const tagVariants: Variants = {
 
 const ALLOWED_LINES = 2;
 
-export default function ProjectCard({ project, onSelect, isHidden = false }: ProjectCardProps) {
+interface ProjectCardProps {
+  project: TranslatedProject;
+  onSelect: (project: TranslatedProject, rect: DOMRect, el: HTMLElement) => void;
+  isHidden?: boolean;
+  debugTransparent?: boolean;
+  backgroundColor?: string;
+}
+
+export default function ProjectCard({
+  project,
+  onSelect,
+  isHidden = false,
+  debugTransparent = true,
+  backgroundColor = "rgb(24, 28, 57)",
+}: ProjectCardProps) {
   const cardRef = useRef<HTMLDivElement | null>(null);
 
   const handleClick = useCallback(() => {
@@ -163,7 +177,8 @@ export default function ProjectCard({ project, onSelect, isHidden = false }: Pro
       tabIndex={0}
       onClick={handleClick}
       variants={containerVariants}
-      className={`cursor-pointer group relative flex h-full flex-col overflow-hidden rounded-3xl border border-white/10 bg-white/5 backdrop-blur-xl transform-gpu will-change-[transform,opacity] transition-none 
+      custom={{ debugTransparent, backgroundColor }}
+      className={`cursor-pointer group relative flex h-full flex-col overflow-hidden rounded-3xl border border-white/10 ${debugTransparent ? "bg-white/5 backdrop-blur-xl" : ""} transform-gpu will-change-[transform,opacity] transition-none 
         ${isHidden ? "pointer-events-none select-none opacity-0" : ""}
       `}
       animate="rest"

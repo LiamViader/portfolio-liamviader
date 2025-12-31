@@ -27,6 +27,8 @@ interface FeaturedProjectsProps {
   allowUrlOpen?: boolean;
   carouselIntroEnabled?: boolean;
   carouselVariant?: "stack" | "peek";
+  debugTransparent?: boolean;
+  backgroundColor?: string;
 }
 
 type CardRegistry = Map<number, HTMLElement>;
@@ -43,6 +45,8 @@ export default function FeaturedProjects({
   allowUrlOpen = false,
   carouselIntroEnabled = true,
   carouselVariant,
+  debugTransparent,
+  backgroundColor,
 }: FeaturedProjectsProps) {
   const featuredProjects = useMemo(
     () => projects.filter((project) => project.is_featured),
@@ -155,6 +159,8 @@ export default function FeaturedProjects({
           introStart={introStart}
           introAnimationEnabled={carouselIntroEnabled}
           variant={activeVariant}
+          debugTransparent={debugTransparent}
+          backgroundColor={backgroundColor}
         />
         <motion.p
           className="text-center text-xs text-white/40 font-light max-w-2xl"
