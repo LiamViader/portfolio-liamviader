@@ -21,18 +21,18 @@ interface ProjectCardProps {
 }
 
 const containerVariants: Variants = {
-  rest: (c: { debugTransparent: boolean; backgroundColor: string }) => ({
+  rest: (c: { useTransparent: boolean; backgroundColor: string }) => ({
     y: 0,
     scale: 1,
-    backgroundColor: c.debugTransparent ? BASE_BG : c.backgroundColor,
+    backgroundColor: c.useTransparent ? BASE_BG : c.backgroundColor,
     borderColor: BASE_BORD,
     boxShadow: BASE_SH,
     transition: { duration: 0.4, ease: "easeOut" },
   }),
-  hover: (c: { debugTransparent: boolean; backgroundColor: string }) => ({
+  hover: (c: { useTransparent: boolean; backgroundColor: string }) => ({
     y: 0,
     scale: 1.02,
-    backgroundColor: c.debugTransparent ? HOVER_BG : c.backgroundColor,
+    backgroundColor: c.useTransparent ? HOVER_BG : c.backgroundColor,
     borderColor: HOVER_BOR,
     boxShadow: HOVER_SH,
     transition: { duration: 0.15, ease: "easeOut" },
@@ -76,7 +76,7 @@ interface ProjectCardProps {
   project: TranslatedProject;
   onSelect: (project: TranslatedProject, rect: DOMRect, el: HTMLElement) => void;
   isHidden?: boolean;
-  debugTransparent?: boolean;
+  useTransparent?: boolean;
   backgroundColor?: string;
 }
 
@@ -84,7 +84,7 @@ export default function ProjectCard({
   project,
   onSelect,
   isHidden = false,
-  debugTransparent = true,
+  useTransparent = true,
   backgroundColor = "rgb(24, 28, 57)",
 }: ProjectCardProps) {
   const cardRef = useRef<HTMLDivElement | null>(null);
@@ -177,8 +177,8 @@ export default function ProjectCard({
       tabIndex={0}
       onClick={handleClick}
       variants={containerVariants}
-      custom={{ debugTransparent, backgroundColor }}
-      className={`cursor-pointer group relative flex h-full flex-col overflow-hidden rounded-3xl border border-white/10 ${debugTransparent ? "bg-white/5 backdrop-blur-xl" : ""} transform-gpu will-change-[transform,opacity] transition-none 
+      custom={{ useTransparent, backgroundColor }}
+      className={`cursor-pointer group relative flex h-full flex-col overflow-hidden rounded-3xl border border-white/10 ${useTransparent ? "bg-white/5 backdrop-blur-xl" : ""} transform-gpu will-change-[transform,opacity] transition-none 
         ${isHidden ? "pointer-events-none select-none opacity-0" : ""}
       `}
       animate="rest"

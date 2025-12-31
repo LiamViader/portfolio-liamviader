@@ -15,7 +15,7 @@ interface ProjectsGridProps {
   allowUrlOpen?: boolean;
   entranceAnimation: boolean;
   shouldAnimate?: boolean;
-  debugTransparent?: boolean;
+  useTransparent?: boolean;
   backgroundColor?: string;
 }
 
@@ -51,7 +51,7 @@ export default function ProjectsGrid({
   allowUrlOpen = true,
   entranceAnimation,
   shouldAnimate = true,
-  debugTransparent,
+  useTransparent,
   backgroundColor
 }: ProjectsGridProps) {
 
@@ -127,7 +127,7 @@ export default function ProjectsGrid({
                       }
                     }}
                     isHidden={Boolean(selected?.project.id === project.id && !revealOrigin)}
-                    debugTransparent={debugTransparent}
+                    useTransparent={useTransparent}
                     backgroundColor={backgroundColor}
                   />
                 </div>

@@ -56,7 +56,7 @@ interface ProjectGalleryProps {
   filteredProjects: TranslatedProject[];
   onCategoryChange: (category: ClientCategorySlug) => void;
   entranceAnimationEnabled: boolean;
-  debugTransparent?: boolean;
+  useTransparent?: boolean;
   backgroundColor?: string;
 }
 
@@ -65,7 +65,7 @@ export default function ProjectGallery({
   filteredProjects,
   onCategoryChange,
   entranceAnimationEnabled,
-  debugTransparent,
+  useTransparent,
   backgroundColor
 }: ProjectGalleryProps) {
   const t = useTranslations("ProjectsPage");
@@ -110,7 +110,7 @@ export default function ProjectGallery({
                 allowUrlOpen={true}
                 entranceAnimation={entranceAnimationEnabled}
                 shouldAnimate={gridVisible}
-                debugTransparent={debugTransparent}
+                useTransparent={useTransparent}
                 backgroundColor={backgroundColor}
               />
             </motion.div>

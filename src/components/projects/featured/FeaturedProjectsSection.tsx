@@ -23,6 +23,8 @@ interface FeaturedProjectsProps {
   allowUrlOpen?: boolean;
   entranceAnimationEnabled: boolean;
   className?: string;
+  useTransparent?: boolean;
+  backgroundColor?: string;
 }
 
 const createLeftColVariants = (animated: boolean): Variants => ({
@@ -60,6 +62,8 @@ export default function FeaturedProjectsSection({
   allowUrlOpen = false,
   entranceAnimationEnabled,
   className = "",
+  useTransparent = true,
+  backgroundColor,
 }: FeaturedProjectsProps) {
   const t = useTranslations("ProjectsPage");
 
@@ -99,7 +103,8 @@ export default function FeaturedProjectsSection({
               replaceUrl={replaceUrl}
               allowUrlOpen={allowUrlOpen}
               carouselIntroEnabled={entranceAnimationEnabled}
-              useTransparent={true}
+              useTransparent={useTransparent}
+              backgroundColor={backgroundColor}
             />
 
           </MotionStack>

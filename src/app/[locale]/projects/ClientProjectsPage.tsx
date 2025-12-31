@@ -78,6 +78,13 @@ export default function ClientProjectsPage({ projectsData }: ClientProjectsPageP
 
   const currentSlug = (searchParams.get("filter") as ClientCategorySlug) || "all";
   const category: ClientCategorySlug = CATEGORY_CONFIG[currentSlug] ? currentSlug : "all";
+  const getBackgroundColor = (cat: ClientCategorySlug) => {
+    if (cat === "ai") return "rgb(22, 53, 82)";
+    if (cat === "games") return "rgb(47, 22, 61)";
+    return "rgb(29, 30, 35)";
+  };
+
+  const backgroundColor = getBackgroundColor(category);
 
   const setCategory = (newCategory: ClientCategorySlug) => {
     const newParams = new URLSearchParams(searchParams.toString());
@@ -153,7 +160,15 @@ export default function ClientProjectsPage({ projectsData }: ClientProjectsPageP
             </ShowcaseBlock>
           </Container>
           <div className="hidden xl:block h-1 border-t border-white/20 w-5xl mx-auto"></div>
-          <FeaturedProjectsSection projects={projectsData} replaceUrl={true} allowUrlOpen={false} entranceAnimationEnabled={entranceAnimationsEnabled} className="mt-2 sm:mt-4" />
+          <FeaturedProjectsSection
+            projects={projectsData}
+            replaceUrl={true}
+            allowUrlOpen={false}
+            entranceAnimationEnabled={entranceAnimationsEnabled}
+            className="mt-2 sm:mt-4"
+            useTransparent={false}
+            backgroundColor={backgroundColor}
+          />
         </Stack>
 
       </HeroSectionWrapper>
@@ -167,7 +182,8 @@ export default function ClientProjectsPage({ projectsData }: ClientProjectsPageP
         filteredProjects={filteredProjects}
         onCategoryChange={setCategory}
         entranceAnimationEnabled={entranceAnimationsEnabled}
-        debugTransparent={true}
+        useTransparent={false}
+        backgroundColor={backgroundColor}
       />
 
       <CallToAction entranceAnimationEnabled={entranceAnimationsEnabled} />
