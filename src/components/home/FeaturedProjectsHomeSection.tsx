@@ -155,7 +155,7 @@ export function FeaturedProjectsHomeSection({
             replaceUrl={replaceUrl}
             allowUrlOpen={allowUrlOpen}
             carouselIntroEnabled={entranceAnimationEnabled}
-            useTransparent={backgroundsOptimization === "normal"}
+            useTransparent={false}
             backgroundColor="rgb(26, 30, 51)"
           />
           <ButtonGroup className="xl:hidden" align="center">

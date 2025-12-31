@@ -207,7 +207,7 @@ export default function ProjectCard({
       </div>
 
       {hasPreviewImage && (
-        <div className="relative h-48 w-full overflow-hidden">
+        <div className="relative h-32 w-full overflow-hidden">
           <motion.div
             variants={mediaVariants}
             className="absolute inset-0 border-b border-white/10"
