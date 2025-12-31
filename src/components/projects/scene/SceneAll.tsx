@@ -10,7 +10,7 @@ const AnimatedStandardMaterial = animated("meshStandardMaterial");
 
 import { usePerformanceConfig } from "@/hooks/usePerformanceConfig";
 
-const PARTICLE_BASE_COUNT = 800;
+const PARTICLE_BASE_COUNT = 600;
 const PARTICLE_RANGE = 50;
 const Z_RESET_OFFSET = 15;
 const CYCLE_DURATION = 30;
@@ -19,7 +19,7 @@ const START_SPEED = -10.0;
 const END_SPEED = 0.7;
 const TRANSITION_DURATION = 3;
 
-const DESKTOP_BASELINE = 1440;
+const DESKTOP_BASELINE = 1080;
 
 export default function SceneAll({ opacity, transitionProgress, isVisible }: SceneProps) {
   const meshRef = useRef<THREE.InstancedMesh>(null);
