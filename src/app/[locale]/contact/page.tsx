@@ -229,7 +229,7 @@ export default function ContactPage() {
 
                         className={`
                           group relative flex items-center rounded-xl 
-                          w-full justify-start gap-2 overflow-hidden
+                          w-full justify-start gap-1 overflow-hidden
                           ${styles.containerHover}
                         `}
                       >
@@ -280,7 +280,7 @@ export default function ContactPage() {
 
                         className={`
                           group relative flex items-center rounded-xl 
-                          w-fit justify-start gap-2 overflow-hidden
+                          w-fit justify-start gap-1 overflow-hidden
                           ${styles.containerHover}
                         `}
                       >
