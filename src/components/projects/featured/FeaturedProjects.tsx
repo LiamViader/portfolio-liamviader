@@ -27,7 +27,7 @@ interface FeaturedProjectsProps {
   allowUrlOpen?: boolean;
   carouselIntroEnabled?: boolean;
   carouselVariant?: "stack" | "peek";
-  debugTransparent?: boolean;
+  useTransparent?: boolean;
   backgroundColor?: string;
 }
 
@@ -45,7 +45,7 @@ export default function FeaturedProjects({
   allowUrlOpen = false,
   carouselIntroEnabled = true,
   carouselVariant,
-  debugTransparent,
+  useTransparent,
   backgroundColor,
 }: FeaturedProjectsProps) {
   const featuredProjects = useMemo(
@@ -159,7 +159,7 @@ export default function FeaturedProjects({
           introStart={introStart}
           introAnimationEnabled={carouselIntroEnabled}
           variant={activeVariant}
-          debugTransparent={debugTransparent}
+          useTransparent={useTransparent}
           backgroundColor={backgroundColor}
         />
         <motion.p

@@ -9,6 +9,8 @@ import { type TranslatedProject } from "@/data/projects/types";
 import { SectionHeader } from "../layout/SectionHeader";
 import { Stack } from "../layout/Stack";
 import { ButtonGroup } from "../layout/ButtonGroup";
+import { usePerformanceConfig } from "@/hooks/usePerformanceConfig";
+
 
 interface FeaturedProjectsHomeSectionProps {
   title: string;
@@ -83,6 +85,8 @@ export function FeaturedProjectsHomeSection({
   const rightControls = useAnimationControls();
   const firedRightOnceRef = useRef(false);
 
+  const { backgroundsOptimization } = usePerformanceConfig();
+
   const [cardsIntro, setCardsIntro] = useState(false);
 
   return (
@@ -151,7 +155,7 @@ export function FeaturedProjectsHomeSection({
             replaceUrl={replaceUrl}
             allowUrlOpen={allowUrlOpen}
             carouselIntroEnabled={entranceAnimationEnabled}
-            debugTransparent={false}
+            useTransparent={backgroundsOptimization === "normal"}
             backgroundColor="rgb(26, 30, 51)"
           />
           <ButtonGroup className="xl:hidden" align="center">

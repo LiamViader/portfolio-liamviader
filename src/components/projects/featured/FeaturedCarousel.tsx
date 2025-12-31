@@ -133,7 +133,7 @@ interface FeaturedCarouselProps {
   introStart?: boolean;
   introAnimationEnabled?: boolean;
   variant?: "stack" | "peek";
-  debugTransparent?: boolean;
+  useTransparent?: boolean;
   backgroundColor?: string;
 }
 
@@ -160,7 +160,7 @@ export function FeaturedCarousel({
   introStart,
   introAnimationEnabled = true,
   variant = 'stack',
-  debugTransparent,
+  useTransparent,
   backgroundColor,
 }: FeaturedCarouselProps) {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -472,7 +472,7 @@ export function FeaturedCarousel({
             introStart={introStart}
             introOrder={introOrder}
             introAnimationEnabled={introAnimationEnabled}
-            debugTransparent={debugTransparent}
+            useTransparent={useTransparent}
             backgroundColor={backgroundColor}
           />
         </motion.article>
@@ -499,7 +499,7 @@ export function FeaturedCarousel({
     visibilityTick,
     computeVariant,
     isPeekVariant,
-    debugTransparent,
+    useTransparent,
     backgroundColor,
     introAnimationEnabled,
   ]);

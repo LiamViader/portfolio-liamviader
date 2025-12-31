@@ -11,23 +11,23 @@ const BASE_BORD = "rgba(255,255,255,0.10)";
 const TRANSPARENT_HOVER_BG = "rgba(56,189,248,0.10)";
 const HOVER_BOR = "rgba(56,189,248,0.60)";
 const HOVER_SH = "0 0 30px rgba(56,189,248,0.50)";
-const BASE_SH = "0 0 30px rgba(0, 0, 0, 0.5)";
+const BASE_SH = "0 0 30px rgba(0, 0, 0, 0.3)";
 
 const cardVariants: Variants = {
   hidden: (
-    c: { debugTransparent: boolean, backgroundColor: string }
+    c: { useTransparent: boolean, backgroundColor: string }
   ) => ({
     opacity: 0,
     y: 30,
-    backgroundColor: c.debugTransparent ? TRANSPARENT_BASE_BG : c.backgroundColor,
+    backgroundColor: c.useTransparent ? TRANSPARENT_BASE_BG : c.backgroundColor,
     borderColor: BASE_BORD,
   }),
   show: (
-    c: { translate: boolean; order: number; isIntro: boolean, canHover: boolean, debugTransparent: boolean, backgroundColor: string }
+    c: { translate: boolean; order: number; isIntro: boolean, canHover: boolean, useTransparent: boolean, backgroundColor: string }
   ) => ({
     opacity: 1,
     y: 0,
-    backgroundColor: c.debugTransparent ? TRANSPARENT_BASE_BG : c.backgroundColor,
+    backgroundColor: c.useTransparent ? TRANSPARENT_BASE_BG : c.backgroundColor,
     borderColor: BASE_BORD,
     boxShadow: c.canHover ? BASE_SH : undefined,
     transition: {
@@ -38,10 +38,10 @@ const cardVariants: Variants = {
     },
   }),
   hover: (
-    c: { translate: boolean; order: number; isIntro: boolean, canHover: boolean, debugTransparent: boolean, backgroundColor: string }
+    c: { translate: boolean; order: number; isIntro: boolean, canHover: boolean, useTransparent: boolean, backgroundColor: string }
   ) => ({
     y: c.translate ? -20 : 0,
-    backgroundColor: c.debugTransparent ? TRANSPARENT_HOVER_BG : c.backgroundColor,
+    backgroundColor: c.useTransparent ? TRANSPARENT_HOVER_BG : c.backgroundColor,
     borderColor: HOVER_BOR,
     boxShadow: HOVER_SH,
     transition: {
@@ -95,7 +95,7 @@ interface FeaturedCarouselCardProps {
   introStart?: boolean;
   introOrder?: number;
   introAnimationEnabled: boolean;
-  debugTransparent?: boolean;
+  useTransparent?: boolean;
   backgroundColor?: string;
 }
 
@@ -109,7 +109,7 @@ export function FeaturedCarouselCard({
   introStart = false,
   introOrder = 0,
   introAnimationEnabled,
-  debugTransparent = true,
+  useTransparent = true,
   backgroundColor = "rgb(24, 28, 57)",
 }: FeaturedCarouselCardProps) {
   const titleSize = titleClassName ?? "text-2xl md:text-3xl";
@@ -239,7 +239,7 @@ export function FeaturedCarouselCard({
         isIntro,
         translate: !shouldHide,
         canHover: canHover,
-        debugTransparent,
+        useTransparent,
         backgroundColor
       }}
       onAnimationComplete={() => {
@@ -251,7 +251,7 @@ export function FeaturedCarouselCard({
       className={`
         relative flex h-full flex-col cursor-pointer overflow-hidden rounded-3xl
         border border-white/10
-        ${debugTransparent ? "bg-white/5 backdrop-blur-xl" : ""} 
+        ${useTransparent ? "bg-white/5 backdrop-blur-xl" : ""} 
         shadow-[0_0_10px_rgba(0,0,0,0.40)]
         transform-gpu will-change-[transform,opacity]
         ${shouldHide
@@ -260,7 +260,7 @@ export function FeaturedCarouselCard({
         }
       `}
       style={{
-        backgroundColor: debugTransparent ? TRANSPARENT_BASE_BG : backgroundColor,
+        backgroundColor: useTransparent ? TRANSPARENT_BASE_BG : backgroundColor,
         borderColor: BASE_BORD,
         pointerEvents: introDone ? "auto" : "none",
       }}
