@@ -72,7 +72,7 @@ export default function CallToAction({ entranceAnimationEnabled }: { entranceAni
   return (
     <section className="relative pt-4 lg:pt-6">
 
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent to-gray-950 " />
+      <div className="absolute inset-0 bg-gradient-to-b from-transparent to-gray-950/80 " />
       <Container>
         <ContentBlock>
           <motion.div
