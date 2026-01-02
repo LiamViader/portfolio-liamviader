@@ -11,20 +11,20 @@ export default function SceneAI(props: SceneProps) {
   const lineRef = useRef<THREE.LineSegments>(null);
 
   const { edges } = useMemo(() => {
-    const geometry = new THREE.IcosahedronGeometry(9, 2); 
+    const geometry = new THREE.IcosahedronGeometry(9, 2);
     const edges = new THREE.EdgesGeometry(geometry);
     return { edges };
   }, []);
 
   useFrame(({ clock }) => {
     const t = clock.getElapsedTime();
-    
+
     if (lineRef.current) {
-      lineRef.current.rotation.y = t * 0.08; 
+      lineRef.current.rotation.y = t * 0.08;
       lineRef.current.rotation.x = t * 0.02;
-      lineRef.current.position.y = -1; 
+      lineRef.current.position.y = -1;
     }
-    
+
 
     if (lineRef.current) {
       lineRef.current.scale.setScalar(1);
@@ -35,12 +35,12 @@ export default function SceneAI(props: SceneProps) {
     <>
       <animated.lineSegments ref={lineRef}>
         <primitive object={edges} />
-        <animated.lineBasicMaterial 
+        <animated.lineBasicMaterial
           color="#22d3ee"
-          linewidth={1} 
+          linewidth={1}
           transparent={true}
-          opacity={opacity} 
-          depthWrite={false} 
+          opacity={opacity}
+          depthWrite={false}
           toneMapped={false}
         />
       </animated.lineSegments>

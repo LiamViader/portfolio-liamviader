@@ -12,7 +12,7 @@ const BASE_BORD = "rgba(255,255,255,0.10)";
 const HOVER_BG = "rgba(56,189,248,0.10)";
 const HOVER_BOR = "rgba(56,189,248,0.60)";
 const HOVER_SH = "0 0 20px rgba(56,189,248,0.50)";
-const BASE_SH = "0 0 30px rgba(56,189,248,0.08)";
+const BASE_SH = "0 0 30px rgba(0, 0, 0, 0.2)";
 
 interface ProjectCardProps {
   project: TranslatedProject;

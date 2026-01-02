@@ -9,26 +9,26 @@ export const CATEGORY_INDICES = {
 export type ClientCategorySlug = keyof typeof CATEGORY_INDICES; // 'all' | 'ai' | 'games'
 
 export const CATEGORY_CONFIG = {
-	all: { 
-		slug: 'all' as const, 
-		filterKey: null, 
-		tKey: "all", 
+	all: {
+		slug: 'all' as const,
+		filterKey: null,
+		tKey: "all",
 		color: new THREE.Color('#0B0C10'),
 		colorButton: new THREE.Color('#cbcbcb'),
 		cssColor: 'text-gray-400'
 	},
-	ai: { 
-		slug: 'ai' as const, 
-		filterKey: 'AI', 
-		tKey: "ai", 
+	ai: {
+		slug: 'ai' as const,
+		filterKey: 'AI',
+		tKey: "ai",
 		color: new THREE.Color('#002258'),
 		colorButton: new THREE.Color('#57bfff'),
 		cssColor: 'text-cyan-300',
 	},
-	games: { 
-		slug: 'games' as const, 
-		filterKey: 'Game', 
-		tKey: "games", 
+	games: {
+		slug: 'games' as const,
+		filterKey: 'Game',
+		tKey: "games",
 		color: new THREE.Color('#2c013d'),
 		colorButton: new THREE.Color('#b941ff'),
 		cssColor: 'text-fuchsia-300',

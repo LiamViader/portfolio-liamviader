@@ -27,17 +27,9 @@ const createSectionVariants = (animated: boolean): Variants => ({
 });
 
 const createCardVariants = (animated: boolean): Variants => ({
-  hidden: {
-    opacity: animated ? 0 : 1,
-    y: animated ? 32 : 0,
-    scale: animated ? 0.96 : 1
-  },
   show: {
-    opacity: 1,
-    y: 0,
-    scale: 1,
     transition: {
-      duration: animated ? 0.4 : 0,
+      duration: animated ? 0 : 0,
       ease: "easeOut",
       when: "beforeChildren",
       staggerChildren: animated ? 0.12 : 0,
@@ -72,7 +64,6 @@ export default function CallToAction({ entranceAnimationEnabled }: { entranceAni
   return (
     <section className="relative pt-4 lg:pt-6">
 
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent to-gray-950/80 " />
       <Container>
         <ContentBlock>
           <motion.div

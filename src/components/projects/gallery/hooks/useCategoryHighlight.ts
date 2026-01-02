@@ -17,20 +17,29 @@ export function useCategoryHighlight(currentCategory: ClientCategorySlug) {
   });
 
   useEffect(() => {
-    const container = containerRef.current;
-    if (!container) return;
+    const updateHighlight = () => {
+      const container = containerRef.current;
+      if (!container) return;
 
-    const activeBtn = container.querySelector<HTMLButtonElement>("button[data-active='true']");
-    if (!activeBtn) return;
+      const activeBtn = container.querySelector<HTMLButtonElement>("button[data-active='true']");
+      if (!activeBtn) return;
 
-    const rect = activeBtn.getBoundingClientRect();
-    const parentRect = container.getBoundingClientRect();
+      const rect = activeBtn.getBoundingClientRect();
+      const parentRect = container.getBoundingClientRect();
 
-    setHighlightStyle({
-      width: rect.width,
-      left: rect.left - parentRect.left,
-      backgroundColor: CATEGORY_CONFIG[currentCategory].colorButton.getStyle(),
-    });
+      setHighlightStyle({
+        width: rect.width,
+        left: rect.left - parentRect.left,
+        backgroundColor: CATEGORY_CONFIG[currentCategory].colorButton.getStyle(),
+      });
+    };
+
+    updateHighlight();
+    window.addEventListener("resize", updateHighlight);
+
+    return () => {
+      window.removeEventListener("resize", updateHighlight);
+    };
   }, [currentCategory]);
 
   return { containerRef, highlightStyle };

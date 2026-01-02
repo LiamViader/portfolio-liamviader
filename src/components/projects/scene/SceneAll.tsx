@@ -10,7 +10,7 @@ const AnimatedStandardMaterial = animated("meshStandardMaterial");
 
 import { usePerformanceConfig } from "@/hooks/usePerformanceConfig";
 
-const PARTICLE_BASE_COUNT = 600;
+const PARTICLE_BASE_COUNT = 300;
 const PARTICLE_RANGE = 50;
 const Z_RESET_OFFSET = 15;
 const CYCLE_DURATION = 30;
@@ -43,19 +43,13 @@ export default function SceneAll({ opacity, transitionProgress, isVisible }: Sce
   const particleCount = useMemo(() => {
     let optimizationMult = 0.25;
     if (backgroundsOptimization === "normal") optimizationMult = 1;
-    else if (backgroundsOptimization === "semioptimized") optimizationMult = 0.8;
+    else if (backgroundsOptimization === "semioptimized") optimizationMult = 1;
 
     // Scale count by width, capped at 1
-    const widthMult = Math.min(1, stableWidth / DESKTOP_BASELINE);
+    const widthMult = Math.max(0.5, Math.min(1, stableWidth / DESKTOP_BASELINE));
 
     return Math.floor(PARTICLE_BASE_COUNT * optimizationMult * widthMult);
   }, [backgroundsOptimization, stableWidth]);
-
-  // Responsive scale factor based on window width, capped at 1.0 for desktop
-  const scaleFactor = Math.min(1, size.width / DESKTOP_BASELINE);
-
-  // Adjust X range based on viewport and scale factor to keep density consistent or contained
-  const effectiveRangeX = PARTICLE_RANGE * scaleFactor;
 
   useEffect(() => {
     if (isVisible) {
@@ -90,8 +84,8 @@ export default function SceneAll({ opacity, transitionProgress, isVisible }: Sce
   useFrame(({ clock, size: currentSize }, delta) => {
     if (!meshRef.current) return;
 
-    const currentScaleFactor = Math.min(1, currentSize.width / DESKTOP_BASELINE);
-
+    const currentScaleFactor = Math.max(0.1, currentSize.width / DESKTOP_BASELINE);
+    const currentStrengthFactor = Math.max(1, currentSize.width / DESKTOP_BASELINE) * 0.8;
 
     const dt = Math.min(delta, 0.1);
 
@@ -113,7 +107,7 @@ export default function SceneAll({ opacity, transitionProgress, isVisible }: Sce
     accumulatedDistance.current += currentSpeed * dt;
 
     const pulse = (Math.sin((globalTime / CYCLE_DURATION) * Math.PI * 2) + 1) / 2;
-    const attractStrength = THREE.MathUtils.lerp(0.1, 0.25, pulse);
+    const attractStrength = THREE.MathUtils.lerp(0.1, 0.25, pulse) * currentStrengthFactor;
 
     const baseBrightness = THREE.MathUtils.lerp(0.5, 1.0, t);
     const hueBase = (globalTime * 10) % 360;
