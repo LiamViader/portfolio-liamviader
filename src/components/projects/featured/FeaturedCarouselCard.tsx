@@ -342,7 +342,7 @@ export function FeaturedCarouselCard({
                 <motion.span
                   key={`${project.id}-tag-${idx}-${tag}`}
                   className={clsx(
-                    "rounded-md bg-white/10 border border-white/10 px-2 py-1 font-medium text-white/75  drop-shadow-[0_8px_6px_rgba(0,0,0,0.8)]",
+                    "rounded-md bg-white/10 border border-white/10 px-2 py-1 font-medium text-white/75  drop-shadow-[0_8px_6px_rgba(0,0,0,0.5)]",
                     tagSize
                   )}
                 >
@@ -354,7 +354,7 @@ export function FeaturedCarouselCard({
                 <motion.span
                   key={`${project.id}-tag-more`}
                   className={clsx(
-                    "rounded-md bg-white/10 border border-dashed border-white/10 px-2 py-1 font-medium text-white/75  drop-shadow-[0_8px_6px_rgba(0,0,0,0.8)]",
+                    "rounded-md bg-white/10 border border-dashed border-white/10 px-2 py-1 font-medium text-white/75  drop-shadow-[0_8px_6px_rgba(0,0,0,0.5)]",
                     tagSize
                   )}
                 >
