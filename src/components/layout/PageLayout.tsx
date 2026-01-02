@@ -23,10 +23,6 @@ interface PageLayoutProps {
 
 const DEFAULT_OVERLAY = <></>;
 
-/**
- * HUD de debug de performance.
- * Muestra el tier (low/medium/high) y las métricas que devuelve usePerfTier.
- */
 function PerfDebugOverlay() {
   const {
     tier,
@@ -107,9 +103,6 @@ export function PageLayout({
       ))}
 
       {overlays}
-
-      {/* HUD de debug de performance */}
-      <PerfDebugOverlay />
 
       <div className={clsx("relative z-10 flex flex-col flex-1", contentClassName)}>
         {children}
