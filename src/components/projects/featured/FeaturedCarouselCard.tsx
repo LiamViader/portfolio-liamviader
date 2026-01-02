@@ -249,7 +249,7 @@ export function FeaturedCarouselCard({
       }}
       whileHover={introDone ? "hover" : undefined}
       className={`
-        relative flex h-full flex-col cursor-pointer overflow-hidden rounded-3xl
+        relative flex h-full flex-col cursor-pointer overflow-hidden rounded-2xl
         border border-white/10
         ${useTransparent ? "bg-white/5 backdrop-blur-xl" : ""} 
         shadow-[0_0_10px_rgba(0,0,0,0.40)]
@@ -276,7 +276,7 @@ export function FeaturedCarouselCard({
                 key={`measure-${project.id}-tag-${idx}-${tag}`}
                 data-tag-index={idx}
                 className={clsx(
-                  "rounded-full bg-white/10 border border-white/20 px-2 py-1 font-medium tracking-wide text-white/70",
+                  "rounded-md bg-white/10 border border-white/10 px-2 py-1 font-medium tracking-wide text-white/70",
                   tagSize
                 )}
               >
@@ -340,10 +340,9 @@ export function FeaturedCarouselCard({
             <div className="flex flex-wrap gap-2">
               {visibleTags.map((tag, idx) => (
                 <motion.span
-                  variants={tagVariants}
                   key={`${project.id}-tag-${idx}-${tag}`}
                   className={clsx(
-                    "rounded-full bg-white/10 border border-white/20 px-2 py-1 font-medium text-white/70 drop-shadow-[0_8px_6px_rgba(0,0,0,1)]",
+                    "rounded-md bg-white/10 border border-white/10 px-2 py-1 font-medium text-white/75  drop-shadow-[0_8px_6px_rgba(0,0,0,0.8)]",
                     tagSize
                   )}
                 >
@@ -353,10 +352,9 @@ export function FeaturedCarouselCard({
 
               {hiddenCount > 0 && visibleCount > 0 && (
                 <motion.span
-                  variants={tagVariants}
                   key={`${project.id}-tag-more`}
                   className={clsx(
-                    "rounded-full bg-white/10 border border-dashed border-white/35 px-2 py-1 font-medium text-white/75 drop-shadow-[0_8px_6px_rgba(0,0,0,1)]",
+                    "rounded-md bg-white/10 border border-dashed border-white/10 px-2 py-1 font-medium text-white/75  drop-shadow-[0_8px_6px_rgba(0,0,0,0.8)]",
                     tagSize
                   )}
                 >

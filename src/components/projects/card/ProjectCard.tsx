@@ -178,7 +178,7 @@ export default function ProjectCard({
       onClick={handleClick}
       variants={containerVariants}
       custom={{ useTransparent, backgroundColor }}
-      className={`cursor-pointer group relative flex h-full flex-col overflow-hidden rounded-3xl border border-white/10 ${useTransparent ? "bg-white/5 backdrop-blur-xl" : ""} transform-gpu will-change-[transform,opacity] transition-none 
+      className={`cursor-pointer group relative flex h-full flex-col overflow-hidden rounded-2xl border border-white/10 ${useTransparent ? "bg-white/5 backdrop-blur-xl" : ""} transform-gpu will-change-[transform,opacity] transition-none 
         ${isHidden ? "pointer-events-none select-none opacity-0" : ""}
       `}
       animate="rest"
@@ -197,7 +197,7 @@ export default function ProjectCard({
               <span
                 key={`measure-${project.id}-tag-${idx}-${tag}`}
                 data-tag-index={idx}
-                className="rounded-full border px-3 py-1"
+                className="rounded-md border px-2 py-1"
               >
                 {tag}
               </span>
@@ -247,7 +247,7 @@ export default function ProjectCard({
               <motion.span
                 key={`${project.id}-tag-${idx}-${tag}`}
                 variants={tagVariants}
-                className="rounded-full border px-3 py-1 drop-shadow-[0_8px_6px_rgba(0,0,0,1)]"
+                className="rounded-md bg-white/10 border border-white/10 px-2 py-1 font-medium text-white/75  drop-shadow-[0_8px_6px_rgba(0,0,0,0.8)]"
               >
                 {tag}
               </motion.span>
@@ -257,7 +257,7 @@ export default function ProjectCard({
               <motion.span
                 key={`${project.id}-tag-more`}
                 variants={tagVariants}
-                className="rounded-full border border-dashed px-3 py-1 drop-shadow-[0_8px_6px_rgba(0,0,0,1)]"
+                className="rounded-md bg-white/10 border border-dashed border-white/10 px-2 py-1 font-medium text-white/75  drop-shadow-[0_8px_6px_rgba(0,0,0,0.8)]"
               >
                 +{hiddenCount}
               </motion.span>

@@ -10,7 +10,7 @@ const AnimatedStandardMaterial = animated("meshStandardMaterial");
 
 import { usePerformanceConfig } from "@/hooks/usePerformanceConfig";
 
-const PARTICLE_BASE_COUNT = 300;
+const PARTICLE_BASE_COUNT = 250;
 const PARTICLE_RANGE = 50;
 const Z_RESET_OFFSET = 15;
 const CYCLE_DURATION = 30;

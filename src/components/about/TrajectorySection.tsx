@@ -245,11 +245,11 @@ function Timeline({ items, icon, locale }: TimelineProps) {
         variants={pathArrowVariants}
         className="pointer-events-none absolute left-2 top-0 -translate-x-1/2 flex items-center justify-center"
       >
-        <span className="h-0 w-0 border-l-[5px] border-r-[5px] border-b-[7px] border-l-transparent border-r-transparent border-b-sky-400/80" />
+        <span className="h-0 w-0 border-l-[5px] border-r-[5px] border-b-[7px] border-l-transparent border-r-transparent border-b-sky-300/80" />
       </motion.span>
 
       <motion.span
-        className="pointer-events-none absolute left-2 top-3 bottom-3 w-px bg-gradient-to-b from-sky-400/60 via-sky-400/60 to-transparent"
+        className="pointer-events-none absolute left-2 top-1 bottom-3 w-px bg-gradient-to-b from-sky-300/60 via-sky-300/60 to-transparent"
         variants={pathLineVariants}
       />
 
@@ -257,17 +257,9 @@ function Timeline({ items, icon, locale }: TimelineProps) {
         {items.map((item, index) => (
           <motion.li
             key={`${item.period}-${index}`}
-            className="relative pl-6"
+            className="relative ml-6"
             variants={pathItemShellVariants}
           >
-            <motion.span
-              className="absolute left-0 top-2 flex h-4 w-4 items-center justify-center"
-              variants={pathDotVariants}
-            >
-              <span className="flex h-2.5 w-2.5 items-center justify-center rounded-full bg-sky-400/80">
-                <span className="h-1.5 w-1.5 rounded-full bg-gray-950" />
-              </span>
-            </motion.span>
 
             <MotionStack
               size="xs"
@@ -337,7 +329,7 @@ export function TrajectorySection({
 }: TrajectorySectionProps) {
   const t = useTranslations("AboutPage.trajectory");
   const locale = useLocale() as Locale;
-  const {backgroundsOptimization} = usePerformanceConfig();
+  const { backgroundsOptimization } = usePerformanceConfig();
   return (
     <Section className="relative">
       {backgroundsOptimization === "normal" ?
@@ -359,7 +351,7 @@ export function TrajectorySection({
             pixelsPerHex={45}
           />
         </>
-        : <div className="inset-0 absolute bg-[rgb(14,17,51)]"/>
+        : <div className="inset-0 absolute bg-[rgb(14,17,51)]" />
       }
       <div className="inset-0 absolute bg-[linear-gradient(to_bottom,_rgb(3,7,18)_0%,rgb(3,7,18)_3%,_rgba(3,7,18,0.35)_40%,_rgba(3,7,18,0.45)_50%,_rgb(3,7,18)_97%,_rgb(3,7,18)_100%)]" />
       <Container>
