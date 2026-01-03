@@ -78,15 +78,15 @@ export default function CallToAction({ entranceAnimationEnabled }: { entranceAni
               className="overflow-hidden text-center"
             >
               <Stack className="relative z-10 max-w-4xl mx-auto" size="md">
-                <motion.h2 variants={contentVariants} className="text-3xl sm:text-4xl font-semibold text-white text-balance drop-shadow-[0_4px_4px_rgba(0,0,0,1)]">
+                <motion.h2 variants={contentVariants} className="text-3xl sm:text-4xl font-semibold text-white text-balance">
                   {t.rich("cta_title", {
                     highlight: (chunks) => <span className="text-sky-300">{chunks}</span>,
                   })}
                 </motion.h2>
-                <motion.p variants={contentVariants} className="text-pretty text-base sm:text-lg text-white/80 drop-shadow-[0_4px_4px_rgba(0,0,0,1)]">
+                <motion.p variants={contentVariants} className="text-pretty text-base sm:text-lg text-white/70">
                   {t("cta_text")}
                 </motion.p>
-                <motion.div variants={contentVariants} className="flex flex-wrap justify-center mt-2 pb-24 sm:pb-32 lg:pb-40 drop-shadow-[0_4px_4px_rgba(0,0,0,1)]">
+                <motion.div variants={contentVariants} className="flex flex-wrap justify-center mt-2 pb-24 sm:pb-32 lg:pb-40">
                   <SkyButton text={t("cta_button_contact")} href="/contact" />
                 </motion.div>
               </Stack>
