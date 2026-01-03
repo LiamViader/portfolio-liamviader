@@ -110,7 +110,7 @@ export default function ContactPage() {
       value: t("links.items.email.value"),
       styles: {
         containerHover: "",
-        iconColors: "text-rose-300/80",
+        iconColors: "text-rose-400/80",
         iconMobile: "",
         iconDesktop: "",
         text: "group-hover:underline"
@@ -124,7 +124,7 @@ export default function ContactPage() {
       value: t("links.items.linkedin.value"),
       styles: {
         containerHover: "",
-        iconColors: "text-sky-300/85",
+        iconColors: "text-sky-400/85",
         iconMobile: "",
         iconDesktop: "",
         text: "group-hover:underline"
@@ -138,7 +138,7 @@ export default function ContactPage() {
       value: t("links.items.github.value"),
       styles: {
         containerHover: "",
-        iconColors: "text-violet-300/80",
+        iconColors: "text-violet-400/80",
         iconMobile: "",
         iconDesktop: "",
         text: "group-hover:underline"
@@ -247,12 +247,12 @@ export default function ContactPage() {
                           <p className="text-[10px] font-bold uppercase tracking-wider text-sky-200/80 leading-tight">
                             {label}
                           </p>
-                          <p className={`text-sm font-semibold text-white/70 truncate group-hover:underline`}>
+                          <p className={`text-sm font-semibold text-white/80 truncate group-hover:underline`}>
                             {value}
                           </p>
                         </div>
                         <motion.div className="flex">
-                          <ArrowUpRight className="h-3 w-3 text-white/70" />
+                          <ArrowUpRight className="h-3 w-3 text-white/80" />
                         </motion.div>
                       </motion.a>
 
@@ -298,7 +298,7 @@ export default function ContactPage() {
                           <p className="text-[10px] font-bold uppercase tracking-wider text-sky-200/80 leading-tight">
                             {label}
                           </p>
-                          <p className={`text-sm font-semibold text-white/70 truncate group-hover:underline`}>
+                          <p className={`text-sm font-semibold text-white/80 truncate group-hover:underline`}>
                             {value}
                           </p>
                         </div>

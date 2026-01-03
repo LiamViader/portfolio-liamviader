@@ -178,7 +178,7 @@ export default function ProjectCard({
       onClick={handleClick}
       variants={containerVariants}
       custom={{ useTransparent, backgroundColor }}
-      className={`cursor-pointer group relative flex h-full flex-col overflow-hidden rounded-3xl border border-white/10 ${useTransparent ? "bg-white/5 backdrop-blur-xl" : ""} transform-gpu will-change-[transform,opacity] transition-none 
+      className={`cursor-pointer group relative flex h-full flex-col overflow-hidden rounded-2xl border border-white/10 ${useTransparent ? "bg-white/5 backdrop-blur-xl" : ""} transform-gpu will-change-[transform,opacity] transition-none 
         ${isHidden ? "pointer-events-none select-none opacity-0" : ""}
       `}
       animate="rest"
