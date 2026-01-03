@@ -71,7 +71,7 @@ export function AboutPortrait({
         relative
         w-[210px] sm:w-[270px] lg:w-[290px]
         aspect-square
-        rounded-2xl border border-white/20 overflow-hidden bg-slate-950
+        rounded-2xl border border-white/20 overflow-hidden
       "
       style={{ pointerEvents: ready ? "auto" : "none" }}
     >
