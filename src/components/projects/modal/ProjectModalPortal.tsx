@@ -9,6 +9,7 @@ import { ProjectModalBackdrop } from "./ProjectModalBackdrop";
 import { ProjectModalContent } from "./ProjectModalContent";
 import { ProjectModalShell } from "./ProjectModalShell";
 import { useProjectModalTransition } from "./hooks/useProjectModalTransition";
+import { useEffect } from "react";
 
 interface ModalPortalProps {
   project: TranslatedProject;
@@ -32,6 +33,24 @@ export function ProjectModalPortal({
       onRevealOrigin,
       onClose,
     });
+
+  useEffect(() => {
+    // If closing, we want to unlock immediately, so do nothing (cleanup from previous run will handle it)
+    if (closing) return;
+
+    // 1. Calculate scrollbar width
+    const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
+
+    // 2. Add padding to body to prevent layout shift
+    document.body.style.paddingRight = `${scrollbarWidth}px`;
+
+    // 3. Lock scroll
+    document.body.classList.add("overflow-hidden");
+    return () => {
+      document.body.classList.remove("overflow-hidden");
+      document.body.style.paddingRight = "";
+    };
+  }, [closing]);
 
   const portal = (
     <AnimatePresence mode="wait">

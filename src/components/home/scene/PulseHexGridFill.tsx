@@ -209,7 +209,7 @@ export default function PulseHexGridFill({
       transparent: true,
       depthWrite: false,
       depthTest: false,
-      blending: THREE.AdditiveBlending,
+      blending: THREE.NormalBlending,
       toneMapped: false,
     });
 
