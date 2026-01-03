@@ -98,7 +98,7 @@ export default function ProjectGallery({
             />
 
 
-            <motion.div variants={itemVariants} className="w-full ">
+            <motion.div variants={itemVariants} className="w-full">
               <CategorySwitcher currentCategory={category} onCategoryChange={onCategoryChange} />
             </motion.div>
 
