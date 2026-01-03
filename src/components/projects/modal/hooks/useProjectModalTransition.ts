@@ -66,7 +66,7 @@ export function useProjectModalTransition({
         width: Math.round(modalWidth),
         height: Math.round(modalHeight),
         opacity: 1,
-        borderRadius: 26,
+        borderRadius: 24,
         x: 0,
         y: 0,
         scaleX: 1,
@@ -85,7 +85,7 @@ export function useProjectModalTransition({
           width: Math.round(originRect.width),
           height: Math.round(originRect.height),
           opacity: 1,
-          borderRadius: 26,
+          borderRadius: 24,
           x: 0,
           y: 0,
           scaleX: 1,
@@ -126,7 +126,7 @@ export function useProjectModalTransition({
       width: Math.round(baseRect.width),
       height: Math.round(baseRect.height),
       opacity: 1,
-      borderRadius: 50,
+      borderRadius: 24,
       x: 0,
       y: 0,
       scaleX: 1,
@@ -160,11 +160,11 @@ export function useProjectModalTransition({
         const currentSx = 1 + (sx - 1) * k;
         const currentSy = 1 + (sy - 1) * k;
 
-        // --- STAGE 1: Modal Shell (0% - 50%) ---
-        // Fades out from 40% to 60%
+        // --- STAGE 1: Modal Shell ---
+        // Fades out from 30% to 80% (Smoother mix)
         let shellOpacity = 1;
-        if (k > 0.4) {
-          shellOpacity = Math.max(0, 1 - (k - 0.4) * 5); // 0.4 -> 0.6 fade out
+        if (k > 0.3) {
+          shellOpacity = Math.max(0, 1 - (k - 0.3) * 2); // 0.3 -> 0.8 fade out
         }
 
         controls.set({
@@ -175,12 +175,12 @@ export function useProjectModalTransition({
           opacity: shellOpacity,
         });
 
-        // --- STAGE 2: GHOST Card (50% - 100%) ---
-        // Fades in from 40% to 60%
+        // --- STAGE 2: GHOST Card ---
+        // Fades in from 30% to 80%
         if (ghostCardRef.current) {
           let cardOpacity = 0;
-          if (k > 0.4) {
-            cardOpacity = Math.min(1, (k - 0.4) * 5); // 0.4 -> 0.6 fade in
+          if (k > 0.3) {
+            cardOpacity = Math.min(1, (k - 0.3) * 2); // 0.3 -> 0.8 fade in
           }
 
           ghostCardRef.current.style.opacity = String(cardOpacity);
