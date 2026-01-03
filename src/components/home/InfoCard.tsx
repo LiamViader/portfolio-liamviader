@@ -33,12 +33,14 @@ const createCardVariantsWithHover = (animated: boolean): Variants => ({
     y: animated ? 20 : 0,
     backgroundColor: BASE_BG,
     borderColor: BASE_BORD,
+    boxShadow: BASE_SH,
   },
   show: {
     opacity: 1,
     y: 0,
     backgroundColor: BASE_BG,
     borderColor: BASE_BORD,
+    boxShadow: BASE_SH,
     transition: {
       opacity: {
         duration: animated ? 0.6 : 0,
