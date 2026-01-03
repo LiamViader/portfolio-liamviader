@@ -249,7 +249,7 @@ export function FeaturedCarouselCard({
       }}
       whileHover={introDone ? "hover" : undefined}
       className={`
-        relative flex h-full flex-col cursor-pointer overflow-hidden rounded-2xl
+        relative flex h-full flex-col cursor-pointer overflow-hidden rounded-3xl
         border border-white/10
         ${useTransparent ? "bg-white/5 backdrop-blur-xl" : ""} 
         shadow-[0_0_10px_rgba(0,0,0,0.40)]
