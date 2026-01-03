@@ -107,7 +107,7 @@ export function TechStackSection({
     <Section className="bg-gray-950">
       <Container>
         <ShowcaseBlock>
-      
+
           <motion.div
             className="relative"
             initial={entranceAnimationsEnabled ? "hidden" : "show"}
