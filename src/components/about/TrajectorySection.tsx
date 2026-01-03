@@ -245,11 +245,11 @@ function Timeline({ items, icon, locale }: TimelineProps) {
         variants={pathArrowVariants}
         className="pointer-events-none absolute left-2 top-0 -translate-x-1/2 flex items-center justify-center"
       >
-        <span className="h-0 w-0 border-l-[5px] border-r-[5px] border-b-[7px] border-l-transparent border-r-transparent border-b-sky-300" />
+        <span className="h-0 w-0 border-l-[5px] border-r-[5px] border-b-[7px] border-l-transparent border-r-transparent border-b-sky-300 drop-shadow-[0_0_8px_rgba(56,189,248,0.8)]" />
       </motion.span>
 
       <motion.span
-        className="pointer-events-none absolute left-2 top-1 bottom-3 w-px -translate-x-1/2 bg-gradient-to-b from-sky-300 via-sky-300/60 to-transparent"
+        className="pointer-events-none absolute left-2 top-1 bottom-3 w-px -translate-x-1/2 bg-gradient-to-b from-sky-300 via-sky-300/60 to-transparent drop-shadow-[0_0_8px_rgba(56,189,248,0.8)]"
         variants={pathLineVariants}
       />
 
@@ -260,6 +260,10 @@ function Timeline({ items, icon, locale }: TimelineProps) {
             className="relative ml-6"
             variants={pathItemShellVariants}
           >
+            <motion.span
+              variants={pathDotVariants}
+              className="absolute -left-4 top-5 h-2 w-2 -translate-x-1/2 rounded-full bg-sky-300 shadow-[0_0_10px_rgba(56,189,248,0.5)]"
+            />
 
             <MotionStack
               size="xs"
