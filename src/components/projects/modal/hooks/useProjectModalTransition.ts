@@ -4,13 +4,6 @@ import { measureStableRect } from "@/utils/measureStableRect";
 
 type Controls = ReturnType<typeof useAnimation>;
 
-interface UseProjectModalTransitionProps {
-  originRect: DOMRect;
-  originEl?: HTMLElement;
-  onRevealOrigin?: () => void;
-  onClose: () => void;
-}
-
 interface UseProjectModalTransitionResult {
   controls: Controls;
   containerRef: RefObject<HTMLDivElement>;
@@ -21,9 +14,18 @@ interface UseProjectModalTransitionResult {
 
 const easeOutCubic = (t: number) => 1 - Math.pow(1 - t, 3);
 
+interface UseProjectModalTransitionProps {
+  originRect: DOMRect;
+  originEl?: HTMLElement;
+  ghostCardRef: RefObject<HTMLDivElement>;
+  onRevealOrigin?: () => void;
+  onClose: () => void;
+}
+
 export function useProjectModalTransition({
   originRect,
   originEl,
+  ghostCardRef, // New
   onRevealOrigin,
   onClose,
 }: UseProjectModalTransitionProps): UseProjectModalTransitionResult {
@@ -131,7 +133,7 @@ export function useProjectModalTransition({
       scaleY: 1,
     });
 
-    const duration = 350;
+    const duration = 400; // Reduced duration
     const startTime = performance.now();
 
     await new Promise<void>((resolve) => {
@@ -144,32 +146,71 @@ export function useProjectModalTransition({
         const t = Math.min(1, (now - startTime) / duration);
         const k = easeOutCubic(t);
 
-        let live: DOMRect = originRect;
-        try {
-          if (originEl && originEl.isConnected) {
-            live = measureStableRect(originEl);
-          }
-        } catch {
-          resolve();
-          return;
-        }
+        // NOTE: We use originRect directly to avoid feedback loops from transforms we apply below.
+        const live: DOMRect = originRect;
 
         const tx = live.left - baseRect.left;
         const ty = live.top - baseRect.top;
         const sx = live.width / baseRect.width || 1;
         const sy = live.height / baseRect.height || 1;
 
+        // Current interpolated state of the "box"
+        const currentTx = tx * k;
+        const currentTy = ty * k;
+        const currentSx = 1 + (sx - 1) * k;
+        const currentSy = 1 + (sy - 1) * k;
+
+        // --- STAGE 1: Modal Shell (0% - 50%) ---
+        // Fades out from 40% to 60%
+        let shellOpacity = 1;
+        if (k > 0.4) {
+          shellOpacity = Math.max(0, 1 - (k - 0.4) * 5); // 0.4 -> 0.6 fade out
+        }
+
         controls.set({
-          x: tx * k,
-          y: ty * k,
-          scaleX: 1 + (sx - 1) * k,
-          scaleY: 1 + (sy - 1) * k,
-          opacity: 1,
+          x: currentTx,
+          y: currentTy,
+          scaleX: currentSx,
+          scaleY: currentSy,
+          opacity: shellOpacity,
         });
+
+        // --- STAGE 2: GHOST Card (50% - 100%) ---
+        // Fades in from 40% to 60%
+        if (ghostCardRef.current) {
+          let cardOpacity = 0;
+          if (k > 0.4) {
+            cardOpacity = Math.min(1, (k - 0.4) * 5); // 0.4 -> 0.6 fade in
+          }
+
+          ghostCardRef.current.style.opacity = String(cardOpacity);
+
+          if (cardOpacity > 0) {
+            // Target Pos (Current Box TopLeft)
+            const targetX = baseRect.left + currentTx;
+            const targetY = baseRect.top + currentTy;
+
+            const targetW = baseRect.width * currentSx;
+            // const targetH = baseRect.height * currentSy;
+
+            // The Ghost Card is FIXED at 0,0 with width=originRect.width
+            // We just need to transform it to targetX, Turn
+            // And scale it: targetW / originRect.width
+
+            const scale = targetW / originRect.width;
+
+            ghostCardRef.current.style.transform = `translate3d(${targetX}px, ${targetY}px, 0) scale(${scale})`;
+          }
+        }
 
         if (t < 1) {
           closeRafRef.current = requestAnimationFrame(tick);
         } else {
+          // Cleanup final state
+          if (ghostCardRef.current) {
+            ghostCardRef.current.style.opacity = "";
+            ghostCardRef.current.style.transform = "";
+          }
           resolve();
         }
       };

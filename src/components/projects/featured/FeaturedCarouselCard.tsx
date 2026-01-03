@@ -97,6 +97,7 @@ interface FeaturedCarouselCardProps {
   introAnimationEnabled: boolean;
   useTransparent?: boolean;
   backgroundColor?: string;
+  disableHover?: boolean;
 }
 
 export function FeaturedCarouselCard({
@@ -111,6 +112,7 @@ export function FeaturedCarouselCard({
   introAnimationEnabled,
   useTransparent = true,
   backgroundColor = "rgb(24, 28, 57)",
+  disableHover = false,
 }: FeaturedCarouselCardProps) {
   const titleSize = titleClassName ?? "text-2xl md:text-3xl";
   const descSize = descriptionClassName ?? "text-sm md:text-base";
@@ -247,7 +249,7 @@ export function FeaturedCarouselCard({
           setIntroDone(true);
         }
       }}
-      whileHover={introDone ? "hover" : undefined}
+      whileHover={!disableHover && introDone ? "hover" : undefined}
       className={`
         relative flex h-full flex-col cursor-pointer overflow-hidden rounded-3xl
         border border-white/10
@@ -262,7 +264,7 @@ export function FeaturedCarouselCard({
       style={{
         backgroundColor: useTransparent ? TRANSPARENT_BASE_BG : backgroundColor,
         borderColor: BASE_BORD,
-        pointerEvents: introDone ? "auto" : "none",
+        pointerEvents: !disableHover && introDone ? "auto" : "none",
       }}
     >
       <div

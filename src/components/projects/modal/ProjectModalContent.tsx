@@ -129,7 +129,7 @@ export function ProjectModalContent({
     const containerRect = container.getBoundingClientRect();
     const buttonRect = button.getBoundingClientRect();
 
-    const margin = 20; 
+    const margin = 20;
     const offset = buttonRect.top - containerRect.top;
 
     if (offset < margin) {
@@ -282,7 +282,7 @@ export function ProjectModalContent({
                 />
               ) : null}
             </motion.article>
-            
+
             <div className="mt-2 border-t border-white/10 pt-8">
               <motion.aside
                 className="grid gap-6 md:grid-cols-2 items-stretch"
@@ -290,7 +290,7 @@ export function ProjectModalContent({
                 initial="hidden"
                 animate={animationState}
               >
-                
+
                 <motion.div
                   className="flex flex-col rounded-2xl border border-white/10 bg-slate-900/40 p-6"
                   variants={modalItemVariants}
@@ -309,18 +309,18 @@ export function ProjectModalContent({
                           idle: {
                             y: 0,
                             scale: 1,
-                            backgroundColor: "rgba(30, 41, 59, 0.5)", 
-                            borderColor: "rgba(51, 65, 85, 1)",     
-                            color: "rgba(203, 213, 225, 1)",        
+                            backgroundColor: "rgba(30, 41, 59, 0.5)",
+                            borderColor: "rgba(51, 65, 85, 1)",
+                            color: "rgba(203, 213, 225, 1)",
                             boxShadow: "0 0 0 rgba(0,0,0,0)",
                           },
                           hover: {
                             y: -2,
                             scale: 1.05,
-                            backgroundColor: "rgba(14, 165, 233, 0.1)", 
-                            borderColor: "rgba(14, 165, 233, 0.5)",     
+                            backgroundColor: "rgba(14, 165, 233, 0.1)",
+                            borderColor: "rgba(14, 165, 233, 0.5)",
                             color: "rgba(186, 230, 253, 1)",
-                            boxShadow: "0 4px 12px rgba(14, 165, 233, 0.15)", 
+                            boxShadow: "0 4px 12px rgba(14, 165, 233, 0.15)",
                             transition: { type: "spring", stiffness: 300, damping: 20 }
                           }
                         }}
@@ -339,7 +339,7 @@ export function ProjectModalContent({
                     <h3 className="mb-4 text-xs font-bold uppercase tracking-widest text-slate-500">
                       {t("exploreMoreTitle")}
                     </h3>
-                    
+
                     <div className="flex flex-1 flex-col justify-start gap-3">
                       {project.live_url && (
                         <motion.a
@@ -354,19 +354,19 @@ export function ProjectModalContent({
                             idle: {
                               y: 0,
                               scale: 1,
-                              borderColor: "rgba(14, 165, 233, 0.3)", 
-                              color: "rgba(224, 242, 254, 1)", 
-                              boxShadow: "0 10px 15px -3px rgba(12, 74, 110, 0.2)", 
+                              borderColor: "rgba(14, 165, 233, 0.3)",
+                              color: "rgba(224, 242, 254, 1)",
+                              boxShadow: "0 10px 15px -3px rgba(12, 74, 110, 0.2)",
                             },
                             hover: {
                               y: -1,
                               scale: 1.02,
-                              borderColor: "rgba(56, 189, 248, 0.6)", 
+                              borderColor: "rgba(56, 189, 248, 0.6)",
                               color: "rgba(255, 255, 255, 1)",
-                              boxShadow: "0 10px 25px -5px rgba(14, 165, 233, 0.25)", 
+                              boxShadow: "0 10px 25px -5px rgba(14, 165, 233, 0.25)",
                               transition: { type: "spring", stiffness: 400, damping: 25 }
                             },
-                            tap: { 
+                            tap: {
                               scale: 0.98,
                               y: 0,
                               borderColor: "rgba(14, 165, 233, 0.5)",
@@ -374,15 +374,15 @@ export function ProjectModalContent({
                           }}
                         >
                           <span>{t("liveDemoCta")}</span>
-                          
+
                           <motion.span
                             variants={{
                               idle: { x: 0, y: 0, color: "rgba(186, 230, 253, 1)" },
-                              hover: { 
-                                x: 2, 
-                                y: -2, 
+                              hover: {
+                                x: 2,
+                                y: -2,
                                 color: "rgba(255, 255, 255, 1)", // white
-                                transition: { type: "spring", stiffness: 300 } 
+                                transition: { type: "spring", stiffness: 300 }
                               }
                             }}
                           >
@@ -400,25 +400,25 @@ export function ProjectModalContent({
                           initial="idle"
                           whileHover="hover"
                           whileTap="tap"
-                          
+
                           variants={{
                             idle: {
                               y: 0,
                               scale: 1,
-                              borderColor: "rgba(168, 85, 247, 0.3)", 
-                              color: "rgba(243, 232, 255, 1)",        
+                              borderColor: "rgba(168, 85, 247, 0.3)",
+                              color: "rgba(243, 232, 255, 1)",
                               boxShadow: "0 10px 15px -3px rgba(88, 28, 135, 0.2)",
                             },
                             hover: {
                               y: -1,
                               scale: 1.02,
                               borderColor: "rgba(192, 132, 252, 0.6)",
-                              color: "rgba(255, 255, 255, 1)",         
+                              color: "rgba(255, 255, 255, 1)",
                               boxShadow: "0 10px 25px -5px rgba(168, 85, 247, 0.25)",
                               transition: { type: "spring", stiffness: 400, damping: 25 }
                             },
-                            tap: { 
-                              scale: 0.98, 
+                            tap: {
+                              scale: 0.98,
                               y: 0,
                               borderColor: "rgba(168, 85, 247, 0.5)"
                             }
@@ -428,10 +428,10 @@ export function ProjectModalContent({
                           <motion.span
                             variants={{
                               idle: { rotate: 0, color: "rgba(233, 213, 255, 1)" },
-                              hover: { 
-                                rotate: 12, 
-                                color: "rgba(255, 255, 255, 1)", 
-                                transition: { type: "spring", stiffness: 300 } 
+                              hover: {
+                                rotate: 12,
+                                color: "rgba(255, 255, 255, 1)",
+                                transition: { type: "spring", stiffness: 300 }
                               }
                             }}
                           >

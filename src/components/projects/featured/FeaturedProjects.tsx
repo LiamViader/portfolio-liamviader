@@ -187,6 +187,9 @@ export default function FeaturedProjects({
           originEl={selected.el}
           onRevealOrigin={markOriginRevealed}
           onClose={closeProject}
+          ghostCardType="carousel"
+          backgroundColor={backgroundColor}
+          carouselTypography={carouselTypography}
         />
       )}
     </section>

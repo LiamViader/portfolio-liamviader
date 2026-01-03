@@ -9,7 +9,7 @@ import LanguageSwitcher from "./LanguageSwitcher";
 import { useModal } from "@/providers/ModalContext";
 
 const INITIAL_HEADER_HEIGHT = 73;
-const SCROLL_THRESHOLD = 40; 
+const SCROLL_THRESHOLD = 40;
 
 export default function Header() {
   const t = useTranslations("Navbar");
@@ -62,30 +62,30 @@ export default function Header() {
 
     const onScroll = () => {
       const currentScrollY = window.scrollY;
-      
+
       const deltaY = currentScrollY - lastScrollY;
-      
+
       if (headerHeight !== 0) {
 
-        if (currentScrollY <= 0) { 
-           setYOffset(0);
-           setTransitionDurationMs(0);
-           isStickyRef.current = false;
-           accumulatedScrollRef.current = 0;
-           setLastScrollY(currentScrollY);
-           return;
+        if (currentScrollY <= 0) {
+          setYOffset(0);
+          setTransitionDurationMs(0);
+          isStickyRef.current = false;
+          accumulatedScrollRef.current = 0;
+          setLastScrollY(currentScrollY);
+          return;
         }
-        
+
         if (currentScrollY <= headerHeight) {
           if (isStickyRef.current) {
             setYOffset(0);
-            setTransitionDurationMs(0); 
+            setTransitionDurationMs(0);
           } else {
             setYOffset(-currentScrollY);
-            setTransitionDurationMs(0); 
+            setTransitionDurationMs(0);
           }
-          accumulatedScrollRef.current = 0; 
-        } 
+          accumulatedScrollRef.current = 0;
+        }
         else {
           if (deltaY === 0) return;
 
@@ -101,14 +101,14 @@ export default function Header() {
                 setYOffset(-maxOffset);
                 setTransitionDurationMs(300);
                 isStickyRef.current = false;
-                accumulatedScrollRef.current = 0; 
+                accumulatedScrollRef.current = 0;
               }
             } else {
               if (yOffset !== 0) {
                 setYOffset(0);
                 setTransitionDurationMs(300);
-                isStickyRef.current = true; 
-                accumulatedScrollRef.current = 0; 
+                isStickyRef.current = true;
+                accumulatedScrollRef.current = 0;
               }
             }
           }
@@ -142,7 +142,8 @@ export default function Header() {
         style={{
           transform: `translateY(${yOffset}px)`,
           transitionDuration: `${transitionDurationMs}ms`,
-          transitionTimingFunction: transitionDurationMs > 0 ? "cubic-bezier(0.4, 0, 0.2, 1)" : "linear"
+          transitionTimingFunction: transitionDurationMs > 0 ? "cubic-bezier(0.4, 0, 0.2, 1)" : "linear",
+          width: "calc(100% - var(--scrollbar-gap, 0px))"
         }}
       >
         <h1 className="font-bold text-lg md:text-xl">Liam Viader</h1>
@@ -174,11 +175,10 @@ export default function Header() {
                   key={item.href}
                   href={item.href}
                   onClick={() => setIsMenuOpen(false)}
-                  className={`text-base transition-colors ${
-                    isActive(item.href, item.exact)
-                      ? "text-white border-b border-sky-200/70"
-                      : "text-white hover:text-sky-300"
-                  }`}
+                  className={`text-base transition-colors ${isActive(item.href, item.exact)
+                    ? "text-white border-b border-sky-200/70"
+                    : "text-white hover:text-sky-300"
+                    }`}
                 >
                   {item.label}
                 </Link>
@@ -189,6 +189,6 @@ export default function Header() {
           </nav>
         )}
       </AnimatePresence>
-    </div>
+    </div >
   );
 }

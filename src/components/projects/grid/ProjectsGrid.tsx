@@ -145,6 +145,8 @@ export default function ProjectsGrid({
           originEl={selected.el}
           onRevealOrigin={markOriginRevealed}
           onClose={closeProject}
+          ghostCardType="grid"
+          backgroundColor={backgroundColor}
         />
       )}
     </>
