@@ -1,6 +1,6 @@
 "use client";
 
-import { Suspense, useRef } from "react";
+import { Suspense, useRef, useMemo } from "react";
 import { Canvas } from "@react-three/fiber";
 import clsx from "clsx";
 import PulseHexGridOverlapLine, { type HexGridParams } from "./PulseHexGridOverlapLine";
@@ -9,9 +9,9 @@ import HexGridTrails from "./HexGridTrails";
 import HexGridStrata from "./HexGridStrata";
 import { FillTuning } from "./PulseHexGridFill";
 
-export const grid_types = ['OverlapLine', 'Fill', 'Trails', 'Strata'] as const; 
+export const grid_types = ['OverlapLine', 'Fill', 'Trails', 'Strata'] as const;
 
-export type GridType = typeof grid_types[number]; 
+export type GridType = typeof grid_types[number];
 
 export type CanvasSceneProps = {
 
@@ -38,7 +38,7 @@ type HexGridTrailParams = {
 function renderGrid(finalGridType: GridType, mergedParams: HexGridParams, trailParams?: HexGridTrailParams, filltuning?: FillTuning) {
   switch (finalGridType) {
     case "Fill":
-      return <PulseHexGridFill params={mergedParams} tuning={filltuning}/>;
+      return <PulseHexGridFill params={mergedParams} tuning={filltuning} />;
 
     case "OverlapLine":
       return <PulseHexGridOverlapLine params={mergedParams} />;
@@ -56,9 +56,9 @@ function renderGrid(finalGridType: GridType, mergedParams: HexGridParams, trailP
           params={mergedParams}
           options={{
             mode: "diagA",      // "rows" | "cols" | "diagA" | "diagB"
-            amplitude: 5,    
-            speed: 0.25,       
-            phaseStep: 0,    
+            amplitude: 5,
+            speed: 0.25,
+            phaseStep: 0,
           }}
         />
       );
@@ -89,19 +89,19 @@ export default function PulseHexGridCanvas({
   );
 
   // Default parameter values if not provided
-  const mergedParams: HexGridParams = {
+  const mergedParams: HexGridParams = useMemo(() => ({
     pixelsPerHex: pixelsPerHex ?? 90, // grid density
     hue: hue ?? 200,                  // base hue (0..360)
     hueJitter: hueJitter ?? 8,        // random hue variation ±degrees
     s: s ?? 60,                       // saturation %
     l: l ?? 0,                       // lightness %
-  };
+  }), [pixelsPerHex, hue, hueJitter, s, l]);
 
-  const trailParams = gridType === 'Trails' ? {
+  const trailParams = useMemo(() => (gridType === 'Trails' ? {
     trailCount: trailCount ?? 40,
     stepsPerSecond: stepsPerSecond ?? 22,
     fadeSeconds: fadeSeconds ?? 7,
-  }: undefined;
+  } : undefined), [gridType, trailCount, stepsPerSecond, fadeSeconds]);
 
   const finalGridType = gridType ?? 'OverlapLine';
 

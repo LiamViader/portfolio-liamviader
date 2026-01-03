@@ -214,8 +214,17 @@ export default function PulseHexGridFill({
     });
 
     return { geom, mat };
-
-  }, [width, height, params.s, params.l, params.hueJitter, params.hue, params.pixelsPerHex, tuning, baseGeom]); // Dependencias estables
+  }, [
+    Math.floor(width),
+    Math.floor(height),
+    params.s,
+    params.l,
+    params.hueJitter,
+    params.hue,
+    params.pixelsPerHex,
+    tuning,
+    baseGeom
+  ]); // Dependencias estables y reducidas
 
 
   const groupRef = useRef<THREE.Group>(null);
