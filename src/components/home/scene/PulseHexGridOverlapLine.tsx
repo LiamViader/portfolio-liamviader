@@ -120,7 +120,7 @@ export default function PulseHexGridOverlapLine({ params }: { params: HexGridPar
 
     geom.boundingSphere = new THREE.Sphere(new THREE.Vector3(0, 0, 0), Math.hypot(width, height));
 
-    return { geom, mat, ib };
+    return { geom, mat };
   }, [hexes, baseGeom, width, height, params.s, params.l]);
 
   const groupRef = useRef<THREE.Group>(null);
@@ -149,9 +149,6 @@ export default function PulseHexGridOverlapLine({ params }: { params: HexGridPar
   useEffect(() => {
     return () => {
       if (instanced) {
-        if ('ib' in instanced && instanced.ib) {
-          (instanced.ib as any).dispose();
-        }
         instanced.geom.dispose();
         instanced.mat.dispose();
       }

@@ -213,18 +213,9 @@ export default function PulseHexGridFill({
       toneMapped: false,
     });
 
-    return { geom, mat, ib };
-  }, [
-    Math.floor(width),
-    Math.floor(height),
-    params.s,
-    params.l,
-    params.hueJitter,
-    params.hue,
-    params.pixelsPerHex,
-    tuning,
-    baseGeom
-  ]); // Dependencias estables y reducidas
+    return { geom, mat };
+
+  }, [width, height, params.s, params.l, params.hueJitter, params.hue, params.pixelsPerHex, tuning, baseGeom]); // Dependencias estables
 
 
   const groupRef = useRef<THREE.Group>(null);
@@ -244,10 +235,6 @@ export default function PulseHexGridFill({
   useEffect(() => {
     return () => {
       if (instanced) {
-        // Dispose of the InterleavedBuffer explicitly to prevent leaks
-        if (instanced.ib) {
-          (instanced.ib as any).dispose();
-        }
         instanced.geom.dispose();
         instanced.mat.dispose();
       }

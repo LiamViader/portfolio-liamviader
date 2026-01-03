@@ -1,6 +1,6 @@
 "use client";
 
-import { Suspense, useRef, useMemo } from "react";
+import { Suspense, useRef } from "react";
 import { Canvas } from "@react-three/fiber";
 import clsx from "clsx";
 import PulseHexGridOverlapLine, { type HexGridParams } from "./PulseHexGridOverlapLine";
@@ -89,19 +89,19 @@ export default function PulseHexGridCanvas({
   );
 
   // Default parameter values if not provided
-  const mergedParams: HexGridParams = useMemo(() => ({
+  const mergedParams: HexGridParams = {
     pixelsPerHex: pixelsPerHex ?? 90, // grid density
     hue: hue ?? 200,                  // base hue (0..360)
     hueJitter: hueJitter ?? 8,        // random hue variation ±degrees
     s: s ?? 60,                       // saturation %
     l: l ?? 0,                       // lightness %
-  }), [pixelsPerHex, hue, hueJitter, s, l]);
+  };
 
-  const trailParams = useMemo(() => (gridType === 'Trails' ? {
+  const trailParams = gridType === 'Trails' ? {
     trailCount: trailCount ?? 40,
     stepsPerSecond: stepsPerSecond ?? 22,
     fadeSeconds: fadeSeconds ?? 7,
-  } : undefined), [gridType, trailCount, stepsPerSecond, fadeSeconds]);
+  } : undefined;
 
   const finalGridType = gridType ?? 'OverlapLine';
 
