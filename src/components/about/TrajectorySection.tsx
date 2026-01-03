@@ -245,11 +245,11 @@ function Timeline({ items, icon, locale }: TimelineProps) {
         variants={pathArrowVariants}
         className="pointer-events-none absolute left-2 top-0 -translate-x-1/2 flex items-center justify-center"
       >
-        <span className="h-0 w-0 border-l-[5px] border-r-[5px] border-b-[7px] border-l-transparent border-r-transparent border-b-sky-300/80" />
+        <span className="h-0 w-0 border-l-[5px] border-r-[5px] border-b-[7px] border-l-transparent border-r-transparent border-b-sky-300" />
       </motion.span>
 
       <motion.span
-        className="pointer-events-none absolute left-2 top-1 bottom-3 w-px bg-gradient-to-b from-sky-300/60 via-sky-300/60 to-transparent"
+        className="pointer-events-none absolute left-2 top-1 bottom-3 w-px -translate-x-1/2 bg-gradient-to-b from-sky-300 via-sky-300/60 to-transparent"
         variants={pathLineVariants}
       />
 
