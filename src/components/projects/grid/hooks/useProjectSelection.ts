@@ -25,7 +25,7 @@ export function useProjectSelection(
 ) {
   const [selected, setSelected] = useState<SelectedProjectState | null>(null);
   const [revealOrigin, setRevealOrigin] = useState(false);
-  
+
   // Estado de bloqueo para evitar reaperturas inmediatas al cerrar
   const [ignoredSlug, setIgnoredSlug] = useState<string | null>(null);
 
@@ -38,7 +38,7 @@ export function useProjectSelection(
   // --- EL CAMBIO CLAVE ESTÁ AQUÍ ---
   // Calculamos qué proyecto pide la URL.
   let projectFromUrl: TranslatedProject | null = null;
-  
+
   // Solo devolvemos un proyecto si:
   // 1. Hay slug en la URL
   // 2. NO es el slug que acabamos de cerrar (ignoredSlug)
@@ -51,14 +51,14 @@ export function useProjectSelection(
   // Limpiar el bloqueo de cierre cuando la URL cambia
   useEffect(() => {
     if (urlProjectSlug !== ignoredSlug) {
-       setIgnoredSlug(null);
+      setIgnoredSlug(null);
     }
   }, [urlProjectSlug, ignoredSlug]);
 
   // Efecto Fallback (Solo si NO usamos deferUrlTrigger)
   useEffect(() => {
     if (!projectFromUrl || !allowUrlOpen || isGlobalProjectOpen) return;
-    if (deferUrlTrigger) return; 
+    if (deferUrlTrigger) return;
 
     if (selected?.project.id !== projectFromUrl.id) {
       isGlobalProjectOpen = true;
@@ -98,7 +98,7 @@ export function useProjectSelection(
 
   const closeProject = useCallback(() => {
     if (selected?.project.slug) {
-        setIgnoredSlug(selected.project.slug);
+      setIgnoredSlug(selected.project.slug);
     }
     isGlobalProjectOpen = false; // <--- Liberamos semáforo
     setSelected(null);
@@ -121,13 +121,13 @@ export function useProjectSelection(
     selectProject,
     closeProject,
     markOriginRevealed,
-    projectFromUrl, 
+    projectFromUrl,
   };
 }
 
 function getCenterRect(): DOMRect {
-    if (typeof window === "undefined") return new DOMRect(0,0,0,0);
-    const x = window.innerWidth / 2;
-    const y = window.innerHeight / 2;
-    return { width: 0, height: 0, x, y, top: y, left: x, right: x, bottom: y, toJSON: () => {} };
+  if (typeof window === "undefined") return new DOMRect(0, 0, 0, 0);
+  const x = window.innerWidth / 2;
+  const y = window.innerHeight / 2;
+  return { width: 0, height: 0, x, y, top: y, left: x, right: x, bottom: y, toJSON: () => { } };
 }

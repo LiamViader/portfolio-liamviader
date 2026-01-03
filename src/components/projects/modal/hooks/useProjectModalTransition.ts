@@ -45,39 +45,65 @@ export function useProjectModalTransition({
   useEffect(() => {
     isMountedRef.current = true;
 
-    const modalWidth = Math.min(window.innerWidth - 48, 960);
-    const modalHeight = Math.min(window.innerHeight - 100, 850);
-    const targetLeft = Math.max(24, (window.innerWidth - modalWidth) / 2);
-    const targetTop = Math.max(48, (window.innerHeight - modalHeight) / 6);
+    const updateDimensions = (isResize = false) => {
+      const isMobile = window.innerWidth < 640;
+      const marginX = isMobile ? 12 : 48; // Mobile: 6px side margins (12 total)
+      const marginY = isMobile ? 24 : 100; // Mobile: 12px top/bottom (24 total)
 
-    controls.set({
-      left: Math.round(originRect.left),
-      top: Math.round(originRect.top),
-      width: Math.round(originRect.width),
-      height: Math.round(originRect.height),
-      opacity: 1,
-      borderRadius: 26,
-      x: 0,
-      y: 0,
-      scaleX: 1,
-      scaleY: 1,
-    });
+      const modalWidth = Math.min(window.innerWidth - marginX, 960);
+      const modalHeight = Math.min(window.innerHeight - marginY, 850);
 
-    controls.start({
-      left: Math.round(targetLeft),
-      top: Math.round(targetTop),
-      width: Math.round(modalWidth),
-      height: Math.round(modalHeight),
-      opacity: 1,
-      borderRadius: 26,
-      x: 0,
-      y: 0,
-      scaleX: 1,
-      scaleY: 1,
-      transition: { duration: 0.35, ease: [0.4, 0, 0.2, 1] },
-    });
+      const targetLeft = (window.innerWidth - modalWidth) / 2;
+      const targetTop = isMobile
+        ? (window.innerHeight - modalHeight) / 2
+        : Math.max(48, (window.innerHeight - modalHeight) / 6);
+
+      const targetProps = {
+        left: Math.round(targetLeft),
+        top: Math.round(targetTop),
+        width: Math.round(modalWidth),
+        height: Math.round(modalHeight),
+        opacity: 1,
+        borderRadius: 26,
+        x: 0,
+        y: 0,
+        scaleX: 1,
+        scaleY: 1,
+      };
+
+      if (isResize) {
+        controls.start({
+          ...targetProps,
+          transition: { duration: 0.2, ease: "easeOut" },
+        });
+      } else {
+        controls.set({
+          left: Math.round(originRect.left),
+          top: Math.round(originRect.top),
+          width: Math.round(originRect.width),
+          height: Math.round(originRect.height),
+          opacity: 1,
+          borderRadius: 26,
+          x: 0,
+          y: 0,
+          scaleX: 1,
+          scaleY: 1,
+        });
+
+        controls.start({
+          ...targetProps,
+          transition: { duration: 0.35, ease: [0.4, 0, 0.2, 1] },
+        });
+      }
+    };
+
+    updateDimensions();
+
+    const handleResize = () => updateDimensions(true);
+    window.addEventListener("resize", handleResize);
 
     return () => {
+      window.removeEventListener("resize", handleResize);
       isMountedRef.current = false;
       if (closeRafRef.current != null) cancelAnimationFrame(closeRafRef.current);
       if (followRafRef.current != null) cancelAnimationFrame(followRafRef.current);
