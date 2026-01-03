@@ -55,7 +55,7 @@ export default function PulseHexGridOverlapLine({ params }: { params: HexGridPar
       pts.push(Math.cos(angle), Math.sin(angle), 0);
     }
     const pos = new Float32Array(pts);
-    const idx = new Uint16Array([0,1, 1,2, 2,3, 3,4, 4,5, 5,0]);
+    const idx = new Uint16Array([0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 0]);
     geom.setAttribute("position", new THREE.BufferAttribute(pos, 3).setUsage(THREE.StaticDrawUsage));
     geom.setIndex(new THREE.BufferAttribute(idx, 1).setUsage(THREE.StaticDrawUsage));
     return geom;
@@ -94,20 +94,20 @@ export default function PulseHexGridOverlapLine({ params }: { params: HexGridPar
     }
     const ib = new THREE.InstancedInterleavedBuffer(data, STRIDE).setUsage(THREE.StaticDrawUsage);
 
-    geom.setAttribute("aOffset",  new THREE.InterleavedBufferAttribute(ib, 3, 0));
-    geom.setAttribute("aScale",   new THREE.InterleavedBufferAttribute(ib, 1, 3));
-    geom.setAttribute("aHue",     new THREE.InterleavedBufferAttribute(ib, 1, 4));
-    geom.setAttribute("aPhase",   new THREE.InterleavedBufferAttribute(ib, 1, 5));
-    geom.setAttribute("aDepth",   new THREE.InterleavedBufferAttribute(ib, 1, 6));
+    geom.setAttribute("aOffset", new THREE.InterleavedBufferAttribute(ib, 3, 0));
+    geom.setAttribute("aScale", new THREE.InterleavedBufferAttribute(ib, 1, 3));
+    geom.setAttribute("aHue", new THREE.InterleavedBufferAttribute(ib, 1, 4));
+    geom.setAttribute("aPhase", new THREE.InterleavedBufferAttribute(ib, 1, 5));
+    geom.setAttribute("aDepth", new THREE.InterleavedBufferAttribute(ib, 1, 6));
     geom.setAttribute("aOpacity", new THREE.InterleavedBufferAttribute(ib, 1, 7));
-    geom.setAttribute("aRotC",    new THREE.InterleavedBufferAttribute(ib, 1, 8));
-    geom.setAttribute("aRotS",    new THREE.InterleavedBufferAttribute(ib, 1, 9));
+    geom.setAttribute("aRotC", new THREE.InterleavedBufferAttribute(ib, 1, 8));
+    geom.setAttribute("aRotS", new THREE.InterleavedBufferAttribute(ib, 1, 9));
 
     const mat = new THREE.ShaderMaterial({
       uniforms: {
         uTime: { value: 0 },
-        uSPct01: { value: params.s / 100 }, 
-        uLPct: { value: params.l },         
+        uSPct01: { value: params.s / 100 },
+        uLPct: { value: params.l },
       },
       vertexShader: lineVertGLSL_Optimized,
       fragmentShader: lineFragGLSL_Optimized,
@@ -139,7 +139,7 @@ export default function PulseHexGridOverlapLine({ params }: { params: HexGridPar
   useEffect(() => {
     if (!instanced) return;
     instanced.mat.uniforms.uSPct01.value = params.s / 100;
-    instanced.mat.uniforms.uLPct.value = params.l; 
+    instanced.mat.uniforms.uLPct.value = params.l;
   }, [instanced, params.s, params.l]);
 
   useEffect(() => {
@@ -149,6 +149,11 @@ export default function PulseHexGridOverlapLine({ params }: { params: HexGridPar
   useEffect(() => {
     return () => {
       if (instanced) {
+        const attr = instanced.geom.getAttribute("aOffset") as THREE.InterleavedBufferAttribute;
+        if (attr && attr.data) {
+          (attr.data as any).dispose();
+        }
+
         instanced.geom.dispose();
         instanced.mat.dispose();
       }
