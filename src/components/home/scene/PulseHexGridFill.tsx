@@ -244,12 +244,6 @@ export default function PulseHexGridFill({
   useEffect(() => {
     return () => {
       if (instanced) {
-        // Dispose of the InterleavedBuffer explicitly to prevent leaks
-        const attr = instanced.geom.getAttribute("aCenter") as THREE.InterleavedBufferAttribute;
-        if (attr && attr.data) {
-          (attr.data as any).dispose();
-        }
-
         instanced.geom.dispose();
         instanced.mat.dispose();
       }

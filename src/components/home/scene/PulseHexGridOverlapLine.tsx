@@ -149,11 +149,6 @@ export default function PulseHexGridOverlapLine({ params }: { params: HexGridPar
   useEffect(() => {
     return () => {
       if (instanced) {
-        const attr = instanced.geom.getAttribute("aOffset") as THREE.InterleavedBufferAttribute;
-        if (attr && attr.data) {
-          (attr.data as any).dispose();
-        }
-
         instanced.geom.dispose();
         instanced.mat.dispose();
       }
