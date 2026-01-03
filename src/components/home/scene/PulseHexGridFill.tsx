@@ -213,7 +213,7 @@ export default function PulseHexGridFill({
       toneMapped: false,
     });
 
-    return { geom, mat };
+    return { geom, mat, ib };
   }, [
     Math.floor(width),
     Math.floor(height),
@@ -244,6 +244,10 @@ export default function PulseHexGridFill({
   useEffect(() => {
     return () => {
       if (instanced) {
+        // Dispose of the InterleavedBuffer explicitly to prevent leaks
+        if (instanced.ib) {
+          (instanced.ib as any).dispose();
+        }
         instanced.geom.dispose();
         instanced.mat.dispose();
       }
