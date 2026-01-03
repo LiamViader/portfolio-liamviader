@@ -133,31 +133,40 @@ export default function PulseHexGridFill({
   }, [params.pixelsPerHex]);
 
 
+  const SNAP = 400; // Pixel quantization step
+  const qWidth = Math.ceil(width / SNAP) * SNAP;
+  const qHeight = Math.ceil(height / SNAP) * SNAP;
 
   const instanced = useMemo(() => {
-    const radius = params.pixelsPerHex / Math.sqrt(3);
-    const hexWidth = Math.sqrt(3) * radius;
-    const vSpacing = (3 / 2) * radius;
-    const hSpacing = hexWidth;
-    const margin = Math.ceil((width / hSpacing) * 0.05);
-    const columns = Math.ceil(width / hSpacing) + margin;
-    const rows = Math.ceil(height / vSpacing) + margin;
-
-    const cells = [];
     const baseHue01 = (((params.hue % 360) + 360) % 360) / 360;
     const hueJitter01 = Math.abs(params.hueJitter) / 360;
     const wrap01 = (n: number) => (n % 1 + 1) % 1;
 
-    for (let r = 0; r < rows; r++) {
-      for (let c = 0; c < columns; c++) {
-        const offsetX = r % 2 !== 0 ? hSpacing / 2 : 0;
-        const cx = -width / 2 + c * hSpacing + offsetX;
-        const cy = -height / 2 + r * vSpacing - (margin * hexWidth * 0.5);
-        
+    const radius = params.pixelsPerHex / Math.sqrt(3);
+    const hexWidth = Math.sqrt(3) * radius;
+    const vSpacing = (3 / 2) * radius;
+    const hSpacing = hexWidth;
+
+    // Use standard grid logic from other components (OverlapLine/Strata)
+    // but based on quantized dimensions to keep geometry stable.
+    const qMargin = Math.ceil((qWidth / hSpacing) * 0.05);
+    const qCols = Math.ceil(qWidth / hSpacing) + qMargin;
+    const qRows = Math.ceil(qHeight / vSpacing) + qMargin;
+
+    const cells = [];
+
+    for (let r = -1; r < qRows; r++) {
+      for (let c = -1; c < qCols; c++) {
+        const offsetX = (r % 2 !== 0) ? hSpacing / 2 : 0;
+
+        // Use standard top-left relative coordinates using quantized dims
+        const cx = -qWidth / 2 + c * hSpacing + offsetX;
+        const cy = -qHeight / 2 + r * vSpacing - (qMargin * hexWidth * 0.5);
+
         const phase = Math.random() * Math.PI * 2 + (Math.random() - 0.5) * tuning.phaseJitter;
         const speed = 1 + (Math.random() * 2 - 1) * tuning.freqJitter;
         const hue = wrap01(baseHue01 + (Math.random() * 2 - 1) * hueJitter01);
-        
+
         cells.push({ cx, cy, phase, speed, hue });
       }
     }
@@ -178,7 +187,7 @@ export default function PulseHexGridFill({
       const base = i * STRIDE;
       data[base + 0] = cell.cx;
       data[base + 1] = cell.cy;
-      data[base + 2] = 0; 
+      data[base + 2] = 0;
       data[base + 3] = cell.phase;
       data[base + 4] = cell.speed;
       data[base + 5] = cell.hue;
@@ -187,9 +196,9 @@ export default function PulseHexGridFill({
     const ib = new THREE.InstancedInterleavedBuffer(data, STRIDE).setUsage(THREE.StaticDrawUsage);
 
     geom.setAttribute("aCenter", new THREE.InterleavedBufferAttribute(ib, 3, 0));
-    geom.setAttribute("aPhase",  new THREE.InterleavedBufferAttribute(ib, 1, 3));
-    geom.setAttribute("aSpeed",  new THREE.InterleavedBufferAttribute(ib, 1, 4));
-    geom.setAttribute("aHue",    new THREE.InterleavedBufferAttribute(ib, 1, 5));
+    geom.setAttribute("aPhase", new THREE.InterleavedBufferAttribute(ib, 1, 3));
+    geom.setAttribute("aSpeed", new THREE.InterleavedBufferAttribute(ib, 1, 4));
+    geom.setAttribute("aHue", new THREE.InterleavedBufferAttribute(ib, 1, 5));
 
     const mat = new THREE.ShaderMaterial({
       uniforms: {
@@ -215,7 +224,7 @@ export default function PulseHexGridFill({
 
     return { geom, mat };
 
-  }, [width, height, params.s, params.l, params.hueJitter, params.hue, params.pixelsPerHex, tuning, baseGeom]); // Dependencias estables
+  }, [qWidth, qHeight, params.s, params.l, params.hueJitter, params.hue, params.pixelsPerHex, tuning, baseGeom]);
 
 
   const groupRef = useRef<THREE.Group>(null);
@@ -223,12 +232,39 @@ export default function PulseHexGridFill({
   useFrame(({ clock }) => {
     if (!instanced) return;
     const t = clock.getElapsedTime();
-    
+
     instanced.mat.uniforms.uTime.value = t;
 
     if (groupRef.current) {
-      groupRef.current.rotation.z = Math.sin(t * 0.18) * 0.04;
+      // Rotation logic matching other grids
+      const rotZ = Math.sin(t * 0.18) * 0.04;
+      groupRef.current.rotation.z = rotZ;
       groupRef.current.position.z = Math.sin(t * 0.22) * 2.5;
+
+      // Dynamic Alignment Logic:
+      // Calculate the offset between the "Quantized Grid" and the "Real Viewport Grid"
+      // to ensure perfect visual overlap with PulseHexGridOverlapLine and others.
+
+      // 1. Re-calculate spacing constants (cheap)
+      const radius = params.pixelsPerHex / Math.sqrt(3);
+      const hexWidth = Math.sqrt(3) * radius;
+      const hSpacing = hexWidth;
+
+      // 2. Margins
+      const realMargin = Math.ceil((width / hSpacing) * 0.05);
+      const qMargin = Math.ceil((qWidth / hSpacing) * 0.05);
+
+      // 3. Coordinate Shifts
+      const diffX = (qWidth - width) / 2;
+      const diffY = (qHeight - height) / 2 + (qMargin - realMargin) * hexWidth * 0.5;
+
+      // 4. Apply Rotation to the diff vector so the group pivots around screen center
+      // GroupPos = Rot * Shift
+      const cosT = Math.cos(rotZ);
+      const sinT = Math.sin(rotZ);
+
+      groupRef.current.position.x = diffX * cosT - diffY * sinT;
+      groupRef.current.position.y = diffX * sinT + diffY * cosT;
     }
   });
 
@@ -243,7 +279,7 @@ export default function PulseHexGridFill({
 
   useEffect(() => {
     return () => {
-        baseGeom.dispose();
+      baseGeom.dispose();
     };
   }, [baseGeom]);
 
@@ -252,10 +288,10 @@ export default function PulseHexGridFill({
 
   return (
     <group ref={groupRef} frustumCulled={false}>
-      <mesh 
-        geometry={instanced.geom} 
-        material={instanced.mat} 
-        frustumCulled={false} 
+      <mesh
+        geometry={instanced.geom}
+        material={instanced.mat}
+        frustumCulled={false}
         renderOrder={0}
       />
     </group>
