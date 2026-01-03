@@ -60,8 +60,6 @@ export function HeroSection({
   const controls = useAnimationControls();
   const [ready, setReady] = useState(false);
 
-  const { canHover } = usePerfTier();
-
   useEffect(() => {
     controls.start("animate", {
       delay: entranceAnimationEnabled ? BASE_DELAY_ENTRANCE + 0.1 : 0,
@@ -70,7 +68,7 @@ export function HeroSection({
   }, [controls, entranceAnimationEnabled]);
 
   return (
-    <div 
+    <div
       className="relative z-10 flex w-full flex-col items-center gap-8 lg:gap-12 lg:flex-row lg:justify-between text-center lg:text-left"
     >
 
@@ -79,7 +77,7 @@ export function HeroSection({
       <Stack size="lg" className="max-w-2xl items-center lg:items-start">
 
         <motion.h1
-          variants={canHover ? titleVariantsWithHover : titleVariantsWithoutHover}
+          variants={titleVariantsWithHover}
           onAnimationComplete={() => setReady(true)}
           initial="initial"
           animate={controls}

@@ -129,11 +129,8 @@ export function InfoCard({
   entranceAnimationEnabled: boolean;
 }) {
   const [ready, setReady] = useState(false);
-  const { canHover } = usePerfTier();
 
-  const cardVariants: Variants = canHover
-    ? createCardVariantsWithHover(entranceAnimationEnabled)
-    : createCardVariantsNoHover(entranceAnimationEnabled);
+  const cardVariants: Variants = createCardVariantsWithHover(entranceAnimationEnabled)
 
   const textVariants = createTextVariants(entranceAnimationEnabled);
 
@@ -141,7 +138,7 @@ export function InfoCard({
     <motion.li
       variants={cardVariants}
       onAnimationComplete={() => setReady(true)}
-      whileHover={ready && canHover ? "hover" : undefined}
+      whileHover={ready ? "hover" : undefined}
       whileTap={ready ? "tap" : undefined}
       className="rounded-2xl border p-5 backdrop-blur-md transform-gpu will-change-[transform,opacity] transition-none flex flex-col gap-3"
       style={{
@@ -156,7 +153,7 @@ export function InfoCard({
       >
         {icon && (
           <motion.div
-            whileHover={canHover ? { scale: 1.1 } : undefined}
+            whileHover={{ scale: 1.1 }}
             transition={{ duration: 0.2 }}
             className="flex items-center justify-center rounded-md bg-white/5 p-2"
           >

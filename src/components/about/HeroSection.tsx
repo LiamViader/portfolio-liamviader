@@ -14,13 +14,10 @@ import { AboutPortrait } from "./AboutPortrait";
 import { type PersonalInfo } from "./types";
 import { type Locale } from "@/i18n/routing";
 import PulseHexGridCanvas from "../home/scene/PulseHexGridCanvas";
-import { usePerfTier } from "@/hooks/usePerfTier";
 import { HeroSectionWrapper } from "../layout/HeroSectionWrapper";
 import { Stack } from "../layout/Stack";
 import { Container } from "../layout/Container";
 import { ContentBlock } from "../layout/ContentBlock";
-import { Content } from "next/font/google";
-import { ButtonGroup } from "../layout/ButtonGroup";
 
 type HeroSectionProps = {
   personalInfo: PersonalInfo;
@@ -69,8 +66,6 @@ export function HeroSection({ personalInfo, age, entranceAnimationsEnabled }: He
 
   const localizedLanguages = personalInfo.languages[locale] ?? [];
   const localizedCity = personalInfo.city[locale] ?? personalInfo.city.en;
-
-  const { canHover } = usePerfTier();
 
   useEffect(() => {
     controls.start("animate", {
@@ -130,7 +125,7 @@ export function HeroSection({ personalInfo, age, entranceAnimationsEnabled }: He
             <div className="flex flex-col-reverse gap-8 lg:gap-12 lg:flex-row items-center">
               <Stack size="lg" className="max-w-3xl lg:max-w-full z-10">
                 <motion.h1
-                  variants={canHover ? titleVariantsWithHover : titleVariantsWithoutHover}
+                  variants={titleVariantsWithHover}
                   initial="initial"
                   animate={controls}
                   onAnimationComplete={() => setReady(true)}
