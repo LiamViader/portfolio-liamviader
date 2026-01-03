@@ -234,11 +234,11 @@ export default function ProjectCard({
         variants={contentVariants}
         className={`flex flex-1 flex-col px-4 pb-4 pt-4`}
       >
-        <h3 className="text-base sm:text-lg lg:text-xl font-semibold text-white/80 text-left text-pretty drop-shadow-[0_4px_12px_rgba(0,0,0,1)]">
+        <h3 className="text-base sm:text-lg lg:text-xl font-semibold text-white/80 text-left text-pretty">
           {project.title}
         </h3>
         <div className="pt-3 flex flex-1 flex-col gap-6 justify-between">
-          <p className={`text-sm text-white/70 text-pretty text-left drop-shadow-[0_4px_8px_rgba(0,0,0,1)]`}>
+          <p className={`text-sm text-white/70 text-pretty text-left`}>
             {project.short_description}
           </p>
 
@@ -246,7 +246,7 @@ export default function ProjectCard({
             {visibleTags.map((tag, idx) => (
               <motion.span
                 key={`${project.id}-tag-${idx}-${tag}`}
-                className="rounded-lg bg-white/10 border border-white/10 px-2 py-1 font-medium text-white/75  drop-shadow-[0_8px_6px_rgba(0,0,0,0.5)]"
+                className="rounded-lg bg-white/10 border border-white/10 px-2 py-1 font-medium text-white/75"
               >
                 {tag}
               </motion.span>
@@ -255,7 +255,7 @@ export default function ProjectCard({
             {hiddenCount > 0 && visibleCount > 0 && (
               <motion.span
                 key={`${project.id}-tag-more`}
-                className="rounded-lg bg-white/10 border border-dashed border-white/10 px-2 py-1 font-medium text-white/75  drop-shadow-[0_8px_6px_rgba(0,0,0,0.5)]"
+                className="rounded-lg bg-white/10 border border-dashed border-white/10 px-2 py-1 font-medium text-white/75"
               >
                 +{hiddenCount}
               </motion.span>

@@ -320,7 +320,7 @@ export function FeaturedCarouselCard({
           <div className="inset-x-0 text-white/90 flex flex-row gap-2 justify-left items-center full-w">
             <h3
               className={clsx(
-                "font-semibold leading-tight drop-shadow-[0_4px_16px_rgba(0,0,0,1)] text-left text-pretty text-white/80 ",
+                "font-semibold leading-tight text-left text-pretty text-white/80 ",
                 titleSize
               )}
             >
@@ -329,7 +329,7 @@ export function FeaturedCarouselCard({
           </div>
           <p
             className={clsx(
-              "text-white/60 text-pretty text-left drop-shadow-[0_4px_8px_rgba(0,0,0,1)] ",
+              "text-white/60 text-pretty text-left ",
               descSize
             )}
           >
@@ -342,7 +342,7 @@ export function FeaturedCarouselCard({
                 <motion.span
                   key={`${project.id}-tag-${idx}-${tag}`}
                   className={clsx(
-                    "rounded-lg bg-white/10 border border-white/10 px-2 py-1 font-medium text-white/75  drop-shadow-[0_8px_6px_rgba(0,0,0,0.5)]",
+                    "rounded-lg bg-white/10 border border-white/10 px-2 py-1 font-medium text-white/75",
                     tagSize
                   )}
                 >
@@ -354,7 +354,7 @@ export function FeaturedCarouselCard({
                 <motion.span
                   key={`${project.id}-tag-more`}
                   className={clsx(
-                    "rounded-lg bg-white/10 border border-dashed border-white/10 px-2 py-1 font-medium text-white/75  drop-shadow-[0_8px_6px_rgba(0,0,0,0.5)]",
+                    "rounded-lg bg-white/10 border border-dashed border-white/10 px-2 py-1 font-medium text-white/75",
                     tagSize
                   )}
                 >
