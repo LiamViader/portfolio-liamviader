@@ -246,7 +246,6 @@ export default function ProjectCard({
             {visibleTags.map((tag, idx) => (
               <motion.span
                 key={`${project.id}-tag-${idx}-${tag}`}
-                variants={tagVariants}
                 className="rounded-lg bg-white/10 border border-white/10 px-2 py-1 font-medium text-white/75  drop-shadow-[0_8px_6px_rgba(0,0,0,0.5)]"
               >
                 {tag}
@@ -256,7 +255,6 @@ export default function ProjectCard({
             {hiddenCount > 0 && visibleCount > 0 && (
               <motion.span
                 key={`${project.id}-tag-more`}
-                variants={tagVariants}
                 className="rounded-lg bg-white/10 border border-dashed border-white/10 px-2 py-1 font-medium text-white/75  drop-shadow-[0_8px_6px_rgba(0,0,0,0.5)]"
               >
                 +{hiddenCount}
