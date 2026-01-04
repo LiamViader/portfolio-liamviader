@@ -41,7 +41,7 @@ export function ProjectModalShell({
       className={clsx(
         "relative flex h-full flex-col",
         "rounded-3xl border border-white/10",
-        "backdrop-blur-[200px] bg-gradient-to-b from-slate-900/40 via-slate-900/60 to-slate-950/80",
+        "bg-gray-950",
         "transform-gpu will-change-[transform,opacity]",
         "transition-none",
         passThrough && "pointer-events-none"

@@ -144,7 +144,7 @@ export function ProjectModalContent({
       variants={modalContentVariants}
       initial="hidden"
       animate={animationState}
-      className="flex h-full flex-col text-white bg-slate-950"
+      className="flex h-full flex-col text-white bg-gray-950"
     >
       <motion.div
         aria-hidden
@@ -178,7 +178,7 @@ export function ProjectModalContent({
 
       <div ref={scrollRef} className="relative flex-1 overflow-auto no-scrollbar scroll-smooth">
         <motion.header
-          className="relative h-48 md:h-64 lg:h-72 w-full overflow-hidden bg-slate-900"
+          className="relative h-48 md:h-64 lg:h-72 w-full overflow-hidden bg-gray-950"
           variants={modalItemVariants2}
           initial="hidden"
           animate={animationState}
@@ -198,7 +198,7 @@ export function ProjectModalContent({
                 sizes="(min-width: 1024px) 1024px, 100vw"
                 priority
               />
-              <div className="absolute inset-0 bg-gradient-to-b from-transparent via-slate-950/40 to-slate-950" />
+              <div className="absolute inset-0 bg-gradient-to-b from-transparent via-gray-950/40 to-gray-950" />
             </motion.div>
           )}
         </motion.header>
@@ -302,7 +302,7 @@ export function ProjectModalContent({
                     {tags.map((tag, idx) => (
                       <motion.span
                         key={`${project.id}-tag-${idx}`}
-                        className="cursor-default rounded-md border px-3 py-1.5 text-xs font-medium"
+                        className="cursor-default rounded-md border px-3 py-1.5 text-xs font-medium bg-[rgba(30,41,59,0.5)]"
                         initial="idle"
                         whileHover="hover"
                         variants={{
@@ -312,7 +312,6 @@ export function ProjectModalContent({
                             backgroundColor: "rgba(30, 41, 59, 0.5)",
                             borderColor: "rgba(51, 65, 85, 1)",
                             color: "rgba(203, 213, 225, 1)",
-                            boxShadow: "0 0 0 rgba(0,0,0,0)",
                           },
                           hover: {
                             y: -2,
@@ -320,7 +319,6 @@ export function ProjectModalContent({
                             backgroundColor: "rgba(14, 165, 233, 0.1)",
                             borderColor: "rgba(14, 165, 233, 0.5)",
                             color: "rgba(186, 230, 253, 1)",
-                            boxShadow: "0 4px 12px rgba(14, 165, 233, 0.15)",
                             transition: { type: "spring", stiffness: 300, damping: 20 }
                           }
                         }}
