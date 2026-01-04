@@ -217,10 +217,10 @@ export function useProjectModalTransition({
           closeRafRef.current = requestAnimationFrame(tick);
         } else {
           // Cleanup final state
-          if (ghostCardRef.current) {
-            ghostCardRef.current.style.opacity = "";
-            ghostCardRef.current.style.transform = "";
-          }
+          // Cleanup final state
+          // NOTE: We do NOT clear styles here. Clearing them causes the element to revert 
+          // to default position (0,0) for one frame before unmounting, causing a flicker on mobile.
+          // We let the component unmount naturally.
           resolve();
         }
       };
