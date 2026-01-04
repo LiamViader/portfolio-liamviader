@@ -13,6 +13,12 @@ import { ProjectMediaGallery, getMediaPreviewSource } from "./ProjectMediaGaller
 import { parseHighlights } from "@/utils/parseHighlights";
 import { HighlightedText } from "@/components/HighlightedText";
 
+import { Stack } from "@/components/layout/Stack";
+import { ContentBlock } from "@/components/layout/ContentBlock";
+import { Container } from "@/components/layout/Container";
+import { SectionHeader } from "@/components/layout/SectionHeader";
+
+
 const heroMediaVariants: Variants = {
   hidden: { scale: 1.0, opacity: 0.6 },
   visible: { scale: 1, opacity: 1, transition: { duration: 0.6, ease: "easeOut" } },
@@ -24,6 +30,8 @@ interface ProjectModalContentProps {
   closing: boolean;
   onClose: () => void;
 }
+
+const MotionStack = motion(Stack);
 
 export function ProjectModalContent({
   project,
@@ -146,6 +154,8 @@ export function ProjectModalContent({
       animate={animationState}
       className="flex h-full flex-col text-white bg-gray-950"
     >
+
+
       <motion.div
         aria-hidden
         className="pointer-events-none absolute inset-x-0 top-0 z-10 h-20"
@@ -160,11 +170,13 @@ export function ProjectModalContent({
       >
         <div className="h-full w-full bg-gradient-to-t from-black/60 via-black/25 to-transparent" />
       </motion.div>
+
+
       <motion.button
         type="button"
         onClick={onClose}
         aria-label={closeAriaLabel}
-        className="cursor-pointer group absolute top-4 right-4 z-[50] inline-flex h-10 w-10 items-center justify-center rounded-full bg-black/40 backdrop-blur-md border border-white/10 text-slate-200 transition-colors hover:bg-white/10 hover:text-white hover:border-white/20"
+        className="cursor-pointer group absolute top-4 right-4 z-[50] inline-flex h-10 w-10 items-center justify-center rounded-full bg-black/40 backdrop-blur-md border border-white/10 text-white transition-colors hover:bg-white/10 hover:text-white hover:border-white/20"
         initial={{ opacity: 0, scale: 0.9 }}
         animate={{ opacity: 1, scale: 1 }}
         exit={{ opacity: 0, scale: 0.9 }}
@@ -202,37 +214,38 @@ export function ProjectModalContent({
             </motion.div>
           )}
         </motion.header>
-        <div className="px-6 py-6 md:py-8 md:px-8">
-          <motion.div
-            className="grid gap-6 md:gap-8"
+        <div className="px-6 sm:px-12 pt-6 pb-5 sm:pb-10">
+          <MotionStack
+            size="md"
             variants={modalItemVariants}
             initial="hidden"
             animate={animationState}
           >
-            <motion.article
-              className="space-y-8"
+            <MotionStack
+              size="md"
+              className=""
               variants={modalItemVariants}
               initial="hidden"
               animate={animationState}
             >
-              <div className="relative z-10 flex flex-col items-center gap-6 sm:flex-row sm:items-end sm:justify-between text-center md:text-left border-b border-white/20 pb-8">
-                <div className="flex-1 space-y-1">
-                  <div className="flex flex-wrap items-center justify-center gap-3 text-[0.68rem] uppercase tracking-[0.28em] text-slate-100/80 md:justify-start">
+              <div className="relative z-10 flex flex-col items-center gap-6 sm:flex-row sm:items-end sm:justify-between text-center md:text-left">
+                <div className="flex-1 space-y-2">
+                  <div className="flex flex-wrap items-center justify-center gap-3 text-[0.58rem] md:text-xs uppercase tracking-[0.28em] text-white/80 md:justify-start">
                     {project.is_featured && (
-                      <span className="inline-flex items-center gap-1.5 rounded-full pr-3 py-1 text-sky-200/90">
+                      <span className="inline-flex items-center gap-1.5 rounded-full pr-3 text-sky-200/90">
                         <Sparkles className="h-3 w-3" aria-hidden="true" />
                         <span className="tracking-[0.35em]">{t("featuredBadge")}</span>
                       </span>
                     )}
                     {categoryLabels.length > 0 && (
-                      <span className="inline-flex items-center gap-2 px-3 py-1 text-gray-50/75">
+                      <span className="inline-flex items-center gap-2 px-3 py-1 text-white/75">
                         {categoryLabels.join(" • ")}
                       </span>
                     )}
                   </div>
 
                   <div className="space-y-2">
-                    <h1 className="text-[2.15rem] font-semibold leading-tight text-white md:text-[2.7rem]">
+                    <h1 className="text-[1.8rem] font-semibold leading-tight text-white md:text-4xl">
                       {project.title}
                     </h1>
                     {project.role && (
@@ -243,6 +256,8 @@ export function ProjectModalContent({
                   </div>
                 </div>
               </div>
+
+              <div className="border-b h-px border-white/20"></div>
 
               {/* OVERVIEW */}
               <div className="space-y-4 text-left pb-4">
@@ -281,7 +296,7 @@ export function ProjectModalContent({
                   animationState={animationState}
                 />
               ) : null}
-            </motion.article>
+            </MotionStack>
 
             <div className="mt-2 border-t border-white/10 pt-8">
               <motion.aside
@@ -442,7 +457,7 @@ export function ProjectModalContent({
                 )}
               </motion.aside>
             </div>
-          </motion.div>
+          </MotionStack>
         </div>
       </div>
     </motion.div>

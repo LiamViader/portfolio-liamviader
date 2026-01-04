@@ -35,7 +35,6 @@ export function ProjectModalPortal({
   backgroundColor,
   carouselTypography,
 }: ModalPortalProps) {
-  // State to track fresh origin rect on resize
   const [activeOriginRect, setActiveOriginRect] = useState(originRect);
 
   useEffect(() => {
@@ -60,12 +59,6 @@ export function ProjectModalPortal({
     const handleResize = () => {
       if (originEl.isConnected) {
         try {
-          // We need to measure it
-          // Imported measureStableRect helper usage or direct getBoundingClientRect if helper not imported in this file
-          // Checking imports... measureStableRect is NOT imported.
-          // I'll stick to getBoundingClientRect() for simplicity or add import.
-          // Since I can't easily add import via replace without touching top, 
-          // I'll rely on getBoundingClientRect() which is what measureStableRect wraps anyway mostly.
           const rect = originEl.getBoundingClientRect();
           setActiveOriginRect(rect);
         } catch (e) { }
@@ -150,7 +143,7 @@ export function ProjectModalPortal({
             project={project}
             onSelect={() => { }}
             isHidden={false}
-            useTransparent={false} // Match grid look
+            useTransparent={false}
             backgroundColor={backgroundColor}
           />
         )}
