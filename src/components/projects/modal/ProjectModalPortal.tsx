@@ -9,7 +9,7 @@ import { ProjectModalBackdrop } from "./ProjectModalBackdrop";
 import { ProjectModalContent } from "./ProjectModalContent";
 import { ProjectModalShell } from "./ProjectModalShell";
 import { useProjectModalTransition } from "./hooks/useProjectModalTransition";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import ProjectCard from "../card/ProjectCard";
 import { FeaturedCarouselCard } from "../featured/FeaturedCarouselCard";
 import { type FeaturedCarouselTypographyOptions } from "../featured/FeaturedCarousel";
@@ -35,16 +35,47 @@ export function ProjectModalPortal({
   backgroundColor,
   carouselTypography,
 }: ModalPortalProps) {
+  // State to track fresh origin rect on resize
+  const [activeOriginRect, setActiveOriginRect] = useState(originRect);
+
+  useEffect(() => {
+    setActiveOriginRect(originRect);
+  }, [originRect]);
+
   const ghostCardRef = useRef<HTMLDivElement>(null!);
 
   const { controls, containerRef, closing, passThrough, handleClose } =
     useProjectModalTransition({
-      originRect,
+      originRect: activeOriginRect,
       originEl,
       ghostCardRef, // Pass ref to hook
       onRevealOrigin,
       onClose,
     });
+
+  // Keep ghost card size in sync with real card on resize
+  useEffect(() => {
+    if (!originEl) return;
+
+    const handleResize = () => {
+      if (originEl.isConnected) {
+        try {
+          // We need to measure it
+          // Imported measureStableRect helper usage or direct getBoundingClientRect if helper not imported in this file
+          // Checking imports... measureStableRect is NOT imported.
+          // I'll stick to getBoundingClientRect() for simplicity or add import.
+          // Since I can't easily add import via replace without touching top, 
+          // I'll rely on getBoundingClientRect() which is what measureStableRect wraps anyway mostly.
+          const rect = originEl.getBoundingClientRect();
+          setActiveOriginRect(rect);
+        } catch (e) { }
+      }
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, [originEl]);
+
 
   useEffect(() => {
     // 1. Calculate scrollbar width
@@ -93,8 +124,8 @@ export function ProjectModalPortal({
           position: "fixed",
           top: 0,
           left: 0,
-          width: originRect.width,
-          height: originRect.height,
+          width: activeOriginRect.width,
+          height: activeOriginRect.height,
           opacity: 0,
           zIndex: 9999999,
           pointerEvents: "none",

@@ -110,7 +110,7 @@ export function useProjectModalTransition({
       if (closeRafRef.current != null) cancelAnimationFrame(closeRafRef.current);
       if (followRafRef.current != null) cancelAnimationFrame(followRafRef.current);
     };
-  }, [controls, originRect]);
+  }, [controls]);
 
   const handleClose = useCallback(async () => {
     if (closing) return;
@@ -118,6 +118,16 @@ export function useProjectModalTransition({
     setPassThrough(true);
 
     const baseRect = containerRef.current?.getBoundingClientRect() ?? originRect;
+
+    // Re-measure origin to handle window resize while modal was open
+    let targetRect = originRect;
+    if (originEl && originEl.isConnected) {
+      try {
+        targetRect = measureStableRect(originEl);
+      } catch (e) {
+        // Fallback to originRect if measurement fails
+      }
+    }
 
     await controls.stop();
     await controls.set({
@@ -146,8 +156,8 @@ export function useProjectModalTransition({
         const t = Math.min(1, (now - startTime) / duration);
         const k = easeOutCubic(t);
 
-        // NOTE: We use originRect directly to avoid feedback loops from transforms we apply below.
-        const live: DOMRect = originRect;
+        // NOTE: We measured targetRect above to get the fresh position
+        const live: DOMRect = targetRect;
 
         const tx = live.left - baseRect.left;
         const ty = live.top - baseRect.top;
