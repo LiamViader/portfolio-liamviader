@@ -228,8 +228,8 @@ export function ProjectModalContent({
               initial="hidden"
               animate={animationState}
             >
-              <div className="relative z-10 flex flex-col items-center gap-6 sm:flex-row sm:items-end sm:justify-between text-center md:text-left">
-                <div className="flex-1 space-y-2">
+              <div className="relative z-10 text-center md:text-left">
+                <Stack size="xs">
                   <div className="flex flex-wrap items-center justify-center gap-3 text-[0.58rem] md:text-xs uppercase tracking-[0.28em] text-white/80 md:justify-start">
                     {project.is_featured && (
                       <span className="inline-flex items-center gap-1.5 rounded-full pr-3 text-sky-200/90">
@@ -244,17 +244,16 @@ export function ProjectModalContent({
                     )}
                   </div>
 
-                  <div className="space-y-2">
-                    <h1 className="text-[1.8rem] font-semibold leading-tight text-white md:text-4xl">
-                      {project.title}
-                    </h1>
-                    {project.role && (
-                      <p className="text-sm font-medium text-white/75 md:text-base">
-                        {project.role}
-                      </p>
-                    )}
-                  </div>
-                </div>
+                  <h1 className="text-[1.8rem] font-semibold leading-tight text-white md:text-4xl">
+                    {project.title}
+                  </h1>
+
+                  {project.role && (
+                    <p className="text-sm font-medium text-white/75 md:text-base">
+                      {project.role}
+                    </p>
+                  )}
+                </Stack>
               </div>
 
               <div className="border-b h-px border-white/20"></div>
