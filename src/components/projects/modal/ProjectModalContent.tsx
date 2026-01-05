@@ -190,7 +190,7 @@ export function ProjectModalContent({
 
       <div ref={scrollRef} className="relative flex-1 overflow-auto no-scrollbar scroll-smooth">
         <motion.header
-          className="relative h-48 md:h-64 lg:h-72 w-full overflow-hidden bg-gray-950"
+          className="relative h-48 lg:h-72 w-full overflow-hidden bg-gray-950"
           variants={modalItemVariants2}
           initial="hidden"
           animate={animationState}
@@ -214,7 +214,7 @@ export function ProjectModalContent({
             </motion.div>
           )}
         </motion.header>
-        <div className="px-6 sm:px-12 pt-6 pb-5 sm:pb-10">
+        <div className="px-6 lg:px-12 pt-6 pb-5 lg:pb-10">
           <MotionStack
             size="md"
             variants={modalItemVariants}
@@ -228,28 +228,28 @@ export function ProjectModalContent({
               initial="hidden"
               animate={animationState}
             >
-              <div className="relative z-10 text-center md:text-left">
+              <div className="relative z-10 text-center sm:text-left">
                 <Stack size="xs">
-                  <div className="flex flex-wrap items-center justify-center gap-3 text-[0.58rem] md:text-xs uppercase tracking-[0.28em] text-white/80 md:justify-start">
+                  <div className="flex flex-wrap items-center justify-center gap-6 text-[0.58rem] lg:text-xs uppercase tracking-[0.28em] text-white/80 sm:justify-start">
                     {project.is_featured && (
-                      <span className="inline-flex items-center gap-1.5 rounded-full pr-3 text-sky-200/90">
+                      <span className="inline-flex items-center gap-1.5 text-sky-200/90">
                         <Sparkles className="h-3 w-3" aria-hidden="true" />
                         <span className="tracking-[0.35em]">{t("featuredBadge")}</span>
                       </span>
                     )}
                     {categoryLabels.length > 0 && (
-                      <span className="inline-flex items-center gap-2 px-3 py-1 text-white/75">
+                      <span className="inline-flex items-center gap-2 text-white/75">
                         {categoryLabels.join(" • ")}
                       </span>
                     )}
                   </div>
 
-                  <h1 className="text-[1.8rem] font-semibold leading-tight text-white md:text-4xl">
+                  <h1 className="text-2xl font-semibold leading-tight text-white lg:text-4xl">
                     {project.title}
                   </h1>
 
                   {project.role && (
-                    <p className="text-sm font-medium text-white/75 md:text-base">
+                    <p className="text-sm font-medium text-white/75 lg:text-base">
                       {project.role}
                     </p>
                   )}
@@ -259,12 +259,12 @@ export function ProjectModalContent({
               <div className="border-b h-px border-white/20"></div>
 
               {/* OVERVIEW */}
-              <div className="space-y-4 text-left pb-4">
-                <h2 className="text-2xl font-semibold text-white text-center md:text-left">
+              <Stack size="sm" className="text-left">
+                <h2 className="text-base lg:text-lg font-semibold text-white text-center sm:text-left">
                   {t("overviewTitle")}
                 </h2>
 
-                <div className="space-y-3 text-base leading-relaxed text-white/80 text-justify">
+                <Stack size="xs" className="text-sm lg:text-base leading-relaxed text-white/80 text-justify">
                   {paragraphsToRender.map((paragraph, i) => {
                     const nodes = parseHighlights(paragraph);
 
@@ -274,19 +274,23 @@ export function ProjectModalContent({
                       </p>
                     );
                   })}
-                </div>
 
-                {isTruncated && (
-                  <button
-                    ref={overviewToggleRef}
-                    type="button"
-                    onClick={handleToggleExpand}
-                    className="cursor-pointer mt-1 text-sm font-semibold text-sky-300/90 hover:underline underline-offset-4 decoration-sky-300/80 drop-shadow-[0_4px_4px_rgba(0,0,0,1)]"
-                  >
-                    {isExpanded ? t("read_less") : t("read_more")}
-                  </button>
-                )}
-              </div>
+                  {isTruncated && (
+                    <button
+                      ref={overviewToggleRef}
+                      type="button"
+                      onClick={handleToggleExpand}
+                      className="flex text-left cursor-pointer mt-1 text-sm lg:text-base font-semibold text-sky-300/90 hover:underline underline-offset-4 decoration-sky-300/80 drop-shadow-[0_4px_4px_rgba(0,0,0,1)]"
+                    >
+                      {isExpanded ? t("read_less") : t("read_more")}
+                    </button>
+                  )}
+                </Stack>
+
+
+              </Stack>
+
+              <div className="h-px"></div>
 
               {project.detailed_media?.length ? (
                 <ProjectMediaGallery
