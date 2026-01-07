@@ -224,7 +224,7 @@ export function ProjectModalContent({
                 <div className="flex flex-wrap items-center justify-center gap-4 text-xs font-bold uppercase tracking-[0.2em] text-cyan-400/90 sm:justify-start">
                   {project.is_featured && (
                     <span className="inline-flex items-center gap-1.5 text-[0.65rem] tracking-widest text-cyan-300 ">
-                      <Sparkles className="h-3 w-3" ARIA-hidden="true" />
+                      <Sparkles className="h-3 w-3" />
                       {t("featuredBadge")}
                     </span>
                   )}
@@ -277,7 +277,7 @@ export function ProjectModalContent({
 
             {project.detailed_media?.length ? (
               <>
-                <div className="my-2 h-px w-full bg-gradient-to-r from-transparent via-slate-800 to-transparent" />
+                <div className="my-2 h-px w-full bg-gradient-to-r from-transparent via-slate-800/80 to-transparent" />
                 <ProjectMediaGallery
                   project={project}
                   closeLabel={closeLabel}
@@ -286,7 +286,7 @@ export function ProjectModalContent({
               </>
             ) : null}
 
-            <div className="my-2 h-px w-full bg-gradient-to-r from-transparent via-slate-800 to-transparent" />
+            <div className="my-2 h-px w-full bg-gradient-to-r from-transparent via-slate-800/80 to-transparent" />
 
             <div className="px-1">
               <motion.aside
