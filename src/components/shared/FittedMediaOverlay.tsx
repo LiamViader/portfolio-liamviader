@@ -146,7 +146,7 @@ function InnerFittedOverlay({
 
   return (
     <motion.div
-      className="fixed inset-0 z-[1000000] flex items-center justify-center bg-slate-950/15 p-3 sm:p-6 backdrop-blur-xl overflow-hidden"
+      className="fixed inset-0 z-[1000000] flex items-center justify-center bg-black p-3 sm:p-6 overflow-hidden"
       role="dialog"
       aria-modal="true"
       aria-label={buildMediaLabel(activeMedia) || activeMedia.alt || title}
@@ -161,7 +161,7 @@ function InnerFittedOverlay({
       onClick={onClose}
     >
       <motion.div
-        className="relative flex w-auto max-w-[100svw] max-h-[100svh] flex-col overflow-y-auto overflow-x-hidden rounded-[28px] border border-white/10 bg-white/5 shadow-[0_30px_120px_rgba(10,15,35,0.75)]"
+        className="relative flex w-auto max-w-[100svw] max-h-[100svh] flex-col overflow-y-auto overflow-x-hidden rounded-[28px] border border-white/10 bg-gray-950"
         initial={{ opacity: 0, scale: 0.96, y: 18 }}
         animate={
           mediaReady
@@ -219,10 +219,10 @@ function InnerFittedOverlay({
         {hasCaption && (
           <div
             ref={captionRef}
-            className="shrink-0 space-y-2 border-t border-white/10 bg-slate-950/85 px-6 py-5"
+            className="shrink-0 space-y-2 border-t border-white/10 bg-gray-950 px-6 py-5"
           >
             {(buildMediaLabel(activeMedia) || title) && (
-              <p className="mb-1 text-[0.70rem] font-bold uppercase tracking-wider text-sky-400/90">
+              <p className="mb-1 text-[0.70rem] font-bold uppercase tracking-wider text-sky-300">
                 {buildMediaLabel(activeMedia) || title}
               </p>
             )}
@@ -329,15 +329,15 @@ function FittedImage({
 
   const style: React.CSSProperties = box
     ? {
-        width: `${box.w}px`,
-        height: `${box.h}px`,
-        position: "relative",
-      }
+      width: `${box.w}px`,
+      height: `${box.h}px`,
+      position: "relative",
+    }
     : {
-        width: 0,
-        height: 0,
-        position: "relative",
-      };
+      width: 0,
+      height: 0,
+      position: "relative",
+    };
 
   return (
     <div style={style}>
@@ -439,6 +439,7 @@ function ExternalVideoContained({
         title={media.alt ?? title}
         className="block w-full h-full"
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        allowFullScreen
       />
     </div>
   );
