@@ -108,7 +108,7 @@ export function ProjectMediaGallery({
                       {isVideoMedia(item) && (
                         <div className="absolute inset-0 flex items-center justify-center">
                           <div
-                            className="flex h-12 w-12 items-center justify-center rounded-full bg-gray-950/90 text-sky-300 transition-transform duration-300 group-hover:scale-110 group-hover:bg-black/90 group-hover:text-sky-100"
+                            className="flex h-12 w-12 items-center justify-center rounded-full bg-gray-950/90 text-sky-400 transition-transform duration-300 group-hover:scale-110 group-hover:bg-sky-400/90 group-hover:text-sky-100"
                           >
                             <Play className="h-5 w-5 fill-current" />
                           </div>
