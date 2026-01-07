@@ -221,9 +221,9 @@ export function ProjectModalContent({
           >
             <div className="relative z-10 text-center sm:text-left">
               <Stack size="md">
-                <div className="flex flex-wrap items-center justify-center gap-4 text-xs font-bold uppercase tracking-[0.2em] text-cyan-400/90 sm:justify-start">
+                <div className="flex flex-wrap items-center justify-center gap-4 text-xs font-bold uppercase tracking-[0.2em] text-sky-300 sm:justify-start">
                   {project.is_featured && (
-                    <span className="inline-flex items-center gap-1.5 text-[0.65rem] tracking-widest text-cyan-300 ">
+                    <span className="inline-flex items-center gap-1.5 text-[0.65rem] tracking-widest text-sky-300 ">
                       <Sparkles className="h-3 w-3" />
                       {t("featuredBadge")}
                     </span>
@@ -267,7 +267,7 @@ export function ProjectModalContent({
                     ref={overviewToggleRef}
                     type="button"
                     onClick={handleToggleExpand}
-                    className="group mt-2 inline-flex items-center text-sm font-semibold text-cyan-400 transition-colors hover:text-cyan-300 cursor-pointer hover:underline"
+                    className="group mt-2 inline-flex items-center text-sm font-semibold text-sky-300 transition-colors hover:text-sky-200 cursor-pointer hover:underline"
                   >
                     <span>{isExpanded ? t("read_less") : t("read_more")}</span>
                   </button>
@@ -277,7 +277,7 @@ export function ProjectModalContent({
 
             {project.detailed_media?.length ? (
               <>
-                <div className="my-2 h-px w-full bg-gradient-to-r from-transparent via-slate-800/80 to-transparent" />
+                <div className="my-2 h-px w-full bg-gradient-to-r from-transparent via-sky-400/10 to-sky-300/30" />
                 <ProjectMediaGallery
                   project={project}
                   closeLabel={closeLabel}
@@ -286,7 +286,7 @@ export function ProjectModalContent({
               </>
             ) : null}
 
-            <div className="my-2 h-px w-full bg-gradient-to-r from-transparent via-slate-800/80 to-transparent" />
+            <div className="my-2 h-px w-full bg-gradient-to-r from-sky-300/30 via-sky-400/10 to-transparent" />
 
             <div className="px-1">
               <motion.aside
@@ -295,8 +295,8 @@ export function ProjectModalContent({
                 initial="hidden"
                 animate={animationState}
               >
-                <motion.div
-                  className="flex flex-col gap-4"
+                <MotionStack
+                  size="md"
                   variants={modalItemVariants}
                 >
                   <h3 className="text-xs font-bold uppercase tracking-[0.2em] text-slate-400">
@@ -306,23 +306,26 @@ export function ProjectModalContent({
                     {tags.map((tag, idx) => (
                       <motion.span
                         key={`${project.id}-tag-${idx}`}
-                        className="cursor-default rounded-lg border border-gray-700/50 bg-gray-800/40 px-3 py-1.5 text-xs font-medium text-gray-300 transition-colors hover:border-cyan-500/30 hover:bg-cyan-950/30 hover:text-cyan-200"
-                        initial="idle"
-                        whileHover="hover"
-                        variants={{
-                          idle: { scale: 1 },
-                          hover: { scale: 1.05 }
+                        className="cursor-default rounded-lg border border-white/10 bg-white/5 px-3 py-1.5 text-xs font-medium text-slate-300"
+                        whileHover={{
+                          y: -2,
+                          scale: 1.05,
+                          backgroundColor: "rgba(165, 165, 265, 0.15)",
+                          borderColor: "rgba(186, 230, 253, 0.2)",
+                          color: "#bae6fd",
+                          boxShadow: "0 10px 15px -3px rgba(165, 165, 233, 0.2)"
                         }}
+                        transition={{ duration: 0.2 }}
                       >
                         {tag}
                       </motion.span>
                     ))}
                   </div>
-                </motion.div>
+                </MotionStack>
 
                 {(project.github_url || project.live_url) && (
-                  <motion.div
-                    className="flex flex-col gap-4"
+                  <MotionStack
+                    size="md"
                     variants={modalItemVariants}
                   >
                     <h3 className="text-xs font-bold uppercase tracking-[0.2em] text-slate-400">
@@ -358,7 +361,7 @@ export function ProjectModalContent({
                         </motion.a>
                       )}
                     </div>
-                  </motion.div>
+                  </MotionStack>
                 )}
               </motion.aside>
             </div>

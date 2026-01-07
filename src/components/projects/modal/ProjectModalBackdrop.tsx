@@ -4,6 +4,8 @@ import { motion } from "framer-motion";
 
 import BlobsBackground from "@/components/BlobsBackground";
 
+import { usePerformanceConfig } from "@/hooks/usePerformanceConfig";
+
 interface ProjectModalBackdropProps {
   closing: boolean;
   passThrough: boolean;
@@ -11,10 +13,13 @@ interface ProjectModalBackdropProps {
 }
 
 export function ProjectModalBackdrop({ closing, passThrough, onClose }: ProjectModalBackdropProps) {
+
+  const { backgroundsOptimization } = usePerformanceConfig();
+
   return (
     <motion.div
       key="backdrop"
-      className={`fixed inset-0 z-[990] backdrop-blur-xl bg-black/60 overflow-hidden ${passThrough ? "pointer-events-none" : "cursor-pointer"}`}
+      className={`fixed inset-0 z-[990] ${backgroundsOptimization === "normal" ? "lg:backdrop-blur-xl bg-black/85 lg:bg-black/60" : "bg-black/85"}  overflow-hidden ${passThrough ? "pointer-events-none" : "cursor-pointer"}`}
       initial={{ opacity: 0 }}
       animate={{ opacity: closing ? 0 : 1 }}
       transition={{ duration: closing ? 0.32 : 0.28, ease: "easeOut", delay: closing ? 0.08 : 0 }}
@@ -28,7 +33,11 @@ export function ProjectModalBackdrop({ closing, passThrough, onClose }: ProjectM
         transition={{ duration: 0.4, ease: "easeOut" }}
       />
       <div className="absolute inset-0 z-10 opacity-80">
-        <BlobsBackground />
+        {
+          backgroundsOptimization === "normal" && (
+            <BlobsBackground />
+          )
+        }
       </div>
       <motion.div
         aria-hidden
