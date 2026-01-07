@@ -19,7 +19,7 @@ export function ProjectModalBackdrop({ closing, passThrough, onClose }: ProjectM
   return (
     <motion.div
       key="backdrop"
-      className={`fixed inset-0 z-[990] ${backgroundsOptimization === "normal" ? "lg:backdrop-blur-xl bg-black/85 lg:bg-black/60" : "bg-black/85"}  overflow-hidden ${passThrough ? "pointer-events-none" : "cursor-pointer"}`}
+      className={`fixed inset-0 z-[990] ${backgroundsOptimization === "normal" ? "lg:backdrop-blur-xl bg-black/60 lg:bg-black/60" : "bg-black/60 lg:bg-black/85"}  overflow-hidden ${passThrough ? "pointer-events-none" : "cursor-pointer"}`}
       initial={{ opacity: 0 }}
       animate={{ opacity: closing ? 0 : 1 }}
       transition={{ duration: closing ? 0.32 : 0.28, ease: "easeOut", delay: closing ? 0.08 : 0 }}

@@ -187,7 +187,7 @@ export function ProjectModalContent({
 
       <div ref={scrollRef} className="relative flex-1 overflow-auto no-scrollbar scroll-smooth">
         <motion.header
-          className="relative h-48 lg:h-72 w-full overflow-hidden bg-gray-950"
+          className="relative h-48 w-full shrink-0 overflow-hidden bg-gray-950 lg:h-72"
           variants={modalItemVariants2}
           initial="hidden"
           animate={animationState}
