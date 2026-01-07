@@ -4,6 +4,8 @@ import { useMemo, useState } from "react";
 import Image from "next/image";
 import { motion, type Variants } from "framer-motion";
 
+import { ChevronLeft, ChevronRight } from "lucide-react";
+
 import {
   FittedMediaOverlay,
   type BaseMediaItem,
@@ -11,8 +13,8 @@ import {
 
 type Photo = {
   src: string;
-  alt?: string;      
-  caption?: string;  
+  alt?: string;
+  caption?: string;
 };
 
 export default function PersonalGallery({
@@ -72,11 +74,11 @@ export default function PersonalGallery({
             variants={gridItemVariants}
             whileHover={{
               scale: 1.05,
-              transition: {duration: 0.3, ease: "easeOut"}
+              transition: { duration: 0.3, ease: "easeOut" }
             }}
             whileTap={{
               scale: 0.96,
-              transition: {duration: 0.1, ease: "easeOut"}
+              transition: { duration: 0.1, ease: "easeOut" }
             }}
             className="overflow-hidden rounded-2xl border border-white/10 bg-white/5 p-0 cursor-pointer"
             aria-label={displayTitle[i] || altText[i] || undefined}
@@ -105,64 +107,42 @@ export default function PersonalGallery({
         title={idx !== null ? (displayTitle[idx] ?? "") : "Galería personal"}
         closeLabel="Cerrar"
         onClose={() => setIdx(null)}
-        footer={
+        overlayControls={
           idx !== null && (
-            <div className="mt-4 flex items-center justify-between">
-              <div className="flex gap-2">
-                <motion.button
-                  type="button"
-                  animate={{
-                    scale: 1,
-                    backgroundColor: "rgba(0,0,0,0.2)",
-                  }}
-                  whileHover={{
-                    scale: 1.06,
-                    backgroundColor: "rgba(100,100,100,0.18)",
-                  }}
-                  whileTap={{
-                    scale: 0.94,
-                    backgroundColor: "rgba(50,50,50,0.18)",
-                  }}
-                  transition={{ duration: 0.15, ease: "easeOut" }}
-                  onClick={() =>
-                    setIdx((s) =>
-                      s === null ? null : (s - 1 + photos.length) % photos.length
-                    )
-                  }
-                  className="rounded-md border border-white/10 bg-black/20 px-3 py-2 text-sm text-white/80 cursor-pointer"
-                  aria-label="Imagen anterior"
-                >
-                  ←
-                </motion.button>
+            <div className="pointer-events-none absolute bottom-6 inset-x-0 flex items-center justify-center gap-3 z-[60]">
+              <motion.button
+                type="button"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setIdx((s) =>
+                    s === null ? null : (s - 1 + photos.length) % photos.length
+                  );
+                }}
+                className="pointer-events-auto flex h-10 w-10 items-center justify-center rounded-full bg-black/50 text-white backdrop-blur-md border border-white/10 transition-all hover:bg-white/10 hover:border-white/20 active:scale-95 group"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                aria-label="Imagen anterior"
+              >
+                <ChevronLeft className="h-5 w-5 text-white/80 transition-colors group-hover:text-white" />
+              </motion.button>
 
-                <motion.button
-                  type="button"
-                  animate={{
-                    scale: 1,
-                    backgroundColor: "rgba(0,0,0,0.2)",
-                  }}
-                  whileHover={{
-                    scale: 1.06,
-                    backgroundColor: "rgba(100,100,100,0.18)",
-                  }}
-                  whileTap={{
-                    scale: 0.94,
-                    backgroundColor: "rgba(50,50,50,0.18)",
-                  }}
-                  transition={{ duration: 0.15, ease: "easeOut" }}
-                  onClick={() =>
-                    setIdx((s) => (s === null ? null : (s + 1) % photos.length))
-                  }
-                  className="rounded-md border border-white/10 bg-black/20 px-3 py-2 text-sm text-white/80 cursor-pointer"
-                  aria-label="Imagen siguiente"
-                >
-                  →
-                </motion.button>
+              <div className="rounded-full bg-black/50 px-4 py-2 text-xs font-medium text-white/90 backdrop-blur-md border border-white/10 min-w-[3rem] text-center">
+                {idx + 1} <span className="text-white/40 mx-1">/</span> {photos.length}
               </div>
 
-              <div className="text-xs text-white/60">
-                {idx + 1} / {photos.length}
-              </div>
+              <motion.button
+                type="button"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setIdx((s) => (s === null ? null : (s + 1) % photos.length));
+                }}
+                className="pointer-events-auto flex h-10 w-10 items-center justify-center rounded-full bg-black/50 text-white backdrop-blur-md border border-white/10 transition-all hover:bg-white/10 hover:border-white/20 active:scale-95 group"
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                aria-label="Imagen siguiente"
+              >
+                <ChevronRight className="h-5 w-5 text-white/80 transition-colors group-hover:text-white" />
+              </motion.button>
             </div>
           )
         }

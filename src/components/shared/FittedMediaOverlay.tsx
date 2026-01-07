@@ -32,6 +32,7 @@ type FittedMediaOverlayProps<T extends BaseMediaItem = BaseMediaItem> = {
   closeLabel: string;
   onClose: () => void;
   footer?: React.ReactNode;
+  overlayControls?: React.ReactNode;
 };
 
 export function FittedMediaOverlay<T extends BaseMediaItem>({
@@ -41,6 +42,7 @@ export function FittedMediaOverlay<T extends BaseMediaItem>({
   closeLabel,
   onClose,
   footer,
+  overlayControls,
 }: FittedMediaOverlayProps<T>) {
   const closeButtonRef = useRef<HTMLButtonElement | null>(null);
   const [mediaReady, setMediaReady] = useState(false);
@@ -81,6 +83,7 @@ export function FittedMediaOverlay<T extends BaseMediaItem>({
           onClose={onClose}
           closeButtonRef={closeButtonRef}
           footer={footer}
+          overlayControls={overlayControls}
           mediaReady={mediaReady}
           onMediaReady={() => setMediaReady(true)}
         />
@@ -97,6 +100,7 @@ type InnerFittedOverlayProps = {
   onClose: () => void;
   closeButtonRef: React.MutableRefObject<HTMLButtonElement | null>;
   footer?: React.ReactNode;
+  overlayControls?: React.ReactNode;
   mediaReady: boolean;
   onMediaReady: () => void;
 };
@@ -108,6 +112,7 @@ function InnerFittedOverlay({
   onClose,
   closeButtonRef,
   footer,
+  overlayControls,
   mediaReady,
   onMediaReady,
 }: InnerFittedOverlayProps) {
@@ -163,6 +168,7 @@ function InnerFittedOverlay({
       transition={{ duration: 0.15, ease: "easeOut" }}
       onClick={onClose}
     >
+      {overlayControls}
       <motion.div
         className="relative flex w-auto max-w-[100svw] max-h-[100svh] flex-col overflow-y-auto overflow-x-hidden rounded-[28px] border border-white/10 bg-gray-950"
         initial={{ opacity: 0, scale: 0.96, y: 18 }}
