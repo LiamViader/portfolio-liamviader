@@ -159,7 +159,7 @@ export default function ClientProjectsPage({ projectsData }: ClientProjectsPageP
               </MotionStack>
             </ShowcaseBlock>
           </Container>
-          <div className="hidden xl:block h-1 border-t border-white/20 w-5xl mx-auto"></div>
+          <div className="hidden xl:block h-px w-full bg-gradient-to-r from-transparent via-white/20 to-transparent w-5xl mx-auto"></div>
           <FeaturedProjectsSection
             projects={projectsData}
             replaceUrl={true}
