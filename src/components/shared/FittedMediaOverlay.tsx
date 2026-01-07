@@ -62,12 +62,35 @@ export function FittedMediaOverlay<T extends BaseMediaItem>({
 
     document.addEventListener("keydown", onKey);
 
-    const prevOverflow = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
+    // Check if locked
+    const isLocked = window.getComputedStyle(document.body).overflow === "hidden";
+    let cleanupScroll = () => { };
+
+    if (!isLocked) {
+      // Calculate scrollbar width
+      const scrollbarWidth = window.innerWidth - document.documentElement.clientWidth;
+      const prevOverflow = document.body.style.overflow;
+      const prevPaddingRight = document.body.style.paddingRight;
+      const prevScrollbarGap = document.body.style.getPropertyValue("--scrollbar-gap");
+
+      document.body.style.overflow = "hidden";
+      document.body.style.paddingRight = `${scrollbarWidth}px`;
+      document.body.style.setProperty("--scrollbar-gap", `${scrollbarWidth}px`);
+
+      cleanupScroll = () => {
+        document.body.style.overflow = prevOverflow;
+        document.body.style.paddingRight = prevPaddingRight;
+        if (prevScrollbarGap) {
+          document.body.style.setProperty("--scrollbar-gap", prevScrollbarGap);
+        } else {
+          document.body.style.removeProperty("--scrollbar-gap");
+        }
+      };
+    }
 
     return () => {
       document.removeEventListener("keydown", onKey);
-      document.body.style.overflow = prevOverflow;
+      cleanupScroll();
     };
   }, [isOpen, onClose]);
 
@@ -195,7 +218,7 @@ function InnerFittedOverlay({
               e.stopPropagation();
               onClose();
             }}
-            className="cursor-pointer group absolute top-6 right-6 z-[50] inline-flex h-12 w-12 items-center justify-center rounded-full bg-black/40 backdrop-blur-md border border-white/10 text-slate-200 transition-colors hover:bg-white/10 hover:text-white hover:border-white/20"
+            className="cursor-pointer group absolute top-6 right-6 z-[50] inline-flex h-10 w-10 items-center justify-center rounded-full bg-black/40 backdrop-blur-md border border-white/10 text-slate-200 transition-colors hover:bg-white/10 hover:text-white hover:border-white/20"
             initial={{ opacity: 0, scale: 0.9 }}
             animate={mediaReady ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.9 }}
             exit={{ opacity: 0, scale: 0.9 }}
