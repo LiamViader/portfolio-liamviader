@@ -14,9 +14,6 @@ import { parseHighlights } from "@/utils/parseHighlights";
 import { HighlightedText } from "@/components/HighlightedText";
 
 import { Stack } from "@/components/layout/Stack";
-import { ContentBlock } from "@/components/layout/ContentBlock";
-import { Container } from "@/components/layout/Container";
-import { SectionHeader } from "@/components/layout/SectionHeader";
 
 
 const heroMediaVariants: Variants = {
@@ -214,22 +211,22 @@ export function ProjectModalContent({
             </motion.div>
           )}
         </motion.header>
-        <div className="px-6 sm:px-8 lg:px-12 pt-6 pb-5 sm:pb-6 lg:pb-10">
+        <div className="px-6 sm:px-8 lg:px-12 pt-10 pb-5 sm:pb-6 lg:pb-10">
           <MotionStack
-            size="md"
+            size="lg"
             variants={modalItemVariants}
             initial="hidden"
             animate={animationState}
           >
             <MotionStack
-              size="md"
+              size="lg"
               className=""
               variants={modalItemVariants}
               initial="hidden"
               animate={animationState}
             >
               <div className="relative z-10 text-center sm:text-left">
-                <Stack size="xs">
+                <Stack size="sm">
                   <div className="flex flex-wrap items-center justify-center gap-6 text-[0.58rem] lg:text-xs uppercase tracking-[0.28em] text-white/80 sm:justify-start">
                     {project.is_featured && (
                       <span className="inline-flex items-center gap-1.5 text-sky-200/90">
@@ -256,14 +253,12 @@ export function ProjectModalContent({
                 </Stack>
               </div>
 
-              <div className="border-b h-px border-white/20"></div>
 
               {/* OVERVIEW */}
               <Stack size="sm" className="text-left">
                 <h2 className="text-base lg:text-lg font-semibold text-white text-center sm:text-left">
                   {t("overviewTitle")}
                 </h2>
-
                 <Stack size="xs" className="text-sm lg:text-base leading-relaxed text-white/80 text-justify">
                   {paragraphsToRender.map((paragraph, i) => {
                     const nodes = parseHighlights(paragraph);
@@ -280,17 +275,17 @@ export function ProjectModalContent({
                       ref={overviewToggleRef}
                       type="button"
                       onClick={handleToggleExpand}
-                      className="flex text-left cursor-pointer mt-1 text-sm lg:text-base font-semibold text-sky-300/90 hover:underline underline-offset-4 decoration-sky-300/80 drop-shadow-[0_4px_4px_rgba(0,0,0,1)]"
+                      className="flex group mt-1 cursor-pointer focus:outline-none"
                     >
-                      {isExpanded ? t("read_less") : t("read_more")}
+                      <span className="text-left text-sm font-medium tracking-wide text-sky-300 group-hover:text-sky-100 transition-colors duration-300 shadow-sm group-hover:underline underline-offset-4">
+                        {isExpanded ? t("read_less") : t("read_more")}
+                      </span>
                     </button>
                   )}
                 </Stack>
 
 
               </Stack>
-
-              <div className="h-px"></div>
 
               {project.detailed_media?.length ? (
                 <ProjectMediaGallery
@@ -301,7 +296,9 @@ export function ProjectModalContent({
               ) : null}
             </MotionStack>
 
-            <div className="mt-2 border-t border-white/10 pt-8">
+            <div className="h-px border-b border-white/10"></div>
+
+            <div className="">
               <motion.aside
                 className="grid gap-6 md:grid-cols-2 items-stretch"
                 variants={modalItemVariants}
@@ -310,12 +307,9 @@ export function ProjectModalContent({
               >
 
                 <motion.div
-                  className="flex flex-col rounded-2xl border border-white/10 bg-slate-900/40 p-6"
+                  className="flex flex-col"
                   variants={modalItemVariants}
                 >
-                  <h3 className="mb-4 text-xs font-bold uppercase tracking-widest text-slate-500">
-                    {t("technologiesTitle")}
-                  </h3>
                   <div className="flex flex-wrap gap-2">
                     {tags.map((tag, idx) => (
                       <motion.span
@@ -349,12 +343,9 @@ export function ProjectModalContent({
 
                 {(project.github_url || project.live_url) && (
                   <motion.div
-                    className="flex flex-col rounded-2xl border border-white/10 bg-slate-900/40 p-6"
+                    className="flex flex-col"
                     variants={modalItemVariants}
                   >
-                    <h3 className="mb-4 text-xs font-bold uppercase tracking-widest text-slate-500">
-                      {t("exploreMoreTitle")}
-                    </h3>
 
                     <div className="flex flex-1 flex-col justify-start gap-3">
                       {project.live_url && (
@@ -460,6 +451,9 @@ export function ProjectModalContent({
                 )}
               </motion.aside>
             </div>
+
+            <div className="h-px"></div>
+
           </MotionStack>
         </div>
       </div>

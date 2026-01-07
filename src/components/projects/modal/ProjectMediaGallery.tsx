@@ -7,6 +7,9 @@ import { Play } from "lucide-react";
 import { type TranslatedProject } from "@/data/projects/types";
 import { modalItemVariants } from "./animations";
 import { FittedMediaOverlay } from "@/components/shared/FittedMediaOverlay";
+import { useTranslations } from "next-intl";
+
+import { Stack } from "@/components/layout/Stack";
 
 export type ProjectMediaItem = TranslatedProject["detailed_media"][number];
 
@@ -41,7 +44,7 @@ export function ProjectMediaGallery({
 }: ProjectMediaGalleryProps) {
   const media = project.detailed_media ?? [];
   const [activeMediaIndex, setActiveMediaIndex] = useState<number | null>(null);
-
+  const t = useTranslations("ProjectModal");
   const openMedia = useCallback((index: number) => setActiveMediaIndex(index), []);
   const closeActiveMedia = useCallback(() => setActiveMediaIndex(null), []);
 
@@ -51,107 +54,88 @@ export function ProjectMediaGallery({
 
   return (
     <>
-      <div className="space-y-8">
-        <div className="grid gap-8 sm:grid-cols-2">
-          {media.map((item, idx) => {
-            const figureLabel = buildMediaLabel(item);
-            const hasCaptionContent = Boolean(figureLabel || item.description || item.alt);
-            const previewSource = getMediaPreviewSource(item);
-            const fallbackTitle = `${project.title} detail ${idx + 1}`;
-            const buttonLabel = item.alt ?? figureLabel ?? fallbackTitle;
+      <div className="">
+        <Stack size="md" className="text-left">
 
-            return (
-              <motion.figure
-                key={`${project.id}-media-${idx}`}
-                className="flex flex-col overflow-hidden rounded-2xl border border-white/10 bg-white/[0.02]"
-                variants={modalItemVariants}
-                initial="hidden"
-                animate={animationState}
-              >
-                <motion.button
-                  type="button"
-                  onClick={() => openMedia(idx)}
-                  aria-label={buttonLabel}
-                  className="relative block w-full flex-1 cursor-pointer overflow-hidden"
-                  
-                  initial="idle"
-                  whileHover="hover"
-                  animate="idle"
+          <div className="grid gap-8 sm:grid-cols-2">
+            {media.map((item, idx) => {
+              const figureLabel = buildMediaLabel(item);
+              const previewSource = getMediaPreviewSource(item);
+              const fallbackTitle = `${project.title} detail ${idx + 1}`;
+              const buttonLabel = item.alt ?? figureLabel ?? fallbackTitle;
+
+              return (
+                <motion.figure
+                  key={`${project.id}-media-${idx}`}
+                  className="group flex h-full flex-col overflow-hidden rounded-2xl border border-white/5 bg-white/[0.05] transition-colors hover:bg-white/[0.1]"
+                  variants={modalItemVariants}
+                  initial="hidden"
+                  animate={animationState}
                 >
-                  <div className="relative aspect-video w-full overflow-hidden bg-slate-950">
-                    {previewSource ? (
-                      <motion.img
-                        src={previewSource}
-                        alt={item.alt ?? fallbackTitle}
-                        className="h-full w-full object-cover"
-                        variants={{
-                          idle: { scale: 1 },
-                          hover: { 
-                            scale: 1.05,
-                            transition: { duration: 0.2, ease: "easeOut" }
-                          }
-                        }}
-                      />
-                    ) : item.type === "video" ? (
-                      <video src={item.src} poster={item.poster} className="h-full w-full object-cover" muted playsInline />
-                    ) : (
-                      <div className="flex h-full w-full items-center justify-center text-sm text-slate-600">
-                         Image not found
-                      </div>
-                    )}
+                  <motion.button
+                    type="button"
+                    onClick={() => openMedia(idx)}
+                    aria-label={buttonLabel}
+                    className="relative block w-full cursor-pointer overflow-hidden"
 
-                    <motion.div 
-                      className="absolute inset-0 bg-black/20"
-                      variants={{
-                        idle: { opacity: 0 },
-                        hover: { opacity: 1, transition: { duration: 0.3 } }
-                      }}
-                    />
-
-                    {isVideoMedia(item) && (
-                      <div className="absolute inset-0 flex items-center justify-center">
-                        <motion.div 
-                          className="flex h-12 w-12 items-center justify-center rounded-full backdrop-blur-sm shadow-lg"
-                          
+                    initial="idle"
+                    whileHover="hover"
+                    animate="idle"
+                  >
+                    <div className="relative aspect-video w-full overflow-hidden bg-gray-950">
+                      {previewSource ? (
+                        <motion.img
+                          src={previewSource}
+                          alt={item.alt ?? fallbackTitle}
+                          className="h-full w-full object-cover transition-transform duration-500 will-change-transform group-hover:scale-105"
                           variants={{
-                            idle: { 
-                              scale: 1, 
-                              backgroundColor: "rgba(4, 0, 43, 0.9)", 
-                              color: "rgba(14, 165, 233, 1)",
-                            },
-                            hover: { 
-                              scale: 1.15, 
-                              backgroundColor: "rgba(14, 165, 233, 1)",  
-                              color: "rgba(225, 225, 225, 0.9)",
-                              transition: { ease: "easeIn", duration: 0.1}
-                            }
+                            idle: { scale: 1 },
+                            hover: { scale: 1.05 }
                           }}
-                        >
-                          <Play className="h-5 w-5 fill-current" />
-                        </motion.div>
-                      </div>
-                    )}
-                  </div>
-                </motion.button>
+                        />
+                      ) : item.type === "video" ? (
+                        <video src={item.src} poster={item.poster} className="h-full w-full object-cover" muted playsInline />
+                      ) : (
+                        <div className="flex h-full w-full items-center justify-center text-sm text-slate-600">
+                          Image not found
+                        </div>
+                      )}
 
-                {hasCaptionContent && (
-                  <figcaption className="border-t border-white/5 px-5 py-4">
-                    {(figureLabel || item.alt) && (
-                      <div className="mb-1 text-[0.65rem] font-bold uppercase tracking-wider text-sky-400/90">
-                        {figureLabel || item.alt}
-                      </div>
-                    )}
-                    {item.description && (
-                      <p className="text-sm leading-relaxed text-slate-400">
-                        {item.description}
-                      </p>
-                    )}
-                  </figcaption>
-                )}
-              </motion.figure>
-            );
-          })}
-        </div>
+                      <motion.div
+                        className="absolute inset-0 bg-black/20 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
+                      />
+
+                      {isVideoMedia(item) && (
+                        <div className="absolute inset-0 flex items-center justify-center">
+                          <div
+                            className="flex h-12 w-12 items-center justify-center rounded-full bg-gray-950/80 text-sky-500 transition-transform duration-300 group-hover:scale-110 group-hover:bg-sky-500/80 group-hover:text-white"
+                          >
+                            <Play className="h-5 w-5 fill-current" />
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  </motion.button>
+
+                  {(figureLabel || item.description || item.alt) && (
+                    <figcaption className="flex-1 border-t border-white/5 px-4 py-3 text-left">
+                      {(figureLabel || item.alt) && (
+                        <div className="mb-1 text-[0.65rem] font-bold uppercase tracking-wider text-sky-400/90">
+                          {figureLabel || item.alt}
+                        </div>
+                      )}
+                      {item.description && (
+                        <p className="text-sm leading-relaxed text-slate-400">
+                          {item.description}
+                        </p>
+                      )}
+                    </figcaption>
+                  )}
+                </motion.figure>
+              );
+            })}
+          </div>
+        </Stack>
       </div>
 
       <FittedMediaOverlay
