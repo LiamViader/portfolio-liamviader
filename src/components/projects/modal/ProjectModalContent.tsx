@@ -394,9 +394,10 @@ export function ProjectModalContent({
               </motion.aside>
             </div>
 
-            <div className="h-px" /> {/* Bottom spacer for extra breathing room */}
+
 
           </MotionStack>
+          <div className="h-2px" />
         </div>
       </div>
     </motion.div>
