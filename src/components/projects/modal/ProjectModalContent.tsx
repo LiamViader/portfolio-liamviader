@@ -212,7 +212,7 @@ export function ProjectModalContent({
           )}
         </motion.header>
 
-        <div className="px-6 pt-8 pb-8 sm:px-10 sm:pt-10 sm:pb-10 lg:px-12">
+        <div className="px-6 pt-8 pb-12 sm:px-10 sm:pt-10 sm:pb-16 lg:px-12">
           <MotionStack
             size="lg"
             variants={modalItemVariants}
@@ -397,7 +397,6 @@ export function ProjectModalContent({
 
 
           </MotionStack>
-          <div className="h-2px" />
         </div>
       </div>
     </motion.div>
