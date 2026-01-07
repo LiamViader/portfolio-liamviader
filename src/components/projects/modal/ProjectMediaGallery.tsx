@@ -67,7 +67,7 @@ export function ProjectMediaGallery({
               return (
                 <motion.figure
                   key={`${project.id}-media-${idx}`}
-                  className="group flex h-full flex-col overflow-hidden rounded-2xl border border-white/5 bg-white/[0.05] transition-colors hover:bg-white/[0.1]"
+                  className="group flex h-full flex-col overflow-hidden rounded-2xl border border-white/5 bg-white/[0.03] transition-colors hover:bg-white/[0.05]"
                   variants={modalItemVariants}
                   initial="hidden"
                   animate={animationState}
@@ -108,7 +108,7 @@ export function ProjectMediaGallery({
                       {isVideoMedia(item) && (
                         <div className="absolute inset-0 flex items-center justify-center">
                           <div
-                            className="flex h-12 w-12 items-center justify-center rounded-full bg-gray-950/80 text-sky-500 transition-transform duration-300 group-hover:scale-110 group-hover:bg-sky-500/80 group-hover:text-white"
+                            className="flex h-12 w-12 items-center justify-center rounded-full bg-gray-950/90 text-sky-500 transition-transform duration-300 group-hover:scale-110 group-hover:bg-sky-500/80 group-hover:text-white"
                           >
                             <Play className="h-5 w-5 fill-current" />
                           </div>
@@ -120,7 +120,7 @@ export function ProjectMediaGallery({
                   {(figureLabel || item.description || item.alt) && (
                     <figcaption className="flex-1 border-t border-white/5 px-4 py-3 text-left">
                       {(figureLabel || item.alt) && (
-                        <div className="mb-1 text-[0.65rem] font-bold uppercase tracking-wider text-sky-400/90">
+                        <div className="mb-1 text-[0.65rem] font-bold uppercase tracking-wider text-cyan-400">
                           {figureLabel || item.alt}
                         </div>
                       )}

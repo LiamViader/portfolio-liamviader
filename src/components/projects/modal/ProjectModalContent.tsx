@@ -207,132 +207,111 @@ export function ProjectModalContent({
                 sizes="(min-width: 1024px) 1024px, 100vw"
                 priority
               />
-              <div className="absolute inset-0 bg-gradient-to-b from-transparent via-gray-950/40 to-gray-950" />
+              <div className="absolute inset-0 bg-gradient-to-b from-transparent via-gray-950/60 to-gray-950" />
             </motion.div>
           )}
         </motion.header>
-        <div className="px-6 sm:px-8 lg:px-12 pt-10 pb-5 sm:pb-6 lg:pb-10">
+
+        <div className="px-6 pt-8 pb-8 sm:px-10 sm:pt-10 sm:pb-10 lg:px-12">
           <MotionStack
             size="lg"
             variants={modalItemVariants}
             initial="hidden"
             animate={animationState}
           >
-            <MotionStack
-              size="lg"
-              className=""
-              variants={modalItemVariants}
-              initial="hidden"
-              animate={animationState}
-            >
-              <div className="relative z-10 text-center sm:text-left">
-                <Stack size="sm">
-                  <div className="flex flex-wrap items-center justify-center gap-6 text-[0.58rem] lg:text-xs uppercase tracking-[0.28em] text-white/80 sm:justify-start">
-                    {project.is_featured && (
-                      <span className="inline-flex items-center gap-1.5 text-sky-200/90">
-                        <Sparkles className="h-3 w-3" aria-hidden="true" />
-                        <span className="tracking-[0.35em]">{t("featuredBadge")}</span>
-                      </span>
-                    )}
-                    {categoryLabels.length > 0 && (
-                      <span className="inline-flex items-center gap-2 text-white/75">
-                        {categoryLabels.join(" • ")}
-                      </span>
-                    )}
-                  </div>
+            <div className="relative z-10 text-center sm:text-left">
+              <Stack size="md">
+                <div className="flex flex-wrap items-center justify-center gap-4 text-xs font-bold uppercase tracking-[0.2em] text-cyan-400/90 sm:justify-start">
+                  {project.is_featured && (
+                    <span className="inline-flex items-center gap-1.5 text-[0.65rem] tracking-widest text-cyan-300 ">
+                      <Sparkles className="h-3 w-3" ARIA-hidden="true" />
+                      {t("featuredBadge")}
+                    </span>
+                  )}
+                  {categoryLabels.length > 0 && (
+                    <span className="text-[0.65rem] tracking-widest text-slate-400">
+                      {categoryLabels.join(" • ")}
+                    </span>
+                  )}
+                </div>
 
-                  <h1 className="text-2xl font-semibold leading-tight text-white lg:text-4xl">
+                <Stack size="xs">
+                  <h1 className="text-3xl font-bold leading-tight text-slate-100 lg:text-4xl">
                     {project.title}
                   </h1>
 
                   {project.role && (
-                    <p className="text-sm font-medium text-white/75 lg:text-base">
+                    <p className="text-lg font-medium text-slate-400 lg:text-xl">
                       {project.role}
                     </p>
                   )}
                 </Stack>
-              </div>
-
-
-              {/* OVERVIEW */}
-              <Stack size="sm" className="text-left">
-                <h2 className="text-base lg:text-lg font-semibold text-white text-center sm:text-left">
-                  {t("overviewTitle")}
-                </h2>
-                <Stack size="xs" className="text-sm lg:text-base leading-relaxed text-white/80 text-justify">
-                  {paragraphsToRender.map((paragraph, i) => {
-                    const nodes = parseHighlights(paragraph);
-
-                    return (
-                      <p key={i}>
-                        <HighlightedText nodes={nodes} />
-                      </p>
-                    );
-                  })}
-
-                  {isTruncated && (
-                    <button
-                      ref={overviewToggleRef}
-                      type="button"
-                      onClick={handleToggleExpand}
-                      className="flex group mt-1 cursor-pointer focus:outline-none"
-                    >
-                      <span className="text-left text-sm font-medium tracking-wide text-sky-300 group-hover:text-sky-100 transition-colors duration-300 shadow-sm group-hover:underline underline-offset-4">
-                        {isExpanded ? t("read_less") : t("read_more")}
-                      </span>
-                    </button>
-                  )}
-                </Stack>
-
-
               </Stack>
+            </div>
 
-              {project.detailed_media?.length ? (
+            {/* OVERVIEW */}
+            <Stack size="sm" className="text-left">
+              <Stack size="xs" className="text-sm leading-relaxed text-slate-300 lg:text-base lg:leading-loose text-justify">
+                {paragraphsToRender.map((paragraph, i) => {
+                  const nodes = parseHighlights(paragraph);
+
+                  return (
+                    <p key={i}>
+                      <HighlightedText nodes={nodes} />
+                    </p>
+                  );
+                })}
+
+                {isTruncated && (
+                  <button
+                    ref={overviewToggleRef}
+                    type="button"
+                    onClick={handleToggleExpand}
+                    className="group mt-2 inline-flex items-center text-sm font-semibold text-cyan-400 transition-colors hover:text-cyan-300 cursor-pointer hover:underline"
+                  >
+                    <span>{isExpanded ? t("read_less") : t("read_more")}</span>
+                  </button>
+                )}
+              </Stack>
+            </Stack>
+
+            {project.detailed_media?.length ? (
+              <>
+                <div className="my-2 h-px w-full bg-gradient-to-r from-transparent via-slate-800 to-transparent" />
                 <ProjectMediaGallery
                   project={project}
                   closeLabel={closeLabel}
                   animationState={animationState}
                 />
-              ) : null}
-            </MotionStack>
+              </>
+            ) : null}
 
-            <div className="h-px border-b border-white/10"></div>
+            <div className="my-2 h-px w-full bg-gradient-to-r from-transparent via-slate-800 to-transparent" />
 
-            <div className="">
+            <div className="px-1">
               <motion.aside
-                className="grid gap-6 md:grid-cols-2 items-stretch"
+                className="grid gap-10 md:grid-cols-2 lg:gap-12"
                 variants={modalItemVariants}
                 initial="hidden"
                 animate={animationState}
               >
-
                 <motion.div
-                  className="flex flex-col"
+                  className="flex flex-col gap-4"
                   variants={modalItemVariants}
                 >
+                  <h3 className="text-xs font-bold uppercase tracking-[0.2em] text-slate-400">
+                    {t("technologiesTitle")}
+                  </h3>
                   <div className="flex flex-wrap gap-2">
                     {tags.map((tag, idx) => (
                       <motion.span
                         key={`${project.id}-tag-${idx}`}
-                        className="cursor-default rounded-md border px-3 py-1.5 text-xs font-medium bg-[rgba(30,41,59,0.5)]"
+                        className="cursor-default rounded-lg border border-gray-700/50 bg-gray-800/40 px-3 py-1.5 text-xs font-medium text-gray-300 transition-colors hover:border-cyan-500/30 hover:bg-cyan-950/30 hover:text-cyan-200"
                         initial="idle"
                         whileHover="hover"
                         variants={{
-                          idle: {
-                            y: 0,
-                            scale: 1,
-                            backgroundColor: "rgba(30, 41, 59, 0.5)",
-                            borderColor: "rgba(51, 65, 85, 1)",
-                            color: "rgba(203, 213, 225, 1)",
-                          },
-                          hover: {
-                            y: -2,
-                            scale: 1.05,
-                            backgroundColor: "rgba(14, 165, 233, 0.1)",
-                            borderColor: "rgba(14, 165, 233, 0.5)",
-                            color: "rgba(186, 230, 253, 1)",
-                            transition: { type: "spring", stiffness: 300, damping: 20 }
-                          }
+                          idle: { scale: 1 },
+                          hover: { scale: 1.05 }
                         }}
                       >
                         {tag}
@@ -343,58 +322,25 @@ export function ProjectModalContent({
 
                 {(project.github_url || project.live_url) && (
                   <motion.div
-                    className="flex flex-col"
+                    className="flex flex-col gap-4"
                     variants={modalItemVariants}
                   >
+                    <h3 className="text-xs font-bold uppercase tracking-[0.2em] text-slate-400">
+                      {t("exploreMoreTitle")}
+                    </h3>
 
-                    <div className="flex flex-1 flex-col justify-start gap-3">
+                    <div className="flex flex-col gap-3 sm:flex-row md:flex-col">
                       {project.live_url && (
                         <motion.a
                           href={project.live_url}
                           target="_blank"
                           rel="noreferrer"
-                          className="relative flex w-full items-center justify-between overflow-hidden rounded-xl border bg-gradient-to-r from-sky-600/20 to-sky-600/10 px-4 py-3.5 text-sm font-bold"
-                          initial="idle"
-                          whileHover="hover"
-                          whileTap="tap"
-                          variants={{
-                            idle: {
-                              y: 0,
-                              scale: 1,
-                              borderColor: "rgba(14, 165, 233, 0.3)",
-                              color: "rgba(224, 242, 254, 1)",
-                              boxShadow: "0 10px 15px -3px rgba(12, 74, 110, 0.2)",
-                            },
-                            hover: {
-                              y: -1,
-                              scale: 1.02,
-                              borderColor: "rgba(56, 189, 248, 0.6)",
-                              color: "rgba(255, 255, 255, 1)",
-                              boxShadow: "0 10px 25px -5px rgba(14, 165, 233, 0.25)",
-                              transition: { type: "spring", stiffness: 400, damping: 25 }
-                            },
-                            tap: {
-                              scale: 0.98,
-                              y: 0,
-                              borderColor: "rgba(14, 165, 233, 0.5)",
-                            }
-                          }}
+                          className="group relative flex flex-1 items-center justify-between rounded-xl border border-cyan-500/20 bg-gradient-to-r from-cyan-950/50 to-cyan-900/20 px-5 py-4 text-sm font-bold text-cyan-100 transition-all hover:border-cyan-500/40 hover:from-cyan-900/40 hover:to-cyan-800/30 hover:shadow-lg hover:shadow-cyan-900/20"
+                          whileHover={{ scale: 1.02 }}
+                          whileTap={{ scale: 0.98 }}
                         >
-                          <span>{t("liveDemoCta")}</span>
-
-                          <motion.span
-                            variants={{
-                              idle: { x: 0, y: 0, color: "rgba(186, 230, 253, 1)" },
-                              hover: {
-                                x: 2,
-                                y: -2,
-                                color: "rgba(255, 255, 255, 1)", // white
-                                transition: { type: "spring", stiffness: 300 }
-                              }
-                            }}
-                          >
-                            <ExternalLink className="h-4 w-4" aria-hidden="true" />
-                          </motion.span>
+                          <span className="z-10">{t("liveDemoCta")}</span>
+                          <ExternalLink className="h-4 w-4 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
                         </motion.a>
                       )}
 
@@ -403,47 +349,12 @@ export function ProjectModalContent({
                           href={project.github_url}
                           target="_blank"
                           rel="noreferrer"
-                          className="relative flex w-full items-center justify-between overflow-hidden rounded-xl border bg-gradient-to-r from-purple-900/40 to-purple-900/20 px-4 py-3.5 text-sm font-bold"
-                          initial="idle"
-                          whileHover="hover"
-                          whileTap="tap"
-
-                          variants={{
-                            idle: {
-                              y: 0,
-                              scale: 1,
-                              borderColor: "rgba(168, 85, 247, 0.3)",
-                              color: "rgba(243, 232, 255, 1)",
-                              boxShadow: "0 10px 15px -3px rgba(88, 28, 135, 0.2)",
-                            },
-                            hover: {
-                              y: -1,
-                              scale: 1.02,
-                              borderColor: "rgba(192, 132, 252, 0.6)",
-                              color: "rgba(255, 255, 255, 1)",
-                              boxShadow: "0 10px 25px -5px rgba(168, 85, 247, 0.25)",
-                              transition: { type: "spring", stiffness: 400, damping: 25 }
-                            },
-                            tap: {
-                              scale: 0.98,
-                              y: 0,
-                              borderColor: "rgba(168, 85, 247, 0.5)"
-                            }
-                          }}
+                          className="group relative flex flex-1 items-center justify-between rounded-xl border border-purple-500/20 bg-gradient-to-r from-purple-950/50 to-purple-900/20 px-5 py-4 text-sm font-bold text-purple-100 transition-all hover:border-purple-500/40 hover:from-purple-900/40 hover:to-purple-800/30 hover:shadow-lg hover:shadow-purple-900/20"
+                          whileHover={{ scale: 1.02 }}
+                          whileTap={{ scale: 0.98 }}
                         >
-                          <span>{t("viewOnGithubCta")}</span>
-                          <motion.span
-                            variants={{
-                              idle: { rotate: 0, color: "rgba(233, 213, 255, 1)" },
-                              hover: {
-                                rotate: 12,
-                                color: "rgba(255, 255, 255, 1)",
-                                transition: { type: "spring", stiffness: 300 }
-                              }
-                            }}
-                          >
-                            <Github className="h-4 w-4" aria-hidden="true" />
-                          </motion.span>
+                          <span className="z-10">{t("viewOnGithubCta")}</span>
+                          <Github className="h-4 w-4 transition-transform group-hover:rotate-12" />
                         </motion.a>
                       )}
                     </div>
@@ -452,7 +363,7 @@ export function ProjectModalContent({
               </motion.aside>
             </div>
 
-            <div className="h-px"></div>
+            <div className="h-px" /> {/* Bottom spacer for extra breathing room */}
 
           </MotionStack>
         </div>

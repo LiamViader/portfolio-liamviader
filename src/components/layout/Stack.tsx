@@ -1,7 +1,7 @@
 import clsx from "clsx";
 import { forwardRef, ReactNode, HTMLAttributes } from "react";
 
-type StackSize = "xs" | "sm" | "md" | "lg";
+type StackSize = "xs" | "sm" | "md" | "lg" | "xl";
 
 interface EyebrowProps extends HTMLAttributes<HTMLParagraphElement> {
   children: ReactNode;
@@ -21,6 +21,7 @@ export const Stack = forwardRef<HTMLParagraphElement, EyebrowProps>(
             sm: "gap-3 sm:gap-4",
             md: "gap-5 sm:gap-6",
             lg: "gap-8 sm:gap-10",
+            xl: "gap-10 sm:gap-12 lg:gap-16",
           }[size],
           className
         )}
