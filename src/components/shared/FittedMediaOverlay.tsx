@@ -11,6 +11,7 @@ import {
 import { AnimatePresence, motion } from "framer-motion";
 import { createPortal } from "react-dom";
 import Image from "next/image";
+import { Loader2 } from "lucide-react";
 
 export type BaseMediaItem = {
   type: "image" | "video" | "externalVideo";
@@ -192,6 +193,22 @@ function InnerFittedOverlay({
       onClick={onClose}
     >
       {overlayControls}
+
+      <AnimatePresence>
+        {!mediaReady && (
+          <motion.div
+            key="spinner"
+            className="absolute inset-0 z-[50] flex items-center justify-center"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+          >
+            <Loader2 className="h-10 w-10 animate-spin text-white/50" />
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       <motion.div
         className="relative flex w-auto max-w-[100svw] max-h-[100svh] flex-col overflow-y-auto overflow-x-hidden rounded-[28px] border border-white/10 bg-gray-950"
         initial={{ opacity: 0, scale: 0.96, y: 18 }}
