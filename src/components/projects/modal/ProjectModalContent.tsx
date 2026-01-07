@@ -299,19 +299,19 @@ export function ProjectModalContent({
                   size="md"
                   variants={modalItemVariants}
                 >
-                  <h3 className="text-xs font-bold uppercase tracking-[0.2em] text-slate-400">
+                  <h3 className="text-xs font-bold uppercase tracking-[0.2em] text-slate-300">
                     {t("technologiesTitle")}
                   </h3>
                   <div className="flex flex-wrap gap-2">
                     {tags.map((tag, idx) => (
                       <motion.span
                         key={`${project.id}-tag-${idx}`}
-                        className="cursor-default rounded-lg border border-white/10 bg-white/5 px-3 py-1.5 text-xs font-medium text-slate-300"
+                        className="cursor-default rounded-lg border border-white/10 bg-white/2 px-3 py-1.5 text-xs font-medium text-slate-300"
                         whileHover={{
                           y: -2,
                           scale: 1.05,
-                          backgroundColor: "rgba(165, 165, 265, 0.15)",
-                          borderColor: "rgba(186, 230, 253, 0.2)",
+                          backgroundColor: "rgba(165, 165, 265, 0.1)",
+                          borderColor: "rgba(186, 230, 253, 0.1)",
                           color: "#bae6fd",
                           boxShadow: "0 10px 15px -3px rgba(165, 165, 233, 0.2)"
                         }}
@@ -323,43 +323,71 @@ export function ProjectModalContent({
                   </div>
                 </MotionStack>
 
-                {(project.github_url || project.live_url) && (
+                {project.links && project.links.length > 0 && (
                   <MotionStack
                     size="md"
                     variants={modalItemVariants}
                   >
-                    <h3 className="text-xs font-bold uppercase tracking-[0.2em] text-slate-400">
+                    <h3 className="text-xs font-bold uppercase tracking-[0.2em] text-slate-300">
                       {t("exploreMoreTitle")}
                     </h3>
 
-                    <div className="flex flex-col gap-3 sm:flex-row md:flex-col">
-                      {project.live_url && (
-                        <motion.a
-                          href={project.live_url}
-                          target="_blank"
-                          rel="noreferrer"
-                          className="group relative flex flex-1 items-center justify-between rounded-xl border border-cyan-500/20 bg-gradient-to-r from-cyan-950/50 to-cyan-900/20 px-5 py-4 text-sm font-bold text-cyan-100 transition-all hover:border-cyan-500/40 hover:from-cyan-900/40 hover:to-cyan-800/30 hover:shadow-lg hover:shadow-cyan-900/20"
-                          whileHover={{ scale: 1.02 }}
-                          whileTap={{ scale: 0.98 }}
-                        >
-                          <span className="z-10">{t("liveDemoCta")}</span>
-                          <ExternalLink className="h-4 w-4 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
-                        </motion.a>
-                      )}
+                    <div className="flex flex-col gap-3">
+                      {project.links.map((link, idx) => {
+                        const Icon = link.icon === "Github" ? Github : ExternalLink;
 
-                      {project.github_url && (
-                        <motion.a
-                          href={project.github_url}
-                          target="_blank"
-                          rel="noreferrer"
-                          className="group relative flex flex-1 items-center justify-between rounded-xl border border-purple-500/20 bg-gradient-to-r from-purple-950/50 to-purple-900/20 px-5 py-4 text-sm font-bold text-purple-100 transition-all hover:border-purple-500/40 hover:from-purple-900/40 hover:to-purple-800/30 hover:shadow-lg hover:shadow-purple-900/20"
-                          whileHover={{ scale: 1.02 }}
-                          whileTap={{ scale: 0.98 }}
-                        >
-                          <span className="z-10">{t("viewOnGithubCta")}</span>
-                          <Github className="h-4 w-4 transition-transform group-hover:rotate-12" />
-                        </motion.a>
-                      )}
+                        return (
+                          <motion.a
+                            key={`${project.id}-link-${idx}`}
+                            href={link.url}
+                            target="_blank"
+                            rel="noreferrer"
+                            className="group relative flex w-full items-center gap-4 rounded-xl p-2 pr-5 border"
+                            initial="idle"
+                            whileHover="hover"
+                            whileTap={{ scale: 0.98 }}
+                            variants={{
+                              idle: {
+                                scale: 1,
+                                backgroundColor: "rgba(255, 255, 255, 0.02)",
+                                borderColor: "rgba(255, 255, 255, 0.1)"
+                              },
+                              hover: {
+                                scale: 1.02,
+                                backgroundColor: "rgba(255, 255, 255, 0.05)",
+                                borderColor: "rgba(255, 255, 255, 0.2)"
+                              }
+                            }}
+                            transition={{ duration: 0.2 }}
+                          >
+                            <motion.div
+                              className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg text-white shadow-sm"
+                              style={{ backgroundColor: link.primaryColor }}
+                              variants={{
+                                hover: {
+                                  backgroundColor: link.secondaryColor || link.primaryColor,
+                                }
+                              }}
+                              transition={{ duration: 0.2 }}
+                            >
+                              <motion.div
+                                variants={{
+                                  hover: { rotate: 12, scale: 1.1 }
+                                }}
+                                transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                              >
+                                <Icon className="h-5 w-5" />
+                              </motion.div>
+                            </motion.div>
+
+                            <span className="text-sm font-bold text-slate-200 group-hover:text-white">
+                              {link.label}
+                            </span>
+
+                            <ExternalLink className="ml-auto h-4 w-4 text-slate-500 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-white" />
+                          </motion.a>
+                        );
+                      })}
                     </div>
                   </MotionStack>
                 )}

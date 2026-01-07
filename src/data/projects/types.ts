@@ -34,13 +34,21 @@ export interface ProjectMediaItem {
   translations: Record<Locale, ProjectMediaLocalization>;
 }
 
+export interface ProjectLink {
+  url: string;
+  label: string;
+  type: "github" | "live" | "document" | "other";
+  icon?: string;
+  primaryColor?: string;
+  secondaryColor?: string;
+}
+
 export interface ProjectData {
   id: number; // generated automatically
   slug: string; // for URLs
   tags: string[];
   media_preview: string;
-  github_url?: string;
-  live_url?: string;
+  links: ProjectLink[];
   detailed_media: ProjectMediaItem[];
   categories: ProjectCategory[];
   is_featured?: boolean;

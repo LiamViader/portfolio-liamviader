@@ -67,7 +67,7 @@ export function ProjectMediaGallery({
               return (
                 <motion.figure
                   key={`${project.id}-media-${idx}`}
-                  className="group flex h-full flex-col overflow-hidden rounded-2xl border border-white/5 transition-colors hover:bg-white/[0.02]"
+                  className="group flex h-full flex-col overflow-hidden rounded-2xl border border-white/5 transition-colors bg-white/2 hover:bg-white/5"
                   variants={modalItemVariants}
                   initial="hidden"
                   animate={animationState}
@@ -125,7 +125,7 @@ export function ProjectMediaGallery({
                         </div>
                       )}
                       {item.description && (
-                        <p className="text-sm leading-relaxed text-white/75 font-light">
+                        <p className="text-sm leading-relaxed text-slate-400 font-light">
                           {item.description}
                         </p>
                       )}

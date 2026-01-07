@@ -15,7 +15,16 @@ export const AIDrivenGeneratedGame: ProjectDefinition = {
     "OpenAI API",
   ],
   media_preview: "/images/projects/ai_driven_generated_game/preview.png",
-  github_url: "https://github.com/LiamViader/tfg-ai-driven-generated-game",
+  links: [
+    {
+      url: "https://github.com/LiamViader/tfg-ai-driven-generated-game",
+      label: "GitHub",
+      type: "github",
+      icon: "Github",
+      primaryColor: "#9625ffff",
+      secondaryColor: "#a855f7",
+    },
+  ],
   detailed_media: [
     {
       type: "externalVideo",
