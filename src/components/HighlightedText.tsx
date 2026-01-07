@@ -28,9 +28,6 @@ export function HighlightedText({ nodes }: HighlightedTextProps) {
           <motion.span
             key={i}
             className={styleClass}
-            initial={{ opacity: 0, y: 2 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.20 }}
           >
             {content}
           </motion.span>
