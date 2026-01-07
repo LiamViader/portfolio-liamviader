@@ -277,7 +277,7 @@ export function ProjectModalContent({
 
             {project.detailed_media?.length ? (
               <>
-                <div className="my-2 h-px w-full bg-gradient-to-r from-transparent via-sky-300/10 to-sky-300/30" />
+                <div className="my-2 h-px w-full bg-gradient-to-r from-transparent via-slate-400/10 to-slate-400/20" />
                 <ProjectMediaGallery
                   project={project}
                   closeLabel={closeLabel}
@@ -286,7 +286,7 @@ export function ProjectModalContent({
               </>
             ) : null}
 
-            <div className="my-2 h-px w-full bg-gradient-to-r from-sky-300/30 via-sky-300/10 to-transparent" />
+            <div className="my-2 h-px w-full bg-gradient-to-r from-slate-400/20 via-slate-400/10 to-transparent" />
 
             <div className="px-1">
               <motion.aside
