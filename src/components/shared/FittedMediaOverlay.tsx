@@ -149,7 +149,7 @@ function InnerFittedOverlay({
 
   return (
     <motion.div
-      className="fixed inset-0 z-[1000000] flex items-center justify-center bg-black/80 p-3 sm:p-6 overflow-hidden"
+      className="fixed inset-0 z-[1000000] flex items-center justify-center bg-black/80 p-2 sm:p-6 overflow-hidden"
       role="dialog"
       aria-modal="true"
       aria-label={buildMediaLabel(activeMedia) || activeMedia.alt || title}
@@ -311,8 +311,12 @@ function FittedImage({
     (r: number) => {
       if (typeof window === "undefined") return;
 
-      const maxW = window.innerWidth * 0.8;
-      const baseMaxH = window.innerHeight * 0.8;
+      const isMobile = window.innerWidth < 640;
+      const widthFactor = isMobile ? 0.98 : 0.8;
+      const heightFactor = isMobile ? 0.90 : 0.8;
+
+      const maxW = window.innerWidth * widthFactor;
+      const baseMaxH = window.innerHeight * heightFactor;
       const maxH = Math.max(0, baseMaxH - captionHeight);
 
       const { w, h } = fitContain(r, maxW, maxH);
@@ -418,9 +422,9 @@ function NativeVideoContent({
       controls
       autoPlay
       playsInline
+      className="max-w-[95svw] sm:max-w-[80svw]"
       style={{
-        maxWidth: "80svw",
-        maxHeight: `calc(80svh - ${captionHeight}px)`,
+        maxHeight: `calc(90svh - ${captionHeight}px)`,
         width: "auto",
         height: "auto",
         display: "block",
@@ -456,8 +460,12 @@ function ExternalVideoContained({
     };
 
     const update = () => {
-      const maxW = roundToDpr(window.innerWidth * 0.8);
-      const baseMaxH = roundToDpr(window.innerHeight * 0.8);
+      const isMobile = window.innerWidth < 640;
+      const widthFactor = isMobile ? 0.98 : 0.8;
+      const heightFactor = isMobile ? 0.90 : 0.8;
+
+      const maxW = roundToDpr(window.innerWidth * widthFactor);
+      const baseMaxH = roundToDpr(window.innerHeight * heightFactor);
       const maxH = Math.max(0, baseMaxH - captionHeight);
       const { w, h } = fitContain(ratio, maxW, maxH);
       setBox({ w, h });
