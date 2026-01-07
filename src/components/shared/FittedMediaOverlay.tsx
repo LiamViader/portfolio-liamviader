@@ -113,6 +113,9 @@ function InnerFittedOverlay({
 }: InnerFittedOverlayProps) {
   const captionRef = useRef<HTMLDivElement | null>(null);
   const [captionHeight, setCaptionHeight] = useState(0);
+  const [contentDims, setContentDims] = useState<{ w: number; h: number } | null>(
+    null,
+  );
 
   const recalcCaption = useCallback(() => {
     const h = captionRef.current ? captionRef.current.offsetHeight : 0;
@@ -213,6 +216,7 @@ function InnerFittedOverlay({
             title={title}
             captionHeight={captionHeight}
             onReady={onMediaReady}
+            onDimensionsChange={setContentDims}
           />
         </div>
 
@@ -220,6 +224,7 @@ function InnerFittedOverlay({
           <div
             ref={captionRef}
             className="shrink-0 space-y-2 border-t border-white/10 bg-gray-950 px-6 py-5"
+            style={{ maxWidth: contentDims?.w }}
           >
             {(buildMediaLabel(activeMedia) || title) && (
               <p className="mb-1 text-[0.70rem] font-bold uppercase tracking-wider text-sky-300">
@@ -244,11 +249,13 @@ function MediaFittedContent({
   title,
   captionHeight,
   onReady,
+  onDimensionsChange,
 }: {
   media: BaseMediaItem;
   title: string;
   captionHeight: number;
   onReady: () => void;
+  onDimensionsChange: (dims: { w: number; h: number }) => void;
 }) {
   if (media.type === "image") {
     return (
@@ -257,6 +264,7 @@ function MediaFittedContent({
         alt={media.alt ?? title}
         captionHeight={captionHeight}
         onReady={onReady}
+        onDimensionsChange={onDimensionsChange}
       />
     );
   }
@@ -267,6 +275,7 @@ function MediaFittedContent({
         media={media}
         captionHeight={captionHeight}
         onReady={onReady}
+        onDimensionsChange={onDimensionsChange}
       />
     );
   }
@@ -277,6 +286,7 @@ function MediaFittedContent({
       title={title}
       captionHeight={captionHeight}
       onReady={onReady}
+      onDimensionsChange={onDimensionsChange}
     />
   );
 }
@@ -286,11 +296,13 @@ function FittedImage({
   alt,
   captionHeight,
   onReady,
+  onDimensionsChange,
 }: {
   src: string;
   alt: string;
   captionHeight: number;
   onReady: () => void;
+  onDimensionsChange: (dims: { w: number; h: number }) => void;
 }) {
   const [box, setBox] = useState<{ w: number; h: number } | null>(null);
   const [ratio, setRatio] = useState<number | null>(null);
@@ -327,6 +339,12 @@ function FittedImage({
     return () => window.removeEventListener("resize", onResize);
   }, [ratio, recomputeBox]);
 
+  useEffect(() => {
+    if (box) {
+      onDimensionsChange(box);
+    }
+  }, [box, onDimensionsChange]);
+
   const style: React.CSSProperties = box
     ? {
       width: `${box.w}px`,
@@ -360,17 +378,41 @@ function NativeVideoContent({
   media,
   captionHeight,
   onReady,
+  onDimensionsChange,
 }: {
   media: BaseMediaItem;
   captionHeight: number;
   onReady: () => void;
+  onDimensionsChange: (dims: { w: number; h: number }) => void;
 }) {
+  const videoRef = useRef<HTMLVideoElement>(null);
+
   useEffect(() => {
     onReady();
   }, [onReady]);
 
+  useLayoutEffect(() => {
+    if (!videoRef.current) return;
+    const el = videoRef.current;
+
+    const report = () => {
+      // Use getBoundingClientRect for rendered size
+      const rect = el.getBoundingClientRect();
+      if (rect.width > 0 && rect.height > 0) {
+        onDimensionsChange({ w: rect.width, h: rect.height });
+      }
+    };
+
+    const ro = new ResizeObserver(() => report());
+    ro.observe(el);
+    report(); // initial
+
+    return () => ro.disconnect();
+  }, [onDimensionsChange]);
+
   return (
     <video
+      ref={videoRef}
       src={media.src}
       poster={media.poster ?? media.thumbnail}
       controls
@@ -393,11 +435,13 @@ function ExternalVideoContained({
   title,
   captionHeight,
   onReady,
+  onDimensionsChange,
 }: {
   media: BaseMediaItem;
   title: string;
   captionHeight: number;
   onReady: () => void;
+  onDimensionsChange: (dims: { w: number; h: number }) => void;
 }) {
   const wrapperRef = useRef<HTMLDivElement | null>(null);
   const [box, setBox] = useState({ w: 0, h: 0 });
@@ -427,6 +471,12 @@ function ExternalVideoContained({
   useEffect(() => {
     onReady();
   }, [onReady]);
+
+  useEffect(() => {
+    if (box.w > 0 && box.h > 0) {
+      onDimensionsChange(box);
+    }
+  }, [box, onDimensionsChange]);
 
   return (
     <div
