@@ -30,8 +30,8 @@ export const EXPERIENCE_PATH: TimelineItem[] = [
       en: "eXiT Research Group · Universitat de Girona",
     },
     description: {
-      es: "Proyecto en Python desarrollado en solitario: diseño e implementación desde cero de un simulador de comunidades energéticas. Modelado de hogares con distintos activos y patrones de uso configurables, generación de perfiles de consumo y producción y algoritmos para repartir energía y calcular costes dentro de la comunidad.",
-      en: "A solo Python project: designed and implemented from scratch, it’s a simulator for energy communities. It includes modeling households with configurable assets and usage patterns, generating consumption and production profiles, and implementing algorithms to distribute energy and calculate costs within the community.",
+      es: "Proyecto en Python desarrollado en solitario: diseñé e implementé desde cero un simulador de comunidades energéticas, incluyendo algoritmos que modelan hogares con activos y patrones de uso configurables, generan automáticamente perfiles de consumo y producción, y reparten energía y calculan costes dentro de la comunidad.",
+      en: "Python project developed individually: designed and implemented from scratch a simulator for energy communities, including algorithms that model households with configurable assets and usage patterns, automatically generate consumption and production profiles, and distribute energy and calculate costs within the community."
     },
   },
 ];
