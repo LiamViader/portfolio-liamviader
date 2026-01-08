@@ -12,8 +12,8 @@ export const ACADEMIC_PATH: TimelineItem[] = [
       en: "Universitat de Girona (UdG)",
     },
     description: {
-      es: "Media final de <highlight>9,07</highlight> y <highlight>18 matrículas de honor</highlight> durante el grado. Es una carrera muy centrada en informática (programación, estructuras de datos, arquitectura de software, redes, IA, cloud computing, informática gráfica, visión por computador...) y una parte aplicada a videojuegos y al diseño de sistemas interactivos.",
-      en: "Final average grade of <highlight>9.07</highlight> on a 10-point scale, with <highlight>18 high-distinction grades</highlight> earned throughout the degree. It's a program strongly focused on computer science (programming, data structures, software architecture, networks, AI, cloud computing, computer graphics, computer vision...) with an applied component in video games and interactive system design.",
+      es: "Graduado <highlight>primero de mi promoción</highlight> con una media final de <highlight>9,07</highlight> y <highlight>18 matrículas de honor</highlight> durante el grado. Es una carrera muy centrada en informática (programación, estructuras de datos, arquitectura de software, redes, IA, cloud computing, informática gráfica, visión por computador...) y una parte aplicada a videojuegos y al diseño de sistemas interactivos.",
+      en: "Graduated <highlight>first of my promotion</highlight> with a final average grade of <highlight>9.07 on a 10-point scale</highlight>, with <highlight>18 high-distinction grades</highlight> earned throughout the degree. It's a program strongly focused on computer science (programming, data structures, software architecture, networks, AI, cloud computing, computer graphics, computer vision...) with an applied component in video games and interactive system design.",
     },
   },
 ];
