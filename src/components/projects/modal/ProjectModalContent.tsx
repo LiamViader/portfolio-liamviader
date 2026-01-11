@@ -267,7 +267,7 @@ export function ProjectModalContent({
                     ref={overviewToggleRef}
                     type="button"
                     onClick={handleToggleExpand}
-                    className="group mt-2 inline-flex items-center text-sm font-semibold text-sky-300 transition-colors hover:text-sky-200 cursor-pointer hover:underline"
+                    className="group mt-2 w-fit inline-flex items-center text-sm font-semibold text-sky-300 transition-colors hover:text-sky-200 cursor-pointer hover:underline"
                   >
                     <span>{isExpanded ? t("read_less") : t("read_more")}</span>
                   </button>
