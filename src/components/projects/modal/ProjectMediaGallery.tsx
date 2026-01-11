@@ -76,7 +76,7 @@ export function ProjectMediaGallery({
                     type="button"
                     onClick={() => openMedia(idx)}
                     aria-label={buttonLabel}
-                    className="flex h-full w-full flex-col cursor-pointer overflow-hidden rounded-2xl border border-white/5 bg-white/2 text-left transition-colors hover:bg-white/5"
+                    className="flex h-full w-full flex-col cursor-pointer overflow-hidden rounded-2xl border border-white/8 bg-white/4 text-left transition-colors hover:bg-white/8 hover:border-white/10"
                     initial="idle"
                     whileHover="hover"
                     animate="idle"

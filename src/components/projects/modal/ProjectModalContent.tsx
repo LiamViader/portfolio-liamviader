@@ -306,11 +306,9 @@ export function ProjectModalContent({
                     {tags.map((tag, idx) => (
                       <motion.span
                         key={`${project.id}-tag-${idx}`}
-                        className="cursor-default rounded-lg border border-white/10 bg-white/2 px-3 py-1.5 text-xs font-medium text-slate-300"
+                        className="cursor-default rounded-lg border border-white/8 bg-white/4 px-3 py-1.5 text-xs font-medium text-slate-300"
                         whileHover={{
-                          backgroundColor: "rgba(255, 255, 255, 0.1)",
-                          borderColor: "rgba(255, 255, 255, 0.15)",
-                          color: "#bae6fd",
+                          scale: 1.05,
                         }}
                         transition={{ duration: 0.2 }}
                       >
@@ -339,20 +337,20 @@ export function ProjectModalContent({
                             href={link.url}
                             target="_blank"
                             rel="noreferrer"
-                            className="group relative flex w-full items-center gap-4 rounded-xl p-2 pr-5 border"
+                            className="group relative flex w-full items-center gap-4 rounded-xl px-4 py-3 border shadow-sm"
                             initial="idle"
                             whileHover="hover"
                             whileTap={{ scale: 0.98 }}
                             variants={{
                               idle: {
                                 scale: 1,
-                                backgroundColor: "rgba(255, 255, 255, 0.02)",
-                                borderColor: "rgba(255, 255, 255, 0.1)"
+                                backgroundColor: "rgba(255, 255, 255, 0.04)",
+                                borderColor: "rgba(255, 255, 255, 0.08)",
                               },
                               hover: {
-                                backgroundColor: "rgba(255, 255, 255, 0.1)",
-                                borderColor: "rgba(255, 255, 255, 0.2)"
-                              }
+                                backgroundColor: "rgba(255, 255, 255, 0.08)",
+                                borderColor: "rgba(255, 255, 255, 0.1)",
+                              },
                             }}
                             transition={{ duration: 0.2 }}
                           >
@@ -380,7 +378,20 @@ export function ProjectModalContent({
                               {link.label}
                             </span>
 
-                            <ExternalLink className="ml-auto h-4 w-4 text-slate-500 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-white" />
+                            <motion.span
+                              className="ml-auto flex items-center justify-center"
+                              variants={{
+                                idle: {
+                                  color: "rgba(255, 255, 255, 0.3)",
+                                },
+                                hover: {
+                                  color: "rgba(255, 255, 255, 0.9)",
+                                },
+                              }}
+                              transition={{ duration: 0.2 }}
+                            >
+                              <ExternalLink className="h-4 w-4 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+                            </motion.span>
                           </motion.a>
                         );
                       })}
