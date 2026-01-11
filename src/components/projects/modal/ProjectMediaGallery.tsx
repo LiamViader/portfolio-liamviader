@@ -67,7 +67,7 @@ export function ProjectMediaGallery({
               return (
                 <motion.figure
                   key={`${project.id}-media-${idx}`}
-                  className="group flex h-full flex-col overflow-hidden rounded-2xl border border-white/5 transition-colors bg-white/2 hover:bg-white/5"
+                  className="group flex h-full flex-col overflow-hidden"
                   variants={modalItemVariants}
                   initial="hidden"
                   animate={animationState}
@@ -76,8 +76,7 @@ export function ProjectMediaGallery({
                     type="button"
                     onClick={() => openMedia(idx)}
                     aria-label={buttonLabel}
-                    className="relative block w-full cursor-pointer overflow-hidden"
-
+                    className="flex h-full w-full flex-col cursor-pointer overflow-hidden rounded-2xl border border-white/5 bg-white/2 text-left transition-colors hover:bg-white/5"
                     initial="idle"
                     whileHover="hover"
                     animate="idle"
@@ -90,47 +89,49 @@ export function ProjectMediaGallery({
                           className="h-full w-full object-cover will-change-transform"
                           variants={{
                             idle: { scale: 1, transition: { duration: 0.2 } },
-                            hover: { scale: 1.05, transition: { duration: 0.4 } }
+                            hover: { scale: 1.05, transition: { duration: 0.4 } },
                           }}
                         />
                       ) : item.type === "video" ? (
-                        <video src={item.src} poster={item.poster} className="h-full w-full object-cover" muted playsInline />
+                        <video
+                          src={item.src}
+                          poster={item.poster}
+                          className="h-full w-full object-cover"
+                          muted
+                          playsInline
+                        />
                       ) : (
                         <div className="flex h-full w-full items-center justify-center text-sm text-slate-600">
                           Image not found
                         </div>
                       )}
 
-                      <motion.div
-                        className="absolute inset-0 bg-black/20 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
-                      />
+                      <motion.div className="absolute inset-0 bg-black/20 opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
 
                       {isVideoMedia(item) && (
                         <div className="absolute inset-0 flex items-center justify-center">
-                          <div
-                            className="flex h-12 w-12 items-center justify-center rounded-full bg-gray-950/90 text-sky-300 transition-transform duration-300 group-hover:scale-110 group-hover:bg-sky-500/90 group-hover:text-sky-100"
-                          >
+                          <div className="flex h-12 w-12 items-center justify-center rounded-full bg-gray-950/90 text-sky-300 transition-transform duration-300 group-hover:scale-110 group-hover:bg-sky-500/90 group-hover:text-sky-100">
                             <Play className="h-5 w-5 fill-current" />
                           </div>
                         </div>
                       )}
                     </div>
-                  </motion.button>
 
-                  {(figureLabel || item.description || item.alt) && (
-                    <figcaption className="flex-1 border-t border-white/5 px-4 py-3 text-left">
-                      {(figureLabel || item.alt) && (
-                        <div className="mb-1 text-[0.65rem] font-bold uppercase tracking-wider text-sky-300">
-                          {figureLabel || item.alt}
-                        </div>
-                      )}
-                      {item.description && (
-                        <p className="text-sm leading-relaxed text-slate-400 font-light">
-                          {item.description}
-                        </p>
-                      )}
-                    </figcaption>
-                  )}
+                    {(figureLabel || item.description || item.alt) && (
+                      <figcaption className="flex-1 border-t border-white/5 px-4 py-3 text-left">
+                        {(figureLabel || item.alt) && (
+                          <div className="mb-1 text-[0.65rem] font-bold uppercase tracking-wider text-sky-300">
+                            {figureLabel || item.alt}
+                          </div>
+                        )}
+                        {item.description && (
+                          <p className="font-light text-sm leading-relaxed text-slate-400">
+                            {item.description}
+                          </p>
+                        )}
+                      </figcaption>
+                    )}
+                  </motion.button>
                 </motion.figure>
               );
             })}
