@@ -308,12 +308,9 @@ export function ProjectModalContent({
                         key={`${project.id}-tag-${idx}`}
                         className="cursor-default rounded-lg border border-white/10 bg-white/2 px-3 py-1.5 text-xs font-medium text-slate-300"
                         whileHover={{
-                          y: -2,
-                          scale: 1.05,
-                          backgroundColor: "rgba(165, 165, 265, 0.1)",
-                          borderColor: "rgba(186, 230, 253, 0.1)",
+                          backgroundColor: "rgba(255, 255, 255, 0.1)",
+                          borderColor: "rgba(255, 255, 255, 0.15)",
                           color: "#bae6fd",
-                          boxShadow: "0 10px 15px -3px rgba(165, 165, 233, 0.2)"
                         }}
                         transition={{ duration: 0.2 }}
                       >
@@ -353,8 +350,7 @@ export function ProjectModalContent({
                                 borderColor: "rgba(255, 255, 255, 0.1)"
                               },
                               hover: {
-                                scale: 1.02,
-                                backgroundColor: "rgba(255, 255, 255, 0.05)",
+                                backgroundColor: "rgba(255, 255, 255, 0.1)",
                                 borderColor: "rgba(255, 255, 255, 0.2)"
                               }
                             }}

@@ -87,10 +87,10 @@ export function ProjectMediaGallery({
                         <motion.img
                           src={previewSource}
                           alt={item.alt ?? fallbackTitle}
-                          className="h-full w-full object-cover transition-transform duration-500 will-change-transform group-hover:scale-105"
+                          className="h-full w-full object-cover will-change-transform"
                           variants={{
-                            idle: { scale: 1 },
-                            hover: { scale: 1.05 }
+                            idle: { scale: 1, transition: { duration: 0.2 } },
+                            hover: { scale: 1.05, transition: { duration: 0.4 } }
                           }}
                         />
                       ) : item.type === "video" ? (
