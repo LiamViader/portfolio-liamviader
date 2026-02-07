@@ -17,6 +17,8 @@ import { Container } from "@/components/layout/Container";
 import { ShowcaseBlock } from "@/components/layout/ShowcaseBlock";
 import { ContentBlock } from "@/components/layout/ContentBlock";
 import { Stack } from "@/components/layout/Stack";
+import { BASE_DELAY_ENTRANCE } from "@/utils/constants";
+
 
 interface ClientProjectsPageProps {
   projectsData: TranslatedProject[];
@@ -34,7 +36,8 @@ const createHeroContainerVariants = (animated: boolean): Variants => ({
     filter: "blur(0px)",
     transition: animated
       ? {
-        duration: 0.6,
+        delay: BASE_DELAY_ENTRANCE,
+        duration: 0,
         ease: "easeOut",
         when: "beforeChildren",
         staggerChildren: 0.18,
@@ -57,6 +60,26 @@ const createHeroChildVariants = (animated: boolean): Variants => ({
     y: 0,
     transition: animated
       ? {
+        duration: 0.6,
+        ease: "easeOut",
+      }
+      : {
+        duration: 0,
+      },
+  },
+});
+
+const createlineVariants = (animated: boolean): Variants => ({
+  hidden: {
+    opacity: 0,
+    scale: animated ? 0.1 : 0.99
+  },
+  show: {
+    opacity: 1,
+    scale: 0.99,
+    transition: animated
+      ? {
+        delay: BASE_DELAY_ENTRANCE - 0.2,
         duration: 0.6,
         ease: "easeOut",
       }
@@ -106,6 +129,7 @@ export default function ClientProjectsPage({ projectsData }: ClientProjectsPageP
 
   const heroContainerVariants = createHeroContainerVariants(entranceAnimationsEnabled);
   const heroChildVariants = createHeroChildVariants(entranceAnimationsEnabled);
+  const lineVariants = createlineVariants(entranceAnimationsEnabled);
 
   const overlays = (
     <>
@@ -159,7 +183,7 @@ export default function ClientProjectsPage({ projectsData }: ClientProjectsPageP
               </MotionStack>
             </ShowcaseBlock>
           </Container>
-          <div className="hidden xl:block h-px w-full bg-gradient-to-r from-transparent via-white/20 to-transparent w-5xl mx-auto"></div>
+          <motion.div variants={lineVariants} initial="hidden" animate="show" className="hidden xl:block h-px w-full bg-gradient-to-r from-transparent via-white/20 to-transparent w-5xl mx-auto"></motion.div>
           <FeaturedProjectsSection
             projects={projectsData}
             replaceUrl={true}
