@@ -70,7 +70,7 @@ export const AIDrivenGeneratedGame: ProjectDefinition = {
   is_featured: true,
   translations: {
     en: {
-      title: "AI Generated and Directed Videogame",
+      title: "AI-Orchestrated Videogame",
       short_description:
         "A multi-agent AI system that generates and directs the visual, narrative, and structural components of a video game based on an initial prompt.",
       full_description: `This project consists of a <highlight type="important">multi-agent artificial intelligence</highlight> system capable of generating and directing a <highlight type="important">complete video game</highlight> from a player's initial prompt. The proposal goes beyond simple text generation, establishing a <highlight type="accent">modular architecture</highlight> where different <highlight type="soft">LLM-based</highlight> agents collaborate to define the game's narrative, structure, and visual style. The system is designed to function as a <highlight type="glow">director</highlight>, coordinating decisions and adapting the experience based on context and player actions.
@@ -89,7 +89,7 @@ export const AIDrivenGeneratedGame: ProjectDefinition = {
       role: "Creator, Designer, and Developer of the Full Project",
     },
     es: {
-      title: "Videojuego generado y dirigido por IA",
+      title: "Videojuego Orquestrado por IA",
       short_description:
         "Sistema multiagente de IA que genera y dirige los componentes visuales, narrativos y estructurales de un videojuego a partir de una prompt inicial.",
       full_description: `Este proyecto consiste en un sistema de <highlight type="important">inteligencia artificial multiagente</highlight> capaz de generar y dirigir un <highlight type="important">videojuego completo</highlight> a partir de una prompt inicial del jugador. La propuesta no se limita a generar texto, sino que establece una <highlight type="accent">arquitectura modular</highlight> donde distintos agentes basados en <highlight type="soft">LLMs</highlight> colaboran para definir la narrativa, la estructura y el apartado visual del juego. La intención es que el sistema funcione como un <highlight type="glow">director</highlight> capaz de coordinar decisiones y adaptar la experiencia en función del contexto y de las acciones del jugador.
