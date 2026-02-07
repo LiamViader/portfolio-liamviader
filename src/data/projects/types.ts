@@ -46,6 +46,7 @@ export interface ProjectLink {
 export interface ProjectData {
   id: number; // generated automatically
   slug: string; // for URLs
+  date?: string; // YYYY-MM-DD
   tags: string[];
   media_preview: string;
   links: ProjectLink[];

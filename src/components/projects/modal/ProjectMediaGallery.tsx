@@ -66,7 +66,7 @@ export function ProjectMediaGallery({
               return (
                 <motion.figure
                   key={`${project.id}-media-${idx}`}
-                  className="group flex h-full flex-col overflow-hidden"
+                  className="group flex h-full flex-col"
                   variants={modalItemVariants}
                   initial="hidden"
                   animate={animationState}
@@ -81,12 +81,24 @@ export function ProjectMediaGallery({
                     animate="idle"
                     variants={{
                       idle: {
+                        scale: 1,
+                        y: 0,
                         borderColor: "rgba(255, 255, 255, 0.08)",
                         backgroundColor: "rgba(255, 255, 255, 0.04)",
+                        transition: {
+                          duration: 0.2,
+                          ease: "easeOut",
+                        },
                       },
                       hover: {
-                        borderColor: "rgba(255, 255, 255, 0.2)",
+                        scale: 1.01,
+                        y: -1,
+                        borderColor: "rgba(255, 255, 255, 0.16)",
                         backgroundColor: "rgba(255, 255, 255, 0.1)",
+                        transition: {
+                          duration: 0.2,
+                          ease: "easeOut",
+                        },
                       },
                     }}
                   >

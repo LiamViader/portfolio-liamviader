@@ -2,7 +2,7 @@
 
 import { AnimatePresence, LayoutGroup, Variants, motion } from "framer-motion";
 import { type TranslatedProject } from "@/data/projects/types";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useMemo } from "react";
 import { measureStableRect } from "@/utils/measureStableRect";
 
 import ProjectCard from "../card/ProjectCard";
@@ -54,9 +54,16 @@ export default function ProjectsGrid({
   useTransparent,
   backgroundColor
 }: ProjectsGridProps) {
+  const sortedProjects = useMemo(() => {
+    return [...projects].sort((a, b) => {
+      if (!a.date) return 1;
+      if (!b.date) return -1;
+      return b.date.localeCompare(a.date);
+    });
+  }, [projects]);
 
   const { selected, revealOrigin, selectProject, closeProject, markOriginRevealed, projectFromUrl } =
-    useProjectSelection(projects, { replaceUrl: replaceUrl, allowUrlOpen: allowUrlOpen, deferUrlTrigger: true });
+    useProjectSelection(sortedProjects, { replaceUrl: replaceUrl, allowUrlOpen: allowUrlOpen, deferUrlTrigger: true });
   const cardRefs = useRef<CardRegistry>(new Map());
 
   const setCardRef = (id: number) => (node: HTMLElement | null) => {
@@ -103,11 +110,10 @@ export default function ProjectsGrid({
       <LayoutGroup id="projects">
         <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 px-2 md:px-4">
           <AnimatePresence mode="popLayout" initial={true}>
-            {projects.map((project, index) => (
+            {sortedProjects.map((project, index) => (
               <motion.div
                 key={project.id}
                 layout="position"
-
                 custom={index}
                 variants={itemVariants}
                 initial="hidden"

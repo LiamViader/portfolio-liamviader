@@ -2,6 +2,7 @@ import { ProjectDefinition } from "./types";
 
 export const AIDrivenGeneratedGame: ProjectDefinition = {
   slug: "ai-driven-generated-game",
+  date: "2024-07",
   tags: [
     "Python",
     "C#",
@@ -21,8 +22,8 @@ export const AIDrivenGeneratedGame: ProjectDefinition = {
       label: "GitHub",
       type: "github",
       icon: "Github",
-      primaryColor: "#9625ffff",
-      secondaryColor: "#a855f7",
+      primaryColor: "rgba(150, 37, 255, 0.7)",
+      secondaryColor: "rgba(168, 85, 247, 1)",
     },
   ],
   detailed_media: [

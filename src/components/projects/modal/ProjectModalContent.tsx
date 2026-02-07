@@ -3,7 +3,7 @@
 import { useRef, useState, useMemo, useEffect } from "react";
 import { motion, type Variants, useScroll, useTransform, useSpring } from "framer-motion";
 import { ExternalLink, Github, Sparkles } from "lucide-react";
-import { useTranslations } from "next-intl";
+import { useTranslations, useFormatter } from "next-intl";
 import Image from "next/image";
 
 import { type TranslatedProject } from "@/data/projects/types";
@@ -36,6 +36,15 @@ export function ProjectModalContent({
   onClose,
 }: ProjectModalContentProps) {
   const t = useTranslations("ProjectModal");
+  const format = useFormatter();
+
+  const dateLabel = project.date
+    ? format.dateTime(new Date(project.date), {
+      month: "short",
+      year: "numeric",
+    })
+    : null;
+
   const tags = project.tags ?? [];
   const categories = project.categories ?? [];
 
@@ -228,6 +237,11 @@ export function ProjectModalContent({
                       {t("featuredBadge")}
                     </span>
                   )}
+                  {dateLabel && (
+                    <span className="text-[0.65rem] tracking-widest text-slate-500 uppercase">
+                      {dateLabel}
+                    </span>
+                  )}
                   {categoryLabels.length > 0 && (
                     <span className="text-[0.65rem] tracking-widest text-slate-400">
                       {categoryLabels.join(" • ")}
@@ -320,10 +334,14 @@ export function ProjectModalContent({
                             whileTap={{ scale: 0.98 }}
                             variants={{
                               idle: {
+                                scale: 1,
+                                y: 0,
                                 backgroundColor: "rgba(255, 255, 255, 0.08)",
                                 borderColor: "rgba(255, 255, 255, 0.15)",
                               },
                               hover: {
+                                scale: 1.01,
+                                y: -1,
                                 backgroundColor: "rgba(255, 255, 255, 0.15)",
                                 borderColor: "rgba(255, 255, 255, 0.2)",
                               },
