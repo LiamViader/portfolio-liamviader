@@ -105,7 +105,7 @@
     "project_gallery_title": "Galería completa",
     "project_gallery_description": "Explora el archivo completo y filtra por área para encontrar aquello que más te llame la atención dentro de mi trabajo.",
     "projects": "Proyectos",
-    "ai": "IA y Software",
+    "ai": "IA",
     "all": "Todos",
     "games": "Videojuegos",
     "intro_paragraph": "¡Bienvenido a mi página de proyectos! Aquí encontrarás una selección de proyectos que hice para aprender, probar ideas o simplemente por gusto.",
@@ -171,7 +171,7 @@
     "viewOnGithubCta": "Ver en GitHub",
     "featuredBadge": "Destacado",
     "categories": {
-      "AI": "IA y Software",
+      "AI": "IA",
       "Game": "Videojuegos"
     }
   }
