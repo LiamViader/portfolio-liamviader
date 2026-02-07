@@ -181,22 +181,32 @@ const getLocalizedValue = <T,>(
 
 type RichTextSegment =
   | { type: "text"; content: string }
-  | { type: "highlight"; content: string };
+  | { type: "highlight"; content: string }
+  | { type: "link"; content: string; src: string };
 
 const highlightRegex = /<highlight>(.*?)<\/highlight>/g;
+const linkRegex = /<link\s+src="([^"]+)">(.*?)<\/link>/g;
 
 function parseRichText(text: string): RichTextSegment[] {
   const segments: RichTextSegment[] = [];
+  const combinedRegex = new RegExp(`${highlightRegex.source}|${linkRegex.source}`, "g");
+
   let lastIndex = 0;
   let match: RegExpExecArray | null;
-  highlightRegex.lastIndex = 0;
 
-  while ((match = highlightRegex.exec(text)) !== null) {
+  while ((match = combinedRegex.exec(text)) !== null) {
     if (match.index > lastIndex) {
       segments.push({ type: "text", content: text.slice(lastIndex, match.index) });
     }
 
-    segments.push({ type: "highlight", content: match[1] ?? "" });
+    if (match[1] !== undefined) {
+      // Highlight match (group 1 is content)
+      segments.push({ type: "highlight", content: match[1] });
+    } else if (match[2] !== undefined && match[3] !== undefined) {
+      // Link match (group 2 is src, group 3 is content)
+      segments.push({ type: "link", src: match[2], content: match[3] });
+    }
+
     lastIndex = match.index + match[0].length;
   }
 
@@ -222,6 +232,20 @@ function RichText({ text }: RichTextProps) {
             <span key={`highlight-${index}`} className="font-semibold text-sky-200/90">
               {segment.content}
             </span>
+          );
+        }
+
+        if (segment.type === "link") {
+          return (
+            <a
+              key={`link-${index}`}
+              href={segment.src}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="font-medium text-sky-300 hover:text-sky-200 hover:underline underline-offset-4 decoration-sky-300 transition-colors"
+            >
+              {segment.content}
+            </a>
           );
         }
 
