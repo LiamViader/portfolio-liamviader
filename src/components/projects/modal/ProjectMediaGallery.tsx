@@ -127,7 +127,7 @@ export function ProjectMediaGallery({
                         </div>
                       )}
 
-                      <motion.div className="absolute inset-0 bg-black/20 opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+                      <motion.div className="absolute inset-0 bg-white/10 opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
 
                       {isVideoMedia(item) && (
                         <div className="absolute inset-0 flex items-center justify-center">

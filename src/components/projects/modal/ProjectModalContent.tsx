@@ -2,7 +2,7 @@
 
 import { useRef, useState, useMemo, useEffect } from "react";
 import { motion, type Variants, useScroll, useTransform, useSpring } from "framer-motion";
-import { ExternalLink, Github, Sparkles } from "lucide-react";
+import { ExternalLink, Github, Sparkles, Play, LucideIcon } from "lucide-react";
 import { useTranslations, useFormatter } from "next-intl";
 import Image from "next/image";
 
@@ -27,6 +27,12 @@ interface ProjectModalContentProps {
   closing: boolean;
   onClose: () => void;
 }
+
+const ICON_MAP: Record<string, LucideIcon> = {
+  Github: Github,
+  ExternalLink: ExternalLink,
+  Play: Play,
+};
 
 const MotionStack = motion(Stack);
 
@@ -320,7 +326,7 @@ export function ProjectModalContent({
 
                     <div className="flex flex-col gap-3">
                       {project.links.map((link, idx) => {
-                        const Icon = link.icon === "Github" ? Github : ExternalLink;
+                        const Icon = ICON_MAP[link.icon] || ExternalLink;
 
                         return (
                           <motion.a

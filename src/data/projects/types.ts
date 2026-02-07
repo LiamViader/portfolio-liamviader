@@ -38,7 +38,7 @@ export interface ProjectLink {
   url: string;
   label: string;
   type: "github" | "live" | "document" | "other";
-  icon?: string;
+  icon: string;
   primaryColor?: string;
   secondaryColor?: string;
 }

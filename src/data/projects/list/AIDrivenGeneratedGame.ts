@@ -1,8 +1,8 @@
-import { ProjectDefinition } from "./types";
+import { ProjectDefinition } from "../types";
 
 export const AIDrivenGeneratedGame: ProjectDefinition = {
   slug: "ai-driven-generated-game",
-  date: "2024-07",
+  date: "2025-07",
   tags: [
     "Python",
     "C#",
@@ -70,12 +70,23 @@ export const AIDrivenGeneratedGame: ProjectDefinition = {
   is_featured: true,
   translations: {
     en: {
-      title: "Sistema de IA Multiagente para Generación y Dirección de Videojuegos",
+      title: "AI-Orchestrated Videogame",
       short_description:
-        "Short description. ASDW Sasdsadd wasdda efsdfsd vvcasdas efdfsdf",
-      full_description:
-        "Large description here. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. Large description here. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.Large description here. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.Large description here. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.",
-      role: "Full-Stack Developer & ML Engineer",
+        "A multi-agent AI system that generates and directs the visual, narrative, and structural components of a video game based on an initial prompt.",
+      full_description: `This project consists of a <highlight type="important">multi-agent artificial intelligence</highlight> system capable of generating and directing a <highlight type="important">complete video game</highlight> from a player's initial prompt. The proposal goes beyond simple text generation, establishing a <highlight type="accent">modular architecture</highlight> where different <highlight type="soft">LLM-based</highlight> agents collaborate to define the game's narrative, structure, and visual style. The system is designed to function as a <highlight type="glow">director</highlight>, coordinating decisions and adapting the experience based on context and player actions.
+
+        Unlike a traditional video game with fixed content, the world here is built <highlight type="important">dynamically</highlight> from the player's initial instruction. The system generates a setting, creates coherent environments and characters consistent with the defined tone, establishes a base narrative, and generates available events and interactions. Although these capabilities are limited in this initial prototype to the first generation of the world, the architecture is designed so that, in future versions, agents can <highlight type="soft">modify the game state in real-time</highlight>: introducing new events, adjusting character relationships, expanding the plot, or modifying environments.
+
+        To enable these dynamics, a <highlight type="accent">multi-agent architecture</highlight> was designed where each agent assumes a specialized role (<highlight type="soft">narrative generation</highlight>, <highlight type="soft">environment management</highlight>, <highlight type="soft">character management</highlight>, <highlight type="soft">event management</highlight>, <highlight type="soft">director agent</highlight>, etc.). These agents are coordinated through workflows defined with tools such as <highlight type="soft">LangChain</highlight> and <highlight type="soft">LangGraph</highlight>, utilizing techniques like <highlight type="important">Retrieval-Augmented Generation (RAG)</highlight> to maintain consistency across their decisions.
+
+        The project also incorporates an AI-generated visual component. Through image models integrated into a custom <highlight type="soft">ComfyUI</highlight> workflow, the system transforms textual descriptions (generated by the LLMs) into visual representations of settings and characters. This pipeline includes a post-processing phase with additional transformations and a small image classifier based on a <highlight type="soft">TinyCNN</highlight> trained with <highlight type="soft">TensorFlow</highlight>. This entire workflow is designed to ensure that visual assets can be composed consistently when served to the client, fitting both each other and the overall defined aesthetic.
+
+        The MVP focuses on a <highlight type="important">narrative interaction</highlight> mechanic with characters within a navigable world composed of static environments. Dialogues are controlled by AI agents that decide which character intervenes and what they should say. To maintain these conversations in streaming and identify the type of character message (<highlight type="code">[dialogue]</highlight>, <highlight type="code">[action]</highlight>, <highlight type="code">[player_thought]</highlight>...), a custom tag-based system is used, allowing each message to be identified and sent to the client progressively during generation.
+
+        On a technical level, the project includes the <highlight type="accent">complete architectural design</highlight>, the implementation of the functional core in <highlight type="soft">Python</highlight>, the orchestration of agents and generation flows, integration with image services, state management and traceability through logs, as well as the development of an <highlight type="soft">API</highlight> and a <highlight type="soft">Unity</highlight> client to interact with the prototype. Although this first version is experimental and does not yet include <highlight type="soft">dynamic direction</highlight>, <highlight type="soft">persistent memory</highlight>, or <highlight type="soft">real-time world alteration by agents</highlight>, it lays the groundwork for future extensions in that direction.
+
+        Overall, this project explores how <highlight type="important">generative AI</highlight> can assume part of the traditional role of a game designer and director, moving from a closed-content model to one where the experience emerges dynamically from the collaboration between player and system. It represents a <highlight type="glow">first step</highlight> toward interactive environments where AI not only generates content but is also designed to influence, structure, and expand the gameplay experience.`,
+      role: "Creator, Designer, and Developer of the Full Project",
     },
     es: {
       title: "Videojuego generado y dirigido por IA",

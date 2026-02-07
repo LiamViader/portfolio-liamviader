@@ -1,4 +1,6 @@
-import { AIDrivenGeneratedGame } from "./AIDrivenGeneratedGame";
+import { AIDrivenGeneratedGame } from "./list/AIDrivenGeneratedGame";
+import { QuizGenerator } from "./list/QuizGenerator";
+
 import {
   ProjectData,
   ProjectDefinition,
@@ -9,6 +11,7 @@ import { Locale, defaultLocale } from "@/i18n/routing";
 
 const projectDefinitions: ProjectDefinition[] = [
   AIDrivenGeneratedGame,
+  QuizGenerator,
   AIDrivenGeneratedGame,
   AIDrivenGeneratedGame,
   AIDrivenGeneratedGame,
