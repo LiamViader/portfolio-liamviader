@@ -142,7 +142,7 @@
       "items": {
         "email": {
           "label": "Email",
-          "value": "hello@liamviader.com"
+          "value": "contact@liamviader.com"
         },
         "linkedin": {
           "label": "LinkedIn",
@@ -151,8 +151,8 @@
         },
         "github": {
           "label": "GitHub",
-          "value": "liamviader",
-          "href": "https://github.com/liamviader"
+          "value": "LiamViader",
+          "href": "https://github.com/LiamViader"
         }
       }
     }
