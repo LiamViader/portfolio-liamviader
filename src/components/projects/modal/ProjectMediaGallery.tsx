@@ -63,7 +63,6 @@ export function ProjectMediaGallery({
               const previewSource = getMediaPreviewSource(item);
               const fallbackTitle = `${project.title} detail ${idx + 1}`;
               const buttonLabel = item.alt ?? figureLabel ?? fallbackTitle;
-
               return (
                 <motion.figure
                   key={`${project.id}-media-${idx}`}
@@ -76,10 +75,20 @@ export function ProjectMediaGallery({
                     type="button"
                     onClick={() => openMedia(idx)}
                     aria-label={buttonLabel}
-                    className="flex h-full w-full flex-col cursor-pointer overflow-hidden rounded-2xl border border-white/8 bg-white/4 text-left transition-colors hover:bg-white/8 hover:border-white/10"
+                    className="flex h-full w-full flex-col cursor-pointer overflow-hidden rounded-2xl border text-left"
                     initial="idle"
                     whileHover="hover"
                     animate="idle"
+                    variants={{
+                      idle: {
+                        borderColor: "rgba(255, 255, 255, 0.08)",
+                        backgroundColor: "rgba(255, 255, 255, 0.04)",
+                      },
+                      hover: {
+                        borderColor: "rgba(255, 255, 255, 0.2)",
+                        backgroundColor: "rgba(255, 255, 255, 0.1)",
+                      },
+                    }}
                   >
                     <div className="relative aspect-video w-full overflow-hidden bg-gray-950">
                       {previewSource ? (

@@ -17,7 +17,7 @@ export const AIDrivenGeneratedGame: ProjectDefinition = {
   media_preview: "/images/projects/ai_driven_generated_game/preview.png",
   links: [
     {
-      url: "https://github.com/LiamViader/tfg-ai-driven-generated-game",
+      url: "https://github.com/LiamViader/AI-driven-generated-game",
       label: "GitHub",
       type: "github",
       icon: "Github",

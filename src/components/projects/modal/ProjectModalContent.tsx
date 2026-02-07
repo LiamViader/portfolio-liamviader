@@ -295,29 +295,6 @@ export function ProjectModalContent({
                 initial="hidden"
                 animate={animationState}
               >
-                <MotionStack
-                  size="md"
-                  variants={modalItemVariants}
-                >
-                  <h3 className="text-xs font-bold uppercase tracking-[0.2em] text-slate-300">
-                    {t("technologiesTitle")}
-                  </h3>
-                  <div className="flex flex-wrap gap-2">
-                    {tags.map((tag, idx) => (
-                      <motion.span
-                        key={`${project.id}-tag-${idx}`}
-                        className="cursor-default rounded-lg border border-white/8 bg-white/4 px-3 py-1.5 text-xs font-medium text-slate-300"
-                        whileHover={{
-                          scale: 1.05,
-                        }}
-                        transition={{ duration: 0.2 }}
-                      >
-                        {tag}
-                      </motion.span>
-                    ))}
-                  </div>
-                </MotionStack>
-
                 {project.links && project.links.length > 0 && (
                   <MotionStack
                     size="md"
@@ -343,13 +320,12 @@ export function ProjectModalContent({
                             whileTap={{ scale: 0.98 }}
                             variants={{
                               idle: {
-                                scale: 1,
-                                backgroundColor: "rgba(255, 255, 255, 0.04)",
-                                borderColor: "rgba(255, 255, 255, 0.08)",
+                                backgroundColor: "rgba(255, 255, 255, 0.08)",
+                                borderColor: "rgba(255, 255, 255, 0.15)",
                               },
                               hover: {
-                                backgroundColor: "rgba(255, 255, 255, 0.08)",
-                                borderColor: "rgba(255, 255, 255, 0.1)",
+                                backgroundColor: "rgba(255, 255, 255, 0.15)",
+                                borderColor: "rgba(255, 255, 255, 0.2)",
                               },
                             }}
                             transition={{ duration: 0.2 }}
@@ -398,6 +374,28 @@ export function ProjectModalContent({
                     </div>
                   </MotionStack>
                 )}
+                <MotionStack
+                  size="md"
+                  variants={modalItemVariants}
+                >
+                  <h3 className="text-xs font-bold uppercase tracking-[0.2em] text-slate-300">
+                    {t("technologiesTitle")}
+                  </h3>
+                  <div className="flex flex-wrap gap-2">
+                    {tags.map((tag, idx) => (
+                      <motion.span
+                        key={`${project.id}-tag-${idx}`}
+                        className="cursor-default rounded-lg border border-white/8 bg-white/4 px-3 py-1.5 text-xs font-medium text-slate-300"
+                        whileHover={{
+                          scale: 1.05,
+                        }}
+                        transition={{ duration: 0.2 }}
+                      >
+                        {tag}
+                      </motion.span>
+                    ))}
+                  </div>
+                </MotionStack>
               </motion.aside>
             </div>
 
