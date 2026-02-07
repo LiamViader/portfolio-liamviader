@@ -70,7 +70,7 @@ export const AIDrivenGeneratedGame: ProjectDefinition = {
   is_featured: true,
   translations: {
     en: {
-      title: "AI-Orchestrated Videogame",
+      title: "AI Generated and Directed Videogame",
       short_description:
         "A multi-agent AI system that generates and directs the visual, narrative, and structural components of a video game based on an initial prompt.",
       full_description: `This project consists of a <highlight type="important">multi-agent artificial intelligence</highlight> system capable of generating and directing a <highlight type="important">complete video game</highlight> from a player's initial prompt. The proposal goes beyond simple text generation, establishing a <highlight type="accent">modular architecture</highlight> where different <highlight type="soft">LLM-based</highlight> agents collaborate to define the game's narrative, structure, and visual style. The system is designed to function as a <highlight type="glow">director</highlight>, coordinating decisions and adapting the experience based on context and player actions.
