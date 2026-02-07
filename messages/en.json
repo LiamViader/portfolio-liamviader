@@ -105,7 +105,7 @@
     "project_gallery_title": "Complete Gallery",
     "project_gallery_description": "Explore the full archive and filter by area to find the projects that resonate with you or simply spark your curiosity.",
     "projects": "Projects",
-    "ai": "AI",
+    "ai": "AI & Software",
     "all": "All",
     "games": "Games",
     "intro_paragraph": "Welcome to my projects page! Here you'll find a selection of projects I created to learn, test ideas, or simply for fun.",
@@ -171,7 +171,7 @@
     "viewOnGithubCta": "View on GitHub",
     "featuredBadge": "Featured",
     "categories": {
-      "AI": "AI",
+      "AI": "AI & Software",
       "Game": "Games"
     }
   }
