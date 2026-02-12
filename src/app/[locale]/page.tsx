@@ -8,13 +8,7 @@ import { HeroSection } from "@/components/home/HeroSection";
 import { FeaturedProjectsHomeSection } from "@/components/home/FeaturedProjectsHomeSection";
 import { BASE_DELAY_ENTRANCE } from "@/utils/constants";
 import PageLayout from "@/components/layout/PageLayout";
-import dynamic from "next/dynamic";
-import { PulseHexGridFill, PulseHexGridOverlapLine } from "@/components/home/scene/PulseHexGridCanvas";
-
-const PulseHexGridCanvas = dynamic(() => import("@/components/home/scene/PulseHexGridCanvas"), {
-  ssr: false,
-  loading: () => <div className="absolute inset-0 bg-[rgb(3,7,18)]" />,
-});
+import PulseHexGridCanvas, { PulseHexGridFill, PulseHexGridOverlapLine } from "@/components/home/scene/PulseHexGridCanvas";
 import { usePerformanceConfig } from "@/hooks/usePerformanceConfig";
 import { HeroStats } from "@/components/home/HeroStats";
 import { Container } from "@/components/layout/Container";
