@@ -6,14 +6,14 @@ import { Link } from "@/i18n/navigation";
 const MotionLink = motion.create(Link);
 
 const glintVariants: Variants = {
-  rest:  { x: "-120%", opacity: 0 },
-  hover: { x: "120%",  opacity: 0.6, transition: { duration: 0.6, ease: "easeOut" } },
+  rest: { x: "-120%", opacity: 0 },
+  hover: { x: "120%", opacity: 0.6, transition: { duration: 0.6, ease: "easeOut" } },
 };
 
 const rippleVariants: Variants = {
-  rest:  { scale: 0.9, opacity: 0 },
+  rest: { scale: 0.9, opacity: 0 },
   hover: { scale: 1.12, opacity: 0.16, transition: { duration: 0.35, ease: "easeOut" } },
-  tap:   { scale: 1.05, opacity: 0.2, transition: { duration: 0.15, ease: "easeOut" } },
+  tap: { scale: 1.05, opacity: 0.2, transition: { duration: 0.15, ease: "easeOut" } },
 };
 
 const skyVariants: Variants = {
@@ -98,7 +98,8 @@ const base =
 const skyBase = base;
 const whiteBase = base + " border";
 
-export function SkyButton({ text, href }: { text: string; href: string }) {
+
+export function SkyButton({ text, href }: { text: string; href: any }) {
   return (
     <MotionLink
       href={href}

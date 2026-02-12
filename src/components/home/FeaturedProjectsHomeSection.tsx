@@ -119,7 +119,7 @@ export function FeaturedProjectsHomeSection({
             <motion.div variants={leftButtonsRow} className="hidden xl:block">
               <ButtonGroup>
                 <motion.div variants={leftItem}>
-                  <SkyButton href="/projects" text={projectsButtonText} />
+                  <SkyButton href={{ pathname: '/projects', query: { scroll: 'gallery' } }} text={projectsButtonText} />
                 </motion.div>
 
                 <motion.div
@@ -160,7 +160,7 @@ export function FeaturedProjectsHomeSection({
           />
           <ButtonGroup className="xl:hidden" align="center">
             <motion.div variants={leftItem}>
-              <SkyButton href="/projects" text={projectsButtonText} />
+              <SkyButton href={{ pathname: '/projects', query: { scroll: 'gallery' } }} text={projectsButtonText} />
             </motion.div>
 
             <motion.div

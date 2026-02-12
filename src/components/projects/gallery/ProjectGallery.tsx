@@ -2,8 +2,8 @@
 
 import { motion, type Variants } from "framer-motion";
 import { useTranslations } from "next-intl";
-import { useState } from "react";
-
+import { useState, useEffect, useRef } from "react";
+import { useSearchParams } from "next/navigation";
 import { ClientCategorySlug } from "@/config/projectCategories";
 import { type TranslatedProject } from "@/data/projects/types";
 
@@ -74,8 +74,35 @@ export default function ProjectGallery({
   const containerVariants = createContainerVariants(entranceAnimationEnabled);
   const itemVariants = createItemVariants(entranceAnimationEnabled);
 
+  const searchParams = useSearchParams();
+  const galleryRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    const scrollTo = searchParams.get("scroll");
+
+    if (scrollTo === "gallery" && galleryRef.current) {
+      const timer = setTimeout(() => {
+        const element = galleryRef.current;
+        if (!element) return;
+
+        const rect = element.getBoundingClientRect();
+        const absoluteTop = rect.top + window.scrollY;
+
+        const isLargeScreen = window.innerWidth >= 1024;
+        const headerOffset = isLargeScreen ? 50 : 30;
+
+        window.scrollTo({
+          top: absoluteTop - headerOffset,
+          behavior: "smooth"
+        });
+      }, 800);
+
+      return () => clearTimeout(timer);
+    }
+  }, [searchParams]);
+
   return (
-    <Section className="relative">
+    <Section ref={galleryRef} className="relative">
       <Container>
         <ContentBlock>
 

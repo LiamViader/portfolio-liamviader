@@ -11,7 +11,7 @@ export const Taxicity: ProjectDefinition = {
   links: [
     {
       url: "https://github.com/LiamViader/taxicity/releases/download/v1.0.0/Taxicity_Windows.zip",
-      label: "Download Taxicity (Windows)",
+      label: "Download (Windows)",
       type: "live",
       icon: "Download",
       primaryColor: "rgba(16, 185, 129, 0.7)",
@@ -19,7 +19,7 @@ export const Taxicity: ProjectDefinition = {
     },
     {
       url: "https://github.com/LiamViader/taxicity/releases/download/v1.0.0/Taxicity_Linux.zip",
-      label: "Download Taxicity (Linux)",
+      label: "Download (Linux)",
       type: "live",
       icon: "Download",
       primaryColor: "rgba(16, 185, 129, 0.7)",
