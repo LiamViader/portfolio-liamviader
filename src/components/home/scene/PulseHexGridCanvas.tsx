@@ -125,7 +125,7 @@ export default function PulseHexGridCanvas({
         gl={{ antialias: true, alpha: true, depth: false, stencil: false, powerPreference: "high-performance" }}
         frameloop="demand"
       >
-        <FpsLimiter fps={30} />
+        <FpsLimiter fps={15} />
         <fog attach="fog" args={["#04060c", 0.0018]} />
         <Suspense fallback={null}>
           <group>
