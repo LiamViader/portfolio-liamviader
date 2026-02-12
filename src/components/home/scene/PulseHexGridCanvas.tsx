@@ -1,11 +1,22 @@
-import { Suspense, useRef, ReactNode } from "react";
-import { Canvas } from "@react-three/fiber";
+import { Suspense, useRef, ReactNode, useEffect } from "react";
+import { Canvas, useThree } from "@react-three/fiber";
 import clsx from "clsx";
 import PulseHexGridOverlapLine, { type HexGridParams } from "./PulseHexGridOverlapLine";
 import PulseHexGridFill from "./PulseHexGridFill";
 import HexGridTrails from "./HexGridTrails";
 import HexGridStrata from "./HexGridStrata";
 import { FillTuning } from "./PulseHexGridFill";
+
+function FpsLimiter({ fps = 30 }: { fps?: number }) {
+  const { invalidate } = useThree();
+  useEffect(() => {
+    const interval = setInterval(() => {
+      invalidate();
+    }, 1000 / fps);
+    return () => clearInterval(interval);
+  }, [fps, invalidate]);
+  return null;
+}
 
 export const grid_types = ['OverlapLine', 'Fill', 'Trails', 'Strata'] as const;
 
@@ -109,11 +120,12 @@ export default function PulseHexGridCanvas({
     <div ref={hostRef} className={mergedClassName}>
       <Canvas
         orthographic
-        dpr={[1, 1.5]}
+        dpr={1}
         camera={{ position: [0, 0, 20], near: -1000, far: 1000 }}
         gl={{ antialias: true, alpha: true, depth: false, stencil: false, powerPreference: "high-performance" }}
-        frameloop="always"
+        frameloop="demand"
       >
+        <FpsLimiter fps={30} />
         <fog attach="fog" args={["#04060c", 0.0018]} />
         <Suspense fallback={null}>
           <group>
