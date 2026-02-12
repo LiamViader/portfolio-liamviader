@@ -15,10 +15,6 @@ const projectDefinitions: ProjectDefinition[] = [
   AIDrivenGeneratedGame,
   QuizGenerator,
   Taxicity,
-  AIDrivenGeneratedGame,
-  AIDrivenGeneratedGame,
-  AIDrivenGeneratedGame,
-  AIDrivenGeneratedGame,
 ];
 
 export const allProjects: ProjectData[] = projectDefinitions.map(

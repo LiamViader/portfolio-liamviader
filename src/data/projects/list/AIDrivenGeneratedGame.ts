@@ -29,18 +29,18 @@ export const AIDrivenGeneratedGame: ProjectDefinition = {
   detailed_media: [
     {
       type: "externalVideo",
-      src: "https://www.youtu.be.com/dk2FS6lLUzs",
-      embedUrl: "https://www.youtube.com/embed/dk2FS6lLUzs",
-      thumbnail: "https://img.youtube.com/vi/dk2FS6lLUzs/maxresdefault.jpg",
+      src: "https://www.youtu.be.com/h06WD8gnUBk",
+      embedUrl: "https://www.youtube.com/embed/h06WD8gnUBk",
+      thumbnail: "https://img.youtube.com/vi/h06WD8gnUBk/maxresdefault.jpg",
       figureNumber: "1.1",
       translations: {
         en: {
-          alt: "YouTube preview for project 1",
+          alt: "Summary video of two different runs of the system",
           captionLabel: "Figure",
           description: "Summary video of two different runs of the system",
         },
         es: {
-          alt: "Vista previa de YouTube del proyecto 1",
+          alt: "Video resumen de dos ejecuciones distintas del sistema",
           captionLabel: "Figura",
           description: "Video resumen de dos ejecuciones distintas del sistema",
         },
@@ -48,9 +48,9 @@ export const AIDrivenGeneratedGame: ProjectDefinition = {
     },
     {
       type: "externalVideo",
-      src: "https://www.youtu.be.com/7fzslPdg4xY",
-      embedUrl: "https://www.youtube.com/embed/7fzslPdg4xY",
-      thumbnail: "https://img.youtube.com/vi/7fzslPdg4xY/maxresdefault.jpg",
+      src: "https://www.youtu.be.com/7Ss8rzxVMdA",
+      embedUrl: "https://www.youtube.com/embed/7Ss8rzxVMdA",
+      thumbnail: "https://img.youtube.com/vi/7Ss8rzxVMdA/maxresdefault.jpg",
       figureNumber: "1.2",
       translations: {
         en: {

@@ -10,6 +10,14 @@ export const Taxicity: ProjectDefinition = {
   media_preview: "/images/projects/taxicity/preview.jpg",
   links: [
     {
+      url: "https://github.com/LiamViader/taxicity/archive/refs/tags/v1.0.0.zip",
+      label: "Download Game (Windows)",
+      type: "live",
+      icon: "Download",
+      primaryColor: "rgba(16, 185, 129, 0.7)",
+      secondaryColor: "rgba(5, 150, 105, 1)",
+    },
+    {
       url: "https://github.com/LiamViader/taxicity",
       label: "GitHub",
       type: "github",
@@ -19,16 +27,34 @@ export const Taxicity: ProjectDefinition = {
     },
   ],
   detailed_media: [
-
+    {
+      type: "externalVideo",
+      src: "https://www.youtu.be.com/Zpp_uOPSszs",
+      embedUrl: "https://www.youtube.com/embed/Zpp_uOPSszs",
+      thumbnail: "https://img.youtube.com/vi/Zpp_uOPSszs/maxresdefault.jpg",
+      figureNumber: "1.1",
+      translations: {
+        en: {
+          alt: "YouTube preview for project 1",
+          captionLabel: "Figure",
+          description: "Full Gameplay of Taxicity",
+        },
+        es: {
+          alt: "Vista previa de YouTube del proyecto 1",
+          captionLabel: "Figura",
+          description: "Gameplay completo de Taxicity",
+        },
+      },
+    },
   ],
   categories: ["Game"],
-  is_featured: true,
+  is_featured: false,
   translations: {
     en: {
-      title: "Taxicity (Videogame)",
+      title: "Taxicity - Videogame",
       short_description:
         "A 2D arcade videogame made in godot where you drive a taxi around the city, picking up customers and dropping them off at their destinations.",
-      full_description: `Taxicity was my <highlight type="important">first step into game development</highlight>. It is a 2D arcade game where you drive a taxi through a city of straight streets. The control logic is inspired by <highlight type="accent">Pac-Man</highlight>, as the car is bound to the road and only turns at intersections, but with a twist: the player has full control over <highlight type="glow">acceleration and braking</highlight>, requiring precision to avoid overshooting turns and losing momentum.
+      full_description: `Taxicity was my <highlight type="important">first step into game development</highlight>. It is a 2D arcade game where you drive a taxi through an isometric city of straight streets. The control logic is inspired by <highlight type="accent">Pac-Man</highlight>, as the car is bound to the road and only turns at intersections, but with a twist: the player has full control over <highlight type="glow">acceleration and braking</highlight>, requiring precision to avoid overshooting turns and losing momentum.
 
         The core loop involves picking up and dropping off passengers within strict time limits. You start with only one seat, but as you earn money, you can reinvest it to unlock <highlight type="important">4 concurrent seats</highlight>. This shifts the game from a simple driving task to a <highlight type="accent">logistics challenge</highlight>, where finding the optimal route to pick up and deliver multiple passengers at once is the key to high scores. To keep the experience engaging, the <highlight type="glow">difficulty scales progressively</highlight>, increasing the pressure as you complete more jobs.
 
@@ -38,10 +64,10 @@ export const Taxicity: ProjectDefinition = {
       role: "Creator, Designer, and Developer of the Full Project",
     },
     es: {
-      title: "Taxicity (Videojuego)",
+      title: "Taxicity - Videojuego",
       short_description:
         "Un videojuego arcade 2D dónde conduces un taxi por la ciudad, recogiendo clientes y llevándolos a su destino.",
-      full_description: `Taxicity fue mi <highlight type="important">primer paso en el desarrollo de videojuegos</highlight>. Es un título arcade 2D donde conduces un taxi a través de una ciudad de calles rectas. La lógica de control está inspirada en <highlight type="accent">Pac-Man</highlight>, ya que el coche está anclado a la carretera y solo gira en las intersecciones, pero con un matiz: el jugador tiene control total sobre la <highlight type="glow">aceleración y el frenado</highlight>, lo que requiere precisión para no pasarse de largo en los giros y mantener la inercia.
+      full_description: `Taxicity fue mi <highlight type="important">primer paso en el desarrollo de videojuegos</highlight>. Es un título arcade 2D donde conduces un taxi a través de una ciudad isométrica de calles rectas. La lógica de control está inspirada en <highlight type="accent">Pac-Man</highlight>, ya que el coche está anclado a la carretera y solo gira en las intersecciones, pero con un matiz: el jugador tiene control total sobre la <highlight type="glow">aceleración y el frenado</highlight>, lo que requiere precisión para no pasarse de largo en los giros y mantener la inercia.
 
         El bucle principal consiste en recoger y dejar pasajeros dentro de límites de tiempo estrictos. Empiezas con un solo asiento, pero a medida que ganas dinero, puedes reinvertirlo para desbloquear hasta <highlight type="important">4 plazas simultáneas</highlight>. Esto transforma el juego de una simple tarea de conducción a un <highlight type="accent">desafío logístico</highlight>, donde encontrar la ruta óptima para recoger y entregar a varios pasajeros a la vez es la clave para obtener puntuaciones altas. Para mantener la experiencia interesante, la <highlight type="glow">dificultad escala progresivamente</highlight>, aumentando la presión a medida que completas más encargos.
 

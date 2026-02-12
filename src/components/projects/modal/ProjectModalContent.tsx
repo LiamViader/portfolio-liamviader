@@ -2,7 +2,7 @@
 
 import { useRef, useState, useMemo, useEffect } from "react";
 import { motion, type Variants, useScroll, useTransform, useSpring } from "framer-motion";
-import { ExternalLink, Github, Sparkles, Play, LucideIcon } from "lucide-react";
+import { ExternalLink, Github, Sparkles, Play, LucideIcon, Download } from "lucide-react";
 import { useTranslations, useFormatter } from "next-intl";
 import Image from "next/image";
 
@@ -32,6 +32,7 @@ const ICON_MAP: Record<string, LucideIcon> = {
   Github: Github,
   ExternalLink: ExternalLink,
   Play: Play,
+  Download: Download,
 };
 
 const MotionStack = motion(Stack);
@@ -328,10 +329,13 @@ export function ProjectModalContent({
                       {project.links.map((link, idx) => {
                         const Icon = ICON_MAP[link.icon] || ExternalLink;
 
+                        const isDownload = link.icon === "Download";
+
                         return (
                           <motion.a
                             key={`${project.id}-link-${idx}`}
                             href={link.url}
+                            download={isDownload}
                             target="_blank"
                             rel="noreferrer"
                             className="group relative flex w-full items-center gap-4 rounded-xl px-4 py-3 border shadow-sm"
@@ -390,7 +394,11 @@ export function ProjectModalContent({
                               }}
                               transition={{ duration: 0.2 }}
                             >
-                              <ExternalLink className="h-4 w-4 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+                              {isDownload ? (
+                                <Download className="h-4 w-4 transition-transform group-hover:translate-y-0.5" />
+                              ) : (
+                                <ExternalLink className="h-4 w-4 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5" />
+                              )}
                             </motion.span>
                           </motion.a>
                         );
