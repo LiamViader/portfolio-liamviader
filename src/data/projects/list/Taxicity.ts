@@ -10,8 +10,16 @@ export const Taxicity: ProjectDefinition = {
   media_preview: "/images/projects/taxicity/preview.jpg",
   links: [
     {
-      url: "https://github.com/LiamViader/taxicity/archive/refs/tags/v1.0.0.zip",
-      label: "Download Game (Windows)",
+      url: "https://github.com/LiamViader/taxicity/releases/download/v1.0.0/Taxicity_Windows.zip",
+      label: "Download Taxicity (Windows)",
+      type: "live",
+      icon: "Download",
+      primaryColor: "rgba(16, 185, 129, 0.7)",
+      secondaryColor: "rgba(5, 150, 105, 1)",
+    },
+    {
+      url: "https://github.com/LiamViader/taxicity/releases/download/v1.0.0/Taxicity_Linux.zip",
+      label: "Download Taxicity (Linux)",
       type: "live",
       icon: "Download",
       primaryColor: "rgba(16, 185, 129, 0.7)",
