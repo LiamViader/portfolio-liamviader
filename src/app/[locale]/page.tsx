@@ -59,26 +59,7 @@ export default function Home() {
   return (
     <PageLayout>
       <HeroSectionWrapper className="relative overflow-hidden">
-        <PulseHexGridCanvas>
-          <PulseHexGridFill
-            params={{
-              pixelsPerHex: 40,
-              hue: 240,
-              hueJitter: 10,
-              s: 50,
-              l: 30,
-            }}
-          />
-          <PulseHexGridOverlapLine
-            params={{
-              pixelsPerHex: 40,
-              hue: 240,
-              hueJitter: 30,
-              s: 60,
-              l: 0,
-            }}
-          />
-        </PulseHexGridCanvas>
+
         <div className="inset-0 absolute bg-[linear-gradient(to_bottom,_rgba(3,7,18,0.1)_0%,_rgba(3,7,18,0.7)_50%,_rgb(3,7,18)_97%,_rgb(3,7,18)_100%)]" />
         <Container>
           <ContentBlock>
@@ -102,7 +83,6 @@ export default function Home() {
       </HeroSectionWrapper>
       <LastSection className="relative">
 
-        <div className="inset-0 absolute bg-[rgb(14,17,51)]" />
         <div className="absolute inset-0 bg-[linear-gradient(to_bottom,_rgb(3,7,18)_0%,_rgb(3,7,18)_3%,_rgba(3,7,18,0.3)_50%,_rgb(3,7,18)_100%)]" />
         <Container>
           <ShowcaseBlock>
