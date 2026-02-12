@@ -16,7 +16,7 @@ import { ContentBlock } from "@/components/layout/ContentBlock";
 import { InfoCard } from "@/components/home/InfoCard";
 import { Stack } from "@/components/layout/Stack";
 import { Eyebrow } from "@/components/layout/Eyebrow";
-import PulseHexGridCanvas from "@/components/home/scene/PulseHexGridCanvas";
+import PulseHexGridCanvas, { HexGridTrails } from "@/components/home/scene/PulseHexGridCanvas";
 
 type AnyIcon = ComponentType<{ className?: string }>;
 
@@ -152,7 +152,22 @@ export default function ContactPage() {
     <PageLayout
     >
       <OneSectionPageSection className="relative overflow-hidden">
-        <PulseHexGridCanvas gridType="Trails" s={60} l={37} hue={240} hueJitter={20} pixelsPerHex={27} trailCount={isSmallScreen ? 7 : 22} stepsPerSecond={isSmallScreen ? 15 : 20} fadeSeconds={isSmallScreen ? 4 : 7} />
+        <PulseHexGridCanvas>
+          <HexGridTrails
+            params={{
+              pixelsPerHex: 27,
+              hue: 240,
+              hueJitter: 20,
+              s: 60,
+              l: 37,
+            }}
+            options={{
+              trailCount: isSmallScreen ? 7 : 22,
+              stepsPerSecond: isSmallScreen ? 15 : 20,
+              fadeSeconds: isSmallScreen ? 4 : 7,
+            }}
+          />
+        </PulseHexGridCanvas>
         <div className="absolute inset-0 bg-[linear-gradient(to_bottom,_rgb(3,7,18)_0%,_rgb(3,7,18)_15%,_rgba(3,7,18,0.3)_50%,_rgb(3,7,18)_85%,_rgb(3,7,18)_100%)] " />
         <Container>
           <ContentBlock>

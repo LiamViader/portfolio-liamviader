@@ -13,7 +13,7 @@ import { BASE_DELAY_ENTRANCE } from "@/utils/constants";
 import { AboutPortrait } from "./AboutPortrait";
 import { type PersonalInfo } from "./types";
 import { type Locale } from "@/i18n/routing";
-import PulseHexGridCanvas from "../home/scene/PulseHexGridCanvas";
+import PulseHexGridCanvas, { HexGridStrata, PulseHexGridFill } from "../home/scene/PulseHexGridCanvas";
 import { HeroSectionWrapper } from "../layout/HeroSectionWrapper";
 import { Stack } from "../layout/Stack";
 import { Container } from "../layout/Container";
@@ -102,22 +102,32 @@ export function HeroSection({ personalInfo, age, entranceAnimationsEnabled }: He
 
   return (
     <HeroSectionWrapper className="relative overflow-hidden">
-      <PulseHexGridCanvas
-        gridType="Fill"
-        s={50}
-        l={30}
-        hue={240}
-        hueJitter={10}
-        pixelsPerHex={45}
-      />
-      <PulseHexGridCanvas
-        gridType="Strata"
-        s={60}
-        l={25}
-        hue={240}
-        hueJitter={30}
-        pixelsPerHex={45}
-      />
+      <PulseHexGridCanvas>
+        <PulseHexGridFill
+          params={{
+            pixelsPerHex: 45,
+            hue: 240,
+            hueJitter: 10,
+            s: 50,
+            l: 30,
+          }}
+        />
+        <HexGridStrata
+          params={{
+            pixelsPerHex: 45,
+            hue: 240,
+            hueJitter: 30,
+            s: 60,
+            l: 25,
+          }}
+          options={{
+            mode: "diagA",
+            amplitude: 5,
+            speed: 0.25,
+            phaseStep: 0,
+          }}
+        />
+      </PulseHexGridCanvas>
       <div className="inset-0 absolute bg-[linear-gradient(to_bottom,_rgba(3,7,18,0.05)_0%,_rgba(3,7,18,0.7)_50%,_rgb(3,7,18)_97%,_rgb(3,7,18)_100%)]" />
       <Container>
         <ContentBlock>

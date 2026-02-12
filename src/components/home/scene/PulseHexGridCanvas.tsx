@@ -1,6 +1,4 @@
-"use client";
-
-import { Suspense, useRef } from "react";
+import { Suspense, useRef, ReactNode } from "react";
 import { Canvas } from "@react-three/fiber";
 import clsx from "clsx";
 import PulseHexGridOverlapLine, { type HexGridParams } from "./PulseHexGridOverlapLine";
@@ -14,9 +12,7 @@ export const grid_types = ['OverlapLine', 'Fill', 'Trails', 'Strata'] as const;
 export type GridType = typeof grid_types[number];
 
 export type CanvasSceneProps = {
-
   className?: string;
-
   pixelsPerHex?: number;
   hue?: number;
   hueJitter?: number;
@@ -27,6 +23,7 @@ export type CanvasSceneProps = {
   stepsPerSecond?: number;
   fadeSeconds?: number;
   fillTuning?: FillTuning;
+  children?: ReactNode;
 };
 
 type HexGridTrailParams = {
@@ -68,6 +65,8 @@ function renderGrid(finalGridType: GridType, mergedParams: HexGridParams, trailP
   }
 }
 
+export { PulseHexGridOverlapLine, PulseHexGridFill, HexGridTrails, HexGridStrata };
+
 export default function PulseHexGridCanvas({
   className,
   pixelsPerHex,
@@ -80,6 +79,7 @@ export default function PulseHexGridCanvas({
   stepsPerSecond,
   fadeSeconds,
   fillTuning,
+  children,
 }: CanvasSceneProps) {
   const hostRef = useRef<HTMLDivElement>(null);
 
@@ -117,7 +117,7 @@ export default function PulseHexGridCanvas({
         <fog attach="fog" args={["#04060c", 0.0018]} />
         <Suspense fallback={null}>
           <group>
-            {renderGrid(finalGridType, mergedParams, trailParams, fillTuning)}
+            {children ? children : renderGrid(finalGridType, mergedParams, trailParams, fillTuning)}
           </group>
         </Suspense>
       </Canvas>

@@ -5,7 +5,7 @@ import { InfoCard } from "../home/InfoCard";
 import { ListChecks, Workflow, AlertTriangle, Rocket } from "lucide-react";
 import { useTranslations } from "next-intl";
 
-import PulseHexGridCanvas from "../home/scene/PulseHexGridCanvas";
+import PulseHexGridCanvas, { HexGridStrata, PulseHexGridFill } from "../home/scene/PulseHexGridCanvas";
 import { Stack } from "../layout/Stack";
 import { SectionHeader } from "../layout/SectionHeader";
 import { LastSection } from "../layout/LastSection";
@@ -15,38 +15,42 @@ import { usePerformanceConfig } from "@/hooks/usePerformanceConfig";
 
 const createSectionAnimation = (animated: boolean): Variants => ({
   hidden: {},
-  show: { transition: animated ? 
-    { staggerChildren: 0.10, delayChildren: 0.05 } 
-    :
-    { staggerChildren: 0, delayChildren: 0}
+  show: {
+    transition: animated ?
+      { staggerChildren: 0.10, delayChildren: 0.05 }
+      :
+      { staggerChildren: 0, delayChildren: 0 }
   },
 });
 
 const createHeaderGroupAnimation = (animated: boolean): Variants => ({
   hidden: {},
-  show: { transition: animated ? 
-    { staggerChildren: 0.06 } 
-    :
-    { staggerChildren: 0}
+  show: {
+    transition: animated ?
+      { staggerChildren: 0.06 }
+      :
+      { staggerChildren: 0 }
   },
 });
 
 const createHeaderItemAnimation = (animated: boolean): Variants => ({
   hidden: { opacity: 0, y: 12 },
-  show: { opacity: 1, y: 0, transition: animated ? 
-    { duration: 0.55, ease: "easeOut" } 
-    :
-    { duration: 0}
+  show: {
+    opacity: 1, y: 0, transition: animated ?
+      { duration: 0.55, ease: "easeOut" }
+      :
+      { duration: 0 }
   },
 });
 
 
 const createInfoCardsAnimation = (animated: boolean): Variants => ({
   hidden: {},
-  show: { transition: animated ? 
-    { staggerChildren: 0.08, delayChildren: 0.05 } 
-    :
-    { staggerChildren: 0, delayChildren: 0 }
+  show: {
+    transition: animated ?
+      { staggerChildren: 0.08, delayChildren: 0.05 }
+      :
+      { staggerChildren: 0, delayChildren: 0 }
   },
 });
 
@@ -82,31 +86,41 @@ export function PhilosophySection({ entranceAnimationsEnabled }: PhilosophySecti
   const listVariants = createInfoCardsAnimation(entranceAnimationsEnabled);
   const headerItem = createHeaderItemAnimation(entranceAnimationsEnabled);
   const sectionVariants = createSectionAnimation(entranceAnimationsEnabled);
-  const {backgroundsOptimization} = usePerformanceConfig();
+  const { backgroundsOptimization } = usePerformanceConfig();
 
   return (
     <LastSection className="relative">
       {backgroundsOptimization === "normal" ?
         <>
-          <PulseHexGridCanvas
-            gridType="Fill"
-            s={50}
-            l={30}
-            hue={240}
-            hueJitter={10}
-            pixelsPerHex={45}
-          />
-          <PulseHexGridCanvas
-            gridType="Strata"
-            s={60}
-            l={25}
-            hue={240}
-            hueJitter={30}
-            pixelsPerHex={45}
-          /> 
+          <PulseHexGridCanvas>
+            <PulseHexGridFill
+              params={{
+                pixelsPerHex: 45,
+                hue: 240,
+                hueJitter: 10,
+                s: 50,
+                l: 30,
+              }}
+            />
+            <HexGridStrata
+              params={{
+                pixelsPerHex: 45,
+                hue: 240,
+                hueJitter: 30,
+                s: 60,
+                l: 25,
+              }}
+              options={{
+                mode: "diagA",
+                amplitude: 5,
+                speed: 0.25,
+                phaseStep: 0,
+              }}
+            />
+          </PulseHexGridCanvas>
         </>
         :
-        <div className="inset-0 absolute bg-[rgb(14,17,51)]"/>
+        <div className="inset-0 absolute bg-[rgb(14,17,51)]" />
       }
       <div className="inset-0 absolute bg-[linear-gradient(to_bottom,_rgb(3,7,18)_0%,rgb(3,7,18)_3%,_rgba(3,7,18,0.6)_40%,_rgba(3,7,18,0.7)_60%,_rgba(3,7,18,0.85)_100%)]" />
 

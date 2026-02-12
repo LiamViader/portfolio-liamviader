@@ -8,7 +8,7 @@ import { useLocale, useTranslations } from "next-intl";
 import { type Locale } from "@/i18n/routing";
 import { type TimelineItem } from "./types";
 
-import PulseHexGridCanvas from "../home/scene/PulseHexGridCanvas";
+import PulseHexGridCanvas, { HexGridStrata, PulseHexGridFill } from "../home/scene/PulseHexGridCanvas";
 import { usePerfTier } from "@/hooks/usePerfTier";
 
 import { Section } from "../layout/Section";
@@ -362,22 +362,32 @@ export function TrajectorySection({
     <Section className="relative">
       {backgroundsOptimization === "normal" ?
         <>
-          <PulseHexGridCanvas
-            gridType="Fill"
-            s={50}
-            l={30}
-            hue={240}
-            hueJitter={10}
-            pixelsPerHex={45}
-          />
-          <PulseHexGridCanvas
-            gridType="Strata"
-            s={60}
-            l={25}
-            hue={240}
-            hueJitter={30}
-            pixelsPerHex={45}
-          />
+          <PulseHexGridCanvas>
+            <PulseHexGridFill
+              params={{
+                pixelsPerHex: 45,
+                hue: 240,
+                hueJitter: 10,
+                s: 50,
+                l: 30,
+              }}
+            />
+            <HexGridStrata
+              params={{
+                pixelsPerHex: 45,
+                hue: 240,
+                hueJitter: 30,
+                s: 60,
+                l: 25,
+              }}
+              options={{
+                mode: "diagA",
+                amplitude: 5,
+                speed: 0.25,
+                phaseStep: 0,
+              }}
+            />
+          </PulseHexGridCanvas>
         </>
         : <div className="inset-0 absolute bg-[rgb(14,17,51)]" />
       }

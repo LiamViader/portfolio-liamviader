@@ -8,7 +8,7 @@ import { HeroSection } from "@/components/home/HeroSection";
 import { FeaturedProjectsHomeSection } from "@/components/home/FeaturedProjectsHomeSection";
 import { BASE_DELAY_ENTRANCE } from "@/utils/constants";
 import PageLayout from "@/components/layout/PageLayout";
-import PulseHexGridCanvas from "@/components/home/scene/PulseHexGridCanvas";
+import PulseHexGridCanvas, { PulseHexGridFill, PulseHexGridOverlapLine } from "@/components/home/scene/PulseHexGridCanvas";
 import { usePerformanceConfig } from "@/hooks/usePerformanceConfig";
 import { HeroStats } from "@/components/home/HeroStats";
 import { Container } from "@/components/layout/Container";
@@ -59,8 +59,26 @@ export default function Home() {
   return (
     <PageLayout>
       <HeroSectionWrapper className="relative overflow-hidden">
-        <PulseHexGridCanvas gridType="Fill" s={50} l={30} hue={240} hueJitter={10} pixelsPerHex={40} />
-        <PulseHexGridCanvas gridType="OverlapLine" s={60} l={0} hue={240} hueJitter={30} pixelsPerHex={40} />
+        <PulseHexGridCanvas>
+          <PulseHexGridFill
+            params={{
+              pixelsPerHex: 40,
+              hue: 240,
+              hueJitter: 10,
+              s: 50,
+              l: 30,
+            }}
+          />
+          <PulseHexGridOverlapLine
+            params={{
+              pixelsPerHex: 40,
+              hue: 240,
+              hueJitter: 30,
+              s: 60,
+              l: 0,
+            }}
+          />
+        </PulseHexGridCanvas>
         <div className="inset-0 absolute bg-[linear-gradient(to_bottom,_rgba(3,7,18,0.1)_0%,_rgba(3,7,18,0.7)_50%,_rgb(3,7,18)_97%,_rgb(3,7,18)_100%)]" />
         <Container>
           <ContentBlock>
@@ -86,8 +104,26 @@ export default function Home() {
         {
           (backgroundsOptimization === "normal") ?
             <>
-              <PulseHexGridCanvas gridType="Fill" s={50} l={30} hue={240} hueJitter={10} pixelsPerHex={40} />
-              <PulseHexGridCanvas gridType="OverlapLine" s={60} l={0} hue={240} hueJitter={30} pixelsPerHex={40} />
+              <PulseHexGridCanvas>
+                <PulseHexGridFill
+                  params={{
+                    pixelsPerHex: 40,
+                    hue: 240,
+                    hueJitter: 10,
+                    s: 50,
+                    l: 30,
+                  }}
+                />
+                <PulseHexGridOverlapLine
+                  params={{
+                    pixelsPerHex: 40,
+                    hue: 240,
+                    hueJitter: 30,
+                    s: 60,
+                    l: 0,
+                  }}
+                />
+              </PulseHexGridCanvas>
             </>
             :
             <div className="inset-0 absolute bg-[rgb(14,17,51)]" />
