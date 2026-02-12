@@ -1,5 +1,6 @@
 "use client";
 
+import { type ComponentProps } from "react";
 import { motion, type Variants } from "framer-motion";
 import { Link } from "@/i18n/navigation";
 
@@ -99,7 +100,7 @@ const skyBase = base;
 const whiteBase = base + " border";
 
 
-export function SkyButton({ text, href }: { text: string; href: any }) {
+export function SkyButton({ text, href }: { text: string; href: ComponentProps<typeof Link>["href"] }) {
   return (
     <MotionLink
       href={href}
@@ -133,7 +134,7 @@ export function SkyButton({ text, href }: { text: string; href: any }) {
   );
 }
 
-export function WhiteButton({ text, href }: { text: string; href: string }) {
+export function WhiteButton({ text, href }: { text: string; href: ComponentProps<typeof Link>["href"] }) {
   return (
     <MotionLink
       href={href}
