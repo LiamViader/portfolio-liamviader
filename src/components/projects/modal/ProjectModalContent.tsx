@@ -356,10 +356,10 @@ export function ProjectModalContent({
                           >
                             <motion.div
                               className="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg text-white shadow-sm"
-                              style={{ backgroundColor: link.primaryColor }}
+                              style={{ backgroundColor: "rgba(255, 255, 255, 0.15)" }}
                               variants={{
                                 hover: {
-                                  backgroundColor: link.secondaryColor || link.primaryColor,
+                                  backgroundColor: "rgba(255, 255, 255, 0.25)",
                                 }
                               }}
                               transition={{ duration: 0.2 }}
