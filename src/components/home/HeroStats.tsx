@@ -31,19 +31,19 @@ const createInfoCardsAnimation = (animated: boolean): Variants => ({
     opacity: 1,
     transition: animated
       ? {
-          delayChildren: BASE_DELAY_ENTRANCE + 0.4,
-          staggerChildren: 0.15,
-          when: "beforeChildren",
-        }
+        delayChildren: BASE_DELAY_ENTRANCE + 0.4,
+        staggerChildren: 0.15,
+        when: "beforeChildren",
+      }
       : {
-          delayChildren: 0,
-          staggerChildren: 0,
-          when: "beforeChildren",
-        },
+        delayChildren: 0,
+        staggerChildren: 0,
+        when: "beforeChildren",
+      },
   },
 });
 
-const MotionEyebrow = motion(Eyebrow);
+const MotionEyebrow = motion.create(Eyebrow);
 
 interface HeroStatsProps {
   entranceAnimationsEnabled: boolean;
@@ -51,9 +51,9 @@ interface HeroStatsProps {
 
 export function HeroStats({ entranceAnimationsEnabled }: HeroStatsProps) {
   const t = useTranslations("HomePage");
-  
+
   const metricKeys: Array<"ai" | "videogames" | "system_design"> = ["ai", "videogames", "system_design"];
-  
+
   const titleInfoCardsAnimation = createTitleInfoCardsAnimation(entranceAnimationsEnabled);
   const infoCardsAnimation = createInfoCardsAnimation(entranceAnimationsEnabled);
 

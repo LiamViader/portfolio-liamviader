@@ -54,7 +54,7 @@ const createLeftItemVariants = (animated: boolean): Variants => ({
   },
 });
 
-const MotionStack = motion(Stack);
+const MotionStack = motion.create(Stack);
 
 export default function FeaturedProjectsSection({
   projects,

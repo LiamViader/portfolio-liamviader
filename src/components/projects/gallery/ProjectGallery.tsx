@@ -49,7 +49,7 @@ const createItemVariants = (animated: boolean): Variants => ({
   },
 });
 
-const MotionStack = motion(Stack);
+const MotionStack = motion.create(Stack);
 
 interface ProjectGalleryProps {
   category: ClientCategorySlug;

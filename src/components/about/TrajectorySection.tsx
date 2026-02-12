@@ -169,7 +169,7 @@ const pathCardInnerVariants: Variants = {
   },
 };
 
-const MotionStack = motion(Stack);
+const MotionStack = motion.create(Stack);
 
 const getLocalizedValue = <T,>(
   value: Record<Locale, T> | undefined,

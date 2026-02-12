@@ -35,7 +35,7 @@ const ICON_MAP: Record<string, LucideIcon> = {
   Download: Download,
 };
 
-const MotionStack = motion(Stack);
+const MotionStack = motion.create(Stack);
 
 export function ProjectModalContent({
   project,

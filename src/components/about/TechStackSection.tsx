@@ -89,7 +89,7 @@ const techGridVariants: Variants = {
   },
 };
 
-const MotionStack = motion(Stack);
+const MotionStack = motion.create(Stack);
 
 type TechStackSectionProps = {
   techStack: TechIcon[];

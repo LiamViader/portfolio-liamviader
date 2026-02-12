@@ -89,7 +89,7 @@ const createlineVariants = (animated: boolean): Variants => ({
   },
 });
 
-const MotionStack = motion(Stack);
+const MotionStack = motion.create(Stack);
 
 export default function ClientProjectsPage({ projectsData }: ClientProjectsPageProps) {
   const t = useTranslations("ProjectsPage");

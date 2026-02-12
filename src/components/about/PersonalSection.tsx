@@ -54,7 +54,7 @@ const PARAGRAPH_KEYS = [
   "paragraphs.fifth",
 ];
 
-const MotionStack = motion(Stack);
+const MotionStack = motion.create(Stack);
 
 type PersonalSectionProps = {
   entranceAnimationsEnabled: boolean;
