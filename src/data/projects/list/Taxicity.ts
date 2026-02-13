@@ -43,12 +43,12 @@ export const Taxicity: ProjectDefinition = {
       figureNumber: "1.1",
       translations: {
         en: {
-          alt: "YouTube preview for project 1",
+          alt: "Gameplay of Taxicity",
           captionLabel: "Figure",
           description: "Full Gameplay of Taxicity",
         },
         es: {
-          alt: "Vista previa de YouTube del proyecto 1",
+          alt: "Gameplay de Taxicity",
           captionLabel: "Figura",
           description: "Gameplay completo de Taxicity",
         },
@@ -71,7 +71,7 @@ export const Taxicity: ProjectDefinition = {
         There is also a <highlight type="soft">shop</highlight> you can visit between shifts to spend your earnings on vehicle upgrades like better top speed and acceleration, essential for keeping up with the rising difficulty.
 
         Developed in <highlight type="soft">Godot</highlight> with <highlight type="soft">GDScript</highlight>, this project allowed me to learn about game design, game loops and state management. While the environment assets are open-source, the <highlight type="tag">User Interface (UI)</highlight> and all the underlying logic were designed and implemented entirely by me.`,
-      role: "Creator, Designer, and Developer of the Full Project",
+      role: "Creator, Designer, and Developer of the Full Videogame",
     },
     es: {
       title: "Taxicity (Videojuego)",
@@ -86,7 +86,7 @@ export const Taxicity: ProjectDefinition = {
         Además, existe una <highlight type="soft">tienda</highlight> que puedes visitar entre viajes para gastar tus ganancias en mejoras del vehículo, como velocidad punta y aceleración, esenciales para compensar el aumento de la dificultad.
 
         Desarrollado en <highlight type="soft">Godot</highlight> con <highlight type="soft">GDScript</highlight>, este proyecto me permitió aprender sobre diseño de videojuegos, <highlight type="soft">game loop</highlight> y gestión de estados. Mientras que los assets del entorno son de gratuitos de internet, la <highlight type="tag">Interfaz de Usuario (UI)</highlight> y toda la lógica subyacente fueron diseñadas e implementadas íntegramente por mí.`,
-      role: "Creador, Diseñador y Desarrollador del Proyecto Completo",
+      role: "Creador, Diseñador y Desarrollador del Videojuego Completo",
     },
   },
 };

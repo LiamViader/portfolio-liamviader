@@ -1,7 +1,7 @@
 import { AIDrivenGeneratedGame } from "./list/AIDrivenGeneratedGame";
 import { QuizGenerator } from "./list/QuizGenerator";
 import { Taxicity } from "./list/Taxicity";
-
+import { Molotov } from "./list/Molotov";
 
 import {
   ProjectData,
@@ -15,6 +15,7 @@ const projectDefinitions: ProjectDefinition[] = [
   AIDrivenGeneratedGame,
   QuizGenerator,
   Taxicity,
+  Molotov,
 ];
 
 export const allProjects: ProjectData[] = projectDefinitions.map(
