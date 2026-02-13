@@ -81,9 +81,9 @@ export const Taxicity: ProjectDefinition = {
 
         El bucle principal consiste en recoger y dejar pasajeros dentro de límites de tiempo estrictos. Empiezas con un solo asiento, pero a medida que ganas dinero, puedes reinvertirlo para desbloquear hasta <highlight type="important">4 plazas simultáneas</highlight>. Esto transforma el juego de una simple tarea de conducción a un <highlight type="accent">desafío logístico</highlight>, donde encontrar la ruta óptima para recoger y entregar a varios pasajeros a la vez es la clave para obtener puntuaciones altas. Para mantener la experiencia interesante, la <highlight type="glow">dificultad escala progresivamente</highlight>, aumentando la presión a medida que completas más encargos.
 
-        El juego cuenta con otra mecánica especial: ocasionalmente, un pasajero exigirá un viaje urgente al hospital, bloqueando el resto de asientos y obligándote a ignorar tu ruta planificada hasta completar el encargo. 
+        El juego cuenta con una mecánica especial para romper tu rutina: ocasionalmente, un pasajero exigirá un viaje urgente al hospital, bloqueando el resto de asientos y obligándote a ignorar tu ruta planificada hasta completar el encargo. 
         
-        Además, hay una <highlight type="soft">tienda</highlight> que puedes visitar entre viajes para gastar tus ganancias en mejoras del vehículo, como velocidad punta y aceleración, esenciales para compensar el aumento de la dificultad.
+        Además, existe una <highlight type="soft">tienda</highlight> que puedes visitar entre viajes para gastar tus ganancias en mejoras del vehículo, como velocidad punta y aceleración, esenciales para compensar el aumento de la dificultad.
 
         Desarrollado en <highlight type="soft">Godot</highlight> con <highlight type="soft">GDScript</highlight>, este proyecto me permitió aprender sobre diseño de videojuegos, <highlight type="soft">game loop</highlight> y gestión de estados. Mientras que los assets del entorno son de gratuitos de internet, la <highlight type="tag">Interfaz de Usuario (UI)</highlight> y toda la lógica subyacente fueron diseñadas e implementadas íntegramente por mí.`,
       role: "Creador, Diseñador y Desarrollador del Proyecto Completo",
