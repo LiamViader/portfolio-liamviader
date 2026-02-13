@@ -3,7 +3,7 @@
 import { motion, type Variants } from "framer-motion";
 import { useTranslations } from "next-intl";
 import { useState, useEffect, useRef } from "react";
-import { useSearchParams } from "next/navigation";
+import { useSearchParams, useRouter, usePathname } from "next/navigation";
 import { ClientCategorySlug } from "@/config/projectCategories";
 import { type TranslatedProject } from "@/data/projects/types";
 
@@ -75,6 +75,8 @@ export default function ProjectGallery({
   const itemVariants = createItemVariants(entranceAnimationEnabled);
 
   const searchParams = useSearchParams();
+  const router = useRouter();
+  const pathname = usePathname();
   const galleryRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
@@ -95,11 +97,15 @@ export default function ProjectGallery({
           top: absoluteTop - headerOffset,
           behavior: "smooth"
         });
+
+        const params = new URLSearchParams(searchParams.toString());
+        params.delete("scroll");
+        router.replace(`${pathname}?${params.toString()}`, { scroll: false });
       }, 800);
 
       return () => clearTimeout(timer);
     }
-  }, [searchParams]);
+  }, [searchParams, pathname, router]);
 
   return (
     <Section ref={galleryRef} className="relative">
