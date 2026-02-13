@@ -1,36 +1,59 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Liam Viader | Personal Portfolio
 
-## Getting Started
+A modern, high-performance, and multilingual portfolio built with **Next.js 15**, **Three.js**, and **Tailwind CSS 4**. This project showcases my journey as a developer, featuring interactive 3D elements, smooth animations, and a curated selection of my best work.
 
-First, run the development server:
+## Features
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+- **Multilingual Support**: Fully localized in English and Spanish using `next-intl`.
+- **3D Experiences**: Integrated 3D components and post-processing effects using React Three Fiber and Three.js.
+- **Fluid UI/UX**: Crafted with Tailwind CSS 4 and Framer Motion for a responsive feel.
+- **Dynamic Projects Showcase**: A modular data-driven project gallery with detailed descriptions.
+- **Performance Optimized**: Built on the Next.js App Router for fast loading and SEO friendliness.
+
+## Tech Stack
+
+- **Framework**: [Next.js 15](https://nextjs.org/) (App Router)
+- **Styling**: [Tailwind CSS 4](https://tailwindcss.com/), [Lucide React](https://lucide.dev/)
+- **Graphics**: [Three.js](https://threejs.org/), [React Three Fiber](https://r3f.docs.pmnd.rs/)
+- **Animations**: [Framer Motion](https://www.framer.com/motion/)
+- **Internationalization**: [next-intl](https://next-intl-docs.vercel.app/)
+- **Language**: [TypeScript](https://www.typescriptlang.org/)
+
+## Local Development
+
+### Prerequisites
+
+- Node.js (v18+ recommended)
+- npm, yarn, or pnpm
+
+### Setup
+
+1. **Clone the repository**:
+   ```bash
+   git clone https://github.com/LiamViader/portfolio-liamviader.git
+   cd portfolio-liamviader
+   ```
+
+2. **Install dependencies**:
+   ```bash
+   npm install
+   ```
+
+3. **Run the development server**:
+   ```bash
+   npm run dev
+   ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Project Structure
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+- `src/app/[locale]`: Main routing and page layouts (localized).
+- `src/components`: Reusable UI and 3D components.
+- `src/data`: Static project data and definitions.
+- `messages/`: Translation files (i18n).
+- `public/`: Static assets (images, icons, etc.).
 
-## Learn More
+---
 
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Developed by [Liam Viader](https://github.com/LiamViader).
