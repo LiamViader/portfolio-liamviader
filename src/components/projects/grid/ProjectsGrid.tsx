@@ -120,7 +120,7 @@ export default function ProjectsGrid({
                 animate={shouldAnimate ? "show" : "hidden"}
                 exit="exit"
 
-                transition={{ layout: { duration: 0.25, ease: "easeInOut" } }}
+                transition={{ layout: { duration: 0.65, ease: "easeInOut" } }}
               >
                 <div ref={setCardRef(project.id)} className="h-full w-full">
                   <ProjectCard

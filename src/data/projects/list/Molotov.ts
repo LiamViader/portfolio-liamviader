@@ -53,7 +53,7 @@ export const Molotov: ProjectDefinition = {
   is_featured: true,
   translations: {
     en: {
-      title: "Molotov (Videogame)",
+      title: "Molotov",
       short_description:
         "2D top-down survival shooter built with Phaser 3. Defend against enemy waves while scavenging for gasoline to fuel your escape vehicle.",
       full_description: `Molotov is a <highlight type="accent">2D top-down survival shooter</highlight> developed with <highlight type="soft">Phaser 3</highlight> and <highlight type="tag">JavaScript</highlight>. The player is placed in a hostile urban environment with the objective of escaping in an orange getaway vehicle. To achieve this, it is necessary to <highlight type="glow">scavenge for gasoline</highlight> by siphoning it from abandoned cars scattered throughout the map.
@@ -66,7 +66,7 @@ export const Molotov: ProjectDefinition = {
       role: "Creator, Designer, and Developer of the Full Videogame",
     },
     es: {
-      title: "Molotov (Videojuego)",
+      title: "Molotov",
       short_description:
         "Survival de disparos en vista cenital desarrollado con Phaser 3. Defiéndete de oleadas enemigas mientras buscas gasolina para alimentar tu vehículo de escape.",
       full_description: `Molotov es un <highlight type="accent">shooter de supervivencia 2D</highlight> con vista cenital desarrollado con <highlight type="soft">Phaser 3</highlight> y <highlight type="tag">JavaScript</highlight>. El jugador se encuentra en un entorno urbano hostil con el objetivo de escapar en un vehículo naranja. Para lograrlo, es necesario <highlight type="glow">buscar y recolectar gasolina</highlight> extrayéndola de los coches abandonados que se encuentran por el mapa.

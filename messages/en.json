@@ -172,7 +172,9 @@
     "featuredBadge": "Featured",
     "categories": {
       "AI": "AI",
-      "Game": "Games"
+      "Game": "Games",
+      "Software": "Software",
+      "Art": "Art"
     }
   }
 }

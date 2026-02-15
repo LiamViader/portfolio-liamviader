@@ -172,7 +172,9 @@
     "featuredBadge": "Destacado",
     "categories": {
       "AI": "IA",
-      "Game": "Videojuegos"
+      "Game": "Videojuegos",
+      "Software": "Software",
+      "Art": "Arte"
     }
   }
 }

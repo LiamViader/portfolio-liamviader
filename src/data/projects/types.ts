@@ -4,7 +4,7 @@ import type { Locale } from "@/i18n/routing";
 // also make the detailed description be able to have html content or some
 // formatting to be able to add links, bold, sections, media etc
 
-export const projectCategories = ["AI", "Game"] as const;
+export const projectCategories = ["AI", "Game", "Art"] as const;
 
 export type ProjectCategory = (typeof projectCategories)[number];
 
