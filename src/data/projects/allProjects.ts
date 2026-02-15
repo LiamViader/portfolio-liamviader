@@ -31,6 +31,7 @@ export function getProjectsByLocale(locale: string): TranslatedProject[] {
   const currentLocale = locale as Locale;
 
   return allProjects.map((project) => {
+
     const { translations, detailed_media, ...projectRest } = project;
 
     const fallbackTranslation = translations[defaultLocale];
