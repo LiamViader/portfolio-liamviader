@@ -3,6 +3,7 @@ import { QuizGenerator } from "./list/QuizGenerator";
 import { Taxicity } from "./list/Taxicity";
 import { Molotov } from "./list/Molotov";
 import { FrogSoldierRobot } from "./list/FrogSoldierRobot";
+import { HumanoidGoat } from "./list/HumanoidGoat";
 
 import {
   ProjectData,
@@ -18,6 +19,7 @@ const projectDefinitions: ProjectDefinition[] = [
   Taxicity,
   Molotov,
   FrogSoldierRobot,
+  HumanoidGoat,
 ];
 
 export const allProjects: ProjectData[] = projectDefinitions.map(
