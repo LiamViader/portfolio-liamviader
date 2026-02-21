@@ -89,8 +89,25 @@
     }
   },
   "Metadata": {
-    "title": "Portafolio - Liam Viader",
-    "description": "Desarrollo de Software, IA y Videojuegos"
+    "title": "Liam Viader",
+    "template": "%s | Liam Viader",
+    "description": "Desarrollo de Software, IA y Videojuegos",
+    "home": {
+      "title": "Liam Viader | Ingeniero de Software e IA",
+      "description": "Portafolio de Liam Viader, ingeniero de software especializado en sistemas impulsados por IA y desarrollo de videojuegos. Explora mis proyectos y trayectoria profesional."
+    },
+    "about": {
+      "title": "Sobre mí",
+      "description": "Conoce más sobre Liam Viader: ingeniero de software, desarrollador de videojuegos y entusiasta de la IA con base cerca de Barcelona. Mi trayectoria, habilidades y filosofía."
+    },
+    "projects": {
+      "title": "Proyectos",
+      "description": "Explora la galería de proyectos de Liam Viader, que incluye desde videojuegos y proyectos full-stack hasta sistemas multiagentes de IA y aplicaciones con IA."
+    },
+    "contact": {
+      "title": "Contacto",
+      "description": "Contacta con Liam Viader para colaboraciones, trabajo freelance o consultas profesionales."
+    }
   },
   "Navbar": {
     "home": "Inicio",

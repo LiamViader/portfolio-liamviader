@@ -4,28 +4,41 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "../globals.css";
 import { NextIntlClientProvider } from "next-intl";
 import LayoutContent from "@/components/LayoutContent";
-import getRequestConfig from '@/i18n/request'; 
+import getRequestConfig from '@/i18n/request';
 
 const geistSans = Geist({ variable: "--font-geist-sans", subsets: ["latin"] });
 const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"] });
 
-export async function generateMetadata({ 
-		params,
-}: { 
-		params: { locale: string } | Promise<{ locale: string }> 
+export async function generateMetadata({
+	params,
+}: {
+	params: { locale: string } | Promise<{ locale: string }>;
 }): Promise<Metadata> {
 	const resolvedParams = await params;
 	const { locale } = resolvedParams;
-	
-	const t = await getTranslations({ 
-			locale, 
-			namespace: 'Metadata' 
+
+	const t = await getTranslations({
+		locale,
+		namespace: "Metadata",
 	});
 
 	return {
-		title: t('title'),
-		description: t('description'),
-
+		title: {
+			default: t("title"),
+			template: t("template"),
+		},
+		description: t("description"),
+		openGraph: {
+			type: "website",
+			locale,
+			url: `https://liamviader.com/${locale}`,
+			siteName: "Liam Viader Portfolio",
+		},
+		twitter: {
+			card: "summary_large_image",
+			title: t("title"),
+			description: t("description"),
+		},
 	};
 }
 
@@ -33,12 +46,12 @@ export async function generateMetadata({
 
 export default async function RootLayout({
 	children,
-	params, 
+	params,
 }: {
 	children: React.ReactNode;
-	params: { locale: string } | Promise<{ locale: string }>; 
+	params: { locale: string } | Promise<{ locale: string }>;
 }) {
-	
+
 	const resolvedParams = await params;
 	const { locale } = resolvedParams;
 
@@ -53,7 +66,7 @@ export default async function RootLayout({
 			<body className={`${geistSans.variable} ${geistMono.variable} antialiased bg-gray-900 text-white min-h-screen flex flex-col`}>
 				<NextIntlClientProvider locale={locale} messages={messages}>
 					<LayoutContent>
-							{children} 
+						{children}
 					</LayoutContent>
 				</NextIntlClientProvider>
 			</body>

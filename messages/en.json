@@ -89,8 +89,25 @@
     }
   },
   "Metadata": {
-    "title": "Portfolio - Liam Viader",
-    "description": "Software, AI, and Video Game Development"
+    "title": "Liam Viader",
+    "template": "%s | Liam Viader",
+    "description": "Software, AI, and Video Game Development",
+    "home": {
+      "title": "Liam Viader | Software Engineer & AI",
+      "description": "Portfolio of Liam Viader, software engineer specializing in AI-driven systems and game development. Explore my projects and professional background."
+    },
+    "about": {
+      "title": "About Me",
+      "description": "Learn more about Liam Viader: software engineer, game developer, and AI enthusiast based near Barcelona. My trajectory, skills, and philosophy."
+    },
+    "projects": {
+      "title": "Projects",
+      "description": "Explore Liam Viader's project gallery, ranging from videogames and full-stack projects to multi-agent AI systems and AI-powered apps."
+    },
+    "contact": {
+      "title": "Contact",
+      "description": "Get in touch with Liam Viader for collaborations, freelance work, or professional inquiries."
+    }
   },
   "Navbar": {
     "home": "Home",
