@@ -50,7 +50,7 @@ export const Molotov: ProjectDefinition = {
     },
   ],
   categories: ["Game"],
-  is_featured: true,
+  is_featured: false,
   translations: {
     en: {
       title: "Molotov",

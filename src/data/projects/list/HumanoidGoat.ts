@@ -2,12 +2,12 @@ import { ProjectDefinition } from "../types";
 
 export const HumanoidGoat: ProjectDefinition = {
   slug: "humanoid-goat",
-  date: "2023-12",
+  date: "2023-11",
   tags: [
     "Blender",
     "Substance Painter",
   ],
-  media_preview: "/images/projects/humanoid_goat/preview.jpg",
+  media_preview: "/images/projects/humanoid_goat/preview.png",
   links: [
     {
       url: "https://drive.google.com/uc?export=download&id=1zTvVovTRX8fRa7EM6iiNcqc6UqPFJBQ4",
@@ -94,7 +94,7 @@ export const HumanoidGoat: ProjectDefinition = {
     },
   ],
   categories: ["Art", "Game"],
-  is_featured: true,
+  is_featured: false,
   translations: {
     en: {
       title: "Humanoid Goat",

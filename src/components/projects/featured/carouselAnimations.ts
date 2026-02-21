@@ -6,8 +6,7 @@ export type CarouselVariant =
   | "left"
   | "right"
   | "hiddenLeft"
-  | "hiddenRight"
-  | "hiddenCenter";
+  | "hiddenRight";
 
 type AnimScalar = string | number;
 
@@ -38,7 +37,6 @@ const variantStyles: Record<CarouselVariant, VariantStyle> = {
   right: { x: "8%", scale: 0.9, opacity: 1, zIndex: 20 },
   hiddenLeft: { x: "-120%", scale: 0.5, opacity: 0, zIndex: 10 },
   hiddenRight: { x: "20%", scale: 0.5, opacity: 0, zIndex: 10 },
-  hiddenCenter: { x: "-50%", scale: 0.5, opacity: 0, zIndex: 10 },
 };
 
 const peekVariantStyles: Record<CarouselVariant, VariantStyle> = {
@@ -47,10 +45,9 @@ const peekVariantStyles: Record<CarouselVariant, VariantStyle> = {
   right: { x: "55%", scale: 0.9, opacity: 1, zIndex: 20 },
   hiddenLeft: { x: "-260%", scale: 0.5, opacity: 0, zIndex: 10 },
   hiddenRight: { x: "160%", scale: 0.5, opacity: 0, zIndex: 10 },
-  hiddenCenter: { x: "-50%", scale: 0.5, opacity: 0, zIndex: 10 },
 };
 
-const hiddenVariants: CarouselVariant[] = ["hiddenLeft", "hiddenRight", "hiddenCenter"];
+const hiddenVariants: CarouselVariant[] = ["hiddenLeft", "hiddenRight"];
 
 export const isHiddenVariant = (v: CarouselVariant) => hiddenVariants.includes(v);
 export const isCenterVariant = (v: CarouselVariant) => v === "center";
@@ -73,50 +70,65 @@ export function getVariantAnimationFromTo(
 
   const from = styles[prev];
 
+  // TELEPORT LOGIC: 
+  // If we are moving to a visible side ('left' or 'right') from a hidden state,
+  // we must ensure we start from the correct side to prevent sliding across the screen.
+  let startX = from.x;
+  let startScale = from.scale;
+  let startOpacity = from.opacity;
+
+  if (isHiddenVariant(prev)) {
+    if (next === "right") {
+      startX = styles.hiddenRight.x;
+    } else if (next === "left") {
+      startX = styles.hiddenLeft.x;
+    }
+  }
+
   if (prev === "center" && next !== "center") {
     return {
       animate: {
         x: ["-50%", to.x],
         scale: [1, to.scale],
-        opacity: 1,
+        opacity: [1, to.opacity],
         zIndex: to.zIndex,
       },
-      transition: { duration: DUR_ENTER_CENTER_S, ease: EASE_LEAVE, opacity: { duration: 0 } },
+      transition: { duration: DUR_ENTER_CENTER_S, ease: EASE_LEAVE },
     };
   }
 
   if (next === "center" && prev !== "center") {
     return {
       animate: {
-        x: [from.x, "-50%"],
-        scale: [from.scale, 1],
-        opacity: 1,
+        x: [startX, "-50%"],
+        scale: [startScale, 1],
+        opacity: [startOpacity, 1],
         zIndex: to.zIndex,
       },
-      transition: { duration: DUR_ENTER_CENTER_S, ease: EASE_ENTER, opacity: { duration: 0 } },
+      transition: { duration: DUR_ENTER_CENTER_S, ease: EASE_ENTER },
     };
   }
 
-  const enterRightFromHidden = next === "right" && (prev === "hiddenRight" || prev === "hiddenCenter");
-  const enterLeftFromHidden = next === "left" && (prev === "hiddenLeft" || prev === "hiddenCenter");
+  const enterRightFromHidden = next === "right" && isHiddenVariant(prev);
+  const enterLeftFromHidden = next === "left" && isHiddenVariant(prev);
 
   if (enterRightFromHidden || enterLeftFromHidden) {
     return {
       animate: {
-        x: [from.x, to.x],
-        scale: [from.scale, to.scale],
-        opacity: 1,
+        x: [startX, to.x],
+        scale: [startScale, to.scale],
+        opacity: [startOpacity, 1],
         zIndex: to.zIndex,
       },
-      transition: { duration: DUR_ENTER_CENTER_S, ease: EASE_ENTER, opacity: { duration: 0 } },
+      transition: { duration: DUR_ENTER_CENTER_S, ease: EASE_ENTER },
     };
   }
 
   return {
     animate: {
-      x: [from.x, to.x],
-      scale: [from.scale, to.scale],
-      opacity: [from.opacity, to.opacity],
+      x: [startX, to.x],
+      scale: [startScale, to.scale],
+      opacity: [startOpacity, to.opacity],
       zIndex: to.zIndex,
     },
     transition: { duration: DUR_ENTER_CENTER_S, ease: EASE_LEAVE },

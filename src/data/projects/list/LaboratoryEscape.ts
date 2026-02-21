@@ -2,7 +2,7 @@ import { ProjectDefinition } from "../types";
 
 export const LaboratoryEscape: ProjectDefinition = {
   slug: "laboratory-escape",
-  date: "2024-12",
+  date: "2023-12",
   tags: [
     "Unity",
     "Shader Graph",
@@ -127,15 +127,31 @@ export const LaboratoryEscape: ProjectDefinition = {
       title: "Laboratory Escape",
       short_description:
         "Puzzle game in third person. The player must solve puzzles using a laser that shrinks objects to escape from a laboratory",
-      full_description: ``,
-      role: "",
+      full_description: `Laboratory Escape is a <highlight type="accent">third-person</highlight> puzzle game developed in <highlight type="tag">Unity 3D</highlight> by a team of 5 people. Viewed through security cameras, you play as a scientist trapped in a laboratory who must escape by solving various puzzles and challenges.
+
+The core mechanic centers on a <highlight type="glow">laser flashlight</highlight> capable of <highlight type="important">shrinking and enlarging objects</highlight>. To acquire it, the player must navigate a <highlight type="accent">mirror room</highlight>, correctly orienting mirrors to bounce the laser toward the goal. In addition to classic escape room puzzles involving codes and clues, the game features sections where the protagonist must shrink objects or even themselves to perform <highlight type="important">parkour</highlight> inside laboratory cabinets.
+
+The visual style is defined by <highlight type="accent">custom shaders</highlight> created with <highlight type="tag">Shader Graph</highlight>, featuring effects such as night vision, transformation distortion, dynamic liquids in lab glassware, intermittent glow systems for interactable objects and more.
+
+Beyond the technical development, this project was a fundamental experience in <highlight type="accent">collaborative teamwork</highlight>, requiring close coordination within a multidisciplinary team to build a relatively complex and cohesive gameplay experience.
+
+My role in the project included technical <highlight type="accent">mechanics design</highlight>, <highlight type="important">core programming</highlight> of the game logic, <highlight type="accent">level design and assembly</highlight> of the mirror room, and the <highlight type="glow">artistic design and development of all shaders</highlight>.`,
+      role: "Lead Programmer and Technical Designer",
     },
     es: {
       title: "Laboratory Escape",
       short_description:
         "Videojuego de puzzles en tercera persona. El jugador debe resolver puzzles usando un láser que encoge objetos para escapar de un laboratorio",
-      full_description: ``,
-      role: "",
+      full_description: `Laboratory Escape es un videojuego de puzzles en <highlight type="accent">tercera persona</highlight> desarrollado en <highlight type="tag">Unity 3D</highlight> por un equipo de 5 personas. Bajo una estética de cámaras de seguridad, el jugador encarna a un científico atrapado en un laboratorio que debe escapar resolviendo diversos acertijos y desafíos.
+
+La mecánica central gira en torno a una <highlight type="glow">linterna láser</highlight> capaz de <highlight type="important">encoger y agrandar objetos</highlight>. Para obtenerla, el jugador debe navegar por una <highlight type="accent">sala de espejos</highlight>, orientando correctamente los espejos para hacer que el láser rebote hacia el objetivo. Además de los rompecabezas clásicos de escape room con códigos y pistas, el juego incluye secciones donde el protagonista debe encoger objetos o incluso a sí mismo para realizar <highlight type="important">parkour</highlight> por el mobiliario del laboratorio.
+
+El estilo visual viene definido por <highlight type="accent">shaders personalizados</highlight> creados con <highlight type="tag">Shader Graph</highlight>, con efectos como visión nocturna, distorsión por transformación, líquidos dinámicos en recipientes de vidrio, sistemas de brillo intermitente para objetos interactuables y más.
+
+Más allá del desarrollo técnico, este proyecto supuso una experiencia fundamental en el <highlight type="accent">trabajo en equipo colaborativo</highlight>, requiriendo una estrecha coordinación dentro de un equipo multidisciplinar para construir una experiencia de juego relativamente compleja y cohesiva.
+
+Mi rol en el proyecto incluyó el <highlight type="accent">diseño técnico de mecánicas</highlight>, la <highlight type="important">programación base</highlight> de la lógica del juego, el <highlight type="accent">diseño y montaje</highlight> de la sala de espejos, y el <highlight type="glow">diseño artístico y desarrollo de todos los shaders</highlight>.`,
+      role: "Programador Principal y Diseñador Técnico",
     },
   },
 };

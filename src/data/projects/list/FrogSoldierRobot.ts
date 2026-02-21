@@ -94,7 +94,7 @@ export const FrogSoldierRobot: ProjectDefinition = {
     },
   ],
   categories: ["Art", "Game"],
-  is_featured: true,
+  is_featured: false,
   translations: {
     en: {
       title: "Frog Soldier Robot",

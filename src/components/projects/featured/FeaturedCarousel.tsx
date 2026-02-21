@@ -144,8 +144,7 @@ function getIntroOrder(nextVariant: CarouselVariant): number {
     case "left": return 2;
     case "hiddenRight": return 3;
     case "hiddenLeft": return 4;
-    case "hiddenCenter": return 5;
-    default: return 6;
+    default: return 5;
   }
 }
 
@@ -358,7 +357,10 @@ export function FeaturedCarousel({
       if (bd === 1) return "left";
       if (fd === 1) return "right";
 
-      if (n === 4 && fd === 2) return "hiddenCenter";
+      // For the "opposite" item in n=4 (fd=2, bd=2)
+      if (n === 4 && fd === 2) {
+        return dir === 1 ? "hiddenLeft" : "hiddenRight";
+      }
 
       const half = Math.floor(n / 2);
       if (dir === 1) {
