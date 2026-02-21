@@ -126,7 +126,7 @@ export const LaboratoryEscape: ProjectDefinition = {
     en: {
       title: "Laboratory Escape",
       short_description:
-        "Puzzle game in third person. The player must solve puzzles using a laser that shrinks objects to escape from a laboratory",
+        "Puzzle game in third person. The player must solve puzzles with the help of a laser that shrinks objects to escape from a laboratory",
       full_description: `Laboratory Escape is a <highlight type="accent">third-person</highlight> puzzle game developed in <highlight type="tag">Unity 3D</highlight> by a team of 5 people. Viewed through security cameras, you play as a scientist trapped in a laboratory who must escape by solving various puzzles and challenges.
 
 The core mechanic centers on a <highlight type="glow">laser flashlight</highlight> capable of <highlight type="important">shrinking and enlarging objects</highlight>. To acquire it, the player must navigate a <highlight type="accent">mirror room</highlight>, correctly orienting mirrors to bounce the laser toward the goal. In addition to classic escape room puzzles involving codes and clues, the game features sections where the protagonist must shrink objects or even themselves to perform <highlight type="important">parkour</highlight> inside laboratory cabinets.
@@ -141,7 +141,7 @@ My role in the project included technical <highlight type="accent">mechanics des
     es: {
       title: "Laboratory Escape",
       short_description:
-        "Videojuego de puzzles en tercera persona. El jugador debe resolver puzzles usando un láser que encoge objetos para escapar de un laboratorio",
+        "Videojuego de puzzles en tercera persona. El jugador debe resolver puzzles con la ayuda de un láser que encoge objetos para escapar de un laboratorio",
       full_description: `Laboratory Escape es un videojuego de puzzles en <highlight type="accent">tercera persona</highlight> desarrollado en <highlight type="tag">Unity 3D</highlight> por un equipo de 5 personas. Bajo una estética de cámaras de seguridad, el jugador encarna a un científico atrapado en un laboratorio que debe escapar resolviendo diversos acertijos y desafíos.
 
 La mecánica central gira en torno a una <highlight type="glow">linterna láser</highlight> capaz de <highlight type="important">encoger y agrandar objetos</highlight>. Para obtenerla, el jugador debe navegar por una <highlight type="accent">sala de espejos</highlight>, orientando correctamente los espejos para hacer que el láser rebote hacia el objetivo. Además de los rompecabezas clásicos de escape room con códigos y pistas, el juego incluye secciones donde el protagonista debe encoger objetos o incluso a sí mismo para realizar <highlight type="important">parkour</highlight> por el mobiliario del laboratorio.
