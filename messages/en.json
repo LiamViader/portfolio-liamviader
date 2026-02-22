@@ -186,7 +186,14 @@
       "send": "Send message",
       "sending": "Sending...",
       "success": "Message sent successfully!",
-      "error": "Something went wrong. Please try again."
+      "sendEmailDirectly": "contact@liamviader.com",
+      "retry": "Retry",
+      "errors": {
+        "LIMIT_EXCEEDED": "I've reached my quota limit for contact form submissions. Please reach out directly at my email adress.",
+        "GENERIC_ERROR": "Something went wrong. Please try again later or reach out directly at my email adress.",
+        "SERVER_ERROR": "Something went wrong. Please try again later or reach out directly at my email adress.",
+        "TURNSTILE_ERROR": "Security verification failed. Please refresh the page and try again."
+      }
     }
   },
   "ProjectModal": {

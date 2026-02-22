@@ -186,7 +186,14 @@
       "send": "Enviar mensaje",
       "sending": "Enviando...",
       "success": "¡Mensaje enviado con éxito!",
-      "error": "Algo ha salido mal. Por favor, inténtalo de nuevo."
+      "sendEmailDirectly": "contact@liamviader.com",
+      "retry": "Intentar de nuevo",
+      "errors": {
+        "LIMIT_EXCEEDED": "He alcanzado mi límite de envíos del formulario de contacto. Por favor, contacta directamente en mi dirección de correo electrónico.",
+        "GENERIC_ERROR": "Algo ha salido mal. Por favor, inténtalo de nuevo más tarde o contacta directamente en mi dirección de correo electrónico.",
+        "SERVER_ERROR": "Algo ha salido mal. Por favor, inténtalo de nuevo más tarde o contacta directamente en mi dirección de correo electrónico.",
+        "TURNSTILE_ERROR": "La verificación de seguridad ha fallado. Por favor, recarga la página e inténtalo de nuevo."
+      }
     }
   },
   "ProjectModal": {
