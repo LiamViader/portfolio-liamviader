@@ -22,7 +22,7 @@ type Graph = {
   edgesByVertex: number[][];
   positions: Float32Array;
   colors: Float32Array;
-  tLit: Float32Array;              
+  tLit: Float32Array;
   geometry: THREE.BufferGeometry;
   radius: number;
 };
@@ -90,8 +90,26 @@ export default function HexGridTrails({
 
   const { size, camera, gl } = useThree();
   const dpr = gl.getPixelRatio();
-  const width = size.width / dpr;
-  const height = size.height / dpr;
+
+  const [stableSize, setStableSize] = React.useState({
+    w: size.width / dpr,
+    h: size.height / dpr
+  });
+
+  useEffect(() => {
+    const currentW = size.width / dpr;
+    const currentH = size.height / dpr;
+
+    const diffW = Math.abs(currentW - stableSize.w);
+    const diffH = Math.abs(currentH - stableSize.h);
+
+    if (diffW > 150 || diffH > 150) {
+      setStableSize({ w: currentW, h: currentH });
+    }
+  }, [size.width, size.height, dpr, stableSize]);
+
+  const width = stableSize.w;
+  const height = stableSize.h;
 
   useLayoutEffect(() => {
     if (camera instanceof THREE.OrthographicCamera) {
@@ -145,7 +163,7 @@ export default function HexGridTrails({
   }, [graph, opts.trailCount]);
 
   const groupRef = useRef<THREE.Group>(null);
-  
+
   // Referencia para el tiempo simulado (pausable)
   const simTimeRef = useRef(0);
 
@@ -172,7 +190,7 @@ export default function HexGridTrails({
 
     // Usamos safeDt para el cálculo de pasos
     for (const tr of trailsRef.current) {
-      tr.tAccum += safeDt; 
+      tr.tAccum += safeDt;
       if (tr.tAccum >= stepDt) {
         tr.tAccum -= stepDt;
         const next = pickNextEdgeFast(graph, tr.edge, tr.at, opts.avoidBacktrack);
@@ -277,8 +295,8 @@ function buildHexGraph(
   }
 
   const positions = new Float32Array(edges.length * 2 * 3);
-  const colors    = new Float32Array(edges.length * 2 * 3);
-  const tLit      = new Float32Array(edges.length * 2);
+  const colors = new Float32Array(edges.length * 2 * 3);
+  const tLit = new Float32Array(edges.length * 2);
   let pi = 0, ci = 0;
 
   const color = new THREE.Color();
@@ -301,8 +319,8 @@ function buildHexGraph(
 
   const geometry = new THREE.BufferGeometry();
   geometry.setAttribute("position", new THREE.BufferAttribute(positions, 3).setUsage(THREE.StaticDrawUsage));
-  geometry.setAttribute("color",    new THREE.BufferAttribute(colors, 3).setUsage(THREE.StaticDrawUsage));
-  geometry.setAttribute("tLit",     new THREE.BufferAttribute(tLit, 1).setUsage(THREE.DynamicDrawUsage));
+  geometry.setAttribute("color", new THREE.BufferAttribute(colors, 3).setUsage(THREE.StaticDrawUsage));
+  geometry.setAttribute("tLit", new THREE.BufferAttribute(tLit, 1).setUsage(THREE.DynamicDrawUsage));
   geometry.computeBoundingSphere();
 
   return { vertices, edges, edgesByVertex, positions, colors, tLit, geometry, radius };
