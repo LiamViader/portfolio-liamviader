@@ -155,7 +155,7 @@ export function ContactForm() {
             />
           </div>
 
-          <div className="space-y-2">
+          <div className="space-t-2">
             <label className="text-[11px] font-bold uppercase tracking-widest text-sky-200/70 px-1">
               {t("message")}
             </label>
@@ -179,9 +179,11 @@ export function ContactForm() {
             </motion.div>
           )}
 
-          <div className="flex flex-col md:flex-row md:items-end gap-4 mt-8 min-h-[160px] md:min-h-[100px]">
+          <div className="flex flex-col md:flex-row items-stretch md:items-center gap-4 mt-8 md:h-[75px] w-full overflow-hidden relative">
             <div
-              className={`flex-1 flex justify-start transition-all duration-500 ease-in-out ${turnstileToken ? "opacity-0 invisible w-0 h-0 md:w-auto md:h-auto" : "opacity-100 visible"
+              className={`transition-all duration-700 ease-in-out overflow-hidden flex-shrink-0 ${turnstileToken
+                ? "w-0 h-0 md:h-auto opacity-0 invisible"
+                : "w-full md:w-[300px] h-auto opacity-100 visible"
                 }`}
             >
               <Turnstile
@@ -189,10 +191,10 @@ export function ContactForm() {
                 siteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY!}
                 onSuccess={(token) => setTurnstileToken(token)}
                 onExpire={() => setTurnstileToken(null)}
-                options={{ theme: 'dark', size: 'flexible' }}
+                options={{ size: 'flexible' }}
               />
             </div>
-            <div className="flex-1 w-full">
+            <div className="flex-grow transition-all duration-700 ease-in-out h-[52px] md:h-full flex items-center">
               {errorCode === "LIMIT_EXCEEDED" ? (
                 <a
                   href={`mailto:contact@liamviader.com`}
