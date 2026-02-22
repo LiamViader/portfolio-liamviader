@@ -179,7 +179,7 @@ export function ContactForm() {
             </motion.div>
           )}
 
-          <div className="flex flex-col md:flex-row items-stretch md:items-center gap-4 mt-8 md:h-[75px] w-full overflow-hidden relative">
+          <div className="flex flex-col md:flex-row items-stretch md:items-center gap-4 mt-8 md:h-[65px] w-full overflow-hidden relative">
             <div
               className={`transition-all duration-700 ease-in-out overflow-hidden flex-shrink-0 ${turnstileToken
                 ? "w-0 h-0 md:h-auto opacity-0 invisible"
