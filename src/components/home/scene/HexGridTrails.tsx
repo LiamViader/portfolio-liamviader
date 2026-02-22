@@ -90,26 +90,8 @@ export default function HexGridTrails({
 
   const { size, camera, gl } = useThree();
   const dpr = gl.getPixelRatio();
-
-  const [stableSize, setStableSize] = React.useState({
-    w: size.width / dpr,
-    h: size.height / dpr
-  });
-
-  useEffect(() => {
-    const currentW = size.width / dpr;
-    const currentH = size.height / dpr;
-
-    const diffW = Math.abs(currentW - stableSize.w);
-    const diffH = Math.abs(currentH - stableSize.h);
-
-    if (diffW > 150 || diffH > 150) {
-      setStableSize({ w: currentW, h: currentH });
-    }
-  }, [size.width, size.height, dpr, stableSize]);
-
-  const width = stableSize.w;
-  const height = stableSize.h;
+  const width = size.width / dpr;
+  const height = size.height / dpr;
 
   useLayoutEffect(() => {
     if (camera instanceof THREE.OrthographicCamera) {

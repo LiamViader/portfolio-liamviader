@@ -178,68 +178,73 @@ export function ContactForm() {
               <p>{t(`errors.${errorCode || "GENERIC_ERROR"}`)}</p>
             </motion.div>
           )}
-          <div
-            className={`flex justify-center transition-all duration-500 ease-in-out overflow-hidden ${turnstileToken
-              ? "opacity-0 min-h-0 h-0 py-0 mb-0"
-              : "opacity-100 min-h-[90px] py-2 mb-2"
-              }`}
-          >
-            <Turnstile
-              ref={turnstileRef}
-              siteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY!}
-              onSuccess={(token) => setTurnstileToken(token)}
-              onExpire={() => setTurnstileToken(null)}
-            />
+
+          <div className="flex flex-col md:flex-row md:items-end gap-4 mt-8 min-h-[160px] md:min-h-[100px]">
+            <div
+              className={`flex-1 flex justify-start transition-all duration-500 ease-in-out ${turnstileToken ? "opacity-0 invisible w-0 h-0 md:w-auto md:h-auto" : "opacity-100 visible"
+                }`}
+            >
+              <Turnstile
+                ref={turnstileRef}
+                siteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY!}
+                onSuccess={(token) => setTurnstileToken(token)}
+                onExpire={() => setTurnstileToken(null)}
+                options={{ theme: 'dark', size: 'flexible' }}
+              />
+            </div>
+            <div className="flex-1 w-full">
+              {errorCode === "LIMIT_EXCEEDED" ? (
+                <a
+                  href={`mailto:contact@liamviader.com`}
+                  className="w-full py-4 rounded-xl font-bold tracking-wider uppercase text-xs sm:text-sm flex items-center justify-center gap-3 transition-all duration-300 bg-sky-500/20 hover:bg-sky-500/30 text-sky-200 border border-sky-500/40"
+                >
+                  <Mail className="w-4 h-4" />
+                  {t("sendEmailDirectly")}
+                </a>
+              ) : (
+                <button
+                  type="submit"
+                  disabled={status === "sending" || status === "success"}
+                  className={`
+                    w-full cursor-pointer py-4 rounded-xl font-bold tracking-wider uppercase text-xs sm:text-sm flex items-center justify-center gap-3 transition-all duration-300
+                    ${status === "success"
+                      ? "bg-emerald-500/30 text-emerald-400 border border-emerald-500/40"
+                      : status === "error"
+                        ? "bg-amber-500/20 text-amber-200 border border-amber-500/30 hover:bg-amber-500/30"
+                        : "bg-sky-500/50 hover:bg-sky-500/60 text-sky-200 border border-sky-500/60 active:scale-[0.98]"
+                    }
+                    disabled:opacity-80 disabled:cursor-not-allowed
+                  `}
+                >
+                  {status === "idle" && (
+                    <>
+                      <Send className="w-4 h-4" />
+                      {t("send")}
+                    </>
+                  )}
+                  {status === "sending" && (
+                    <>
+                      <Loader2 className="w-4 h-4 animate-spin" />
+                      {t("sending")}
+                    </>
+                  )}
+                  {status === "success" && (
+                    <>
+                      <CheckCircle2 className="w-4 h-4" />
+                      {t("success")}
+                    </>
+                  )}
+                  {status === "error" && (
+                    <>
+                      <RefreshCcw className="w-4 h-4" />
+                      {t("retry")}
+                    </>
+                  )}
+                </button>
+              )}
+            </div>
+
           </div>
-          {errorCode === "LIMIT_EXCEEDED" ? (
-            <a
-              href={`mailto:contact@liamviader.com`}
-              className="w-full py-4 rounded-xl font-bold tracking-wider uppercase text-xs sm:text-sm flex items-center justify-center gap-3 transition-all duration-300 bg-sky-500/20 hover:bg-sky-500/30 text-sky-200 border border-sky-500/40"
-            >
-              <Mail className="w-4 h-4" />
-              {t("sendEmailDirectly")}
-            </a>
-          ) : (
-            <button
-              type="submit"
-              disabled={status === "sending" || status === "success"}
-              className={`
-                w-full cursor-pointer py-4 rounded-xl font-bold tracking-wider uppercase text-xs sm:text-sm flex items-center justify-center gap-3 transition-all duration-300
-                ${status === "success"
-                  ? "bg-emerald-500/30 text-emerald-400 border border-emerald-500/40"
-                  : status === "error"
-                    ? "bg-amber-500/20 text-amber-200 border border-amber-500/30 hover:bg-amber-500/30"
-                    : "bg-sky-500/50 hover:bg-sky-500/60 text-sky-200 border border-sky-500/60 active:scale-[0.98]"
-                }
-                disabled:opacity-80 disabled:cursor-not-allowed
-              `}
-            >
-              {status === "idle" && (
-                <>
-                  <Send className="w-4 h-4" />
-                  {t("send")}
-                </>
-              )}
-              {status === "sending" && (
-                <>
-                  <Loader2 className="w-4 h-4 animate-spin" />
-                  {t("sending")}
-                </>
-              )}
-              {status === "success" && (
-                <>
-                  <CheckCircle2 className="w-4 h-4" />
-                  {t("success")}
-                </>
-              )}
-              {status === "error" && (
-                <>
-                  <RefreshCcw className="w-4 h-4" />
-                  {t("retry")}
-                </>
-              )}
-            </button>
-          )}
         </form>
       </div>
     </motion.div>
