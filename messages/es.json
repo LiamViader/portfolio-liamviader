@@ -172,6 +172,21 @@
           "href": "https://github.com/LiamViader"
         }
       }
+    },
+    "form": {
+      "title": "Envíame un <highlight>mensaje</highlight>",
+      "name": "Nombre",
+      "email": "Correo electrónico",
+      "subject": "Asunto",
+      "message": "Mensaje",
+      "placeholderName": "Tu nombre",
+      "placeholderEmail": "tu@correo.com",
+      "placeholderSubject": "¿En qué puedo ayudarte?",
+      "placeholderMessage": "Introduce tu mensaje aquí...",
+      "send": "Enviar mensaje",
+      "sending": "Enviando...",
+      "success": "¡Mensaje enviado con éxito!",
+      "error": "Algo ha salido mal. Por favor, inténtalo de nuevo."
     }
   },
   "ProjectModal": {

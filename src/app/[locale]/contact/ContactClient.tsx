@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, type Variants } from "framer-motion";
-import { useState, type ComponentType } from "react";
+import { useState, useMemo, type ComponentType } from "react";
 import { useTranslations } from "next-intl";
 import { Mail, Building2, MessageSquare, Hammer, ArrowUpRight } from "lucide-react";
 import { FaGithub, FaLinkedin } from "react-icons/fa";
@@ -16,6 +16,7 @@ import { ContentBlock } from "@/components/layout/ContentBlock";
 import { InfoCard } from "@/components/home/InfoCard";
 import { Stack } from "@/components/layout/Stack";
 import PulseHexGridCanvas, { HexGridTrails } from "@/components/home/scene/PulseHexGridCanvas";
+import { ContactForm } from "@/components/contact/ContactForm";
 
 type AnyIcon = ComponentType<{ className?: string }>;
 
@@ -74,8 +75,8 @@ export default function ContactClient() {
   const [introDone, setIntroDone] = useState(false);
   const { entranceAnimationsEnabled, isSmallScreen } = usePerformanceConfig();
 
-  const linkCardVariant = linkCardVariants(entranceAnimationsEnabled);
-  const cardsContainerVariant = cardsContainerVariants(entranceAnimationsEnabled);
+  const linkCardVariant = useMemo(() => linkCardVariants(entranceAnimationsEnabled), [entranceAnimationsEnabled]);
+  const cardsContainerVariant = useMemo(() => cardsContainerVariants(entranceAnimationsEnabled), [entranceAnimationsEnabled]);
 
   const highlightCards = [
     {
@@ -156,13 +157,13 @@ export default function ContactClient() {
               l: 37,
             }}
             options={{
-              trailCount: isSmallScreen ? 7 : 22,
+              trailCount: isSmallScreen ? 9 : 25,
               stepsPerSecond: isSmallScreen ? 15 : 20,
               fadeSeconds: isSmallScreen ? 4 : 7,
             }}
           />
         </PulseHexGridCanvas>
-        <div className="absolute inset-0 bg-[linear-gradient(to_bottom,_rgb(3,7,18)_0%,_rgb(3,7,18)_15%,_rgba(3,7,18,0.3)_50%,_rgb(3,7,18)_85%,_rgb(3,7,18)_100%)] " />
+        <div className="absolute inset-0 bg-[linear-gradient(to_bottom,_rgb(3,7,18)_0%,_rgb(3,7,18)_8%,_rgba(3,7,18,0.3)_50%,_rgb(3,7,18)_92%,_rgb(3,7,18)_100%)] " />
         <Container>
           <ContentBlock>
             <Stack size="lg">
@@ -268,6 +269,7 @@ export default function ContactClient() {
                     ))}
                   </div>
                 </Stack>
+
               </div>
 
               <div className="lg:hidden mx-auto">
@@ -317,7 +319,14 @@ export default function ContactClient() {
                   </div>
                 </Stack>
               </div>
+
+
             </Stack>
+          </ContentBlock>
+        </Container>
+        <Container>
+          <ContentBlock>
+            <ContactForm />
           </ContentBlock>
         </Container>
       </OneSectionPageSection>

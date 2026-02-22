@@ -10,9 +10,9 @@ interface EyebrowProps extends HTMLAttributes<HTMLParagraphElement> {
 export const Eyebrow = forwardRef<HTMLParagraphElement, EyebrowProps>(
   ({ children, align = "left", className, ...props }, ref) => {
     return (
-      <p
+      <h2
         ref={ref}
-        {...props} 
+        {...props}
         className={cn(
           "uppercase tracking-[0.3em] ",
           align === "center" && "text-center",
@@ -20,7 +20,7 @@ export const Eyebrow = forwardRef<HTMLParagraphElement, EyebrowProps>(
         )}
       >
         {children}
-      </p>
+      </h2>
     );
   }
 );

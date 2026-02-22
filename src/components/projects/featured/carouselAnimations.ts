@@ -70,12 +70,9 @@ export function getVariantAnimationFromTo(
 
   const from = styles[prev];
 
-  // TELEPORT LOGIC: 
-  // If we are moving to a visible side ('left' or 'right') from a hidden state,
-  // we must ensure we start from the correct side to prevent sliding across the screen.
   let startX = from.x;
-  let startScale = from.scale;
-  let startOpacity = from.opacity;
+  const startScale = from.scale;
+  const startOpacity = from.opacity;
 
   if (isHiddenVariant(prev)) {
     if (next === "right") {
