@@ -2,7 +2,21 @@ import { NextResponse } from "next/server";
 
 import { Resend } from "resend";
 
+import { Redis } from "@upstash/redis";
+import { Ratelimit } from "@upstash/ratelimit";
+
 const resend = new Resend(process.env.RESEND_API_KEY);
+
+const redis = new Redis({
+  url: process.env.KV_REST_API_URL!,
+  token: process.env.KV_REST_API_TOKEN!,
+});
+
+const ratelimit = new Ratelimit({
+  redis: redis,
+  limiter: Ratelimit.slidingWindow(3, "24 h"),
+  prefix: "portfolio", // Prefix to avoid data mixing
+});
 
 export async function POST(req: Request) {
   try {
@@ -19,6 +33,18 @@ export async function POST(req: Request) {
         { status: 400 }
       );
     }
+
+    // --- A. RATE LIMIT BY IP ---
+    const ip = req.headers.get("x-forwarded-for")?.split(',')[0] ?? "127.0.0.1";
+    const { success: limitOk } = await ratelimit.limit(ip);
+
+    if (!limitOk) {
+      return NextResponse.json(
+        { success: false, errorCode: "LIMIT_EXCEEDED" },
+        { status: 429 }
+      );
+    }
+
 
     // 2. TURNSTILE VERIFICATION
     if (!turnstileToken) {
