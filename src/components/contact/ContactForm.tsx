@@ -189,7 +189,6 @@ export function ContactForm() {
               siteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY!}
               onSuccess={(token) => setTurnstileToken(token)}
               onExpire={() => setTurnstileToken(null)}
-              data-theme="dark"
             />
           </div>
           {errorCode === "LIMIT_EXCEEDED" ? (
