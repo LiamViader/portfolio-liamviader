@@ -274,6 +274,13 @@ export default function ContactClient() {
 
               </div>
 
+            </Stack>
+          </ContentBlock>
+        </Container>
+        <Container>
+          <ContentBlock>
+            <Stack size="md">
+              <ContactForm />
               <div className="lg:hidden mx-auto">
                 <Stack size="sm">
                   <div className="justify-center items-center mx-auto w-full flex flex-wrap md:flex-row gap-4 md:gap-6">
@@ -321,14 +328,7 @@ export default function ContactClient() {
                   </div>
                 </Stack>
               </div>
-
-
             </Stack>
-          </ContentBlock>
-        </Container>
-        <Container>
-          <ContentBlock>
-            <ContactForm />
           </ContentBlock>
         </Container>
       </OneSectionPageSection>

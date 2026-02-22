@@ -92,7 +92,7 @@ export function ContactForm() {
         duration: entranceAnimationsEnabled ? 0.8 : 0,
         ease: "easeOut"
       }}
-      className="w-full max-w-4xl mx-auto mt-14 sm:mt-18 lg:mt-24 p-6 sm:p-8 rounded-2xl border border-white/10 bg-white/1 backdrop-blur-xl relative overflow-hidden"
+      className="w-full max-w-4xl mx-auto mt-10 sm:mt-10 lg:mt-24 p-6 sm:p-8 rounded-2xl border border-white/10 bg-white/1 backdrop-blur-xl relative overflow-hidden"
     >
 
       <div className="relative z-10">
@@ -103,7 +103,7 @@ export function ContactForm() {
         </h2>
 
         <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-5">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-5">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 sm:gap-5">
             <div className="space-y-2">
               <label className="text-[11px] font-bold uppercase tracking-widest text-sky-200/70 px-1">
                 {t("name")}
