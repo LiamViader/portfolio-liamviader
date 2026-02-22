@@ -9,7 +9,7 @@ type ProjectsParams = Promise<{ locale: Locale }>;
 export async function generateMetadata({
   params,
 }: {
-  params: ProjectsParams;
+  params: Promise<{ locale: Locale }>;
 }): Promise<Metadata> {
   const { locale } = await params;
 
@@ -27,7 +27,7 @@ export async function generateMetadata({
 export default async function ProjectsPage({
   params,
 }: {
-  params: ProjectsParams;
+  params: Promise<{ locale: Locale }>;
 }) {
   const { locale } = await params;
   const projectsData = getProjectsByLocale(locale);

@@ -12,10 +12,9 @@ const geistMono = Geist_Mono({ variable: "--font-geist-mono", subsets: ["latin"]
 export async function generateMetadata({
 	params,
 }: {
-	params: { locale: string } | Promise<{ locale: string }>;
+	params: Promise<{ locale: string }>;
 }): Promise<Metadata> {
-	const resolvedParams = await params;
-	const { locale } = resolvedParams;
+	const { locale } = await params;
 
 	const t = await getTranslations({
 		locale,
@@ -42,18 +41,14 @@ export async function generateMetadata({
 	};
 }
 
-
-
 export default async function RootLayout({
 	children,
 	params,
 }: {
 	children: React.ReactNode;
-	params: { locale: string } | Promise<{ locale: string }>;
+	params: Promise<{ locale: string }>;
 }) {
-
-	const resolvedParams = await params;
-	const { locale } = resolvedParams;
+	const { locale } = await params;
 
 	const localePromise = Promise.resolve(locale);
 
