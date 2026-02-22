@@ -12,6 +12,7 @@ export function ContactForm() {
   const [status, setStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
   const [errorCode, setErrorCode] = useState<string | null>(null);
   const [turnstileToken, setTurnstileToken] = useState<string | null>(null);
+  const [isInteractive, setIsInteractive] = useState(false);
   const turnstileRef = useRef<TurnstileInstance>(null);
   const { entranceAnimationsEnabled } = usePerformanceConfig();
 
@@ -22,6 +23,7 @@ export function ContactForm() {
 
       if (status === "success") {
         turnstileRef.current?.reset();
+        setIsInteractive(false);
       }
     }
   };
@@ -181,7 +183,7 @@ export function ContactForm() {
 
           <div className="flex flex-col md:flex-row items-stretch md:items-center gap-4 mt-8 md:h-[65px] w-full overflow-hidden relative">
             <div
-              className={`transition-all duration-700 ease-in-out overflow-hidden flex-shrink-0 ${turnstileToken
+              className={`transition-all duration-700 ease-in-out overflow-hidden flex-shrink-0 ${turnstileToken || status === "success" || status === "sending"
                 ? "w-0 h-0 md:h-auto opacity-0 invisible"
                 : "w-full md:w-[300px] h-auto opacity-100 visible"
                 }`}
@@ -189,8 +191,15 @@ export function ContactForm() {
               <Turnstile
                 ref={turnstileRef}
                 siteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY!}
-                onSuccess={(token) => setTurnstileToken(token)}
-                onExpire={() => setTurnstileToken(null)}
+                onSuccess={(token) => {
+                  setTurnstileToken(token);
+                  setIsInteractive(false);
+                }}
+                onExpire={() => {
+                  setTurnstileToken(null);
+                  setIsInteractive(false);
+                }}
+                onBeforeInteractive={() => setIsInteractive(true)}
                 options={{ size: 'flexible' }}
               />
             </div>

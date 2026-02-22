@@ -165,7 +165,7 @@ export default function ContactClient() {
             }}
           />
         </PulseHexGridCanvas>
-        <div className="absolute inset-0 bg-[linear-gradient(to_bottom,_rgb(3,7,18)_0%,_rgb(3,7,18)_8%,_rgba(3,7,18,0.3)_30%,_rgb(3,7,18)_92%,_rgb(3,7,18)_100%)] " />
+        <div className="absolute inset-0 bg-[linear-gradient(to_bottom,_rgb(3,7,18)_0%,_rgb(3,7,18)_8%,_rgba(3,7,18,0.4)_40%,_rgb(3,7,18)_82%,_rgb(3,7,18)_100%)] " />
         <Container>
           <ContentBlock>
             <Stack size="lg">
