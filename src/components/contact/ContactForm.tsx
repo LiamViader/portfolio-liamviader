@@ -15,11 +15,14 @@ export function ContactForm() {
   const turnstileRef = useRef<TurnstileInstance>(null);
   const { entranceAnimationsEnabled } = usePerformanceConfig();
 
-
   const handleInputChange = () => {
     if (status === "success" || status === "error") {
       setStatus("idle");
       setErrorCode(null);
+
+      if (status === "success") {
+        turnstileRef.current?.reset();
+      }
     }
   };
 
@@ -62,6 +65,7 @@ export function ContactForm() {
         // Save the error code from the server (or a generic one)
         setErrorCode(result.errorCode || "GENERIC_ERROR");
         setStatus("error");
+        setTurnstileToken(null);
         turnstileRef.current?.reset();
         return;
       }
@@ -174,12 +178,18 @@ export function ContactForm() {
               <p>{t(`errors.${errorCode || "GENERIC_ERROR"}`)}</p>
             </motion.div>
           )}
-          <div className="flex justify-center py-2">
+          <div
+            className={`flex justify-center transition-all duration-500 ease-in-out overflow-hidden ${turnstileToken
+              ? "opacity-0 min-h-0 h-0 py-0 mb-0"
+              : "opacity-100 min-h-[90px] py-2 mb-2"
+              }`}
+          >
             <Turnstile
               ref={turnstileRef}
               siteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY!}
               onSuccess={(token) => setTurnstileToken(token)}
               onExpire={() => setTurnstileToken(null)}
+              data-theme="dark"
             />
           </div>
           {errorCode === "LIMIT_EXCEEDED" ? (

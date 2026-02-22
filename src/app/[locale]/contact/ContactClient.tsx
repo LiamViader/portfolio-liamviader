@@ -78,6 +78,8 @@ export default function ContactClient() {
   const linkCardVariant = useMemo(() => linkCardVariants(entranceAnimationsEnabled), [entranceAnimationsEnabled]);
   const cardsContainerVariant = useMemo(() => cardsContainerVariants(entranceAnimationsEnabled), [entranceAnimationsEnabled]);
 
+
+
   const highlightCards = [
     {
       key: "teams",
