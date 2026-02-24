@@ -12,7 +12,7 @@ export const InfiniteDiver: ProjectDefinition = {
   links: [
     {
       url: "https://github.com/LiamViader/infinite-diver/releases/download/1.3/InfiniteDiver_v1.3.apk",
-      label: "Download APK (Android)",
+      label: "Download APK",
       type: "live",
       icon: "Download",
       primaryColor: "rgba(16, 185, 129, 0.7)",
