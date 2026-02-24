@@ -92,7 +92,7 @@ export function ContactForm() {
         duration: entranceAnimationsEnabled ? 0.8 : 0,
         ease: "easeOut"
       }}
-      className="w-full max-w-4xl mx-auto mt-10 sm:mt-10 lg:mt-24 p-6 sm:p-8 rounded-2xl border border-white/10 bg-white/3 backdrop-blur-xl relative overflow-hidden"
+      className="w-full max-w-4xl mx-auto mt-10 sm:mt-10 lg:mt-24 p-6 sm:p-8 rounded-2xl border border-white/10 bg-[rgb(12,15,29)] backdrop-blur-xl relative overflow-hidden"
     >
 
       <div className="relative z-10">
