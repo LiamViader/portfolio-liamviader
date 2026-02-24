@@ -28,7 +28,25 @@ export const InfiniteDiver: ProjectDefinition = {
     },
   ],
   detailed_media: [
-
+    {
+      type: "externalVideo",
+      src: "https://www.youtu.be.com/frDMVAbh7tk",
+      embedUrl: "https://www.youtube.com/embed/frDMVAbh7tk",
+      thumbnail: "https://img.youtube.com/vi/frDMVAbh7tk/maxresdefault.jpg",
+      figureNumber: "1.1",
+      translations: {
+        en: {
+          alt: "Gameplay of Infinite Diver",
+          captionLabel: "Figure",
+          description: "Demo Gameplay of Infinite Diver",
+        },
+        es: {
+          alt: "Gameplay de Infinite Diver",
+          captionLabel: "Figura",
+          description: "Gameplay demostración de Infinite Diver",
+        },
+      },
+    },
   ],
   categories: ["Game"],
   is_featured: false,
