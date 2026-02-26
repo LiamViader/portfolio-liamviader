@@ -12,6 +12,14 @@ export const ButterflyCollector: ProjectDefinition = {
   media_preview: "/images/projects/butterfly-collector/preview.jpg",
   links: [
     {
+      url: "https://github.com/LiamViader/butterfly-collector/releases/download/v1.0.2/ButterflyCollector_v1.0.2.apk",
+      label: "Download APK",
+      type: "live",
+      icon: "Download",
+      primaryColor: "rgba(16, 185, 129, 0.7)",
+      secondaryColor: "rgba(5, 150, 105, 1)",
+    },
+    {
       url: "https://github.com/LiamViader/butterfly-collector",
       label: "GitHub",
       type: "github",
