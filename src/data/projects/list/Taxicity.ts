@@ -56,7 +56,7 @@ export const Taxicity: ProjectDefinition = {
     },
   ],
   categories: ["Game"],
-  is_featured: true,
+  is_featured: false,
   translations: {
     en: {
       title: "Taxicity",

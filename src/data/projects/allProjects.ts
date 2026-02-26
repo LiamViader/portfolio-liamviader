@@ -8,6 +8,7 @@ import { LaboratoryEscape } from "./list/LaboratoryEscape";
 import { InfiniteDiver } from "./list/InfiniteDiver";
 import { ButterflyCollector } from "./list/ButterflyCollector";
 import { ElementalWizard } from "./list/ElementalWizard";
+import { AngelAndDemon } from "./list/AngelAndDemon";
 
 import {
   ProjectData,
@@ -28,6 +29,7 @@ const projectDefinitions: ProjectDefinition[] = [
   InfiniteDiver,
   ButterflyCollector,
   ElementalWizard,
+  AngelAndDemon,
 ];
 
 export const allProjects: ProjectData[] = projectDefinitions.map(

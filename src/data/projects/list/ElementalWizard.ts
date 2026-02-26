@@ -41,7 +41,7 @@ export const ElementalWizard: ProjectDefinition = {
     },
   ],
   categories: ["Game"],
-  is_featured: false,
+  is_featured: true,
   translations: {
     en: {
       title: "Elemental Wizard VR",
