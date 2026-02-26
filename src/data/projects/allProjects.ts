@@ -6,6 +6,7 @@ import { FrogSoldierRobot } from "./list/FrogSoldierRobot";
 import { HumanoidGoat } from "./list/HumanoidGoat";
 import { LaboratoryEscape } from "./list/LaboratoryEscape";
 import { InfiniteDiver } from "./list/InfiniteDiver";
+import { ButterflyCollector } from "./list/ButterflyCollector";
 
 import {
   ProjectData,
@@ -24,6 +25,7 @@ const projectDefinitions: ProjectDefinition[] = [
   HumanoidGoat,
   LaboratoryEscape,
   InfiniteDiver,
+  ButterflyCollector,
 ];
 
 export const allProjects: ProjectData[] = projectDefinitions.map(
