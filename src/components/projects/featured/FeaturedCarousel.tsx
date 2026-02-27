@@ -5,6 +5,7 @@ import clsx from "clsx";
 import { motion, type Variants } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
 import { type TranslatedProject } from "@/data/projects/types";
+import { usePerfTier } from "@/hooks/usePerfTier";
 
 import {
   CarouselVariant,
@@ -162,6 +163,7 @@ export function FeaturedCarousel({
   useTransparent,
   backgroundColor,
 }: FeaturedCarouselProps) {
+  const { canHover } = usePerfTier();
   const [activeIndex, setActiveIndex] = useState(0);
   const [scrollDir, setScrollDir] = useState<1 | -1>(1);
 
@@ -564,7 +566,7 @@ export function FeaturedCarousel({
               variants={ctrlLeft}
               initial={introAnimationEnabled ? "hidden" : "show"}
               animate={introAnimationEnabled && !introStart ? "hidden" : "show"}
-              whileHover="hover"
+              whileHover={canHover ? "hover" : undefined}
               whileTap="tap"
               aria-label="View previous project"
             >
@@ -579,7 +581,7 @@ export function FeaturedCarousel({
               variants={ctrlRight}
               initial={introAnimationEnabled ? "hidden" : "show"}
               animate={introAnimationEnabled && !introStart ? "hidden" : "show"}
-              whileHover="hover"
+              whileHover={canHover ? "hover" : undefined}
               whileTap="tap"
               aria-label="View next project"
             >

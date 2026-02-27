@@ -11,6 +11,7 @@ import {
 import { AnimatePresence, motion } from "framer-motion";
 import { createPortal } from "react-dom";
 import Image from "next/image";
+import { usePerfTier } from "@/hooks/usePerfTier";
 import { Loader2 } from "lucide-react";
 
 export type BaseMediaItem = {
@@ -140,6 +141,7 @@ function InnerFittedOverlay({
   mediaReady,
   onMediaReady,
 }: InnerFittedOverlayProps) {
+  const { canHover } = usePerfTier();
   const captionRef = useRef<HTMLDivElement | null>(null);
   const [captionHeight, setCaptionHeight] = useState(0);
   const [contentDims, setContentDims] = useState<{ w: number; h: number } | null>(
@@ -239,7 +241,7 @@ function InnerFittedOverlay({
             initial={{ opacity: 0, scale: 0.9 }}
             animate={mediaReady ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.9 }}
             exit={{ opacity: 0, scale: 0.9 }}
-            whileHover={{ scale: 1.05 }}
+            whileHover={canHover ? { scale: 1.05 } : undefined}
             whileTap={{ scale: 0.95 }}
           >
             <svg

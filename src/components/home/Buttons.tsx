@@ -3,6 +3,7 @@
 import { type ComponentProps } from "react";
 import { motion, type Variants } from "framer-motion";
 import { Link } from "@/i18n/navigation";
+import { usePerfTier } from "@/hooks/usePerfTier";
 
 const MotionLink = motion.create(Link);
 
@@ -101,13 +102,14 @@ const whiteBase = base + " border";
 
 
 export function SkyButton({ text, href }: { text: string; href: ComponentProps<typeof Link>["href"] }) {
+  const { canHover } = usePerfTier();
   return (
     <MotionLink
       href={href}
       className={skyBase}
       variants={skyVariants}
       initial="rest"
-      whileHover="hover"
+      whileHover={canHover ? "hover" : undefined}
       whileTap="tap"
     >
       <motion.span
@@ -135,13 +137,14 @@ export function SkyButton({ text, href }: { text: string; href: ComponentProps<t
 }
 
 export function WhiteButton({ text, href }: { text: string; href: ComponentProps<typeof Link>["href"] }) {
+  const { canHover } = usePerfTier();
   return (
     <MotionLink
       href={href}
       className={whiteBase}
       variants={whiteVariants}
       initial="rest"
-      whileHover="hover"
+      whileHover={canHover ? "hover" : undefined}
       whileTap="tap"
     >
       <motion.span

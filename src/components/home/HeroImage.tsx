@@ -4,6 +4,7 @@ import Image from "next/image";
 import { easeInOut, easeOut, motion, type Variants } from "framer-motion";
 import { useState } from "react";
 import { BASE_DELAY_ENTRANCE } from "@/utils/constants";
+import { usePerfTier } from "@/hooks/usePerfTier";
 
 const RING = "0 0 0 2px rgba(255, 255, 255, 0.4)";
 const BASE_GLOW = "0 25px 80px -40px rgba(190,190,248,0.8)";
@@ -55,6 +56,7 @@ export function HeroImage({
 }) {
   const [phase, setPhase] = useState<"intro" | "show">("intro");
   const [ready, setReady] = useState(false);
+  const { canHover } = usePerfTier();
 
   const imageVariants = createImageVariants(entranceAnimationEnabled);
 
@@ -67,7 +69,7 @@ export function HeroImage({
         setReady(true);
         if (def === "intro") setPhase("show");
       }}
-      whileHover={ready ? "hover" : undefined}
+      whileHover={ready && canHover ? "hover" : undefined}
       whileTap={ready ? "tap" : undefined}
       className="relative lg:ml-auto flex h-65 w-47 sm:h-85 sm:w-63 lg:h-100 lg:w-75 shrink-0 items-center justify-center rounded-full p-[3px] transform-gpu transition-none will-change-[transform, opacity]"
       style={{ pointerEvents: ready ? "auto" : "none" }}

@@ -128,6 +128,7 @@ export function InfoCard({
   icon?: React.ReactNode;
   entranceAnimationEnabled: boolean;
 }) {
+  const { canHover } = usePerfTier();
   const [ready, setReady] = useState(false);
 
   const cardVariants: Variants = createCardVariantsWithHover(entranceAnimationEnabled)
@@ -138,7 +139,7 @@ export function InfoCard({
     <motion.li
       variants={cardVariants}
       onAnimationComplete={() => setReady(true)}
-      whileHover={ready ? "hover" : undefined}
+      whileHover={ready && canHover ? "hover" : undefined}
       whileTap={ready ? "tap" : undefined}
       className="rounded-2xl border p-5 backdrop-blur-md transform-gpu will-change-[transform,opacity] transition-none flex flex-col gap-3"
       style={{
@@ -153,7 +154,7 @@ export function InfoCard({
       >
         {icon && (
           <motion.div
-            whileHover={{ scale: 1.1 }}
+            whileHover={canHover ? { scale: 1.1 } : undefined}
             transition={{ duration: 0.2 }}
             className="flex items-center justify-center rounded-md bg-white/5 p-2"
           >

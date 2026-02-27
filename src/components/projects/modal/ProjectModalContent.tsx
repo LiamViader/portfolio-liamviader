@@ -11,6 +11,7 @@ import { type TranslatedProject } from "@/data/projects/types";
 import { modalContentVariants, modalItemVariants, modalItemVariants2 } from "./animations";
 import { ProjectMediaGallery, getMediaPreviewSource } from "./ProjectMediaGallery";
 import { parseHighlights } from "@/utils/parseHighlights";
+import { usePerfTier } from "@/hooks/usePerfTier";
 import { HighlightedText } from "@/components/HighlightedText";
 
 import { Stack } from "@/components/layout/Stack";
@@ -43,6 +44,7 @@ export function ProjectModalContent({
   onClose,
 }: ProjectModalContentProps) {
   const t = useTranslations("ProjectModal");
+  const { canHover } = usePerfTier();
   const format = useFormatter();
 
   const dateLabel = project.date
@@ -193,7 +195,7 @@ export function ProjectModalContent({
         initial={{ opacity: 0, scale: 0.9 }}
         animate={{ opacity: 1, scale: 1 }}
         exit={{ opacity: 0, scale: 0.9 }}
-        whileHover={{ scale: 1.05 }}
+        whileHover={canHover ? { scale: 1.05 } : undefined}
         whileTap={{ scale: 0.95 }}
       >
         <svg className="h-5 w-5 transition-transform duration-300 group-hover:rotate-90" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
@@ -340,7 +342,7 @@ export function ProjectModalContent({
                             rel="noreferrer"
                             className="group relative flex w-full items-center gap-4 rounded-xl px-4 py-3 border shadow-sm"
                             initial="idle"
-                            whileHover="hover"
+                            whileHover={canHover ? "hover" : undefined}
                             whileTap={{ scale: 0.98 }}
                             variants={{
                               idle: {
@@ -418,9 +420,9 @@ export function ProjectModalContent({
                       <motion.span
                         key={`${project.id}-tag-${idx}`}
                         className="cursor-default rounded-lg border border-white/8 bg-white/4 px-3 py-1.5 text-xs font-medium text-slate-300"
-                        whileHover={{
+                        whileHover={canHover ? {
                           scale: 1.05,
-                        }}
+                        } : undefined}
                         transition={{ duration: 0.2 }}
                       >
                         {tag}

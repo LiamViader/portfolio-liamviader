@@ -6,6 +6,7 @@ import { motion, type Variants } from "framer-motion";
 
 import { type TranslatedProject } from "@/data/projects/types";
 import { measureStableRect } from "@/utils/measureStableRect";
+import { usePerfTier } from "@/hooks/usePerfTier";
 
 const BASE_BG = "rgba(255,255,255,0.05)";
 const BASE_BORD = "rgba(255,255,255,0.10)";
@@ -87,6 +88,7 @@ export default function ProjectCard({
   useTransparent = true,
   backgroundColor = "rgb(24, 28, 57)",
 }: ProjectCardProps) {
+  const { canHover } = usePerfTier();
   const cardRef = useRef<HTMLDivElement | null>(null);
 
   const handleClick = useCallback(() => {
@@ -184,7 +186,7 @@ export default function ProjectCard({
       animate="rest"
       initial="rest"
       whileTap="tap"
-      whileHover="hover"
+      whileHover={canHover ? "hover" : undefined}
       transition={{ duration: 0.6, ease: "easeOut" }}
     >
       <div

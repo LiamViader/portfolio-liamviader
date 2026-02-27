@@ -4,6 +4,7 @@ import { useState } from "react";
 import { motion, type Variants } from "framer-motion";
 import Image from "next/image";
 import { BASE_DELAY_ENTRANCE } from "@/utils/constants";
+import { usePerfTier } from "@/hooks/usePerfTier";
 
 const createPortraitVariants = (animated: boolean): Variants => ({
   hidden: {
@@ -53,6 +54,7 @@ export function AboutPortrait({
 }) {
   const [phase, setPhase] = useState<"intro" | "show">("intro");
   const [ready, setReady] = useState(false);
+  const { canHover } = usePerfTier();
 
   const variants = createPortraitVariants(entranceAnimationEnabled);
 
@@ -65,7 +67,7 @@ export function AboutPortrait({
         setReady(true);
         if (def === "intro") setPhase("show");
       }}
-      whileHover={ready ? "hover" : undefined}
+      whileHover={ready && canHover ? "hover" : undefined}
       whileTap={ready ? "tap" : undefined}
       className="
         relative

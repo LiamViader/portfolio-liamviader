@@ -19,6 +19,8 @@ import { Stack } from "../layout/Stack";
 import { Container } from "../layout/Container";
 import { ContentBlock } from "../layout/ContentBlock";
 
+import { usePerfTier } from "@/hooks/usePerfTier";
+
 type HeroSectionProps = {
   personalInfo: PersonalInfo;
   age: number;
@@ -66,6 +68,8 @@ export function HeroSection({ personalInfo, age, entranceAnimationsEnabled }: He
 
   const localizedLanguages = personalInfo.languages[locale] ?? [];
   const localizedCity = personalInfo.city[locale] ?? personalInfo.city.en;
+
+  const { canHover } = usePerfTier();
 
   useEffect(() => {
     controls.start("animate", {
@@ -140,11 +144,11 @@ export function HeroSection({ personalInfo, age, entranceAnimationsEnabled }: He
                   animate={controls}
                   onAnimationComplete={() => setReady(true)}
                   onHoverStart={() => {
-                    if (!ready) return;
+                    if (!ready || !canHover) return;
                     controls.start("hover", { duration: 0.35 });
                   }}
                   onHoverEnd={() => {
-                    if (!ready) return;
+                    if (!ready || !canHover) return;
                     controls.start("animate", { duration: 0.35 });
                   }}
                   className="text-pretty text-4xl sm:text-5xl lg:text-6xl font-semibold tracking-tight text-white/95 text-center lg:text-left "

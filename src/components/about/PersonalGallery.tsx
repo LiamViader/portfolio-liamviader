@@ -5,6 +5,7 @@ import Image from "next/image";
 import { motion, type Variants } from "framer-motion";
 
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { usePerfTier } from "@/hooks/usePerfTier";
 
 import {
   FittedMediaOverlay,
@@ -25,6 +26,7 @@ export default function PersonalGallery({
   className?: string;
 }) {
   const [idx, setIdx] = useState<number | null>(null);
+  const { canHover } = usePerfTier();
 
   const displayTitle = useMemo(
     () => photos.map((p) => p.caption || undefined),
@@ -72,10 +74,10 @@ export default function PersonalGallery({
             key={p.src + i}
             onClick={() => setIdx(i)}
             variants={gridItemVariants}
-            whileHover={{
+            whileHover={canHover ? {
               scale: 1.05,
               transition: { duration: 0.3, ease: "easeOut" }
-            }}
+            } : undefined}
             whileTap={{
               scale: 0.96,
               transition: { duration: 0.1, ease: "easeOut" }
@@ -119,7 +121,7 @@ export default function PersonalGallery({
                   );
                 }}
                 className="pointer-events-auto flex h-10 w-10 items-center justify-center rounded-full bg-black/50 text-white backdrop-blur-md border border-white/10 transition-all hover:bg-white/10 hover:border-white/20 active:scale-95 group"
-                whileHover={{ scale: 1.05 }}
+                whileHover={canHover ? { scale: 1.05 } : undefined}
                 whileTap={{ scale: 0.95 }}
                 aria-label="Imagen anterior"
               >
@@ -137,7 +139,7 @@ export default function PersonalGallery({
                   setIdx((s) => (s === null ? null : (s + 1) % photos.length));
                 }}
                 className="pointer-events-auto flex h-10 w-10 items-center justify-center rounded-full bg-black/50 text-white backdrop-blur-md border border-white/10 transition-all hover:bg-white/10 hover:border-white/20 active:scale-95 group"
-                whileHover={{ scale: 1.05 }}
+                whileHover={canHover ? { scale: 1.05 } : undefined}
                 whileTap={{ scale: 0.95 }}
                 aria-label="Imagen siguiente"
               >

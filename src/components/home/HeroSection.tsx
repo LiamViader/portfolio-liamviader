@@ -9,6 +9,8 @@ import { usePerfTier } from "@/hooks/usePerfTier";
 import { Stack } from "../layout/Stack";
 import { ButtonGroup } from "../layout/ButtonGroup";
 
+
+
 interface HeroSectionProps {
   title: ReactNode;
   subtitle: string;
@@ -60,6 +62,8 @@ export function HeroSection({
   const controls = useAnimationControls();
   const [ready, setReady] = useState(false);
 
+  const { canHover } = usePerfTier();
+
   useEffect(() => {
     controls.start("animate", {
       delay: entranceAnimationEnabled ? BASE_DELAY_ENTRANCE + 0.1 : 0,
@@ -82,11 +86,11 @@ export function HeroSection({
           initial="initial"
           animate={controls}
           onHoverStart={() => {
-            if (!ready) return;
+            if (!ready || !canHover) return;
             controls.start("hover", { duration: 0.35, delay: 0 });
           }}
           onHoverEnd={() => {
-            if (!ready) return;
+            if (!ready || !canHover) return;
             controls.start("animate", { duration: 0.35, delay: 0 });
           }}
           className="whitespace-pre-line text-balance 

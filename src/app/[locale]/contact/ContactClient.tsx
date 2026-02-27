@@ -11,6 +11,7 @@ import { BASE_DELAY_ENTRANCE } from "@/utils/constants";
 import { usePerformanceConfig } from "@/hooks/usePerformanceConfig";
 
 import { OneSectionPageSection } from "@/components/layout/OneSectionPageSection";
+import { usePerfTier } from "@/hooks/usePerfTier";
 import { Container } from "@/components/layout/Container";
 import { ContentBlock } from "@/components/layout/ContentBlock";
 import { InfoCard } from "@/components/home/InfoCard";
@@ -74,6 +75,7 @@ export default function ContactClient() {
   const t = useTranslations("ContactPage");
   const [introDone, setIntroDone] = useState(false);
   const { entranceAnimationsEnabled, isSmallScreen } = usePerformanceConfig();
+  const { canHover } = usePerfTier();
 
   const linkCardVariant = useMemo(() => linkCardVariants(entranceAnimationsEnabled), [entranceAnimationsEnabled]);
   const cardsContainerVariant = useMemo(() => cardsContainerVariants(entranceAnimationsEnabled), [entranceAnimationsEnabled]);
@@ -236,7 +238,7 @@ export default function ContactClient() {
                         custom={{ i: index, isIntro: !introDone }}
                         initial="hidden"
                         animate="show"
-                        whileHover="hover"
+                        whileHover={canHover && introDone ? "hover" : undefined}
                         whileTap="tap"
 
                         className={`
@@ -295,7 +297,7 @@ export default function ContactClient() {
                         custom={{ i: index, isIntro: !introDone }}
                         initial="hidden"
                         animate="show"
-                        whileHover="hover"
+                        whileHover={canHover && introDone ? "hover" : undefined}
                         whileTap="tap"
 
                         className={`

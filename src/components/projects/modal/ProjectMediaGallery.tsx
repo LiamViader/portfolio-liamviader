@@ -11,6 +11,8 @@ import { useTranslations } from "next-intl";
 
 import { Stack } from "@/components/layout/Stack";
 
+import { usePerfTier } from "@/hooks/usePerfTier";
+
 export type ProjectMediaItem = TranslatedProject["detailed_media"][number];
 
 export const getMediaPreviewSource = (item?: ProjectMediaItem) => {
@@ -48,6 +50,8 @@ export function ProjectMediaGallery({
   const openMedia = useCallback((index: number) => setActiveMediaIndex(index), []);
   const closeActiveMedia = useCallback(() => setActiveMediaIndex(null), []);
 
+  const { canHover } = usePerfTier();
+
   if (media.length === 0) return null;
 
   const activeMedia = activeMediaIndex !== null ? media[activeMediaIndex] : null;
@@ -77,7 +81,7 @@ export function ProjectMediaGallery({
                     aria-label={buttonLabel}
                     className="flex h-full w-full flex-col cursor-pointer overflow-hidden rounded-2xl border text-left"
                     initial="idle"
-                    whileHover="hover"
+                    whileHover={canHover ? "hover" : undefined}
                     animate="idle"
                     variants={{
                       idle: {

@@ -249,7 +249,7 @@ export function FeaturedCarouselCard({
           setIntroDone(true);
         }
       }}
-      whileHover={!disableHover && introDone ? "hover" : undefined}
+      whileHover={!disableHover && introDone && canHover ? "hover" : undefined}
       className={`
         relative flex h-full flex-col cursor-pointer overflow-hidden rounded-3xl
         border border-white/10

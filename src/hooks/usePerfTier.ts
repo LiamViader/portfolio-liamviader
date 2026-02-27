@@ -87,8 +87,8 @@ function detectPerfTier(): PerfTierProfile {
   const hasTouch =
     touchPoints > 0 || "ontouchstart" in window || coarsePointer;
 
-  const isTouchDevice = hasTouch && !hasHover;
-  const canHover = hasHover || finePointer;
+  const isTouchDevice = hasTouch;
+  const canHover = hasHover && !coarsePointer;
 
   const ua = (nav.userAgent || nav.vendor || "").toLowerCase();
   const isAndroid = ua.includes("android");

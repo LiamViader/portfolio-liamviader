@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { useTranslations } from "next-intl";
 import { CATEGORY_CONFIG, ClientCategorySlug } from "@/config/projectCategories";
 import { useCategoryHighlight } from "./hooks/useCategoryHighlight";
+import { usePerfTier } from "@/hooks/usePerfTier";
 
 interface CategorySwitcherProps {
   currentCategory: ClientCategorySlug;
@@ -14,6 +15,7 @@ export default function CategorySwitcher({ currentCategory, onCategoryChange }: 
   const t = useTranslations("ProjectsPage");
   const categories = Object.values(CATEGORY_CONFIG);
   const { containerRef, highlightStyle } = useCategoryHighlight(currentCategory);
+  const { canHover } = usePerfTier();
 
   return (
     <div
@@ -45,7 +47,7 @@ export default function CategorySwitcher({ currentCategory, onCategoryChange }: 
           <motion.button
             key={category.slug}
             data-active={isActive ? "true" : "false"}
-            whileHover={{ scale: 1.05, boxShadow: "0 8px 10px rgba(0,0,0,0.55)", backgroundColor: "rgba(255,255,255,0.1)" }}
+            whileHover={canHover ? { scale: 1.05, boxShadow: "0 8px 10px rgba(0,0,0,0.55)", backgroundColor: "rgba(255,255,255,0.1)" } : undefined}
             whileTap={{ scale: 0.95, backgroundColor: "rgba(0,0,0,0.1)" }}
             transition={{ type: "spring", stiffness: 200, damping: 20 }}
             className={`
