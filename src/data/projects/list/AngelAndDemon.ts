@@ -46,7 +46,7 @@ export const AngelAndDemon: ProjectDefinition = {
     en: {
       title: "Angel and Demon Multiplayer",
       short_description:
-        "Cooperative 2D dungeon crawler where an Angel and a Demon must combine unique abilities to overcome puzzles and enemies.",
+        "2D online cooperative dungeon crawler where an Angel and a Demon combine unique abilities to overcome puzzles and enemies.",
       full_description: `Angel and Demon is a <highlight type="accent">cooperative 2D dungeon crawler</highlight> developed in Unity with a strong focus on character synergy. The game features two distinct protagonists:
 
       - <highlight type="glow">The Angel</highlight>: Specializes in <highlight type="important">ranged attacks</highlight> that deal light damage to enemies while <highlight type="important">healing the ally</highlight>. Additionally, it can hover over spikes without taking damage.
@@ -60,7 +60,7 @@ export const AngelAndDemon: ProjectDefinition = {
     es: {
       title: "Angel and Demon Multijugador",
       short_description:
-        "Dungeon crawler cooperativo 2D donde un Ángel y un Demonio deben combinar habilidades únicas para superar puzles y enemigos.",
+        "Dungeon crawler 2D cooperativo online donde un Ángel y un Demonio combinan habilidades únicas para superar puzles y enemigos.",
       full_description: `Angel and Demon es un <highlight type="accent">dungeon crawler cooperativo en 2D</highlight> desarrollado en Unity fundamentado en la sinergia entre personajes. El juego presenta dos protagonistas con mecánicas diferenciadas:
 
       - <highlight type="glow">El Ángel</highlight>: Se especializa en <highlight type="important">ataques a distancia</highlight> que infligen daño leve a los enemigos a la vez que <highlight type="important">curan al aliado</highlight>. Además, posee la habilidad de sobrevolar pinchos sin que le hagan daño.
