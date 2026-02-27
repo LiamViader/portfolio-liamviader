@@ -57,7 +57,7 @@ export const ElementalWizard: ProjectDefinition = {
 
       Progress is made by <highlight type="tag">combining these mechanics</highlight>. For instance, you might need to solidify a liquid surface with ice before using telekinesis to reposition a heavy object and clear your path. 
       
-      This project was developed by a <highlight type="soft">team of four</highlight> using Unity's XR Interaction Toolkit.`,
+      This project was developed by a <highlight type="soft">team of four</highlight> using Unity's XR Interaction Toolkit. My role was mainly as a developer, although I also participated in the design of mechanics and in the creation of some assets.`,
       role: "Developer",
     },
     es: {
@@ -74,7 +74,7 @@ export const ElementalWizard: ProjectDefinition = {
 
       La resolución de los puzles se basa en la <highlight type="tag">combinación de estas mecánicas</highlight>. Por ejemplo, es posible que debas solidificar un fluido antes de usar la telequinesis para mover un obstáculo y abrirte camino. 
       
-      Este proyecto fue desarrollado por un <highlight type="soft">equipo de cuatro personas</highlight> utilizando Unity XR Interaction Toolkit.`,
+      Este proyecto fue desarrollado por un <highlight type="soft">equipo de cuatro personas</highlight> utilizando Unity XR Interaction Toolkit. Mi rol fue principalmente el de desarrollador, aunque también participé en el diseño de mecánicas y en la creación de algunos assets.`,
       role: "Desarrollador",
     },
   },

@@ -54,7 +54,7 @@ export const AngelAndDemon: ProjectDefinition = {
 
       The project implements <highlight type="tag">low-level networking</highlight> using the <highlight type="code">Unity.Networking.Transport</highlight> API. It utilizes an <highlight type="accent">authoritative server architecture</highlight> combined with <highlight type="code">client-side prediction</highlight> and <highlight type="code">interpolation</highlight> to ensure smooth synchronized gameplay. The dungeon challenges include varied AI enemies with pathfinding and puzzles that require coordinated use of both characters' skills. 
       
-      Developed by a team of three.`,
+      Developed by a team of three. I was responsible for nearly the entire development: I implemented the client-server communication, the game loop, and the core mechanics. Additionally, I designed the mechanics and a large portion of the game, with my contribution covering almost everything except level design.`,
       role: "Lead Developer & Game Designer",
     },
     es: {
@@ -68,7 +68,7 @@ export const AngelAndDemon: ProjectDefinition = {
 
       A nivel técnico, el proyecto implementa <highlight type="tag">comunicación de red de bajo nivel</highlight> mediante el uso de la API <highlight type="code">Unity.Networking.Transport</highlight>. Utiliza una arquitectura de <highlight type="accent">servidor autoritativo</highlight> con <highlight type="code">predicción en el cliente</highlight> e <highlight type="code">interpolación</highlight> tecnológica para garantizar una experiencia multijugador fluida. El juego incluye enemigos con pathfinding y puzles que exigen el uso coordinado de las habilidades de ambos jugadores. 
       
-      Desarrollado por un equipo de tres personas.`,
+      Desarrollado por un equipo de tres personas. Fui responsable de casi todo el desarrollo: implementé la comunicación cliente-servidor, el game loop y las mecánicas principales. Además, diseñé las mecánicas y gran parte del juego; mi contribución abarcó casi todo excepto el diseño de niveles.`,
       role: "Desarrollador Principal y Diseñador",
     },
   },
