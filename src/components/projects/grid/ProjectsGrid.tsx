@@ -8,6 +8,7 @@ import { measureStableRect } from "@/utils/measureStableRect";
 import ProjectCard from "../card/ProjectCard";
 import { ProjectModalPortal } from "../modal/ProjectModalPortal";
 import { useProjectSelection } from "./hooks/useProjectSelection";
+import { BASE_DELAY_ENTRANCE } from "@/utils/constants";
 
 interface ProjectsGridProps {
   projects: TranslatedProject[];
@@ -72,38 +73,26 @@ export default function ProjectsGrid({
   };
 
   useEffect(() => {
-    let timeoutId: NodeJS.Timeout;
-    let intervalId: NodeJS.Timeout;
-
     if (projectFromUrl && !selected && allowUrlOpen) {
       const element = cardRefs.current.get(projectFromUrl.id);
 
       if (element) {
-        timeoutId = setTimeout(() => {
-          element.scrollIntoView({ behavior: "smooth", block: "center" });
-          let lastScrollY = window.scrollY;
-          intervalId = setInterval(() => {
-            if (Math.abs(window.scrollY - lastScrollY) < 1) {
-              clearInterval(intervalId);
-              requestAnimationFrame(() => {
-                const rect = measureStableRect(element);
-                selectProject(projectFromUrl, rect, element);
-              });
-            } else {
-              lastScrollY = window.scrollY;
-            }
-          }, 400);
+        element.scrollIntoView({ behavior: "auto", block: "center" });
+
+        const timer = setTimeout(() => {
+          requestAnimationFrame(() => {
+            const rect = measureStableRect(element);
+            selectProject(projectFromUrl, rect, element);
+          });
         }, 200);
+
+        return () => clearTimeout(timer);
       }
     }
-
-    return () => {
-      clearTimeout(timeoutId);
-      clearInterval(intervalId);
-    };
   }, [projectFromUrl, selected, allowUrlOpen, selectProject]);
 
-  const itemVariants = createItemVariants(entranceAnimation);
+  const effectiveEntranceAnimation = entranceAnimation && !projectFromUrl;
+  const itemVariants = createItemVariants(effectiveEntranceAnimation);
 
   return (
     <>
@@ -116,8 +105,8 @@ export default function ProjectsGrid({
                 layout="position"
                 custom={index}
                 variants={itemVariants}
-                initial="hidden"
-                animate={shouldAnimate ? "show" : "hidden"}
+                initial={projectFromUrl ? "show" : "hidden"}
+                animate={shouldAnimate || projectFromUrl ? "show" : "hidden"}
                 exit="exit"
 
                 transition={{ layout: { duration: 0.65, ease: "easeInOut" } }}

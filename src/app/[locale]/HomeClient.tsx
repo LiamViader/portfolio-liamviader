@@ -104,6 +104,7 @@ export default function HomeClient() {
               contactButtonText={t("hero.ctaContact")}
               projectsButtonText={t("projects.viewAll")}
               projects={projects}
+              allowUrlOpen={false}
               entranceAnimationEnabled={entranceAnimationsEnabled}
             />
           </ShowcaseBlock>

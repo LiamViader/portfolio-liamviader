@@ -2,7 +2,7 @@ import { ProjectDefinition } from "../types";
 
 export const ButterflyCollector: ProjectDefinition = {
   slug: "butterfly-collector",
-  date: "2024-12",
+  date: "2025-01",
   tags: [
     "AR",
     "Mobile",

@@ -9,6 +9,7 @@ import { measureStableRect } from "@/utils/measureStableRect";
 import { useTranslations } from "next-intl";
 import { ProjectModalPortal } from "../modal/ProjectModalPortal";
 import { useProjectSelection } from "../grid/hooks/useProjectSelection";
+import { BASE_DELAY_ENTRANCE } from "@/utils/constants";
 import { Stack } from "@/components/layout/Stack";
 import {
   FeaturedCarousel,
@@ -98,36 +99,22 @@ export default function FeaturedProjects({
   );
 
   useEffect(() => {
-    let timeoutId: NodeJS.Timeout;
-    let intervalId: NodeJS.Timeout;
-
     if (projectFromUrl && !selected && allowUrlOpen) {
       const element = cardRefs.current.get(projectFromUrl.id);
 
       if (element) {
-        timeoutId = setTimeout(() => {
-          element.scrollIntoView({ behavior: "smooth", block: "center" });
+        element.scrollIntoView({ behavior: "auto", block: "center" });
 
-          let lastScrollY = window.scrollY;
+        const timer = setTimeout(() => {
+          requestAnimationFrame(() => {
+            const rect = measureStableRect(element);
+            selectProject(projectFromUrl, rect, element);
+          });
+        }, (BASE_DELAY_ENTRANCE + 0.5) * 1000);
 
-          intervalId = setInterval(() => {
-            if (Math.abs(window.scrollY - lastScrollY) < 1) {
-              clearInterval(intervalId);
-              requestAnimationFrame(() => {
-                const rect = measureStableRect(element);
-                selectProject(projectFromUrl, rect, element);
-              });
-            } else {
-              lastScrollY = window.scrollY;
-            }
-          }, 300);
-        }, 200);
+        return () => clearTimeout(timer);
       }
     }
-    return () => {
-      clearTimeout(timeoutId);
-      clearInterval(intervalId);
-    };
   }, [projectFromUrl, selected, allowUrlOpen, selectProject]);
 
 

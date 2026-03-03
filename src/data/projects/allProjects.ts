@@ -27,9 +27,9 @@ const projectDefinitions: ProjectDefinition[] = [
   HumanoidGoat,
   LaboratoryEscape,
   InfiniteDiver,
-  ButterflyCollector,
-  ElementalWizard,
   AngelAndDemon,
+  ElementalWizard,
+  ButterflyCollector,
 ];
 
 export const allProjects: ProjectData[] = projectDefinitions.map(
