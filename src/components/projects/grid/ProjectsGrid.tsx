@@ -82,9 +82,9 @@ export default function ProjectsGrid({
         const timer = setTimeout(() => {
           requestAnimationFrame(() => {
             const rect = measureStableRect(element);
-            selectProject(projectFromUrl, rect, element);
+            selectProject(projectFromUrl, rect, element, { isInstant: true });
           });
-        }, 1000);
+        }, 100); // Much faster
 
         return () => clearTimeout(timer);
       }
@@ -140,6 +140,7 @@ export default function ProjectsGrid({
           originEl={selected.el}
           onRevealOrigin={markOriginRevealed}
           onClose={closeProject}
+          isInstant={selected.isInstant}
           ghostCardType="grid"
           backgroundColor={backgroundColor}
         />

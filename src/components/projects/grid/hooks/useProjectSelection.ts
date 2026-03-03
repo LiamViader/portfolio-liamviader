@@ -8,6 +8,7 @@ interface SelectedProjectState {
   project: TranslatedProject;
   rect: DOMRect;
   el?: HTMLElement;
+  isInstant?: boolean;
 }
 
 // El "Semáforo" Global
@@ -66,6 +67,7 @@ export function useProjectSelection(
         project: projectFromUrl,
         rect: getCenterRect(),
         el: undefined,
+        isInstant: true, // URL-based opening is instant
       });
       setRevealOrigin(true);
     }
@@ -81,11 +83,11 @@ export function useProjectSelection(
   }, [urlProjectSlug, selected, ignoredSlug]);
 
   const selectProject = useCallback(
-    (project: TranslatedProject, rect: DOMRect, el: HTMLElement) => {
+    (project: TranslatedProject, rect: DOMRect, el: HTMLElement, options?: { isInstant?: boolean }) => {
       isGlobalProjectOpen = true; // <--- Activamos semáforo
       setIgnoredSlug(null);
       setRevealOrigin(false);
-      setSelected({ project, rect, el });
+      setSelected({ project, rect, el, isInstant: options?.isInstant });
 
       if (replaceUrl) {
         const newParams = new URLSearchParams(searchParams.toString());

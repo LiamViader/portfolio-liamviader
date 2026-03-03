@@ -20,6 +20,7 @@ interface UseProjectModalTransitionProps {
   ghostCardRef: RefObject<HTMLDivElement>;
   onRevealOrigin?: () => void;
   onClose: () => void;
+  isInstant?: boolean;
 }
 
 export function useProjectModalTransition({
@@ -28,6 +29,7 @@ export function useProjectModalTransition({
   ghostCardRef, // New
   onRevealOrigin,
   onClose,
+  isInstant,
 }: UseProjectModalTransitionProps): UseProjectModalTransitionResult {
   const controls = useAnimation();
   const containerRef = useRef<HTMLDivElement>(null!);
@@ -78,6 +80,9 @@ export function useProjectModalTransition({
           ...targetProps,
           transition: { duration: 0.2, ease: "easeOut" },
         });
+      } else if (isInstant) {
+        // Skip entrance animation if isInstant
+        controls.set(targetProps);
       } else {
         controls.set({
           left: Math.round(originRect.left),
@@ -110,7 +115,7 @@ export function useProjectModalTransition({
       if (closeRafRef.current != null) cancelAnimationFrame(closeRafRef.current);
       if (followRafRef.current != null) cancelAnimationFrame(followRafRef.current);
     };
-  }, [controls]);
+  }, [controls, isInstant]); // Added isInstant to deps
 
   const handleClose = useCallback(async () => {
     if (closing) return;

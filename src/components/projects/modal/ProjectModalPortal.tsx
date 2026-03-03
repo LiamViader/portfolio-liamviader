@@ -23,6 +23,7 @@ interface ModalPortalProps {
   ghostCardType?: "grid" | "carousel";
   backgroundColor?: string;
   carouselTypography?: FeaturedCarouselTypographyOptions;
+  isInstant?: boolean;
 }
 
 export function ProjectModalPortal({
@@ -34,6 +35,7 @@ export function ProjectModalPortal({
   ghostCardType = "grid",
   backgroundColor,
   carouselTypography,
+  isInstant = false,
 }: ModalPortalProps) {
   const [activeOriginRect, setActiveOriginRect] = useState(originRect);
 
@@ -50,6 +52,7 @@ export function ProjectModalPortal({
       ghostCardRef, // Pass ref to hook
       onRevealOrigin,
       onClose,
+      isInstant,
     });
 
   // Keep ghost card size in sync with real card on resize
