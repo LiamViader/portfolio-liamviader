@@ -84,7 +84,7 @@ export default function ProjectsGrid({
             const rect = measureStableRect(element);
             selectProject(projectFromUrl, rect, element);
           });
-        }, 300);
+        }, 500);
 
         return () => clearTimeout(timer);
       }
