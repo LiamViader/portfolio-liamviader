@@ -79,10 +79,14 @@ export default function ProjectsGrid({
       if (element) {
         element.scrollIntoView({ behavior: "auto", block: "center" });
 
-        requestAnimationFrame(() => {
-          const rect = measureStableRect(element);
-          selectProject(projectFromUrl, rect, element);
-        });
+        const timer = setTimeout(() => {
+          requestAnimationFrame(() => {
+            const rect = measureStableRect(element);
+            selectProject(projectFromUrl, rect, element);
+          });
+        }, 300);
+
+        return () => clearTimeout(timer);
       }
     }
   }, [projectFromUrl, selected, allowUrlOpen, selectProject]);
