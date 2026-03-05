@@ -42,8 +42,8 @@ export default function HexGridStrata({
   const opt = { ...DEFAULTS, ...(options ?? {}) };
   const { size, camera } = useThree();
   const effectiveDpr = typeof window === "undefined" ? 1 : Math.min(window.devicePixelRatio, 1.5);
-  const width = size.width / effectiveDpr;
-  const height = size.height / effectiveDpr;
+  const width = Math.min(size.width / effectiveDpr, 1920);
+  const height = Math.min(size.height / effectiveDpr, 1080);
 
   useEffect(() => {
     if (camera instanceof THREE.OrthographicCamera) {

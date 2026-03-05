@@ -109,8 +109,10 @@ export default function PulseHexGridFill({
 
   const { size, camera } = useThree();
   const effectiveDpr = typeof window === "undefined" ? 1 : Math.min(window.devicePixelRatio, 1.5);
-  const width = size.width / effectiveDpr;
-  const height = size.height / effectiveDpr;
+
+  // Logical dimensions capped at 1080p standards to limit grid complexity
+  const width = Math.min(size.width / effectiveDpr, 1920);
+  const height = Math.min(size.height / effectiveDpr, 1080);
 
   useLayoutEffect(() => {
     if (camera instanceof THREE.OrthographicCamera) {
