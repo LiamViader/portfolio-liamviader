@@ -89,7 +89,7 @@ export default function AboutClient() {
         entranceAnimationsEnabled={entranceAnimationsEnabled}
       />
       <PersonalSection entranceAnimationsEnabled={entranceAnimationsEnabled} />
-      <PhilosophySection entranceAnimationsEnabled={entranceAnimationsEnabled} />
+      {/*<PhilosophySection entranceAnimationsEnabled={entranceAnimationsEnabled} />*/}
     </PageLayout>
   );
 }
