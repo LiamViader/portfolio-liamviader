@@ -104,7 +104,7 @@ function detectPerfTier(): PerfTierProfile {
   const isHighRes = (typeof window !== "undefined" && window.innerWidth >= 1920) ||
     (screenMinPx * dpr >= 3840);
 
-  const isVeryPowerful = (logicalCores ?? 0) >= 12 && (deviceMemoryGB ?? 0) >= 8;
+  const isVeryPowerful = (logicalCores ?? 0) >= 14 && (deviceMemoryGB ?? 0) >= 16;
 
   let tier: PerfTier = "high";
 
