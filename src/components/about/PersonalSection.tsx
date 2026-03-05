@@ -3,7 +3,7 @@
 import PersonalGallery from "./PersonalGallery";
 import { motion, type Variants } from "framer-motion";
 import { useTranslations } from "next-intl";
-import { Section } from "../layout/Section";
+import { LastSection } from "../layout/LastSection";
 import { Container } from "../layout/Container";
 import { ShowcaseBlock } from "../layout/ShowcaseBlock";
 import { Stack } from "../layout/Stack";
@@ -64,7 +64,7 @@ export function PersonalSection({ entranceAnimationsEnabled }: PersonalSectionPr
   const t = useTranslations("AboutPage.personalSection");
 
   return (
-    <Section className="bg-gray-950">
+    <LastSection className="bg-gray-950">
       <Container>
         <ShowcaseBlock>
           <motion.div
@@ -124,6 +124,6 @@ export function PersonalSection({ entranceAnimationsEnabled }: PersonalSectionPr
           </motion.div>
         </ShowcaseBlock>
       </Container>
-    </Section>
+    </LastSection>
   );
 }
