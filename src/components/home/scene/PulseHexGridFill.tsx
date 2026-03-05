@@ -114,7 +114,7 @@ export default function PulseHexGridFill({
   const rawHeight = size.height / effectiveDpr;
 
   // Uniform complexity scale to strictly preserve hexagon aspect ratio
-  const complexityScale = Math.min(1, 2240 / rawWidth);
+  const complexityScale = Math.min(1, 2000 / rawWidth);
   const width = rawWidth * complexityScale;
   const height = rawHeight * complexityScale;
 

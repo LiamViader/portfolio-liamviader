@@ -101,8 +101,8 @@ function detectPerfTier(): PerfTierProfile {
 
   const isSmallScreen = screenMinPx <= 900;
 
-  const isHighRes = (typeof window !== "undefined" && window.innerWidth >= 2240) ||
-    (screenMinPx * dpr >= 4480);
+  const isHighRes = (typeof window !== "undefined" && window.innerWidth >= 2000) ||
+    (screenMinPx * dpr >= 4000);
 
   const isVeryPowerful = (logicalCores ?? 0) >= 14 && (deviceMemoryGB ?? 0) >= 16;
 
