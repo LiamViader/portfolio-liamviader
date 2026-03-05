@@ -25,8 +25,9 @@ type HexData = {
 
 export default function PulseHexGridOverlapLine({ params }: { params: HexGridParams }) {
   const { size, camera } = useThree();
-  const width = size.width;
-  const height = size.height;
+  const effectiveDpr = typeof window === "undefined" ? 1 : Math.min(window.devicePixelRatio, 1.5);
+  const width = size.width / effectiveDpr;
+  const height = size.height / effectiveDpr;
 
   useLayoutEffect(() => {
     if (camera instanceof THREE.OrthographicCamera) {
