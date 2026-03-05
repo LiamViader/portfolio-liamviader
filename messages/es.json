@@ -35,8 +35,10 @@
     "hero": {
       "title": "Yo, como <highlight>persona</highlight> y como <highlight>profesional</highlight>",
       "subtitle": "Esta página recoge un poco de contexto sobre quién soy, de dónde vengo y qué cosas me importan dentro y fuera del trabajo.",
-      "ctaProjects": "Ver proyectos",
-      "ctaContact": "Contacto",
+      "cvSoftwareEngineerLabel": "CV Ingeniero de Software",
+      "cvSoftwareEngineerLink": "https://drive.google.com/file/d/1tLXSmBnx4Alp9Ntiq4y_VVWAFj_M7gzj/view?usp=sharing",
+      "cvVideogamesDeveloperLabel": "CV Desarrollador de Videojuegos",
+      "cvVideogamesDeveloperLink": "https://drive.google.com/file/d/1YqzpSSp5oen-qVF-BAre9s10NCGZiDmD/view?usp=sharing",
       "birthInfo": "{age} años · nacido el 16 de febrero de 2001.",
       "locationInfo": "Actualmente vivo en un pueblo tranquilo cerca de Barcelona, donde nací y encuentro calma para pensar y construir. Estoy abierto a vivir en otro lugar si el proyecto y el momento encajan.",
       "languagesTitle": "Idiomas",

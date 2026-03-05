@@ -194,10 +194,10 @@ export function HeroSection({ personalInfo, age, entranceAnimationsEnabled }: He
                   className="flex w-full flex-wrap justify-center gap-4 lg:justify-start"
                 >
                   <SkyButton
-                    href="/projects"
-                    text={t("hero.ctaProjects")}
+                    href={t("hero.cvSoftwareEngineerLink")}
+                    text={t("hero.cvSoftwareEngineerLabel")}
                   />
-                  <WhiteButton href="/contact" text={t("hero.ctaContact")} />
+                  <WhiteButton href={t("hero.cvVideogamesDeveloperLink")} text={t("hero.cvVideogamesDeveloperLabel")} />
                 </motion.div>
               </Stack>
 
