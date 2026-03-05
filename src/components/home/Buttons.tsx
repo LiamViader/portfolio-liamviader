@@ -101,17 +101,12 @@ const skyBase = base;
 const whiteBase = base + " border";
 
 
-export function SkyButton({ text, href }: { text: string; href: ComponentProps<typeof Link>["href"] }) {
+export function SkyButton({ text, href }: { text: string; href: string }) {
   const { canHover } = usePerfTier();
-  return (
-    <MotionLink
-      href={href}
-      className={skyBase}
-      variants={skyVariants}
-      initial="rest"
-      whileHover={canHover ? "hover" : undefined}
-      whileTap="tap"
-    >
+  const isFile = typeof href === "string" && href.startsWith("/files/");
+
+  const content = (
+    <>
       <motion.span
         aria-hidden
         className="pointer-events-none absolute -inset-1"
@@ -132,21 +127,43 @@ export function SkyButton({ text, href }: { text: string; href: ComponentProps<t
         variants={rippleVariants}
       />
       <span>{text}</span>
+    </>
+  );
+
+  const commonProps = {
+    className: skyBase,
+    variants: skyVariants,
+    initial: "rest",
+    whileHover: canHover ? "hover" : undefined,
+    whileTap: "tap",
+  };
+
+  if (isFile) {
+    return (
+      <motion.a
+        href={href}
+        target="_blank"
+        rel="noopener noreferrer"
+        {...commonProps}
+      >
+        {content}
+      </motion.a>
+    );
+  }
+
+  return (
+    <MotionLink href={href} {...commonProps}>
+      {content}
     </MotionLink>
   );
 }
 
-export function WhiteButton({ text, href }: { text: string; href: ComponentProps<typeof Link>["href"] }) {
+export function WhiteButton({ text, href }: { text: string; href: string }) {
   const { canHover } = usePerfTier();
-  return (
-    <MotionLink
-      href={href}
-      className={whiteBase}
-      variants={whiteVariants}
-      initial="rest"
-      whileHover={canHover ? "hover" : undefined}
-      whileTap="tap"
-    >
+  const isFile = typeof href === "string" && href.startsWith("/files/");
+
+  const content = (
+    <>
       <motion.span
         aria-hidden
         className="pointer-events-none absolute -inset-1"
@@ -167,6 +184,33 @@ export function WhiteButton({ text, href }: { text: string; href: ComponentProps
         variants={rippleVariants}
       />
       <span>{text}</span>
+    </>
+  );
+
+  const commonProps = {
+    className: whiteBase,
+    variants: whiteVariants,
+    initial: "rest",
+    whileHover: canHover ? "hover" : undefined,
+    whileTap: "tap",
+  };
+
+  if (isFile) {
+    return (
+      <motion.a
+        href={href}
+        target="_blank"
+        rel="noopener noreferrer"
+        {...commonProps}
+      >
+        {content}
+      </motion.a>
+    );
+  }
+
+  return (
+    <MotionLink href={href} {...commonProps}>
+      {content}
     </MotionLink>
   );
 }
