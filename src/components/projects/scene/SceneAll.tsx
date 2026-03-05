@@ -44,6 +44,7 @@ export default function SceneAll({ opacity, transitionProgress, isVisible }: Sce
     let optimizationMult = 0.25;
     if (backgroundsOptimization === "normal") optimizationMult = 1;
     else if (backgroundsOptimization === "semioptimized") optimizationMult = 1;
+    else if (backgroundsOptimization === "optimized") optimizationMult = 0.5;
 
     // Scale count by width, capped at 1
     const widthMult = Math.max(0.5, Math.min(1, stableWidth / DESKTOP_BASELINE));
