@@ -28,8 +28,8 @@ type HexInstance = {
   rot: number;
   hue: number;  // 0..1
   phase: number;
-  stripe: number; 
-  row: number; col: number; 
+  stripe: number;
+  row: number; col: number;
 };
 
 export default function HexGridStrata({
@@ -40,10 +40,9 @@ export default function HexGridStrata({
   options?: StrataOptions;
 }) {
   const opt = { ...DEFAULTS, ...(options ?? {}) };
-  const { size, camera, gl } = useThree();
-  const dpr = gl.getPixelRatio();
-  const width = size.width / dpr;
-  const height = size.height / dpr;
+  const { size, camera } = useThree();
+  const width = size.width;
+  const height = size.height;
 
   useEffect(() => {
     if (camera instanceof THREE.OrthographicCamera) {
@@ -97,7 +96,7 @@ export default function HexGridStrata({
     }
     const pos = new Float32Array(pts);
     geom.setAttribute("position", new THREE.BufferAttribute(pos, 3));
-    const idx = new Uint16Array([0,1, 1,2, 2,3, 3,4, 4,5, 5,0]);
+    const idx = new Uint16Array([0, 1, 1, 2, 2, 3, 3, 4, 4, 5, 5, 0]);
     geom.setIndex(new THREE.BufferAttribute(idx, 1));
     return geom;
   }, []);
@@ -124,9 +123,9 @@ export default function HexGridStrata({
 
     for (let i = 0; i < n; i++) {
       const it = instances[i];
-      offsets[i*3+0] = it.x;
-      offsets[i*3+1] = it.y;
-      offsets[i*3+2] = it.z;
+      offsets[i * 3 + 0] = it.x;
+      offsets[i * 3 + 1] = it.y;
+      offsets[i * 3 + 2] = it.z;
       scales[i] = it.scale;
       rotations[i] = it.rot;
       hues[i] = it.hue;
@@ -286,4 +285,4 @@ export default function HexGridStrata({
 function modeToFloat(m: StrataMode): number {
   return m === "rows" ? 0 : m === "cols" ? 1 : m === "diagA" ? 2 : 3;
 }
-function wrap01(n: number){ return (n % 1 + 1) % 1; }
+function wrap01(n: number) { return (n % 1 + 1) % 1; }

@@ -107,10 +107,9 @@ export default function PulseHexGridFill({
     [userTuning]
   );
 
-  const { size, camera, gl } = useThree();
-  const dpr = gl.getPixelRatio();
-  const width = size.width / dpr;
-  const height = size.height / dpr;
+  const { size, camera } = useThree();
+  const width = size.width;
+  const height = size.height;
 
   useLayoutEffect(() => {
     if (camera instanceof THREE.OrthographicCamera) {
