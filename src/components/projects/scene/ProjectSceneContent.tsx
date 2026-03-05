@@ -114,13 +114,15 @@ export default function ProjectSceneContent({ category }: ProjectSceneContentPro
         />
       )}
 
-      <EffectComposer multisampling={backgroundsOptimization === "normal" ? 8 : 0}>
-        {backgroundsOptimization === "normal" ? (
-          <Bloom key="normal-bloom" intensity={2} luminanceThreshold={0.1} luminanceSmoothing={0.1} />
-        ) : (
-          <Bloom key="optimized-bloom" intensity={1.5} luminanceThreshold={0.2} luminanceSmoothing={0.1} mipmapBlur />
-        )}
-      </EffectComposer>
+      {backgroundsOptimization !== "optimized" && (
+        <EffectComposer multisampling={backgroundsOptimization === "normal" ? 8 : 0}>
+          {backgroundsOptimization === "normal" ? (
+            <Bloom key="normal-bloom" intensity={2} luminanceThreshold={0.1} luminanceSmoothing={0.1} />
+          ) : (
+            <Bloom key="optimized-bloom" intensity={1.5} luminanceThreshold={0.2} luminanceSmoothing={0.1} mipmapBlur />
+          )}
+        </EffectComposer>
+      )}
     </>
   );
 }
