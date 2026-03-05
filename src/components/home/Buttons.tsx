@@ -101,7 +101,7 @@ const skyBase = base;
 const whiteBase = base + " border";
 
 
-export function SkyButton({ text, href }: { text: string; href: string }) {
+export function SkyButton({ text, href }: { text: string; href: ComponentProps<typeof Link>["href"] }) {
   const { canHover } = usePerfTier();
   const isFile = typeof href === "string" && href.startsWith("/files/");
 
@@ -141,7 +141,7 @@ export function SkyButton({ text, href }: { text: string; href: string }) {
   if (isFile) {
     return (
       <motion.a
-        href={href}
+        href={href as string}
         target="_blank"
         rel="noopener noreferrer"
         {...commonProps}
@@ -158,7 +158,7 @@ export function SkyButton({ text, href }: { text: string; href: string }) {
   );
 }
 
-export function WhiteButton({ text, href }: { text: string; href: string }) {
+export function WhiteButton({ text, href }: { text: string; href: ComponentProps<typeof Link>["href"] }) {
   const { canHover } = usePerfTier();
   const isFile = typeof href === "string" && href.startsWith("/files/");
 
@@ -198,7 +198,7 @@ export function WhiteButton({ text, href }: { text: string; href: string }) {
   if (isFile) {
     return (
       <motion.a
-        href={href}
+        href={href as string}
         target="_blank"
         rel="noopener noreferrer"
         {...commonProps}
