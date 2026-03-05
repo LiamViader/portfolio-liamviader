@@ -93,7 +93,7 @@ export default function HexGridTrails({
   const rawWidth = size.width / effectiveDpr;
   const rawHeight = size.height / effectiveDpr;
   // Uniform scale capping to preserve aspect ratio
-  const complexityScale = Math.min(1, 2560 / rawWidth);
+  const complexityScale = Math.min(1, 1920 / rawWidth);
   const width = rawWidth * complexityScale;
   const height = rawHeight * complexityScale;
 
