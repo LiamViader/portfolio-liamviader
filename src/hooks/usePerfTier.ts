@@ -13,6 +13,8 @@ export type PerfTierProfile = {
   isSmallScreen: boolean;
   canHover: boolean;
   isTouchDevice: boolean;
+  isHighRes: boolean;
+  isVeryPowerful: boolean;
 
   metrics: {
     logicalCores: number | null;
@@ -44,6 +46,8 @@ function detectPerfTier(): PerfTierProfile {
       isSmallScreen: false,
       canHover: false,
       isTouchDevice: false,
+      isHighRes: false,
+      isVeryPowerful: false,
       metrics: {
         logicalCores: null,
         deviceMemoryGB: null,
@@ -96,6 +100,11 @@ function detectPerfTier(): PerfTierProfile {
   const isMobileUA = /mobi/.test(ua) || isAndroid || isIOS;
 
   const isSmallScreen = screenMinPx <= 900;
+
+  const isHighRes = (typeof window !== "undefined" && window.innerWidth >= 2500) ||
+    (screenMinPx * dpr >= 3840);
+
+  const isVeryPowerful = (logicalCores ?? 0) >= 12 && (deviceMemoryGB ?? 0) >= 8;
 
   let tier: PerfTier = "high";
 
@@ -153,6 +162,8 @@ function detectPerfTier(): PerfTierProfile {
     isSmallScreen,
     canHover,
     isTouchDevice,
+    isHighRes,
+    isVeryPowerful,
     metrics: {
       logicalCores,
       deviceMemoryGB,

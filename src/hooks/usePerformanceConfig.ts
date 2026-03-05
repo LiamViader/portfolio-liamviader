@@ -11,11 +11,14 @@ export type PerformanceConfig = {
 };
 
 export function usePerformanceConfig(): PerformanceConfig {
-  const { isHigh, isMedium, isLow, isSmallScreen } = usePerfTier();
+  const { isHigh, isMedium, isLow, isSmallScreen, isHighRes, isVeryPowerful } = usePerfTier();
 
   const entranceAnimationsEnabled = isHigh || (isMedium && !isSmallScreen);
 
   const backgroundsOptimization: BackgroundsType = (() => {
+    // Priority Rule: High Res demands optimization unless hardware is exceptional
+    if (isHighRes && !isVeryPowerful) return "optimized";
+
     if (isHigh || (isMedium && !isSmallScreen)) return "normal";
     if (isMedium) return "semioptimized";
     return "optimized";
