@@ -55,10 +55,10 @@ export function useProjectModalTransition({
       const marginY = isMobile ? 24 : 100; // Mobile: 12px top/bottom (24 total)
 
       const modalWidth = Math.min(window.innerWidth - marginX, 960);
-      const modalHeight = window.innerHeight - marginY;
+      const modalHeight = Math.round(window.innerHeight * (isMobile ? 0.95 : 0.9));
 
-      const targetLeft = (window.innerWidth - modalWidth) / 2;
-      const targetTop = (window.innerHeight - modalHeight) / 2;
+      const targetLeft = Math.round((window.innerWidth - modalWidth) / 2);
+      const targetTop = Math.round((window.innerHeight - modalHeight) / 2);
 
       const targetProps = {
         left: Math.round(targetLeft),
