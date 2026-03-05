@@ -90,8 +90,12 @@ export default function HexGridTrails({
 
   const { size, camera } = useThree();
   const effectiveDpr = typeof window === "undefined" ? 1 : Math.min(window.devicePixelRatio, 1.5);
-  const width = Math.min(size.width / effectiveDpr, 1280);
-  const height = Math.min(size.height / effectiveDpr, 720);
+  const rawWidth = size.width / effectiveDpr;
+  const rawHeight = size.height / effectiveDpr;
+  // Uniform scale capping to preserve aspect ratio
+  const complexityScale = Math.min(1, 2560 / rawWidth);
+  const width = rawWidth * complexityScale;
+  const height = rawHeight * complexityScale;
 
   useLayoutEffect(() => {
     if (camera instanceof THREE.OrthographicCamera) {
