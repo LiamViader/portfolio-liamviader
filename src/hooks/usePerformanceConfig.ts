@@ -17,7 +17,7 @@ export function usePerformanceConfig(): PerformanceConfig {
 
   const backgroundsOptimization: BackgroundsType = (() => {
     // Priority Rule: High Res demands optimization unless hardware is exceptional
-    if (isHighRes && !isVeryPowerful) return "optimized";
+    //if (isHighRes && !isVeryPowerful) return "optimized"; // TODO: Uncomment IF I Come across a high resolution monitor and it runs poorly
 
     if (isHigh || (isMedium && !isSmallScreen)) return "normal";
     if (isMedium) return "semioptimized";
