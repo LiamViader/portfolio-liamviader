@@ -16,6 +16,7 @@ type Photo = {
   src: string;
   alt?: string;
   caption?: string;
+  className?: string;
 };
 
 export default function PersonalGallery({
@@ -82,7 +83,7 @@ export default function PersonalGallery({
               scale: 0.96,
               transition: { duration: 0.1, ease: "easeOut" }
             }}
-            className="overflow-hidden rounded-2xl border border-white/10 bg-white/5 p-0 cursor-pointer"
+            className={`overflow-hidden rounded-2xl border border-white/10 bg-white/5 p-0 cursor-pointer ${p.className || ""}`}
             aria-label={displayTitle[i] || altText[i] || undefined}
           >
             <div className="relative h-36 w-full">

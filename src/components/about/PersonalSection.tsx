@@ -110,6 +110,10 @@ export function PersonalSection({ entranceAnimationsEnabled }: PersonalSectionPr
                       { src: "/images/personal_gallery/pineta_liam_croped.jpg" },
                       { src: "/images/personal_gallery/iris_camps.jpg" },
                       { src: "/images/personal_gallery/llibres.jpg" },
+                      {
+                        src: "/images/personal_gallery/pineta_landscape_original.jpg",
+                        className: "sm:hidden",
+                      },
                     ]}
                   />
                   <motion.p
