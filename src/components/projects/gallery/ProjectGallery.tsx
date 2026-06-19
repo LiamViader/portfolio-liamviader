@@ -70,6 +70,18 @@ export default function ProjectGallery({
 }: ProjectGalleryProps) {
   const t = useTranslations("ProjectsPage");
   const [gridVisible, setGridVisible] = useState(false);
+  const prevCategoryRef = useRef<ClientCategorySlug>(category);
+  const crossFilterCountRef = useRef(0);
+
+  if (prevCategoryRef.current !== category) {
+    const prev = prevCategoryRef.current;
+    prevCategoryRef.current = category;
+    if (prev !== "all" && category !== "all") {
+      crossFilterCountRef.current += 1;
+    }
+  }
+
+  const filterKey = crossFilterCountRef.current > 0 ? String(crossFilterCountRef.current) : undefined;
 
   const containerVariants = createContainerVariants(entranceAnimationEnabled);
   const itemVariants = createItemVariants(entranceAnimationEnabled);
@@ -144,6 +156,7 @@ export default function ProjectGallery({
                 shouldAnimate={gridVisible}
                 useTransparent={useTransparent}
                 backgroundColor={backgroundColor}
+                filterKey={filterKey}
               />
             </motion.div>
           </MotionStack>

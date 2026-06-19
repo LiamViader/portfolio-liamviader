@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//c/Users/34640/OneDrive/Escritorio/Projectes/sant-jordi-gift/**)",
+      "Bash(find C:Users34640OneDriveEscritorioProjectessant-jordi-gift -type f -name *.sql -o -name *schema*)"
+    ]
+  }
+}

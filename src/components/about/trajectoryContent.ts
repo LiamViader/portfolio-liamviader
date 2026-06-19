@@ -20,6 +20,21 @@ export const ACADEMIC_PATH: TimelineItem[] = [
 
 export const EXPERIENCE_PATH: TimelineItem[] = [
   {
+    period: "May 2026 - June 2026",
+    title: {
+      es: "Ingeniero de IA",
+      en: "AI Engineer",
+    },
+    place: {
+      es: "Tauniqo.ai",
+      en: "Tauniqo.ai",
+    },
+    description: {
+      es: "Responsable de las funcionalidades de IA generativa de una plataforma LMS dentro del equipo de producto. Diseñé e implementé sistemas de evaluación y simulación para analizar y mejorar el comportamiento de agentes conversacionales, facilitando la medición de calidad, la comparación de estrategias de prompting y la iteración continua sobre el producto.",
+      en: "Responsible for the generative AI features of an LMS platform within the product team. Designed and implemented evaluation and simulation systems to analyze and improve the behavior of conversational agents, facilitating quality measurement, comparison of prompting strategies, and continuous iteration over the product."
+    },
+  },
+  {
     period: "Jun 2024 - Sep 2024",
     title: {
       es: "Desarrollador de software (prácticas)",

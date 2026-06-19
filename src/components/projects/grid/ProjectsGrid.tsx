@@ -18,6 +18,7 @@ interface ProjectsGridProps {
   shouldAnimate?: boolean;
   useTransparent?: boolean;
   backgroundColor?: string;
+  filterKey?: string;
 }
 
 type CardRegistry = Map<number, HTMLElement>;
@@ -53,7 +54,8 @@ export default function ProjectsGrid({
   entranceAnimation,
   shouldAnimate = true,
   useTransparent,
-  backgroundColor
+  backgroundColor,
+  filterKey,
 }: ProjectsGridProps) {
   const sortedProjects = useMemo(() => {
     return [...projects].sort((a, b) => {
@@ -100,14 +102,13 @@ export default function ProjectsGrid({
           <AnimatePresence mode="popLayout" initial={true}>
             {sortedProjects.map((project, index) => (
               <motion.div
-                key={project.id}
+                key={filterKey ? `${project.id}-${filterKey}` : project.id}
                 layout="position"
                 custom={index}
                 variants={itemVariants}
                 initial={projectFromUrl ? "show" : "hidden"}
                 animate={shouldAnimate || projectFromUrl ? "show" : "hidden"}
                 exit="exit"
-
                 transition={{ layout: { duration: 0.65, ease: "easeInOut" } }}
               >
                 <div ref={setCardRef(project.id)} className="h-full w-full">

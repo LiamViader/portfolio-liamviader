@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useCallback, useRef, useState, useEffect, useMemo } from "react";
-import { motion, type Variants } from "framer-motion";
+import { motion, useAnimationControls, type Variants } from "framer-motion";
 
 import { type TranslatedProject } from "@/data/projects/types";
 import { measureStableRect } from "@/utils/measureStableRect";
@@ -28,7 +28,12 @@ const containerVariants: Variants = {
     backgroundColor: c.useTransparent ? BASE_BG : c.backgroundColor,
     borderColor: BASE_BORD,
     boxShadow: BASE_SH,
-    transition: { duration: 0.6, ease: "easeOut" },
+    transition: {
+      backgroundColor: { duration: 0.2, ease: "easeOut" },
+      borderColor: { duration: 0.2, ease: "easeOut" },
+      boxShadow: { duration: 0.2, ease: "easeOut" },
+      default: { duration: 0.6, ease: "easeOut" },
+    },
   }),
   hover: (c: { useTransparent: boolean; backgroundColor: string }) => ({
     y: 0,
@@ -90,6 +95,11 @@ export default function ProjectCard({
 }: ProjectCardProps) {
   const { canHover } = usePerfTier();
   const cardRef = useRef<HTMLDivElement | null>(null);
+  const controls = useAnimationControls();
+
+  useEffect(() => {
+    controls.start("rest");
+  }, [backgroundColor, useTransparent, controls]);
 
   const handleClick = useCallback(() => {
     if (!cardRef.current) return;
@@ -183,7 +193,7 @@ export default function ProjectCard({
       className={`cursor-pointer group relative flex h-full flex-col overflow-hidden rounded-2xl border border-white/10 ${useTransparent ? "bg-white/5 backdrop-blur-xl" : ""} transform-gpu will-change-[transform,opacity] transition-none 
         ${isHidden ? "pointer-events-none select-none opacity-0" : ""}
       `}
-      animate="rest"
+      animate={controls}
       initial="rest"
       whileTap="tap"
       whileHover={canHover ? "hover" : undefined}
