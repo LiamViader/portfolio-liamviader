@@ -9,7 +9,7 @@ import { InfiniteDiver } from "./list/InfiniteDiver";
 import { ButterflyCollector } from "./list/ButterflyCollector";
 import { ElementalWizard } from "./list/ElementalWizard";
 import { AngelAndDemon } from "./list/AngelAndDemon";
-import { RegalaunaRosa } from "./list/RegalaunaRosa";
+import { Surprenda } from "./list/Surprenda";
 
 import {
   ProjectData,
@@ -21,7 +21,7 @@ import { Locale, defaultLocale } from "@/i18n/routing";
 
 const projectDefinitions: ProjectDefinition[] = [
   AIDrivenGeneratedGame,
-  RegalaunaRosa,
+  Surprenda,
   QuizGenerator,
   Taxicity,
   Molotov,
